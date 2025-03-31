@@ -5,6 +5,7 @@
 country =
 { tag                    = PHI
   control                = USA
+  puppet			     = USA
   #control				 = USA #AI will not autonomously suppress revolts otherwise
   ai_settings			 = { flags = { puppetLevel5 = 1 } }
 	# Resource Reserves 

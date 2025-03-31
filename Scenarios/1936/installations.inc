@@ -853,6 +853,10 @@ province = { id = 1321   # Qiongshan - Guangdong - China
 province = { id = 2533   # Jinan - Shandong - China
    anti_air = 2 
  } 
+ 
+ province = { id = 1235   # Nanjing
+   landfort = 2
+ } 
 
  #.#.# Columbia 
  
