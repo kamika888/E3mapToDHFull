@@ -1,0 +1,548 @@
+### 2020001  BUL  Bulgarian claims on Dobrich
+### 2020002  BUL  Romania ignores our claims
+### 2020003  BUL  Bulgarian claims on Dobrich
+### 2020009  BUL  Bulgaria switches sides
+### 2007001  SOV  Bulgaria switches sides
+#########################################################################
+#  Claim Constanta!
+#########################################################################
+event = {
+	id = 2020001
+	random = no
+	country = BUL
+
+	decision = {
+		control = { province = 423 data = ROM } # Dobrich +
+		NOT = {	war = { country = ROM country = BUL } }
+		NOT = {	puppet = { country = BUL country = SOV } }
+		NOT = {	puppet = { country = ROM country = SOV } }
+		NOT = {	event = 2020005 } #BUL The Romanian Surrender - Hungary neutral
+		NOT = {	event = 2020006 } #BUL The Romanian Surrender - Hungary involved
+		OR = {
+			war = { country = GER country = ENG }
+			war = { country = GER country = SOV }
+		}
+	}
+	trigger = {
+		control = { province = 423 data = ROM } # Dobrich +
+		event = 2023003 #Romania has to give up Bessarabia first
+		NOT = {	war = { country = ROM country = BUL } }
+		NOT = {	puppet = { country = BUL country = SOV } }
+		NOT = {	puppet = { country = ROM country = SOV } }
+		NOT = {	event = 2020005 } #BUL The Romanian Surrender - Hungary neutral
+		NOT = {	event = 2020006 } #BUL The Romanian Surrender - Hungary involved
+		OR = {
+			war = { country = GER country = ENG }
+			war = { country = GER country = SOV }
+		}
+		NOT = { 
+			control = { province = 56 data = FRA }
+		}
+	}
+
+	name = "EVT_2710_NAME"
+	desc = "EVT_2710_DESC"
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 6 month = september year = 1939 }
+	offset = 21
+	deathdate = { day = 29 month = december year = 1943 }
+
+	action = {
+		name = "EVT_2710_ACTA" # Bulgaria demands Dobrich from Romania
+		command = { type = trigger which = 2020010 }
+		command = { type = relation which = ROM value = -50 }
+	}
+}
+
+event = {
+	id = 2020010
+	random = no
+	country = GER
+	
+	# Triggered by ROM 2023009B
+	
+	name = "EVT_2710_NAME"
+	desc = "EVT_2710_DESC"
+	style = 2
+	picture = "news_paper"
+	
+	action_a = {
+		name = "Side with Bulgaria" 
+		ai_chance = 99
+		command = { type = trigger which = 2023009 } #Romania
+		command = { type = relation which = BUL value = 50 }
+		command = { type = relation which = ROM value = -10 }
+	}
+	action_b = {
+		name = "Side with Romania"
+		ai_chance = 1
+		command = { type = trigger which = 2020002 } #Bulgaria
+		command = { type = relation which = BUL value = -10 }
+		command = { type = relation which = ROM value = 50 }
+		command = { type = dissent value = 1 }
+	}
+}
+
+#########################################################################
+#  Romania defies Bulgaria
+#########################################################################
+event = {
+	id = 2020002
+	random = no
+	country = BUL
+	
+	# Triggered by ROM 2023009B
+	
+	name = "Germany rules in Romanian favor"
+	desc = "Despite our please, Germany refused to support our claims to Southern Dobruja"
+	style = 2
+	picture = "news_paper"
+	
+	action = {
+		name = "Bastards!"
+		ai_chance = 99
+		command = { type = dissent value = 3 }
+	}
+	action = {
+		name = "Then we shall take it by force!"
+		ai_chance = 1
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = USA value = 1 }
+		command = { type = peace which = FRA value = 1 }
+		command = { type = end_guarantee which = SOV where = BUL }
+		command = { type = end_guarantee which = GER where = BUL }
+		command = { type = dissent value = -5 }
+		command = { trigger = { war = { country = GER country = ENG } } type = alliance which = ENG }
+		command = { type = war which = GER }
+		command = { type = war which = ROM }
+		command = { type = war which = HUN }
+	}
+}
+
+event = {
+	id = 2020003
+	random = no
+	country = BUL
+	
+	# Triggered by ROM 2023009a
+	
+	name = "EVT_2710_NAME"
+	desc = "EVT_13062712_DESC"
+	style = 2
+	picture = "news_paper"
+	
+	action = {
+		name = "EVT_13062712_ACT"
+		command = { type = manpowerpool value =  15 }
+		command = { type = dissent value = -2 }
+	}
+}
+
+
+
+event = {
+	id = 2020004
+	random = no
+	country = BUL
+	persistent = yes
+
+	name = "Bulgaria and the Axis"
+	desc = "While Bulgaria joined the Anti-Comintern and the Tripartite pacts, it refused to lend any military assitance to Germany and did not declare war on the Soviet Union either. This passive neutrality eventually helped Bulgaria receive a relatively favorable post-war treatment and even to retain some of its territorial gains after the war ended."
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		OR = {
+			NOT = { event = 2003250 }
+			event = { id = 2003250 days = 90 } #give some time to finish off yugoslavia/greece first. Then disengage
+		}
+		alliance = { country = GER }
+		OR = {
+			AND = {
+				war = { country = ENG }
+				NOT = { non_aggression = { country = -1 country = ENG } }
+			}
+			AND = {
+				war = { country = FRA }
+				NOT = { non_aggression = { country = -1 country = FRA } }
+			}
+			AND = {
+				war = { country = USA }
+				NOT = { non_aggression = { country = -1 country = USA } }
+			}
+			AND = {
+				war = { country = SOV }
+				NOT = { non_aggression = { country = -1 country = SOV } }
+			}
+		}
+		NOT = { flag = BulgariaFullAxis }
+	}
+
+	date = { day = 0 month = january year = 1938 }
+	offset = 30
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "This is not our war"
+		ai_chance = 99
+		command = { type = dissent value = -5 }
+		command = { type = ai which = "EXP_10.ai" }
+		
+		command = { 
+			trigger = {
+				AND = {
+					war = { country = ENG }
+					NOT = { non_aggression = { country = -1 country = ENG } }
+				}
+			}
+			type = non_aggression which = BUL where = ENG when = 3650 }
+			
+		command = { 
+			trigger = {
+				AND = {
+					war = { country = FRA }
+					NOT = { non_aggression = { country = -1 country = FRA } }
+				}
+			}
+			type = non_aggression which = BUL where = FRA when = 3650 }
+			
+		command = { 
+			trigger = {
+				AND = {
+					war = { country = USA }
+					NOT = { non_aggression = { country = -1 country = USA } }
+				}
+			}
+			type = non_aggression which = BUL where = USA when = 3650 }
+			
+		command = { 
+			trigger = {
+				AND = {
+					war = { country = SOV }
+					NOT = { non_aggression = { country = -1 country = SOV } }
+				}
+			}
+			type = non_aggression which = BUL where = SOV when = 3650 }
+	}
+
+	action_b = {
+		name = "Germany's victory is OUR victory!"
+		ai_chance = 1
+		command = { type = dissent value = 5 }
+		command = { type = setflag which = BulgariaFullAxis } #The Allies will remember this...
+		
+		command = { trigger = { non_aggression = { country = -1 country = ENG } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { trigger = { non_aggression = { country = -1 country = FRA } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { trigger = { non_aggression = { country = -1 country = USA } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { trigger = { non_aggression = { country = -1 country = SOV } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		
+		command = { type = end_non_aggression which = BUL where = ENG }
+		command = { type = end_non_aggression which = BUL where = FRA }
+		command = { type = end_non_aggression which = BUL where = USA }
+		command = { type = end_non_aggression which = BUL where = SOV }
+		
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+	}
+}
+
+
+
+#####################################
+
+### Boris III passes away
+
+event = {
+	id = 2020015
+	random = no
+	country = BUL
+	style = 2
+
+	trigger = { 
+		OR = {
+			headofstate = 95001
+			headofstate = 95012
+			headofstate = 95014
+		    }
+		}
+
+	date = { year = 1943 month = august day = 28 }
+
+	name = "EVT_354_NAME"
+	desc = "EVT_354_DESC"
+	picture = "minister_died"
+
+	action_a = {
+		name = "EVT_362_ACTC"
+		command = { trigger = { OR = { headofstate = 95001 headofstate = 95012 } } type = headofstate which = 95011 }
+		command = { trigger = { headofstate = 95014 } type = headofstate which = 95015 }
+		command = { type = sleepleader which = 95004 }
+		command = { type = sleepminister which = 95001 }
+		}
+	}
+	
+
+
+########################################################################
+#  Bulgaria switches sides
+########################################################################
+
+event = {
+	id = 2040
+	random = no
+	country = BUL
+
+	name = "EVT_2750_NAME"
+	desc = "EVT_2750_DESC"
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		NOT = { ispuppet = yes }
+		NOT = { exists = U29 }
+		OR = {
+			war = { country = BUL country = SOV }
+			AND = {
+				alliance = { country = GER country = BUL }
+				war = { country = GER country = SOV }
+			}
+		}
+		OR = {
+			AND = {
+				non_aggression = { country = -1 country = SOV }
+				OR = {
+					control = { province = 424 data = -2 } #Bucharest +
+					control = { province = 423 data = -2 } #Dobrich +
+					control = { province = 417 data = -2 } #Sofia +
+					control = { province = 422 data = -2 } #Burgas +
+				}
+			}
+			lost_national = { value = 25 }
+		}
+	}
+
+	date = { day = 0 month = january year = 1938 }
+	offset = 7
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = ACTION_NAME_OK
+		ai_chance = 100	
+		command = { type = event which = 2041 where = SOV when = 0 }
+	}
+
+	action = {
+		name = "EVT_2750_ACTB"
+		ai_chance = 0
+		command = { type = dissent value = 30 } #communist revolution
+		command = { type = setflag which = BulgariaFullAxis }
+		
+		command = { trigger = { non_aggression = { country = -1 country = ENG } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { trigger = { non_aggression = { country = -1 country = FRA } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { trigger = { non_aggression = { country = -1 country = USA } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { trigger = { non_aggression = { country = -1 country = SOV } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		
+		command = { type = end_non_aggression which = BUL where = ENG }
+		command = { type = end_non_aggression which = BUL where = FRA }
+		command = { type = end_non_aggression which = BUL where = USA }
+		command = { type = end_non_aggression which = BUL where = SOV }
+		
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { type = switch_allegiance which = -1 where = SOV }
+		command = { type = switch_allegiance which = -1 where = SOV }
+		command = { type = switch_allegiance which = -1 where = SOV }
+	}
+}
+
+
+event = {
+	id = 2041
+	random = no
+	country = SOV
+	
+	name = "New allies - Bulgaria"
+	desc = "The Axis minor state Bulgaria is seeking to abandon Germany and join the Comintern for the final battle. They offer to fight under our banner and allow us considerable influence in the government, in return for a cessation of hostilities and their continued existence as an independent nation."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		ai_chance = 100
+		name = ACTION_NAME_ACCEPT
+		command = { type = event which = 2042 where = BUL when = 10 }
+	}
+	action = {
+		ai_chance = 0
+		name = ACTION_NAME_REFUSE
+		command = { type = relation which = FRA value = -60 }
+		command = { type = relation which = ENG value = -60 }
+		command = { type = relation which = USA value = -60 }
+		
+		command = { type = dissent value = 5 } #Western allies are not happy, some officials are not happy either
+		command = { type = setflag which = SOV_noLendLease } #Lend lease terminated
+		command = { type = local_setflag which = SanctionsEvt } #Sanctions imposed
+		command = { type = event which = 2045 where = BUL when = 0 }
+	}
+}
+
+event = {
+	id = 2042
+	random = no
+	country = BUL
+
+	name = "Bulgarian surrender - Soviets accept"
+	desc = "The Soviets accepted our surrender offer. We will now fight the rest of the war on their side."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		ai_chance = 100
+		command = { type = leave_alliance when =  1 } # separate peace, pull out of alliance
+		command = { type = access which = GER }
+		command = { type = access which = ITA }
+		command = { type = access which = SOV }
+		command = { type = access which = ROM }
+		command = { type = access which = CRO }
+		command = { type = access which = SLO }
+		command = { type = access which = HUN }
+		
+		command = { type = secedearea	which = SOV value = "East Serbia" 		when = 1 } 
+		command = { type = secedearea	which = SOV value = "Central Serbia"	when = 1 } 
+		command = { type = secedearea	which = SOV value = "Thrace" 			when = 1 } 
+		
+		command = { type = event which = 2043 where = SOV when = 1 }
+	}
+	action = {
+		name = "Keep fighting"
+		ai_chance = 0
+		command = { type = dissent value = 30 } #communist revolution
+		command = { type = setflag which = BulgariaFullAxis }
+		
+		command = { trigger = { non_aggression = { country = -1 country = ENG } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { trigger = { non_aggression = { country = -1 country = FRA } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { trigger = { non_aggression = { country = -1 country = USA } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { trigger = { non_aggression = { country = -1 country = SOV } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		
+		command = { type = end_non_aggression which = BUL where = ENG }
+		command = { type = end_non_aggression which = BUL where = FRA }
+		command = { type = end_non_aggression which = BUL where = USA }
+		command = { type = end_non_aggression which = BUL where = SOV }
+		
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { type = switch_allegiance which = -1 where = SOV }
+		command = { type = switch_allegiance which = -1 where = SOV }
+		command = { type = switch_allegiance which = -1 where = SOV }
+	}
+}
+
+event = {
+	id = 2043
+	random = no
+	country = SOV
+
+	name = "Bulgarian surrender - Bulgarians accept"
+	desc = "The Bulgarians accepted our offer. They will now fight the rest of the war on our side."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = dissent value = -1 }
+		command = { type = remove_claim_region which = "Balkan" }
+		command = { type = add_claim_area which = "East Serbia" 	where = SOV } 
+		command = { type = add_claim_area which = "Central Serbia" 	where = SOV } 
+		command = { type = add_claim_area which = "Thrace"			where = SOV } 
+		command = { type = add_claim_region which = "Romania" where = SOV } 
+		command = { type = make_puppet which = BUL }
+		#command = { type = coup_nation which = BUL } #will be bugged if happens immediately, can also crash the game. will do later as part of post-war settlement
+		command = { type = alliance which = BUL when = 1 }
+		command = { type = event which = 2400537 where = BUL when = 0 } #medium puppet
+		command = { type = event which = 2044 where = BUL when = 0 }
+	}
+}
+
+event = {
+	id = 2044
+	random = no
+	tag = { BUL U29 }
+
+	name = "Bulgarian surrender - Soviets accept"
+	desc = "The Soviets accepted our surrender offer. We will now fight the rest of the war on their side."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		#command = { type = dissent value = 10 } #should already have +30 dissent from the coup_nation
+		command = { type = secederegion which = U30 value = "Romania" when = 1 } 
+		command = { type = secedearea	which = SOV value = "East Serbia" 		when = 1 } 
+		command = { type = secedearea	which = SOV value = "Central Serbia"	when = 1 } 
+		command = { type = secedearea	which = SOV value = "Thrace" 			when = 1 } 
+		
+		command = { trigger = { flag = BulgariaFullAxis } type = secedeprovince which = SOV value = 423  when = 2 } #Dobrich
+		command = { trigger = { flag = BulgariaFullAxis } type = secedeprovince which = SOV value = 6506 when = 2 } #Vidin
+		command = { trigger = { flag = BulgariaFullAxis } type = removecore	  which = 423  }
+		command = { trigger = { flag = BulgariaFullAxis } type = removecore	  which = 6506 }
+		
+		command = { type = set_domestic which = political_left	value = 8 }
+		command = { type = set_relation which = GER	value = -50 }
+		
+		command = { type = event which = 2400051 where = -1 when = 1   } #initial confusion
+		command = { type = event which = 2400061 where = -1 when = 180 } #recovery in 6 months
+		
+		#will be handled in post-war settlement event
+		#command = { type = local_setflag	when = 0	which = RepPay3	value = 6 }
+		#command = { type = setflag 		when = 0	which = RepPec	value = 6 }
+		#command = { type = event 			when = 0	which = 3021	where = SOV }
+	}
+}
+
+event = {
+	id = 2045
+	random = no
+	country = BUL
+
+	name = "Bulgarian surrender - Soviets refuse"
+	desc = "The Soviets rejected our surrender offer. We will have to fight even harder to preserve what's left of our independence."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "Over our dead bodies!"
+		command = { type = dissent value = -20 }
+		command = { type = province_manpower which = -1 value = -1 }
+		command = { type = manpowerpool value = 300 } 
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+	}
+}
+	

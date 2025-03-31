@@ -1,0 +1,1181 @@
+#########################################################################
+#  Annexation of Albania
+#########################################################################
+event = { 
+	id = 2006008
+	random = no
+	country = ITA
+	
+	decision = {
+		NOT = { control = { province = 469 data = CZE } }
+		exists = ALB
+	}
+	decision_trigger = { 
+		NOT = { war = { country = ETH } }
+		NOT = { war = { country = ALB } }
+	}
+	trigger = {
+		NOT = { control = { province = 469 data = CZE } }
+		exists = ALB
+        OR = { 
+			random = 6 
+			AND = { 
+				month = april 
+				year = 1939 
+				random = 50 
+			} 
+		}
+	}
+	
+	name = "EVT_2902_NAME"
+	desc = "EVT_2902_DESC"
+	style = 2
+	picture = "Mussolini"
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	action= {
+		name = "ACTIONNAME2902A"
+		ai_chance = 100
+		command = { type = trigger which = 2058001 } #Alb
+		command = { type = relation which = ALB value = -20 }
+		command = { type = relation which = YUG value = -5 }
+		command = { type = relation which = GRE value = -5 }
+	}
+}
+#  Italian Ultimatum
+event = { 
+	id = 2058001
+	random = no
+	country = ALB
+	
+	# Triggered by ITA 2006008
+	
+	name = "EVT_3500_NAME"
+	desc = "EVT_3500_DESC"
+	style = 2
+	picture = "Mussolini"
+	
+	action_a = {
+		name = "ACTION_NAME_NEVER" # Never!
+		ai_chance = 98
+		command = { trigger = { puppet = { country = ALB country = ITA } } type = end_puppet }
+		command = { trigger = { alliance = { country = ALB country = ITA } } type = leave_alliance when = 1 }
+		command = { type = local_setflag which = legitIndie	}
+		#leave only 1 land division.
+		#The Albanian army in theory had 15,000 poorly equipped troops who had previously been trained by Italian officers and riddled with Italian spies and saboteurs. While a mobilization of the reserves was called, many high-ranking officers and even ministers fled the country. The government began to dissolve. King Zog's plan was to mount a resistance in the mountains, leaving the ports and the main cities undefended; but Italian agents who were placed in Albania as military instructors sabotaged this plan. Ultimately, only about 8,000 troops could actually be mobilized, and as soon as the Italians began to land, King Zog fled the country, taking with him the gold reserves of the Albanian central bank. Following this, organized Albanian resistance quickly disintegrated.
+		command = { type = demobilize which = land when = 0 where = 0 value = 2 }
+		
+		command = { type = max_organization 	which = land value = -10 }
+		command = { type = morale 				which = land value = -8 }
+		command = { type = ground_def_eff   	when  = 1	 value = -0.04 }
+		command = { type = local_setflag 		which = disOrgGeneric_1 when = 1 value = 1 }
+		
+		#Recovery in 3 months.
+		command = { type = event which = 2400061 where = -1 when = 90 }
+		
+		command = { type = trigger which = 2006009 }
+	}
+	action_b = {
+		name = "ACTIONNAME3500B" # Very well. (Game Over)
+		ai_chance = 2
+		command = { type = trigger which = 2006010 }
+	}
+}
+#  Annexation of Albania - Zog refuses
+event = { 
+	id = 2006009
+	random = no
+	country = ITA
+	
+	# Triggered by ALB 2058001
+
+	name = "EVT_2903_NAME"
+	desc = "EVT_2903_DESC"
+	style = 2
+	picture = "Mussolini"
+	
+	action_a = {
+		name = "ACTIONNAME2903A" # Declare War
+		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = ALB value = 1 }
+		command = { type = war which = ALB }
+		command = { type = belligerence which = ITA value = 5 }
+		command = { type = relation which = YUG value = -10 }
+		command = { type = relation which = GRE value = -10 }
+	}
+}
+#  Annexation of Albania - Zog accepts
+event = { 
+	id = 2006010
+	random = no
+	country = ITA
+	
+	# Triggered by ALB 2058001
+
+	name = "EVT_2904_NAME"
+	desc = "EVT_2904_DESC"
+	style = 2
+	picture = "Mussolini"
+	
+	action_a = {
+		name = ACTION_NAME_OK
+		command = { type = money value = -500 } #ZOG was offered lots of money
+		command = { type = belligerence which = ITA value = 3 }
+		command = { type = inherit which = ALB when = 1 }
+		command = { type = dissent value = -1 }
+		command = { type = relation which = YUG value = -5 }
+		command = { type = relation which = GRE value = -10 }
+	}
+}
+
+###################################
+# Italy joins the Axis
+#####################################
+event = { 
+	id = 2006012
+	random = no 
+	country = ITA
+
+	decision = {
+		#NOT = { war = { country = ITA country = ENG } }
+		NOT = { war = { country = ITA country = GER } }
+		NOT = { alliance = { country = ITA country = SOV } }
+		NOT = { alliance = { country = ITA country = ENG } }
+		NOT = { alliance = { country = ITA country = GER } }
+	}
+	
+	decision_trigger = {
+		event = 2003008 # Italy has signed the Anti-Comintern pact
+	}
+	
+	trigger = {
+		NOT = { war = { country = GER country = SOV } }
+		NOT = { war = { country = GER country = USA } }
+		#NOT = { war = { country = ITA country = ENG } }
+		NOT = { war = { country = ITA country = GER } }
+		NOT = { alliance = { country = ITA country = SOV } }
+		NOT = { alliance = { country = ITA country = ENG } }
+		NOT = { alliance = { country = ITA country = GER } }
+
+		event = 2003008 # Italy has signed the Anti-Comintern pact	
+		
+		control = { province = 300 data = GER } # Berlin
+		war = { country = GER country = ENG }
+		OR = {
+			war = { country = ENG }
+			event = 2002008 #French State
+			AND = {
+				lost_national = { country = FRA value = 10 }
+				lost_VP = { country = FRA value = 10 }
+				control = { province = 56 data = GER } # Paris
+			}
+		}
+	}
+	
+	date = { day = 0 month = january year = 1936 }		 
+	offset = 5
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = 459name
+	desc = 459desc
+  	style = 2
+  	picture = "Pact_of_Steel"
+	
+	action = {
+		name = 459a
+		command = { type = trigger which = 2003145 } #GER Italy 
+		command = { type = dissent value = 3 } 
+		command = { trigger = { non_aggression = { country = ITA country = SPR } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { trigger = { non_aggression = { country = ITA country = U52 } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { trigger = { non_aggression = { country = ITA country = EUS } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { type = end_non_aggression which = ITA where = SPR }
+		command = { type = end_non_aggression which = ITA where = U52 }
+		command = { type = end_non_aggression which = ITA where = EUS }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
+		command = { type = alliance which = GER when = 1 }
+		command = { type = relation which = ENG value = -100 }
+		command = { type = relation which = FRA value = -100 }
+		command = { type = relation which = GER value = 50 }
+		command = { type = addclaim which = 527 } 
+		command = { type = addclaim which = 3215 } 
+		command = { type = addclaim which = 365 } 
+		command = { type = addclaim which = 3134 } 
+		command = { type = addclaim which = 528 } 
+		command = { type = addclaim which = 2626 } 
+		command = { type = addclaim which = 3135 } 
+	}
+}
+
+event = { 
+	id = 2003145
+	random = no 
+	country = GER
+	
+	name = EVT_2003145_NAME
+	desc = EVT_2003145_DESC
+  	style = 2
+  	picture = "Pact_of_Steel"
+	
+	action = {
+		name = "ACTION_NAME_GREAT" # Great! 
+		command = { type = dissent value = -1 } 
+		command = { type = relation which = ITA value = 50 }
+	}
+}
+
+event = {
+	id = 2006013
+	random = no
+	country = ITA
+
+	name = "2906name"
+	desc = "2906desc"
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		alliance = { country = ITA country = ENG }
+		NOT = { government = { type = fascist country = ENG } }
+		NOT = { participant = { country = ENG value = 2 } } #UK is not in Axis
+		OR = { 
+			NOT = { government = democratic }
+			event = 9005001 #ENG Return provinces to Italy
+		}
+	}
+
+	date = { day = 0 month = january year = 1944 }
+	offset = 30
+	deathdate = { day = 29 month = december year = 1947 }
+
+	action_a = {
+		name = "elec_IVA"
+		command = { type = set_domestic which = political_left value = 5 }
+		command = { type = headofstate which = 25015 }
+		command = { type = headofgovernment which = 25029 }
+		command = { type = foreignminister which = 25041 }
+		command = { type = armamentminister which = 25063 }
+		command = { type = ministerofsecurity which = 25079 }
+		command = { type = ministerofintelligence which = 25092 }
+		command = { type = chiefofstaff which = 25105 }
+		command = { type = chiefofarmy which = 25113 }
+		command = { type = chiefofnavy which = 25121 }
+		command = { type = chiefofair which = 25129 }
+		}
+} 
+################################################################
+# Italy Surrenders (Germany, England, USA, Soviet Union, France)
+################################################################
+event = {
+	id = 2006014
+	random = no
+	country = ITA
+	save_date = yes
+
+	name = 36name
+	desc = EVT_36_DESC
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		war = { country = ENG }
+		dissent = 5
+		OR = {
+			control = { province = 515 data = -2 } #Rome is controlled by Enemy
+			control = { province = 370 data = -2 } #Milan is controlled by Enemy
+			control = { province = 521 data = -2 } #Naples is controlled by Enemy
+			region = { region = "Italy" country = -2 value = 20 } #Invaded Italy
+			AND = {
+				region = { region = "Italy" country = -2 value = 5 } #Invaded Italy
+				region = { region = "Libya" country = -2 value = 90 } #Lost Libya
+				region = { region = "Ethiopia" country = -2 value = 90 } #Lost Ethiopia
+				dissent = 10
+			}
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 7
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = ACTION_NAME_OK
+		ai_chance = 99
+		#command = { type = flag_ext where = ITA which = _democratic }
+		command = { type = dissent value = -5 } 
+		
+		command = { type = set_domestic which = political_left value = 3 }
+		command = { type = headofstate which = 25015 } #Vittorio Emanuele III
+		command = { type = headofgovernment which = 25026 } #Pietro Badoglio
+		command = { type = foreignminister which = 25035 } #Pietro Badoglio
+		command = { type = armamentminister which = 25063 } #Luigi Einaudi
+		command = { type = ministerofsecurity which = 25076 } #Alcide De Gasperi
+		command = { type = ministerofintelligence which = 25012 } #Umberto Ricci
+		command = { type = chiefofstaff which = 25153 } #Pietro Badoglio
+		command = { type = chiefofarmy which = 25112 } #Vittorio Ambrosio
+		command = { type = chiefofnavy which = 25121 } #Raffaele De Courten
+		command = { type = chiefofair which = 25129 } #Pietro Piacentini
+		
+		command = { type = military_control which = GER where = ITA value = 0 }
+		command = { type = ai which = "EXP_0.ai" }
+		
+		#command = { type = strength which = militia when = 0 where = 0 org = 0 value = 0 } #remove all militia units
+				
+		command = { trigger = { alliance = { country = GER } } type = trigger which = 2006018 } #Letting Germany know
+		command = { trigger = { war = { country = ENG } } type = trigger which = 2007008 } #Letting Allies know
+		#command = { trigger = { ai = ITA } type = leave_alliance when = 0 }
+	}
+	action = {
+		name = ACTION_NAME_THE_COUP_HAS_FAILED
+		ai_chance = 1
+		#player gets a choice to stay in the Axis, at a high cost
+		command = { type = country which = RSI }
+		command = { type = dissent value = 30 } 
+		
+		#Need to sleep ministers/leaders or changetag takes care of it?
+		
+		command = { type = domestic which = political_left value = -1 }
+		
+		command = { type = event which = 2400051 where = RSI when = 1   } #initial confusion
+		command = { type = event which = 2400061 where = RSI when = 180 } #recovery in 6 months
+	}
+}
+
+event = {
+	id = 2006018
+	random = no
+	tag = { GER ENG SOV USA FRA JAP }
+	persistent = yes
+	all = yes
+
+	name = 36name
+	desc = EVT_36_DESC
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		trigger = { alliance = { country = ITA } }
+		name = "Traitors!"
+		command = { type = set_relation which = ITA value = -10 }
+	}
+	action = {
+		trigger = { war = { country = ITA } }
+		name = "ACTION_NAME_GREAT" #Great
+		command = { type = set_relation which = ITA value = 30 }
+	}
+}
+
+event = {
+	id = 2007008
+	random = no
+	country = ITA
+
+	name = "Italian armistice negotiations"
+	desc = "After the fall of the Mussolini government, the new government led by Pietro Badoglio and supported by parts of the Fascist party opposed to Mussolini immediately proclaimed its committment to continue the war alongside Germany and kept reassuring the German leadership of its loyalty to the Axis cause, but at the same time it began negotiations with the Allies for surrender terms. The Germans were keenly aware that the Italian defection was imminent and the atmosphere at the military meetings was so tense that the German delegations refused food and beverages offered by the Italians, fearing they would be poisoned."
+	style = 2
+  	picture = "news_paper"
+	
+	decision = {
+		country = ITA
+		war = { country = ENG }
+		OR = {
+			control = { province = 515 data = -2 } #Rome is controlled by Enemy
+			control = { province = 370 data = -2 } #Milan is controlled by Enemy
+			control = { province = 521 data = -2 } #Naples is controlled by Enemy
+			region = { region = "Italy" country = -2 value = 15 } #Invaded Italy
+			AND = {
+				region = { region = "Italy" country = -2 value = 5 } #Invaded Italy
+				region = { region = "Libya" country = -2 value = 90 } #Lost Libya
+				region = { region = "Ethiopia" country = -2 value = 90 } #Lost Ethiopia
+			}
+		}
+	}
+	decision_trigger = {
+		#Wait until Allies invaded mainland italy?
+		event = { id = 2006014 days = 40 } #46 days later...
+	}
+	trigger = {
+		#Wait until Allies invaded mainland italy?
+		event = { id = 2006014 days = 40 } #46 days later...
+		war = { country = ENG }
+		OR = {
+			control = { province = 515 data = -2 } #Rome is controlled by Enemy
+			control = { province = 370 data = -2 } #Milan is controlled by Enemy
+			control = { province = 521 data = -2 } #Naples is controlled by Enemy
+			region = { region = "Italy" country = -2 value = 15 } #Invaded Italy
+			AND = {
+				region = { region = "Italy" country = -2 value = 3 } #Invaded Italy
+				region = { region = "Libya" country = -2 value = 90 } #Lost Libya
+				region = { region = "Ethiopia" country = -2 value = 90 } #Lost Ethiopia
+			}
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 7
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Inquire about their conditions"
+		command = { type = event which = 2001015 where = ENG when = 1 }
+	}
+}
+event = {
+	id = 2001015
+	random = no
+	country = ENG
+
+	name = "Italian armistice negotiations"
+	desc = "After the fall of the Mussolini government, the new government led by Pietro Badoglio and supported by parts of the Fascist party opposed to Mussolini immediately proclaimed its committment to continue the war alongside Germany and kept reassuring the German leadership of its loyalty to the Axis cause, but at the same time it began negotiations with the Allies for surrender terms. The Germans were keenly aware that the Italian defection was imminent and the atmosphere at the military meetings was so tense that the German delegations refused food and beverages offered by the Italians, fearing they would be poisoned."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = "We demand their unconditional surrender"
+		command = { type = event which = 2049001 where = ITA when = 1 }
+	}
+}
+
+event = {
+	id = 2049001
+	random = no
+	country = ITA
+
+	name = "United Nations demand unconditional surrender"
+	desc = "By getting rid of Mussolini and promising to turn their arms against their German ally, the King and the fascists were primarily hoping to avoid having to sign an unconditional surrender, and in doing so preserve at least some of the gains that they have made over the past few decades. However, in the negotiations at Cassibile and later in Malta, the Allies made it clear that they still would accept nothing less than unconditional surrender and complete dissolution of the fascist regime. Meanwhile, the cohesion of the armed forces was quickly faltering and Germany was preparing a major intervention."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = "Sign the armistice"
+		ai_chance = 99
+		command = { type = secederegion which = -1 value = "Italy" when = 1 } 
+		command = { type = secederegion which = -1 value = "Libya" when = 1 } 
+		command = { type = secederegion which = -1 value = "Tunisia" when = 1 } 
+		command = { type = secederegion which = -1 value = "Egypt" when = 1 } 
+		command = { type = secederegion which = -1 value = "Ethiopia" when = 1 } 
+		command = { type = secederegion which = -1 value = "Horn of Africa" when = 1 } 
+		
+		command = { type = military_control which = GER where = ITA value = 0 }
+		command = { type = ai which = "EXP_0.ai" }
+		
+		command = { trigger = { ai = GER } 				type = event which = 2006030 where = ITA when = 1 } 
+		command = { trigger = { NOT = { ai = GER } }	type = event which = 2006030 where = ITA when = 15 } #exp forces and mil_control forces return home
+		
+		command = { type = set_domestic which = political_left value = 4 }
+		
+		command = { type = capital which = 523 } 
+		
+		command = { type = leave_alliance when = 1 }
+		#command = { type = peace which = ENG value = 1 }
+		#command = { type = peace which = SOV value = 1 }
+		#command = { type = peace which = USA value = 1 }
+		command = { type = war which = ENG }
+		command = { trigger = { NOT = { ai = GER } } type = access which = GER }
+		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = FRA } } type = access which = FRA }
+		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = SPA } } type = access which = SPA }
+		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = ROM } } type = access which = ROM }
+		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = HUN } } type = access which = HUN }
+		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = CRO } } type = access which = CRO }
+		
+		command = { type = sleepleader which = 25030 }
+		command = { type = sleepleader which = 25032 }
+		command = { type = sleepleader which = 25058 }
+		command = { type = sleepleader which = 25250 }
+		command = { type = sleepleader which = 25251 }
+		command = { type = sleepleader which = 25066 }
+		command = { type = sleepleader which = 25075 }
+		command = { type = sleepleader which = 25085 }
+		command = { type = sleepleader which = 25259 }
+		command = { type = sleepleader which = 25262 }
+		command = { type = sleepleader which = 25264 }
+		command = { type = sleepleader which = 25267 }
+		command = { type = sleepleader which = 25125 }
+		command = { type = sleepleader which = 25270 }
+		command = { type = sleepleader which = 25275 }
+		command = { type = sleepleader which = 25276 }
+		command = { type = sleepleader which = 25165 }
+		command = { type = sleepleader which = 25174 }
+		command = { type = sleepleader which = 25277 }
+		command = { type = sleepleader which = 25189 }
+		command = { type = sleepleader which = 25278 }
+		command = { type = sleepleader which = 25202 }
+		command = { type = sleepleader which = 25207 }
+		command = { type = sleepleader which = 25219 }
+		command = { type = sleepleader which = 25234 }
+		command = { type = sleepleader which = 25279 }
+		command = { type = sleepleader which = 25238 }
+
+		command = { type = sleepleader which = 25055 }
+		command = { type = sleepleader which = 25077 }
+		command = { type = sleepleader which = 25080 }
+		command = { type = sleepleader which = 25258 }
+
+		command = { type = sleepteam which = 25020 } #Rodolfo Graziani
+
+		command = { type = sleepminister which = 25002 } #Benito Mussolini
+		command = { type = sleepminister which = 25003 } #Gian Galeazzo Ciano
+		command = { type = sleepminister which = 25005 } #Guido Buffarini-Guidi
+		command = { type = sleepminister which = 25025 } #Junio Borghese
+		
+		command = { type = secederegion which = ENG value = "Tunisia" when = 1 } 
+		command = { type = secederegion which = ENG value = "Egypt" when = 1 } 
+		command = { type = secederegion which = ENG value = "Ethiopia" when = 1 } 
+		command = { type = secederegion which = ENG value = "Horn of Africa" when = 1 } 
+		
+		command = { trigger = { ai = GER } type = secederegion which = GER value = "Balkan" when = 1 } 
+		command = { trigger = { ai = GER } type = secederegion which = GER value = "France" when = 1 } 
+		
+		command = { type = local_clrflag which = SanctionsEvt }
+	}
+	action = {
+		name = "Stay loyal to Germany"
+		ai_chance = 1
+		#command = { type = country which = RSI }
+		command = { type = dissent value = 20 } 
+		
+		command = { type = military_control which = GER where = ITA value = 1 }
+		command = { type = ai which = "EXP_90.ai" }
+		
+		command = { type = set_domestic which = political_left value = 3 }
+		
+		command = { type = event which = 2400051 where = ITA when = 1   } #initial confusion
+		command = { type = event which = 2400061 where = ITA when = 180 } #recovery in 6 months
+		command = { type = trigger which = 2002019 } 
+	}
+}
+
+event = {
+	id = 2002019
+	random = no
+	tag = { GER ENG SOV USA FRA JAP }
+	persistent = yes
+	all = yes
+
+	name = "Italy chooses loyalty"
+	desc = "After the Allies presented their demand for Italian unconditional surrender, the government of Badoglio and the King deliberated for several days, but eventually were swayed by the remaining Fascist leaders to continue the alliance with Germany till the end."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		trigger = { alliance = { country = ITA } }
+		name = "Their loyalty prevailed!"
+		command = { type = set_relation which = ITA value = 50 }
+	}
+	action = {
+		trigger = { war = { country = ITA } }
+		name = "Fools"
+		command = { type = set_relation which = ITA value = -50 }
+	}
+}
+
+event = {
+	id = 2006030
+	random = no
+	country = ITA
+
+	name = "The Badoglio Proclamation"
+	desc = "The Badoglio Proclamation was a speech read on Ente Italiano per le Audizioni Radiofoniche (EIAR) at 19:42 on 8 September 1943 by Marshal Pietro Badoglio, Italian head of government, announcing that the Armistice of Cassibile between Italy and the Allies signed on the 3rd of September had come into force. It followed a speech on Radio Algiers by U.S. General Dwight D. Eisenhower at 18:30 also announcing the armistice."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = "Announce the armistice"
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = FRA value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = peace which = USA value = 1 }
+		command = { type = alliance which = ENG when = 1 }
+		#What remained of the Italian army split roughly half in half after the armistice.
+		#About 500k for RSI, another 500k for the Royal Army and the resistance together
+		command = { type = civil_war which = RSI }
+		command = { trigger = { ai = GER } type = event which = 2001014 where = ENG when = 1 }
+		command = { trigger = { NOT = { ai = GER } } type = event which = 2001014 where = ENG when = 0 }
+		command = { type = event which = 2006031 where = GER when = 0 }
+		command = { type = ai which = "EXP_90.ai" }
+		#The enemy gains the same amount so not much of a cheat
+		command = { type = add_corps value = land where = 521 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_corps value = land where = 522 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_corps value = land where = 520 }
+		command = { type = add_division value = infantry when = 11 }
+	}
+}
+
+event = {
+	id = 2001014
+	random = no
+	country = ENG
+
+	name = "Italy switches sides"
+	desc = "After the United Nations presented their demand for Italian unconditional surrender, the government of Badoglio and the King deliberated for several days, and eventually made the decision to abandon the alliance with Germany and side with the Allies. However, swift German response completely disorganized the Italian army, occupied Rome and rescued Mussolini from prison."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = "Their common sense prevailed!"
+		command = { type = make_puppet which = ITA }
+		command = { type = event which = 2400538 where = ITA when = 0 } #strong puppet
+		command = { type = military_control which = ENG where = ITA value = 1 }
+	}
+}
+
+event = {
+	id = 2006031
+	random = no
+	country = GER
+
+	name = "Italy switches sides"
+	desc = "After the United Nations presented their demand for Italian unconditional surrender, the government of Badoglio and the King deliberated for several days, and eventually made the decision to abandon the alliance with Germany and side with the Allies. However, swift German response completely disorganized the Italian army, occupied Rome and rescued Mussolini from prison."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = "Fools!"
+		trigger = { ai = GER } #Less chaotic version
+		command = { type = event which = 2006015 where = RSI when = 0 }
+		command = { type = event which = 2006032 where = ITA when = 0 }
+	}
+	action = {
+		name = "Fools!"
+		trigger = { NOT = { ai = GER } } #More chaotic version
+		command = { type = make_puppet which = RSI }
+		command = { type = event which = 2400536 where = RSI when = 0 } #medium puppet
+		command = { type = event which = 2006017 where = GER when = 0 }
+		command = { type = military_control which = GER where = RSI value = 1 }
+	}
+}
+
+
+event = {
+	id = 2006032
+	random = no
+	country = ITA
+
+	name = "Italy switches sides"
+	desc = "After the United Nations presented their demand for Italian unconditional surrender, the government of Badoglio and the King deliberated for several days, and eventually made the decision to abandon the alliance with Germany and side with the Allies. However, swift German response completely disorganized the Italian army, occupied Rome and rescued Mussolini from prison."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = "Curses!"
+		command = { type = secedeprovince which = RSI value = 371 when = 1 }
+		command = { type = secedeprovince which = RSI value = 378 when = 1 }
+		command = { type = secedeprovince which = RSI value = 379 when = 1 }
+		command = { type = secedeprovince which = RSI value = 512 when = 1 }
+		command = { type = secedeprovince which = RSI value = 513 when = 1 }
+		command = { type = secedeprovince which = RSI value = 514 when = 1 }
+		command = { type = secedeprovince which = RSI value = 515 when = 1 }
+		command = { type = secedeprovince which = RSI value = 516 when = 1 }
+		command = { type = secedeprovince which = RSI value = 517 when = 1 }
+		command = { type = secedeprovince which = RSI value = 531 when = 1 }
+		command = { type = secedeprovince which = RSI value = 368 when = 1 }
+		command = { type = secedeprovince which = RSI value = 369 when = 1 }
+		command = { type = secedeprovince which = RSI value = 518 when = 1 }
+		command = { type = secedeprovince which = RSI value = 519 when = 1 }
+		command = { type = secedeprovince which = RSI value = 534 when = 1 }
+		command = { type = secedeprovince which = RSI value = 3059 when = 1 }
+		command = { type = secedeprovince which = RSI value = 545 when = 1 }
+		command = { type = secedeprovince which = RSI value = 543 when = 1 }
+		command = { type = secedeprovince which = RSI value = 2300 when = 1 }
+		command = { type = secedeprovince which = RSI value = 542 when = 1 }
+		command = { type = secedeprovince which = RSI value = 3221 when = 1 }
+		command = { type = secedeprovince which = RSI value = 3227 when = 1 }
+		command = { type = secedeprovince which = RSI value = 3222 when = 1 }
+		command = { type = secedeprovince which = RSI value = 2457 when = 1 }
+		command = { type = secedeprovince which = RSI value = 3220 when = 1 }
+		command = { type = secedeprovince which = RSI value = 3219 when = 1 }
+		command = { type = secedeprovince which = RSI value = 2399 when = 1 }
+		command = { type = secedeprovince which = RSI value = 3218 when = 1 }
+		command = { type = secedeprovince which = RSI value = 2871 when = 1 }
+		command = { type = secedeprovince which = RSI value = 2870 when = 1 }
+		command = { type = secedeprovince which = RSI value = 3356 when = 1 }
+		command = { type = secedeprovince which = RSI value = 2623 when = 1 }
+		command = { type = secedeprovince which = RSI value = 2624 when = 1 }
+		command = { type = secedeprovince which = RSI value = 3226 when = 1 }
+		command = { type = secedeprovince which = RSI value = 1408 when = 1 }
+		command = { type = secedeprovince which = RSI value = 668 when = 1 }
+		command = { type = secedeprovince which = RSI value = 666 when = 1 }
+		command = { type = secedeprovince which = RSI value = 2326 when = 1 }
+		command = { type = secedeprovince which = RSI value = 3357 when = 1 }
+		command = { type = secedeprovince which = RSI value = 2325 when = 1 }
+		command = { type = secedeprovince which = RSI value = 6546 when = 1 }
+		command = { type = secedeprovince which = RSI value = 6547 when = 1 }
+		command = { type = secedeprovince which = RSI value = 6548 when = 1 }
+		command = { type = secedeprovince which = RSI value = 6549 when = 1 }
+		command = { type = secedeprovince which = RSI value = 6550 when = 1 }
+		command = { type = secedeprovince which = RSI value = 6551 when = 1 }
+		command = { type = secedeprovince which = RSI value = 6552 when = 1 }
+		command = { type = secedeprovince which = RSI value = 6553 when = 1 }
+		command = { type = secedeprovince which = RSI value = 6554 when = 1 }
+		command = { type = secedeprovince which = RSI value = 6555 when = 1 }
+		command = { type = secedeprovince which = RSI value = 7126 when = 1 }
+		command = { type = secedeprovince which = RSI value = 7123 when = 1 }
+		command = { type = secedeprovince which = RSI value = 7124 when = 1 }
+		command = { type = secedeprovince which = RSI value = 7125 when = 1 }
+	}
+}
+
+event = {
+	id = 2006015
+	random = no
+	country = RSI
+
+	name = "Italian Social Republic"
+	desc = "The new Italian government had moved Mussolini from place to place while he was in captivity in an attempt to foil any attempts at rescue. Despite this, the Germans were able to pinpoint Mussolini and free him in Operation Eiche in the mountains of Abruzzo. After being freed, Mussolini was flown to Bavaria. Gathering what support he still had among the Italian population, his liberation made it possible for a new German-dependent Fascist Italian state to be created."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = "Thank you, Skorzeny"
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = ITA value = 1 }
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = peace which = USA value = 1 }
+		command = { type = access which = GER }
+		command = { trigger = { alliance = { country = GER country = FRA } } type = access which = FRA }
+		command = { trigger = { alliance = { country = GER country = SPA } } type = access which = SPA }
+		command = { trigger = { alliance = { country = GER country = ROM } } type = access which = ROM }
+		command = { trigger = { alliance = { country = GER country = HUN } } type = access which = HUN }
+		command = { trigger = { alliance = { country = GER country = CRO } } type = access which = CRO }
+		command = { type = event which = 2006016 where = GER when = 1 }
+	}
+}
+
+event = {
+	id = 2006016
+	random = no
+	country = GER
+
+	name = "Italian Social Republic"
+	desc = "The new Italian government had moved Mussolini from place to place while he was in captivity in an attempt to foil any attempts at rescue. Despite this, the Germans were able to pinpoint Mussolini and free him in Operation Eiche in the mountains of Abruzzo. After being freed, Mussolini was flown to Bavaria. Gathering what support he still had among the Italian population, his liberation made it possible for a new German-dependent Fascist Italian state to be created."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = "Thank you, Skorzeny"
+		#command = { type = alliance which = RSI }
+		command = { type = make_puppet which = RSI }
+		command = { type = event which = 2400536 where = RSI when = 0 } #medium puppet
+		command = { type = event which = 2006017 where = GER when = 0 }
+		command = { type = military_control which = GER where = RSI value = 1 }
+	}
+}
+
+event = {
+	id = 2006017
+	random = no
+	country = GER
+
+	name = "Italian Social Republic"
+	desc = "The new Italian government had moved Mussolini from place to place while he was in captivity in an attempt to foil any attempts at rescue. Despite this, the Germans were able to pinpoint Mussolini and free him in Operation Eiche in the mountains of Abruzzo. After being freed, Mussolini was flown to Bavaria. Gathering what support he still had among the Italian population, his liberation made it possible for a new German-dependent Fascist Italian state to be created."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = "Thank you, Skorzeny"
+		command = { type = secederegion which = RSI value = "Italy" when = 1 } 
+		command = { type = secedeprovince which = GER value = 1408 when = 2 }
+		command = { type = secedeprovince which = GER value = 371 when = 2 }
+		command = { type = secedeprovince which = GER value = 3226 when = 2 }
+		command = { type = secedeprovince which = GER value = 7126 when = 2 }
+		command = { type = secedeprovince which = GER value = 668 when = 2 }
+		command = { type = secedeprovince which = GER value = 7123 when = 2 }
+		command = { type = secedeprovince which = GER value = 7124 when = 2 }
+		command = { type = secedeprovince which = GER value = 7125 when = 2 }
+		command = { type = secedeprovince which = GER value = 666 when = 2 }
+		command = { type = secedeprovince which = GER value = 2326 when = 2 }
+		command = { type = secedeprovince which = GER value = 3357 when = 2 }
+		
+		command = { type = addclaim which = 1408 where = GER } 
+		command = { type = addclaim which = 371 where = GER } 
+		command = { type = addclaim which = 3226 where = GER } 
+		command = { type = addclaim which = 7126 where = GER } 
+		command = { type = addclaim which = 668 where = GER } 
+		command = { type = addclaim which = 7123 where = GER } 
+		command = { type = addclaim which = 7124 where = GER } 
+		command = { type = addclaim which = 7125 where = GER } 
+		command = { type = addclaim which = 666 where = GER } 
+		command = { type = addclaim which = 2326 where = GER } 
+		command = { type = addclaim which = 3357 where = GER } 
+		
+		command = { type = add_claim_region which = "Balkan" where = GER } 
+		command = { type = remove_claim_area which = "Bulgaria" where = GER }
+		
+		#The enemy gains the same amount so not much of a cheat
+		command = { type = add_corps value = land where = 519 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_corps value = land where = 517 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_corps value = land where = 543 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_corps value = land where = 6553 }
+		command = { type = add_division value = infantry when = 11 }
+	}
+}
+
+event = {
+	id = 14000018
+	random = no
+	country = ITA
+	save_date = yes
+
+	trigger = {
+		OR = {
+			war = { country = GRE } 
+			AND = {
+				exists = GRE 
+				government = fascist
+				area = { area = "Albania" country = -1 data = 1 value = 90 }
+				NOT = { alliance = { country = GER country = GRE } }
+				NOT = { alliance = { country = SOV country = GRE } }
+				NOT = { alliance = { country = GRE } }
+			}
+		}
+	}
+	
+	name = "Rise claims on Greece." #Rise claims on Greece
+	desc = "Ever since Italian unification, Italy had aspired to Great Power status and Mediterranean hegemony. Under the Fascist regime, the establishment of a new Roman Empire, including Greece, was often proclaimed by Mussolini." 
+	style = 2
+	Picture = "Mussolini"
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 30
+	deathdate = { day = 30 month = december year = 1963 }
+
+	action_a = {
+		ai_chance = 100
+		name = "ACTION_NAME_EXCELLENT" #Excellent
+		command = { type = addclaim which = 392 } 
+		command = { type = addclaim which = 393 } 
+		command = { type = addclaim which = 394 } 
+		command = { type = addclaim which = 395 } 
+		command = { type = addclaim which = 396 } 
+		command = { type = addclaim which = 400 } 
+		command = { type = addclaim which = 401 } 
+		command = { type = addclaim which = 402 } 
+		command = { type = addclaim which = 403 } 
+		command = { type = addclaim which = 405 } 
+		command = { type = addclaim which = 410 } 
+		command = { type = addclaim which = 411 } 
+		command = { type = addclaim which = 412 } 
+		command = { type = addclaim which = 2319 } 
+		command = { type = addclaim which = 2321 } 
+		command = { type = addclaim which = 653 } 
+		command = { type = addclaim which = 563 } 
+		command = { type = addclaim which = 2610 } 
+		command = { type = addclaim which = 2625 } 
+		command = { type = addclaim which = 2872 } 
+		command = { type = addclaim which = 3355 } 
+		command = { type = addclaim which = 3392 } 
+		command = { type = addclaim which = 6508 } 
+		command = { type = addclaim which = 6509 } 
+		command = { type = addclaim which = 6918 } 
+		command = { type = addclaim which = 7055 } 
+		command = { type = addclaim which = 7316 } 
+		command = { type = addclaim which = 7317 } 
+		command = { type = addclaim which = 7318 } 
+		command = { type = addclaim which = 7319 } 
+		command = { type = addclaim which = 7320 } 
+		command = { type = addclaim which = 7352 } 
+		command = { type = addclaim which = 7914 } 
+		
+		#command = { type = ai_prepare_war which = GRE }
+	}
+	action_b = {
+		ai_chance = 0
+		name = "ACTINUTILE" #No need
+		command = { }
+	}
+}
+
+event = {
+	id = 14000020
+	random = no 
+	country = ITA
+
+	decision = {
+		event = 14000018
+	}
+	decision_trigger = {
+		NOT = { alliance = { country = GER country = GRE } }
+		NOT = { alliance = { country = SOV country = GRE } }
+		NOT = { alliance = { country = GRE } }
+		NOT = { war = { country = SOV } }
+	}
+	trigger = {
+		event = { id = 14000018 days = 30 }
+		NOT = { alliance = { country = GER country = GRE } }
+		NOT = { alliance = { country = SOV country = GRE } }
+		NOT = { alliance = { country = GRE } }
+		NOT = { war = { country = SOV } }
+		alliance = { country = GER }
+		OR = {
+			event = { id = 2002008 days = 60 } #French State
+			AND = {
+				lost_national = { country = FRA value = 50 }
+				lost_VP = { country = FRA value = 30 }
+				control = { province = 56 data = GER } # Paris
+			}
+		}
+	}
+
+	name = "The Italian ultimatum"
+	desc = "On the eve of 28 October 1940, Italy's ambassador in Athens, Emanuele Grazzi, handed an ultimatum from Mussolini to Metaxas. In it, the Duce demanded free passage for his troops to occupy unspecified strategic points inside Greek territory. Greece had been on good terms with Germany, but it could not simply permit Italy to occupy Greece."
+	style = 2
+	picture = "Mussolini"	
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 30
+	deathdate = { day = 30 month = december year = 1963 }
+
+	action = {
+		command = { type = trigger which = 14000021 }
+	}
+}
+
+
+event = {
+	id = 14000021	# The Italian ultimatum
+	random = no
+	country = GRE
+	style = 2
+
+	name = "The Italian ultimatum"
+	desc = "On the eve of 28 October 1940, Italy's ambassador in Athens, Emanuele Grazzi, handed an ultimatum from Mussolini to Metaxas. In it, the Duce demanded free passage for his troops to occupy unspecified strategic points inside Greek territory. Greece had been on good terms with Germany, but it could not simply permit Italy to occupy Greece."
+
+	action = {
+		name = "They want a war, they will have it"
+		ai_chance = 100
+		command = { type = dissent value = -2 }
+		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = GRE value = 1 }
+		command = { type = trigger which = 14000022 }
+	}
+	action = {
+		name = "Accept their demands"
+		ai_chance = 0
+		command = { type = dissent value = 30 }
+		command = { type = trigger which = 14000023 }
+	}
+}
+
+event = { 
+	id = 14000023
+	random = no
+	country = ITA
+	
+	# Triggered by GRE 14000021
+
+	name = "Greece accepts the Ultimatum"
+	desc = "After some consultations, Metaxas and the King wisely decided to accept the Greek ultimatum without a fight."
+	style = 2
+	
+	action_a = {
+		name = ACTION_NAME_OK
+		command = { type = removeclaim which = 392 } 
+		command = { type = removeclaim which = 393 } 
+		command = { type = removeclaim which = 394 } 
+		command = { type = removeclaim which = 395 } 
+		command = { type = removeclaim which = 396 } 
+		command = { type = removeclaim which = 400 } 
+		command = { type = removeclaim which = 401 } 
+		command = { type = removeclaim which = 402 } 
+		command = { type = removeclaim which = 403 } 
+		command = { type = removeclaim which = 405 } 
+		command = { type = removeclaim which = 410 } 
+		command = { type = removeclaim which = 411 } 
+		command = { type = removeclaim which = 412 } 
+		command = { type = removeclaim which = 2319 } 
+		command = { type = removeclaim which = 2321 } 
+		command = { type = removeclaim which = 653 } 
+		command = { type = removeclaim which = 563 } 
+		command = { type = removeclaim which = 2610 } 
+		command = { type = removeclaim which = 2625 } 
+		command = { type = removeclaim which = 2872 } 
+		command = { type = removeclaim which = 3355 } 
+		command = { type = removeclaim which = 3392 } 
+		command = { type = removeclaim which = 6508 } 
+		command = { type = removeclaim which = 6509 } 
+		command = { type = removeclaim which = 6918 } 
+		command = { type = removeclaim which = 7055 } 
+		command = { type = removeclaim which = 7316 } 
+		command = { type = removeclaim which = 7317 } 
+		command = { type = removeclaim which = 7318 } 
+		command = { type = removeclaim which = 7319 } 
+		command = { type = removeclaim which = 7320 } 
+		command = { type = removeclaim which = 7352 } 
+		command = { type = removeclaim which = 7914 } 
+		command = { type = make_puppet which = GRE }
+		command = { type = event which = 2400535 where = GRE when = 0 } #medium puppet		
+		command = { type = belligerence which = ITA value = 3 }
+		
+		command = { type = ai which = "nations\ITA_EGY.ai" }
+	}
+}
+
+event = { 
+	id = 14000022
+	random = no
+	country = ITA
+	
+	# Triggered by GRE 14000021
+
+	name = "Metaxas refuses"
+	desc = "On the eve of 28 October 1940, Italy's ambassador in Athens, Emanuele Grazzi, handed an ultimatum from Mussolini to Metaxas. In it, the Duce demanded free passage for his troops to occupy unspecified strategic points inside Greek territory. Greece had been friendly towards National Socialist Germany, especially profiting from mutual trade relations, but now Germany's ally Italy was to invade Greece. Metaxas rejected the ultimatum."
+	style = 2
+	picture = "greekaugast"
+	
+	action = {
+		name = "ACTIONNAME2903A" # Declare War
+		command = { type = war which = GRE }
+		command = { type = dissent value = 3 } 
+		command = { type = belligerence which = ITA value = 5 }
+		
+		command = { type = ai which = "nations\ITA_EGY.ai" }
+	}
+}
+
+event = {
+	id = 14000040
+	random = no 
+	country = ITA
+
+	trigger = {
+		#local_flag = SanctionsEvt
+		control = { province = 1046 data = -3 }
+		OR = {
+			lost_national = { country = ETH value = 50 }
+			NOT = { exists = ETH }
+		}
+		NOT = {
+			war = { country = ENG }
+			war = { country = USA }
+		}
+	}
+
+	name = "The Conquest of Ethiopia"
+	desc = "On 26 April 1936, Badoglio began the 'March of the Iron Will' from Dessie to Addis Ababa, an advance with a mechanised column against slight Ethiopian resistance. Realizing that Addis Ababa would soon fall to the Italians, Ethiopian administrators met to discuss a possible evacuation of the government to the west. It was decided that the Emperor should go to Geneva to appeal to the League of Nations for assistance before returning to lead resistance. The Italians allowed Emperor Selassie to leave the country by train together with the gold of the Ethiopian Central Bank, and within a week of his departure, Addis Ababa fell to Badoglio's forces. Meanwhile, as the Ethiopian resistance continued in the countryside, Selassie gave a speech in front of the League of Nations. He requested that the League deny recognition of the Italian conquest, maintain the sanctions against Italy, and provide loans to fund the Ethiopian resistance. Nevertheless, both of his motions were defeated. Instead, the League voted to end the sanctions it imposed against Italy in November 1935. Selassie's resolution requesting loans was defeated by a vote of 23 against, 25 abstentions and 1 vote for (from Ethiopia). In the sanctions vote, 44 delegates approved the ending of sanctions, 4 abstained and 1 (Ethiopian) delegate voted for retention. Worldwide, only six nations in 1937 did not recognise the Italian conquest: Mexico, China, New Zealand, the Soviet Union, Spain, and the United States."
+	style = 2
+	picture = "Mussolini"	
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 30 month = december year = 1963 }
+
+	action = {
+		name = "ACTION_NAME_GREAT" # Great! 
+		command = { type = dissent value = -3 } #Mussolini is at the peak of his popularity
+		command = { type = local_clrflag which = SanctionsEvt }
+		command = { type = inherit which = ETH value = 0 } 
+		command = { type = belligerence value = -20 } #The game gives Italy ~25 belligerence when annexing Ethiopia, in addition to 10 it has previously. Ridiculous!
+		
+		#Voted in favor of lifting sanctions
+		command = { type = relation which = ENG value = 10 }
+		command = { type = relation which = FRA value = 10 }
+		command = { type = relation which = GER value = 10 }
+		command = { type = relation which = JAP value = 10 }
+		command = { type = relation which = SPA value = 10 }
+		command = { type = relation which = AST value = 10 }
+		
+		#Voted or protested against lifting sanctions
+		command = { type = relation which = MEX value = -10 }
+		command = { type = relation which = CHI value = -10 }
+		command = { type = relation which = SOV value = -10 }
+		command = { type = relation which = USA value = -10 }
+		command = { type = relation which = SPR value = -10 }
+		command = { type = relation which = NZL value = -10 }
+	}
+}
+
+event = {
+	id = 14000050
+	random = no 
+	country = ITA
+
+	trigger = {
+		atwar = yes
+		NOT = { 
+			region = { region = "Ethiopia" 			country = -3 value = 5 }
+			region = { region = "Horn of Africa" 	country = -3 value = 5 }
+		}
+	}
+
+	name = "The Defeat in East Africa"
+	desc = "The remnants of the Italian forces in East Africa surrendered after the Battle of Gondar in November 1941, except for small groups that fought a guerrilla war in Ethiopia against the British until the Armistice of Cassibile. The East African campaign was the first Allied strategic victory in the war; few Italian forces escaped the region to be used in other campaigns and the Italian defeat greatly eased the flow of supplies through the Red Sea to Egypt."
+	style = 2
+	picture = "Mussolini"	
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 30 month = december year = 1963 }
+
+	action = {
+		name = "Ritorneremo!"
+		command = { type = dissent value = 2 }
+	}
+}
+
+event = {
+	id = 14000051
+	random = no 
+	country = ITA
+
+	trigger = {
+		atwar = yes
+		NOT = { 
+			region = { region = "Libya" 			country = -3 value = 5 }
+			region = { region = "Tunisia" 			country = -3 value = 5 }
+		}
+	}
+
+	name = "The Defeat in North Africa"
+	desc = "After the defeats in Egypt and Libya, the German–Italian Panzerarmee Afrika was gradually forced to retreat towards Tunisia. After Operation Torch, the Anglo-American landings in North-West Africa in November 1942 and fighting against Vichy France forces, the Allies trapped about 250,000 German and Italian personnel in northern Tunisia, forcing their surrender in May 1943. The fall of Libya was a strategic victory for the allies, which opened the road to the invasion of Italy poper, culminating in the downfall of the Fascist government in Italy and the elimination of Germany's main European ally."
+	style = 2
+	picture = "Mussolini"	
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 30 month = december year = 1963 }
+
+	action = {
+		name = "Ritorneremo!"
+		command = { type = dissent value = 5 }
+	}
+}
+
+event = {
+	id = 14000052
+	random = no 
+	country = ITA
+
+	trigger = {
+		atwar = yes
+		OR = {
+			region 	= { region = "Italy" 			country = -2 value = 8   } #74*0.08=5.9 (6, from which 2 can be Malta and Pantelleria)
+			area 	= { area = "Sicilian Gap" 		country = -2 value = 80  } #7 *0.8 =5.6 (6, from which 2 can be Malta and Pantelleria)
+		}
+	}
+
+	name = "The Invasion of Italy"
+	desc = "The Allied invasion of Sicily, also known as the Battle of Sicily and Operation Husky began with a large amphibious and airborne operation, followed by a six-week land campaign, and initiated the Italian campaign.  Strategically, Husky achieved the goals set out for it by Allied planners: the Allies drove Axis air, land and naval forces from the island, and the Mediterranean sea lanes were opened for Allied merchant ships for the first time since 1941. These events led to the fall of the Fascist regime in Italy with Italian dictator Benito Mussolini being ousted, and to the Allied invasion of Italy."
+	style = 2
+	picture = "Mussolini"	
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 30 month = december year = 1963 }
+
+	action = {
+		name = "E questa la fine?"
+		command = { type = dissent value = 15 }
+	}
+}

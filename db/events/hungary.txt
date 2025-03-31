@@ -1,0 +1,496 @@
+#
+# HoI - Hungarian Events
+#
+#		written by Henrik Fåhraeus
+#
+### 2022006  HUN  The End of Czechoslovakia - Ruthenia ceded to Hungary
+### 2022007  HUN  The End of Czechoslovakia - Slovakia given to Hungary
+### 2022008  HUN  The End of Czechoslovakia - Czechoslovakia fight back!
+### 2022009  HUN  The ViennaVienna Dictate - Claim Transylvania with German blessing
+### 2022010  HUN  The Vienna Dictate - Germans rule in Romanian favour
+### 2022011  HUN  The Vienna Dictate - Romania folds under German duress
+### 2022012  HUN  The Vienna Dictate - Romania refuses the demands!
+### 2022013  HUN  The Molotov-Ribbentrop Pact - Eastern Poland to Soviets
+### 2022014  HUN  An interesting opportunity
+### 2022015  HUN  The Romanian Surrender
+### 2022016  HUN  The Hungarian Defeat
+
+#########################################################################
+#  The End of Czechoslovakia - Ruthenia ceded to Hungary
+#########################################################################
+event = { 
+	id = 2022006
+	random = no
+	country = HUN
+
+	# Triggered by SLO 2057001
+
+	name = "EVT_2500_NAME"
+	desc = "EVT_2500_DESC"
+	style = 2
+	picture = "news_paper"
+
+	action_a = {
+		name = ACTION_NAME_OK
+		command = { type = dissent value = -5 }
+		command = { type = belligerence which = HUN value = 5 }
+		command = { type = relation which = SLO value = 5 }
+		command = { type = relation which = GER value = 5 }
+	}
+}
+#########################################################################
+#  The End of Czechoslovakia - Slovakia given to Hungary
+#########################################################################
+event = { 
+	id = 2022007
+	random = no
+	country = HUN
+
+	# Triggered by CZE 2025003
+
+	name = "EVT_2501_NAME"
+	desc = "EVT_2501_DESC"
+	style = 2
+	picture = "news_paper"
+
+	action_a = {
+		name = ACTION_NAME_OK
+		command = { type = dissent value = 2 } #Slovak resistance
+		command = { type = belligerence which = HUN value = 10 }
+		command = { type = province_revoltrisk which = 476 value = 10 }
+		command = { type = province_revoltrisk which = 477 value = 10 }
+		command = { type = province_revoltrisk which = 478 value = 10 }
+		command = { type = province_revoltrisk which = 7261 value = 10 }
+		command = { type = province_revoltrisk which = 3232 value = 10 }
+		command = { type = province_revoltrisk which = 3231 value = 10 }
+		command = { type = province_revoltrisk which = 1887 value = 10 }
+		command = { type = province_revoltrisk which = 3230 value = 10 }
+		command = { type = relation which = GER value = 20 }
+		command = { type = alliance which = GER when = 1 }
+	}
+}
+
+#########################################################################
+#  The Vienna Diktat - Claim Transylvania with German blessing
+#########################################################################
+event = { 
+	id = 2022009
+	random = no
+	country = HUN
+		
+		
+	decision = {
+		exists = GER
+		control = { province = 498 data = ROM } #Oradea
+		control = { province = 428 data = ROM } #Cluj
+		NOT = {
+			war = { country = HUN country = ROM }
+			puppet = { country = HUN country = SOV }
+			puppet = { country = ROM country = SOV }
+		}
+		OR = {
+			war = { country = GER country = ENG }
+			war = { country = GER country = SOV }
+		}
+	}
+	trigger = {
+		exists = GER
+		event = 2023003 #Romania has to give up Bessarabia first
+		control = { province = 498 data = ROM } #Oradea
+		control = { province = 428 data = ROM } #Cluj
+		NOT = {
+			war = { country = HUN country = ROM }
+			puppet = { country = HUN country = SOV }
+			puppet = { country = ROM country = SOV }
+		}
+		OR = {
+			war = { country = GER country = ENG }
+			war = { country = GER country = SOV }
+		}
+		NOT = { 
+			control = { province = 56 data = FRA }
+		}
+	}
+	
+	name = "EVT_2503_NAME"
+	desc = "EVT_2503_DESC"
+	style = 2
+	picture = "news_paper"
+	
+	date = { day = 6 month = september year = 1939 }
+	offset = 21
+	deathdate = { day = 29 month = december year = 1943 }
+
+	action = {
+		name = "ACTIONNAME2503A" # Press the issue
+		command = { type = relation which = ROM value = -10 }
+		command = { type = belligerence which = HUN value = 1 }
+		command = { type = trigger which = 2003031 } # GER
+	}
+}
+
+
+#########################################################################
+#  The Vienna Diktat
+#########################################################################
+event = {
+	id = 2003031
+	random = no
+	country = GER
+
+	# Triggered by HUN 2022009
+
+	name = "EVT_2019_NAME"
+	desc = "EVT_2019_DESC"
+	style = 2
+	picture = "Hitler_Carol"
+	
+	action = {
+		name = "ACTIONNAME2019A" # Force Romanian acceptance
+		ai_chance = 99
+		command = { type = relation which = ROM value = -10 }
+		command = { type = relation which = HUN value = 10 }
+		command = { type = trigger which = 2023004 } # ROM
+	}
+	action = {
+		name = "ACTIONNAME2019B" # Deny the Hungarian request
+		ai_chance = 1
+		command = { type = relation which = ROM value = 10 }
+		command = { type = relation which = HUN value = -10 }
+		command = { type = trigger which = 2022010 } # HUN
+		command = { type = trigger which = 2023005 } # ROM
+		command = { type = sleepevent which = 2020001 }
+	}
+}
+
+
+#########################################################################
+#  The Vienna Diktat - Germans rule in Romanian favor
+#########################################################################
+event = { 
+	id = 2022010
+	random = no
+	country = HUN
+
+	# Triggered by GER 2003031
+
+	name = "EVT_2504_NAME"
+	desc = "EVT_2504_DESC"
+	style = 2
+	picture = "news_paper"
+
+	action_a = {
+		name = ACTION_NAME_OK
+		command = { type = dissent value = 5 }
+	}
+}
+#########################################################################
+#  The Vienna Diktat - Romania folds under German duress
+#########################################################################
+event = { 
+	id = 2022011
+	random = no
+	country = HUN
+	
+	# Triggered by ROM 2023004
+	
+	name = "EVT_2505_NAME"
+	desc = "EVT_2505_DESC"
+	style = 2
+	picture = "news_paper"
+
+	action_a = {
+		name = ACTION_NAME_OK
+		command = { type = dissent value = -10 }
+		command = { type = belligerence which = HUN value = 10 }
+		command = { type = relation which = GER value = 5 }
+	}
+}
+
+
+
+#########################################################################
+#  German occupation/pro-German coup
+#########################################################################
+event = { 
+	id = 2022013
+	random = no
+	country = GER
+		
+	decision = {
+		alliance = { country = HUN }
+		NOT = { puppet = { country = HUN country = GER } }
+		war = { country = SOV }
+		year = 1942
+	}
+	decision_trigger = {
+		OR = {
+			control = { province = 2302 data = -2 } #Uzhgorod
+			control = { province = 424  data = -2 } #Buharest
+			control = { province = 428  data = -2 } #Cluj
+			control = { province = 1887 data = -2 } #Presov
+		}
+	}
+	trigger = {
+		alliance = { country = HUN }
+		NOT = { puppet = { country = HUN country = GER } }
+		war = { country = SOV }
+		year = 1942
+		OR = {
+			control = { province = 2302 data = -2 } #Uzhgorod
+			control = { province = 424  data = -2 } #Buharest
+			control = { province = 428  data = -2 } #Cluj
+			control = { province = 1887 data = -2 } #Presov
+		}
+	}
+	
+	name = "German occupation of Hungary"
+	desc = "We have strong suspicions that the Hungarian government is engaging in backroom talks with the Soviets with the aim to sign a separate peace treaty and turn against us. We must preempt them by occupying the country and replacing their government with the one we can fully rely and control. This will, however, upset their population and decrease the combat effectiveness of the Hungarian armed forces."
+	style = 2
+	picture = "news_paper"
+	
+	date = { day = 6 month = september year = 1941 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1946 }
+
+	action = {
+		name = "Do what must be done"
+		command = { type = dissent value = 1 }
+		command = { type = belligerence which = GER value = 1 }
+		command = { type = remove_claim_region which = "Hungary" }
+		command = { type = make_puppet which = HUN }
+		#command = { type = coup_nation which = HUN } #will be bugged if happens immediately, can also crash the game.
+		command = { type = event which = 2400537 where = HUN when = 0 } #medium puppet
+		command = { type = event which = 2022014 where = HUN when = 0 }
+	}
+}
+
+event = { 
+	id = 2022014
+	random = no
+	country = HUN
+	
+	name = "German occupation"
+	desc = "When the Soviet troops approached Hungary, the German forces carried out a surprise invasion and occupied Hungary while Horthy was out of the country and engaged in negotiations. When he came back, Hungary was already occupied by the German troops. Nonetheless, Horty still attempted to surrender to the Soviets, but to no avail, the Germans were ready, and they immediately replaced him with a representative of the German-friendly Arrow Cross party."
+	style = 2
+	picture = "news_paper"
+	
+	action = {
+		name = ACTION_NAME_DAMN
+		command = { type = secedeprovince which = HUN value = 456 when = 2 }
+		#Also as a medium puppet, Hungary will have constant dissent problems
+		command = { type = event which = 2400051 where = -1 when = 1   } #initial confusion
+		command = { type = event which = 2400061 where = -1 when = 90  } #recovery in 3 months
+		
+		command = { type = headofstate 				which = 105011 }
+		command = { type = headofgovernment 		which = 105206 }
+		command = { type = foreignminister 			which = 105036 }
+		command = { type = armamentminister 		which = 105050 }
+		command = { type = ministerofsecurity		which = 105064 }
+		command = { type = ministerofintelligence	which = 105081 }
+		command = { type = chiefofstaff				which = 105094 }
+		command = { type = chiefofarmy 				which = 105102 }
+		command = { type = chiefofnavy 				which = 105112 }
+		command = { type = chiefofair 				which = 105119 }
+	}
+}
+
+
+
+
+event = {
+	id = 2030
+	random = no
+	country = HUN
+
+	name = EVT_61_NAME
+	desc = EVT_61_DESC
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		NOT = { ispuppet = yes }
+		NOT = { exists = U13 }
+		war = { country = GER country = SOV }
+		war = { country = SOV }
+		
+		lost_national = { value = 25 }
+		OR = {
+			control = { province = 497 data = -2 } #Debrecen
+			control = { province = 457 data = -2 } #Budapest
+		}
+	}
+
+	date = { day = 0 month = january year = 1938 }
+	offset = 7
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Inquire about their conditions"
+		ai_chance = 99
+		command = { type = event which = 2031 where = SOV when = 0 }
+	}
+	action = {
+		name = "Keep fighting"
+		ai_chance = 1
+		command = { type = dissent value = 15 }
+		command = { type = switch_allegiance which = -1 where = SOV }
+		command = { type = switch_allegiance which = -1 where = SOV }
+		command = { type = switch_allegiance which = -1 where = SOV }
+	}
+}
+
+event = {
+	id = 2031
+	random = no
+	country = SOV
+
+	name = EVT_62_NAME
+	desc = EVT_62_DESC
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		ai_chance = 100
+		name = ACTION_NAME_ACCEPT
+		command = { type = event which = 2032 where = HUN when = 10 }
+	}
+	action = {
+		ai_chance = 0
+		name = ACTION_NAME_REFUSE
+		command = { type = relation which = FRA value = -60 }
+		command = { type = relation which = ENG value = -60 }
+		command = { type = relation which = USA value = -60 }
+		command = { type = addcore  which = 3233 }
+		command = { type = addcore  which = 499  }
+		command = { type = addclaim which = 3203 }
+		
+		command = { type = dissent value = 5 } #Western allies are not happy, some officials are not happy either
+		command = { type = setflag which = SOV_noLendLease } #Lend lease terminated
+		command = { type = local_setflag which = SanctionsEvt } #Sanctions imposed
+		command = { type = event which = 2035 where = HUN when = 0 }
+	}
+}
+
+event = {
+	id = 2032
+	random = no
+	country = HUN
+
+	name = "Hungarian surrender - Soviets accept"
+	desc = "The Soviets accepted our surrender offer. We will now fight the rest of the war on their side."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		ai_chance = 100
+		command = { type = leave_alliance when =  1 } # separate peace, pull out of alliance
+		command = { type = access which = GER }
+		command = { type = access which = ITA }
+		command = { type = access which = SOV }
+		command = { type = access which = ROM }
+		command = { type = access which = CRO }
+		command = { type = access which = SLO }
+		command = { type = access which = BUL }
+		
+		command = { type = secederegion which = SOV value = "Ukraine" 		when = 1 } 
+		command = { type = secedearea	which = SOV value = "Bessarabia" 	when = 1 } 
+		
+		command = { type = event which = 2033 where = SOV when = 1 }
+	}
+	action = {
+		name = "Keep fighting"
+		ai_chance = 0
+		command = { type = dissent value = 15 }
+		command = { type = switch_allegiance which = -1 where = SOV }
+		command = { type = switch_allegiance which = -1 where = SOV }
+		command = { type = switch_allegiance which = -1 where = SOV }
+	}
+}
+
+event = {
+	id = 2033
+	random = no
+	country = SOV
+
+	name = "Hungarian surrender - Hungarians accept"
+	desc = "The Hungarians accepted our offer. They will now fight the rest of the war on our side."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = dissent value = -1 }
+		command = { type = addcore  which = 3233 }
+		command = { type = addcore  which = 499  }
+		command = { type = addclaim which = 3203 }
+		command = { type = remove_claim_region which = "Hungary" }
+		command = { type = add_claim_region which = "Balkan" where = SOV } 
+		command = { type = add_claim_region which = "Romania" where = SOV } 
+		command = { type = add_claim_region which = "Czechoslovakia" where = SOV } 
+		command = { type = make_puppet which = HUN }
+		#command = { type = coup_nation which = HUN } #will be bugged if happens immediately, can also crash the game. will do later as part of post-war settlement
+		command = { type = alliance which = HUN when = 1 }
+		command = { type = event which = 2400537 where = HUN when = 0 } #medium puppet
+		command = { type = event which = 2034 where = HUN when = 0 }
+	}
+}
+
+event = {
+	id = 2034
+	random = no
+	tag = { HUN U13 }
+
+	name = "Hungarian surrender - Soviets accept"
+	desc = "The Soviets accepted our surrender offer. We will now fight the rest of the war on their side."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		#command = { type = dissent value = 10 } #should already have +30 dissent from the coup_nation
+		
+		command = { type = secederegion which = SOV value = "Balkan" when = 1 } 
+		command = { type = secederegion which = ROM value = "Romania" when = 1 } 
+		command = { type = secederegion which = U30 value = "Romania" when = 1 } 
+		command = { type = secederegion which = SOV value = "Romania" when = 1 } 
+		command = { type = secederegion which = SOV value = "Czechoslovakia" when = 1 } 
+		
+		command = { type = set_domestic which = political_left value = 7 }
+		command = { type = set_relation which = GER value = -50 }
+		
+		command = { type = event which = 2400051 where = -1 when = 1   } #initial confusion
+		command = { type = event which = 2400061 where = -1 when = 180 } #recovery in 6 months
+		
+		#will be handled in post-war settlement event
+		#command = { type = local_setflag	when = 0	which = RepPay3	value = 6 } #6 years worth of reparation payments to USSR
+		#command = { type = setflag 		when = 0	which = RepPec	value = 6 }
+		#command = { type = event 			when = 0	which = 3021	where = SOV }
+	}
+}
+
+event = {
+	id = 2035
+	random = no
+	country = HUN
+
+	name = "Hungarian surrender - Soviets refuse"
+	desc = "The Soviets rejected our surrender offer. We will have to fight even harder to preserve what's left of our independence."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "Over our dead bodies!"
+		command = { type = dissent value = -20 }
+		command = { type = province_manpower which = -1 value = -1 }
+		command = { type = manpowerpool value = 300 } 
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+	}
+}

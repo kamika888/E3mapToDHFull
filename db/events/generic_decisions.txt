@@ -1,0 +1,2729 @@
+################################
+# Grand Offensive
+################################
+event = {
+	id = 1300002
+	random = no
+	persistent = yes
+	#Need to have tag, otherwise it won't show in the logs
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	
+	decision = {
+		atwar = yes
+		major = yes #(GER SOV ITA USA JAP FRA ENG)
+		NOT = { local_flag = grand_offensive }
+	}
+
+	decision_trigger = { supplies = 10000 }
+
+	trigger = {
+		atwar = yes
+		major = yes
+		NOT = { local_flag = grand_offensive }
+		OR = {
+			ai = yes
+			supplies = 10000
+		}
+		OR = {
+			#Should cover SOV, USA
+			lost_national = { value = 18 }
+			AND = {
+				country = FRA
+				war = { country = GER }
+				alliance = { country = BEL }
+			}
+			AND = {
+				country = GER
+				OR = {
+					war = { country = SOV }
+					AND = {
+						war = { country = FRA }
+						war = { country = BEL }
+					}
+				}
+			}
+			AND = {
+				country = JAP
+				war = { country = ENG }
+			}
+			AND = {
+				country = ITA
+				war = { country = ENG }
+			}
+			AND = {
+				country = ENG
+				lost_national = { value = 5 } #Enemy landed on home islands
+			}
+		}
+	}
+
+	name = "GrandOffensiveName"
+	desc = "GrandOffensiveDesc" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_grand_offensive"
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 10
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {
+		name = "GrandOffensiveText"
+		command = { type = local_setflag 	which = grand_offensive }
+		command = { type = task_efficiency 	which = attack 			value = 0.3 }
+		command = { type = task_efficiency	which = support_attack 	value = 0.3 }
+		command = { type = max_organization which = land 	value = 10 }
+		command = { type = morale 			which = land 	value = 10 }
+		command = { type = morale 			which = naval 	value = 10 }
+		command = { type = morale 			which = air 	value = 10 }
+		command = { type = speed 			which = land 	value = 2 }
+		command = { type = counterattack 					value = 2 }
+		command = { type = assault 							value = 2 }
+		command = { type = ambush 							value = 2 }
+		command = { type = breakthrough 					value = 2 }
+		command = { type = encirclement 					value = 2 }
+		command = { type = hq_supply_eff 					value = 2 }
+		command = { type = sce_frequency 					value = 0.3 }
+		command = { type = attrition_mod 					value = 2 }
+		command = { type = trickleback_mod 					value = 5 }
+		command = { type = supplies 						value = -10000 }
+		command = { type = event which = 1300003 where = -1 when = 30 }
+	}
+}
+
+event = {
+	id = 1300003
+	random = no
+	persistent = yes
+	#Need to have tag, otherwise it won't show in the logs
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	name = "GrandOffensiveOverName"
+	desc = "GrandOffensiveDesc" 
+	style = 2
+	picture = "Wehrmacht"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = task_efficiency 	which = attack 			value = -0.3 }
+		command = { type = task_efficiency	which = support_attack 	value = -0.3 }
+		command = { type = max_organization which = land 	value = -10 }
+		command = { type = morale 			which = land 	value = -10 }
+		command = { type = morale 			which = naval 	value = -10 }
+		command = { type = morale 			which = air 	value = -10 }
+		command = { type = speed 			which = land 	value = -2 }
+		command = { type = counterattack 					value = -2 }
+		command = { type = assault 							value = -2 }
+		command = { type = ambush 							value = -2 }
+		command = { type = breakthrough 					value = -2 }
+		command = { type = encirclement 					value = -2 }
+		command = { type = hq_supply_eff 					value = -2 }
+		command = { type = sce_frequency 					value = -0.3 }
+		command = { type = attrition_mod 					value = -2 }
+		command = { type = trickleback_mod 					value = -5 }
+	}
+}
+
+################################
+# Equipment decisions
+################################
+event = { #start winterequip production
+	id = 9000000
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	decision = {
+		technology = 5920	# Infantry equipment - winter
+		technology = 5930	# Machinery adaption - winter
+		NOT = { local_flag = wequip }
+	}
+
+	decision_trigger = {
+		technology = 5130	# Assembly Line Experimentation
+	}
+
+	trigger = {	
+		OR = {
+			AND = {
+				ai = yes
+				OR = {
+					technology = 5920	# Infantry equipment - winter
+					technology = 5930	# Machinery adaption - winter
+				}
+			}
+			AND = {
+				ai = no
+				technology = 5920	# Infantry equipment - winter
+				technology = 5930	# Machinery adaption - winter
+				technology = 5130	# Assembly Line Experimentation
+			}
+		}
+		NOT = { local_flag = wequip }
+		OR = { country = FIN country = U20 country = SOV country = RUS country = SIB country = SWE country = CAN country = SCA }
+		NOT = {	
+			OR = {
+				resource_shortage = supplies
+				resource_shortage = oil
+			}	
+		}	
+	}
+
+	name = 9000000_name
+	desc = 9000000_desc
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_winter_equipment_start"
+	
+	date = { day = 1 month = january year = 1914 }
+	offset = 60
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = { 
+		name = "equip_act"
+		ai_chance = 100
+		
+		command = { type = tc_mod value = -2.5 }
+		command = { type = research_mod value = -1 }
+		command = { type = build_time which = land when = on_upgrade value = 25 }
+		command = { type = build_cost which = land when = on_upgrade value = 0.8 }
+		command = { type = build_cost which = mechanized when = on_upgrade value = 2 }
+		command = { type = build_cost which = armor when = on_upgrade value = 2 }
+		command = { type = build_cost which = light_armor when = on_upgrade value = 2 }	  
+		command = { type = supply_consumption which = land value = 0.3 where = relative }
+		command = { type = local_setflag which = wequip }
+		command = { type = event which = 9000003 where = -1 when = 90 }
+	}
+}
+
+event = {  #stop winterequip production
+	id = 9000001
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	decision = {
+		local_flag = wequipx
+	}
+
+	decision_trigger = {
+		local_flag = wequipx		
+	}
+
+	trigger = { 
+		ai = no #disabled
+		local_flag = wequipx
+		OR = {
+			resource_shortage = supplies
+			resource_shortage = oil
+		}
+	}
+
+	name = "wuequip_name"
+	desc = "wuequip_desc" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_winter_equipment_stop"
+	
+	date = { day = 1 month = january year = 1914 }
+	offset = 60
+	deathdate = { day = 30 month = december year = 1999 }
+	
+	action = {
+		name = "uequip_act"
+		ai_chance = 100
+
+		command = { type = local_clrflag which = wequip }
+		command = { type = local_clrflag which = wequipx }
+		
+		command = { type = frozen_move which = land value = -6 }
+		command = { type = frozen_attack which = land value = -6 }
+		command = { type = frozen_defense which = land value = -6 }
+		command = { type = snow_move which = land value = -6 }
+		command = { type = snow_attack which = land value = -6 }
+		command = { type = snow_defense which = land value = -6 }
+		
+		command = { type = tc_mod value = 2.5 }
+		command = { type = research_mod value = 1 }
+		command = { type = build_time which = land when = on_upgrade value = -25 }
+		command = { type = build_cost which = land when = on_upgrade value = -0.8 }
+		command = { type = build_cost which = mechanized when = on_upgrade value = -2 }
+		command = { type = build_cost which = armor when = on_upgrade value = -2 }
+		command = { type = build_cost which = light_armor when = on_upgrade value = -2 }
+		command = { type = supply_consumption which = land value = -0.3 }
+	}
+}	
+
+event = { #apply winter equipment boni
+	id = 9000003  
+	random = no
+	persistent = yes
+
+	name = "equip_name"
+	desc = equip_desc
+	style = 2
+	picture = "news_paper"
+	
+	action = { 	#w
+		name = "xequip_act" 		
+		command = { type = local_setflag which = wequipx }
+		
+		command = { type = frozen_move which = land value = 6 }
+		command = { type = frozen_attack which = land value = 6 }
+		command = { type = frozen_defense which = land value = 6 }
+		command = { type = snow_move which = land value = 6 }
+		command = { type = snow_attack which = land value = 6 }
+		command = { type = snow_defense which = land value = 6 }
+	}
+}
+
+event = { #start jungleequip production
+	id = 9000004
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	decision = {
+		technology = 5940	# Infantry equipment - Jungle
+		technology = 5950	# Machinery adaption - Jungle
+		NOT = { local_flag = jequip }
+	}
+
+	decision_trigger = {
+		technology = 5130	# Assembly Line Experimentation
+	}
+
+	trigger = {
+		OR = {
+			technology = 5940	# Infantry equipment - Jungle
+			technology = 5950	# Machinery adaption - Jungle
+		}
+		NOT = { local_flag = jequip }
+		OR = {
+			country = PHI country = SIA country = VIE country = LAO country = CMB country = BUR country = INO
+			country = MLY country = MEX country = GUA country = HON country = SAL country = NIC country = COS
+			country = PAN country = COL country = BRA country = ECU country = PAR country = GUY country = CUB
+			country = LIB country = SIE country = GLD country = NIG country = U99 country = BEN country = U88
+			country = CAM country = U82 country = GAB country = CON country = U85 country = U83
+		}
+		NOT = {	
+			OR = {
+				resource_shortage = supplies
+				resource_shortage = oil
+			}	
+		}	
+	}
+
+	name = 9000001_name
+	desc = 9000001_desc
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_jungle_equipment_start"
+	
+	date = { day = 1 month = january year = 1914 }
+	offset = 60
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = { 
+		name = "equip_act"
+		ai_chance = 100
+		
+		command = { type = tc_mod value = -2.5 }
+		command = { type = research_mod value = -1 }
+		command = { type = build_time which = land when = on_upgrade value = 25 }
+		command = { type = build_cost which = land when = on_upgrade value = 0.8 }
+		command = { type = build_cost which = mechanized when = on_upgrade value = 2 }
+		command = { type = build_cost which = armor when = on_upgrade value = 2 }
+		command = { type = build_cost which = light_armor when = on_upgrade value = 2 }
+		command = { type = supply_consumption which = land value = 0.3 where = relative }
+		command = { type = local_setflag which = jequip }
+		command = { type = event which = 9000006 where = -1 when = 90 }
+	}
+}
+
+event = { #stop jungleequip production
+	id = 9000005
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	decision = {
+		local_flag = jequipx
+	}
+
+	decision_trigger = {
+		local_flag = jequipx 	
+	}
+
+	trigger = { 
+		ai = no #disabled
+		local_flag = jequipx
+		OR = {
+			resource_shortage = supplies
+			resource_shortage = oil
+		}	
+	}
+
+	name = "juequip_name"
+	desc = "juequip_desc" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_jungle_equipment_stop"
+	
+	date = { day = 1 month = january year = 1914 }
+	offset = 60
+	deathdate = { day = 30 month = december year = 1999 }
+
+	
+	action = { #issued
+		name = "uequip_act"
+		ai_chance = 100
+
+		command = { type = local_clrflag which = jequip }
+		command = { type = local_clrflag which = jequipx }
+		
+		command = { type = jungle_move which = land value = -2 }
+		command = { type = jungle_attack which = land value = -4 }
+		command = { type = jungle_defense which = land value = -4 }
+		command = { type = forest_move which = land value = -2 }
+		command = { type = forest_attack which = land value = -5 }
+		command = { type = forest_defense which = land value = -5 }
+		
+		command = { type = tc_mod value = 2.5 }
+		command = { type = research_mod value = 1 }
+		command = { type = build_time which = land when = on_upgrade value = -25 }
+		command = { type = build_cost which = land when = on_upgrade value = -0.8 }
+		command = { type = build_cost which = mechanized when = on_upgrade value = -2 }
+		command = { type = build_cost which = armor when = on_upgrade value = -2 }
+		command = { type = build_cost which = light_armor when = on_upgrade value = -2 }
+		command = { type = supply_consumption which = land value = -0.3 }
+	}	
+}	  
+
+event = { #apply jungleequip boni
+	id = 9000006  
+	random = no
+	persistent = yes
+
+	name = "equip_name"
+	desc = equip_desc
+	style = 2
+	picture = "news_paper"
+	
+	action = { 	#j
+		name = "xequip_act" 		
+		command = { type = local_setflag which = jequipx }
+		
+		command = { type = jungle_move which = land value = 2 }
+		command = { type = jungle_attack which = land value = 4 }
+		command = { type = jungle_defense which = land value = 4 }
+		command = { type = forest_move which = land value = 2 }
+		command = { type = forest_attack which = land value = 5 }
+		command = { type = forest_defense which = land value = 5 }
+	}
+}
+
+event = { #start desertequip production
+	id = 9000007
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	decision = {
+		technology = 5960	# Infantry equipment - Desert
+		technology = 5970	# Machinery adaption - Desert
+		NOT = { local_flag = dequip }
+	}
+
+	decision_trigger = {
+		technology = 5130	# Assembly Line Experimentation
+	}
+
+	trigger = {
+		OR = {
+			technology = 5960	# Infantry equipment - Desert
+			technology = 5970	# Machinery adaption - Desert
+		}
+		NOT = { local_flag = dequip }
+		OR = { 
+			country = ALG country = LBY country = MAL country = U93 country = U84 country = SUD country = EGY
+			country = SAU country = U53 country = SOM country = U91 country = KAZ country = UZB country = TRK 
+			country = MON country = MEN country = NAM
+		}
+		NOT = {	
+			OR = {
+				resource_shortage = supplies
+				resource_shortage = oil
+			}	
+		}	
+	}
+
+	name = 9000002_name
+	desc = 9000002_desc
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_desert_equipment_start"
+	
+	date = { day = 1 month = january year = 1914 }
+	offset = 60
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = { 
+		name = "equip_act"
+		ai_chance = 100
+		
+		command = { type = tc_mod value = -2.5 }
+		command = { type = research_mod value = -1 }
+		command = { type = build_time which = land when = on_upgrade value = 25 }
+		command = { type = build_cost which = land when = on_upgrade value = 0.8 }
+		command = { type = build_cost which = mechanized when = on_upgrade value = 2 }
+		command = { type = build_cost which = armor when = on_upgrade value = 2 }
+		command = { type = build_cost which = light_armor when = on_upgrade value = 2 }
+		command = { type = supply_consumption which = land value = 0.3 where = relative }
+		command = { type = local_setflag which = dequip }
+		command = { type = event which = 9000009 where = -1 when = 90 }
+	}
+}
+
+event = { #stop desertequip production
+	id = 9000008
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	decision = {
+		local_flag = dequipx
+	}
+
+	decision_trigger = {
+		local_flag = dequipx		
+	}
+
+	trigger = { 
+		ai = no #disabled
+		local_flag = dequipx
+		OR = {
+			resource_shortage = supplies
+			resource_shortage = oil
+		}	
+	}
+
+	name = "duequip_name"
+	desc = "duequip_desc" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_desert_equipment_stop"
+	
+	date = { day = 1 month = january year = 1914 }
+	offset = 60
+	deathdate = { day = 30 month = december year = 1999 }
+	
+	action = { #issued
+		name = "uequip_act"
+		ai_chance = 100
+		
+		command = { type = local_clrflag which = dequip }
+		command = { type = local_clrflag which = dequipx }
+
+		command = { type = desert_move which = land value = -6 }
+		command = { type = desert_attack which = land value = -4 }
+		command = { type = desert_defense which = land value = -4 }
+		
+		command = { type = tc_mod value = 2.5 }
+		command = { type = research_mod value = 1 }
+		command = { type = build_time which = land when = on_upgrade value = -25 }
+		command = { type = build_cost which = land when = on_upgrade value = -0.8 }
+		command = { type = build_cost which = mechanized when = on_upgrade value = -2 }
+		command = { type = build_cost which = armor when = on_upgrade value = -2 }
+		command = { type = build_cost which = light_armor when = on_upgrade value = -2 }
+		command = { type = supply_consumption which = land value = -0.3 }
+	}	
+}
+
+event = { #apply desertequip boni
+	id = 9000009  
+	random = no
+	persistent = yes
+
+	name = "equip_name"
+	desc = equip_desc
+	style = 2
+	picture = "news_paper"
+
+	action = { 	#d
+		name = "xequip_act" 		
+		command = { type = local_setflag which = dequipx }
+		
+		command = { type = desert_move which = land value = 6 }
+		command = { type = desert_attack which = land value = 4 }
+		command = { type = desert_defense which = land value = 4 }
+	}
+}
+
+event = { #start sturdyequip production
+	id = 9000010
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	decision = {
+		technology = 5980	# Infantry equipment - rough terrain
+		technology = 5990	# Machinery adaption - rough terrain
+		NOT = { local_flag = sequip }
+	}
+
+	decision_trigger = {
+		technology = 5130	# Assembly Line Experimentation
+	}
+
+	trigger = {
+		OR = {
+			technology = 5980	# Infantry equipment - rough terrain
+			technology = 5990	# Machinery adaption - rough terrain
+		}
+		NOT = { local_flag = sequip }
+		OR = { 
+			country = PER country = TUR country = ETH country = AFG country = YEM country = BHU country = NEP
+			country = SCH country = NOR country = PRU country = CHL country = TAN country = MTN country = JAP
+			country = CHI country = CHC country = TIB country = TAJ country = KYG country = ARM	country = GEO
+			country = AUS country = BOS country = PRK
+		}
+		NOT = {	
+			OR = {
+				resource_shortage = supplies
+				resource_shortage = oil
+			}	
+		}	
+	}
+
+	name = 9000003_name
+	desc = 9000003_desc
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_rough_terrain_equipment_start"
+	
+	date = { day = 1 month = january year = 1914 }
+	offset = 60
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = { 
+		name = "equip_act"
+		ai_chance = 100
+		
+		command = { type = tc_mod value = -2.5 }
+		command = { type = research_mod value = -1 }
+		command = { type = build_time which = land when = on_upgrade value = 25 }
+		command = { type = build_cost which = land when = on_upgrade value = 0.8 }
+		command = { type = build_cost which = mechanized when = on_upgrade value = 2 }
+		command = { type = build_cost which = armor when = on_upgrade value = 2 }
+		command = { type = build_cost which = light_armor when = on_upgrade value = 2 }
+		command = { type = supply_consumption which = land value = 0.3 where = relative }
+		command = { type = local_setflag which = sequip }
+		command = { type = event which = 9000012 where = -1 when = 90 }
+	}
+}
+
+event = { #stop sturdyequip production
+	id = 9000011
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	decision = {
+		local_flag = sequipx
+	}
+
+	decision_trigger = {
+		local_flag = sequipx		
+	}
+
+	trigger = { 
+		ai = no #disabled
+		local_flag = sequipx
+		OR = {
+			resource_shortage = supplies
+			resource_shortage = oil
+		}	
+	}
+
+	name = "suequip_name"
+	desc = "suequip_desc" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_rough_terrain_equipment_stop"
+	
+	date = { day = 1 month = january year = 1914 }
+	offset = 60
+	deathdate = { day = 30 month = december year = 1999 }
+	
+	action = { #issued
+		name = "uequip_act"
+		ai_chance = 100
+
+		command = { type = local_clrflag which = sequip }
+		command = { type = local_clrflag which = sequipx }
+
+		command = { type = hill_move which = land value = -2 }
+		command = { type = hill_attack which = land value = -2 }
+		command = { type = hill_defense which = land value = -2 }
+		command = { type = mountain_move which = land value = -3 }
+		command = { type = mountain_attack which = land value = -6 }
+		command = { type = mountain_defense which = land value = -6 }
+		command = { type = muddy_move which = land value = -3 }
+		command = { type = muddy_attack which = land value = -6 }
+		command = { type = muddy_defense which = land value = -6 }
+		
+		command = { type = tc_mod value = 2.5 }
+		command = { type = research_mod value = 1 }
+		command = { type = build_time which = land when = on_upgrade value = -25 }
+		command = { type = build_cost which = land when = on_upgrade value = -0.8 }
+		command = { type = build_cost which = mechanized when = on_upgrade value = -2 }
+		command = { type = build_cost which = armor when = on_upgrade value = -2 }
+		command = { type = build_cost which = light_armor when = on_upgrade value = -2 }
+		command = { type = supply_consumption which = land value = -0.3 }
+	}	
+} 
+
+event = { #apply sturdyequip boni
+	id = 9000012  
+	random = no
+	persistent = yes
+
+	name = "equip_name"
+	desc = equip_desc
+	style = 2
+	picture = "news_paper"
+	
+	action = { 	#s
+		name = "xequip_act" 		
+		command = { type = local_setflag which = sequipx }
+
+		command = { type = muddy_move which = land value = 3 }
+		command = { type = muddy_attack which = land value = 6 }
+		command = { type = muddy_defense which = land value = 6 }
+		command = { type = hill_move which = land value = 2 }
+		command = { type = hill_attack which = land value = 2 }
+		command = { type = hill_defense which = land value = 2 }
+		command = { type = mountain_move which = land value = 3 }
+		command = { type = mountain_attack which = land value = 6 }
+		command = { type = mountain_defense which = land value = 6 }
+	}
+}
+
+####################################################################################################
+# Issue currency prints the exact amount of money that government investment decision requires
+####################################################################################################
+	
+#### Issue Currency
+event = {
+	id = 9000020
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	random = no
+	persistent = yes
+
+	decision = { 
+		NOT = { local_flag = issue_currency }
+	}
+
+	decision_trigger = {
+	}
+
+	trigger = {
+		NOT = {
+			local_flag = issue_currency
+			atwar   = yes
+			money   = 10
+			dissent = 3
+		}
+	}
+   
+	name = "9000022name"
+	desc = "9000022desc" 
+	style = 2
+	picture = "issue_currency"
+	decision_picture = "decision_issue_currency"
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 180
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {
+		name = "9000022text"
+		command = { type = dissent value = 2 }
+		command = { type = industrial_modifier which = total value = -3 }
+		command = { trigger = { IC = 200 } 						type = money value = 6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = 3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = 1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = 800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = 400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = 200  }
+		command = { type = local_setflag which = issue_currency }
+		command = { type = local_setflag which = issue_currency_count when = 1 value = 1 }
+		command = { type = event which = 9000022 where = -1 when = 180 } #No more than once per 6 months, otherwise the public will be really upset and the economy will become too unbalanced
+	}
+}
+
+#Mandatory devaluation
+event = {
+	id = 9000021
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	random = no
+	persistent = yes
+
+	trigger = {
+		local_flag = issue_currency
+		NOT = { money = -500 }
+	}
+   
+	name = "Currency crisis"
+	desc = "Our rapidly dwindling hard currency reserves, budget deficit, and lack of creditor confidence is causing our currency to rapidly devalue, while the Central Bank is only able to slow down but not stop the process. This will cause inflation and impovireshment of our populace, but an adjusted currency rate will be good for the budget and hopefully help to resolve our financial problems." 
+	style = 2
+	picture = "issue_currency"
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 20
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {
+		name = "9000022text"
+		command = { type = dissent value = 2 }
+		command = { type = industrial_modifier which = total value = -3 }
+		command = { trigger = { IC = 200 } 						type = money value = 6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = 3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = 1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = 800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = 400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = 200  }
+		command = { type = local_setflag which = issue_currency }
+		command = { type = local_setflag which = issue_currency_count when = 1 value = 1 }
+		command = { type = event which = 9000022 where = -1 when = 180 }
+	}
+}
+
+event = {
+	id = 9000022
+	#invisible
+	random = no
+	persistent = yes
+
+	name = "Economy stabilizes"
+	desc = "The monetary emission we enacted 6 months earlier had led to a wide range of undesirable consequences - our inflation rate increased, our currency devalued, our imports became more expensive. Now, finally, the situation had improved somewhat, with the currency rate exchange stabilizing and the inflation slowly returning back to its usual rate. However, the damage to the economy has been done any many people and business have permanently lost their savings." 
+	style = 2
+	picture = "issue_currency"
+	decision_picture = "decision_issue_currency"
+
+	action = {
+		name = "9000022text"
+		command = { type = dissent value = -1 }
+		command = { type = industrial_modifier which = total value = 1 }
+		command = { type = local_clrflag which = issue_currency }
+	}
+}
+
+event = {
+	id = 9000030
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	decision = { 
+	}
+	decision_trigger = {
+		OR = {
+			money = 6400
+			AND = {
+				NOT = { IC = 200 }
+				money = 3200
+			}
+			AND = {
+				NOT = { IC = 100 }
+				money = 1600
+			}
+			AND = {
+				NOT = { IC = 50 }
+				money = 800
+			}
+			AND = {
+				NOT = { IC = 25 }
+				money = 400
+			}
+			AND = {
+				NOT = { IC = 12 }
+				money = 200
+			}	
+		}
+	}
+
+	trigger = {
+		OR = {
+			money = 12800
+			AND = {
+				NOT = { IC = 200 }
+				money = 6400
+			}
+			AND = {
+				NOT = { IC = 100 }
+				money = 3200
+			}
+			AND = {
+				NOT = { IC = 50 }
+				money = 1600
+			}
+			AND = {
+				NOT = { IC = 25 }
+				money = 800
+			}
+			AND = {
+				NOT = { IC = 12 }
+				money = 400
+			}	
+		}
+		NOT = {
+			AND = {
+				OR = {
+					atwar = no
+					local_flag = SOV_Lend_Lease_to_CHI1_local
+					local_flag = USA_Lend_Lease_to_CHI1_local
+					local_flag = ENG_Lend_Lease_to_CHI1_local
+					local_flag = USA_Lend_Lease_to_FRA1_local
+					local_flag = USA_Lend_Lease_to_ENG1_local
+					local_flag = USA_Lend_Lease_to_SOV1_local
+				}
+				NOT = { local_flag = sanctionsEvt local_flag = sanctionsWar }
+				manpower = 10
+				OR = {
+					policy = { type = defense_lobby		value = 5 } 
+					policy = { type = interventionism	value = 5 } 
+				}
+			}
+		}
+	}
+   
+	name = "Budget Spending"
+	desc = EVT_9000023_DESC
+	style = 2
+	picture = "money_devaluation"
+	decision_picture = "decision_money_devaluation"
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 30
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {
+		name = "Invest in Propaganda"
+		trigger = {
+			NOT = { local_flag = invest_warprop }
+			OR = {
+				ai = no
+				AND = {
+					dissent = 5
+					local_flag = legitIndie
+				}
+				AND = {
+					dissent = 20
+					OR = {
+						local_flag = puppetLevel7
+						local_flag = puppetLevel8
+						local_flag = puppetLevel9
+					}
+				}
+			}
+		}
+		ai_chance = 10
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { type = local_setflag which = invest_warprop }
+		command = { type = local_setflag which = invest_warprop_count when = 1 value = 1 }
+		command = { type = event which = 9000040 where = -1 when = 180 }
+	}
+	action = {
+		name = "Invest in Growth"
+		trigger = { 
+			NOT = { local_flag = invest_industry }
+			technology = 5800 #can't build ic otherwise
+			OR = {
+				ai = no
+				NOT = { 
+					#atwar = yes
+					AND = {
+						dissent = 5
+						local_flag = legitIndie
+					}
+					AND = {
+						dissent = 20
+						OR = {
+							local_flag = puppetLevel7
+							local_flag = puppetLevel8
+							local_flag = puppetLevel9
+						}
+					}
+				}
+			}
+		}
+		ai_chance = 15
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { type = local_setflag which = invest_industry }
+		command = { type = local_setflag which = invest_industry_count when = 1 value = 1 }
+		command = { type = event which = 9000041 where = -1 when = 180 }
+	}
+	action = {
+		name = "Invest in Infrastructure"
+		trigger = { 
+			NOT = { local_flag = invest_infra }
+			OR = {
+				ai = no
+				NOT = { 
+					#atwar = yes
+					AND = {
+						dissent = 5
+						local_flag = legitIndie
+					}
+					AND = {
+						dissent = 20
+						OR = {
+							local_flag = puppetLevel7
+							local_flag = puppetLevel8
+							local_flag = puppetLevel9
+						}
+					}
+				}
+			}
+		}
+		ai_chance = 15
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { type = local_setflag which = invest_infra }
+		command = { type = local_setflag which = invest_infra_count when = 1 value = 1 }
+		command = { type = event which = 9000042 where = -1 when = 180 }
+	}
+	action = {
+		name = "Invest in Education"
+		trigger = { 
+			NOT = { local_flag = invest_research }
+			OR = {
+				ai = no
+				NOT = { 
+					#atwar = yes
+					AND = {
+						dissent = 5
+						local_flag = legitIndie
+					}
+					AND = {
+						dissent = 20
+						OR = {
+							local_flag = puppetLevel7
+							local_flag = puppetLevel8
+							local_flag = puppetLevel9
+						}
+					}
+				}
+			}
+		}
+		ai_chance = 15
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { type = local_setflag which = invest_research }
+		command = { type = local_setflag which = invest_research_count when = 1 value = 1 }
+		command = { type = event which = 9000043 where = -1 when = 180 }	
+	}
+	action = {
+		name = "Invest in Training"
+		trigger = { 
+			NOT = { local_flag = invest_wargames }
+			OR = {
+				ai = no
+				NOT = {
+					#atwar = yes
+					AND = {
+						dissent = 5
+						local_flag = legitIndie
+					}
+					AND = {
+						dissent = 20
+						OR = {
+							local_flag = puppetLevel7
+							local_flag = puppetLevel8
+							local_flag = puppetLevel9
+						}
+					}
+					NOT = { policy = { type = professional_army value = 4 } } #will not do if army is demobilized and sees no apparent threats
+				}
+			}
+		}
+		ai_chance = 15
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { type = local_setflag which = invest_wargames }
+		command = { type = local_setflag which = invest_wargames_count when = 1 value = 1 }
+		command = { type = event which = 9000044 where = -1 when = 180 }
+	}
+	action = {
+		name = "Invest in Recruitment"
+		trigger = { 
+			NOT = { local_flag = invest_recruitment }
+			OR = {
+				ai = no
+				NOT = { 
+					AND = {
+						dissent = 5
+						local_flag = legitIndie
+					}
+					AND = {
+						dissent = 20
+						OR = {
+							local_flag = puppetLevel7
+							local_flag = puppetLevel8
+							local_flag = puppetLevel9
+						}
+					}
+					manpower = 100									#will not do if already has decent unmobilized manpower reserves
+					policy = { type = professional_army value = 8 } #little point in looking for contractors if already at general mobilization or above
+				}
+			}
+		}
+		ai_chance = 15
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { type = local_setflag which = invest_recruitment }
+		command = { type = local_setflag which = invest_recruitment_count when = 1 value = 1 }
+		command = { type = event which = 9000045 where = -1 when = 180 }
+	}
+	action = {
+		name = "Invest in Diplomacy"
+		trigger = { 
+			NOT = { local_flag = invest_diplomacy }
+			OR = {
+				ai = no
+				NOT = { 
+					#atwar = yes
+					NOT = { belligerence = { value = 50 } }
+					AND = {
+						dissent = 5
+						local_flag = legitIndie
+					}
+					AND = {
+						dissent = 20
+						OR = {
+							local_flag = puppetLevel7
+							local_flag = puppetLevel8
+							local_flag = puppetLevel9
+						}
+					}
+				}
+			}
+		}
+		ai_chance = 5
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { type = local_setflag which = invest_diplomacy }
+		command = { type = local_setflag which = invest_diplomacy_count when = 1 value = 1 }
+		command = { type = event which = 9000046 where = -1 when = 180 }
+	}
+	action = {
+		name = "Invest in Medicine"
+		trigger = { 
+			NOT = { local_flag = invest_medicine }
+			OR = {
+				ai = no
+				NOT = { 
+					AND = {
+						dissent = 5
+						local_flag = legitIndie
+					}
+					AND = {
+						dissent = 20
+						OR = {
+							local_flag = puppetLevel7
+							local_flag = puppetLevel8
+							local_flag = puppetLevel9
+						}
+					}
+					NOT = {
+						AND = {
+							#NOT = { manpower = 300 }									#running low on manpower reserves
+							local_flag = { which = mpLossesCount when = 1 value = 2 }	#at least 1 million dead/wounded
+							policy = { type = professional_army value = 8 }				#at general mobilization or above
+						}
+						technology = 6570 #manpower focus
+					}
+				}
+			}
+		}
+		ai_chance = 10
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { type = local_setflag which = invest_medicine }
+		command = { type = local_setflag which = invest_medicine_count when = 1 value = 1 }
+		command = { type = event which = 9000047 where = -1 when = 180 }
+	}
+#	Should not have a need for this, since supplies can typically be traded for money on the market, assuming no problems with shipping lanes
+#	action = {
+#		name = "Invest in Supplies"
+#		trigger = { 
+#			NOT = { local_flag = invest_supplies }
+#			ic = 10
+#			NOT = { local_flag = sanctionsEvt local_flag = sanctionsWar }
+#			OR = {
+#				ai = no
+#				AND = {
+#					atwar = yes
+#					NOT = { supplies = 200 }
+#				}
+#			}
+#		}
+#		ai_chance = 10
+#		
+#		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+#		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+#		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+#		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+#		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+#		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+#		command = { type = local_setflag which = invest_supplies }
+#		command = { type = local_setflag which = invest_supplies_count when = 1 value = 1 }
+#		command = { type = event which = 9000048 where = -1 when = 180 }
+#	}
+}
+
+event = {
+	id = 9000040
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+   
+	name = "9000028name"
+	desc = "9000028desc" 
+	style = 2
+	picture = "war_propaganda"
+
+	action = {
+		name = "9000028text"
+		#Printing money gives +1 dissent but also depresses the economy by -2
+		command = { type = dissent value = -3 }
+		command = { type = local_clrflag which = invest_warprop }
+	}
+}
+
+event = {
+	id = 9000041
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+   
+	name = "9000040name"
+	desc = "9000040desc" 
+	style = 2
+	picture = "public_jobs"
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		#command = { type = industrial_modifier which = total value = 2.00 }
+		
+		#Experimental
+		command = { trigger = { IC = 200 } 	type = construct which = ic where = -4 value = 1.6 } #?		- 1.70%
+		command = { trigger = { IC = 100 }	type = construct which = ic where = -4 value = 0.8 } #0.90% - 1.80%
+		command = { trigger = { IC = 50  }	type = construct which = ic where = -4 value = 0.4 } #1.00% - 2.00%
+		command = { trigger = { IC = 25  }	type = construct which = ic where = -4 value = 0.3 } #1.22% - 2.40%
+		command = { trigger = { IC = 12  }	type = construct which = ic where = -4 value = 0.2 } #1.25% - 2.50%
+		command = { trigger = {          }	type = construct which = ic where = -4 value = 0.1 } #0.90% - 3.00% (assuming 3 IC minimum)
+		command = { type = local_clrflag which = invest_industry }
+	}
+}
+
+event = {
+	id = 9000042
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	name = "9000053name"
+	desc = "9000030desc" 
+	style = 2
+	picture = "invest_infrastructures"
+
+	action = {
+		name = ACTION_NAME_EXCELLENT
+		command = { type = industrial_modifier which = total value = 0.50 }
+		command = { type = tc_mod 							 value = 0.50 }	
+		command = { trigger = { 		 } type = construct which = infrastructure where = -4 value = 10 }
+		command = { trigger = { vp = 25  } type = construct which = infrastructure where = -4 value = 10 }
+		command = { trigger = { vp = 50  } type = construct which = infrastructure where = -4 value = 10 }
+		command = { trigger = { vp = 75  } type = construct which = infrastructure where = -4 value = 10 }
+		command = { trigger = { vp = 100 } type = construct which = infrastructure where = -4 value = 10 }
+		command = { trigger = { vp = 125 } type = construct which = infrastructure where = -4 value = 10 }
+		command = { trigger = { vp = 150 } type = construct which = infrastructure where = -4 value = 10 }
+		command = { trigger = { vp = 175 } type = construct which = infrastructure where = -4 value = 10 }
+		command = { trigger = { vp = 200 } type = construct which = infrastructure where = -4 value = 10 }
+		command = { trigger = { vp = 225 } type = construct which = infrastructure where = -4 value = 10 }
+		command = { type = local_clrflag which = invest_infra }
+	}
+}
+
+event = {
+	id = 9000043
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	name = "9000054name"
+	desc = "9000031desc" 
+	style = 2
+	picture = "invest_research"
+
+	action = {
+		name = ACTION_NAME_EXCELLENT
+		command = { type = industrial_modifier which = total value = 0.50 }
+		command = { type = research_mod 					 value = 0.50 }
+		command = { type = local_clrflag which = invest_research }
+	}
+}
+
+event = {
+	id = 9000044
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	name = "9000033name"
+	desc = "9000033desc" 
+	style = 2
+	picture = "wargames"
+
+	action = {
+		name = "9000033text"
+		command = { type = max_organization which = land	value = 0.5 }
+		command = { type = max_organization which = naval	value = 0.5 }
+		command = { type = max_organization which = air		value = 0.5 }
+		command = { trigger = { IC = 200 } 	type = add_leader_skill which = -1 value = 1 }
+		command = { trigger = { IC = 100 }	type = add_leader_skill which = -1 value = 1 }
+		command = { trigger = { IC = 50  }	type = add_leader_skill which = -1 value = 1 }
+		command = { trigger = { IC = 25  }	type = add_leader_skill which = -1 value = 1 }
+		command = { trigger = { IC = 12  }	type = add_leader_skill which = -1 value = 1 }
+		command = { trigger = {          }	type = add_leader_skill which = -1 value = 1 }
+		
+		command = { trigger = { IC = 200 }	type = supplies value = -200 }
+		command = { trigger = { IC = 100 } 	type = supplies value = -200 }
+		command = { trigger = { IC = 50  } 	type = supplies value = -200 }
+		command = { trigger = { IC = 25  }	type = supplies value = -200 }
+		command = { trigger = { IC = 12  }	type = supplies value = -200 }
+		command = { trigger = {          }	type = supplies value = -200 }
+		command = { type = local_clrflag which = invest_wargames }
+	}
+}
+
+event = {
+	id = 9000045
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	name = "9000049name"
+	desc = "9000049desc"
+	style = 2
+	picture = "foreign_volunteers"
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		#Over 200 IC country with no conscription gets +32.5 MP or around 2-3 infantry divisions
+		#Less than 12 IC country with no conscription gets +6.5 MP or about half of 1 infantry division
+		
+		#general mobilization
+		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 9 } } } type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { 			NOT = { policy = { type = professional_army value = 9 } } } type = manpowerpool value = 0.5 }
+		
+		#partial mobilization
+		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 8 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { 			NOT = { policy = { type = professional_army value = 8 } } } type = manpowerpool value = 1.0 }
+		
+		#3 year conscription
+		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 7 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { 			NOT = { policy = { type = professional_army value = 7 } } } type = manpowerpool value = 1.0 }
+		
+		#2 year conscription
+		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 6 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { 			NOT = { policy = { type = professional_army value = 6 } } } type = manpowerpool value = 1.0 }
+		
+		#1 year conscription
+		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 5 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { 			NOT = { policy = { type = professional_army value = 5 } } } type = manpowerpool value = 1.0 }
+		
+		#selective conscription
+		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 4 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { 			NOT = { policy = { type = professional_army value = 4 } } } type = manpowerpool value = 1.0 }
+		
+		#no conscription
+		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 3 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { 			NOT = { policy = { type = professional_army value = 3 } } } type = manpowerpool value = 1.0 }
+					
+		command = { type = local_clrflag which = invest_recruitment }
+	}
+}
+
+#### Diplomatic Campaign
+event = {
+	id = 9000046
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	name = "9000034name"
+	desc = "9000034desc" 
+	style = 2
+	picture = "diplomatic_campaign"
+
+	action = {
+		name = "9000034text"
+		command = { trigger = { IC = 200 } 	type = gain_tech which = -1 }
+		command = { trigger = { IC = 100 }	type = gain_tech which = -1 }
+		command = { trigger = { IC = 50  }	type = gain_tech which = -1 }
+		command = { trigger = { IC = 25  }	type = gain_tech which = -1 }
+		command = { trigger = { IC = 12  }	type = gain_tech which = -1 }
+		command = { trigger = {          }	type = gain_tech which = -1 }
+		command = { type = belligerence value = -6 }
+		command = { type = local_clrflag which = invest_diplomacy }
+		command = { type = relation which = AFG value = 30 }
+		command = { type = relation which = ALB value = 30 }
+		command = { type = relation which = ALG value = 30 }
+		command = { type = relation which = ANG value = 30 }
+		command = { type = relation which = ARA value = 30 }
+		command = { type = relation which = ARG value = 30 }
+		command = { type = relation which = ARM value = 30 }
+		command = { type = relation which = AST value = 30 }
+		command = { type = relation which = AUS value = 30 }
+		command = { type = relation which = AZB value = 30 }
+		command = { type = relation which = BEL value = 30 }
+		command = { type = relation which = BEN value = 30 }
+		command = { type = relation which = BHU value = 30 }
+		command = { type = relation which = BLR value = 30 }
+		command = { type = relation which = BOL value = 30 }
+		command = { type = relation which = BOS value = 30 }
+		command = { type = relation which = BRA value = 30 }
+		command = { type = relation which = BRU value = 30 }
+		command = { type = relation which = BUL value = 30 }
+		command = { type = relation which = BUR value = 30 }
+		command = { type = relation which = CAL value = 30 }
+		command = { type = relation which = CAM value = 30 }
+		command = { type = relation which = CAN value = 30 }
+		command = { type = relation which = CGX value = 30 }
+		command = { type = relation which = CHC value = 30 }
+		command = { type = relation which = CHI value = 30 }
+		command = { type = relation which = CHL value = 30 }
+		command = { type = relation which = CMB value = 30 }
+		command = { type = relation which = COL value = 30 }
+		command = { type = relation which = CON value = 30 }
+		command = { type = relation which = COS value = 30 }
+		command = { type = relation which = CRO value = 30 }
+		command = { type = relation which = CSA value = 30 }
+		command = { type = relation which = CSX value = 30 }
+		command = { type = relation which = CUB value = 30 }
+		command = { type = relation which = CXB value = 30 }
+		command = { type = relation which = CYN value = 30 }
+		command = { type = relation which = CYP value = 30 }
+		command = { type = relation which = CZE value = 30 }
+		command = { type = relation which = DDR value = 30 }
+		command = { type = relation which = DEN value = 30 }
+		command = { type = relation which = DFR value = 30 }
+		command = { type = relation which = DOM value = 30 }
+		command = { type = relation which = EAF value = 30 }
+		command = { type = relation which = ECU value = 30 }
+		command = { type = relation which = EGY value = 30 }
+		command = { type = relation which = ENG value = 30 }
+		command = { type = relation which = EQA value = 30 }
+		command = { type = relation which = EST value = 30 }
+		command = { type = relation which = ETH value = 30 }
+		command = { type = relation which = EUS value = 30 }
+		command = { type = relation which = FIN value = 30 }
+		command = { type = relation which = FLA value = 30 }
+		command = { type = relation which = FRA value = 30 }
+		command = { type = relation which = GAB value = 30 }
+		command = { type = relation which = GEO value = 30 }
+		command = { type = relation which = GER value = 30 }
+		command = { type = relation which = GLD value = 30 }
+		command = { type = relation which = GRE value = 30 }
+		command = { type = relation which = GUA value = 30 }
+		command = { type = relation which = GUI value = 30 }
+		command = { type = relation which = GUY value = 30 }
+		command = { type = relation which = HAI value = 30 }
+		command = { type = relation which = HOL value = 30 }
+		command = { type = relation which = HON value = 30 }
+		command = { type = relation which = HUN value = 30 }
+		command = { type = relation which = ICL value = 30 }
+		command = { type = relation which = IDC value = 30 }
+		command = { type = relation which = IND value = 30 }
+		command = { type = relation which = INO value = 30 }
+		command = { type = relation which = IRE value = 30 }
+		command = { type = relation which = IRQ value = 30 }
+		command = { type = relation which = ISR value = 30 }
+		command = { type = relation which = ITA value = 30 }
+		command = { type = relation which = JAP value = 30 }
+		command = { type = relation which = JOR value = 30 }
+		command = { type = relation which = KAZ value = 30 }
+		command = { type = relation which = KOR value = 30 }
+		command = { type = relation which = KUR value = 30 }
+		command = { type = relation which = KYG value = 30 }
+		command = { type = relation which = LAO value = 30 }
+		command = { type = relation which = LAT value = 30 }
+		command = { type = relation which = LBY value = 30 }
+		command = { type = relation which = LEB value = 30 }
+		command = { type = relation which = LIB value = 30 }
+		command = { type = relation which = LIT value = 30 }
+		command = { type = relation which = LUX value = 30 }
+		command = { type = relation which = MAD value = 30 }
+		command = { type = relation which = MAL value = 30 }
+		command = { type = relation which = MAN value = 30 }
+		command = { type = relation which = MEN value = 30 }
+		command = { type = relation which = MEX value = 30 }
+		command = { type = relation which = MLY value = 30 }
+		command = { type = relation which = MON value = 30 }
+		command = { type = relation which = MOR value = 30 }
+		command = { type = relation which = MOZ value = 30 }
+		command = { type = relation which = MTN value = 30 }
+		command = { type = relation which = NAM value = 30 }
+		command = { type = relation which = NEP value = 30 }
+		command = { type = relation which = NIC value = 30 }
+		command = { type = relation which = NIG value = 30 }
+		command = { type = relation which = NOR value = 30 }
+		command = { type = relation which = NZL value = 30 }
+		command = { type = relation which = OMN value = 30 }
+		command = { type = relation which = OTT value = 30 }
+		command = { type = relation which = PAK value = 30 }
+		command = { type = relation which = PAL value = 30 }
+		command = { type = relation which = PAN value = 30 }
+		command = { type = relation which = PAR value = 30 }
+		command = { type = relation which = PER value = 30 }
+		command = { type = relation which = PHI value = 30 }
+		command = { type = relation which = POL value = 30 }
+		command = { type = relation which = POR value = 30 }
+		command = { type = relation which = PRI value = 30 }
+		command = { type = relation which = PRK value = 30 }
+		command = { type = relation which = PRU value = 30 }
+		command = { type = relation which = QUE value = 30 }
+		command = { type = relation which = RHO value = 30 }
+		command = { type = relation which = ROM value = 30 }
+		command = { type = relation which = RSI value = 30 }
+		command = { type = relation which = RUS value = 30 }
+		command = { type = relation which = SAF value = 30 }
+		command = { type = relation which = SAL value = 30 }
+		command = { type = relation which = SAR value = 30 }
+		command = { type = relation which = SAU value = 30 }
+		command = { type = relation which = SCA value = 30 }
+		command = { type = relation which = SCH value = 30 }
+		command = { type = relation which = SCO value = 30 }
+		command = { type = relation which = SER value = 30 }
+		command = { type = relation which = SIA value = 30 }
+		command = { type = relation which = SIB value = 30 }
+		command = { type = relation which = SIE value = 30 }
+		command = { type = relation which = SIK value = 30 }
+		command = { type = relation which = SLO value = 30 }
+		command = { type = relation which = SLV value = 30 }
+		command = { type = relation which = SOM value = 30 }
+		command = { type = relation which = SOV value = 30 }
+		command = { type = relation which = SPA value = 30 }
+		command = { type = relation which = SPR value = 30 }
+		command = { type = relation which = SUD value = 30 }
+		command = { type = relation which = SWE value = 30 }
+		command = { type = relation which = SYR value = 30 }
+		command = { type = relation which = TAJ value = 30 }
+		command = { type = relation which = TAN value = 30 }
+		command = { type = relation which = TEX value = 30 }
+		command = { type = relation which = TIB value = 30 }
+		command = { type = relation which = TRA value = 30 }
+		command = { type = relation which = TRK value = 30 }
+		command = { type = relation which = TUN value = 30 }
+		command = { type = relation which = TUR value = 30 }
+		command = { type = relation which = UKR value = 30 }
+		command = { type = relation which = URU value = 30 }
+		command = { type = relation which = USA value = 30 }
+		command = { type = relation which = UZB value = 30 }
+		command = { type = relation which = VEN value = 30 }
+		command = { type = relation which = VIE value = 30 }
+		command = { type = relation which = WLL value = 30 }
+		command = { type = relation which = YEM value = 30 }
+		command = { type = relation which = YUG value = 30 }
+		command = { type = relation which = U01 value = 30 }
+		command = { type = relation which = U02 value = 30 }
+		command = { type = relation which = U03 value = 30 }
+		command = { type = relation which = U04 value = 30 }
+		command = { type = relation which = U05 value = 30 }
+		command = { type = relation which = U06 value = 30 }
+		command = { type = relation which = U08 value = 30 }
+		command = { type = relation which = U09 value = 30 }
+		command = { type = relation which = U10 value = 30 }
+		command = { type = relation which = U11 value = 30 }
+		command = { type = relation which = U12 value = 30 }
+		command = { type = relation which = U13 value = 30 }
+		command = { type = relation which = U14 value = 30 }
+		command = { type = relation which = U15 value = 30 }
+		command = { type = relation which = U16 value = 30 }
+		command = { type = relation which = U17 value = 30 }
+		command = { type = relation which = U18 value = 30 }
+		command = { type = relation which = U19 value = 30 }
+		command = { type = relation which = U20 value = 30 }
+		command = { type = relation which = U21 value = 30 }
+		command = { type = relation which = U22 value = 30 }
+		command = { type = relation which = U23 value = 30 }
+		command = { type = relation which = U24 value = 30 }
+		command = { type = relation which = U25 value = 30 }
+		command = { type = relation which = U26 value = 30 }
+		command = { type = relation which = U27 value = 30 }
+		command = { type = relation which = U28 value = 30 }
+		command = { type = relation which = U29 value = 30 }
+		command = { type = relation which = U30 value = 30 }
+		command = { type = relation which = U31 value = 30 }
+		command = { type = relation which = U32 value = 30 }
+		command = { type = relation which = U33 value = 30 }
+		command = { type = relation which = U34 value = 30 }
+		command = { type = relation which = U35 value = 30 }
+		command = { type = relation which = U36 value = 30 }
+		command = { type = relation which = U39 value = 30 }
+		command = { type = relation which = U40 value = 30 }
+		command = { type = relation which = U41 value = 30 }
+		command = { type = relation which = U42 value = 30 }
+		command = { type = relation which = U43 value = 30 }
+		command = { type = relation which = U44 value = 30 }
+		command = { type = relation which = U45 value = 30 }
+		command = { type = relation which = U46 value = 30 }
+		command = { type = relation which = U47 value = 30 }
+		command = { type = relation which = U48 value = 30 }
+		command = { type = relation which = U49 value = 30 }
+		command = { type = relation which = U50 value = 30 }
+		command = { type = relation which = U51 value = 30 }
+		command = { type = relation which = U52 value = 30 }
+		command = { type = relation which = U53 value = 30 }
+		command = { type = relation which = U54 value = 30 }
+		command = { type = relation which = U55 value = 30 }
+		command = { type = relation which = U56 value = 30 }
+		command = { type = relation which = U57 value = 30 }
+		command = { type = relation which = U58 value = 30 }
+		command = { type = relation which = U59 value = 30 }
+		command = { type = relation which = U60 value = 30 }
+		command = { type = relation which = U61 value = 30 }
+		command = { type = relation which = U62 value = 30 }
+		command = { type = relation which = U63 value = 30 }
+		command = { type = relation which = U64 value = 30 }
+		command = { type = relation which = U65 value = 30 }
+		command = { type = relation which = U66 value = 30 }
+		command = { type = relation which = U67 value = 30 }
+		command = { type = relation which = U68 value = 30 }
+		command = { type = relation which = U69 value = 30 }
+		command = { type = relation which = U70 value = 30 }
+		command = { type = relation which = U71 value = 30 }
+		command = { type = relation which = U72 value = 30 }
+		command = { type = relation which = U73 value = 30 }
+		command = { type = relation which = U74 value = 30 }
+		command = { type = relation which = U75 value = 30 }
+		command = { type = relation which = U76 value = 30 }
+		command = { type = relation which = U77 value = 30 }
+		command = { type = relation which = U78 value = 30 }
+		command = { type = relation which = U79 value = 30 }
+		command = { type = relation which = U80 value = 30 }
+		command = { type = relation which = U81 value = 30 }
+		command = { type = relation which = U82 value = 30 }
+		command = { type = relation which = U83 value = 30 }
+		command = { type = relation which = U84 value = 30 }
+		command = { type = relation which = U85 value = 30 }
+		command = { type = relation which = U86 value = 30 }
+		command = { type = relation which = U87 value = 30 }
+		command = { type = relation which = U88 value = 30 }
+		command = { type = relation which = U89 value = 30 }
+		command = { type = relation which = U90 value = 30 }
+		command = { type = relation which = U91 value = 30 }
+		command = { type = relation which = U92 value = 30 }
+		command = { type = relation which = U93 value = 30 }
+		command = { type = relation which = U94 value = 30 }
+		command = { type = relation which = U95 value = 30 }
+		command = { type = relation which = U96 value = 30 }
+		command = { type = relation which = U97 value = 30 }
+		command = { type = relation which = U98 value = 30 }
+		command = { type = relation which = U99 value = 30 }
+		command = { type = relation which = USN value = 30 }
+		command = { type = relation which = UIC value = 30 }
+		command = { type = relation which = UTL value = 30 }
+		command = { type = relation which = UAU value = 30 }
+		command = { type = relation which = UPS value = 30 }
+		command = { type = relation which = UCH value = 30 }
+		command = { type = relation which = UBO value = 30 }
+		command = { type = relation which = UCS value = 30 }
+		command = { type = relation which = URO value = 30 }
+		command = { type = relation which = UER value = 30 }
+		command = { type = relation which = UGS value = 30 }
+		command = { type = relation which = UPE value = 30 }
+		command = { type = relation which = UTC value = 30 }
+	}
+}
+
+event = {
+	id = 9000047
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	name = "Medical improvements"
+	desc = "Our investments into the national healthcare system as well as military medicine corps is beginning to bear fruit." 
+	style = 2
+
+	action = {
+		name = ACTION_NAME_EXCELLENT
+		command = { type = attrition_mod 	value = 1 }
+		command = { type = trickleback_mod 	value = 1 } 
+		command = { type = industrial_modifier which = total value = 0.10 }
+		command = { type = local_clrflag which = invest_medicine }
+	}
+}
+
+event = {
+	id = 9000048
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	name = "Supplies procurement"
+	desc = "After a few months, we were able to procure some military supplies from abroad and smuggle them into our country." 
+	style = 2
+
+	action = {
+		name = "9000033text"
+		command = { trigger = { IC = 200 }	type = supplies value = 12800 } #6400 money -> 12800 supplies
+		command = { trigger = { IC = 100 } 	type = supplies value = 6400 }	#3200 money -> 6400  supplies
+		command = { trigger = { IC = 50  } 	type = supplies value = 3200 }	#1600 money -> 3200  supplies
+		command = { trigger = { IC = 25  }	type = supplies value = 1600 }	#800  money -> 1600  supplies
+		command = { trigger = { IC = 12  }	type = supplies value = 800 }	#400  money -> 800   supplies
+		command = { trigger = {          }	type = supplies value = 400 }	#200  money -> 400   supplies
+		command = { type = local_clrflag which = invest_supplies }
+	}
+}
+
+#### Purchase Licensed Unit
+event = {
+	id = 9000026
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	decision = { 
+		OR = {
+			AND = {
+				exists = USA 
+				NOT = { country = USA }
+				NOT = { war = { country = USA } }
+				OR = {
+					atwar = no
+					local_flag = SOV_Lend_Lease_to_CHI1_local
+					local_flag = USA_Lend_Lease_to_CHI1_local
+					local_flag = ENG_Lend_Lease_to_CHI1_local
+					local_flag = USA_Lend_Lease_to_FRA1_local
+					local_flag = USA_Lend_Lease_to_ENG1_local
+					local_flag = USA_Lend_Lease_to_SOV1_local
+				}
+				NOT = { local_flag = sanctionsEvt local_flag = sanctionsWar }
+			}
+			AND = {
+				exists = GER 
+				NOT = { country = GER }
+				NOT = { war = { country = GER } }
+				OR	= { 
+					continent = "Europe"
+					NOT = { 
+						atwar = GER
+						local_flag = sanctionsEvt
+						local_flag = sanctionsWar
+					}
+				}
+			}
+		}
+	}
+
+	decision_trigger = {
+		manpower = 10
+		money = 4000
+	}
+
+	trigger = {
+		OR = {
+			AND = {
+				exists = USA 
+				NOT = { country = USA }
+				NOT = { war = { country = USA } }
+				OR = {
+					atwar = no
+					local_flag = SOV_Lend_Lease_to_CHI1_local
+					local_flag = USA_Lend_Lease_to_CHI1_local
+					local_flag = ENG_Lend_Lease_to_CHI1_local
+					local_flag = USA_Lend_Lease_to_FRA1_local
+					local_flag = USA_Lend_Lease_to_ENG1_local
+					local_flag = USA_Lend_Lease_to_SOV1_local
+				}
+				NOT = { local_flag = sanctionsEvt local_flag = sanctionsWar }
+			}
+			AND = {
+				exists = GER 
+				NOT = { country = GER }
+				NOT = { war = { country = GER } }
+				OR	= { 
+					continent = "Europe"
+					NOT = { 
+						atwar = GER
+						local_flag = sanctionsEvt
+						local_flag = sanctionsWar
+					}
+				}
+			}
+		}
+		manpower = 10
+		money = 6000
+		OR = {
+			policy = { type = defense_lobby		value = 5 } 
+			policy = { type = interventionism	value = 5 } 
+		}
+	}
+   
+	name = "9000026name"
+	desc = "9000026desc" 
+	style = 2
+	picture = "licensed_unit"
+	decision_picture = "decision_licensed_unit"
+
+	date = { day = 1 month = january year = 1920 }
+	offset = 60
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {  trigger = { money = 4000 					OR 	= { technology = { country = USA value = 1396 } technology = { country = GER value = 1396 } }
+															OR	= { ai = no NOT = { motorized = { country = -1 value = 30 } } } }
+		ai_chance = 40
+		name = "9000026a"
+		command = { type = money value = -4000 }
+		command = { type = manpowerpool value = -10 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 1396 } technology = { country = GER value = 1396 } }
+								NOT = { technology = { country = USA value = 1400 } technology = { country = GER value = 1400 } } } type = add_division value = motorized when = 0 }
+		command = { trigger = { OR	= { technology = { country = USA value = 1400 } technology = { country = GER value = 1400 } }
+								NOT = { technology = { country = USA value = 1410 } technology = { country = GER value = 1410 } } } type = add_division value = motorized when = 1 }
+		command = { trigger = { OR	= { technology = { country = USA value = 1410 } technology = { country = GER value = 1410 } }
+								NOT = { technology = { country = USA value = 1420 } technology = { country = GER value = 1420 } } } type = add_division value = motorized when = 2 }
+		command = { trigger = { OR	= { technology = { country = USA value = 1420 } technology = { country = GER value = 1420 } }
+								NOT = { technology = { country = USA value = 1430 } technology = { country = GER value = 1430 } } } type = add_division value = motorized when = 3 }
+		command = { trigger = { OR	= { technology = { country = USA value = 1430 } technology = { country = GER value = 1430 } }
+								NOT = { technology = { country = USA value = 1440 } technology = { country = GER value = 1440 } } } type = add_division value = motorized when = 4 }
+		command = { trigger = { OR	= { technology = { country = USA value = 1440 } technology = { country = GER value = 1440 } }
+								NOT = { technology = { country = USA value = 1450 } technology = { country = GER value = 1450 } } } type = add_division value = motorized when = 5 }
+		command = { trigger = { OR	= { technology = { country = USA value = 1450 } technology = { country = GER value = 1450 } }
+								NOT = { technology = { country = USA value = 1460 } technology = { country = GER value = 1460 } } } type = add_division value = motorized when = 6 }
+		command = { trigger = { OR	= { technology = { country = USA value = 1460 } technology = { country = GER value = 1460 } } } type = add_division value = motorized when = 7 }
+		command = { type = local_setflag which = invest_motLic_count when = 1 value = 1 }
+	}
+	action = {  trigger = { money = 5000 technology = 6900	OR 	= { technology = { country = USA value = 2030 } technology = { country = GER value = 2030 } }
+															NOT = { technology = { country = USA value = 2070 } technology = { country = GER value = 2070 } }
+															OR	= { ai = no NOT = { light_armor	= { country = -1 value = 10 } } } }
+		ai_chance = 40
+		name = "9000026b"
+		command = { type = money value = -5000 }
+		command = { type = manpowerpool value = -10 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2030 } technology = { country = GER value = 2030 } }
+								NOT = { technology = { country = USA value = 2040 } technology = { country = GER value = 2040 } } } type = add_division value = light_armor when = 0 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2040 } technology = { country = GER value = 2040 } }
+								NOT = { technology = { country = USA value = 2050 } technology = { country = GER value = 2050 } } } type = add_division value = light_armor when = 1 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2050 } technology = { country = GER value = 2050 } } } type = add_division value = light_armor when = 2 }
+		command = { type = local_setflag which = invest_lArmLic_count when = 1 value = 1 }
+	}
+	action = {  trigger = { money = 6000 technology = 6900 	OR	= { technology = { country = USA value = 2070 } technology = { country = GER value = 2070 } }
+															OR	= { ai = no NOT = { armor	= { country = -1 value = 30 } } } }
+		ai_chance = 40
+		name = "9000026b"
+		command = { type = money value = -6000 }
+		command = { type = manpowerpool value = -10 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2070 } technology = { country = GER value = 2070 } }
+								NOT = { technology = { country = USA value = 2080 } technology = { country = GER value = 2080 } } } type = add_division value = armor when = 0 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2080 } technology = { country = GER value = 2080 } }
+								NOT = { technology = { country = USA value = 2090 } technology = { country = GER value = 2090 } } } type = add_division value = armor when = 1 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2090 } technology = { country = GER value = 2090 } }
+								NOT = { technology = { country = USA value = 2140 } technology = { country = GER value = 2140 } } } type = add_division value = armor when = 2 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2140 } technology = { country = GER value = 2140 } }
+								NOT = { technology = { country = USA value = 11000 } technology = { country = GER value = 11000 } } } type = add_division value = armor when = 3 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 11000 } technology = { country = GER value = 11000 } }
+								NOT = { technology = { country = USA value = 2660 } technology = { country = GER value = 2660 } } } type = add_division value = armor when = 4 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2660 } technology = { country = GER value = 2660 } }
+								NOT = { technology = { country = USA value = 11010 } technology = { country = GER value = 11010 } } } type = add_division value = armor when = 5 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 11010 } technology = { country = GER value = 11010 } }
+								NOT = { technology = { country = USA value = 2670 } technology = { country = GER value = 2670 } } } type = add_division value = armor when = 6 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2670 } technology = { country = GER value = 2670 } } } type = add_division value = armor when = 7 }
+		command = { type = local_setflag which = invest_armLic_count when = 1 value = 1 }
+	}
+	action = {  trigger = { money = 5000 					OR	= { technology = { country = USA value = 4500 } technology = { country = GER value = 4500 } }
+															OR	= { ai = no NOT = { interceptOR	= { country = -1 value = 10 } } } }
+		ai_chance = 10
+		name = "9000026c"
+		command = { type = money value = -5000 }
+		command = { type = manpowerpool value = -1 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4500 } technology = { country = GER value = 4500 } }
+								NOT = { technology = { country = USA value = 4510 } technology = { country = GER value = 4510 } } } type = add_division value = interceptor when = 0 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4510 } technology = { country = GER value = 4510 } }
+								NOT = { technology = { country = USA value = 4520 } technology = { country = GER value = 4520 } } } type = add_division value = interceptor when = 1 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4520 } technology = { country = GER value = 4520 } }
+								NOT = { technology = { country = USA value = 4530 } technology = { country = GER value = 4530 } } } type = add_division value = interceptor when = 2 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4530 } technology = { country = GER value = 4530 } }
+								NOT = { technology = { country = USA value = 4540 } technology = { country = GER value = 4540 } } } type = add_division value = interceptor when = 3 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4540 } technology = { country = GER value = 4540 } }
+								NOT = { technology = { country = USA value = 4550 } technology = { country = GER value = 4550 } } } type = add_division value = interceptor when = 4 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4550 } technology = { country = GER value = 4550 } }
+								NOT = { technology = { country = USA value = 4010 } technology = { country = GER value = 4010 } } } type = add_division value = interceptor when = 5 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4010 } technology = { country = GER value = 4010 } }
+								NOT = { technology = { country = USA value = 4020 } technology = { country = GER value = 4020 } } } type = add_division value = interceptor when = 6 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4020 } technology = { country = GER value = 4020 } }
+								NOT = { technology = { country = USA value = 4030 } technology = { country = GER value = 4030 } } } type = add_division value = interceptor when = 7 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4030 } technology = { country = GER value = 4030 } }
+								NOT = { technology = { country = USA value = 4060 } technology = { country = GER value = 4060 } } } type = add_division value = interceptor when = 8 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4060 } technology = { country = GER value = 4060 } }
+								NOT = { technology = { country = USA value = 4090 } technology = { country = GER value = 4090 } } } type = add_division value = interceptor when = 9 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4090 } technology = { country = GER value = 4090 } }
+								NOT = { technology = { country = USA value = 15000 } technology = { country = GER value = 15000 } } } type = add_division value = interceptor when = 10 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 15000 } technology = { country = GER value = 15000 } }
+								NOT = { technology = { country = USA value = 15010 } technology = { country = GER value = 15010 } } } type = add_division value = interceptor when = 11 }
+		command = { trigger = { OR	= { technology = { country = USA value = 15010 } technology = { country = GER value = 15010 } }
+								NOT = { technology = { country = USA value = 15020 } technology = { country = GER value = 15020 } } } type = add_division value = interceptor when = 12 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 15020 } technology = { country = GER value = 15020 } }
+								NOT = { technology = { country = USA value = 4560 } technology = { country = GER value = 4560 } } } type = add_division value = interceptor when = 13 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4560 } technology = { country = GER value = 4560 } }
+								NOT = { technology = { country = USA value = 4570 } technology = { country = GER value = 4570 } } } type = add_division value = interceptor when = 14 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4570 } technology = { country = GER value = 4570 } }
+								NOT = { technology = { country = USA value = 4580 } technology = { country = GER value = 4580 } } } type = add_division value = interceptor when = 15 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4580 } technology = { country = GER value = 4580 } } } type = add_division value = interceptor when = 16 }
+		command = { type = local_setflag which = invest_intLic_count when = 1 value = 1 }
+	}
+	action = {  trigger = { money = 5000 					OR	= { technology = { country = USA value = 4600 } technology = { country = GER value = 4600 } }
+															OR	= { ai = no NOT = { tactical_bomber = { country = -1 value = 10 } } } }
+		ai_chance = 10
+		name = "9000026d"
+		command = { type = money value = -5000 }
+		command = { type = manpowerpool value = -2 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4600 } technology = { country = GER value = 4600 } }
+								NOT = { technology = { country = USA value = 4610 } technology = { country = GER value = 4610 } } } type = add_division value = tactical_bomber when = 0 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4610 } technology = { country = GER value = 4610 } }
+								NOT = { technology = { country = USA value = 4620 } technology = { country = GER value = 4620 } } } type = add_division value = tactical_bomber when = 1 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4620 } technology = { country = GER value = 4620 } }
+								NOT = { technology = { country = USA value = 4630 } technology = { country = GER value = 4630 } } } type = add_division value = tactical_bomber when = 2 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4630 } technology = { country = GER value = 4630 } }
+								NOT = { technology = { country = USA value = 4120 } technology = { country = GER value = 4120 } } } type = add_division value = tactical_bomber when = 3 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4120 } technology = { country = GER value = 4120 } }
+								NOT = { technology = { country = USA value = 4130 } technology = { country = GER value = 4130 } } } type = add_division value = tactical_bomber when = 4 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4130 } technology = { country = GER value = 4130 } }
+								NOT = { technology = { country = USA value = 4140 } technology = { country = GER value = 4140 } } } type = add_division value = tactical_bomber when = 5 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4140 } technology = { country = GER value = 4140 } }
+								NOT = { technology = { country = USA value = 4150 } technology = { country = GER value = 4150 } } } type = add_division value = tactical_bomber when = 6 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4150 } technology = { country = GER value = 4150 } }
+								NOT = { technology = { country = USA value = 4160 } technology = { country = GER value = 4160 } } } type = add_division value = tactical_bomber when = 7 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4160 } technology = { country = GER value = 4160 } }
+								NOT = { technology = { country = USA value = 15100 } technology = { country = GER value = 15100 } } } type = add_division value = tactical_bomber when = 8 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 15100 } technology = { country = GER value = 15100 } }
+								NOT = { technology = { country = USA value = 15110 } technology = { country = GER value = 15110 } } } type = add_division value = tactical_bomber when = 9 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 15110 } technology = { country = GER value = 15110 } }
+								NOT = { technology = { country = USA value = 4640 } technology = { country = GER value = 4640 } } } type = add_division value = tactical_bomber when = 10 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4640 } technology = { country = GER value = 4640 } }
+								NOT = { technology = { country = USA value = 4650 } technology = { country = GER value = 4650 } } } type = add_division value = tactical_bomber when = 11 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4650 } technology = { country = GER value = 4650 } } } type = add_division value = tactical_bomber when = 12 }
+		command = { type = local_setflag which = invest_tacLic_count when = 1 value = 1 }
+	}
+}
+
+#### Purchase outdated Unit
+event = {
+	id = 9000039
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	decision = { 
+		OR = {
+			AND = {
+				exists = USA 
+				NOT = { country = USA }
+				NOT = { war = { country = USA } }
+				OR = {
+					atwar = no
+					local_flag = SOV_Lend_Lease_to_CHI1_local
+					local_flag = USA_Lend_Lease_to_CHI1_local
+					local_flag = ENG_Lend_Lease_to_CHI1_local
+					local_flag = USA_Lend_Lease_to_FRA1_local
+					local_flag = USA_Lend_Lease_to_ENG1_local
+					local_flag = USA_Lend_Lease_to_SOV1_local
+				}
+				NOT = { local_flag = sanctionsEvt local_flag = sanctionsWar }
+			}
+			AND = {
+				exists = GER 
+				NOT = { country = GER }
+				NOT = { war = { country = GER } }
+				OR = { 
+					continent = "Europe"
+					NOT = { 
+						atwar = GER
+						local_flag = sanctionsEvt
+						local_flag = sanctionsWar
+					}
+				}
+			}
+		}
+	}
+
+	decision_trigger = {
+		manpower = 10
+		money = 1500
+	}
+
+	trigger = {
+		OR = {
+			AND = {
+				exists = USA 
+				NOT = { country = USA }
+				NOT = { war = { country = USA } }
+				OR = {
+					atwar = no
+					local_flag = SOV_Lend_Lease_to_CHI1_local
+					local_flag = USA_Lend_Lease_to_CHI1_local
+					local_flag = ENG_Lend_Lease_to_CHI1_local
+					local_flag = USA_Lend_Lease_to_FRA1_local
+					local_flag = USA_Lend_Lease_to_ENG1_local
+					local_flag = USA_Lend_Lease_to_SOV1_local
+				}
+				NOT = { local_flag = sanctionsEvt local_flag = sanctionsWar }
+			}
+			AND = {
+				exists = GER 
+				NOT = { country = GER }
+				NOT = { war = { country = GER } }
+				OR = { 
+					continent = "Europe"
+					NOT = { 
+						atwar = GER
+						local_flag = sanctionsEvt
+						local_flag = sanctionsWar
+					}
+				}
+			}
+		}
+		manpower = 10
+		money = 2500
+		NOT = { money = 6000 }
+		OR = {
+			policy = { type = defense_lobby		value = 5 } 
+			policy = { type = interventionism	value = 5 } 
+		}
+		random = 30
+	}
+   
+	name = "9000039name"
+	desc = "9000039desc" 
+	style = 2
+	picture = "obs_unit"
+	decision_picture = "decision_obs_unit"
+
+	date = { day = 1 month = january year = 1920 }
+	offset = 60
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {  trigger = { money = 1500 					OR 	= { technology = { country = USA value = 1410 } technology = { country = GER value = 1410 } }
+															OR	= { ai = no NOT = { motorized = { country = -1 value = 30 } } } }
+		ai_chance = 40
+		name = "9000039a"
+		command = { type = money value = -1500 }
+		command = { type = manpowerpool value = -10 }
+		command = { trigger = { OR	= { technology = { country = USA value = 1410 } technology = { country = GER value = 1410 } }
+								NOT = { technology = { country = USA value = 1420 } technology = { country = GER value = 1420 } } } type = add_division value = motorized when = 0 }
+		command = { trigger = { OR	= { technology = { country = USA value = 1420 } technology = { country = GER value = 1420 } }
+								NOT = { technology = { country = USA value = 1430 } technology = { country = GER value = 1430 } } } type = add_division value = motorized when = 1 }
+		command = { trigger = { OR	= { technology = { country = USA value = 1430 } technology = { country = GER value = 1430 } }
+								NOT = { technology = { country = USA value = 1440 } technology = { country = GER value = 1440 } } } type = add_division value = motorized when = 2 }
+		command = { trigger = { OR	= { technology = { country = USA value = 1440 } technology = { country = GER value = 1440 } }
+								NOT = { technology = { country = USA value = 1450 } technology = { country = GER value = 1450 } } } type = add_division value = motorized when = 3 }
+		command = { trigger = { OR	= { technology = { country = USA value = 1450 } technology = { country = GER value = 1450 } }
+								NOT = { technology = { country = USA value = 1460 } technology = { country = GER value = 1460 } } } type = add_division value = motorized when = 4 }
+		command = { trigger = { OR	= { technology = { country = USA value = 1460 } technology = { country = GER value = 1460 } } } type = add_division value = motorized when = 5 }
+		command = { type = local_setflag which = invest_motObs_count when = 1 value = 1 }
+	}
+	action = {  trigger = { money = 2000 technology = 6900	OR 	= { technology = { country = USA value = 2050 } technology = { country = GER value = 2050 } }
+															NOT = { technology = { country = USA value = 2090 } technology = { country = GER value = 2090 } }
+															OR	= { ai = no NOT = { light_armor = { country = -1 value = 10 } } } }
+		ai_chance = 40
+		name = "9000039b"
+		command = { type = money value = -2000 }
+		command = { type = manpowerpool value = -10 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2050 } technology = { country = GER value = 2050 } } technology = { country = GER value = 2050 } } type = add_division value = light_armor when = 0 }
+		command = { type = local_setflag which = invest_larmObs_count when = 1 value = 1 }
+	}
+	action = {  trigger = { money = 2500 					OR	= { technology = { country = USA value = 2090 } technology = { country = GER value = 2090 } }
+															OR	= { ai = no NOT = { armor = { country = -1 value = 30 } } } }
+		ai_chance = 40
+		name = "9000039b"
+		command = { type = money value = -2500 }
+		command = { type = manpowerpool value = -10 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2090 } technology = { country = GER value = 2090 } }
+								NOT = { technology = { country = USA value = 2140 } technology = { country = GER value = 2140 } } } type = add_division value = armor when = 0 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2140 } technology = { country = GER value = 2140 } }
+								NOT = { technology = { country = USA value = 11000 } technology = { country = GER value = 11000 } } } type = add_division value = armor when = 1 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 11000 } technology = { country = GER value = 11000 } }
+								NOT = { technology = { country = USA value = 2660 } technology = { country = GER value = 2660 } } } type = add_division value = armor when = 2 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2660 } technology = { country = GER value = 2660 } }
+								NOT = { technology = { country = USA value = 11010 } technology = { country = GER value = 11010 } } } type = add_division value = armor when = 3 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 11010 } technology = { country = GER value = 11010 } }
+								NOT = { technology = { country = USA value = 2670 } technology = { country = GER value = 2670 } } } type = add_division value = armor when = 4 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 2670 } technology = { country = GER value = 2670 } } } type = add_division value = armor when = 5 }
+		command = { type = local_setflag which = invest_armObs_count when = 1 value = 1 }
+	}
+	action = {  trigger = { money = 2000 technology = 6900 	OR	= { technology = { country = USA value = 4520 } technology = { country = GER value = 4520 } }
+															OR	= { ai = no NOT = { interceptor = { country = -1 value = 10 } } } }
+		ai_chance = 10
+		name = "9000039c"
+		command = { type = money value = -2000 }
+		command = { type = manpowerpool value = -1 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4520 } technology = { country = GER value = 4520 } }
+								NOT = { technology = { country = USA value = 4530 } technology = { country = GER value = 4530 } } } type = add_division value = interceptor when = 0 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4530 } technology = { country = GER value = 4530 } }
+								NOT = { technology = { country = USA value = 4540 } technology = { country = GER value = 4540 } } } type = add_division value = interceptor when = 1 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4540 } technology = { country = GER value = 4540 } }
+								NOT = { technology = { country = USA value = 4550 } technology = { country = GER value = 4550 } } } type = add_division value = interceptor when = 2 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4550 } technology = { country = GER value = 4550 } }
+								NOT = { technology = { country = USA value = 4010 } technology = { country = GER value = 4010 } } } type = add_division value = interceptor when = 3 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4010 } technology = { country = GER value = 4010 } }
+								NOT = { technology = { country = USA value = 4020 } technology = { country = GER value = 4020 } } } type = add_division value = interceptor when = 4 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4020 } technology = { country = GER value = 4020 } }
+								NOT = { technology = { country = USA value = 4030 } technology = { country = GER value = 4030 } } } type = add_division value = interceptor when = 5 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4030 } technology = { country = GER value = 4030 } }
+								NOT = { technology = { country = USA value = 4060 } technology = { country = GER value = 4060 } } } type = add_division value = interceptor when = 6 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4060 } technology = { country = GER value = 4060 } }
+								NOT = { technology = { country = USA value = 4090 } technology = { country = GER value = 4090 } } } type = add_division value = interceptor when = 7 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4090 } technology = { country = GER value = 4090 } }
+								NOT = { technology = { country = USA value = 15000 } technology = { country = GER value = 15000 } } } type = add_division value = interceptor when = 8 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 15000 } technology = { country = GER value = 15000 } }
+								NOT = { technology = { country = USA value = 15010 } technology = { country = GER value = 15010 } } } type = add_division value = interceptor when = 9 }
+		command = { trigger = { OR	= { technology = { country = USA value = 15010 } technology = { country = GER value = 15010 } }
+								NOT = { technology = { country = USA value = 15020 } technology = { country = GER value = 15020 } } } type = add_division value = interceptor when = 10 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 15020 } technology = { country = GER value = 15020 } }
+								NOT = { technology = { country = USA value = 4560 } technology = { country = GER value = 4560 } } } type = add_division value = interceptor when = 11 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4560 } technology = { country = GER value = 4560 } }
+								NOT = { technology = { country = USA value = 4570 } technology = { country = GER value = 4570 } } } type = add_division value = interceptor when = 12 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4570 } technology = { country = GER value = 4570 } }
+								NOT = { technology = { country = USA value = 4580 } technology = { country = GER value = 4580 } } } type = add_division value = interceptor when = 13 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4580 } technology = { country = GER value = 4580 } } } type = add_division value = interceptor when = 14 }
+		command = { type = local_setflag which = invest_intObs_count when = 1 value = 1 }
+	}
+	action = {  trigger = { money = 2500 					OR	= { technology = { country = USA value = 4620 } technology = { country = GER value = 4620 } }
+															OR	= { ai = no NOT = { tactical_bomber = { country = -1 value = 10 } } } }
+		ai_chance = 10
+		name = "9000039d"
+		command = { type = money value = -2500 }
+		command = { type = manpowerpool value = -2 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4620 } technology = { country = GER value = 4620 } }
+								NOT = { technology = { country = USA value = 4630 } technology = { country = GER value = 4630 } } } type = add_division value = tactical_bomber when = 0 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4630 } technology = { country = GER value = 4630 } }
+								NOT = { technology = { country = USA value = 4120 } technology = { country = GER value = 4120 } } } type = add_division value = tactical_bomber when = 1 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4120 } technology = { country = GER value = 4120 } }
+								NOT = { technology = { country = USA value = 4130 } technology = { country = GER value = 4130 } } } type = add_division value = tactical_bomber when = 2 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4130 } technology = { country = GER value = 4130 } }
+								NOT = { technology = { country = USA value = 4140 } technology = { country = GER value = 4140 } } } type = add_division value = tactical_bomber when = 3 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4140 } technology = { country = GER value = 4140 } }
+								NOT = { technology = { country = USA value = 4150 } technology = { country = GER value = 4150 } } } type = add_division value = tactical_bomber when = 4 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4150 } technology = { country = GER value = 4150 } }
+								NOT = { technology = { country = USA value = 4160 } technology = { country = GER value = 4160 } } }	type = add_division value = tactical_bomber when = 5 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4160 } technology = { country = GER value = 4160 } }
+								NOT = { technology = { country = USA value = 15100 } technology = { country = GER value = 15100 } } } type = add_division value = tactical_bomber when = 6 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 15100 } technology = { country = GER value = 15100 } }
+								NOT = { technology = { country = USA value = 15110 } technology = { country = GER value = 15110 } } } type = add_division value = tactical_bomber when = 7 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 15110 } technology = { country = GER value = 15110 } }
+								NOT = { technology = { country = USA value = 4640 } technology = { country = GER value = 4640 } } } type = add_division value = tactical_bomber when = 8 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4640 } technology = { country = GER value = 4640 } }
+								NOT = { technology = { country = USA value = 4650 } technology = { country = GER value = 4650 } } } type = add_division value = tactical_bomber when = 9 }
+	  	command = { trigger = { OR	= { technology = { country = USA value = 4650 } technology = { country = GER value = 4650 } } } type = add_division value = tactical_bomber when = 10 }
+		command = { type = local_setflag which = invest_tacObs_count when = 1 value = 1 }
+	}
+}
+
+#### Ersatz Conversion
+event = {
+	id = 9000028
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	decision = { 
+		energy = 5000
+		NOT = { rare_materials = 10000 }
+		NOT = { local_flag = ersatz_conversion }
+	}
+
+	decision_trigger = {
+		energy = 20000
+		NOT = { rare_materials = 10000 }
+	}
+
+	trigger = {
+		NOT = { rare_materials = 1000 }
+		NOT = { local_flag = ersatz_conversion }
+		energy = 21000
+	}
+   
+	name = "9000029name"
+	desc = "9000029desc" 
+	style = 2
+	picture = "ersatz_conversion"
+	decision_picture = "decision_ersatz_conversion"
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 120
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {
+		name = "9000029text"
+		command = { type = energypool value = -20000 }
+		command = { type = event which = 9000029 where = -1 when = 15 }
+		command = { type = local_setflag which = ersatz_conversion }
+	}
+}
+event = {
+	id = 9000029
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	name = "9000029name"
+	desc = "9000029desc" 
+	style = 2
+	picture = "ersatz_conversion"
+
+	action = {
+		name = ACTION_NAME_EXCELLENT
+		command = { type = rarematerialspool value = 2500 }
+		command = { type = local_clrflag which = ersatz_conversion }
+	}
+}
+
+#### Purge the Army (mini version of the Soviet army purge)
+event = {
+	id = 9000032
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	decision = { 
+		NOT = { local_flag = purges_army }
+		NOT = { country = SOV }
+	}
+
+	decision_trigger = { 
+	}
+
+	trigger = {
+		ai = no
+		NOT = { local_flag = purges_army }
+		NOT = { country = SOV }
+	}
+   
+	name = "9000032name"
+	desc = "9000032desc" 
+	style = 2
+	picture = "purge_army"
+	decision_picture = "decision_purge_army"
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 180
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {
+		name = "9000032text"
+		command = { type = dissent value = 6 }
+		command = { type = morale which = land value = 3 }
+		command = { trigger = { IC = 200 } 	type = sleepleader which = -1 }
+		command = { trigger = { IC = 200 } 	type = sleepleader which = -1 }
+		command = { trigger = { IC = 100 }	type = sleepleader which = -1 }
+		command = { trigger = { IC = 100 }	type = sleepleader which = -1 }
+		command = { trigger = { IC = 50  }	type = sleepleader which = -1 }
+		command = { trigger = { IC = 50  }	type = sleepleader which = -1 }
+		command = { trigger = { IC = 25  }	type = sleepleader which = -1 }
+		command = { trigger = { IC = 25  }	type = sleepleader which = -1 }
+		command = { trigger = { IC = 12  }	type = sleepleader which = -1 }
+		command = { trigger = { IC = 12  }	type = sleepleader which = -1 }
+		command = { trigger = {          }	type = sleepleader which = -1 }
+		command = { trigger = {          }	type = sleepleader which = -1 }
+		command = { type = local_setflag which = purges_army }
+	}
+}
+
+#### Women Work
+event = {
+	id = 9000050
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+	random = no
+
+	decision = { 
+		#IC = 50
+		atwar = yes 
+		NOT = { local_flag = women_work2 }
+	}
+	decision_trigger = {
+		OR = {
+			AND = {
+				NOT = {	local_flag = women_work1 }
+				policy = { type = professional_army value = 7 }
+				technology = 5060 #Improved machine tools
+			}
+			AND = {
+				policy = { type = professional_army value = 8 } #general mobilization
+				technology = 5130 #Assembly line
+			}
+		}
+	}
+	trigger = { 
+		#IC = 50 
+		atwar = yes 
+		NOT = { local_flag = women_work2 }
+		OR = {
+			AND = {
+				NOT = {	local_flag = women_work1 }
+				policy = { type = professional_army value = 7 }
+				technology = 5060 #Improved machine tools
+			}
+			AND = {
+				policy = { type = professional_army value = 8 } #general mobilization
+				technology = 5130 #Assembly line
+				policy = { type = political_left 	value = 4 } #Not Conservative or more right-wing
+			}
+		}
+		manpower = 200
+		random = 30
+	}
+
+	name = "9000050name"
+	desc = "9000050desc"
+	style = 2
+	picture = "Women_Work"
+	decision_picture = "decision_Women_Work"
+
+	date = { day = 1 month = january year = 1939 }
+	offset = 120
+	deathdate = { day = 30 month = december year = 1999 }
+	
+	action = {
+		name = "Partial employment"
+		ai_chance = 20
+		trigger = { 
+			NOT = { local_flag = women_work1 }
+			policy = { type = professional_army value = 7 }
+			technology = 5060 #Improved machine tools
+		}
+		command = { trigger = { ai = no } type = dissent value = 1 }
+		
+		command = { type = industrial_modifier which = total	value =  5 }
+		command = { type = relative_manpower 					value = -5 }
+		
+		command = { type = local_setflag which = women_work1 }
+	}
+	action = {
+		name = "Full employment"
+		ai_chance = 80
+		trigger = { 
+			NOT = { local_flag = women_work2 } 
+			policy = { type = professional_army value = 8 } #general mobilization
+			technology = 5130 #Assembly line
+			OR = {
+				ai = no
+				policy = { type = political_left 	value = 4 } #Not Conservative or more right-wing
+			}
+		}
+		command = { trigger = { ai = no } type = dissent value = 1 }
+		command = { trigger = { ai = no NOT = { local_flag = women_work1 } } type = dissent value = 1 }
+		
+		#+10% IC/resources total
+		#-10% MP growth total
+		
+		command = { trigger = { NOT = { local_flag = women_work1 } } type = industrial_modifier which = total	value =  5 }
+		command = { type = industrial_modifier which = total	value =  5 }
+		command = { trigger = { NOT = { local_flag = women_work1 } } type = relative_manpower 					value = -5 }
+		command = { type = relative_manpower 					value = -5 }
+		
+		command = { type = local_setflag which = women_work1 }
+		command = { type = local_setflag which = women_work2 }
+	}
+}
+
+
+#### Convert Commerce Convoys Into Troop Carriers
+event = {
+	id = 9000051
+
+	persistent = yes
+	random = no
+
+	decision = { 
+		NOT = { local_flag = transports_conversion }
+		#atwar 		= yes
+		convoypool 	= 100
+	}
+	decision_trigger = { 
+		money = 200
+	}
+	trigger = { 
+		NOT = { local_flag = transports_conversion }
+		OR = {
+			atwar 	= yes
+			random	= 10
+		}
+		convoypool 	= 300
+		money		= 200
+		OR = {
+			AND = {
+				navy = 25
+				NOT = { transport = { value = 1 } }
+			}
+			AND = {
+				navy = 50
+				NOT = { transport = { value = 2 } }
+			}
+			AND = {
+				navy = 100
+				NOT = { transport = { value = 3 } }
+			}
+		}
+	}
+
+	name = "9000051name"
+	desc = "9000051desc"
+	style = 2
+	picture = "Convoys"
+	decision_picture = "decision_convoys"
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 30
+	deathdate = { day = 30 month = december year = 1999 }
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = transport_pool which = -1 value = -50 }
+		command = { type = money value = -200 }
+		command = { type = event which = 9000052 where = -1 when = 30 }
+		command = { type = local_setflag which = transports_conversion }
+		command = { type = local_setflag which = transports_conversion_count when = 1 value = 1 }
+	}
+}
+
+event = {
+	id = 9000052
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+
+	name = "9000051name"
+	desc = "9000051desc"
+	style = 2
+	picture = "Convoys"
+
+	action = {
+		name = ACTION_NAME_EXCELLENT
+		command = { trigger = { technology = 3810 NOT = { technology = 3820 } } type = add_division value = transport when = 0 }
+		command = { trigger = { technology = 3820 NOT = { technology = 3830 } } type = add_division value = transport when = 1 }
+		command = { trigger = { technology = 3830 NOT = { technology = 3840 } } type = add_division value = transport when = 2 }
+		command = { trigger = { technology = 3840 NOT = { technology = 3850 } } type = add_division value = transport when = 3 }
+		command = { trigger = { technology = 3850 NOT = { technology = 3860 } } type = add_division value = transport when = 4 }
+		command = { trigger = { technology = 3860 } type = add_division value = transport when = 5 }
+		command = { type = local_clrflag which = transports_conversion }
+	}
+}
+
+#### Convert Garrisons into Militia
+# Disabled because there is currently no way to check for how many garrisons exist due to stupid overlapping command syntax. Might need to rename garrison units to something else in the future.
+event = {
+	id = 9000055
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+	random = no
+
+	decision = { 
+		#atwar 		= yes
+		#garrison = { value = 1 }
+	}
+	decision_trigger = { 
+		supplies = 10
+	}
+	trigger = { 
+		atwar 	= yes
+		#garrison = { value = 1 }
+		supplies = 10
+		OR = {
+			AND = {
+				policy = { type = defense_lobby value = 6  }
+				#garrison = { value = 15 }
+				NOT = { local_flag = { which = garrison_conversion_count when = 1 value = 3  } }
+			}
+			AND = {
+				policy = { type = defense_lobby value = 7  }
+				#garrison = { value = 12 }
+				NOT = { local_flag = { which = garrison_conversion_count when = 1 value = 6  } }
+			}
+			AND = {
+				policy = { type = defense_lobby value = 8  }
+				#garrison = { value = 9 }
+				NOT = { local_flag = { which = garrison_conversion_count when = 1 value = 9  } }
+			}
+			AND = {
+				policy = { type = defense_lobby value = 9  }
+				#garrison = { value = 6 }
+				NOT = { local_flag = { which = garrison_conversion_count when = 1 value = 12 } }
+			}
+			AND = {
+				policy = { type = defense_lobby value = 10 }
+				#garrison = { value = 3 }
+				NOT = { local_flag = { which = garrison_conversion_count when = 1 value = 15 } }
+			}
+		}
+	}
+
+	name = "Convert Garrisons Into Militia"
+	desc = "Our country urgently needs more mobile light infantry to support the army in the ongoing conflict as it is becoming existential. Our Gendarmerie units were not initially intended for this role, but they can be repurposed at very little cost and transferred to the operational control of the general staff. It is recommended to do this through the divisions's own upgrade option, as this will preserve any of its accumulated experience and attached brigades, but it can also be done by event. Note: If the disbanded division is under full strength, and after disbanding there is still not enough manpower to raise a new militia, the militia division will not be created."
+	style = 2
+	#picture = "Convoys"
+	#decision_picture = "decision_convoys"
+
+	#date = { day = 1 month = january year = 1914 }
+	#offset = 30
+	#deathdate = { day = 30 month = december year = 1999 }
+	
+	action = {
+		name = "Convert one garrison"
+		ai_chance = 5
+		#trigger = { garrison = { value = 1 } }
+		
+		command = { type = demobilize which = garrison when = 0 where = 0 value = -1 } #return MP to the pool. If division is understrength, will only return as much as it still had
+		#check if there is enough manpower left after demobilization
+		command = { trigger = { manpower = 10 }																type = local_setflag which = enoughMP when = 1 value = 1 }
+		command = { trigger = { local_flag = enoughMP													 }	type = supplies 	value = -8  } #conversion is very cheap, costs only about 2 IC per division
+		command = { trigger = { local_flag = enoughMP													 }	type = manpowerpool value = -10 }
+		command = { trigger = { local_flag = enoughMP						NOT = { technology = 1020  } }	type = add_division value = militia when = 0 }
+		command = { trigger = { local_flag = enoughMP	technology = 1020	NOT = { technology = 1040  } }	type = add_division value = militia when = 1 }
+		command = { trigger = { local_flag = enoughMP	technology = 1040	NOT = { technology = 1060  } }	type = add_division value = militia when = 2 }
+		command = { trigger = { local_flag = enoughMP	technology = 1060	NOT = { technology = 1080  } }	type = add_division value = militia when = 3 }
+		command = { trigger = { local_flag = enoughMP	technology = 1080	NOT = { technology = 1100  } }	type = add_division value = militia when = 4 }
+		command = { trigger = { local_flag = enoughMP	technology = 1100	NOT = { technology = 1120  } }	type = add_division value = militia when = 5 }
+		command = { trigger = { local_flag = enoughMP	technology = 1120	NOT = { technology = 1140  } }	type = add_division value = militia when = 6 }
+		command = { trigger = { local_flag = enoughMP	technology = 1140	NOT = { technology = 13000 } }	type = add_division value = militia when = 7 }
+		command = { trigger = { local_flag = enoughMP	technology = 13000	NOT = { technology = 13020 } }	type = add_division value = militia when = 8 }
+		command = { trigger = { local_flag = enoughMP	technology = 13020 								 }	type = add_division value = militia when = 9 }
+		command = { trigger = { local_flag = enoughMP													 }	type = local_clrflag which = enoughMP }
+		command = { type = local_setflag which = garrison_conversion_count when = 1 value = 1 }
+	}
+	action = {
+		name = "Convert two garrisons"
+		ai_chance = 5
+		#trigger = { garrison = { value = 2 } }
+		
+		command = { type = demobilize which = garrison when = 0 where = 0 value = -2 } #return MP to the pool. If division is understrength, will only return as much as it still had
+		#check if there is enough manpower left after demobilization
+		command = { trigger = { manpower = 10 }																type = local_setflag which = enoughMP when = 0 value = 1 }
+		command = { trigger = { manpower = 20 }																type = local_setflag which = enoughMP when = 0 value = 2 }
+		command = { trigger = { local_flag = enoughMP													 }	type = supplies 	value = -8  } #conversion is very cheap, costs only about 2 IC per division
+		command = { trigger = { local_flag = enoughMP													 }	type = manpowerpool value = -10 }
+		command = { trigger = { local_flag = enoughMP						NOT = { technology = 1020  } }	type = add_division value = militia when = 0 }
+		command = { trigger = { local_flag = enoughMP	technology = 1020	NOT = { technology = 1040  } }	type = add_division value = militia when = 1 }
+		command = { trigger = { local_flag = enoughMP	technology = 1040	NOT = { technology = 1060  } }	type = add_division value = militia when = 2 }
+		command = { trigger = { local_flag = enoughMP	technology = 1060	NOT = { technology = 1080  } }	type = add_division value = militia when = 3 }
+		command = { trigger = { local_flag = enoughMP	technology = 1080	NOT = { technology = 1100  } }	type = add_division value = militia when = 4 }
+		command = { trigger = { local_flag = enoughMP	technology = 1100	NOT = { technology = 1120  } }	type = add_division value = militia when = 5 }
+		command = { trigger = { local_flag = enoughMP	technology = 1120	NOT = { technology = 1140  } }	type = add_division value = militia when = 6 }
+		command = { trigger = { local_flag = enoughMP	technology = 1140	NOT = { technology = 13000 } }	type = add_division value = militia when = 7 }
+		command = { trigger = { local_flag = enoughMP	technology = 13000	NOT = { technology = 13020 } }	type = add_division value = militia when = 8 }
+		command = { trigger = { local_flag = enoughMP	technology = 13020 								 }	type = add_division value = militia when = 9 }
+		command = { trigger = { local_flag = enoughMP													 }	type = local_setflag which = enoughMP when = 1 value = -1 }
+		command = { trigger = { local_flag = enoughMP													 }	type = supplies 	value = -8  } #conversion is very cheap, costs only about 2 IC per division
+		command = { trigger = { local_flag = enoughMP													 }	type = manpowerpool value = -10 }
+		command = { trigger = { local_flag = enoughMP						NOT = { technology = 1020  } }	type = add_division value = militia when = 0 }
+		command = { trigger = { local_flag = enoughMP	technology = 1020	NOT = { technology = 1040  } }	type = add_division value = militia when = 1 }
+		command = { trigger = { local_flag = enoughMP	technology = 1040	NOT = { technology = 1060  } }	type = add_division value = militia when = 2 }
+		command = { trigger = { local_flag = enoughMP	technology = 1060	NOT = { technology = 1080  } }	type = add_division value = militia when = 3 }
+		command = { trigger = { local_flag = enoughMP	technology = 1080	NOT = { technology = 1100  } }	type = add_division value = militia when = 4 }
+		command = { trigger = { local_flag = enoughMP	technology = 1100	NOT = { technology = 1120  } }	type = add_division value = militia when = 5 }
+		command = { trigger = { local_flag = enoughMP	technology = 1120	NOT = { technology = 1140  } }	type = add_division value = militia when = 6 }
+		command = { trigger = { local_flag = enoughMP	technology = 1140	NOT = { technology = 13000 } }	type = add_division value = militia when = 7 }
+		command = { trigger = { local_flag = enoughMP	technology = 13000	NOT = { technology = 13020 } }	type = add_division value = militia when = 8 }
+		command = { trigger = { local_flag = enoughMP	technology = 13020 								 }	type = add_division value = militia when = 9 }
+		command = { trigger = { local_flag = enoughMP													 }	type = local_clrflag which = enoughMP }
+		command = { type = local_setflag which = garrison_conversion_count when = 1 value = 2 }
+	}
+	action = {
+		name = "Convert three garrisons"
+		ai_chance = 90
+		#trigger = { garrison = { value = 3 } }
+		
+		command = { type = demobilize which = garrison when = 0 where = 0 value = -3 } #return MP to the pool. If division is understrength, will only return as much as it still had
+		#check if there is enough manpower left after demobilization
+		command = { trigger = { manpower = 10 }																type = local_setflag which = enoughMP when = 0 value = 1 }
+		command = { trigger = { manpower = 20 }																type = local_setflag which = enoughMP when = 0 value = 2 }
+		command = { trigger = { manpower = 30 }																type = local_setflag which = enoughMP when = 0 value = 3 }
+		command = { trigger = { local_flag = enoughMP													 }	type = supplies 	value = -8  } #conversion is very cheap, costs only about 2 IC per division
+		command = { trigger = { local_flag = enoughMP													 }	type = manpowerpool value = -10 }
+		command = { trigger = { local_flag = enoughMP						NOT = { technology = 1020  } }	type = add_division value = militia when = 0 }
+		command = { trigger = { local_flag = enoughMP	technology = 1020	NOT = { technology = 1040  } }	type = add_division value = militia when = 1 }
+		command = { trigger = { local_flag = enoughMP	technology = 1040	NOT = { technology = 1060  } }	type = add_division value = militia when = 2 }
+		command = { trigger = { local_flag = enoughMP	technology = 1060	NOT = { technology = 1080  } }	type = add_division value = militia when = 3 }
+		command = { trigger = { local_flag = enoughMP	technology = 1080	NOT = { technology = 1100  } }	type = add_division value = militia when = 4 }
+		command = { trigger = { local_flag = enoughMP	technology = 1100	NOT = { technology = 1120  } }	type = add_division value = militia when = 5 }
+		command = { trigger = { local_flag = enoughMP	technology = 1120	NOT = { technology = 1140  } }	type = add_division value = militia when = 6 }
+		command = { trigger = { local_flag = enoughMP	technology = 1140	NOT = { technology = 13000 } }	type = add_division value = militia when = 7 }
+		command = { trigger = { local_flag = enoughMP	technology = 13000	NOT = { technology = 13020 } }	type = add_division value = militia when = 8 }
+		command = { trigger = { local_flag = enoughMP	technology = 13020 								 }	type = add_division value = militia when = 9 }
+		command = { trigger = { local_flag = enoughMP													 }	type = local_setflag which = enoughMP when = 1 value = -1 }
+		command = { trigger = { local_flag = enoughMP													 }	type = supplies 	value = -8  } #conversion is very cheap, costs only about 2 IC per division
+		command = { trigger = { local_flag = enoughMP													 }	type = manpowerpool value = -10 }
+		command = { trigger = { local_flag = enoughMP						NOT = { technology = 1020  } }	type = add_division value = militia when = 0 }
+		command = { trigger = { local_flag = enoughMP	technology = 1020	NOT = { technology = 1040  } }	type = add_division value = militia when = 1 }
+		command = { trigger = { local_flag = enoughMP	technology = 1040	NOT = { technology = 1060  } }	type = add_division value = militia when = 2 }
+		command = { trigger = { local_flag = enoughMP	technology = 1060	NOT = { technology = 1080  } }	type = add_division value = militia when = 3 }
+		command = { trigger = { local_flag = enoughMP	technology = 1080	NOT = { technology = 1100  } }	type = add_division value = militia when = 4 }
+		command = { trigger = { local_flag = enoughMP	technology = 1100	NOT = { technology = 1120  } }	type = add_division value = militia when = 5 }
+		command = { trigger = { local_flag = enoughMP	technology = 1120	NOT = { technology = 1140  } }	type = add_division value = militia when = 6 }
+		command = { trigger = { local_flag = enoughMP	technology = 1140	NOT = { technology = 13000 } }	type = add_division value = militia when = 7 }
+		command = { trigger = { local_flag = enoughMP	technology = 13000	NOT = { technology = 13020 } }	type = add_division value = militia when = 8 }
+		command = { trigger = { local_flag = enoughMP	technology = 13020 								 }	type = add_division value = militia when = 9 }
+		command = { trigger = { local_flag = enoughMP													 }	type = local_setflag which = enoughMP when = 1 value = -1 }
+		command = { trigger = { local_flag = enoughMP													 }	type = supplies 	value = -8  } #conversion is very cheap, costs only about 2 IC per division
+		command = { trigger = { local_flag = enoughMP													 }	type = manpowerpool value = -10 }
+		command = { trigger = { local_flag = enoughMP						NOT = { technology = 1020  } }	type = add_division value = militia when = 0 }
+		command = { trigger = { local_flag = enoughMP	technology = 1020	NOT = { technology = 1040  } }	type = add_division value = militia when = 1 }
+		command = { trigger = { local_flag = enoughMP	technology = 1040	NOT = { technology = 1060  } }	type = add_division value = militia when = 2 }
+		command = { trigger = { local_flag = enoughMP	technology = 1060	NOT = { technology = 1080  } }	type = add_division value = militia when = 3 }
+		command = { trigger = { local_flag = enoughMP	technology = 1080	NOT = { technology = 1100  } }	type = add_division value = militia when = 4 }
+		command = { trigger = { local_flag = enoughMP	technology = 1100	NOT = { technology = 1120  } }	type = add_division value = militia when = 5 }
+		command = { trigger = { local_flag = enoughMP	technology = 1120	NOT = { technology = 1140  } }	type = add_division value = militia when = 6 }
+		command = { trigger = { local_flag = enoughMP	technology = 1140	NOT = { technology = 13000 } }	type = add_division value = militia when = 7 }
+		command = { trigger = { local_flag = enoughMP	technology = 13000	NOT = { technology = 13020 } }	type = add_division value = militia when = 8 }
+		command = { trigger = { local_flag = enoughMP	technology = 13020 								 }	type = add_division value = militia when = 9 }
+		command = { trigger = { local_flag = enoughMP													 }	type = local_clrflag which = enoughMP }
+		command = { type = local_setflag which = garrison_conversion_count when = 1 value = 3 }
+	}
+}
+
+#### Cannibilizing divisions when low on manpower (AI only)
+#when – 0 - scrap most obsolete or damaged units first. where = 0 - return remaining MP to the pool. Garrisons and militia are usually prioritized.
+event = {
+	id = 9000056
+	#make invisible later
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+	random = no
+
+	trigger = { 
+		ai = yes
+		atwar = yes
+		NOT = { manpower = 20 }
+		losses = 100000 #suffering losses
+		army = 2
+		OR = {
+			policy = { type = professional_army value = 10 }
+			AND = {
+				policy = { type = professional_army value = 9 }
+				NOT = { year = 1925 }
+			}
+			AND = {
+				policy = { type = professional_army value = 7 }
+				NOT = {
+					local_flag = puppetLevel7
+					local_flag = puppetLevel8
+					local_flag = puppetLevel9
+					local_flag = legitIndie
+				}
+			}
+		}
+	}
+
+	name = "Disbanding low-strength divisions"
+	desc = "Our country is not producing enough manpower to sustain the current rate of our military operations. Many divisions are under-strength and top-heavy, resulting in very inefficient combat and organization. We should disband our most damaged and outdated units in order to transfer people to the divisions which urgently need extra men."
+	style = 2
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 30
+	deathdate = { day = 30 month = december year = 1999 }
+	
+	action = {
+		name = "Disband one division"
+		ai_chance = 5
+		trigger = { army = 2 }
+
+		command = { type = demobilize which = land when = 0 where = 0 value = -1 }
+		command = { type = local_setflag which = cannibilize_division_count when = 1 value = 1 }
+	}
+	action = {
+		name = "Disband two divisions"
+		ai_chance = 5
+		trigger = { army = 3 }
+
+		command = { type = demobilize which = land when = 0 where = 0 value = -2 }
+		command = { type = local_setflag which = cannibilize_division_count when = 1 value = 2 }
+	}
+	action = {
+		name = "Disband three divisions"
+		ai_chance = 90
+		trigger = { army = 4 }
+
+		command = { type = demobilize which = land when = 0 where = 0 value = -3 }
+		command = { type = local_setflag which = cannibilize_division_count when = 1 value = 3 }
+	}
+}
+

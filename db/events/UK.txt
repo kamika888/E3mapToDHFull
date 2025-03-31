@@ -1,0 +1,3782 @@
+#########################################################################
+#  UK Guarantee of Greek independence
+#########################################################################
+event = {
+	id = 2001027
+	random = no
+	country = ENG
+
+	name = EVT_94_NAME
+	desc = EVT_94_DESC
+	style = 2
+  	picture = "greek_soldiers"
+
+	decision = {
+		exists = GRE
+		NOT = { war = { country = ENG country = GRE } } 
+		OR = {
+			war = { country = ITA country = ALB } 
+			war = { country = ITA country = GRE } 
+			control = { province = 390 data = ITA } #Albania
+			control = { province = 413 data = ITA } #Macedonia
+		}
+	}
+	decision_trigger = {
+	}
+	trigger = {
+		exists = GRE
+		NOT = { war = { country = ENG country = GRE } } 
+		OR = {
+			war = { country = ITA country = ALB } 
+			war = { country = ITA country = GRE } 
+			control = { province = 390 data = ITA } #Albania
+			control = { province = 413 data = ITA } #Macedonia
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = EVT_94_ACTA
+		command = { type = trigger which = 2019001 }
+		command = { type = belligerence which = ENG value = 1 }
+		command = { type = dissent value = 1 }
+	}
+}
+
+event = {
+	id = 2019001
+	random = no
+	country = GRE
+
+	name = EVT_95_NAME
+	desc = EVT_95_DESC
+	style = 2
+  	picture = "greek_soldiers"
+
+	# Triggered by UK event 2001027
+
+	action = {
+		name = EVT_95_ACTA
+		#command = { type = guarantee which = ENG where = GRE }
+		command = { type = relation which = ENG value = 10 }
+		command = { type = dissent value = -1 }
+	}
+}
+
+#########################################################################
+#  Guarantee Independence to Poland
+#########################################################################
+event = {
+	id = 2001028
+	random = no
+	country = ENG
+
+	decision = {
+		exists = POL 	
+		exists = GER
+		OR = { 
+			event = 2003012 #Munich treaty
+			control = { province = 469 data = GER } #Prague +
+			AND = {
+				control = { province = 469 data = CZE } #Prague +
+				alliance = { country = CZE country = GER }
+			}
+		}
+		NOT = {
+			ispuppet = ENG
+			alliance = { country = POL country = SOV }
+			alliance = { country = POL country = GER }
+			alliance = { country = POL country = ENG }
+			atwar = POL
+		}
+	}
+	decision_trigger = {
+		#Germany violated the Munich treaty
+		OR = { 
+			control = { province = 469 data = GER } #Prague +
+			AND = {
+				control = { province = 469 data = CZE } #Prague +
+				alliance = { country = CZE country = GER }
+			}
+		}
+	}
+	trigger = {
+		random = 30
+		exists = POL 	
+		exists = GER
+		NOT = {
+			ispuppet = ENG
+			alliance = { country = POL country = SOV }
+			alliance = { country = POL country = GER }
+			alliance = { country = POL country = ENG }
+			atwar = POL
+		}
+		#Germany violated the Munich treaty
+		OR = { 
+			control = { province = 469 data = GER } #Prague +
+			AND = {
+				control = { province = 469 data = CZE } #Prague +
+				alliance = { country = CZE country = GER }
+			}
+		}
+	}
+
+
+	name = "EVT_3401_NAME"
+	desc = "EVT_3401_DESC"
+	style = 2
+	picture = "Munich"
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "ACTIONNAME3401A"
+		command = { type = belligerence which = ENG value = 1 }
+		command = { type = dissent value = 1 }
+		command = { type = relation which = POL value = 25 }
+		command = { type = relation which = FRA value = 10 }
+		command = { type = relation which = GER value = -15 }
+		command = { type = trigger which = 2013001 } # POL The UK offers an Alliance
+	}
+}
+
+#########################################################################
+#  The UK offers an Alliance
+#########################################################################
+event = { 
+	id = 2013001
+	random = no
+	country = POL
+	
+	# Triggered by ENG 2001028
+	
+	name = "EVT_3600_NAME"
+	desc = "EVT_3600_DESC"
+	style = 2
+	picture = "Munich"
+	
+	action_a = {
+		name = "ACTION_NAME_ACCEPT" # Accept
+		ai_chance = 100
+		#command = { type = guarantee which = ENG where = GRE }
+		command = { type = relation which = ENG value = 10 }
+		command = { type = dissent value = -1 }
+	}
+}
+	
+#############################################################################
+#  Poland is under attack
+#############################################################################
+event = {
+	id = 2001032
+	random = no
+	country = ENG
+
+	trigger = {
+		OR = {
+			event = 2007034
+			event = 2003025
+			non_aggression = { country = GER country = SOV }
+		}
+		OR = {
+			event = 2013001 #  UK guarantees POL independence
+			#guarantee = { country = ENG country = POL } 
+			war = { country = GER }
+		}
+		war = { country = POL country = GER }
+		NOT = { 
+			alliance = { country = POL country = ENG } 
+			alliance = { country = POL country = SOV } 
+		}
+	}
+
+	date = { day = 2 month = january year = 1936 }
+	offset = 3
+	deathdate = { day = 29 month = december year = 1963 }
+
+	name = 3604name
+	desc = 3604desc
+	style = 2
+	picture = "Poland_Invasion"
+
+	action = {
+		name = 3604a
+		ai_chance = 100
+		command = { type = alliance which = POL when = 1 }
+		command = { type = secedeprovince which = POL value = 8000 when = 2 } # Polish Underground State
+		command = { type = addcore which = 8000 where = POL }
+		command = { type = songs which = ChamberlainDeclaresWar.txt }
+	}
+	action = {
+		name = "Stand down"
+		trigger = { NOT = { war = { country = GER } } }
+		ai_chance = 0
+		command = { type = dissent value = 15 }
+		command = { type = relation which = GER value = 20 }
+		command = { type = relation which = POL value = -200 }
+		command = { trigger = { guarantee = { country = FRA country = POL } alliance = { country = FRA country = ENG } } type = end_guarantee which = FRA where = POL }
+        command = { trigger = { guarantee = { country = CAN country = POL } alliance = { country = CAN country = ENG } } type = end_guarantee which = CAN where = POL }
+        command = { trigger = { guarantee = { country = SAF country = POL } alliance = { country = SAF country = ENG } } type = end_guarantee which = SAF where = POL }
+        command = { trigger = { guarantee = { country = AST country = POL } alliance = { country = AST country = ENG } } type = end_guarantee which = AST where = POL }
+        command = { trigger = { guarantee = { country = NZL country = POL } alliance = { country = NZL country = ENG } } type = end_guarantee which = NZL where = POL }
+	}
+}
+
+#############################################################################
+#  Greece is under attack
+#############################################################################
+event = {
+	id = 2001029
+	random = no
+	country = ENG
+
+	trigger = {
+		OR = {
+			event = 2019001 #  UK guarantees GRE independence
+			#guarantee = { country = ENG country = GRE } 
+		}
+		OR = {
+			war = { country = GRE country = ITA }
+			war = { country = GRE country = GER }
+		}
+		NOT = { alliance = { country = GRE country = ENG } }
+	}
+
+	date = { day = 2 month = january year = 1936 }
+	offset = 3
+	deathdate = { day = 29 month = december year = 1963 }
+
+	name = "Greece is under attack"
+	desc = "Our Greek ally has been attacked by enemy invaders. As we have signed a treaty guaranteeing their independence, we have to defend this country!"
+	style = 2
+	picture = "Poland_Invasion"
+
+	action = {
+		name = 3604a
+		ai_chance = 100
+		command = { type = alliance which = GRE when = 1 }
+		command = { type = songs which = ChamberlainDeclaresWar.txt }
+	}
+	action = {
+		name = "Stand down"
+		ai_chance = 0
+		command = { type = dissent value = 15 }
+		command = { type = relation which = ITA value = 20 }
+		command = { type = relation which = GRE value = -200 }
+		command = { trigger = { guarantee = { country = FRA country = GRE } alliance = { country = FRA country = ENG } } type = end_guarantee which = FRA where = GRE }
+        command = { trigger = { guarantee = { country = CAN country = GRE } alliance = { country = CAN country = ENG } } type = end_guarantee which = CAN where = GRE }
+        command = { trigger = { guarantee = { country = SAF country = GRE } alliance = { country = SAF country = ENG } } type = end_guarantee which = SAF where = GRE }
+        command = { trigger = { guarantee = { country = AST country = GRE } alliance = { country = AST country = ENG } } type = end_guarantee which = AST where = GRE }
+        command = { trigger = { guarantee = { country = NZL country = GRE } alliance = { country = NZL country = ENG } } type = end_guarantee which = NZL where = GRE }
+	}
+}
+
+##############################################
+# The British Raj enters the war
+##############################################
+event = {
+	id = 2185001
+	random = no
+	country = U02
+
+	trigger = {
+		atwar = ENG
+		NOT = { alliance = { country = U02 country = ENG } }
+        puppet = { country = U02 country = ENG }
+	}
+
+	name = 3404name
+	desc = 3404desc
+	style = 2
+	picture = "British_Raj"
+
+	date = { day = 0 month = january year = 1933 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = 3404a
+		command = { type = dissent value = 15 }
+		command = { type = alliance which = ENG when = 1 }
+	}
+}
+
+###########################################################################
+###Netherlands move capital to the Dutch East Indies when nearly conquered
+###########################################################################
+
+event = {
+	id = 2004001
+	random = no
+	country = HOL
+
+	trigger = { 
+		war = { country = GER } 
+		OR = {
+			flag = WesternBetrayal #Allies failed to deploy sufficient troops
+			NOT = { region = { region = "Benelux" country = -3 data = 1 value = 1 } }
+			AND = {
+				area = { area = "Netherlands" country = -2 data = 1 value = 50 }
+				control = { province = 77   data = -2 }
+				control = { province = 1019 data = -2 }
+				OR = {
+					control = { province = 46   data = -2 }
+					control = { province = 47   data = -2 }
+				}
+			}
+		}
+	}
+
+	name = "EVT_2810_NAME"
+	desc = "EVT_2810_DESC"
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 0 month = december year = 1946 }
+
+	action_a = {
+		command = { type = remove_units which = all where = HOL when = 2 value = "Benelux" }
+		command = { type = capital which = 874 } # Suriname +
+		command = { type = headofstate which = 15001 }
+		command = { type = headofgovernment which = 15018 }
+		command = { type = foreignminister which = 15038 }
+		command = { type = armamentminister which = 15056 }
+		command = { type = ministerofsecurity which = 15086 }
+		command = { type = ministerofintelligence which = 15101 }
+		command = { type = secedearea which = GER value = Netherlands when = 1 }
+		
+		command = { type = supplies value = 1000 }
+		
+		#may consider temporary annexation by uk
+		
+		command = { type = trigger which = 2001037 } 
+		command = { type = trigger which = 2003078 } 
+	}
+}
+
+event = {
+	id = 2001037
+	random = no
+	country = ENG
+
+	name = "EVT_2810_NAME"
+	desc = "EVT_2001037_DESC"
+  	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = 25601a
+		#command = { type = inherit which = HOL value = 1 }
+		command = { type = make_puppet which = HOL }
+		command = { type = event which = 2400539 where = HOL when = 0 } #strong puppet
+		
+		command = { trigger = { technology = 3810 NOT = { technology = 3820 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 0 }
+		command = { trigger = { technology = 3820 NOT = { technology = 3830 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 1 }
+		command = { trigger = { technology = 3830 NOT = { technology = 3840 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 2 }
+		command = { trigger = { technology = 3840 NOT = { technology = 3850 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 3 }
+		command = { trigger = { technology = 3850 NOT = { technology = 3860 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 4 }
+	}
+}
+
+event = {
+	id = 2003078
+	random = no
+	country = GER
+
+	name = "EVT_2810_NAME"
+	desc = "EVT_2003078_DESC"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = 25601a
+		command = { trigger = { technology = 3810 NOT = { technology = 3820 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 0 }
+		command = { trigger = { technology = 3820 NOT = { technology = 3830 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 1 }
+		command = { trigger = { technology = 3830 NOT = { technology = 3840 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 2 }
+		command = { trigger = { technology = 3840 NOT = { technology = 3850 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 3 }
+		command = { trigger = { technology = 3850 NOT = { technology = 3860 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 4 }
+	}
+}
+
+################################################################
+###Belgium moves its capital to the Kongo when nearly conquered
+################################################################
+event = {
+	id = 2015001
+	random = no
+	country = BEL
+
+	trigger = { 
+		war = { country = GER } 
+		OR = {
+			flag = WesternBetrayal #Allies failed to deploy sufficient troops
+			NOT = { region = { region = "Benelux" country = -3 data = 1 value = 1 } }
+			AND = {
+				NOT = { region = { region = "Benelux" country = -3 data = 1 value = 20 } } #less than 5 provinces controlled
+				control = { province = 51   data = -2 } #brussels
+				area = { area = "Pas de Calais" country = -2 data = 1 value = 50 } #Losing Pas de Calais / encircled
+				#enemy reached the coast
+				OR = {
+					control = { province = 41 	data = -2 }	#Le Havre
+					control = { province = 7088 data = -2 }	#Abbeville
+					control = { province = 18 	data = -2 }	#Calais
+				}
+			}
+		}
+	}
+
+	name = "EVT_2809_NAME"
+	desc = "EVT_2809_DESC"
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 3
+	deathdate = { day = 0 month = december year = 1946 }
+
+	action_a = {
+		command = { type = remove_units which = all where = BEL when = 2 value = "Benelux" }
+		command = { type = capital which = 1098 } # Kinshasa  +
+		command = { type = headofstate which = 70001 }
+		command = { type = headofgovernment which = 70017 }
+		command = { type = foreignminister which = 70023 }
+		command = { type = armamentminister which = 70034 }
+		command = { type = ministerofsecurity which = 70053 }
+		command = { type = ministerofintelligence which = 70064 }
+		command = { type = secedearea which = GER value = Flanders when = 1 }
+		command = { type = secedearea which = GER value = Wallonia when = 1 }
+		
+		command = { type = supplies value = 1000 }
+		
+		#may consider temporary annexation by uk
+
+		command = { type = trigger which = 2001038 }
+		command = { type = trigger which = 2003079 }
+	}
+}
+
+event = {
+	id = 2001038
+	random = no
+	country = ENG
+
+	name = "EVT_2809_NAME"
+	desc = "EVT_2809_DESC"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = 25601a
+		#command = { type = inherit which = BEL value = 1 }
+		command = { type = make_puppet which = BEL }
+		command = { type = event which = 2400539 where = BEL when = 0 } #strong puppet
+		
+		command = { trigger = { technology = 3810 NOT = { technology = 3820 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 0 }
+		command = { trigger = { technology = 3820 NOT = { technology = 3830 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 1 }
+		command = { trigger = { technology = 3830 NOT = { technology = 3840 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 2 }
+		command = { trigger = { technology = 3840 NOT = { technology = 3850 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 3 }
+		command = { trigger = { technology = 3850 NOT = { technology = 3860 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 4 }
+	}
+}
+
+event = {
+	id = 2003079 
+	random = no
+	country = GER
+
+	name = "EVT_2809_NAME"
+	desc = "EVT_2809_DESC"
+  	style = 2
+ 	picture = "news_paper"
+
+	action = {
+		name = 25601a
+		command = { type = dissent value = -1 }
+		command = { trigger = { technology = 3810 NOT = { technology = 3820 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 0 }
+		command = { trigger = { technology = 3820 NOT = { technology = 3830 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 1 }
+		command = { trigger = { technology = 3830 NOT = { technology = 3840 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 2 }
+		command = { trigger = { technology = 3840 NOT = { technology = 3850 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 3 }
+		command = { trigger = { technology = 3850 NOT = { technology = 3860 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 4 }
+	}
+}
+
+###################################################################################################
+#   THE NETHERLANDS MOVE THEIR CAPITAL BACK TO AMSTERDAM AFTER GERMANY HAS BEEN DEFEATED
+###################################################################################################
+
+event = {
+	id = 2004002
+	random = no
+	country = HOL
+
+	name = "EVT_700002_NAME" # needs text
+	desc = "EVT_700002_DESC"
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		#owned = { province = 47 }
+		control = { province = 47 data = -3 }
+		NOT = { capital = { province = 47 } }
+		NOT = { region = { region = "Benelux" country = -2 data = 1 value = 1 } }
+	}
+
+	date = { day = 2 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action_a = {
+		name = ACTION_NAME_OK #
+		command = { type = secedeprovince which = HOL value = 47 when = 2 }
+		command = { type = capital which = 47 }
+	}
+}
+
+####################################################################################################################
+#  BELGIUM MOVES ITS CAPITAL BACK TO BRUSSELS AFTER GERMANY HAS BEEN DEFEATED & LOSES CORES ON THE CONGO
+####################################################################################################################
+
+event = {
+	id = 2015002
+	random = no
+	country = BEL
+
+	name = "EVT_700003_NAME" # needs text
+	desc = "EVT_700003_DESC"
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		#owned = { province = 51 }
+		control = { province = 51 data = -3 }
+		NOT = { capital = { province = 51 } }
+		NOT = { region = { region = "Benelux" country = -2 data = 1 value = 1 } }
+	}
+
+	date = { day = 2 month = january year = 1936 }
+	offset = 15 # Check for trigger conditions day
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action_a = {
+		name = ACTION_NAME_OK #
+		command = { type = secedeprovince which = BEL value = 51 when = 2 }
+		command = { type = capital which = 51 }
+	}
+}
+
+#############################################
+# The Netherlands, Belgium or Luxemburg are under attack
+###########################################################
+event = {
+	id = 2004003
+	random = no
+	country = ENG
+	persistent = yes
+
+	name = "Germany invades the Benelux"
+	desc = "As in WW1, the Germans opened their military campaign with an aggressive move against the neutral countries of the Benelux. We must choose how to respond."
+ 	style = 2
+  	picture = "news_paper"
+
+	trigger = {
+		#No need to even check for guarantees - Britain should always respond
+		OR  = { 
+			AND = {
+				war = { country = HOL country = GER }
+				NOT = { alliance = { country = HOL } }
+			}
+			AND = {
+				war = { country = BEL country = GER }
+				NOT = { alliance = { country = BEL } }
+			}
+			AND = {
+				war = { country = LUX country = GER }
+				NOT = { alliance = { country = LUX } }
+			}
+		}
+	}
+
+	date = { day = 2 month = january year = 1936 }
+	offset = 15 # Check for trigger conditions day
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		ai_chance = 100
+		name = "We will defend them!"
+		command = { trigger = { war = { country = HOL country = GER } } type = alliance which = HOL when = 1 }
+		command = { trigger = { war = { country = BEL country = GER } } type = alliance which = BEL when = 1 }
+		command = { trigger = { war = { country = LUX country = GER } } type = alliance which = LUX when = 1 }
+		command = { type = relation which = GER value = -100 }
+	}
+	action = {
+		ai_chance = 0
+		name = "Stand down"
+		command = { type = dissent value = 15 }
+		command = { type = relation which = GER value = 20 }
+		command = { type = relation which = HOL value = -200 }
+		command = { type = relation which = BEL value = -200 }
+		command = { type = relation which = LUX value = -200 }
+		#British guarantees are worthless paper
+		command = { trigger = { guarantee = { country = FRA country = HOL } alliance = { country = FRA country = ENG } } type = end_guarantee which = FRA where = HOL }
+        command = { trigger = { guarantee = { country = CAN country = HOL } alliance = { country = CAN country = ENG } } type = end_guarantee which = CAN where = HOL }
+        command = { trigger = { guarantee = { country = SAF country = HOL } alliance = { country = SAF country = ENG } } type = end_guarantee which = SAF where = HOL }
+        command = { trigger = { guarantee = { country = AST country = HOL } alliance = { country = AST country = ENG } } type = end_guarantee which = AST where = HOL }
+        command = { trigger = { guarantee = { country = NZL country = HOL } alliance = { country = NZL country = ENG } } type = end_guarantee which = NZL where = HOL }
+		
+		command = { trigger = { guarantee = { country = FRA country = BEL } alliance = { country = FRA country = ENG } } type = end_guarantee which = FRA where = BEL }
+        command = { trigger = { guarantee = { country = CAN country = BEL } alliance = { country = CAN country = ENG } } type = end_guarantee which = CAN where = BEL }
+        command = { trigger = { guarantee = { country = SAF country = BEL } alliance = { country = SAF country = ENG } } type = end_guarantee which = SAF where = BEL }
+        command = { trigger = { guarantee = { country = AST country = BEL } alliance = { country = AST country = ENG } } type = end_guarantee which = AST where = BEL }
+        command = { trigger = { guarantee = { country = NZL country = BEL } alliance = { country = NZL country = ENG } } type = end_guarantee which = NZL where = BEL }
+		
+		command = { trigger = { guarantee = { country = FRA country = LUX } alliance = { country = FRA country = ENG } } type = end_guarantee which = FRA where = LUX }
+        command = { trigger = { guarantee = { country = CAN country = LUX } alliance = { country = CAN country = ENG } } type = end_guarantee which = CAN where = LUX }
+        command = { trigger = { guarantee = { country = SAF country = LUX } alliance = { country = SAF country = ENG } } type = end_guarantee which = SAF where = LUX }
+        command = { trigger = { guarantee = { country = AST country = LUX } alliance = { country = AST country = ENG } } type = end_guarantee which = AST where = LUX }
+        command = { trigger = { guarantee = { country = NZL country = LUX } alliance = { country = NZL country = ENG } } type = end_guarantee which = NZL where = LUX }
+	}
+}
+
+#########################################################################
+#  Churchill becomes Prime Minister
+########################################################################
+event = {
+	id = 2001039
+	random = no
+	country = ENG
+
+	name = EVT_65_NAME
+	desc = EVT_65_DESC
+	style = 2
+  	picture = "Churchill"
+
+	decision = {
+		OR = { 
+			war = { country = GER }
+			war = { country = SOV }
+			}
+		government = democratic
+	}
+	decision_trigger = {
+		OR = {
+			war = { country = SOV }
+			control = { province = 56 data = GER } #Paris in German hands +
+			control = { province = 51 data = GER } #Brussels in German hands +
+			#control = { province = 107 data = GER } #Oslo in German hands +
+		}
+	}
+	trigger = {
+		OR = { 
+			war = { country = GER }
+			war = { country = SOV }
+			}
+		government = democratic
+		OR = {
+			war = { country = SOV }
+			control = { province = 56 data = GER } #Paris in German hands +
+			control = { province = 51 data = GER } #Brussels in German hands +
+			#control = { province = 107 data = GER } #Oslo in German hands +
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1954 } # was 1963
+
+	action = {
+		name = EVT_65_ACTA
+		command = { type = headofgovernment which = 10018 }
+		command = { type = foreignminister which = 10003 }
+		command = { type = set_domestic which = political_left value = 5 }
+		command = { type = dissent value = -1 }
+		command = { type = songs which = FinestHour.txt }
+	}
+}
+
+#########################################################################
+#  Surrender events - Partition of United Kingdom
+#########################################################################
+event = {
+	id = 2003080
+	random = no
+	country = ENG
+
+	name = "uksur_name"
+	desc = "130671_desc"
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		war = { country = GER }
+		OR = {
+			control = { province = 56 data = -2 } #Paris is controlled by GER or ally
+			NOT = {	war = { country = FRA country = GER } }
+		}
+		OR = {
+			NOT = { war = { country = USA country = GER } }
+			lost_VP = { country = USA value = 40 }
+		}
+		OR = {
+			NOT = { war = { country = SOV country = GER } }
+			lost_VP = { country = SOV value = 40 }
+		}
+		NOT = { lost_national = { country = GER value = 15 } }
+		OR = {
+			AND = {
+				control = { province = 19 data = -2  } #London is controlled by GER or ally
+				lost_VP = { country = ENG value = 30 }
+				lost_IC = { country = ENG value = 75 }
+			}
+			#nukes
+			AND = {
+				random = 20
+				OR = {
+					AND = {
+						NOT = { nuked = { country = GER data = -1 } } #Germany not nuked even once
+						nuked = { country = ENG data = -2 } #nuked twice
+					}
+					AND = {
+						NOT = { nuked = { country = GER data = -2 } } #Germany nuked at most once
+						nuked = { country = ENG data = -10 } #nuked ten times
+					}
+				}
+				OR = { 
+					nuked = { country = ENG data = -1 where = 19 }
+					nuked = { country = ENG data = -1 where = 6 }
+					nuked = { country = ENG data = -1 where = 7 }
+					nuked = { country = ENG data = -1 where = 1166 }
+					nuked = { country = ENG data = -1 where = 8 }
+					nuked = { country = ENG data = -1 where = 9 }
+					nuked = { country = ENG data = -1 where = 10 }
+					nuked = { country = ENG data = -1 where = 2245 }
+					nuked = { country = ENG data = -1 where = 11 }
+					nuked = { country = ENG data = -1 where = 13 }
+					nuked = { country = ENG data = -1 where = 12 }
+					nuked = { country = ENG data = -1 where = 1164 }
+					nuked = { country = ENG data = -1 where = 14 }
+					nuked = { country = ENG data = -1 where = 17 }
+					nuked = { country = ENG data = -1 where = 16 }
+					nuked = { country = ENG data = -1 where = 22 }
+					nuked = { country = ENG data = -1 where = 20 }
+					nuked = { country = ENG data = -1 where = 21 }
+					nuked = { country = ENG data = -1 where = 23 }
+					nuked = { country = ENG data = -1 where = 1160 }
+					nuked = { country = ENG data = -1 where = 15 }
+					nuked = { country = ENG data = -1 where = 1409 }
+					nuked = { country = ENG data = -1 where = 2279 }
+					nuked = { country = ENG data = -1 where = 3030 }
+					nuked = { country = ENG data = -1 where = 3031 }
+					nuked = { country = ENG data = -1 where = 3032 }
+					nuked = { country = ENG data = -1 where = 3033 }
+					nuked = { country = ENG data = -1 where = 3034 }
+					nuked = { country = ENG data = -1 where = 3035 }
+					nuked = { country = ENG data = -1 where = 3036 }
+					nuked = { country = ENG data = -1 where = 3037 }
+					nuked = { country = ENG data = -1 where = 3038 }
+					nuked = { country = ENG data = -1 where = 3039 }
+					nuked = { country = ENG data = -1 where = 3040 }
+					nuked = { country = ENG data = -1 where = 3041 }
+					nuked = { country = ENG data = -1 where = 3042 }
+					nuked = { country = ENG data = -1 where = 3043 }
+					nuked = { country = ENG data = -1 where = 3044 }
+					nuked = { country = ENG data = -1 where = 3045 }
+					nuked = { country = ENG data = -1 where = 3046 }
+					nuked = { country = ENG data = -1 where = 3047 }
+					nuked = { country = ENG data = -1 where = 3054 }
+					nuked = { country = ENG data = -1 where = 348 }
+					nuked = { country = ENG data = -1 where = 7289 }
+					nuked = { country = ENG data = -1 where = 7334 }
+				}
+			}
+		}
+	}
+
+	date = { day = 0 month = january year = 1939 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		ai_chance = 1
+		name = "We shall fight on the beaches"	
+		command = { type = dissent value = 25 }
+	}
+	action = {
+		ai_chance = 1
+		name = "We shall fight on the landing grounds"	
+		command = { type = dissent value = 25 }
+	}
+	action = {
+		ai_chance = 1
+		name = "We shall fight in the fields and in the streets"	
+		command = { type = dissent value = 25 }
+	}
+	action = {
+		ai_chance = 1
+		name = "We shall fight in the hills"	
+		command = { type = dissent value = 25 }
+	}
+	action = {
+		ai_chance = 1
+		name = "We shall go on till the end"	
+		command = { type = dissent value = 25 }
+	}
+	action = {
+		ai_chance = 1
+		name = "We shall defend our State"	
+		command = { type = dissent value = 25 }
+	}
+	action = {
+		ai_chance = 1
+		name = "Whatever the cost may be"	
+		command = { type = dissent value = 25 }
+	}
+	action = {
+		ai_chance = 1
+		name = "We shall never"	
+		command = { type = dissent value = 25 }
+	}
+	action = {
+		ai_chance = 92
+		name = "Surrender"
+		command = { trigger = { war = { country = ITA } } type = local_setflag which = ItaAxis }
+		command = { trigger = { war = { country = JAP } } type = local_setflag which = JapAxis }
+		command = { type = trigger which = 2015003 }
+	}
+}
+
+event = {
+	id = 2015003
+	random = no
+	country = GER
+
+	name = "England sues for peace!"
+	desc = "With much of the British Empire lying in ruins, the British finally saw the wisdom of beginning surrender negotiations."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		ai_chance = 99
+		name = "Seize this opportunity to end the war"	
+		command = { type = dissent value = -1 }
+		command = { type = addclaim which = 5 } # Kirkwall - Scotland 
+		command = { type = addclaim which = 1165 } # Lerwick - Scotland
+		command = { type = addclaim which = 1160 } # Truro - England
+		
+		command = { type = addclaim which = 7131 } # Channel Islands
+		command = { type = addclaim which = 1720 } # Channel Islands
+		command = { type = trigger which = 2001040 }
+	}
+	action = {
+		ai_chance = 1
+		name = "Gentlemen, would you make peace with yourselves?"	
+		command = { type = dissent value = 5 }
+	}
+}
+
+event = {
+	id = 2001040
+	random = no
+	country = ENG
+
+	name = EVT_66_NAME
+	desc = "Today we shall place ourselves at the mercy of our enemies, let us pray that they be merciful."
+	style = 2
+	picture = "news_paper"
+
+	# Triggered by German event 2003080
+
+	action_a = {
+		name = EVT_66_ACTA
+		command = { type = set_domestic which = political_left value = 3 }
+		command = { type = dissent value = 15 }
+		command = { type = end_access which = USA }
+		command = { type = relation which = USA value = -50 }
+		command = { type = set_relation which = ITA value = 50 }
+		command = { type = set_relation which = GER value = 50 }
+		#inherit England if England is German or Italian puppet
+		command = { trigger = { 
+				OR = { 
+					puppet = { country = U73 country = GER } 
+					puppet = { country = U73 country = ITA } 
+				} 
+			} type = inherit which = U73 }
+			
+			
+		command = { trigger = { exists = U01 } 				type = event which = 2002065 where = FRA when = 0 } 	
+		command = { trigger = { exists = IND } 				type = event which = 2185002 where = IND when = 0 } 
+		command = { trigger = { NOT = { exists = IND } } 	type = event which = 2185002 where = U02 when = 0 } 
+		command = { 										type = event which = 2001095 where = ENG when = 1 } 
+	}
+}
+
+event = {
+	id = 2001095
+	random = no
+	country = ENG
+
+	name = EVT_66_NAME
+	desc = "The terms of surrender are harsh: A de-facto dismantlement of our empire, demilitarization, reparations, and even German military bases on the Home islands."
+	style = 2
+	picture = "news_paper"
+	
+	action = {
+		name = ACTION_NAME_DAMN
+		command = { type = trade which = GER where = ENG  supplies = 50 when = 1800 value = 1 } #For 5 years
+		command = { type = trade which = GER where = ENG  money = 2 when = 1800 value = 1 } #For 5 years		
+		
+		command = { type = secedeprovince which = IRQ value = 1822 } #Kuwait
+		command = { type = secedeprovince which = IRQ value = 6499 } #Kuwait
+		command = { trigger = { local_flag = ItaAxis } type = secedeprovince which = ITA value = 1822 } #Kuwait
+		command = { trigger = { local_flag = ItaAxis } type = secedeprovince which = ITA value = 6499 } #Kuwait
+		command = { type = secedeprovince which = GER value = 1822 } #Kuwait
+		command = { type = secedeprovince which = GER value = 6499 } #Kuwait
+		
+		command = { type = secedeprovince which = GER value = 5 when = 2 } # Kirkwall - Scotland 
+		command = { type = secedeprovince which = GER value = 1165 when = 2 } # Lerwick - Scotland
+		command = { type = secedeprovince which = GER value = 1160 when = 2 } # Truro - England
+		
+		command = { type = secedeprovince which = GER value = 7131 } #Channel islands
+		command = { type = secedeprovince which = GER value = 1720 } #Channel islands
+		
+		command = { type = secederegion which = IRE value = "Ireland" } #Ireland should always exist by this point
+		
+		command = { type = secedearea which = YEM value = "Yemenite Mountains" }
+		command = { type = secedearea which = GER value = "Yemenite Mountains" }
+		
+		command = { type = secedeprovince which = SAU value = 1906 }
+		command = { type = secedeprovince which = PER value = 1906 }
+		command = { type = secedeprovince which = GER value = 1906 }
+		
+		command = { type = secederegion which = FRA value = "Central Africa" }
+		command = { type = secederegion which = FRA value = "Algeria" }
+		command = { type = secederegion which = FRA value = "Morocco" }
+		
+		command = { type = secederegion which = ARG value = "Patagonia" }
+		
+		command = { trigger = { alliance = { country = SPA country = GER } } type = secederegion which = SPA value = "Spain" }
+		command = { trigger = { alliance = { country = SPA country = GER } } type = secedeprovince which = SPA value = 348 when = 2 } # Gibraltar - Spain
+		
+		command = { trigger = { local_flag = JapAxis } type = secederegion which = JAP value = "Indochine" }
+
+		command = { trigger = { local_flag = ItaAxis } type = secedeprovince which = ITA value = 31 when = 2 } # Malta - Italy
+		command = { trigger = { local_flag = ItaAxis } type = secedeprovince which = ITA value = 348 } # Gibraltar - Spain
+		command = { trigger = { local_flag = ItaAxis } type = secederegion which = ITA value = "Anatolia" }
+		command = { trigger = { local_flag = ItaAxis } type = secederegion which = ITA value = "Egypt" when = 2 }
+		command = { trigger = { local_flag = ItaAxis } type = secederegion which = ITA value = "Sudan" when = 2 }
+		command = { trigger = { local_flag = ItaAxis } type = secederegion which = ITA value = "Ethiopia" }
+		command = { trigger = { local_flag = ItaAxis } type = secederegion which = ITA value = "Horn of Africa" }
+		#command = { trigger = { local_flag = ItaAxis } type = secederegion which = ITA value = "Middle East" }
+		command = { trigger = { local_flag = ItaAxis } type = secedearea which = ITA value = "Suez Channel Area" }
+		command = { trigger = { local_flag = ItaAxis } type = secedearea which = ITA value = "Palestine" }
+		command = { trigger = { local_flag = ItaAxis } type = secedearea which = ITA value = "Transjordan" }
+		command = { trigger = { local_flag = ItaAxis } type = secederegion which = ITA value = "Balkan" }
+		
+		command = { type = secederegion which = GER value = "Germany" }
+		command = { type = secederegion which = GER value = "France" }
+		command = { type = secederegion which = GER value = "Benelux" }
+		command = { type = secederegion which = GER value = "Denmark" }
+		command = { type = secederegion which = GER value = "Norway" }
+		command = { type = secederegion which = GER value = "Sweden" }
+		command = { type = secederegion which = GER value = "Balkan" }
+		command = { type = secederegion which = GER value = "Italy" }
+		command = { type = secederegion which = GER value = "Romania" }
+		command = { type = secederegion which = GER value = "Hungary" }
+		command = { type = secederegion which = GER value = "Czechoslovakia" }
+		command = { type = secederegion which = GER value = "Finland" }
+		command = { type = secederegion which = GER value = "Portugal" }
+		command = { type = secederegion which = GER value = "Central Africa" }
+		command = { type = secederegion which = GER value = "Algeria" }
+		command = { type = secederegion which = GER value = "Morocco" }
+		
+		command = { trigger = { NOT = { local_flag = ItaAxis } } type = secedeprovince which = GER value = 31 } # Malta - Italy
+		command = { trigger = { NOT = { local_flag = ItaAxis } } type = secedeprovince which = GER value = 348 } # Gibraltar - Spain
+		command = { trigger = { NOT = { local_flag = ItaAxis } } type = secederegion which = GER value = "Anatolia" }
+		#command = { trigger = { NOT = { local_flag = ItaAxis } } type = secederegion which = GER value = "Middle East" }
+		command = { trigger = { NOT = { local_flag = ItaAxis } } type = secedearea which = GER value = "Suez Channel Area" }
+		command = { trigger = { NOT = { local_flag = ItaAxis } } type = secedearea which = GER value = "Palestine" }
+		command = { trigger = { NOT = { local_flag = ItaAxis } } type = secedearea which = GER value = "Transjordan" }
+		command = { trigger = { NOT = { local_flag = ItaAxis } } type = secederegion which = GER value = "Balkan" }
+
+		#Canada seizes Newfoundland
+		command = { type = secederegion which = CAN value = "Eastern Canada" }
+
+		#US seizes Caribbean & central america
+		command = { type = secederegion which = USA value = "Caribbean" }
+		command = { type = secederegion which = USA value = "Central America" }
+		command = { type = secederegion which = USA value = "Solomons" }
+		command = { type = secederegion which = USA value = "Asian Pacific" }
+		
+		#Japan/China seizes Hong Kong
+		command = { type = secederegion which = JAP value = "China" }
+		command = { type = secederegion which = CHI value = "China" }
+
+		#USA seizes Iceland/Greenland
+		command = { type = secedearea which = USA value = "Greenland" }
+		command = { type = secedearea which = USA value = "Iceland" }
+		
+		#South Africa seizes Rhodesia
+		command = { type = secedearea which = SAF value = "Bechuanaland" }
+		command = { type = secedearea which = SAF value = "TRANSVAAL_NATAL" }
+		
+		#German colonies - old and new
+		command = { type = secederegion which = GER value = "South Africa" }
+		command = { type = secederegion which = GER value = "East Africa" }
+		command = { type = secederegion which = GER value = "Central Africa" }
+		command = { type = secederegion which = GER value = "South Solomon Islands" }
+		command = { type = secedeprovince which = GER value = 4494 }
+		command = { type = secedeprovince which = GER value = 4495 }
+		command = { type = secedeprovince which = GER value = 4496 }
+		command = { type = secedeprovince which = GER value = 1001 }
+		
+		command = { type = demobilize which = carrier when = 0 where = 0 value = 0 } #remove all carriers
+		command = { type = demobilize which = battleship when = 0 where = 0 value = 5 } #leave only 5 battleships
+			
+		command = { type = demobilize which = land when = 0 where = 0 value = 40 } #leave ~40 land units (best models)
+		command = { type = demobilize which = naval when = 0 where = 0 value = 40 } #leave ~40 ships (best models)
+		
+		#Automatically switch to neutral states
+		command = { type = end_mastery which = YEM }
+		command = { type = end_mastery which = OMN }
+		command = { type = end_mastery which = BHU }
+		command = { type = end_mastery which = NEP }
+		command = { type = end_mastery which = IRE }
+		command = { type = end_mastery which = U51 }
+		command = { type = end_mastery which = U53 }
+		command = { type = end_mastery which = IRQ }
+		command = { type = end_mastery which = EGY }
+		command = { type = end_mastery which = PER }
+		
+		#These ones will stay in the war:
+		command = { type = end_mastery which = U36 }
+		command = { type = end_mastery which = AST }
+		command = { type = end_mastery which = NZL }
+		command = { type = end_mastery which = CAN }
+		command = { type = end_mastery which = SAF }
+		command = { type = event which = 2400530 where = U36 when = 0 } #legit indie
+		command = { type = event which = 2400530 where = AST when = 0 } #legit indie
+		command = { type = event which = 2400530 where = NZL when = 0 } #legit indie
+		command = { type = event which = 2400530 where = CAN when = 0 } #legit indie
+		command = { type = event which = 2400530 where = SAF when = 0 } #legit indie
+		command = { type = event which = 2400530 where = U51 when = 0 } #legit indie
+		command = { type = event which = 2400530 where = U53 when = 0 } #legit indie
+		
+		command = { trigger = { alliance = { country = POL country = ENG } } type = inherit which = POL }
+		command = { trigger = { alliance = { country = U01 country = ENG } } type = inherit which = U01 }
+		command = { trigger = { alliance = { country = BEL country = ENG } } type = inherit which = BEL }
+		command = { trigger = { alliance = { country = HOL country = ENG } } type = inherit which = HOL }
+		
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = GER value = 1 }
+		command = { type = peace which = FRA value = 1 }
+		
+		command = { type = access which = GER }
+		command = { type = access which = ITA }
+		command = { type = access which = JAP }
+		command = { type = access which = FRA }
+
+
+		command = { type = headofstate which = 10013 }
+		command = { type = headofgovernment which = 10020 }
+		command = { type = foreignminister which = 10026 }
+		command = { type = armamentminister which = 10045 }
+		command = { type = ministerofsecurity which = 10066 }
+		command = { type = ministerofintelligence which = 10081 }
+		command = { type = chiefofstaff which = 10098 }
+		command = { type = chiefofarmy which = 10107 }
+		command = { type = chiefofnavy which = 10113 }
+		command = { type = chiefofair which = 10120 }
+
+		command = { type = flag_ext where = ENG which = _nazi } 
+		
+		
+		#command = { trigger = { puppet = { country = U02 country = ENG } } type = inherit which = U02 } #British Raj
+		command = { trigger = { NOT = { exists = IRE } } type = independence which = IRE value = 1 when = 1 }
+		command = { trigger = { NOT = { exists = LEB } } type = independence which = LEB value = 1 when = 1 }
+		command = { trigger = { NOT = { exists = SYR } } type = independence which = SYR value = 1 when = 1 }
+		command = { trigger = { NOT = { exists = EGY } } type = independence which = EGY value = 1 when = 1 }
+		command = { trigger = { NOT = { exists = IRQ } } type = independence which = IRQ value = 1 when = 1 }
+		#command = { trigger = { NOT = { exists = JOR } } type = independence which = JOR value = 1 when = 1 }
+		#command = { trigger = { NOT = { exists = IND } } type = independence which = IND value = 1 when = 1 }
+		#command = { trigger = { NOT = { exists = PAK } } type = independence which = PAK value = 1 when = 1 }
+		#command = { trigger = { NOT = { exists = BUR } } type = independence which = BUR value = 1 when = 1 }
+		command = { trigger = { NOT = { exists = MLY } } type = independence which = MLY value = 1 when = 1 }
+		command = { trigger = { NOT = { exists = U79 } } type = independence which = U79 value = 1 when = 1 } #West Indies
+		command = { trigger = { NOT = { exists = GUY } } type = independence which = GUY value = 1 when = 1 }	
+		command = { trigger = { NOT = { exists = U51 } } type = independence which = U51 value = 1 when = 1 }	
+		command = { trigger = { NOT = { exists = U53 } } type = independence which = U53 value = 1 when = 1 }	
+		command = { type = secedearea which = PAK value = Pakistan }
+		command = { type = secederegion which = IND value = India }
+	}
+}
+
+event = {
+	id = 2185002
+	random = no
+	tag = { U02 IND }
+
+	name = "British exit from India"
+	desc = "The people of India rejoice - the British Empire is finally over!"
+	style = 2
+	picture = "news_paper"
+	
+	action = {
+		name = "ACTION_NAME_GREAT" #Great
+		command = { trigger = { country = IND } type = inherit which = U02 value = 1 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = USN when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = UIC when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = UTL when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = UAU when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = UPS when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = UCH when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = U37 when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = URO when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = UBO when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = U40 when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = UTC when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = UGS when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = UCS when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = U68 when = 0 }
+		command = { trigger = { country = IND } type = event which = 2400530 where = U80 when = 0 }
+		command = { trigger = { country = U02 } type = country which = IND }
+		command = { trigger = { country = U02 } type = set_domestic which = political_left value = 7 }
+		command = { type = end_puppet }
+		command = { type = leave_alliance when = 1 }
+		command = { type = event which = 2400530 where = IND when = 0 } #legit indie
+
+		command = { type = removecore which = 1299 }
+		command = { type = removecore which = 1304 }
+		command = { type = removecore which = 1292 }
+		command = { type = removecore which = 1295 }
+		command = { type = removecore which = 1291 }
+		command = { type = removecore which = 1898 }
+		command = { type = removecore which = 1290 }
+		command = { type = removecore which = 1296 }
+		command = { type = removecore which = 1297 }
+		command = { type = removecore which = 1298 }
+		command = { type = removecore which = 1300 }
+		command = { type = removecore which = 1301 }
+		command = { type = removecore which = 1302 }
+		command = { type = removecore which = 1346 }
+		command = { type = removecore which = 1305 }
+		command = { type = removecore which = 5181 }
+		command = { type = removecore which = 5182 }
+		command = { type = removecore which = 5183 }
+		command = { type = removecore which = 5184 }
+		command = { type = removecore which = 5185 }
+		command = { type = removecore which = 5186 }
+		command = { type = removecore which = 5187 }
+		command = { type = removecore which = 5188 }
+		command = { type = removecore which = 5189 }
+		command = { type = removecore which = 5190 }
+		command = { type = removecore which = 5191 }
+		command = { type = removecore which = 5192 }
+		command = { type = removecore which = 5193 }
+		command = { type = removecore which = 5194 }
+		command = { type = removecore which = 6496 }
+		command = { type = removecore which = 1517 }
+		command = { type = removecore which = 1516 }
+		command = { type = removecore which = 1591 }
+		command = { type = removecore which = 5175 }
+		command = { type = removecore which = 5176 }
+		command = { type = removecore which = 1482 }
+		command = { type = removecore which = 1494 }
+		command = { type = removecore which = 2833 }
+		command = { type = removecore which = 1481 }
+		command = { type = removecore which = 1480 }
+		command = { type = removecore which = 2834 }
+		command = { type = removecore which = 1475 }
+		command = { type = removecore which = 2832 }
+		command = { type = removecore which = 2829 }
+		command = { type = removecore which = 2830 }
+		command = { type = removecore which = 2831 }
+		command = { type = removecore which = 1483 }
+		command = { type = removecore which = 5346 }
+		command = { type = removecore which = 5347 }
+		command = { type = removecore which = 5348 }
+		command = { type = removecore which = 5349 }
+		command = { type = removecore which = 5350 }
+		command = { type = removecore which = 5351 }
+		command = { type = removecore which = 5352 }
+		command = { type = removecore which = 5355 }
+		command = { type = removecore which = 5356 }
+		command = { type = removecore which = 5357 }
+		command = { type = removecore which = 5358 }
+		command = { type = removecore which = 5359 }
+		command = { type = removecore which = 5360 }
+		command = { type = removecore which = 5361 }
+		command = { type = removecore which = 5362 }
+		command = { type = removecore which = 5363 }
+		command = { type = removecore which = 5364 }
+		command = { type = removecore which = 5365 }
+		command = { type = removecore which = 5374 }
+		command = { type = removecore which = 5376 }
+		command = { type = removecore which = 5377 }
+		command = { type = removecore which = 5378 }
+		command = { type = removecore which = 2827 }
+		command = { type = removecore which = 5354 }
+		command = { type = removecore which = 5353 }
+		command = { type = removecore which = 2826 }
+		command = { type = removecore which = 5366 }
+		command = { type = removecore which = 2825 }
+		command = { type = removecore which = 5367 }
+		command = { type = removecore which = 5368 }
+		command = { type = removecore which = 5369 }
+		command = { type = removecore which = 5373 }
+		command = { type = removecore which = 5371 }
+		command = { type = removecore which = 5372 }
+		command = { type = removecore which = 5370 }
+		command = { type = removecore which = 1592 }
+		command = { type = removecore which = 5344 }
+		command = { type = removecore which = 5345 }
+		command = { type = removecore which = 5375 }
+		command = { type = removecore which = 1285 }
+		command = { type = removecore which = 7925 }
+		command = { type = removecore which = 1590 }
+		command = { type = removecore which = 5197 }
+		command = { type = removecore which = 7305 }
+		command = { type = removecore which = 5196 }
+		command = { type = removecore which = 1286 }
+		command = { type = removecore which = 5195 }
+		command = { type = removecore which = 7926 }
+		command = { type = removecore which = 1288 }
+		command = { type = removecore which = 5198 }
+		
+		#Helps to randomize the time
+		command = { type = event which = 2185004 where = USN when = 0 }
+		command = { type = event which = 2185004 where = UIC when = 1 }
+		command = { type = event which = 2185004 where = UTL when = 2 }
+		command = { type = event which = 2185004 where = UAU when = 3 }
+		command = { type = event which = 2185004 where = UPS when = 4 }
+		command = { type = event which = 2185004 where = UCH when = 5 }
+		command = { type = event which = 2185004 where = U37 when = 6 }
+		command = { type = event which = 2185004 where = URO when = 7 }
+		command = { type = event which = 2185004 where = UBO when = 8 }
+		command = { type = event which = 2185004 where = U40 when = 9 }
+		command = { type = event which = 2185004 where = UTC when = 10 }
+		command = { type = event which = 2185004 where = UGS when = 11 }
+		command = { type = event which = 2185004 where = UCS when = 12 }
+		command = { type = event which = 2185004 where = U68 when = 13 }
+		command = { type = event which = 2185004 where = U80 when = 14 }
+		
+		command = { type = independence which = BUR value = 1 when = 1 }
+		command = { type = independence which = U83 value = 1 when = 1 }
+		
+		command = { type = secedearea which = BUR value = "Burma" when = 2 }
+		
+		command = { type = civil_war which = PAK }
+		command = { type = event which = 2185003 where = IND when = 0 } 
+	}
+}
+
+event = {
+	id = 2185003
+	random = no
+	country = IND
+
+	name = "India and Pakistan"
+	desc = "Instead of gaining independence as a single country, British India ends up splitting into two main states - India and Pakistan"
+	style = 2
+	picture = "news_paper"
+	
+	action = {
+		name = "ACTION_NAME_GREAT" #Great
+		command = { type = secedeprovince which = IND value = 1456 when = 2 }
+		command = { type = secedeprovince which = IND value = 5207 when = 2 }
+		command = { type = secedeprovince which = IND value = 5208 when = 2 }
+		command = { type = secedeprovince which = IND value = 1457 when = 2 }
+		command = { type = secedeprovince which = IND value = 7924 when = 2 }
+		command = { type = secedeprovince which = IND value = 1519 when = 2 }
+		command = { type = secedeprovince which = IND value = 1705 when = 2 }
+		command = { type = secedeprovince which = IND value = 5249 when = 2 }
+		command = { type = secedeprovince which = IND value = 1476 when = 2 }
+		command = { type = secedeprovince which = IND value = 5250 when = 2 }
+		command = { type = secedeprovince which = IND value = 5254 when = 2 }
+		command = { type = secedeprovince which = IND value = 1477 when = 2 }
+		command = { type = secedeprovince which = IND value = 1469 when = 2 }
+		
+		command = { type = capital which = 1469 } # New Delhi
+		
+		command = { type = secedeprovince which = PAK value = 1592 when = 2 }
+		command = { type = secedeprovince which = PAK value = 5344 when = 2 }
+		command = { type = secedeprovince which = PAK value = 5345 when = 2 }
+		command = { type = secedeprovince which = PAK value = 5375 when = 2 }
+		
+		command = { type = event which = 2001034 where = PAK when = 0 } 
+	}
+}
+
+event = {
+	id = 2185004
+	random = no
+	tag = { USN UIC UTL UAU UPS UCH U37 U80 UBO U40 UTC UGS UCS U68 URO }
+	persistent = yes
+	
+	
+	name = "British exit from India"
+	desc = "The people of India rejoice - the British Empire is finally over!"
+	style = 2
+	picture = "news_paper"
+	
+	action = {
+		name = "ACTION_NAME_GREAT" #Great
+		command = { type = leave_alliance when = 1 }
+		command = { type = ai which = "EXP_0.ai" }
+		command = { type = local_setflag which = minorLordsCheck }
+		command = { type = add_division value = militia		when = 6  }
+		command = { type = add_division value = garrison	when = 5  }
+	}
+}
+
+event = {
+	id = 2001034
+	random = no
+	country = PAK
+
+	name = EVT_66_NAME
+	desc = "The Pakistani people rejoice - the British Empire is finally over!"
+	style = 2
+	picture = "news_paper"
+	
+	action = {
+		name = "ACTION_NAME_GREAT" #Great
+		command = { type = end_puppet }
+		command = { type = leave_alliance when = 1 }
+		command = { type = event which = 2400530 where = PAK when = 0 } #legit indie
+		command = { type = set_domestic which = political_left value = 4 }
+		command = { type = set_domestic which = interventionism value = 3 }
+		
+		command = { type = peace which = IND value = 1 }
+		
+		command = { type = secedeprovince which = PAK value = 1592 when = 2 }
+		command = { type = secedeprovince which = PAK value = 5344 when = 2 }
+		command = { type = secedeprovince which = PAK value = 5345 when = 2 }
+		command = { type = secedeprovince which = PAK value = 5375 when = 2 }
+		
+		#west pakistan
+		command = { type = add_corps value = land 			where = 1482 }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = infantry	when = 11 }
+		
+		#Bangladesh
+		command = { type = add_corps value = land 			where = 5198 }
+		command = { type = add_division value = hq			when = 3  }
+		command = { type = add_division value = militia		when = 6  }
+		command = { type = add_division value = militia		when = 6  }
+		command = { type = add_division value = militia		when = 6  }
+		command = { type = add_division value = militia		when = 6  }
+		command = { type = add_division value = militia		when = 6  }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = garrison	when = 5  }
+		command = { type = add_division value = garrison	when = 5  }
+		command = { type = add_division value = garrison	when = 5  }
+		command = { type = add_division value = garrison	when = 5  }
+		command = { type = add_division value = garrison	when = 5  }
+		
+		
+		command = { type = removecore which = 5294 }
+		command = { type = removecore which = 593 }
+		command = { type = removecore which = 1817 }
+		command = { type = removecore which = 2175 }
+		command = { type = removecore which = 791 }
+		command = { type = removecore which = 1346 }
+		command = { type = removecore which = 5234 }
+		command = { type = removecore which = 5296 }
+		command = { type = removecore which = 726 }
+		command = { type = removecore which = 729 }
+		command = { type = removecore which = 5273 }
+		command = { type = removecore which = 5245 }
+		command = { type = removecore which = 1292 }
+		command = { type = removecore which = 5307 }
+		command = { type = removecore which = 2952 }
+		command = { type = removecore which = 1290 }
+		command = { type = removecore which = 1505 }
+		command = { type = removecore which = 7193 }
+		command = { type = removecore which = 1291 }
+		command = { type = removecore which = 5224 }
+		command = { type = removecore which = 5329 }
+		command = { type = removecore which = 5246 }
+		command = { type = removecore which = 1513 }
+		command = { type = removecore which = 775 }
+		command = { type = removecore which = 2099 }
+		command = { type = removecore which = 1508 }
+		command = { type = removecore which = 1511 }
+		command = { type = removecore which = 5213 }
+		command = { type = removecore which = 1510 }
+		command = { type = removecore which = 5220 }
+		command = { type = removecore which = 1721 }
+		command = { type = removecore which = 1509 }
+		command = { type = removecore which = 5328 }
+		command = { type = removecore which = 5199 }
+		command = { type = removecore which = 769 }
+		command = { type = removecore which = 5303 }
+		command = { type = removecore which = 5187 }
+		command = { type = removecore which = 1877 }
+		command = { type = removecore which = 5292 }
+		command = { type = removecore which = 5194 }
+		command = { type = removecore which = 1462 }
+		command = { type = removecore which = 5272 }
+		command = { type = removecore which = 5279 }
+		command = { type = removecore which = 1300 }
+		command = { type = removecore which = 2198 }
+		command = { type = removecore which = 5235 }
+		command = { type = removecore which = 5326 }
+		command = { type = removecore which = 5324 }
+		command = { type = removecore which = 5182 }
+		command = { type = removecore which = 702 }
+		command = { type = removecore which = 5231 }
+		command = { type = removecore which = 1298 }
+		command = { type = removecore which = 1295 }
+		command = { type = removecore which = 1470 }
+		command = { type = removecore which = 1472 }
+		command = { type = removecore which = 5286 }
+		command = { type = removecore which = 6496 }
+		command = { type = removecore which = 5218 }
+		command = { type = removecore which = 5225 }
+		command = { type = removecore which = 5287 }
+		command = { type = removecore which = 5318 }
+		command = { type = removecore which = 5189 }
+		command = { type = removecore which = 5230 }
+		command = { type = removecore which = 5295 }
+		command = { type = removecore which = 5289 }
+		command = { type = removecore which = 5291 }
+		command = { type = removecore which = 1471 }
+		command = { type = removecore which = 5313 }
+		command = { type = removecore which = 5278 }
+		command = { type = removecore which = 1518 }
+		command = { type = removecore which = 597 }
+		command = { type = removecore which = 5186 }
+		command = { type = removecore which = 5181 }
+		command = { type = removecore which = 635 }
+		command = { type = removecore which = 5269 }
+		command = { type = removecore which = 5244 }
+		command = { type = removecore which = 1699 }
+		command = { type = removecore which = 2106 }
+		command = { type = removecore which = 5214 }
+		command = { type = removecore which = 5205 }
+		command = { type = removecore which = 1460 }
+		command = { type = removecore which = 5237 }
+		command = { type = removecore which = 5334 }
+		command = { type = removecore which = 5264 }
+		command = { type = removecore which = 5175 }
+		command = { type = removecore which = 5274 }
+		command = { type = removecore which = 5302 }
+		command = { type = removecore which = 2133 }
+		command = { type = removecore which = 773 }
+		command = { type = removecore which = 5316 }
+		command = { type = removecore which = 1287 }
+		command = { type = removecore which = 5290 }
+		command = { type = removecore which = 777 }
+		command = { type = removecore which = 611 }
+		command = { type = removecore which = 5226 }
+		command = { type = removecore which = 5184 }
+		command = { type = removecore which = 1516 }
+		command = { type = removecore which = 2640 }
+		command = { type = removecore which = 5176 }
+		command = { type = removecore which = 1461 }
+		command = { type = removecore which = 5305 }
+		command = { type = removecore which = 5227 }
+		command = { type = removecore which = 1591 }
+		command = { type = removecore which = 5185 }
+		command = { type = removecore which = 5322 }
+		command = { type = removecore which = 1459 }
+		command = { type = removecore which = 5299 }
+		command = { type = removecore which = 703 }
+		command = { type = removecore which = 774 }
+		command = { type = removecore which = 2592 }
+		command = { type = removecore which = 1701 }
+		command = { type = removecore which = 5325 }
+		command = { type = removecore which = 5209 }
+		command = { type = removecore which = 2043 }
+		command = { type = removecore which = 5284 }
+		command = { type = removecore which = 6922 }
+		command = { type = removecore which = 781 }
+		command = { type = removecore which = 5266 }
+		command = { type = removecore which = 1468 }
+		command = { type = removecore which = 5257 }
+		command = { type = removecore which = 5255 }
+		command = { type = removecore which = 5238 }
+		command = { type = removecore which = 5193 }
+		command = { type = removecore which = 5192 }
+		command = { type = removecore which = 2642 }
+		command = { type = removecore which = 5188 }
+		command = { type = removecore which = 5297 }
+		command = { type = removecore which = 5191 }
+		command = { type = removecore which = 669 }
+		command = { type = removecore which = 697 }
+		command = { type = removecore which = 5283 }
+		command = { type = removecore which = 5241 }
+		command = { type = removecore which = 5276 }
+		command = { type = removecore which = 1479 }
+		command = { type = removecore which = 5215 }
+		command = { type = removecore which = 1301 }
+		command = { type = removecore which = 5217 }
+		command = { type = removecore which = 5298 }
+		command = { type = removecore which = 5219 }
+		command = { type = removecore which = 5277 }
+		command = { type = removecore which = 5270 }
+		command = { type = removecore which = 1299 }
+		command = { type = removecore which = 7306 }
+		command = { type = removecore which = 599 }
+		command = { type = removecore which = 1465 }
+		command = { type = removecore which = 5223 }
+		command = { type = removecore which = 5201 }
+		command = { type = removecore which = 736 }
+		command = { type = removecore which = 1506 }
+		command = { type = removecore which = 5306 }
+		command = { type = removecore which = 1514 }
+		command = { type = removecore which = 5281 }
+		command = { type = removecore which = 1695 }
+		command = { type = removecore which = 5310 }
+		command = { type = removecore which = 5242 }
+		command = { type = removecore which = 5260 }
+		command = { type = removecore which = 5183 }
+		command = { type = removecore which = 5190 }
+		command = { type = removecore which = 5203 }
+		command = { type = removecore which = 5267 }
+		command = { type = removecore which = 5212 }
+		command = { type = removecore which = 7307 }
+		command = { type = removecore which = 5309 }
+		command = { type = removecore which = 6921 }
+		command = { type = removecore which = 714 }
+		command = { type = removecore which = 5258 }
+		command = { type = removecore which = 5332 }
+		command = { type = removecore which = 2104 }
+		command = { type = removecore which = 5243 }
+		command = { type = removecore which = 5280 }
+		command = { type = removecore which = 1305 }
+		command = { type = removecore which = 2092 }
+		command = { type = removecore which = 5248 }
+		command = { type = removecore which = 2124 }
+		command = { type = removecore which = 1694 }
+		command = { type = removecore which = 1302 }
+		command = { type = removecore which = 1517 }
+		command = { type = removecore which = 5320 }
+		command = { type = removecore which = 5222 }
+		command = { type = removecore which = 5211 }
+		command = { type = removecore which = 1507 }
+		command = { type = removecore which = 5321 }
+		command = { type = removecore which = 5261 }
+		command = { type = removecore which = 1284 }
+		command = { type = removecore which = 1466 }
+		command = { type = removecore which = 2639 }
+		command = { type = removecore which = 2094 }
+		command = { type = removecore which = 5282 }
+		command = { type = removecore which = 5314 }
+		command = { type = removecore which = 2636 }
+		command = { type = removecore which = 687 }
+		command = { type = removecore which = 5335 }
+		command = { type = removecore which = 2641 }
+		command = { type = removecore which = 1467 }
+		command = { type = removecore which = 2638 }
+		command = { type = removecore which = 1758 }
+		command = { type = removecore which = 5331 }
+		command = { type = removecore which = 1458 }
+		command = { type = removecore which = 1512 }
+		command = { type = removecore which = 5221 }
+		command = { type = removecore which = 5319 }
+		command = { type = removecore which = 631 }
+		command = { type = removecore which = 1463 }
+		command = { type = removecore which = 5308 }
+		command = { type = removecore which = 1297 }
+		command = { type = removecore which = 5236 }
+		command = { type = removecore which = 722 }
+		command = { type = removecore which = 5263 }
+		command = { type = removecore which = 5312 }
+		command = { type = removecore which = 5265 }
+		command = { type = removecore which = 5275 }
+		command = { type = removecore which = 1898 }
+		command = { type = removecore which = 5259 }
+		command = { type = removecore which = 1478 }
+		command = { type = removecore which = 2085 }
+		command = { type = removecore which = 5300 }
+		command = { type = removecore which = 1464 }
+		command = { type = removecore which = 5233 }
+		command = { type = removecore which = 5268 }
+		command = { type = removecore which = 5240 }
+		command = { type = removecore which = 2637 }
+		command = { type = removecore which = 5202 }
+		command = { type = removecore which = 5323 }
+		command = { type = removecore which = 1878 }
+		command = { type = removecore which = 5229 }
+		command = { type = removecore which = 5330 }
+		command = { type = removecore which = 1515 }
+		command = { type = removecore which = 5304 }
+		command = { type = removecore which = 5285 }
+		command = { type = removecore which = 1454 }
+		command = { type = removecore which = 5327 }
+		command = { type = removecore which = 1296 }
+		command = { type = removecore which = 2922 }
+		command = { type = removecore which = 5271 }
+		command = { type = removecore which = 5228 }
+		command = { type = removecore which = 5262 }
+		command = { type = removecore which = 771 }
+		command = { type = removecore which = 5247 }
+		command = { type = removecore which = 785 }
+		command = { type = removecore which = 5232 }
+		command = { type = removecore which = 685 }
+		command = { type = removecore which = 5288 }
+		command = { type = removecore which = 5317 }
+		command = { type = removecore which = 5311 }
+		command = { type = removecore which = 5315 }
+		command = { type = removecore which = 5200 }
+		command = { type = removecore which = 5333 }
+		command = { type = removecore which = 5210 }
+		command = { type = removecore which = 5293 }
+		command = { type = removecore which = 1304 }
+		command = { type = removecore which = 2091 }
+		command = { type = removecore which = 2199 }
+		command = { type = removecore which = 5239 }
+		command = { type = removecore which = 5301 }
+		command = { type = removecore which = 5216 }
+	}
+}
+
+#minor lords
+event = {
+	id = 2001035
+	random = no
+	tag = { USN UIC UTL UAU UPS UCH U37 U80 UBO U40 UTC UGS UCS U68 URO }
+	persistent = yes
+
+	name = "The Instrument of Accession"
+	desc = "The Instrument of Accession was a legal document first introduced by the Government of India Act 1935 to enable each of the rulers of the princely states under British paramountcy to join one of the new dominions of India or Pakistan created by the Partition of British India. When India and Pakistan became independent, it would be a matter for each ruler of a state to decide whether they would accede to India, to Pakistan, or maintain their partial sovereignty."
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		OR = {
+			exists = IND
+			exists = PAK
+		}
+		NOT = { 
+			exists = U02
+			ispuppet = IND
+			ispuppet = PAK
+		}
+		OR = {
+			local_flag = minorLordsCheck
+			war = { country = IND country = PAK }
+		}
+		NOT = { local_flag = minorLordsIndia }
+		random = 25
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Join India"	
+		trigger = { 
+			OR = {
+				ai = no
+				country = UIC
+				country = UTL
+				country = UAU
+				country = UPS
+				country = UCH
+				#country = U37
+				country = U80
+				country = UBO
+				country = U40
+				country = UGS
+				country = UCS
+				#country = U68
+				#country = URO
+			}
+		}
+		
+		command = { type = local_setflag which = minorLordsIndia }
+		
+		command = { type = leave_alliance when = 1 }
+		command = { type = end_puppet }
+		command = { type = event which = 2400530 where = -1 when = 0 } #independent state
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = USA value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		
+		command = { type = alliance which = IND }
+		
+		command = { 
+			trigger = {	
+				OR = {
+					country = USN
+					country = UTC
+					#country = URO
+					country = U80 #Kashmir
+				}
+			}				
+			type = war which = PAK }
+			
+		command = { trigger = {	OR = { country = USN country = UTC country = U80 } }	type = switch_allegiance which = -1 where = PAK }
+		command = { trigger = {	OR = { country = USN country = UTC country = U80 } }	type = switch_allegiance which = -1 where = PAK }
+		command = { trigger = {	OR = { country = USN country = UTC country = U80 } }	type = switch_allegiance which = -1 where = PAK }
+		command = { trigger = {	OR = { country = USN country = UTC country = U80 } }	type = switch_allegiance which = -1 where = PAK }
+		command = { trigger = {	OR = { country = USN country = UTC country = U80 } }	type = switch_allegiance which = -2 where = PAK }
+		command = { trigger = {	OR = { country = USN country = UTC country = U80 } }	type = switch_allegiance which = -3 where = PAK }
+		
+		command = { type = addcore which = 5411 } #Port Mathurin
+		command = {	type = event which = 2001036 where = IND when = 1 }
+	}
+	action = {
+		name = "Join Pakistan"	
+		trigger = { 
+			OR = {
+				ai = no
+				country = USN
+				country = UTC
+				country = URO
+			}
+		}
+		
+		command = { type = local_setflag which = minorLordsIndia }
+		
+		command = { type = leave_alliance when = 1 }
+		command = { type = end_puppet }
+		command = { type = event which = 2400530 where = -1 when = 0 } #independent state
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = USA value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		
+		command = { type = alliance which = PAK }
+		
+		command = { 
+			trigger = {	
+				OR = {
+					country = UIC
+					country = UTL
+					country = UAU
+					country = UPS
+					country = UCH
+					country = U37
+					country = UBO
+					country = U40
+					country = UGS
+					country = UCS
+					country = U68
+					country = URO
+					country = U80 #Kashmir
+				}
+			}
+			type = war which = IND }
+			
+		command = { trigger = {	OR = { country = UIC country = UTL country = UAU country = UPS country = UCH country = U37 country = UBO country = U40 country = UGS country = UCS country = U68 country = URO country = U80 } }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	OR = { country = UIC country = UTL country = UAU country = UPS country = UCH country = U37 country = UBO country = U40 country = UGS country = UCS country = U68 country = URO country = U80 } }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	OR = { country = UIC country = UTL country = UAU country = UPS country = UCH country = U37 country = UBO country = U40 country = UGS country = UCS country = U68 country = URO country = U80 } }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	OR = { country = UIC country = UTL country = UAU country = UPS country = UCH country = U37 country = UBO country = U40 country = UGS country = UCS country = U68 country = URO country = U80 } }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	OR = { country = UIC country = UTL country = UAU country = UPS country = UCH country = U37 country = UBO country = U40 country = UGS country = UCS country = U68 country = URO country = U80 } }	type = switch_allegiance which = -2 where = IND }
+		command = { trigger = {	OR = { country = UIC country = UTL country = UAU country = UPS country = UCH country = U37 country = UBO country = U40 country = UGS country = UCS country = U68 country = URO country = U80 } }	type = switch_allegiance which = -3 where = IND }
+		
+		
+		command = { type = addcore which = 1816 } #Port Victoria
+		command = {	type = event which = 2001036 where = PAK when = 1 }
+	}
+	action = {
+		name = "Thanks, but no"	
+		trigger = { 
+			OR = {
+				ai = no
+				country = U37
+				country = U68
+			}
+		}
+		
+		command = { type = local_setflag which = minorLordsIndia }
+		
+		command = { type = dissent value = 15 }
+		
+		command = { type = leave_alliance when = 1 }
+		command = { type = end_puppet }
+		command = { type = event which = 2400530 where = -1 when = 0 } #independent state
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = USA value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		
+		command = { 
+			trigger = {	
+				OR = {
+					country = UIC
+					country = UTL
+					country = UAU
+					country = UPS
+					country = UCH
+					country = U37
+					country = UBO
+					country = U40
+					country = UGS
+					country = UCS
+					country = U68
+					country = URO
+					country = U80 #Kashmir
+				}
+			}
+			type = war which = IND }
+			
+		command = { trigger = {	OR = { country = UIC country = UTL country = UAU country = UPS country = UCH country = U37 country = UBO country = U40 country = UGS country = UCS country = U68 country = URO country = U80 } }	type = switch_allegiance which = -1 where = IND }
+		
+		command = { 		
+			trigger = {	
+				OR = {
+					country = USN
+					country = UTC
+					#country = URO
+					country = U80 #Kashmir
+				}
+			}
+			type = war which = PAK }
+			
+		command = { trigger = {	OR = { country = USN country = UTC country = U80 } }	type = switch_allegiance which = -1 where = PAK }
+	}
+}
+
+event = {
+	id = 2001036
+	random = no
+	tag = { IND PAK }
+	persistent = yes
+
+	name = "The Instrument of Accession"
+	desc = "The Instrument of Accession was a legal document first introduced by the Government of India Act 1935 to enable each of the rulers of the princely states under British paramountcy to join one of the new dominions of India or Pakistan created by the Partition of British India. When India and Pakistan became independent, it would be a matter for each ruler of a state to decide whether they would accede to India, to Pakistan, or maintain their partial sovereignty."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "A new Princely state signs treaty!"
+		trigger = { country = IND }
+		command = { type = dissent value = -1 }
+		command = { trigger = { core = { province = 5411 data = USN } } type = inherit which = USN value = 1 }
+		command = { trigger = { core = { province = 5411 data = UTC } } type = inherit which = UTC value = 1 }
+		command = { trigger = { core = { province = 5411 data = UIC } } type = inherit which = UIC value = 1 }
+		command = { trigger = { core = { province = 5411 data = UTL } } type = inherit which = UTL value = 1 }
+		command = { trigger = { core = { province = 5411 data = UAU } } type = inherit which = UAU value = 1 }
+		command = { trigger = { core = { province = 5411 data = UPS } } type = inherit which = UPS value = 1 }
+		command = { trigger = { core = { province = 5411 data = UCH } } type = inherit which = UCH value = 1 }
+		command = { trigger = { core = { province = 5411 data = U37 } } type = inherit which = U37 value = 1 }
+		command = { trigger = { core = { province = 5411 data = UBO } } type = inherit which = UBO value = 1 }
+		command = { trigger = { core = { province = 5411 data = U40 } } type = inherit which = U40 value = 1 }
+		command = { trigger = { core = { province = 5411 data = UGS } } type = inherit which = UGS value = 1 }
+		command = { trigger = { core = { province = 5411 data = UCS } } type = inherit which = UCS value = 1 }
+		command = { trigger = { core = { province = 5411 data = U68 } } type = inherit which = U68 value = 1 }
+		command = { trigger = { core = { province = 5411 data = URO } } type = inherit which = URO value = 1 }
+		command = { trigger = { core = { province = 5411 data = U80 } } type = inherit which = U80 value = 1 }
+	}
+	action = {
+		name = "A new Princely state signs treaty!"
+		trigger = { country = PAK }
+		command = { type = dissent value = -1 }
+		command = { trigger = { core = { province = 1816 data = USN } } type = inherit which = USN value = 1 }
+		command = { trigger = { core = { province = 1816 data = UTC } } type = inherit which = UTC value = 1 }
+		command = { trigger = { core = { province = 1816 data = UIC } } type = inherit which = UIC value = 1 }
+		command = { trigger = { core = { province = 1816 data = UTL } } type = inherit which = UTL value = 1 }
+		command = { trigger = { core = { province = 1816 data = UAU } } type = inherit which = UAU value = 1 }
+		command = { trigger = { core = { province = 1816 data = UPS } } type = inherit which = UPS value = 1 }
+		command = { trigger = { core = { province = 1816 data = UCH } } type = inherit which = UCH value = 1 }
+		command = { trigger = { core = { province = 1816 data = U37 } } type = inherit which = U37 value = 1 }
+		command = { trigger = { core = { province = 1816 data = UBO } } type = inherit which = UBO value = 1 }
+		command = { trigger = { core = { province = 1816 data = U40 } } type = inherit which = U40 value = 1 }
+		command = { trigger = { core = { province = 1816 data = UGS } } type = inherit which = UGS value = 1 }
+		command = { trigger = { core = { province = 1816 data = UCS } } type = inherit which = UCS value = 1 }
+		command = { trigger = { core = { province = 1816 data = U68 } } type = inherit which = U68 value = 1 }
+		command = { trigger = { core = { province = 1816 data = URO } } type = inherit which = URO value = 1 }
+		command = { trigger = { core = { province = 1816 data = U80 } } type = inherit which = U80 value = 1 }
+	}
+}
+
+
+############################################
+# 1944 Allied diplomatic offensive
+############################################
+event = { 
+	id = 2001052
+	random = no 
+	country = ENG
+	save_date = yes
+
+	decision = {
+		war = { country = GER }
+		alliance = { country = USA }
+		control = { province = 56 data = -3 } # Paris
+	}
+	decision_trigger = {
+		event = { id = 2003036 days = 500 } # Danzig or war
+		control = { province = 56 data = -3 } # Paris
+		#lost_national = { country = GER value = 5 } #Germany invaded
+		money = 1000
+	}
+	trigger = {
+		control = { province = 56 data = -3 } # Paris
+		alliance = { country = USA }
+		war = { country = GER }
+		event = { id = 2003036 days = 500 } # Danzig or war
+		control = { province = 56 data = -3 } # Paris
+		#lost_national = { country = GER value = 5 } #Germany invaded
+	}
+
+	date = { day = 0 month = january year = 1941 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+
+	name = 135name
+	desc = 135desc
+  	style = 2
+  	picture = "Churchill"
+
+	action = {
+		name = "4702a"
+		command = { type = money value = -1000 }
+	}
+}
+
+############## Yugoslavia
+event = { 
+	id = 2001053
+	random = no 
+	country = ENG
+	
+	decision = {
+		exists = YUG
+		event = 2001052  # Allied diplomatic offensive
+		war = { country = GER }
+		NOT = { 
+			alliance = { country = YUG country = ENG }
+			alliance = { country = YUG country = SOV }
+			alliance = { country = YUG country = GER }
+			alliance = { country = YUG country = JAP }
+			war = { country = YUG country = ENG }
+			ispuppet = YUG
+		}
+	}
+	decision_trigger = {
+		control = { province = 56 data = -3 } # Paris
+		lost_national = { country = GER value = 15 }
+		relation = { which = YUG value = 100 }
+	}
+	trigger = {
+		random = 35
+		exists = YUG
+		event = 2001052  # Allied diplomatic offensive
+		war = { country = GER }
+		NOT = { 
+			alliance = { country = YUG country = ENG }
+			alliance = { country = YUG country = SOV }
+			alliance = { country = YUG country = GER }
+			alliance = { country = YUG country = JAP }
+			war = { country = YUG country = ENG }
+			ispuppet = YUG
+		}
+		control = { province = 56 data = -3 } # Paris
+		lost_national = { country = GER value = 15 }
+	}
+
+	date = { day = 0 month = january year = 1941 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = 136name
+	desc = 136desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		name = 6a
+		command = { type = trigger which = 2021003 }
+	}
+}
+event = { 
+	id = 2021003
+	random = no 
+	country = YUG
+	
+	name = 136name
+	desc = 136desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		ai_chance = 95
+		name = 137a
+		command = { type = alliance which = ENG when = 1 }
+		command = { type = relation which = GER value = -100 }
+	}
+	action = {	
+		ai_chance = 5
+		name = 3404b
+		command = { type = relation which = ENG value = -50 }
+	}
+}
+############## Romania
+event = { 
+	id = 2001054
+	random = no 
+	country = ENG
+	
+	decision = {
+		exists = ROM
+		event = 2001052  # Allied diplomatic offensive
+		war = { country = GER }
+		NOT = { 
+			alliance = { country = ROM country = ENG }
+			alliance = { country = ROM country = SOV }
+			alliance = { country = ROM country = GER }
+			alliance = { country = ROM country = JAP }
+			war = { country = ROM country = ENG }
+			ispuppet = ROM
+		}
+	}
+	decision_trigger = {
+		control = { province = 56 data = -3 } # Paris
+		lost_national = { country = GER value = 15 }
+		relation = { which = ROM value = 100 }
+	}
+	trigger = {
+		random = 35
+		exists = ROM
+		event = 2001052  # Allied diplomatic offensive
+		war = { country = GER }
+		NOT = { 
+			alliance = { country = ROM country = ENG }
+			alliance = { country = ROM country = SOV }
+			alliance = { country = ROM country = GER }
+			alliance = { country = ROM country = JAP }
+			war = { country = ROM country = ENG }
+			ispuppet = ROM
+		}
+		control = { province = 56 data = -3 } # Paris
+		lost_national = { country = GER value = 15 }
+	}
+
+	date = { day = 0 month = january year = 1941 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	name = 138name
+	desc = 136desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		name = 136a
+		command = { type = trigger which = 2023017 }
+	}
+}
+event = { 
+	id = 2023017
+	random = no 
+	country = ROM
+	
+	name = 138name
+	desc = 136desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		ai_chance = 95
+		name = 137a
+		command = { type = alliance which = ENG when = 1 }
+		command = { type = relation which = GER value = -100 }
+	}
+	action = {	
+		ai_chance = 5
+		name = 3404b
+		command = { type = relation which = ENG value = -50 }
+	}
+}
+############## Turkey
+event = { 
+	id = 2001055
+	random = no 
+	country = ENG
+	
+	decision = {
+		exists = TUR
+		event = 2001052  # Allied diplomatic offensive
+		war = { country = GER }
+		NOT = { 
+			alliance = { country = TUR country = ENG }
+			alliance = { country = TUR country = SOV }
+			alliance = { country = TUR country = GER }
+			alliance = { country = TUR country = JAP }
+			war = { country = TUR country = ENG }
+			ispuppet = TUR
+		}
+	}
+	decision_trigger = {
+		control = { province = 56 data = -3 } # Paris
+		lost_national = { country = GER value = 20 }
+		relation = { which = TUR value = 100 }
+	}
+	trigger = {
+		random = 35
+		exists = TUR
+		event = 2001052  # Allied diplomatic offensive
+		war = { country = GER }
+		NOT = { 
+			alliance = { country = TUR country = ENG }
+			alliance = { country = TUR country = SOV }
+			alliance = { country = TUR country = GER }
+			alliance = { country = TUR country = JAP }
+			war = { country = TUR country = ENG }
+			ispuppet = TUR
+		}
+		control = { province = 56 data = -3 } # Paris
+		lost_national = { country = GER value = 20 }
+	}
+
+	date = { day = 0 month = january year = 1941 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	name = 140name
+	desc = 136desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		name = 136a
+		command = { type = trigger which = 2010002 }
+	}
+}
+event = { 
+	id = 2010002
+	random = no 
+	country = TUR
+	
+	name = 140name
+	desc = 136desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		ai_chance = 95
+		name = 137a
+		command = { type = alliance which = ENG when = 1 }
+		command = { type = relation which = GER value = -100 }
+	}
+	action = {	
+		ai_chance = 5
+		name = 3404b
+		command = { type = relation which = ENG value = -50 }
+	}
+}
+
+############## Greece
+event = { 
+	id = 2001056
+	random = no 
+	country = ENG
+	
+	decision = {
+		exists = GRE
+		event = 2001052  # Allied diplomatic offensive
+		war = { country = GER }
+		NOT = { 
+			alliance = { country = GRE country = ENG }
+			alliance = { country = GRE country = SOV }
+			alliance = { country = GRE country = GER }
+			alliance = { country = GRE country = JAP }
+			war = { country = GRE country = ENG }
+			ispuppet = GRE
+		}
+	}
+	decision_trigger = {
+		control = { province = 56 data = -3 } # Paris
+		lost_national = { country = GER value = 15 }
+		relation = { which = GRE value = 100 }
+	}
+	trigger = {
+		random = 35
+		exists = GRE
+		event = 2001052  # Allied diplomatic offensive
+		war = { country = GER }
+		NOT = { 
+			alliance = { country = GRE country = ENG }
+			alliance = { country = GRE country = SOV }
+			alliance = { country = GRE country = GER }
+			alliance = { country = GRE country = JAP }
+			war = { country = GRE country = ENG }
+			ispuppet = GRE
+		}
+		control = { province = 56 data = -3 } # Paris
+		lost_national = { country = GER value = 15 }
+	}
+
+	date = { day = 0 month = january year = 1941 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	name = 142name
+	desc = 136desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		name = 136a
+		command = { type = trigger which = 2019002 }
+	}
+}
+event = { 
+	id = 2019002
+	random = no 
+	country = GRE
+	
+	name = 142name
+	desc = 136desc
+  	style = 2
+  	picture = "news_paper"
+
+	action = { 
+		ai_chance = 95
+		name = 137a
+		command = { type = alliance which = ENG when = 1 }
+		command = { type = relation which = GER value = -100 }
+	}
+	action = {	
+		ai_chance = 5
+		name = 3404b
+		command = { type = relation which = ENG value = -50 }
+	}
+}
+############## Spanish Republic
+event = { 
+	id = 2001057
+	random = no 
+	country = ENG
+	
+	decision = {
+		exists = SPR
+		event = 2001052  # Allied diplomatic offensive
+		war = { country = GER }
+		NOT = { 
+			alliance = { country = SPR country = ENG }
+			alliance = { country = SPR country = SOV }
+			alliance = { country = SPR country = GER }
+			alliance = { country = SPR country = JAP }
+			war = { country = SPR country = ENG }
+			ispuppet = SPR
+		}
+	}
+	decision_trigger = {
+		control = { province = 56 data = -3 } # Paris
+		#lost_national = { country = GER value = 15 }
+		relation = { which = SPR value = 100 }
+	}
+	trigger = {
+		random = 35
+		exists = SPR
+		event = 2001052  # Allied diplomatic offensive
+		war = { country = GER }
+		NOT = { 
+			alliance = { country = SPR country = ENG }
+			alliance = { country = SPR country = SOV }
+			alliance = { country = SPR country = GER }
+			alliance = { country = SPR country = JAP }
+			war = { country = SPR country = ENG }
+			ispuppet = SPR
+		}
+		control = { province = 56 data = -3 } # Paris
+		#lost_national = { country = GER value = 15 }
+	}
+
+
+	date = { day = 0 month = january year = 1941 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	name = 144name
+	desc = 136desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		name = 136a
+		command = { type = trigger which = 2052011 }
+	}
+}
+event = { 
+	id = 2052011
+	random = no 
+	country = SPR
+	
+	name = 144name
+	desc = 136desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		ai_chance = 95
+		name = 137a
+		command = { type = alliance which = ENG when = 1 }
+		command = { type = relation which = GER value = -100 }
+	}
+	action = {	
+		ai_chance = 5
+		name = 3404b
+		command = { type = relation which = ENG value = -50 }
+	}
+}
+
+############## Soviet Union
+event = { 
+	id = 2001058
+	random = no 
+	country = SOV
+	
+	decision = {
+		war = { country = ENG country = GER }
+		war = { country = USA country = GER }
+		NOT = { 
+			war = { country = SOV country = GER }
+			alliance = { country = SOV country = GER }
+			alliance = { country = SOV country = JAP }
+			war = { country = SOV country = ENG }
+			ispuppet = SOV
+		}
+	}
+	decision_trigger = {
+		NOT = {  # Paris
+			control = { province = 56 data = GER }
+			AND = {
+				control = { province = 56 data = FRA }
+				alliance = { country = FRA country = GER }
+			}
+		}
+	}
+	trigger = {
+		random = 35
+		war = { country = ENG country = GER }
+		war = { country = USA country = GER }
+		NOT = { 
+			war = { country = SOV country = GER }
+			alliance = { country = SOV country = GER }
+			alliance = { country = SOV country = JAP }
+			war = { country = SOV country = ENG }
+			ispuppet = SOV
+		}
+		NOT = {  # Paris
+			control = { province = 56 data = GER }
+			AND = {
+				control = { province = 56 data = FRA }
+				alliance = { country = FRA country = GER }
+			}
+		}
+	}
+
+	date = { day = 0 month = january year = 1941 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	name = "Soviet Union joins the war"
+	desc = 136desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		name = "Destroy the Fascists!"
+		command = { trigger = { non_aggression = { country = GER country = SOV } } type = local_setflag which = GerSovNAP }
+		command = { trigger = { local_flag = GerSovNAP } type = end_non_aggression which = GER where = SOV } #Will give 5 dissent to GERMANY
+		command = { trigger = { local_flag = GerSovNAP } type = event which = 2003064 where = GER when = 0 } #Undoing German dissent
+		command = { trigger = { local_flag = GerSovNAP } type = dissent value = 2 }
+		command = { trigger = { local_flag = GerSovNAP } type = local_clrflag which = GerSovNAP }
+		
+		command = { type = war which = GER }
+	}
+}
+
+####################################
+# 1942 Allied diplomatic offensive
+#########################################
+event = { 
+	id = 2001059
+	random = no 
+	country = ENG
+	save_date = yes
+	
+	decision = {
+		alliance = { country = USA }
+		war = { country = GER }
+	}
+	decision_trigger = {
+		alliance = { country = USA }
+		money = 1000
+	}
+	trigger = {
+		random = 30
+		alliance = { country = USA }
+		war = { country = GER }
+	}
+
+	date = { day = 0 month = january year = 1940 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	name = 283name
+	desc = 283desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		name = "4702a"
+		command = { type = money value = -1000 }
+	}
+}
+
+####### Mexico
+event = { 
+	id = 2001060
+	random = no 
+	country = ENG
+	
+	decision = {
+		exists = MEX
+		event = 2001059  # Allied diplomatic offensive
+		NOT = { 
+			alliance = { country = MEX country = ENG }
+			alliance = { country = MEX country = SOV }
+			alliance = { country = MEX country = GER }
+			alliance = { country = MEX country = JAP }
+			war = { country = MEX country = ENG }
+			ispuppet = MEX
+		}
+	}
+	decision_trigger = {
+		OR = {
+			control = { province = 56 data = -3 } # Paris
+			lost_national = { country = GER value = 5 }
+			event = { id = 2001059 days = 120 } #4 months
+		}
+		relation = { which = MEX value = 100 }
+	}
+	trigger = {
+		random = 15
+		exists = MEX
+		event = 2001059  # Allied diplomatic offensive
+		NOT = { 
+			alliance = { country = MEX country = ENG }
+			alliance = { country = MEX country = SOV }
+			alliance = { country = MEX country = GER }
+			alliance = { country = MEX country = JAP }
+			war = { country = MEX country = ENG }
+			ispuppet = MEX
+		}
+	}
+
+	date = { day = 0 month = january year = 1940 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = 284name
+	desc = 283desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		name = 136a
+		command = { type = trigger which = 2035001 }
+	}
+}
+event = { 
+	id = 2035001
+	random = no 
+	country = MEX
+	
+	name = 284name
+	desc = 283desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		ai_chance = 97
+		trigger = { atwar = no }
+		name = 145a
+		command = { type = alliance which = ENG when = 1 }
+		command = { type = relation which = GER value = -100 }
+	}
+	action = {	
+		ai_chance = 3
+		name = 3404b
+		command = { type = relation which = ENG value = -50 }
+	}
+}
+####### Central America
+
+event = { 
+	id = 2063001
+	random = no 
+	persistent = yes
+	
+	trigger = {
+		random = 25
+		atwar = USA
+		#atwar = no
+		puppet = { country = -1 country = USA }
+		NOT = { alliance = { country = USA } }
+	}
+
+	date = { day = 0 month = january year = 1937 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = 284name
+	desc = 283desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		name = 136a
+		command = { type = alliance which = USA }
+	}
+}
+
+
+####### Brazil
+event = { 
+	id = 2001061
+	random = no 
+	country = ENG
+	
+	decision = {
+		exists = BRA
+		event = 2001059  # Allied diplomatic offensive
+		NOT = { 
+			alliance = { country = BRA country = ENG }
+			alliance = { country = BRA country = SOV }
+			alliance = { country = BRA country = GER }
+			alliance = { country = BRA country = JAP }
+			war = { country = BRA country = ENG }
+			ispuppet = BRA
+		}
+	}
+	decision_trigger = {
+		OR = {
+			control = { province = 56 data = -3 } # Paris
+			lost_national = { country = GER value = 5 }
+			event = { id = 2001059 days = 240 } #8 months
+		}
+		relation = { which = BRA value = 100 }
+	}
+	trigger = {
+		random = 15
+		exists = BRA
+		event = 2001059  # Allied diplomatic offensive
+		NOT = { 
+			alliance = { country = BRA country = ENG }
+			alliance = { country = BRA country = SOV }
+			alliance = { country = BRA country = GER }
+			alliance = { country = BRA country = JAP }
+			war = { country = BRA country = ENG }
+			ispuppet = BRA
+		}
+	}
+
+	date = { day = 0 month = january year = 1940 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	name = 286name
+	desc = 283desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		name = 136a
+		command = { type = trigger which = 2033001 }
+	}
+}
+event = { 
+	id = 2033001
+	random = no 
+	country = BRA
+	
+	name = 286name
+	desc = 283desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = { 
+		ai_chance = 97
+		trigger = { atwar = no }
+		name = 145a
+		command = { type = alliance which = ENG when = 1 }
+		command = { type = relation which = GER value = -100 }
+	}
+	action = {	
+		ai_chance = 3
+		name = 3404b
+		command = { type = relation which = ENG value = -50 }
+	}
+}
+####### South America
+event = { 
+	id = 2042001
+	random = no 
+	persistent = yes
+
+	decision = {
+		atwar = no
+		NOT = { country = BRA }
+		event = 2001059  # Allied diplomatic offensive
+		alliance = { country = USA country = ENG }
+		OR = {
+			AND = {
+				continent = "South America"
+				alliance = { country = BRA country = ENG }
+			}
+			AND = {
+				continent = "North America"
+				puppet = { country = -1 country = USA } #puppets don't automatically enter war
+			}
+		}
+		war = { country = GER country = ENG }
+		NOT = { 
+			alliance = { country = SOV }
+			alliance = { country = ENG }
+			alliance = { country = GER }
+			alliance = { country = JAP }
+			war = { country = ENG }
+			ispuppet = yes
+		}
+	}
+	decision_trigger = {
+	}
+	trigger = {
+		atwar = no
+		OR = {
+			random = 5
+			AND = {
+				lost_national = { country = GER value = 10 }
+				random = 40
+			}
+		}
+		NOT = { relation = { which = GER value = 150 } } #Germany can prevent SA minors from joining the war by keeping relations high
+		NOT = { country = BRA }
+		event = 2001059  # Allied diplomatic offensive
+		alliance = { country = USA country = ENG }
+		OR = {
+			AND = {
+				continent = "South America"
+				alliance = { country = BRA country = ENG }
+			}
+			AND = {
+				continent = "North America"
+				puppet = { country = -1 country = USA } #puppets don't automatically enter war
+			}
+		}
+		war = { country = GER country = ENG }
+		NOT = { 
+			alliance = { country = SOV }
+			alliance = { country = ENG }
+			alliance = { country = GER }
+			alliance = { country = JAP }
+			war = { country = ENG }
+			ispuppet = yes
+		}
+	}
+
+	date = { day = 0 month = january year = 1940 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = "Join the Allies"
+	desc = 283desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		name = 145a
+		command = { type = alliance which = ENG when = 1 }
+		command = { type = relation which = GER value = -100 }
+	}
+}
+
+######################################
+# United Kingdom occupies Crete
+######################################
+event = { 
+	id = 2019003
+	random = no 
+	country = ENG
+	
+	decision = {
+		atwar = yes
+		alliance = { country = GRE }
+		OR = {
+			control = { province = 7320 data = -3 } # Crete
+			control = { province = 396 data = -3 } # Crete
+			control = { province = 563 data = -3 } # Crete
+		}
+	}
+	trigger = {
+		atwar = yes
+		alliance = { country = GRE }
+		OR = {
+			control = { province = 7320 data = -3 } # Crete
+			control = { province = 396 data = -3 } # Crete
+			control = { province = 563 data = -3 }
+		}
+		
+		OR = {
+			control = { province = 401 data = -2 } # Athens
+			AND = {
+				control = { province = 401 data = BUL }
+				war = { country = BUL } #Bulgaria doesn't count as "hostile country" even while at war if having non-aggression pact
+			}
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = 26name
+	desc = df_event10_desc
+  	style = 2
+  	picture = "news_paper"
+	
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = remove_units which = land where = GRE when = 1 value = "Attica" } 
+		command = { type = remove_units which = land where = GRE when = 1 value = "Thrace" }
+		command = { type = inherit which = GRE value = 1 }
+		command = { trigger = { war = { country = ITA } } type = secedearea which = ITA value = "Attica" when = 2 }
+		command = { trigger = { war = { country = ITA } } type = secedearea which = ITA value = "Thrace" when = 2 }
+		command = { trigger = { NOT = { war = { country = ITA } } } type = secedearea which = GER value = "Attica" when = 2 }
+		command = { trigger = { NOT = { war = { country = ITA } } } type = secedearea which = GER value = "Thrace" when = 2 }
+
+		command = { trigger = { ai = ENG } type = event which = 2405010 where = ENG when = 0 }	
+	}
+}
+
+
+################################################################
+############### EVENTS FOR EGYPT (1936 SCENARIO) ###############
+###############      BY MIIHKALI, 2010-8-25      ###############
+################################################################
+
+#########################################################################
+#  King Fuad I passes away
+#########################################################################
+
+event = {
+	id = 2069001
+	random = no
+	country = EGY
+	style = 2
+   
+	trigger = {
+		headofstate = 340001
+		}
+
+	date = { day = 27 month = april year = 1936 }
+	offset = 2
+	deathdate = { day = 0 month = january year = 2000 }
+
+	name = 463name
+	desc = 463desc
+	picture = "minister_died"
+
+	action_a = {
+		name = 463a # OK
+		command = { type = headofstate which = 340011 }
+		command = { type = sleepminister which = 340001 }
+		}
+	}
+
+#########################################################################
+#  Anglo-Egyptian treaty - EGY
+#########################################################################
+
+event = {
+	id = 2069002
+	random = no
+	country = EGY
+	style = 2
+	
+	decision = {
+	}
+	trigger = {
+		puppet = { country = EGY country = ENG } 
+	}
+
+	date = { day = 0 month = june year = 1936 }
+	offset = 100
+	deathdate = { day = 0 month = september year = 1936 }
+
+	name = 464name
+	desc = 464desc
+	picture = "news_paper"
+
+	action_a = {
+		name = 464a # Offer pact
+		command = { type = trigger which = 2001063 } # Egyptians want to negotiate
+		command = { type = relation which = ENG value = 10 }
+		command = { trigger = { ai = EGY } type = event which = 2400040 where = EGY when = 0 }
+		command = { trigger = { ai = EGY } type = event which = 2400020 where = EGY when = 0 }
+		}
+}
+
+#########################################################################
+#  Anglo-Egyptian treaty - UK
+#########################################################################
+
+event = {
+	id = 2001063 
+	random = no
+	country = ENG
+	style = 2
+
+	name = 465name
+	desc = 465desc
+	picture = "news_paper"
+
+	action_a = {
+		name = 465a # Sign the pact
+		ai_chance = 100
+		command = { type = trade which = ENG where = EGY supplies = -4 value = 1 } 
+		command = { type = trigger which = 2069003 } # UK agrees
+		command = { type = relation which = EGY value = 10 }
+		#command = { type = end_mastery which = EGY }
+		#command = { type = event which = 2400530 where = EGY when = 0 } #legitimate independence
+		command = { type = access which = EGY } #Egyptian access to Sudan primarily
+		command = { type = supplies value = -300 }
+		#Egypt will still switch sides if the Axis are successful
+	}
+
+	action_b = {
+		name = 465b # Don't accept
+		ai_chance = 0
+		command = { type = trigger which = 2069004 } # UK refuses
+		command = { type = relation which = EGY value = -200 }
+		command = { type = dissent value = 5 } #Arab subjects are upset
+		#Egypt will still switch sides at the first opportunity
+	}
+}
+
+#########################################################################
+#  UK signs the Anglo-Egyptian treaty
+#########################################################################
+
+event = {
+	id = 2069003
+	random = no
+	country = EGY
+	style = 2
+
+	name = 466name
+	desc = 466desc
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_HURRAH # OK
+		command = { type = dissent value = -3 }
+		command = { type = leave_alliance when = 1 }
+		command = { type = end_access which = ENG }
+		command = { type = event which = 2400537 where = EGY when = 0 } #puppet level 5 -> puppet level 7
+		command = { type = non_aggression which = EGY where = ENG when = 7300 } #20 years non-aggression
+		#After 20 years from the implementation of the Treaty parties it shall be determined if the presence of British troops is necessary as the Egyptian army may be able to guarantee shipping in the Suez Canal safely. Disagreements may be submitted to the League of Nations.
+	}
+}
+
+#########################################################################
+#  UK doesn't sign the Anglo-Egyptian treaty
+#########################################################################
+
+event = {
+	id = 2069004
+	random = no
+	country = EGY
+	style = 2
+
+	name = 467name
+	desc = 467desc
+	picture = "news_paper"
+
+	action_a = {
+		name = "We will remember this!" # (Egypt will be eager to join the axis)
+		ai_chance = 99
+		command = { type = relation which = ENG value = -15 }
+		command = { type = relation which = GER value = 150 }
+		command = { type = relation which = ITA value = 50 }
+		command = { type = dissent value = 1 }
+		}
+
+	action_b = {
+		name = 467b # We will fight for our freedom
+		ai_chance = 1
+		command = { type = end_puppet }
+		command = { type = leave_alliance when = 1 }
+		command = { type = war which = ENG }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		}
+	}
+
+#########################################################################
+#  Menace of war growing in Europe - North Coast to UK
+#########################################################################
+event = {
+	id = 2069007 
+	random = no
+	country = EGY
+	style = 2
+	save_date = yes
+	
+	trigger = {
+		#event = 2069003 #Anglo-Egyptian treaty
+		OR = { 
+			event = 2058001 # Italy demands Albania
+			event = 2025001 # Munich
+			war = { country = ENG country = GER } 
+			war = { country = ENG country = ITA } 
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 30
+	deathdate = { day = 0 month = january year = 2000 }
+
+	name = 470name
+	desc = 470desc
+	picture = "north_africa_war"
+
+	action_a = {
+		name = "British occupation resumes"
+		command = { type = dissent value = 5 }
+		command = { type = secedearea which = ENG value = "Sidi Barrani" }
+		command = { type = secedearea which = ENG value = "El Alamein" }
+		command = { type = secedearea which = ENG value = "Western Desert" }
+		command = { type = secedearea which = ENG value = "Nile Valley" }
+		command = { type = secedearea which = ENG value = "Suez Channel Area" }
+		command = { type = secedearea which = ENG value = "Palestine" }
+		command = { type = secedeprovince which = ENG value = 902 } #Dimyat
+		command = { type = secedeprovince which = ENG value = 906 } #Hakin
+		command = { type = secedeprovince which = ENG value = 907 } #Alexandria
+		command = { type = secedeprovince which = ENG value = 904 } #Tantra
+		
+		command = { type = unlock_division which = 12700 value = 19 }
+	}
+}
+
+#########################################################################
+#  Egypt gains back western desert
+#########################################################################
+
+event = {
+	id = 2069009
+	random = no
+	country = ENG
+	style = 2
+	
+	trigger = {
+		alliance = { country = EGY } 
+		event = { id = 2069007 days = 1000 } # At least 1,000 days have spent after Egypt gave Western Desert to UK
+		OR = {
+			AND = {
+				control = { province = 789 data = ENG } # Alexandria
+				control = { province = 750 data = ENG } # Tripoli
+				control = { province = 765 data = ENG } # Tobruk
+				control = { province = 761 data = ENG } # Bengazi
+			}
+			NOT = {
+				war = { country = ENG country = GER } 
+				war = { country = ENG country = ITA } 
+			}
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 50
+	deathdate = { day = 0 month = january year = 2000 }
+
+	name = 471name
+	desc = 471desc
+	picture = "north_africa_war"
+
+	action_a = {
+		name = ACTION_NAME_OK
+		command = { type = secedearea which = EGY value = "Sidi Barrani" }
+		command = { type = secedearea which = EGY value = "El Alamein" }
+		command = { type = secedearea which = EGY value = "Western Desert" }
+		command = { type = secedearea which = EGY value = "Nile Valley" }
+		command = { type = secedearea which = EGY value = "Delta" }
+		command = { type = secedearea which = EGY value = "Suez Channel Area" }
+		command = { type = secedeprovince which = EGY value = 902 } #Dimyat
+		command = { type = secedeprovince which = EGY value = 906 } #Hakin
+		command = { type = secedeprovince which = EGY value = 907 } #Alexandria
+		command = { type = secedeprovince which = EGY value = 904 } #Tantra
+		
+		command = { type = secedeprovince which = ENG value = 900 when = 2 } #Suez Canal
+	}
+}
+
+##################################################
+# Unlocking british divisions abroad
+##################################################
+
+event = {
+	id = 2069005
+	random = no
+	country = REB
+	style = 2
+	
+	trigger = {
+		OR = {
+			NOT = { ai = ENG }
+			war = { country = IRQ country = ENG } 
+			alliance = { country = IRQ country = ENG } 
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 0 month = january year = 2000 }
+
+	name = "AI_EVENT"	
+
+	action = {
+		command = { type = unlock_division which = 12700 value = 21 } #Iraq
+		command = { type = unlock_division which = 12700 value = 23 } #Iraq
+		
+		command = { type = unlock_division which = 12700 value = 19 } #Egypt, just in case
+	}
+}
+
+#########################################################################
+#  Egypt switches sides - EGY
+#########################################################################
+
+event = {
+	id = 2069008
+	random = no
+	country = EGY
+	style = 2
+	
+	#Not a decision - pressure on Egypt to pick sides
+	trigger = {
+		#random = 40
+		OR = {
+			war = { country = ITA country = ENG } 
+			war = { country = GER country = ENG } 
+		}
+
+		#Axis approaching Cairo from the west or east
+		OR = { 
+			control = { province = 904 data = GER } # Giza
+			control = { province = 900 data = GER } # Suez
+			control = { province = 904 data = ITA } # Giza
+			control = { province = 900 data = ITA } # Suez
+			control = { province = 904 data = U04 } # Giza
+			control = { province = 900 data = U04 } # Suez
+			control = { province = 904 data = TUR } # Giza
+			control = { province = 900 data = TUR } # Suez
+			event = 2069004 #England rejected the 1936 treaty
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 10
+	deathdate = { day = 0 month = january year = 2000 }
+
+	name = 472name
+	desc = 472desc
+	picture = "afrika_korps"
+
+	action = {
+		name = 472a
+		ai_chance = 95
+		#command = { type = regime_falls }
+		command = { type = set_domestic which = political_left value = -1 }
+		command = { type = leave_alliance when = 1 }
+		command = { type = end_puppet }
+		command = { type = access which = ENG }
+		command = { type = access which = GER }
+		command = { type = access which = ITA }
+		command = { type = dissent value = 5 }
+		command = { trigger = { war = { country = ITA country = ENG } } type = event which = 2003085 where = ITA when = 3 }
+		command = { trigger = { NOT = { war = { country = ITA country = ENG } } } type = event which = 2003085 where = GER when = 3 }
+	}
+	action = {
+		name = 472b
+		ai_chance = 5
+		command = { type = regime_falls }
+		command = { type = set_domestic which = political_left value = 5 }
+		command = { type = alliance which = ENG when = 1 }
+		command = { type = relation which = ENG value = 10 }
+		command = { type = relation which = GER value = -10 }
+		command = { type = dissent value = 20 }
+		command = { trigger = { event = 2069004 } type = dissent value = 20 }
+	}
+}
+
+#########################################################################
+#  Egypt switches sides - ITA
+#########################################################################
+
+event = {
+	id = 2003085
+	random = no
+	country = ITA
+	style = 2
+
+	name = 473name
+	desc = 473desc
+	picture = "afrika_korps"
+
+	action = {
+		name = 473a
+		command = { type = make_puppet which = EGY }
+		command = { type = event which = 2400536 where = EGY when = 0 } #Medium puppet
+		command = { type = dissent value = -1 }
+	}
+}
+
+####################
+# CAN If Day
+####################
+event = { 
+	id = 2045004  
+	random = no 
+	country = CAN
+	
+	decision = {
+		war = { country = GER }
+	}
+	decision_trigger = {
+		alliance = { country = ENG }
+	}
+	trigger = {
+		random = 20
+		alliance = { country = ENG }
+		war = { country = GER }
+	}
+
+	date = { day = 0 month = january year = 1942 }
+	offset = 60
+	deathdate = { day = 29 month = september year = 1999 }	
+	name = 2045003name
+	desc = 2045003desc
+  	style = 2
+  	picture = "If-Day"
+	
+	action = {
+		name = ACTION_NAME_GREAT
+		command = { type = money value = 500 }
+		command = { type = dissent value = -1 }
+	}
+}
+
+
+####################
+# Irish independence
+####################
+
+event = { 
+	id = 2002001  
+	random = no 
+	country = IRE
+	
+	decision = {
+		puppet = { country = IRE country = ENG }
+	}
+	decision_trigger = {
+		year = 1938
+	}
+	trigger = {
+		puppet = { country = IRE country = ENG }
+		year = 1938
+	}
+
+	date = { day = 0 month = january year = 1937 }
+	offset = 30
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = "End of the Irish Free State"
+	desc = "Since the Irish War of Independence and the partition of the island, Ireland's relations with London were governed by the Anglo-Irish Treaty of 1921. This treaty, however, was very contraversial and unpopular in Ireland, particularly among the supporters of Eamon de Valera, who led a party named 'Soldiers of Destiny' or 'Fianna Fail'. He advocated a complete break with Britiain and establishment of a fully-sovereign Irish Republic. By 1927, Fianna Fail began to make rapid political gains, and the treaty started to slowly become undone. In 1932, Fianna Fail secured majority in the Irish elections, and the Anglo-Irish relations quickly deteriorated, with UK imposing economic sanctions against Irish exports and De Valera responding in kind with levies on British imports. In late 1937, Ireland unilaterally abolished the office of the Governor-General representing the British monarch, and passed a new Constitution, officially ending the Irish Free State and establishing the Irish Republic. In 1938, UK and Ireland concluded a treaty settling their main outstanding disputes, and the last British bases known as 'Treaty Ports' were withdrawn from Ireland in the same year."
+  	style = 2
+	
+	action = {
+		name = "Republic of Ireland is born today"
+		command = { type = end_puppet }
+		command = { type = domestic which = political_left value = 1 }
+		command = { type = headofstate which = 125014 } #Douglas Hyde
+		command = { type = end_access which = ENG when = 0 }
+		command = { type = end_access which = ENG when = 1 }
+		command = { type = leave_alliance when = 1 }
+		command = { type = money value = 100 }
+		command = { type = name where = IRE which = IRE }
+		command = { type = dissent value = -5 }
+		command = { type = event which = 2400530 where = IRE when = 0 } #independent state
+		command = { type = trigger which = 2002002 }
+	}
+}
+
+event = { 
+	id = 2002002  
+	random = no 
+	country = ENG
+
+	name = "Ireland severs ties with UK"
+	desc = "Since the Irish War of Independence and the partition of the island, Ireland's relations with London were governed by the Anglo-Irish Treaty of 1921. This treaty, however, was very contraversial and unpopular in Ireland, particularly among the supporters of Eamon de Valera, who led a party named 'Soldiers of Destiny' or 'Fianna Fail'. He advocated a complete break with Britiain and establishment of a fully-sovereign Irish Republic. By 1927, Fianna Fail began to make rapid political gains, and the treaty started to slowly become undone. In 1933, Fianna Fail secured majority in the Irish elections, and the Anglo-Irish relations quickly deteriorated, with UK imposing economic sanctions against Irish exports and De Valera responding in kind with levies on British imports. In late 1937, Ireland unilaterally abolished the office of the Governor-General representing the British monarch, and passed a new Constitution, officially ending the Irish Free State and establishing the Irish Republic. In 1938, UK and Ireland concluded a treaty settling their main outstanding disputes, and the last British bases known as 'Treaty Ports' were withdrawn from Ireland in the same year. While successfully regulating the British relations with Ireland for many years to come, the appeasement of the Irish nationalists by Londong set a bad precedent for other subjects of the Empire and international actors alike."
+  	style = 2
+	
+	action = {
+		name = "Recognize the Republic"
+		ai_chance = 100
+		command = { type = relation which = IRE value = 30 }
+		command = { type = dissent value = 2 }
+	}
+	action = {
+		name = "This means war!"
+		ai_chance = 0
+		command = { type = relation which = IRE value = -100 }
+		command = { type = relation which = USA value = -50 }
+		command = { type = war which = IRE }
+		command = { type = dissent value = 20 }
+		command = { type = belligerence value = 10 } 
+		command = { type = local_setflag which = SanctionsEvt }
+		command = { type = domestic which = political_left value = -1 }
+		command = { type = trigger which = 2002003 }
+	}
+}
+
+event = { 
+	id = 2002003  
+	random = no 
+	country = IRE
+
+	name = "The Empire strikes back"
+	desc = "Contrary to expectations, London decided to fight de Valera by all available means, including force. Losing Ireland was bad enough, but more than that, London felt that it could not afford to appease the Irish nationalists as this would set a terrible precedent for the rest of the Empire and for international opponents of England alike. Within weeks, a full blown war erupted between Dublin and London. We won the first independence war, it's time to win the second one."
+  	style = 2
+	
+	action = {
+		name = "For the Republic!"
+		command = { type = relation which = GER value = 30 }
+		command = { type = relation which = ITA value = 30 }
+		command = { type = dissent value = -10 }
+		command = { type = manpowerpool value = 150 }
+		command = { type = add_division value = infantry when = 8 where = -30 }
+		command = { type = add_division value = infantry when = 8 where = -30 }
+		command = { type = add_division value = militia when = 6 where = -30 }
+		command = { type = add_division value = militia when = 6 where = -30 }
+		command = { type = add_division value = militia when = 6 where = -30 }
+		command = { type = add_division value = militia when = 6 where = -30 }
+		command = { type = add_division value = militia when = 6 where = -30 }
+		command = { type = trade which = USA where = IRE supplies = -10 value = 1 }
+		command = { type = local_setflag which = inMajorWar	}
+	}
+}
+
+####################
+# Polish Armed Forces in the West
+# Giving 5 free IC to exiled governments on top of 3 they have by default because they may need some IC to reinforce, upgrade, and potentially supply their units (assuming direct control)
+# They will also allocate some IC to building new units.
+####################
+
+
+event = { 
+	id = 2002100  
+	random = no 
+	country = ENG
+	
+	trigger = {
+		alliance = { country = ENG country = POL }
+		NOT = { region = { region = Poland country = -3 data = 1 value = 1 } }
+	}
+
+	date = { day = 0 month = january year = 1937 }
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = "Polish Armed Forces in the West"
+	desc = "After Poland's defeat to Germany in 1939, the Polish government-in-exile quickly started reorganizing a new fighting force in France, and later in England. The formation of this new force was bolstered in large part by the Polish military refugees fleeing from Poland through Romania and to the west. They provided the bulk of experienced and motivated manpower, and even air force pilots. However, much of the equipment had to be procured locally. For this purpose, the Allied governments provided the exiled armed forces with significant aid."
+  	style = 2
+	
+	action = {
+		name = "Poland will be reborn!"
+		command = { type = make_puppet which = POL }
+		command = { type = event which = 2400539 where = POL when = 0 } #strong puppet
+		command = { type = free_ic  value = -5 }
+		command = { type = supplies value = -1000 }
+		command = { type = trade which = ENG where = POL energy = -10 metal = -5 rare_materials = -2.5 value = 1 } 
+		command = { type = activate_division which = 12700 value = 10110 where = 8000 when = 0 } #this locked unit is the only way for a human player to deploy new divisions off-map
+		command = { type = trigger which = 2002101 }
+	}
+}
+
+event = { 
+	id = 2002101 
+	random = no 
+	country = POL
+
+	name = "Polish Armed Forces in the West"
+	desc = "After Poland's defeat to Germany in 1939, the Polish government-in-exile quickly started reorganizing a new fighting force in France, and later in England. The formation of this new force was bolstered in large part by the Polish military refugees fleeing from Poland through Romania and to the west. They provided the bulk of experienced and motivated manpower, and even air force pilots. However, much of the equipment had to be procured locally. For this purpose, the Allied governments provided the exiled armed forces with significant aid."
+  	style = 2
+	
+	action = {
+		name = "Poland will be reborn!"
+		command = { type = free_ic  value = 5 }
+		command = { trigger = { NOT = { military_control = { country = ENG country = POL } } } type = military_control which = ENG where = POL value = 1 }
+		command = { type = set_domestic which = political_left value = 4 }
+		#reset manpower pool
+		command = { type = manpowerpool value = -5000 }
+		command = { type = manpowerpool value =  1000 } 
+		
+		command = { type = add_corps value = land where = 19 when = 60124 } #Sikorski
+		command = { type = add_division which = "Polish Army in the West" value = hq when = 3 where = -30 }
+		command = { type = add_division value = garrison when = 5 where = -30 }
+		
+		command = { trigger = { NOT = { air = { size = 2 } } } type = add_corps value = air where = 17 } #Norwich
+		command = { trigger = { NOT = { air = { size = 2 } } } type = add_division value = multi_role when = 6 where = -90 }
+		
+		command = { type = ai which = "EXP_100.ai" }
+		
+		command = { type = event which = 2002105 where = POL when = 5 }
+	}
+}
+
+event = { 
+	id = 2002102 
+	random = no 
+	country = ENG
+
+	trigger = {
+		event = 2002100
+		OR = {
+			NOT = { exists = POL }
+			NOT = { atwar = POL }
+		}
+	}
+
+	date = { day = 0 month = january year = 1937 }
+	offset = 30
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = "End of the Polish Government in Exile"
+	desc = "After the dissolution of the Polish Government in Exile, the British government could finally make use of the resources which were previously allocated to the exiled Polish leaders and their armed forces."
+  	style = 2
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = free_ic  value = 5 }
+		command = { type = trigger which = 2002103 }
+	}
+}
+
+event = { 
+	id = 2002103
+	random = no 
+	country = POL
+	
+	name = "End of the Polish Government in Exile"
+	desc = "After the dissolution of the Polish Government in Exile, the British government could finally make use of the resources which were previously allocated to the exiled Polish leaders and their armed forces."
+  	style = 2
+	
+	action = {
+		name = "ACTION_NAME_OK"
+		command = { type = free_ic  value = -5 }
+		command = { type = end_trades which = POL where = ENG }
+	}
+}
+
+event = { 
+	id = 2002105
+	random = no 
+	country = POL
+	persistent = yes
+	
+	name = "Polish Armed Forces in the West"
+	desc = "After Poland's defeat to Germany in 1939, the Polish government-in-exile quickly started reorganizing a new fighting force in France, and later in England. The formation of this new force was bolstered in large part by the Polish military refugees fleeing from Poland through Romania and to the west. They provided the bulk of experienced and motivated manpower, and even air force pilots. However, much of the equipment had to be procured locally. For this purpose, the Allied governments provided the exiled armed forces with significant aid."
+  	style = 2
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		trigger = {
+			event = 2002100
+			NOT = { event = 2002102 }
+			atwar = POL
+			NOT = { local_flag = { which = POLArmyWest when = 1 value = 10 } }
+			NOT = { region = { region = Poland country = -3 data = 1 value = 50 } }
+		}
+		
+		command = { trigger = { control = { province = 56 data = -3 } } 			type = add_corps value = land where = 56 } #Paris
+		command = { trigger = { NOT = { control = { province = 56 data = -3 } } }	type = add_corps value = land where = 19 } #London
+		command = { trigger = { NOT = { year = 1943 } } 							type = add_division value = infantry when = 10 where = -90 } #1939
+		command = { trigger = { year = 1943 }										type = add_division value = infantry when = 11 where = -90 } #1942
+		
+		command = { type = local_setflag which = POLArmyWest when = 1 value = 1 }
+		
+		command = { type = event which = 2002105 where = POL when = 180 } #One division per 6 months. Will have 2 divisions ready by June 1940. Will reach 10 divisions by ~October 1944.
+	}
+}
+
+
+####################
+# Polish Armed Forces in the East
+####################
+
+
+event = { 
+	id = 2002106  
+	random = no 
+	country = SOV
+	
+	decision = {
+		war = { country = GER country = POL }
+		war = { country = GER country = SOV }
+		alliance = { country = ENG country = POL }
+		NOT = { region = { region = Poland country = POL data = 1 value = 10 } }
+	}
+	decision_trigger = {
+		event = 2002100
+		NOT = { event = 2002102 }
+	}
+	trigger = {
+		war = { country = GER country = POL }
+		war = { country = GER country = SOV }
+		alliance = { country = ENG country = POL }
+		NOT = { region = { region = Poland country = POL data = 1 value = 10 } }
+		event = 2002100
+		NOT = { event = 2002102 }
+	}
+
+	date = { day = 0 month = january year = 1937 }
+	offset = 30
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = "Polish Armed Forces in the East"
+	desc = "Diplomatic relations between Poland and USSR were re-established in 1941 after the German invasion of the Soviet Union, when the British government allied itself with the Soviet Union and pressured the Polish government in exile to act accordingly. Consequently, the USSR and Poland signed the Sikorski–Mayski agreement, whereby Joseph Stalin agreed to abrogate the Poland-related aspects of the Molotov–Ribbentrop Pact. As an amnesty for Polish citizens in the Soviet Union was negotiated, tens of thousands of Polish prisoners of war held in Soviet camps, as well as hundreds of thousands of Polish citizens who had been deported to the USSR, were released. From them the USSR began forming a new Polish Army based in Buzuluk (later in Tashkent), with the aim of fighting against the Germans alongside the Soviet Red Army. The Army was led by General Wladyslaw Anders, chosen by the exiled Polish government."
+  	style = 2
+	
+	action = {
+		name = "This serves our common interests"
+		command = { type = relation which = POL value = 30 }
+		command = { type = access which = POL }
+		command = { type = event which = 2002107 where = POL when = 5 }
+	}
+}
+
+event = { 
+	id = 2002107 
+	random = no 
+	country = POL
+	persistent = yes
+	
+	name = "Polish Armed Forces in the East"
+	desc = "Diplomatic relations between Poland and USSR were re-established in 1941 after the German invasion of the Soviet Union, when the British government allied itself with the attacked Soviet Union and pressured the Polish government in exile to act accordingly. Consequently, the USSR and Poland signed the Sikorski–Mayski agreement, whereby Joseph Stalin agreed to abrogate the Poland-related aspects of the Molotov–Ribbentrop Pact. As an amnesty for Polish citizens in the Soviet Union was negotiated, tens of thousands of Polish prisoners of war held in Soviet camps, as well as hundreds of thousands of Polish citizens who had been deported to the USSR, were released. From them the USSR began forming a new Polish Army based in Buzuluk (later in Tashkent), with the aim of fighting against the Germans alongside the Soviet Red Army. The Army was led by General Wladyslaw Anders, chosen by the exiled Polish government."
+  	style = 2
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		trigger = {
+			event = 2002106
+			atwar = POL
+			NOT = { local_flag = { which = POLArmyEast when = 1 value = 8 } }
+			NOT = { region = { region = Poland country = -3 data = 1 value = 50 } }
+		}
+		
+		command = { trigger = { NOT = { local_flag = { which = POLArmyEast when = 1 value = 1 } } control = { province = 269 data = SOV } } 			type = add_corps value = land where = 3668 when = 60003 } #Anders
+		command = { trigger = { NOT = { local_flag = { which = POLArmyEast when = 1 value = 1 } } NOT = { control = { province = 269 data = SOV } } } 	type = add_corps value = land where = 1427 when = 60003 } #Anders
+		command = { trigger = { NOT = { local_flag = { which = POLArmyEast when = 1 value = 1 } } } 	type = add_division which = "Polish Army in the East" value = hq when = 3 where = -30 }
+		#command = { trigger = { NOT = { local_flag = { which = POLArmyEast when = 1 value = 1 } } } 	type = add_division value = garrison when = 5 where = -30 }
+		
+		command = { trigger = { control = { province = 269 data = SOV } } 			type = add_corps value = land where = 3668 } #Buzuluk
+		command = { trigger = { NOT = { control = { province = 269 data = SOV } } }	type = add_corps value = land where = 1427 } #Tashkent
+		command = { trigger = { NOT = { year = 1943 } } 							type = add_division value = infantry when = 10 where = -90 } #1939
+		command = { trigger = { year = 1943 }										type = add_division value = infantry when = 11 where = -90 } #1942
+		
+		command = { type = local_setflag which = POLArmyEast when = 1 value = 1 }
+		
+		command = { type = event which = 2002107 where = POL when = 60 } #One division per 2 months. Will reach 8 divisions by ~November 1942.
+	}
+	action = {
+		name = "The Soviets are stiffling aid!"
+		trigger = {
+			event = 2002106
+			local_flag = { which = POLArmyEast when = 1 value = 8 }
+		}
+		
+		command = { type = event which = 2002108 where = SOV when = 1 }
+	}
+}
+
+event = { 
+	id = 2002108
+	random = no 
+	country = SOV
+	save_date = yes
+	
+	name = "Evacuation of the Polish Army of the East"
+	desc = "While the formation of the Polish Army in the East proceeded mostly as planned, Anders and the rest of the Polish leadership would ultimately refuse to fight under Soviet leadership. Beria reported to Stalin anti-Soviet sentiments among the Polish soldiers, while the generals expressed their strong preference to leave the USSR and fight elsewhere. Repeated Soviet attempts to get the Polish divisions to assist the Soviet army in the pivotal battles of the Eastern Front were resolutely declined by the Polish leadership, and Stalin developed paranoia about a possible Polish rebellion in the middle of Siberia, akin to the Chechoslovak rebellion which sparked the bloody Russian Civil War 25 years prior. Ultimately, the Soviet leadership came to the conclusion that its funding of the Polish army on its territory was a dangerous waste of limited resources, and began to stiffle the aid, much to the dismay of the Polish generals. Finally, by agreement with the British goverment, the Polish army was evacuated from USSR through Iran to Africa, and later fought together with the British and Americans in Italy and in France. Meanwhile, for Moscow, its support for the Army of Anders was not entirely a waste. Aside from helping a common Allied cause of defeating the Axis, the USSR was also able to rid itself from the most troublesome Polish elements, to normalize relations with the average working Poles by presenting itself as a friend to Poland rather than a foe, and finally allowed for the creation of a brand new Polish army, one that would actually fight alongside the USSR."
+  	style = 2
+	
+	action = {
+		name = "Let them go, they are of no use to us."
+		#Polish divisions will auto-redeploy to London
+		command = { type = end_access which = POL when = 0 }
+		command = { type = end_access which = POL when = 1 }
+		command = { type = supplies value = 1000 } #Some reimbursement for supplying the Polish army
+		command = { type = dissent value = -2 }
+		
+		command = { type = event which = 2002109 where = POL when = 1 }
+		#command = { type = event which = 2002110 where = SOV when = 60 } #~March 1943
+	}
+}
+
+event = { 
+	id = 2002109
+	random = no 
+	country = POL
+	
+	name = "Evacuation of the Polish Army of the East"
+	desc = "While the formation of the Polish Army in the East proceeded mostly as planned, Anders and the rest of the Polish leadership would ultimately refuse to fight under Soviet leadership. Beria reported to Stalin anti-Soviet sentiments among the Polish soldiers, while the generals expressed their strong preference to leave the USSR and fight elsewhere. Repeated Soviet attempts to get the Polish divisions to assist the Soviet army in the pivotal battles of the Eastern Front were resolutely declined by the Polish leadership, and Stalin developed paranoia about a possible Polish rebellion in the middle of Siberia, akin to the Chechoslovak rebellion which sparked the bloody Russian Civil War 25 years prior. Ultimately, the Soviet leadership came to the conclusion that its funding of the Polish army on its territory was a dangerous waste of limited resources, and began to stiffle the aid, much to the dismay of the Polish generals. Finally, by agreement with the British goverment, the Polish army was evacuated from USSR through Iran to Africa, and later fought together with the British and Americans in Italy and in France. Meanwhile, for Moscow, its support for the Army of Anders was not entirely a waste. Aside from helping a common Allied cause of defeating the Axis, the USSR was also able to rid itself from the most troublesome Polish elements, to normalize relations with the average working Poles by presenting itself as a friend to Poland rather than a foe, and finally allowed for the creation of a brand new Polish army, one that would actually fight alongside the USSR."
+  	style = 2
+	
+	action = {
+		name = "USSR is not a friend and never will be"
+		command = { type = relation which = SOV value = -20 }
+	}
+}
+
+
+event = { 
+	id = 2002110 
+	random = no 
+	country = SOV
+	
+	decision = {
+		event = 2002108
+	}
+	trigger = {
+		control = { province = 8001 data = -3 }
+		NOT = { exists = U32 }
+		event = { id = 2002108 days = 50 } 
+		manpower = 500
+		supplies = 1000
+	}
+
+	date = { day = 0 month = january year = 1937 }
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = "The Polish People's Army"
+	desc = "After Anders' Army left Soviet controlled territory, the relations between Moscow and the Polish government in exile deteriorated, and the Soviets decided to assume much greater control over the remaining Polish military potential in the USSR. A few months later, the Union of Polish Patriots (ZPP) was founded in Moscow. The ZPP was a mass-membership, communist-led organization for Polish citizens. It conducted political activities and organized large-scale social welfare and relief programs for Polish communities in the Soviet Union. It was led by the Polish communist Wanda Wasilewska, and at least initially, many of its members were Polish Jews, who were generally more sympathetic to the USSR than the ethnic Poles. However, the ZPP worked tirelessly to broaden its appeal, and due to the efforts of Wasilewska and Zygmunt Berling, a new army was established - the Polish People's Army (Ludowe Wojsko Polskie). This army, together with partisan 'Armia Ludowa' operating behind German lines, would ultimately serve as the foundation of the new pro-Soviet Polish state."
+  	style = 2
+	
+	action = {
+		name = "We will have a true friend in Poland!"
+		command = { type = activate_division which = 10848 value = 8600 where = 8001 when = 0 }
+		command = { type = independence which = U32 value = 0 } #garrison switches sides
+		command = { type = make_puppet which = U32 }
+		command = { type = event which = 2400537 where = U32 when = 0 } #medium puppet
+		command = { type = relation which = POL value = -100 }
+		command = { type = relation which = ENG value = -20 }
+		command = { type = relation which = USA value = -20 }
+		
+		command = { type = manpowerpool value = -500  }
+		command = { type = supplies 	value = -1000 }
+		
+		command = { type = free_ic  value = -5 }
+		command = { type = trade which = SOV where = U32 energy = -10 metal = -5 rare_materials = -2.5 value = 1 } 
+		
+		command = { type = secedearea which = U32 value = "Krakow" 	when = 1 }
+		command = { type = secedearea which = U32 value = "Poznan" 	when = 1 }
+		command = { type = secedearea which = U32 value = "Warsaw" 	when = 1 }
+
+		
+		command = { type = trigger which = 2002111 }
+	}
+}
+
+event = { 
+	id = 2002111  
+	random = no 
+	country = U32
+	
+	name = "The Polish People's Army"
+	desc = "After Anders' Army left Soviet controlled territory, the relations between Moscow and the Polish government in exile deteriorated, and the Soviets decided to assume much greater control over the remaining Polish military potential in the USSR. A few months later, the Union of Polish Patriots (ZPP) was founded in Moscow. The ZPP was a mass-membership, communist-led organization for Polish citizens. It conducted political activities and organized large-scale social welfare and relief programs for Polish communities in the Soviet Union. It was led by the Polish communist Wanda Wasilewska, and at least initially, many of its members were Polish Jews, who were generally more sympathetic to the USSR than the ethnic Poles. However, the ZPP worked tirelessly to broaden its appeal, and due to the efforts of Wasilewska and Zygmunt Berling, a new army was established - the Polish People's Army (Ludowe Wojsko Polskie). This army, together with partisan 'Armia Ludowa' operating behind German lines, would ultimately serve as the foundation of the new pro-Soviet Polish state."
+  	style = 2
+	
+	action = {
+		name = "We will have a true friend in the USSR!"
+		command = { type = relation which = POL value = -100 }
+		
+		command = { trigger = { NOT = { military_control = { country = SOV country = U32 } } } type = military_control which = SOV where = U32 value = 1 }
+		
+		command = { type = manpowerpool value = 200  }
+		command = { type = manpowerpool value = 500  }
+
+		command = { trigger = { control = { province = 269 data = -3 } } 			type = add_corps value = land where = 3668 when = 975010 } #Buzuluk (Berling)
+		command = { trigger = { NOT = { control = { province = 269 data = -3 } } }	type = add_corps value = land where = 1427 when = 975010 } #Tashkent (Berling)
+		command = { type = add_division which = "Polish People's Army" value = hq when = 3 where = -30 }
+		command = { type = add_division value = garrison when = 5 where = -30 }
+		
+		command = { type = addcore which = 485 }
+		command = { type = addcore which = 2628 }
+		command = { type = addcore which = 486 }
+		command = { type = addcore which = 1595 }
+		command = { type = addcore which = 482 }
+		command = { type = addcore which = 473 }
+		command = { type = addcore which = 1623 }
+		command = { type = addcore which = 1400 }
+		command = { type = addcore which = 3238 }
+		command = { type = addcore which = 308 }
+		command = { type = addcore which = 3258 }
+		command = { type = addcore which = 302 }
+		command = { type = addcore which = 1810 }
+		command = { type = addcore which = 3259 }
+		command = { type = addcore which = 1779 }
+		command = { type = addcore which = 303 }
+		command = { type = addcore which = 306 }
+		command = { type = addcore which = 3265 }
+		command = { type = addcore which = 307 }
+		command = { type = addcore which = 208 }
+		command = { type = addcore which = 3264 }
+		command = { type = addcore which = 483 }
+		command = { type = addcore which = 3263 }
+		command = { type = addcore which = 2647 }
+		command = { type = addcore which = 304 }
+		command = { type = addcore which = 3260 }
+		command = { type = addcore which = 1811 }
+		command = { type = addcore which = 3261 }
+		command = { type = addcore which = 509 }
+		command = { type = addcore which = 505 }
+		command = { type = addcore which = 1875 }
+		command = { type = addcore which = 3272 }
+		command = { type = addcore which = 508 }
+		command = { type = addcore which = 1876 }
+		command = { type = addcore which = 305 }
+		command = { type = addcore which = 222 }
+		command = { type = addcore which = 211 }
+		command = { type = addcore which = 481 }
+		command = { type = addcore which = 3266 }
+		command = { type = addcore which = 504 }
+		command = { type = addcore which = 3270 }
+		command = { type = addcore which = 1884 }
+		command = { type = addcore which = 487 }
+		command = { type = addcore which = 484 }
+		command = { type = addcore which = 3268 }
+		command = { type = addcore which = 480 }
+		command = { type = addcore which = 3267 }
+		command = { type = addcore which = 3269 }
+		command = { type = addcore which = 479 }
+		command = { type = addcore which = 488 }
+		command = { type = addcore which = 3271 }
+		command = { type = addcore which = 489 }
+		command = { type = addcore which = 6515 }
+		command = { type = addcore which = 6516 }
+		command = { type = addcore which = 6519 }
+		command = { type = addcore which = 7046 }
+		command = { type = addcore which = 7177 }
+		command = { type = addcore which = 7047 }
+		command = { type = addcore which = 7262 }
+		command = { type = addcore which = 7049 }
+		command = { type = addcore which = 7050 }
+		command = { type = addcore which = 7048 }
+		command = { type = addcore which = 7335 }
+		command = { type = addcore which = 7979 }
+		
+		command = { type = capital which = 485 }
+		
+		command = { type = free_ic  value = 5 }
+		
+		command = { type = event which = 2002115 where = U32 when = 5 }
+	}
+}
+
+event = { 
+	id = 2002112
+	random = no 
+	country = SOV
+
+	trigger = {
+		event = 2002111
+		OR = {
+			NOT = { exists = U32 }
+			NOT = { atwar = U32 }
+		}
+	}
+
+	date = { day = 0 month = january year = 1937 }
+	offset = 30
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = "End of the Polish Government in USSR"
+	desc = "After the dissolution of the Polish Government in USSR, the Soviet government could finally make use of the resources which were previously allocated to the exiled Polish leaders and their armed forces."
+  	style = 2
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = free_ic  value = 5 }
+		command = { type = trigger which = 2002113 }
+	}
+}
+
+event = { 
+	id = 2002113
+	random = no 
+	country = U32
+	
+	name = "End of the Polish Government in USSR"
+	desc = "After the dissolution of the Polish Government in USSR, the Soviet government could finally make use of the resources which were previously allocated to the exiled Polish leaders and their armed forces."
+  	style = 2
+	
+	action = {
+		name = "ACTION_NAME_OK"
+		command = { type = free_ic  value = -5 }
+		command = { type = end_trades which = U32 where = SOV }
+	}
+}
+
+event = { 
+	id = 2002115 
+	random = no 
+	country = U32
+	persistent = yes
+	
+	name = "The Polish People's Army"
+	desc = "After Anders' Army left Soviet controlled territory, the relations between Moscow and the Polish government in exile deteriorated, and the Soviets decided to assume much greater control over the remaining Polish military potential in the USSR. A few months later, the Union of Polish Patriots (ZPP) was founded in Moscow. The ZPP was a mass-membership, communist-led organization for Polish citizens. It conducted political activities and organized large-scale social welfare and relief programs for Polish communities in the Soviet Union. The ZPP was led by the pro-Soviet Polish communist Wanda Wasilewska. At the same time, due to the efforts of Wasilewska and Zygmunt Berling, a new army was established—the Polish People's Army (Ludowe Wojsko Polskie). This army, together with partisan 'Armia Ludowa' operating in Polish territory behind German lines, would ultimately serve as the foundation of the new pro-Soviet Polish state."
+  	style = 2
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		trigger = {
+			event = 2002111
+			NOT = { event = 2002112 }
+			atwar = U32
+			NOT = { local_flag = { which = U32ArmyEast when = 1 value = 10 } }
+			NOT = { region = { region = Poland country = -3 data = 1 value = 50 } }
+		}
+		
+		command = { trigger = { control = { province = 269 data = -3 } } 			type = add_corps value = land where = 3668 } #Buzuluk
+		command = { trigger = { NOT = { control = { province = 269 data = -3 } } }	type = add_corps value = land where = 1427 } #Tashkent
+		command = { trigger = { NOT = { year = 1943 } } 							type = add_division value = infantry when = 10 where = -90 } #1939
+		command = { trigger = { year = 1943 }										type = add_division value = infantry when = 11 where = -90 } #1942
+		
+		command = { type = local_setflag which = U32ArmyEast when = 1 value = 1 }
+		
+		command = { type = event which = 2002115 where = U32 when = 60 } #One division per 2 months. Assuming March 1943 start date, will reach 8 divisions by ~July 1944 when Soviet army starts to enter Poland
+	}
+}
+
+
+
+
+
+
+### some free ids
+### 2001025
+### 2001031
+### 2013003
+### 2185003

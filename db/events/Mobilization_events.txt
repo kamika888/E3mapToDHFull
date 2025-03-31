@@ -1,0 +1,3233 @@
+### 8300102 --- Professional military
+### 8300103 --- Selective Conscription
+### 8300104 --- One Year Conscription
+### 8300105 --- Two Year Conscription
+### 8300106 --- Three Year Conscription
+### 8300107 --- Partial Mobilization
+### 8300108 --- General Mobilization
+### 8300109 --- Extended Mobilization
+### 8300110 --- Total Mobilization
+### Specific event-driven mobilization for 1914 scenario
+### 1350007 --- Mobilize?
+### USA Congress events
+### 8300053 USA Selective Service Act
+### 8300054 USA Extend the draft
+### 8300055 USA Attached Bills
+### 1350002 --- Activate the reserve units (WW2)
+### 1350008 --- Activate the reserve units (WW1)
+### 1350003 --- Activate the reserve units (Backup event that triggers at war when the player forgot to mobilize - major)
+### 1350004 --- Activate the reserve units (Backup event that triggers at war when the player forgot to mobilize - medium)
+### 130173  SCH Landwehr Divisions
+### 130174  SCH Foreign Volunteers
+### 1350000 --- A People under Arms
+### 1350001 --- Military tries to take over
+### 8300111 --- End Mobilization
+### 8300112 --- End Mobilization
+### 13500053 --- Military recovers (down to Partial Mob)
+### 13500054 --- Military recovers (down to 3 Years conscription)
+##############################
+#Set mp and slider positions
+#############################
+
+#####Establish a professional military
+event = {
+ 
+	id = 8300102
+	random = no
+	#It tag is removed, there is no warning or record in the log
+	tag = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+
+	name = "MOB2aname"
+	desc = "8300102desc" 
+	style = 2
+	picture = "Wehrmacht"
+
+	action = { #Establish a professional military
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { type = set_domestic which = professional_army value = 2 }
+		command = { trigger = { ai = no } type = resource which = supplies value = -100 }
+		command = { trigger = { NOT = { local_flag = MOB2 } } type = manpowerpool value = 2 when = 1 }
+		command = { type = dissent value = -2 }
+		command = { type = local_setflag which = MOB2 }
+	}
+	action = { #Cancel
+		name = "ACTION_NAME_DECLINE"
+		ai_chance = 0
+		
+		command = { }
+	}	
+}
+
+#####Enact Selective Conscription
+event = {
+ 
+	id = 8300103
+	random = no
+	#It tag is removed, there is no warning or record in the log
+	tag = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+
+	name = "MOB3aname"
+	desc = "8300103desc" 
+	style = 2
+	picture = "Wehrmacht"
+
+	action = { #Enact Selective Conscription
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { type = set_domestic which = professional_army value = 3 }
+		command = { trigger = { NOT = { local_flag = MOB3 } ai = no } type = resource which = supplies value = -100 }
+		command = { trigger = { NOT = { local_flag = MOB2 } } type = manpowerpool value = 2 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = manpowerpool value = 2.5 when = 1 }
+		#3-yr conscription gives 10 belligerence, Partial mobilization gives 30, Full mobilization gives 50
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = belligerence value = 1 }
+
+		#additional dissent if not meeting requirements for next level (1 year conscription)
+		command = { trigger = { NOT = { local_flag = MOB3 } 
+			NOT = {
+				atwar = yes
+				local_flag = popularMobilization
+				AND = {
+					continent = "North America"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 6 } 
+							OR = {
+								#flag = { which = Threat_level_NA when = 1 value = 3 }
+								flag = { which = Threat_level_SA when = 1 value = 4 }
+								flag = { which = Threat_level_EU when = 1 value = 4 }
+								flag = { which = Threat_level_AP when = 1 value = 4 }
+								flag = { which = Threat_level_AF when = 1 value = 4 }
+								flag = { which = Threat_level_NA when = 1 value = 1 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 3 } 
+							OR = {
+								#flag = { which = Threat_level_NA when = 1 value = 4 }
+								flag = { which = Threat_level_SA when = 1 value = 5 }
+								flag = { which = Threat_level_EU when = 1 value = 5 }
+								flag = { which = Threat_level_AP when = 1 value = 5 }
+								flag = { which = Threat_level_AF when = 1 value = 5 }
+								flag = { which = Threat_level_NA when = 1 value = 2 }
+							}
+						}
+						
+						#Far away threats
+						#flag = { which = Threat_level_NA when = 1 value = 5 }
+						flag = { which = Threat_level_SA when = 1 value = 6 }
+						flag = { which = Threat_level_EU when = 1 value = 6 }
+						flag = { which = Threat_level_AP when = 1 value = 6 }
+						flag = { which = Threat_level_AF when = 1 value = 6 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_NA when = 1 value = 3 }
+					}
+				}
+				AND = {
+					continent = "South America"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 6 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 3 }
+								#flag = { which = Threat_level_SA when = 1 value = 4 }
+								flag = { which = Threat_level_EU when = 1 value = 4 }
+								flag = { which = Threat_level_AP when = 1 value = 4 }
+								flag = { which = Threat_level_AF when = 1 value = 4 }
+								flag = { which = Threat_level_SA when = 1 value = 1 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 3 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 4 }
+								#flag = { which = Threat_level_SA when = 1 value = 5 }
+								flag = { which = Threat_level_EU when = 1 value = 5 }
+								flag = { which = Threat_level_AP when = 1 value = 5 }
+								flag = { which = Threat_level_AF when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 2 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 5 }
+						#flag = { which = Threat_level_SA when = 1 value = 6 }
+						flag = { which = Threat_level_EU when = 1 value = 6 }
+						flag = { which = Threat_level_AP when = 1 value = 6 }
+						flag = { which = Threat_level_AF when = 1 value = 6 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_SA when = 1 value = 3 }
+					}
+				}
+				AND = {
+					continent = "Europe"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 6 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 3 }
+								flag = { which = Threat_level_SA when = 1 value = 4 }
+								#flag = { which = Threat_level_EU when = 1 value = 4 }
+								flag = { which = Threat_level_AP when = 1 value = 4 }
+								flag = { which = Threat_level_AF when = 1 value = 4 }
+								flag = { which = Threat_level_EU when = 1 value = 1 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 3 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 4 }
+								flag = { which = Threat_level_SA when = 1 value = 5 }
+								#flag = { which = Threat_level_EU when = 1 value = 5 }
+								flag = { which = Threat_level_AP when = 1 value = 5 }
+								flag = { which = Threat_level_AF when = 1 value = 5 }
+								flag = { which = Threat_level_EU when = 1 value = 2 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 5 }
+						flag = { which = Threat_level_SA when = 1 value = 6 }
+						#flag = { which = Threat_level_EU when = 1 value = 6 }
+						flag = { which = Threat_level_AP when = 1 value = 6 }
+						flag = { which = Threat_level_AF when = 1 value = 6 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_EU when = 1 value = 3 }
+					}
+				}
+				AND = {
+					OR = {
+						continent = "Asia"
+						continent = "Oceania"
+					}
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 6 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 3 }
+								flag = { which = Threat_level_SA when = 1 value = 4 }
+								flag = { which = Threat_level_EU when = 1 value = 4 }
+								#flag = { which = Threat_level_AP when = 1 value = 4 }
+								flag = { which = Threat_level_AF when = 1 value = 4 }
+								flag = { which = Threat_level_AP when = 1 value = 1 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 3 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 4 }
+								flag = { which = Threat_level_SA when = 1 value = 5 }
+								flag = { which = Threat_level_EU when = 1 value = 5 }
+								#flag = { which = Threat_level_AP when = 1 value = 5 }
+								flag = { which = Threat_level_AF when = 1 value = 5 }
+								flag = { which = Threat_level_AP when = 1 value = 2 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 5 }
+						flag = { which = Threat_level_SA when = 1 value = 6 }
+						flag = { which = Threat_level_EU when = 1 value = 6 }
+						#flag = { which = Threat_level_AP when = 1 value = 6 }
+						flag = { which = Threat_level_AF when = 1 value = 6 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_AP when = 1 value = 3 }
+					}
+				}
+				AND = {
+					continent = "Africa"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 6 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 3 }
+								flag = { which = Threat_level_SA when = 1 value = 4 }
+								flag = { which = Threat_level_EU when = 1 value = 4 }
+								flag = { which = Threat_level_AP when = 1 value = 4 }
+								#flag = { which = Threat_level_AF when = 1 value = 4 }
+								flag = { which = Threat_level_AF when = 1 value = 1 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 3 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 4 }
+								flag = { which = Threat_level_SA when = 1 value = 5 }
+								flag = { which = Threat_level_EU when = 1 value = 5 }
+								flag = { which = Threat_level_AP when = 1 value = 5 }
+								#flag = { which = Threat_level_AF when = 1 value = 5 }
+								flag = { which = Threat_level_AF when = 1 value = 2 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 5 }
+						flag = { which = Threat_level_SA when = 1 value = 6 }
+						flag = { which = Threat_level_EU when = 1 value = 6 }
+						flag = { which = Threat_level_AP when = 1 value = 6 }
+						#flag = { which = Threat_level_AF when = 1 value = 6 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_AF when = 1 value = 3 }
+					}
+				}
+			}
+		} type = dissent value = 3 }
+
+		command = { type = local_setflag which = MOB2 }
+		command = { type = local_setflag which = MOB3 }
+	}
+	action = { #Cancel
+		name = "ACTION_NAME_DECLINE"
+		ai_chance = 0
+		
+		command = { }
+	}	
+}
+
+#####Enact One Year Conscription
+event = {
+ 
+	id = 8300104
+	random = no
+	#It tag is removed, there is no warning or record in the log
+	tag = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+
+	name = "MOB4aname"
+	desc = "8300104desc" 
+	style = 2
+	picture = "Wehrmacht"
+
+	action = { #Enact One Year Conscription
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { type = set_domestic which = professional_army value = 4 }
+		command = { trigger = { NOT = { local_flag = MOB3 } ai = no } type = resource which = supplies value = -100 }
+		command = { trigger = { NOT = { local_flag = MOB4 } ai = no } type = resource which = supplies value = -200 }
+		command = { trigger = { NOT = { local_flag = MOB2 } } type = manpowerpool value = 2 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = manpowerpool value = 2.5 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB4 } } type = manpowerpool value = 4 when = 1 }
+		#3-yr conscription gives 10 belligerence, Partial mobilization gives 30, Full mobilization gives 50
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = belligerence value = 1 }
+		command = { trigger = { NOT = { local_flag = MOB4 } } type = belligerence value = 2 }
+		
+		#additional dissent if not meeting requirements for next level (2 year conscription)
+		command = { trigger = { NOT = { local_flag = MOB4 } 
+			NOT = {
+				atwar = yes
+				local_flag = popularMobilization
+				AND = {
+					continent = "North America"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 7 } 
+							OR = {
+								#flag = { which = Threat_level_NA when = 1 value = 4 }
+								flag = { which = Threat_level_SA when = 1 value = 5 }
+								flag = { which = Threat_level_EU when = 1 value = 5 }
+								flag = { which = Threat_level_AP when = 1 value = 5 }
+								flag = { which = Threat_level_AF when = 1 value = 5 }
+								flag = { which = Threat_level_NA when = 1 value = 2 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 4 } 
+							OR = {
+								#flag = { which = Threat_level_NA when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_NA when = 1 value = 3 }
+							}
+						}
+						
+						#Far away threats
+						#flag = { which = Threat_level_NA when = 1 value = 6 }
+						flag = { which = Threat_level_SA when = 1 value = 7 }
+						flag = { which = Threat_level_EU when = 1 value = 7 }
+						flag = { which = Threat_level_AP when = 1 value = 7 }
+						flag = { which = Threat_level_AF when = 1 value = 7 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_NA when = 1 value = 4 }
+					}
+				}
+				AND = {
+					continent = "South America"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 7 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 4 }
+								#flag = { which = Threat_level_SA when = 1 value = 5 }
+								flag = { which = Threat_level_EU when = 1 value = 5 }
+								flag = { which = Threat_level_AP when = 1 value = 5 }
+								flag = { which = Threat_level_AF when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 2 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 4 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 5 }
+								#flag = { which = Threat_level_SA when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_SA when = 1 value = 3 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 6 }
+						#flag = { which = Threat_level_SA when = 1 value = 7 }
+						flag = { which = Threat_level_EU when = 1 value = 7 }
+						flag = { which = Threat_level_AP when = 1 value = 7 }
+						flag = { which = Threat_level_AF when = 1 value = 7 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_SA when = 1 value = 4 }
+					}
+				}
+				AND = {
+					continent = "Europe"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 7 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 4 }
+								flag = { which = Threat_level_SA when = 1 value = 5 }
+								#flag = { which = Threat_level_EU when = 1 value = 5 }
+								flag = { which = Threat_level_AP when = 1 value = 5 }
+								flag = { which = Threat_level_AF when = 1 value = 5 }
+								flag = { which = Threat_level_EU when = 1 value = 2 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 4 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 6 }
+								#flag = { which = Threat_level_EU when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 3 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 6 }
+						flag = { which = Threat_level_SA when = 1 value = 7 }
+						#flag = { which = Threat_level_EU when = 1 value = 7 }
+						flag = { which = Threat_level_AP when = 1 value = 7 }
+						flag = { which = Threat_level_AF when = 1 value = 7 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_EU when = 1 value = 4 }
+					}
+				}
+				AND = {
+					OR = {
+						continent = "Asia"
+						continent = "Oceania"
+					}
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 7 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 4 }
+								flag = { which = Threat_level_SA when = 1 value = 5 }
+								flag = { which = Threat_level_EU when = 1 value = 5 }
+								#flag = { which = Threat_level_AP when = 1 value = 5 }
+								flag = { which = Threat_level_AF when = 1 value = 5 }
+								flag = { which = Threat_level_AP when = 1 value = 2 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 4 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 6 }
+								#flag = { which = Threat_level_AP when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 3 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 6 }
+						flag = { which = Threat_level_SA when = 1 value = 7 }
+						flag = { which = Threat_level_EU when = 1 value = 7 }
+						#flag = { which = Threat_level_AP when = 1 value = 7 }
+						flag = { which = Threat_level_AF when = 1 value = 7 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_AP when = 1 value = 4 }
+					}
+				}
+				AND = {
+					continent = "Africa"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 7 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 4 }
+								flag = { which = Threat_level_SA when = 1 value = 5 }
+								flag = { which = Threat_level_EU when = 1 value = 5 }
+								flag = { which = Threat_level_AP when = 1 value = 5 }
+								#flag = { which = Threat_level_AF when = 1 value = 5 }
+								flag = { which = Threat_level_AF when = 1 value = 2 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 4 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 6 }
+								#flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 3 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 6 }
+						flag = { which = Threat_level_SA when = 1 value = 7 }
+						flag = { which = Threat_level_EU when = 1 value = 7 }
+						flag = { which = Threat_level_AP when = 1 value = 7 }
+						#flag = { which = Threat_level_AF when = 1 value = 7 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_AF when = 1 value = 4 }
+					}
+				}
+			}
+		} type = dissent value = 3 }
+
+		command = { type = local_setflag which = MOB2 }
+		command = { type = local_setflag which = MOB3 }
+		command = { type = local_setflag which = MOB4 }
+	}
+	action = { #Cancel
+		name = "ACTION_NAME_DECLINE"
+		ai_chance = 0
+		
+		command = { }
+	}	
+}
+
+#####Enact Two Year Conscription
+event = {
+ 
+	id = 8300105
+	random = no
+	#It tag is removed, there is no warning or record in the log
+	tag = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+
+	name = "MOB5aname"
+	desc = "8300105desc" 
+	style = 2
+	picture = "Wehrmacht"
+
+	action = { #Enact Two Year Conscription
+		name = "ACTION_NAME_ACCEPT"
+		command = { type = set_domestic which = professional_army value = 5 }
+		command = { trigger = { NOT = { local_flag = MOB3 } ai = no } type = resource which = supplies value = -100 }
+		command = { trigger = { NOT = { local_flag = MOB4 } ai = no } type = resource which = supplies value = -200 }
+		command = { trigger = { NOT = { local_flag = MOB5 } ai = no } type = resource which = supplies value = -200 }
+		command = { trigger = { NOT = { local_flag = MOB2 } } type = manpowerpool value = 2 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = manpowerpool value = 2.5 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB4 } } type = manpowerpool value = 4 when = 1 }		
+		command = { trigger = { NOT = { local_flag = MOB5 } } type = manpowerpool value = 4.5 when = 1 }
+		#3-yr conscription gives 10 belligerence, Partial mobilization gives 30, Full mobilization gives 50
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = belligerence value = 1 }
+		command = { trigger = { NOT = { local_flag = MOB4 } } type = belligerence value = 2 }
+		command = { trigger = { NOT = { local_flag = MOB5 } } type = belligerence value = 3 }
+		
+		#additional dissent if not meeting requirements for next level (since 2 year and 3 year reqs are the same, the next level is partial mob)
+		command = { trigger = { NOT = { local_flag = MOB5 } 
+			NOT = {
+				atwar = yes
+				local_flag = popularMobilization
+				AND = {
+					continent = "North America"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 8 } 
+							OR = {
+								#flag = { which = Threat_level_NA when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_NA when = 1 value = 3 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 5 } 
+							OR = {
+								#flag = { which = Threat_level_NA when = 1 value = 6 }
+								flag = { which = Threat_level_SA when = 1 value = 7 }
+								flag = { which = Threat_level_EU when = 1 value = 7 }
+								flag = { which = Threat_level_AP when = 1 value = 7 }
+								flag = { which = Threat_level_AF when = 1 value = 7 }
+								flag = { which = Threat_level_NA when = 1 value = 4 }
+							}
+						}
+						
+						#Far away threats
+						#flag = { which = Threat_level_NA when = 1 value = 7 }
+						flag = { which = Threat_level_SA when = 1 value = 8 }
+						flag = { which = Threat_level_EU when = 1 value = 8 }
+						flag = { which = Threat_level_AP when = 1 value = 8 }
+						flag = { which = Threat_level_AF when = 1 value = 8 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_NA when = 1 value = 5 }
+					}
+				}
+				AND = {
+					continent = "South America"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 8 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 5 }
+								#flag = { which = Threat_level_SA when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_SA when = 1 value = 3 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 5 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 6 }
+								#flag = { which = Threat_level_SA when = 1 value = 7 }
+								flag = { which = Threat_level_EU when = 1 value = 7 }
+								flag = { which = Threat_level_AP when = 1 value = 7 }
+								flag = { which = Threat_level_AF when = 1 value = 7 }
+								flag = { which = Threat_level_SA when = 1 value = 4 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 7 }
+						#flag = { which = Threat_level_SA when = 1 value = 8 }
+						flag = { which = Threat_level_EU when = 1 value = 8 }
+						flag = { which = Threat_level_AP when = 1 value = 8 }
+						flag = { which = Threat_level_AF when = 1 value = 8 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_SA when = 1 value = 5 }
+					}
+				}
+				AND = {
+					continent = "Europe"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 8 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 6 }
+								#flag = { which = Threat_level_EU when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 3 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 5 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 6 }
+								flag = { which = Threat_level_SA when = 1 value = 7 }
+								#flag = { which = Threat_level_EU when = 1 value = 7 }
+								flag = { which = Threat_level_AP when = 1 value = 7 }
+								flag = { which = Threat_level_AF when = 1 value = 7 }
+								flag = { which = Threat_level_EU when = 1 value = 4 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 7 }
+						flag = { which = Threat_level_SA when = 1 value = 8 }
+						#flag = { which = Threat_level_EU when = 1 value = 8 }
+						flag = { which = Threat_level_AP when = 1 value = 8 }
+						flag = { which = Threat_level_AF when = 1 value = 8 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_EU when = 1 value = 5 }
+					}
+				}
+				AND = {
+					OR = {
+						continent = "Asia"
+						continent = "Oceania"
+					}
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 8 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 6 }
+								#flag = { which = Threat_level_AP when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 3 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 5 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 6 }
+								flag = { which = Threat_level_SA when = 1 value = 7 }
+								flag = { which = Threat_level_EU when = 1 value = 7 }
+								#flag = { which = Threat_level_AP when = 1 value = 7 }
+								flag = { which = Threat_level_AF when = 1 value = 7 }
+								flag = { which = Threat_level_AP when = 1 value = 4 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 7 }
+						flag = { which = Threat_level_SA when = 1 value = 8 }
+						flag = { which = Threat_level_EU when = 1 value = 8 }
+						#flag = { which = Threat_level_AP when = 1 value = 8 }
+						flag = { which = Threat_level_AF when = 1 value = 8 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_AP when = 1 value = 5 }
+					}
+				}
+				AND = {
+					continent = "Africa"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 8 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 6 }
+								#flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 3 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 5 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 6 }
+								flag = { which = Threat_level_SA when = 1 value = 7 }
+								flag = { which = Threat_level_EU when = 1 value = 7 }
+								flag = { which = Threat_level_AP when = 1 value = 7 }
+								#flag = { which = Threat_level_AF when = 1 value = 7 }
+								flag = { which = Threat_level_AF when = 1 value = 4 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 7 }
+						flag = { which = Threat_level_SA when = 1 value = 8 }
+						flag = { which = Threat_level_EU when = 1 value = 8 }
+						flag = { which = Threat_level_AP when = 1 value = 8 }
+						#flag = { which = Threat_level_AF when = 1 value = 8 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_AF when = 1 value = 5 }
+					}
+				}
+			}
+		} type = dissent value = 1 }
+
+		command = { type = local_setflag which = MOB2 }
+		command = { type = local_setflag which = MOB3 }
+		command = { type = local_setflag which = MOB4 }		
+		command = { type = local_setflag which = MOB5 }
+	}
+	action = { #Cancel
+		name = "ACTION_NAME_DECLINE"
+		ai_chance = 0
+		
+		command = { }
+	}	
+}
+
+#####Enact Three Year Conscription
+event = {
+ 
+	id = 8300106
+	random = no
+	#It tag is removed, there is no warning or record in the log
+	tag = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+
+	name = "MOB6aname"
+	desc = "8300106desc" 
+	style = 2
+	picture = "Wehrmacht"
+	
+	action = { #Enact Three Year Conscription
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { type = set_domestic which = professional_army value = 6 }
+		command = { trigger = { NOT = { local_flag = MOB3 } ai = no } type = resource which = supplies value = -100 }
+		command = { trigger = { NOT = { local_flag = MOB4 } ai = no } type = resource which = supplies value = -200 }
+		command = { trigger = { NOT = { local_flag = MOB5 } ai = no } type = resource which = supplies value = -200 }
+		command = { trigger = { NOT = { local_flag = MOB6 } ai = no } type = resource which = supplies value = -200 }
+		command = { trigger = { NOT = { local_flag = MOB2 } } type = manpowerpool value = 2 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = manpowerpool value = 2.5 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB4 } } type = manpowerpool value = 4 when = 1 }		
+		command = { trigger = { NOT = { local_flag = MOB5 } } type = manpowerpool value = 4.5 when = 1 }		
+		command = { trigger = { NOT = { local_flag = MOB6 } } type = manpowerpool value = 5 when = 1 }
+		#3-yr conscription gives 10 belligerence, Partial mobilization gives 30, Full mobilization gives 50
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = belligerence value = 1 }
+		command = { trigger = { NOT = { local_flag = MOB4 } } type = belligerence value = 2 }
+		command = { trigger = { NOT = { local_flag = MOB5 } } type = belligerence value = 3 }
+		command = { trigger = { NOT = { local_flag = MOB6 } } type = belligerence value = 4 }
+
+		#(special case - same requirements as partial mob, but will not give dissent if at peace/not matching higher level. will need to rework this later)
+		command = { trigger = { NOT = { local_flag = MOB6 } 
+			NOT = {
+				atwar = yes
+				local_flag = popularMobilization
+				AND = {
+					continent = "North America"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 8 } 
+							OR = {
+								#flag = { which = Threat_level_NA when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_NA when = 1 value = 3 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 5 } 
+							OR = {
+								#flag = { which = Threat_level_NA when = 1 value = 6 }
+								flag = { which = Threat_level_SA when = 1 value = 7 }
+								flag = { which = Threat_level_EU when = 1 value = 7 }
+								flag = { which = Threat_level_AP when = 1 value = 7 }
+								flag = { which = Threat_level_AF when = 1 value = 7 }
+								flag = { which = Threat_level_NA when = 1 value = 4 }
+							}
+						}
+						
+						#Far away threats
+						#flag = { which = Threat_level_NA when = 1 value = 7 }
+						flag = { which = Threat_level_SA when = 1 value = 8 }
+						flag = { which = Threat_level_EU when = 1 value = 8 }
+						flag = { which = Threat_level_AP when = 1 value = 8 }
+						flag = { which = Threat_level_AF when = 1 value = 8 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_NA when = 1 value = 5 }
+					}
+				}
+				AND = {
+					continent = "South America"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 8 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 5 }
+								#flag = { which = Threat_level_SA when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_SA when = 1 value = 3 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 5 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 6 }
+								#flag = { which = Threat_level_SA when = 1 value = 7 }
+								flag = { which = Threat_level_EU when = 1 value = 7 }
+								flag = { which = Threat_level_AP when = 1 value = 7 }
+								flag = { which = Threat_level_AF when = 1 value = 7 }
+								flag = { which = Threat_level_SA when = 1 value = 4 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 7 }
+						#flag = { which = Threat_level_SA when = 1 value = 8 }
+						flag = { which = Threat_level_EU when = 1 value = 8 }
+						flag = { which = Threat_level_AP when = 1 value = 8 }
+						flag = { which = Threat_level_AF when = 1 value = 8 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_SA when = 1 value = 5 }
+					}
+				}
+				AND = {
+					continent = "Europe"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 8 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 6 }
+								#flag = { which = Threat_level_EU when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 3 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 5 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 6 }
+								flag = { which = Threat_level_SA when = 1 value = 7 }
+								#flag = { which = Threat_level_EU when = 1 value = 7 }
+								flag = { which = Threat_level_AP when = 1 value = 7 }
+								flag = { which = Threat_level_AF when = 1 value = 7 }
+								flag = { which = Threat_level_EU when = 1 value = 4 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 7 }
+						flag = { which = Threat_level_SA when = 1 value = 8 }
+						#flag = { which = Threat_level_EU when = 1 value = 8 }
+						flag = { which = Threat_level_AP when = 1 value = 8 }
+						flag = { which = Threat_level_AF when = 1 value = 8 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_EU when = 1 value = 5 }
+					}
+				}
+				AND = {
+					OR = {
+						continent = "Asia"
+						continent = "Oceania"
+					}
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 8 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 6 }
+								#flag = { which = Threat_level_AP when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 3 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 5 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 6 }
+								flag = { which = Threat_level_SA when = 1 value = 7 }
+								flag = { which = Threat_level_EU when = 1 value = 7 }
+								#flag = { which = Threat_level_AP when = 1 value = 7 }
+								flag = { which = Threat_level_AF when = 1 value = 7 }
+								flag = { which = Threat_level_AP when = 1 value = 4 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 7 }
+						flag = { which = Threat_level_SA when = 1 value = 8 }
+						flag = { which = Threat_level_EU when = 1 value = 8 }
+						#flag = { which = Threat_level_AP when = 1 value = 8 }
+						flag = { which = Threat_level_AF when = 1 value = 8 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_AP when = 1 value = 5 }
+					}
+				}
+				AND = {
+					continent = "Africa"
+					OR = {
+						AND = {
+							policy = { type = interventionism value = 8 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 5 }
+								flag = { which = Threat_level_SA when = 1 value = 6 }
+								flag = { which = Threat_level_EU when = 1 value = 6 }
+								flag = { which = Threat_level_AP when = 1 value = 6 }
+								#flag = { which = Threat_level_AF when = 1 value = 6 }
+								flag = { which = Threat_level_AF when = 1 value = 3 }
+							}
+						}
+						AND = {
+							policy = { type = interventionism value = 5 } 
+							OR = {
+								flag = { which = Threat_level_NA when = 1 value = 6 }
+								flag = { which = Threat_level_SA when = 1 value = 7 }
+								flag = { which = Threat_level_EU when = 1 value = 7 }
+								flag = { which = Threat_level_AP when = 1 value = 7 }
+								#flag = { which = Threat_level_AF when = 1 value = 7 }
+								flag = { which = Threat_level_AF when = 1 value = 4 }
+							}
+						}
+						
+						#Far away threats
+						flag = { which = Threat_level_NA when = 1 value = 7 }
+						flag = { which = Threat_level_SA when = 1 value = 8 }
+						flag = { which = Threat_level_EU when = 1 value = 8 }
+						flag = { which = Threat_level_AP when = 1 value = 8 }
+						#flag = { which = Threat_level_AF when = 1 value = 8 }
+						
+						#closer to home threats
+						flag = { which = Threat_level_AF when = 1 value = 5 }
+					}
+				}
+			}
+		} type = dissent value = 5 }
+
+		command = { type = local_setflag which = MOB2 }
+		command = { type = local_setflag which = MOB3 }
+		command = { type = local_setflag which = MOB4 }		
+		command = { type = local_setflag which = MOB5 }		
+		command = { type = local_setflag which = MOB6 }
+	}	
+	action = { #Cancel
+		name = "ACTION_NAME_DECLINE"
+		ai_chance = 0
+		
+		command = { }
+	}	
+}
+
+#####Enact Partial Mobilisation
+event = {
+ 
+	id = 8300107
+	random = no
+	#It tag is removed, there is no warning or record in the log
+	tag = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+
+	name = "MOB7aname"
+	desc = "8300107desc" 
+	style = 2
+	picture = "Wehrmacht"
+
+	action = { #Enact Partial Mobilisation
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { type = set_domestic which = professional_army value = 7 }
+		command = { trigger = { NOT = { local_flag = MOB3 } ai = no } type = resource which = supplies value = -100 }
+		command = { trigger = { NOT = { local_flag = MOB4 } ai = no } type = resource which = supplies value = -200 }
+		command = { trigger = { NOT = { local_flag = MOB5 } ai = no } type = resource which = supplies value = -200 }
+		command = { trigger = { NOT = { local_flag = MOB6 } ai = no } type = resource which = supplies value = -200 }
+		command = { trigger = { ai = no } type = resource which = supplies value = -500 }
+		command = { trigger = { NOT = { local_flag = MOB2 } } type = manpowerpool value = 2 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = manpowerpool value = 2.5 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB4 } } type = manpowerpool value = 4 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB5 } } type = manpowerpool value = 4.5 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB6 } } type = manpowerpool value = 5 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB7 } } type = manpowerpool value = 15 when = 1 }
+		#3-yr conscription gives 10 belligerence, Partial mobilization gives 30, Full mobilization gives 50
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = belligerence value = 1 }
+		command = { trigger = { NOT = { local_flag = MOB4 } } type = belligerence value = 2 }
+		command = { trigger = { NOT = { local_flag = MOB5 } } type = belligerence value = 3 }
+		command = { trigger = { NOT = { local_flag = MOB6 } } type = belligerence value = 4 }
+		command = { trigger = { NOT = { local_flag = MOB7 } } type = belligerence value = 20 }
+
+		
+		#additional dissent if mobilizing while not at war
+		command = { trigger = { NOT = { local_flag = MOB7 } NOT = { local_flag = popularMobilization } NOT = { atwar = yes } } type = dissent value = 3 }
+		
+		#command = { trigger = { local_flag = RES }    type = local_clrflag which = RES }
+		
+		command = { trigger = { NOT = { local_flag = RES } 			NOT = { vp = 10 } }  type = event which = 1350002 where = -1 when = 1  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 10	NOT = { vp = 20 } }  type = event which = 1350002 where = -1 when = 2  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 20	NOT = { vp = 30 } }  type = event which = 1350002 where = -1 when = 3  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 30	NOT = { vp = 40 } }  type = event which = 1350002 where = -1 when = 4  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 40	NOT = { vp = 50 } }  type = event which = 1350002 where = -1 when = 5  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 50	NOT = { vp = 60 } }  type = event which = 1350002 where = -1 when = 6  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 60	NOT = { vp = 70 } }  type = event which = 1350002 where = -1 when = 7  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 70	NOT = { vp = 80 } }  type = event which = 1350002 where = -1 when = 8  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 80	NOT = { vp = 90 } }  type = event which = 1350002 where = -1 when = 9  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 90	NOT = { vp = 100 } } type = event which = 1350002 where = -1 when = 10 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 100 NOT = { vp = 110 } } type = event which = 1350002 where = -1 when = 11 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 110 NOT = { vp = 120 } } type = event which = 1350002 where = -1 when = 12 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 120 NOT = { vp = 130 } } type = event which = 1350002 where = -1 when = 13 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 130 NOT = { vp = 140 } } type = event which = 1350002 where = -1 when = 14 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 140 NOT = { vp = 150 } } type = event which = 1350002 where = -1 when = 15 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 150 NOT = { vp = 160 } } type = event which = 1350002 where = -1 when = 16 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 160 NOT = { vp = 170 } } type = event which = 1350002 where = -1 when = 17 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 170 NOT = { vp = 180 } } type = event which = 1350002 where = -1 when = 18 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 180 NOT = { vp = 190 } } type = event which = 1350002 where = -1 when = 19 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 190 NOT = { vp = 200 } } type = event which = 1350002 where = -1 when = 20 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 200 NOT = { vp = 210 } } type = event which = 1350002 where = -1 when = 21 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 210 NOT = { vp = 220 } } type = event which = 1350002 where = -1 when = 22 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 220 NOT = { vp = 230 } } type = event which = 1350002 where = -1 when = 23 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 230 NOT = { vp = 240 } } type = event which = 1350002 where = -1 when = 24 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 240 NOT = { vp = 250 } } type = event which = 1350002 where = -1 when = 25 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 250 NOT = { vp = 260 } } type = event which = 1350002 where = -1 when = 26 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 260 NOT = { vp = 270 } } type = event which = 1350002 where = -1 when = 27 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 270 NOT = { vp = 280 } } type = event which = 1350002 where = -1 when = 28 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 280 NOT = { vp = 290 } } type = event which = 1350002 where = -1 when = 29 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 290 NOT = { vp = 300 } } type = event which = 1350002 where = -1 when = 30 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 300        			   } type = event which = 1350002 where = -1 when = 31 }
+		
+		command = { trigger = { NOT = { local_flag = MOB7 } } type = local_setflag which = MOB7 }
+		command = { trigger = { NOT = { local_flag = MOB6 } } type = local_setflag which = MOB6 }
+		command = { trigger = { NOT = { local_flag = MOB5 } } type = local_setflag which = MOB5 }
+		command = { trigger = { NOT = { local_flag = MOB4 } } type = local_setflag which = MOB4 }
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = local_setflag which = MOB3 }
+		command = { trigger = { NOT = { local_flag = MOB2 } } type = local_setflag which = MOB2 }
+		
+		command = { trigger = { OR = { country = GER country = U08 } } type = trigger which = 13500100 }
+		command = { trigger = { country = ITA } type = trigger which = 13500110 }
+		command = { trigger = { country = JAP } type = trigger which = 13500120 }
+		command = { trigger = { country = FRA } type = trigger which = 13500130 }
+		command = { trigger = { OR = { country = SOV country = RUS } } type = trigger which = 13500140 }
+		command = { trigger = { country = USA } type = trigger which = 13500150 }
+		command = { trigger = { country = ENG } type = trigger which = 13500160 }
+		command = { trigger = { country = CHI } type = trigger which = 13500170 }
+	}
+	action = { #Cancel
+		name = "ACTION_NAME_DECLINE"
+		ai_chance = 0
+		
+		command = { }
+	}	
+}
+
+#####Enact General Mobilisation
+event = {
+ 
+	id = 8300108
+	random = no
+	#It tag is removed, there is no warning or record in the log
+	tag = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+
+	name = "MOB8aname"
+	desc = "8300108desc" 
+	style = 2
+	picture = "Wehrmacht"
+	
+	action = { #Enact General Mobilisation	
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { type = set_domestic which = professional_army value = 8 }
+		command = { trigger = { NOT = { local_flag = MOB3 } ai = no } type = resource which = supplies value = -100 }
+		command = { trigger = { NOT = { local_flag = MOB4 } ai = no } type = resource which = supplies value = -200 }
+		command = { trigger = { NOT = { local_flag = MOB5 } ai = no } type = resource which = supplies value = -200 }
+		command = { trigger = { NOT = { local_flag = MOB6 } ai = no } type = resource which = supplies value = -200 }
+		command = { trigger = { NOT = { local_flag = MOB7 } ai = no } type = resource which = supplies value = -500 }
+		command = { trigger = { ai = no } type = resource which = supplies value = -700 }
+		command = { trigger = { NOT = { local_flag = MOB2 } } type = manpowerpool value = 2 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = manpowerpool value = 2.5 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB4 } } type = manpowerpool value = 4 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB5 } } type = manpowerpool value = 4.5 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB6 } } type = manpowerpool value = 5 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB7 } } type = manpowerpool value = 15 when = 1 }
+		command = { trigger = { NOT = { local_flag = MOB8 } } type = manpowerpool value = 80 when = 1 }
+		#3-yr conscription gives 10 belligerence, Partial mobilization gives 30, Full mobilization gives 50
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = belligerence value = 1 }
+		command = { trigger = { NOT = { local_flag = MOB4 } } type = belligerence value = 2 }
+		command = { trigger = { NOT = { local_flag = MOB5 } } type = belligerence value = 3 }
+		command = { trigger = { NOT = { local_flag = MOB6 } } type = belligerence value = 4 }
+		command = { trigger = { NOT = { local_flag = MOB7 } } type = belligerence value = 20 }
+		command = { trigger = { NOT = { local_flag = MOB8 } } type = belligerence value = 20 }
+
+		command = { type = dissent value = 1 } #Always at least 1 dissent.
+		#Not allowed to do if not at war, so can assume that atwar=yes
+		#Additional dissent if general mobilization without losing territory (disabled)
+		#command = { trigger = { NOT = { lost_national = 3 } } type = dissent value = 1 }
+
+		#command = { trigger = { local_flag = RES }    type = local_clrflag which = RES }
+		
+		command = { trigger = { NOT = { local_flag = RES } 			NOT = { vp = 10 } }  type = event which = 1350002 where = -1 when = 1  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 10	NOT = { vp = 20 } }  type = event which = 1350002 where = -1 when = 2  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 20	NOT = { vp = 30 } }  type = event which = 1350002 where = -1 when = 3  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 30	NOT = { vp = 40 } }  type = event which = 1350002 where = -1 when = 4  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 40	NOT = { vp = 50 } }  type = event which = 1350002 where = -1 when = 5  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 50	NOT = { vp = 60 } }  type = event which = 1350002 where = -1 when = 6  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 60	NOT = { vp = 70 } }  type = event which = 1350002 where = -1 when = 7  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 70	NOT = { vp = 80 } }  type = event which = 1350002 where = -1 when = 8  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 80	NOT = { vp = 90 } }  type = event which = 1350002 where = -1 when = 9  }
+		command = { trigger = { NOT = { local_flag = RES } vp = 90	NOT = { vp = 100 } } type = event which = 1350002 where = -1 when = 10 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 100 NOT = { vp = 110 } } type = event which = 1350002 where = -1 when = 11 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 110 NOT = { vp = 120 } } type = event which = 1350002 where = -1 when = 12 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 120 NOT = { vp = 130 } } type = event which = 1350002 where = -1 when = 13 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 130 NOT = { vp = 140 } } type = event which = 1350002 where = -1 when = 14 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 140 NOT = { vp = 150 } } type = event which = 1350002 where = -1 when = 15 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 150 NOT = { vp = 160 } } type = event which = 1350002 where = -1 when = 16 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 160 NOT = { vp = 170 } } type = event which = 1350002 where = -1 when = 17 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 170 NOT = { vp = 180 } } type = event which = 1350002 where = -1 when = 18 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 180 NOT = { vp = 190 } } type = event which = 1350002 where = -1 when = 19 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 190 NOT = { vp = 200 } } type = event which = 1350002 where = -1 when = 20 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 200 NOT = { vp = 210 } } type = event which = 1350002 where = -1 when = 21 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 210 NOT = { vp = 220 } } type = event which = 1350002 where = -1 when = 22 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 220 NOT = { vp = 230 } } type = event which = 1350002 where = -1 when = 23 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 230 NOT = { vp = 240 } } type = event which = 1350002 where = -1 when = 24 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 240 NOT = { vp = 250 } } type = event which = 1350002 where = -1 when = 25 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 250 NOT = { vp = 260 } } type = event which = 1350002 where = -1 when = 26 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 260 NOT = { vp = 270 } } type = event which = 1350002 where = -1 when = 27 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 270 NOT = { vp = 280 } } type = event which = 1350002 where = -1 when = 28 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 280 NOT = { vp = 290 } } type = event which = 1350002 where = -1 when = 29 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 290 NOT = { vp = 300 } } type = event which = 1350002 where = -1 when = 30 }
+		command = { trigger = { NOT = { local_flag = RES } vp = 300        			   } type = event which = 1350002 where = -1 when = 31 }
+
+		command = { trigger = { NOT = { local_flag = MOB8 } } type = local_setflag which = MOB8 }
+		command = { trigger = { NOT = { local_flag = MOB7 } } type = local_setflag which = MOB7 }
+		command = { trigger = { NOT = { local_flag = MOB6 } } type = local_setflag which = MOB6 }		
+		command = { trigger = { NOT = { local_flag = MOB5 } } type = local_setflag which = MOB5 }		
+		command = { trigger = { NOT = { local_flag = MOB4 } } type = local_setflag which = MOB4 }		
+		command = { trigger = { NOT = { local_flag = MOB3 } } type = local_setflag which = MOB3 }
+		command = { trigger = { NOT = { local_flag = MOB2 } } type = local_setflag which = MOB2 }
+		
+		command = { trigger = { country = GER } type = trigger which = 13500101 }
+		command = { trigger = { country = ITA } type = trigger which = 13500111 }
+		command = { trigger = { country = JAP } type = trigger which = 13500121 }
+		command = { trigger = { country = FRA } type = trigger which = 13500131 }
+		command = { trigger = { country = SOV } type = trigger which = 13500141 }
+		command = { trigger = { country = USA } type = trigger which = 13500151 }
+		command = { trigger = { country = ENG } type = trigger which = 13500161 }
+		command = { trigger = { country = CHI } type = trigger which = 13500171 }
+	}	
+	action = { #Cancel
+		name = "ACTION_NAME_DECLINE"
+		ai_chance = 0
+		
+		command = { }
+	}	
+}
+
+#####Enact Extended Mobilisation
+event = {
+ 
+	id = 8300109
+	random = no
+	#It tag is removed, there is no warning or record in the log
+	tag = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+
+	name = "MOB9aname"
+	desc = "8300109desc" 
+	style = 2
+	picture = "Wehrmacht"
+	
+	action = { #Enact Extended Mobilisation	
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { trigger = { ai = no } type = resource which = supplies value = -500 }
+		command = { trigger = { NOT = { local_flag = MOB9 } } type = manpowerpool value = 25 when = 1 }
+		command = { type = set_domestic which = professional_army value = 9 }
+		command = { type = belligerence value = 10 }
+		command = { type = dissent value = 7 }
+		command = { type = local_setflag which = MOB9 }
+		
+		command = { trigger = { country = GER } type = trigger which = 13500102 }
+		command = { trigger = { country = ITA } type = trigger which = 13500112 }
+		command = { trigger = { country = JAP } type = trigger which = 13500122 }
+		command = { trigger = { country = FRA } type = trigger which = 13500132 }
+		command = { trigger = { country = SOV } type = trigger which = 13500142 }
+		command = { trigger = { country = USA } type = trigger which = 13500152 }
+		command = { trigger = { country = ENG } type = trigger which = 13500162 }
+		command = { trigger = { country = CHI } type = trigger which = 13500172 }
+	}
+	action = { #Cancel
+		name = "ACTION_NAME_DECLINE"
+		ai_chance = 0
+		
+		command = { }
+	}	
+}
+
+#####Enact Total Mobilisation
+event = {
+ 
+	id = 8300110
+	random = no
+	#It tag is removed, there is no warning or record in the log
+	tag = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+
+	name = "MOB10aname"
+	desc = "8300110desc" 
+	style = 2
+	picture = "Wehrmacht"
+	
+	action = { #Enact Total Mobilisation
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { trigger = { ai = no } type = resource which = supplies value = -300 }
+		command = { trigger = { NOT = { local_flag = MOB10 } } type = manpowerpool value = 15 when = 1 }
+		command = { type = set_domestic which = professional_army value = 10 }
+		command = { type = belligerence value = 10 }
+		command = { type = dissent value = 10 }
+		
+		command = { trigger = { NOT = { local_flag = MOB10 } } type = build_time which = militia when = on_upgrade where = relative value = -15 } 
+		command = { trigger = { NOT = { local_flag = MOB10 } } type = build_cost which = militia when = on_upgrade where = relative value = 25 }
+		command = { trigger = { NOT = { local_flag = MOB10 } } type = soft_attack which = militia value = -3 }
+		command = { trigger = { NOT = { local_flag = MOB10 } } type = hard_attack which = militia value = -2 }
+		command = { trigger = { NOT = { local_flag = MOB10 } } type = air_defense which = militia value = -1 }
+		command = { trigger = { NOT = { local_flag = MOB10 } } type = max_organization which = militia value = -5 }
+		command = { type = local_setflag which = MOB10 }
+		
+		
+		command = { trigger = { country = GER } type = trigger which = 13500103 }
+		command = { trigger = { country = ITA } type = trigger which = 13500113 }
+		command = { trigger = { country = JAP } type = trigger which = 13500123 }
+		command = { trigger = { country = FRA } type = trigger which = 13500133 }
+		command = { trigger = { country = SOV } type = trigger which = 13500143 }
+		command = { trigger = { country = USA } type = trigger which = 13500153 }
+		command = { trigger = { country = ENG } type = trigger which = 13500163 }
+		command = { trigger = { country = CHI } type = trigger which = 13500173 }
+	}
+	action = { #Cancel
+		name = "ACTION_NAME_DECLINE"
+		ai_chance = 0
+		
+		command = { }
+	}	
+}
+
+################################
+############ Reserve events
+################################
+event = { #Standard event triggered by partial and general Mobilization
+	id = 1350002
+	random = no
+	#It tag is removed, there is no warning or record in the log
+	tag = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+	one_action = yes
+
+	name = "1350002name"
+	desc = "1350002desc" 
+	style = 1
+	picture = "Wehrmacht"
+
+	action = {
+		name = "1350002" 
+		command = { trigger = { NOT = { year = 1933 } } type = strength which = land when = 1 where = 0 org = 0.7 value = 0.55 } 
+		command = { trigger = {           year = 1933 } type = strength which = land when = 1 where = 0 org = 0.5 value = 0.75 } 
+ 		command = { type = local_setflag which = RES }
+	}
+}	
+
+##### Swiss Reserve Divisions
+event = { # generates 16 militia divisions during war 
+
+	id = 130173
+	random = no
+	country = SCH
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+			NOT = { local_flag = RES2 }
+			atwar = yes
+		}
+   
+	name = "130173name"
+	desc = "130173desc"
+	
+	style = 2
+	picture = "Wehrmacht"
+	
+	date = { day = 1 month = january year = 1914 }
+	offset = 15
+	deathdate = { day = 30 month = december year = 1963 }
+
+	action = {
+		 trigger = { 
+			year = 1914
+			NOT = { year = 1921 }
+		 }
+		name = "130173a"
+		ai_chance = 100
+		#16
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = add_division value = militia when = 2 }
+		command = { type = local_setflag which = RES2 }
+	}
+
+	action = {
+		 trigger = { 
+			year = 1920
+			NOT = { year = 1936 }
+		 }
+		name = "130173a"
+		ai_chance = 100
+		#16
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = add_division value = militia when = 4 }
+		command = { type = local_setflag which = RES2 }
+	}
+	
+	action = {
+		 trigger = { year = 1936 }
+		name = "130173a"
+		ai_chance = 100
+		#16
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = local_setflag which = RES2 }
+	}
+} 
+
+event = { # generates 3 Infantry Divisions. Polish and french volunteers
+
+	id = 130174
+	random = no
+	country = SCH
+	persistent = no
+
+	trigger = {
+		NOT = { exists = POL }
+		NOT = {	war = { country = GER country = FRA } }
+		war = { country = GER }
+		control = { province = 372 data = -3 }
+	}
+   
+	name = "130174name"
+	desc = "130174desc"
+	
+	style = 2
+	picture = "Wehrmacht"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 10
+	deathdate = { day = 30 month = december year = 1963 }
+
+
+	
+	action = {
+		
+		name = "130174a"
+		ai_chance = 100
+		command = { type = add_corps which = "1. Volunteer Corps" value = land where = 372 }
+		command = { type = add_division which = "1. Volunteers Division (french)" value = infantry when = 9 }
+		command = { type = add_division which = "2. Volunteers Division (french)" value = infantry when = 9 }
+		command = { type = add_division which = "3. Volunteers Division (polish)" value = infantry when = 9 }
+	}
+} 
+
+###################################################
+#### Highmobilization during peace causes unrest
+###################################################
+
+event = { #Friendly Warning
+	id = 1350000
+	random = no
+	#It tag is removed, there is no warning or record in the log
+	tag = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+
+	trigger = {
+			atwar = no
+			NOT = { local_flag = demob }
+			NOT = { local_flag = MIL7 }
+			local_flag = MOB8
+			random = 35
+	}
+   
+	name = "1350000name"
+	desc = "1350000desc" 
+	style = 1
+	picture = "Wehrmacht"
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 30
+	deathdate = { day = 30 month = december year = 1963 }
+
+	action = {
+		name = "1350000text8"
+		trigger = { local_flag = MOB8 }
+		ai_chance = 80
+		command = { type = trigger which = 8300112 }
+	}
+	action = {
+		name = "1350000text7"
+		trigger = { local_flag = MOB7 }
+		ai_chance = 20
+		command = { type = trigger which = 8300111 }
+		
+	}
+	action = {
+		name = "1350000textno"
+		ai_chance = 0
+		command = { type = dissent value = 10 }
+	}
+}
+
+#######################
+#### Demobilization
+########################
+
+#####End Partial Mobilisation
+event = {
+ 
+	id = 8300111
+	random = no
+	#It tag is removed, there is no warning or record in the log
+	tag = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+
+	name = "1350005name"
+	desc = "8300106desc" 
+	style = 2
+	picture = "Wehrmacht"
+
+	action = { #End Partial Mobilisation
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		
+		command = { type = strength which = land when = 0 where = 0 value = 0.33 }
+		command = { trigger = { local_flag = MOB7 } type = manpowerpool value = -11.25 when = 1 }		
+		command = { trigger = { local_flag = MOB8 } type = manpowerpool value = -60 when = 1 }
+		command = { trigger = { local_flag = MOB9 } type = manpowerpool value = -25 when = 1 }
+		command = { trigger = { local_flag = MOB10 } type = manpowerpool value = -15 when = 1 }
+		command = { trigger = { local_flag = MOB10 } type = build_time which = militia when = on_upgrade where = relative value = 15 } 
+		command = { trigger = { local_flag = MOB10 } type = build_cost which = militia when = on_upgrade where = relative value = -25 }
+		command = { trigger = { local_flag = MOB10 } type = soft_attack which = militia value = 3 }
+		command = { trigger = { local_flag = MOB10 } type = hard_attack which = militia value = 2 }
+		command = { trigger = { local_flag = MOB10 } type = air_defense which = militia value = 1 }
+		command = { trigger = { local_flag = MOB10 } type = max_organization which = militia value = 5 }	
+		command = { type = event which = 13500054 where = -1 when = 90 }
+		command = { type = set_domestic which = professional_army value = 6 }
+		#lose exact amount that was gained for mobilizing
+		command = { trigger = { local_flag = MOB7 } type = belligerence value = -20 }
+		command = { trigger = { local_flag = MOB8 } type = belligerence value = -20 }
+		command = { trigger = { local_flag = MOB9 } type = belligerence value = -10 }
+		command = { trigger = { local_flag = MOB10 } type = belligerence value = -10 }
+		
+		command = { trigger = { local_flag = MOB7 } type = dissent value = -1 }
+		command = { trigger = { local_flag = MOB8 } type = dissent value = -2 }
+		command = { trigger = { local_flag = MOB9 } type = dissent value = -3 }
+		command = { trigger = { local_flag = MOB10 } type = dissent value = -5 }
+		command = { type = local_setflag which = demob }
+		
+		command = { trigger = { country = GER } type = trigger which = 13500105 }
+		command = { trigger = { country = ITA } type = trigger which = 13500115 }
+		command = { trigger = { country = JAP } type = trigger which = 13500125 }
+		command = { trigger = { country = FRA } type = trigger which = 13500135 }
+		command = { trigger = { country = SOV } type = trigger which = 13500145 }
+		command = { trigger = { country = USA } type = trigger which = 13500155 }
+		command = { trigger = { country = ENG } type = trigger which = 13500165 }
+		command = { trigger = { country = CHI } type = trigger which = 13500175 }
+		
+		command = { trigger = { local_flag = do_not_demob } type = local_clrflag which = do_not_demob } #reset flags for AI countries
+		command = { type = local_setflag which = demob }
+	}
+
+	action = { #Cancel
+		
+		name = "ACTION_NAME_DECLINE"
+		ai_chance = 0
+		
+		command = { }
+	}	
+}
+
+#####End General Mobilisation
+event = {
+ 
+	id = 8300112
+	random = no
+	#It tag is removed, there is no warning or record in the log
+	tag = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA FRA GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	persistent = yes
+
+	name = "1350005name"
+	desc = "8300107desc" 
+	style = 2
+	picture = "Wehrmacht"
+	
+	action = {	#End General Mobilisation
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+
+		command = { type = strength which = land when = 0 where = 0 value = 0.66 }
+		command = { trigger = { local_flag = MOB8 } type = manpowerpool value = -60 when = 1 }
+		command = { trigger = { local_flag = MOB9 } type = manpowerpool value = -25 when = 1 }
+		command = { trigger = { local_flag = MOB10 } type = manpowerpool value = -15 when = 1 }
+		command = { trigger = { local_flag = MOB10 } type = build_time which = militia when = on_upgrade where = relative value = 15 } 
+		command = { trigger = { local_flag = MOB10 } type = build_cost which = militia when = on_upgrade where = relative value = -25 }
+		command = { trigger = { local_flag = MOB10 } type = soft_attack which = militia value = 3 }
+		command = { trigger = { local_flag = MOB10 } type = hard_attack which = militia value = 2 }
+		command = { trigger = { local_flag = MOB10 } type = air_defense which = militia value = 1 }
+		command = { trigger = { local_flag = MOB10 } type = max_organization which = militia value = 5 }		
+		command = { type = event which = 13500053 where = -1 when = 90 }
+		command = { type = set_domestic which = professional_army value = 7 }
+		#lose exact amount that was gained for mobilizing
+		command = { trigger = { local_flag = MOB8 } type = belligerence value = -20 }
+		command = { trigger = { local_flag = MOB9 } type = belligerence value = -10 }
+		command = { trigger = { local_flag = MOB10 } type = belligerence value = -10 }
+		command = { trigger = { local_flag = MOB8 } type = dissent value = -2 }
+		command = { trigger = { local_flag = MOB9 } type = dissent value = -3 }
+		command = { trigger = { local_flag = MOB10 } type = dissent value = -5 }
+		
+		command = { trigger = { country = GER } type = trigger which = 13500106 }
+		command = { trigger = { country = ITA } type = trigger which = 13500116 }
+		command = { trigger = { country = JAP } type = trigger which = 13500126 }
+		command = { trigger = { country = FRA } type = trigger which = 13500136 }
+		command = { trigger = { country = SOV } type = trigger which = 13500146 }
+		command = { trigger = { country = USA } type = trigger which = 13500156 }
+		command = { trigger = { country = ENG } type = trigger which = 13500166 }
+		command = { trigger = { country = CHI } type = trigger which = 13500176 }
+		
+		command = { trigger = { local_flag = do_not_demob } type = local_clrflag which = do_not_demob } #reset flags for AI countries
+		command = { type = local_setflag which = demob }
+	}	
+
+
+	action = { #Cancel
+		
+		name = "ACTION_NAME_DECLINE"
+		ai_chance = 0
+		
+		command = { }
+	}	
+}
+
+#####demob flags
+event = { # set flags to partial mob
+ 
+	id = 13500053
+	random = no
+	persistent = yes
+
+	name = "13500053name"
+	desc = "13500053desc" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	
+	action = {
+		name = "13500053a"
+
+		command = { type = local_clrflag which = MOB8 }
+		command = { type = local_clrflag which = MOB9 }
+		command = { type = local_clrflag which = MOB10 }
+		command = { type = local_clrflag which = demob }
+		command = { trigger = { local_flag = do_not_demob } type = local_clrflag which = do_not_demob } #reset flags for AI countries
+	}
+}
+
+event = { # set flags to 3 year conscription
+ 
+	id = 13500054
+	random = no
+	persistent = yes
+
+	name = "13500053name"
+	desc = "13500053desc" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	
+	action = {
+		name = "13500053a"
+
+		command = { type = local_clrflag which = MOB7 }
+		command = { type = local_clrflag which = MOB8 }
+		command = { type = local_clrflag which = MOB9 }
+		command = { type = local_clrflag which = MOB10 }
+		command = { type = local_clrflag which = RES }
+		command = { type = local_clrflag which = demob }
+		command = { trigger = { local_flag = do_not_demob } type = local_clrflag which = do_not_demob } #reset flags for AI countries
+	}
+}
+
+
+
+######################
+# Mobilization warnings
+######################
+
+event = { 
+	id = 13500100
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Partial Mobilization in Germany!"
+	desc = "Attention: Leadership of Germany declared partial mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500101
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "General Mobilization in Germany!"
+	desc = "Attention: Leadership of Germany declared general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500102
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Extended Mobilization in Germany!"
+	desc = "Attention: Leadership of Germany declared extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500103
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Total Mobilization in Germany!"
+	desc = "Attention: Leadership of Germany declared total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500105
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Partial Mobilization in Germany!"
+	desc = "Attention: Leadership of Germany declared end to the partial mobilization of their armed forces!"
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500106
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of General Mobilization in Germany!"
+	desc = "Attention: Leadership of Germany declared end to the general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500107
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Extended Mobilization in Germany!"
+	desc = "Attention: Leadership of Germany declared end to the extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500108
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Total Mobilization in Germany!"
+	desc = "Attention: Leadership of Germany declared end to the total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = GER } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500110
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Partial Mobilization in Italy!"
+	desc = "Attention: Leadership of Italy declared partial mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500111
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "General Mobilization in Italy!"
+	desc = "Attention: Leadership of Italy declared general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500112
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Extended Mobilization in Italy!"
+	desc = "Attention: Leadership of Italy declared extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500113
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Total Mobilization in Italy!"
+	desc = "Attention: Leadership of Italy declared total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500115
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Partial Mobilization in Italy!"
+	desc = "Attention: Leadership of Italy declared end to the partial mobilization of their armed forces!"
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500116
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of General Mobilization in Italy!"
+	desc = "Attention: Leadership of Italy declared end to the general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500117
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Extended Mobilization in Italy!"
+	desc = "Attention: Leadership of Italy declared end to the extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500118
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Total Mobilization in Italy!"
+	desc = "Attention: Leadership of Italy declared end to the total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ITA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500120
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Partial Mobilization in Japan!"
+	desc = "Attention: Leadership of Japan declared partial mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500121
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "General Mobilization in Japan!"
+	desc = "Attention: Leadership of Japan declared general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500122
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Extended Mobilization in Japan!"
+	desc = "Attention: Leadership of Japan declared extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500123
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Total Mobilization in Japan!"
+	desc = "Attention: Leadership of Japan declared total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500125
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Partial Mobilization in Japan!"
+	desc = "Attention: Leadership of Japan declared end to the partial mobilization of their armed forces!"
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500126
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of General Mobilization in Japan!"
+	desc = "Attention: Leadership of Japan declared end to the general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500127
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Extended Mobilization in Japan!"
+	desc = "Attention: Leadership of Japan declared end to the extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500128
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Total Mobilization in Japan!"
+	desc = "Attention: Leadership of Japan declared end to the total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = JAP } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500130
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Partial Mobilization in France!"
+	desc = "Attention: Leadership of France declared partial mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500131
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "General Mobilization in France!"
+	desc = "Attention: Leadership of France declared general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500132
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Extended Mobilization in France!"
+	desc = "Attention: Leadership of France declared extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500133
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Total Mobilization in France!"
+	desc = "Attention: Leadership of France declared total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500135
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Partial Mobilization in France!"
+	desc = "Attention: Leadership of France declared end to the partial mobilization of their armed forces!"
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500136
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of General Mobilization in France!"
+	desc = "Attention: Leadership of France declared end to the general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500137
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Extended Mobilization in France!"
+	desc = "Attention: Leadership of France declared end to the extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500138
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Total Mobilization in France!"
+	desc = "Attention: Leadership of France declared end to the total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = FRA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500140
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Partial Mobilization in Soviet Union!"
+	desc = "Attention: Leadership of Soviet Union declared partial mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500141
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "General Mobilization in Soviet Union!"
+	desc = "Attention: Leadership of Soviet Union declared general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+
+event = { 
+	id = 13500142
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Extended Mobilization in Soviet Union!"
+	desc = "Attention: Leadership of Soviet Union declared extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500143
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Total Mobilization in Soviet Union!"
+	desc = "Attention: Leadership of Soviet Union declared total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500145
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Partial Mobilization in Soviet Union!"
+	desc = "Attention: Leadership of Soviet Union declared end to the partial mobilization of their armed forces!"
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500146
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of General Mobilization in Soviet Union!"
+	desc = "Attention: Leadership of Soviet Union declared end to the general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500147
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Extended Mobilization in Soviet Union!"
+	desc = "Attention: Leadership of Soviet Union declared end to the extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500148
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Total Mobilization in Soviet Union!"
+	desc = "Attention: Leadership of Soviet Union declared end to the total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = RUS country = SOV } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500150
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Partial Mobilization in United States!"
+	desc = "Attention: Leadership of United States declared partial mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500151
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "General Mobilization in United States!"
+	desc = "Attention: Leadership of United States declared general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500152
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Extended Mobilization in United States!"
+	desc = "Attention: Leadership of United States declared extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500153
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Total Mobilization in United States!"
+	desc = "Attention: Leadership of United States declared total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500155
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Partial Mobilization in United States!"
+	desc = "Attention: Leadership of United States declared end to the partial mobilization of their armed forces!"
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500156
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of General Mobilization in United States!"
+	desc = "Attention: Leadership of United States declared end to the general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500157
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Extended Mobilization in United States!"
+	desc = "Attention: Leadership of United States declared end to the extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500158
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Total Mobilization in United States!"
+	desc = "Attention: Leadership of United States declared end to the total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = USA } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500160
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Partial Mobilization in United Kingdom!"
+	desc = "Attention: Leadership of United Kingdom declared partial mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500161
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "General Mobilization in United Kingdom!"
+	desc = "Attention: Leadership of United Kingdom declared general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500162
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Extended Mobilization in United Kingdom!"
+	desc = "Attention: Leadership of United Kingdom declared extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500163
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Total Mobilization in United Kingdom!"
+	desc = "Attention: Leadership of United Kingdom declared total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500165
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Partial Mobilization in United Kingdom!"
+	desc = "Attention: Leadership of United Kingdom declared end to the partial mobilization of their armed forces!"
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500166
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of General Mobilization in United Kingdom!"
+	desc = "Attention: Leadership of United Kingdom declared end to the general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500167
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Extended Mobilization in United Kingdom!"
+	desc = "Attention: Leadership of United Kingdom declared end to the extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = ENG } NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500168
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Total Mobilization in United Kingdom!"
+	desc = "Attention: Leadership of United Kingdom declared end to the total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = ENG } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500170
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Partial Mobilization in Republic of China!"
+	desc = "Attention: Leadership of Republic of China declared partial mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500171
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "General Mobilization in Republic of China!"
+	desc = "Attention: Leadership of Republic of China declared general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500172
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Extended Mobilization in Republic of China!"
+	desc = "Attention: Leadership of Republic of China declared extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500173
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Total Mobilization in Republic of China!"
+	desc = "Attention: Leadership of Republic of China declared total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "We must be prepared!"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500175
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Partial Mobilization in Republic of China!"
+	desc = "Attention: Leadership of Republic of China declared end to the partial mobilization of their armed forces!"
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500176
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of General Mobilization in Republic of China!"
+	desc = "Attention: Leadership of Republic of China declared end to the general mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500177
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Extended Mobilization in Republic of China!"
+	desc = "Attention: Leadership of Republic of China declared end to the extended mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
+
+event = { 
+	id = 13500178
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "End of Total Mobilization in Republic of China!"
+	desc = "Attention: Leadership of Republic of China declared end to the total mobilization of their armed forces!" 
+	style = 2
+	picture = "Wehrmacht"
+	decision_picture = "decision_german_total_war"
+	 	
+	action = {
+		name = "Good!"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { }
+	}
+	action = {
+		name = "Don't show me the mobilization warnings again"
+		trigger = { NOT = { country = CHI } NOT = { local_flag = noWarningsMobDemob } }
+		command = { type = local_setflag which = noWarningsMobDemob }
+	}
+}
