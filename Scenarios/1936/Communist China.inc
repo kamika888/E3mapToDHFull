@@ -197,7 +197,7 @@ blueprints = {
      freedom           = 3 
      professional_army = 7 
      defense_lobby     = 4 
-     interventionism   = 4
+     interventionism   = 5
   }
    headofstate            = {  type = 9 id = 260848  } 
    headofgovernment       = {  type = 9 id = 260858  } 
@@ -212,7 +212,38 @@ blueprints = {
   # ######
   # COMMUNSIT CHINA OOB
   # ######
-   
+   landunit = 
+   {  location = 1206
+     name     = "Northeast Counter-Japanese United Army" 
+     id       = {  type = 22302 id = 1  } 
+		Division = 
+		{
+			id       = {  type = 22302 id = 3  } 
+			name     = "Chinese People's National Salvation Army" 
+			type     = militia 
+			strength = 70
+			model    = 3
+		} 
+		Division = 
+		{
+			id       = {  type = 22302 id = 4  } 
+			name     = "Chahar Self-Defense Army" 
+			type     = militia 
+			strength = 70
+			model    = 3
+		}
+		#Defunct
+		Division = 
+		{
+			id       = {  type = 22302 id = 5  } 
+			name     = "Chahar People's Counter-Japanese Army" 
+			type     = militia 
+			strength = 20
+			model    = 3
+		}
+    }
+
+
    #20
    landunit = 
    {  location = 1270 # Yan'an 
@@ -416,6 +447,52 @@ blueprints = {
       } 
      dig_in   = 20.000 
     }
+
+#    landunit = 
+#   {  location = 5644 # 
+#     name     = "28th Red Army" 
+#	  leader   = #Gao Jingting
+#     id       = {  type = 24001 id = 1  } 
+#     Division = 
+#     {  experience = 60 
+#       id         = {  type = 24001 id = 2  } 
+#       name       = "82nd Division" 
+#       type       = bergsjaeger 
+#       strength  = 35 
+#       model      = 7 
+#      } 
+#     dig_in   = 20.000 
+#    } 
+#    landunit = 
+#   {  location = 5620 # 
+#     name     = "16th Division" 
+#     leader   = #Fang Buzhou
+#     id       = {  type = 24001 id = 3  } 
+#     Division = 
+#     {  experience = 60 
+#       id         = {  type = 24001 id = 4  } 
+#       name       = "16th Division" 
+#       type       = bergsjaeger 
+#       strength  = 20 
+#       model      = 7 
+#      } 
+#     dig_in   = 20.000 
+#    } 
+#    landunit = 
+#   {  location = 1243 # 
+#     name     = "Fujian Military Command" 
+#	  leader   = #Ye Fei
+#     id       = {  type = 24001 id = 5  } 
+#     Division = 
+#     {  experience = 60 
+#       id         = {  type = 24001 id = 6  } 
+#       name       = "16th Division" 
+#       type       = bergsjaeger 
+#       strength  = 56 
+#       model      = 7 
+#      } 
+#     dig_in   = 20.000 
+#    } 
 } 
  
  

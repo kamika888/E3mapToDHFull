@@ -126,7 +126,7 @@ country =
   ownedprovinces         = { 1206 5626 7993
   }
   controlledprovinces    = { 1206 5626 7993
-1378 1375 5688 5689 5687 2485 5690 5685 5674 5669 1374 7911 2333 2345
+1378 1375 5688 5689 5687 2485 5690 5685 5674 5669 1374 2345
   }
   # Guangxi
   # ROTW Minor Tech '36
@@ -199,49 +199,6 @@ country =
      defense_lobby     = 9 
      interventionism   = 5 
   }
-  free = {
-	 energy			= 10
-	 metal			= 5
-	 rare_materials	= 2.5
-  }
-   landunit = 
-   {  location = 5626
-     name     = "Northeast Counter-Japanese United Army" 
-     id       = {  type = 22302 id = 1  } 
-		Division = 
-		{
-			id       = {  type = 22302 id = 3  } 
-			name     = "Chinese People's National Salvation Army" 
-			type     = militia 
-			strength = 70
-			model    = 3
-		} 
-		Division = 
-		{
-			id       = {  type = 22302 id = 4  } 
-			name     = "Counter-Japanese Army for the Salvation of the Country" 
-			type     = militia 
-			strength = 70
-			model    = 3
-		}
-		Division = 
-		{
-			id       = {  type = 22302 id = 5  } 
-			name     = "Chahar Self-Defense Army" 
-			type     = militia 
-			strength = 70
-			model    = 3
-		}
-		#Defunct
-		Division = 
-		{
-			id       = {  type = 22302 id = 6  } 
-			name     = "Chahar People's Counter-Japanese Army" 
-			type     = militia 
-			strength = 20
-			model    = 3
-		}
-    }
 	landunit = 
 	{  
 		location = 1378
@@ -287,6 +244,14 @@ country =
 			type     = militia 
 			strength = 30
 			max_strength = 50 
+			model    = 3
+		}
+		Division = 
+		{
+			id       = {  type = 22302 id = 18  } 
+			name     = "Counter-Japanese Army for the Salvation of the Country" 
+			type     = militia 
+			strength = 70
 			model    = 3
 		}
     }
@@ -386,20 +351,15 @@ country =
 			model    = 3
 		}
     }
-    landunit = 
-   {  location = 2333 # 
-     name     = "Kim Il Sung's division" 
-     id       = {  type = 22302 id = 40  } 
-     Division = 
-     {  experience = 60 
+    landdivision = {
+	   experience = 60 
        id         = {  type = 22302 id = 41  } 
        name       = "Korean People's Revolutionary Army" 
        type       = bergsjaeger 
-       strength  = 60 
+       strength   = 60 
        model      = 7 
+	   dormant    = yes
       } 
-     dig_in   = 20.000 
-    } 
     landunit = 
    {  location = 2345 # 
      name     = "Liaoning Salvation Army" 

@@ -15,7 +15,7 @@
 	oil                    = 500 
 	supplies               = 2000 
 	money                  = 50 
-	manpower               = 26 
+	manpower               = 36 
 	transports             = 100 
 	escorts                = 10 
       

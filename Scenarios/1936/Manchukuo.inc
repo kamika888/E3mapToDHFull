@@ -16,6 +16,7 @@ country =
 	supplies               = 100 
 	money                  = 10 
 	manpower               = 8 
+	dissent				   = 20
   capital                = 2241
   free                   = { energy = 14 metal = 7 rare_materials = 4 }
   diplomacy =
@@ -36,7 +37,7 @@ country =
 							2347 2349 2346 2345 2340 2341 2344 2338 2333 2487 2241 2511 2337 2246 2486 2281 2485
 							1388 2348 2317 1397 2318 3110	
 							3755 3756 3757 3758 3759 3760 3774 1202 3090
-5633 5634 5635 5636
+5633 5635 5636
 5656 5657 5658 5659 5660 5661 5662 5663 5664 5665 
 5666 5667 5668 5669 5670 5671 5672 5673 5674 5675 
 5676 5677 5678 5679 5680 5681 5682 5683 5684 5685 
@@ -46,7 +47,7 @@ country =
 							2347 2349 2346 2345 2340 2341 2344 2338 2333 2487 2241 2511 2337 2246 2486 2281 2485
 							1388 2348 2317 1397 2318 3110			
 							3755 3756 3757 3758 3759 3760 3774
-5633 5634 5635 5636
+5633 5635 5636
 5656 5657 5658 5659 5660 5661 5662 5663 5664 5665 
 5666 5667 5668 5669 5670 5671 5672 5673 5674 5675 
 5676 5677 5678 5679 5680 5681 5682 5683 5684 5685 
@@ -56,11 +57,12 @@ country =
 							2347 2349 2346 2340 2341 2344 2338 2487 2241 2511 2337 2246 2486 2281
 							1388 2348 2317 1397 2318 3110			
 							3755 3756 3757 3758 3759 3760 3774
-5633 5634 5635 5636
+5633 5635 5636
 5656 5657 5658 5659 5660 5661 5662 5663 5664 5665 
 5666 5667 5668 5670 5671 5672 5673 5675 
 5676 5677 5678 5679 5680 5681 5682 5683 5684 
 5686 5691 5692
+7911 2333
 							}
   claimedprovinces 		 = { 
 5693
@@ -150,7 +152,7 @@ country =
   # Basic Construction Engineering Development Process
 
   landunit = 
-   {  location = 1397 
+   {  location = 2241 
      id       = {  type = 28500 id = 1  } 
      name     = "Di'1 Fang'tien Jüntuan" 
      Division = 
@@ -188,16 +190,16 @@ country =
 		model = 4   
        strength = 50 
       } 
-     Division = 
-     {  id       = {  type = 28500 id = 7  } 
-       name     = "6 Man'chu Lü" 
-       type     = militia
-		model = 4   
-       strength = 50 
-      } 
+     #Division = 
+     #{  id       = {  type = 28500 id = 7  } 
+     #  name     = "6 Man'chu Lü" 
+     #  type     = militia
+	 #  model = 4   
+     #  strength = 50 
+     # } 
     } 
    landunit = 
-   {  location = 1397 
+   {  location = 2241 
      id       = {  type = 28500 id = 8  } 
      name     = "Di'2 Ji'lin Jüntuan" 
      Division = 
@@ -221,13 +223,13 @@ country =
 	   model = 4
        strength = 50 
       } 
-     Division = 
-     {  id       = {  type = 28500 id = 12  } 
-       name     = "10 Man'chu Lü" 
-       type     = militia 
-	   model = 4
-       strength = 50 
-      } 
+     #Division = 
+     #{  id       = {  type = 28500 id = 12  } 
+     #  name     = "10 Man'chu Lü" 
+     #  type     = militia 
+	 #  model = 4
+     #  strength = 50 
+     # } 
      Division = 
      {  id       = {  type = 28500 id = 13  } 
        name     = "1 Man'chu Qi'Bing" 
@@ -242,16 +244,9 @@ country =
 	   model = 7
        strength = 15 
       } 
-     Division = 
-     {  id       = {  type = 28500 id = 15  } 
-       name     = "3 Man'chu Qi'Bing" 
-       type     = cavalry 
-	   model = 7
-       strength = 15 
-      } 
     } 
    landunit = 
-   {  location = 1397 
+   {  location = 2241 
      id       = {  type = 28500 id = 16  } 
      name     = "Di'3 Qiqihar Jüntuan" 
      Division = 
@@ -282,13 +277,13 @@ country =
 	   model = 4
        strength = 50 
       } 
-     Division = 
-     {  id       = {  type = 28500 id = 21  } 
-       name     = "15 Man'chu Lü" 
-       type     = militia 
-	   model = 4
-       strength = 50 
-      } 
+     #Division = 
+     #{  id       = {  type = 28500 id = 21  } 
+     #  name     = "15 Man'chu Lü" 
+     #  type     = militia 
+	 #  model = 4
+     #  strength = 50 
+     # } 
      Division = 
      {  id       = {  type = 28500 id = 22  } 
        name     = "4 Man'chu Qi'Bing" 
@@ -298,7 +293,7 @@ country =
       } 
     } 
    landunit = 
-   {  location = 1397 
+   {  location = 2241 
      id       = {  type = 28500 id = 23  } 
      name     = "Di'4 Harbin Jüntuan" 
      Division = 
@@ -329,34 +324,13 @@ country =
 	   model = 4
        strength = 50 
       } 
-     Division = 
-     {  id       = {  type = 28500 id = 28  } 
-       name     = "20 Man'chu Lü" 
-       type     = militia 
-	   model = 4
-       strength = 50 
-      } 
-     Division = 
-     {  id       = {  type = 28500 id = 29  } 
-       name     = "21 Man'chu Lü" 
-       type     = militia 
-	   model = 4
-       strength = 50 
-      } 
-     Division = 
-     {  id       = {  type = 28500 id = 30  } 
-       name     = "22 Man'chu Lü" 
-       type     = militia 
-	   model = 4
-       strength = 50 
-      } 
-     Division = 
-     {  id       = {  type = 28500 id = 31  } 
-       name     = "23 Man'chu Lü" 
-       type     = militia 
-	   model = 4
-       strength = 50 
-      } 
+     #Division = 
+     #{  id       = {  type = 28500 id = 28  } 
+     #  name     = "20 Man'chu Lü" 
+     #  type     = militia 
+	 #  model = 4
+     #  strength = 50 
+     # } 
      Division = 
      {  id       = {  type = 28500 id = 32  } 
        name     = "5 Man'chu Qi'Bing" 
@@ -366,9 +340,16 @@ country =
       } 
     } 
    landunit = 
-   {  location = 1397 
+   {  location = 2241 
      id       = {  type = 28500 id = 33  } 
      name     = "Di'5 Chengde Jüntuan" 
+     Division = 
+     {  id       = {  type = 28500 id = 29  } 
+       name     = "21 Man'chu Lü" 
+       type     = militia 
+	   model = 4
+       strength = 50 
+      } 
      Division = 
      {  id       = {  type = 28500 id = 34  } 
        name     = "24 Man'chu Lü" 

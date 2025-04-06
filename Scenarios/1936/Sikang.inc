@@ -19,6 +19,9 @@ country =
   money                  = 50
   capital                = 1281 
   manpower               = 400
+  
+  headofstate            = {  type = 9 id = 55500  } 
+  
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }
@@ -189,7 +192,7 @@ country =
        name       = "136. Division" 
        type     = infantry 
        strength   = 33
-       model      = 2
+       model      = 3
 	   extra1 = police
 	   brigade_model1 = 1
       }
@@ -199,7 +202,7 @@ country =
        name       = "137. Division" 
        type     = infantry
        strength   = 33
-       model      = 2
+       model      = 3
 	   extra1 = police
 	   brigade_model1 = 1
       } 
@@ -209,7 +212,7 @@ country =
        name       = "138. Division" 
        type       = infantry
        strength   = 33
-       model      = 2
+       model      = 3
 	   extra1 = police
 	   brigade_model1 = 1
       }
@@ -219,7 +222,7 @@ country =
        name       = "30/33/34. Independent Brigades" 
        type       = infantry
        strength   = 40
-       model      = 2
+       model      = 3
       }
 	  Division = 
      {  experience = 30 
@@ -227,7 +230,7 @@ country =
        name       = "1. Sikang Provincial Militia" 
        type       = militia
        strength   = 40
-       model      = 1
+       model      = 2
       }
     }
   } 

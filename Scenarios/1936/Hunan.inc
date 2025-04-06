@@ -19,6 +19,9 @@ country =
   money                  = 50
   capital                = 1921 
   manpower               = 400
+  
+  headofstate            = {  type = 9 id = 55500  } 
+  
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }
@@ -242,7 +245,7 @@ country =
        name       = "4. Route Army Reserve Regiments" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
 	  Division = 
      {  experience = 30 

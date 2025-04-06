@@ -75,7 +75,15 @@ event = {
 		OR = {
 			war = { country = CHI }
 			lost_national = { country = MEN value = 30 }
-			lost_national = { country = U87 value = 10 }
+			control = { province = 6916 data = CHI } 
+			control = { province = 2527 data = CHI } 
+			control = { province = 2576 data = CHI } 
+			control = { province = 6916 data = CHC } 
+			control = { province = 2527 data = CHC } 
+			control = { province = 2576 data = CHC } 
+			control = { province = 6916 data = U58 } 
+			control = { province = 2527 data = U58 } 
+			control = { province = 2576 data = U58 } 
 			area = { area = "Liaoning" 	country = CHI data = 1 value = 1 }
 			area = { area = "Liaoning" 	country = CHC data = 1 value = 1 }
 			area = { area = "Rehe" 		country = CHI data = 1 value = 1 }
@@ -90,13 +98,18 @@ event = {
 				}
 			}
 			AND = {
-				month = 5
+				month = 6
 				NOT = { month = 10 }
-				NOT = { area = { area = "Jilin" country = U58 data = 1 value = 1 } }
+				#NOT = { 
+				#	area = { area = "Jilin" 		country = REB data = 1 value = 1 }
+				#	area = { area = "Heilongjiang" 	country = REB data = 1 value = 1 }
+				#	area = { area = "Liaoning" 		country = REB data = 1 value = 1 }
+				#	area = { area = "Rehe" 			country = REB data = 1 value = 1 }
+				#}
 				OR = {
 					year = 1938
 					AND = {
-						event = { id = 2012014 days = 120 } #4 months Xi'an incident
+						event = { id = 2012014 days = 150 } #5 months Xi'an incident
 						random = 25
 					}
 					AND = {
@@ -119,19 +132,26 @@ event = {
 		command = { type = war which = CSX }
 		command = { type = war which = CHI }
 		command = { type = dissent value = -3 }
-		#command = { trigger = { exists = U74 puppet = { country = U74 country = JAP } } type = inherit when = 3 which = U74 value = 1 }
+		
+		#Tongzhou Mutiny
+		command = { type = remove_division which = 11854 value = 2 }
+		command = { type = remove_division which = 11854 value = 6 }
+
 		command = { type = secedearea which = -1 value = "Chahar" 			when = 2 }
 		command = { type = secedearea which = -1 value = "Suiyuan_Ningxia"	when = 2 }
 		command = { type = make_puppet which = MEN }
 		command = { type = event which = 2400537 where = MEN when = 0 } #medium-strong puppet
-		command = { type = make_puppet which = MAN }
+		#command = { type = make_puppet which = MAN }
 		command = { type = event which = 2400010 where = MEN when = 0 } #reset province priorities
 		command = { type = event which = 2400041 where = MEN when = 0 } #10 exp
 		command = { type = event which = 2400045 where = MAN when = 0 } #50 exp
 		command = { type = event which = 2400043 where = U87 when = 0 } #30 exp
-		command = { type = secedeprovince which = U87 value = 1203 when = 1 }
-		command = { type = secedeprovince which = MEN value = 1206 when = 1 }
-		command = { type = secedeprovince which = MEN value = 5626 when = 1 }
+		command = { type = event which = 2400056 where = U87 when = 0 } #unenforcenoexp
+		#command = { type = secedeprovince which = U87 value = 1203 when = 1 }
+		#command = { type = secedeprovince which = MEN value = 1206 when = 1 }
+		#command = { type = secedeprovince which = MEN value = 5626 when = 1 }
+		command = { type = secedeprovince which = CHC value = 1206 when = 2 }
+		command = { type = secedeprovince which = CHC value = 5626 when = 2 }
 		command = { type = removeclaim which = 1203 }
 		command = { type = removeclaim which = 1206 }
 		command = { type = removeclaim which = 5626 }
@@ -145,8 +165,17 @@ event = {
         command = { type = relation which = CYN value = -50 }
 		command = { type = trigger which = 2012016 } # Chinese unified front
 		
+		command = { type = remove_units which = land where = U58 when = 1 value = "Chahar" }
+		command = { type = remove_units which = land where = U58 when = 1 value = "Suiyuan_Ningxia" }
+		command = { type = remove_units which = land where = U58 when = 1 value = "Shanxi" }
+		
 		command = { type = ai which = "nations\JAP_CHI.ai" }
 		command = { trigger = { ai = yes NOT = { local_flag = MOB7 } NOT = { local_flag = demob } } type = trigger which = 8300107 } #partial Mobilization
+		
+		command = { trigger = { ai = SOV } 	type = event 	which = 2400047 where = JAP when = 0 } #70 exp
+		command = { trigger = { ai = TAN } 	type = event 	which = 2400042 where = MEN when = 0 } #20 exp
+		command = { trigger = { ai = MON } 	type = event 	which = 2400042 where = MAN when = 0 } #20 exp
+		command = { trigger = { puppet = { country = MEN country = JAP } }	type = military_control which = JAP where = MEN value = 1 }
 	}
 	action = {
 		name = "This whole China affair has been a huge waste and debacle"
@@ -218,7 +247,7 @@ event = {
 	desc = EVT_1330110078_DESC
 	
 	date = { day = 0 month = january year = 1936 }
-	offset = 10
+	offset = 3
 	deathdate = { day = 29 month = august year = 1963 }
 	
 	picture = "ccip_shanghai"
@@ -226,7 +255,7 @@ event = {
 
 	action = {
 		name = ACTION_NAME_FIGHT
-		command = { type = event which = 1330110079 where = JAP when = 8 } # JAP Shanghai Incident
+		command = { type = event which = 1330110079 where = JAP when = 2 } # JAP Shanghai Incident
 	}
 }
 
@@ -719,13 +748,14 @@ event = {
 		name = "Make some concessions but demand a loyal puppet"
 		ai_chance = 99
 		command = { type = dissent value = 3 }
+		command = { type = belligerence which = JAP value = -5 }
 		command = { type = trigger which = 2012018 }
 	} 
 	action = { 
 		name = "Why make concessions now when we can take what we want?"
 		ai_chance = 1
 		command = { type = trigger which = 2012017 }
-		command = { type = belligerence which = JAP value = 10 }
+		command = { type = belligerence which = JAP value = 15 }
 	}
 }
 
@@ -764,8 +794,7 @@ event = {
 
 	action = { 
 		name = "Enough. We give in."
-		ai_chance = 99
-		
+		ai_chance = 99		
 		command = { type = secederegion which = CHC value = "China" when = 1 } 
 		command = { type = secedeprovince which = CHI value = 2551 when = 2 } #Chongqing
 		#command = { type = secedeprovince which = CHI value = 1235 when = 2 } #Nanjing
@@ -859,6 +888,14 @@ event = {
 		command = { type = country which = CHI }
 		
 		command = { type = sleepteam which = 55006 } 	# Chiang Kai-shek
+		command = { type = sleepminister which = 55312 } # Chiang Kai-shek
+		command = { type = sleepminister which = 55320 } # Chiang Kai-shek
+		command = { type = sleepminister which = 55321 } # Chiang Kai-shek
+		command = { type = sleepminister which = 55323 } # Chiang Kai-shek
+		command = { type = sleepminister which = 55324 } # Chiang Kai-shek
+		command = { type = sleepminister which = 55001 } # Chiang Kai-shek
+		command = { type = sleepminister which = 55009 } # Chiang Kai-shek
+		command = { type = sleepleader which = 55049 } # Chiang Kai-shek
 		command = { type = sleepteam which = 55005 } 	#Von Falkenhausen
 		command = { type = sleepminister which = 55002 } # Chiang Kai-shek HOG
 		command = { type = sleepleader which = 55049 } # Chiang Kai-shek
@@ -877,6 +914,16 @@ event = {
         command = { type = chiefofnavy which = 1250063 } #Ren Yuandao
         command = { type = chiefofair which = 1250010 } #Chen Changchu 	
 		
+		command = { type = secedearea 		which = MEN value = "Chahar" when = 1 }
+		command = { type = secedearea 		which = MEN value = "Suiyuan_Ningxia" when = 1 }
+		command = { type = secedeprovince 	which = MEN value = 2504 when = 1 }
+		command = { type = secedeprovince 	which = MEN value = 1439 when = 1 }
+		command = { type = secedeprovince 	which = MEN value = 5622 when = 1 }
+		command = { type = secedeprovince 	which = MEN value = 3750 when = 1 }
+		command = { type = secedeprovince 	which = MEN value = 5549 when = 1 }
+		
+		command = { type = add_division value = transport when = 3 }
+		
 		command = { type = event which = 2012020 where = JAP when = 1 }
 	} 
 }
@@ -887,7 +934,7 @@ event = {
 	country = JAP
 
 	name = "China surrenders"
-	desc = "The Chinese KMT wisely chose to cease resistance and submit to our wise rule. Together, Asia will be stronger. Now, we just need to finish off the communists..."
+	desc = "The Chinese KMT wisely chose to cease resistance and submit to our benevolent rule. Together, Asia will be stronger. Now, we just need to finish off the communists..."
   	style = 2
   	picture = "news_paper"
 
@@ -943,7 +990,7 @@ event = {
 		name = ACTION_NAME_OK
 		command = { type = dissent value = -15 }
 		command = { type = inherit which = CXB value = 1 }
-		command = { type = manpowerpool value = 2000 }
+		command = { type = manpowerpool value = 5000 }
 		#More KMT defectors
 		command = { type = add_division value = militia when = 6 }
 		command = { type = add_division value = militia when = 6 }
@@ -1396,179 +1443,6 @@ event = {
 		command = { type = secedeprovince	which = CHI value = 5643	when = 1 }
 		
 		command = { trigger = { ai = JAP } type = belligerence which = JAP value = -0.2 }
-	}
-}
-
-###########################################################
-#Suiyuan campaign
-###########################################################
-
-event = { 
-	id = 2141005
-	random = no
-	country = CHI
-
-	trigger = {
-		exists = U65
-		NOT = { war = { country = JAP } }
-		OR = {
-			lost_national	= { country = MEN value = 20 } #2/10 provinces
-			lost_vp 		= { country = MEN value = 20 }
-			AND	= {
-				year = 1937
-				NOT = {
-					lost_national	= { country = U65 value = 1 }
-					lost_vp 		= { country = U65 value = 1 } 
-				}
-			}
-		}
-	}
-	
-	name = "Suiyuan campaign - success"
-	desc = "In 1936, the Inner Mongolian Army and Grand Han Righteous Army, two forces founded and supported by Imperial Japan, tried to take control of the Suiyuan province from the Republic of China. The Japanese government denied taking part in the operation, but the Inner Mongolians and the other collaborationist Chinese troops received air support from Japanese planes and were assisted by the Imperial Japanese Army. The entire operation was overseen by Japanese staff officers. The campaign was unsuccessful, mostly due to lack of training and low morale among the Mongolians and other collaborators. The victory in Suiyuan was celebrated across China and shocked the international press, being the first time that the Chinese army stopped a Japanese force. Delegations arrived from as far away as the southern Chinese provinces to urge the defenders to keep fighting."
-	style = 2
- 	picture = "news_paper"
-	
-	date = { year = 1936 month = january day = 1 }
-	offset = 5
-	deathdate = { year = 1938 month = january day = 3 }
-	
-	action = {
-		name = "ACTION_NAME_GREAT"
-		command = { type = dissent value = -5 }
-		command = { type = sleepevent which = 2141006 }
-		command = { type = trigger which = 2141008 }
-	}
-}
-
-event = { 
-	id = 2141006
-	random = no
-	country = CHI
-
-	trigger = {
-		NOT = { war = { country = JAP } }
-		OR = {
-			lost_national	= { country = U65 value = 60 }
-			lost_vp 		= { country = U65 value = 60 } 
-			AND = {
-				control = { province = 1207 data = MEN }
-				control = { province = 3752 data = MEN }
-			}
-		}		
-	}
-	
-	name = "Suiyuan campaign - failure"
-	desc = "In 1936, the Inner Mongolian Army and Grand Han Righteous Army, two forces founded and supported by Imperial Japan, tried to take control of the Suiyuan province from the Republic of China. The Japanese government denied taking part in the operation, but the Mongolians and the other collaborationist Chinese troops received air support from Japanese planes and were assisted by the Imperial Japanese Army. The entire operation was overseen by Japanese staff officers. The campaign was successful, mostly due to lack of training and low morale among the defending Chinese troops. KMT had to step in and send major reinforcements from central China in order to halt the enemy. The defeat in Suiyuan represented yet another in a long series of embarassments suffered by the Chinese troops at the hand of Japan and its proxies since 1930, and increased defections from the Nanjing government to the Chinese rebels."
-	style = 2
- 	picture = "news_paper"
-	
-	date = { year = 1936 month = january day = 1 }
-	offset = 5
-	deathdate = { year = 1938 month = january day = 3 }
-	
-	action = {
-		name = "Send in all we've got!"
-		ai_chance = 100
-		command = { type = alliance which = U65 when = 1 }
-		command = { type = event which = 2400047 where = U65 when = 0 } #70 exp
-		#command = { type = inherit which = U65 value = 1 }
-		command = { type = dissent value = 2 }
-		command = { type = switch_allegiance which = -1 where = CHC }
-		command = { type = switch_allegiance which = -1 where = CHC }
-		command = { type = sleepevent which = 2141005 }
-		command = { type = trigger which = 2141009 }
-	}
-	action = {
-		name = "It is not time yet"
-		ai_chance = 0
-		command = { type = end_mastery which = U65 }
-		command = { type = event which = 2400530 where = U65 when = 0 } #independent state
-		command = { type = dissent value = 10 }
-		command = { type = switch_allegiance which = -1 where = CHC }
-		command = { type = switch_allegiance which = -1 where = CHC }
-		command = { type = switch_allegiance which = -1 where = CHC }
-		command = { type = switch_allegiance which = -1 where = CHC }
-		command = { type = switch_allegiance which = -1 where = CHC }
-		command = { type = switch_allegiance which = -1 where = CHC }
-		command = { type = switch_allegiance which = -1 where = CHC }
-		command = { type = switch_allegiance which = -1 where = CHC }
-		command = { type = switch_allegiance which = -1 where = CHC }
-		command = { type = switch_allegiance which = -1 where = CHC }
-		command = { type = sleepevent which = 2141006 }
-		command = { type = trigger which = 2141007 }
-		command = { type = trigger which = 2141009 }
-	}
-}
-
-event = { 
-	id = 2141007
-	random = no
-	country = CHC
-	
-	name = "Suiyuan campaign - failure"
-	desc = "In 1936, the Inner Mongolian Army and Grand Han Righteous Army, two forces founded and supported by Imperial Japan, tried to take control of the Suiyuan province from the Republic of China. The Japanese government denied taking part in the operation, but the Mongolians and the other collaborationist Chinese troops received air support from Japanese planes and were assisted by the Imperial Japanese Army. The entire operation was overseen by Japanese staff officers. The campaign was successful, mostly due to lack of training and low morale among the defending Chinese troops. When KMT failed to step in and send adequate reinforcements from central China, the NRA units in the north started to defect en masse to the Communists instead. Mao then effectively took over the anti-Japanese resistance efforts in northern China."
-	style = 2
- 	picture = "news_paper"
-	
-	action = {
-		name = "It is up to us to stop the fascist puppets!"
-		ai_chance = 100
-		command = { type = alliance which = U65 value = 1 }
-		command = { type = inherit which = U65 value = 1 }
-		command = { type = inherit which = U58 value = 1 }
-		command = { type = dissent value = -3 }
-	}
-	action = {
-		name = "It is not time yet"
-		ai_chance = 0
-		command = { type = end_mastery which = U58 }
-		command = { type = event which = 2400530 where = U58 when = 0 } #independent state
-		command = { type = dissent value = 10 }
-		command = { type = switch_allegiance which = -1 where = U58 }
-		command = { type = switch_allegiance which = -1 where = U58 }
-		command = { type = switch_allegiance which = -1 where = U58 }
-		command = { type = switch_allegiance which = -1 where = U58 }
-		command = { type = switch_allegiance which = -1 where = U58 }
-		command = { type = switch_allegiance which = -1 where = U58 }
-		command = { type = switch_allegiance which = -1 where = U58 }
-		command = { type = switch_allegiance which = -1 where = U58 }
-		command = { type = switch_allegiance which = -1 where = U58 }
-		command = { type = switch_allegiance which = -1 where = U58 }
-	}
-}
-
-event = { 
-	id = 2141008
-	random = no
-	country = JAP
-
-	name = "Suiyuan campaign - failure"
-	desc = "In 1936, the Inner Mongolian Army and Grand Han Righteous Army, two forces founded and supported by Imperial Japan, tried to take control of the Suiyuan province from the Republic of China. The Japanese government denied taking part in the operation, but the Inner Mongolians and the other collaborationist Chinese troops received air support from Japanese planes and were assisted by the Imperial Japanese Army. The entire operation was overseen by Japanese staff officers. The campaign was unsuccessful, mostly due to lack of training and low morale among the Mongolians and other collaborators. The victory in Suiyuan was celebrated across China and shocked the international press, being the first time that the Chinese army stopped a Japanese force. Delegations arrived from as far away as the southern Chinese provinces to urge the defenders to keep fighting."
-	style = 2
- 	picture = "news_paper"
-	
-	action = {
-		name = "We have nothing to do with this"
-		command = { type = dissent	value = 1 }
-		command = { type = supplies	value = -100 } 
-	}
-}
-
-event = { 
-	id = 2141009
-	random = no
-	country = JAP
-
-	name = "Suiyuan campaign - success"
-	desc = "In 1936, the Inner Mongolian Army and Grand Han Righteous Army, two forces founded and supported by Imperial Japan, tried to take control of the Suiyuan province from the Republic of China. The Japanese government denied taking part in the operation, but the Mongolians and the other collaborationist Chinese troops received air support from Japanese planes and were assisted by the Imperial Japanese Army. The entire operation was overseen by Japanese staff officers. The campaign was successful, mostly due to lack of training and low morale among the defending Chinese troops. KMT had to step in and send major reinforcements from central China in order to halt the enemy. The defeat in Suiyuan represented yet another in a long series of embarassments suffered by the Chinese troops at the hand of Japan and its proxies since 1930, and increased defections from the Nanjing government to the Chinese rebels."
-	style = 2
- 	picture = "news_paper"
-	
-	action = {
-		name = "ACTION_NAME_GREAT"
-		command = { type = dissent	value = -1 }
-		command = { type = supplies	value = 500 } 
 	}
 }
 
@@ -2290,6 +2164,183 @@ event = {
 	}
 }
 
+#########################################################################
+#  Kwantung Army
+#########################################################################
+
+event = {
+	id = 2011200
+	random = no
+	country = JAP
+
+	name = "AI_EVENT"
+
+	trigger = {
+		NOT = { war = { country = SOV } }
+		area = { area = "Jilin" 		country = -3 data = 1 }
+		area = { area = "Heilongjiang" 	country = -3 data = 1 }
+		area = { area = "Liaoning" 		country = -3 data = 1 }
+		area = { area = "Rehe" 			country = -3 data = 1 }
+	}
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 20 month = november year = 1945 }
+
+	action = {
+		command = { type = remove_division		which = 13016 value = 3000 }
+		command = { type = remove_division		which = 13016 value = 3004 }
+		command = { type = remove_division		which = 13016 value = 3009 }
+		command = { type = remove_division		which = 13016 value = 3010 }
+		command = { type = remove_division		which = 13016 value = 3011 }
+		command = { type = remove_division		which = 13016 value = 3012 }
+		command = { type = remove_division		which = 13016 value = 3016 }
+		command = { type = remove_division		which = 13016 value = 3018 }
+		command = { type = remove_division		which = 13016 value = 3019 }
+		command = { type = remove_division		which = 13016 value = 3020 }
+		command = { type = remove_division		which = 13016 value = 3021 }
+		command = { type = remove_division		which = 13016 value = 3022 }
+		command = { type = remove_division		which = 13016 value = 3023 }
+		command = { type = remove_division		which = 13016 value = 3024 }
+		
+		
+		command = { type = supplies 	value = -10752 }
+		command = { type = manpowerpool value = -52    }
+		command = { type = activate_division	which = 13016 value = 2070 when = 0 where = 1379 }
+		command = { type = activate_division	which = 13016 value = 2071 when = 0 where = 1379 }
+		command = { type = activate_division	which = 13016 value = 2072 when = 0 where = 5661 }
+		command = { type = activate_division	which = 13016 value = 2073 when = 0 where = 3757 }
+		command = { type = activate_division	which = 13016 value = 2074 when = 0 where = 5663 }
+		command = { type = activate_division	which = 13016 value = 2075 when = 0 where = 5659 }
+		command = { type = activate_division	which = 13016 value = 2076 when = 0 where = 5667 }
+		command = { type = activate_division	which = 13016 value = 2077 when = 0 where = 1381 }
+		command = { type = activate_division	which = 13016 value = 2078 when = 0 where = 1530 }
+		command = { type = activate_division	which = 13016 value = 2079 when = 0 where = 5670 }
+		command = { type = activate_division	which = 13016 value = 2080 when = 0 where = 5673 }
+		command = { type = activate_division	which = 13016 value = 2081 when = 0 where = 2485 }
+		command = { type = activate_division	which = 13016 value = 2082 when = 0 where = 5687 }
+		command = { type = activate_division	which = 13016 value = 2083 when = 0 where = 5689 }
+		command = { type = activate_division	which = 13016 value = 2084 when = 0 where = 5688 }
+		command = { type = activate_division	which = 13016 value = 2085 when = 0 where = 1375 }
+		command = { type = activate_division	which = 13016 value = 2086 when = 0 where = 1378 }
+		command = { type = activate_division	which = 13016 value = 2087 when = 0 where = 1377 }
+	}
+}
+
+event = {
+	id = 2011201
+	random = no
+	country = JAP
+
+	name = "AI_EVENT"
+
+	trigger = {
+		war = { country = SOV }
+		event = 2011200
+		NOT = { non_aggression = { country = JAP country = SOV } }
+		NOT = { non_aggression = { country = MAN country = SOV } }
+		NOT = { flag = JAP_SOV_NAP }
+	}
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 20 month = november year = 1945 }
+
+	action = {
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+		command = { type = unlock_division	which = 13016 value = 2 }
+	}
+}
+
+event = {
+	id = 2011205
+	random = no
+	country = MAN
+	persistent = yes
+
+	name = "Major revolt in Manchuria"
+	desc = "As the Japanese withdrew the bulk of their forces from Manchuria to confront threats in other parts of the world, the Chinese partisans used this opportunity to reorganize in the countryside and launch a new major insurgency against the government of Manchukuo. Japan needs to keep at least 15 divisions in Manchuria at all times to contain major revolts."
+	style = 2
+
+	trigger = {
+		NOT = { ai = JAP }
+		NOT = { flag = ManRevoltCooldown }
+		NOT = { garrison = { country = JAP province = 2241 type = land size = 15 area = yes } }
+	}
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 20 month = november year = 1945 }
+
+	action = {
+		name = "ACTION_NAME_DAMN"
+		command = { type = dissent 		 value = 0.5  }
+		command = { type = manpowerpool  value = -5   }
+		command = { type = supplies 	 value = -500 }
+		
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		
+		command = { type = setflag which = ManRevoltCooldown }
+		command = { type = event which = 2011206 where = JAP when = 0  }
+		command = { type = event which = 2011207 where = REB when = 20 } #at least 20 days in between revolts
+	}
+}
+
+event = {
+	id = 2011206
+	random = no
+	country = JAP
+	persistent = yes
+
+	name = "Major revolt in Manchuria"
+	desc = "As the Japanese withdrew the bulk of their forces from Manchuria to confront threats in other parts of the world, the Chinese partisans used this opportunity to reorganize in the countryside and launch a new major insurgency against the government of Manchukuo. Japan needs to keep at least 15 divisions in Manchuria at all times to contain major revolts."
+	style = 2
+
+	action = {
+		name = "ACTION_NAME_DAMN"
+		command = { type = dissent value = 0.1  }
+		command = { }
+	}
+}
+
+event = {
+	id = 2011207
+	random = no
+	country = REB
+	persistent = yes
+
+	name = "AI_EVENT"
+
+	action = {
+		command = { type = clrflag which = ManRevoltCooldown }
+		command = { }
+	}
+}
 
 
 #########################################################################
@@ -3669,7 +3720,7 @@ event = {
 	}
 	
 	name = "The Defenders of the Homeland - PETA"
-	desc = "The occupation of Indonesia by Japan for three and a half years during World War II was a crucial factor in the growth of Indonesian nationalism. In Java, and to a lesser extent in Sumatra, the Japanese spread and encouraged Indonesian nationalist sentiment. They created new Indonesian institutions (including local neighbourhood organisations) and elevated political leaders such as Sukarno. Just as significantly, the Japanese destroyed and replaced much of the Dutch-created economic, administrative, and political infrastructure, and promised eventual independence to Indonesia. Meanwhil, Japan also recruited local volunteer units to help defend the islands. The Defenders of the Homeland (PETA) was a volunteer army which consisted of a total of 69 battalions (daidan) by the end of the war, numbering roughly 57,000 men total. In addition, the Japanese also recruited Heiho - an auxillary militia meant mostly for gendarmerie duties. By the end of the war, Heiho numbered some 42,000 men."
+	desc = "The occupation of Indonesia by Japan for three and a half years during World War II was a crucial factor in the growth of Indonesian nationalism. In Java, and to a lesser extent in Sumatra, the Japanese spread and encouraged Indonesian nationalist sentiment. They created new Indonesian institutions (including local neighbourhood organisations) and elevated political leaders such as Sukarno. Just as significantly, the Japanese destroyed and replaced much of the Dutch-created economic, administrative, and political infrastructure, and promised eventual independence to Indonesia. Meanwhile, Japan also recruited local volunteer units to help defend the islands. The Defenders of the Homeland (PETA) was a volunteer army which consisted of a total of 69 battalions (daidan) by the end of the war, numbering roughly 57,000 men total. In addition, the Japanese also recruited Heiho - an auxillary militia meant mostly for gendarmerie duties. By the end of the war, Heiho numbered some 42,000 men."
 	style = 0
 
 	date = { day = 1 month = january year = 1936 }

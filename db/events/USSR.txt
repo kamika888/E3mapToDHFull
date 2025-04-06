@@ -63,6 +63,12 @@ event = {
 		command = { trigger = { alliance = { country = POL country = U02 } } type = non_aggression which = U02 where = SOV when = 30 }
 		command = { trigger = { alliance = { country = POL country = NZL } } type = non_aggression which = NZL where = SOV when = 30 }
 		command = { trigger = { event = 2003025 } type = access which = GER }
+		
+		command = { trigger = { ai = SIK } 	type = event 	which = 2400040 where = SIK when = 0 } #0 exp
+		command = { trigger = { ai = SOV } 	type = event 	which = 2400047 where = SOV when = 0 } #70 exp
+		command = { trigger = { ai = TAN } 	type = event 	which = 2400047 where = TAN when = 0 } #70 exp
+		command = { trigger = { ai = MON } 	type = event 	which = 2400042 where = MON when = 0 } #20 exp
+		command = { trigger = { puppet = { country = SIK country = SOV } }	type = military_control which = SOV where = SIK value = 1 }
 	}
 }
 
@@ -3097,6 +3103,12 @@ event = {
 		command = { type = armamentminister which = 30076 } #Stalin replaces Tymoshenko as Minister of Defense
 		command = { type = local_setflag which = inMajorWar	}
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 8 } } } type = event which = 8300108 where = -1 when = 0 } #General mobilization
+		
+		command = { trigger = { ai = SIK } 	type = event 	which = 2400040 where = SIK when = 0 } #0 exp
+		command = { trigger = { ai = SOV } 	type = event 	which = 2400047 where = SOV when = 0 } #70 exp
+		command = { trigger = { ai = TAN } 	type = event 	which = 2400047 where = TAN when = 0 } #70 exp
+		command = { trigger = { ai = MON } 	type = event 	which = 2400042 where = MON when = 0 } #20 exp
+		command = { trigger = { puppet = { country = SIK country = SOV } }	type = military_control which = SOV where = SIK value = 1 }
 	}
 }
 
@@ -4753,7 +4765,7 @@ event = {
 
 	action = {
 		name = "Send ultimatum to the Soviets"
-		command = { type = dissent value = 20 } #Communists are very upset
+		command = { type = dissent value = 15 } #Communists are very upset
 		command = { type = leave_alliance when = 1 }
 		command = { type = event which = 203111 where = SOV when = 0 }
 	}
@@ -4781,6 +4793,10 @@ event = {
 		trigger = { lost_national = { country = SOV value = 10 } }
 		ai_chance = 0
 		command = { type = war which = SIK }
+		command = { type = remove_division which = 25600 value = 43 } #soviet advisors
+		command = { type = remove_division which = 25600 value = 40 } #white russian cavalry
+		command = { type = add_corps value = land where = 3505 }
+		command = { type = add_division value = hq when = 2 }
 		command = { type = dissent value = 1 }
 		command = { type = relation which = SIK value = -100 }
 		command = { type = relation which = CHI value = -50 }
@@ -4799,6 +4815,10 @@ event = {
 		trigger = { NOT = { lost_national = { country = SOV value = 10 } } }
 		ai_chance = 80
 		command = { type = war which = SIK }
+		command = { type = remove_division which = 25600 value = 43 } #soviet advisors
+		command = { type = remove_division which = 25600 value = 40 } #white russian cavalry
+		command = { type = add_corps value = land where = 3505 }
+		command = { type = add_division value = hq when = 2 }
 		command = { type = dissent value = 1 }
 		command = { type = relation which = SIK value = -100 }
 		command = { type = relation which = CHI value = -50 }
@@ -4818,6 +4838,12 @@ event = {
 		name = "We will return"
 		command = { type = end_mastery which = SIK }
 		command = { type = event which = 203113 where = SIK when = 0 }
+		command = { type = event which = 2400040 where = SIK when = 0 } #0 exp
+		command = { type = remove_division which = 25600 value = 43 } #soviet advisors
+		command = { type = remove_division which = 25600 value = 40 } #white russian cavalry
+		command = { type = add_corps value = land where = 3505 }
+		command = { type = add_division value = hq when = 2 }
+		command = { type = end_trades which = SOV where = SIK }
 	}
 }
 
@@ -4836,6 +4862,7 @@ event = {
 		command = { type = leave_alliance when = 1 }
 		command = { type = peace which = GER value = 1 }
 		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = CHI value = 1 }
 		command = { type = alliance which = CHI when = 2 }
 		command = { type = flag_ext where = SIK which = "_1942" }
 		command = { type = event which = 203114 where = CHI when = 0 }
@@ -4854,8 +4881,10 @@ event = {
 	action = {
 		name = "They are part of China once more"
 		command = { type = make_puppet which = SIK }
-		command = { type = event which = 2400537 where = SIK when = 0 } #medium puppet
-		command = { type = event which = 203115 where = SIK when = 0 }
+		command = { type = dissent	value = -2  }
+		command = { type = supplies	value = 500 } 
+		command = { type = event which = 2400537	where = SIK when = 0 } #medium puppet
+		command = { type = event which = 203115		where = SIK when = 0 }
 	}
 }
 
@@ -4872,7 +4901,11 @@ event = {
 		name = "Purge the traitors"
 		command = { type = dissent value = -5 }
 		command = { type = sleepminister which = 420033 } 		
-		command = { type = secedearea which = SIK value = "Xinjiang" when = 2 }
+		command = { type = secedearea 		which = SIK value = "Xinjiang" 	when = 2 }
+		command = { type = secedeprovince	which = SIK value = 1728 		when = 2 }
+		command = { type = secedeprovince	which = SIK value = 1430 		when = 2 }
+		command = { type = secedearea 		which = SIK value = "Poltava" 	when = 1 }
+		command = { type = event which = 2400040 where = SIK when = 0 } #0 exp
 	}
 }
 
@@ -7809,33 +7842,5 @@ event = {
 		ai_chance = 1
 		command = { type = construct which = ic where = 5605 value = 1 }
 		command = { type = setflag which = CHI_ICbuild_count when = 1 value = -1 }
-	}
-}
-
-
-
-event = { 
-	id = 23199567
-	random = no
-	persistent = yes
-	tag = { ARG }
-
-	decision = {
-	}
-	trigger= { 
-		ai = no 
-	}
-
-	name = "TEST - aTake control of GER"
-	desc = "TEST" 
-	style = 2
-
-	date = { day = 1 month = january year = 1936 }
-	offset = 3
-	deathdate = { day = 29 month = december year = 1999 }
-
-	action = {
-		name = "Do it"
-		command = { type = military_control which = ARG where = CHI value = 1 }
 	}
 }

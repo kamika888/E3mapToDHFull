@@ -253,7 +253,7 @@ blueprints = {
        name       = "182. Division" 
        type     = infantry
        strength   = 40
-       model      = 2
+       model      = 3
       }
       Division = 
      {  experience = 30 
@@ -261,7 +261,7 @@ blueprints = {
        name       = "183. Division" 
        type     = infantry
        strength   = 40
-       model      = 2
+       model      = 3
       } 
      Division = 
      {  experience = 30 
@@ -269,7 +269,7 @@ blueprints = {
        name       = "184. Division"
        type       = infantry
        strength   = 40
-       model      = 2
+       model      = 3
       }
 	  Division = 
      {  experience = 30 
@@ -277,7 +277,7 @@ blueprints = {
        name       = "5/7/9. Independent Brigades" 
        type       = infantry
        strength   = 40
-       model      = 2
+       model      = 3
       }
 	  Division = 
      {  experience = 30 
@@ -285,7 +285,7 @@ blueprints = {
        name       = "21/24/28. Independent Brigades" 
        type       = infantry
        strength   = 40
-       model      = 2
+       model      = 3
       }
 	  Division = 
      {  experience = 30 
@@ -301,7 +301,7 @@ blueprints = {
        name       = "1. Yunnan Provincial Militia" 
        type       = militia
        strength   = 40
-       model      = 1
+       model      = 2
       }
     }
   }  

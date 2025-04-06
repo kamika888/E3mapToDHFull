@@ -18,6 +18,9 @@ country =
   money                  = 50
   capital                = 1207 
   manpower               = 160
+  
+  headofstate            = {  type = 9 id = 55500  } 
+  
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }
@@ -187,7 +190,7 @@ country =
        name     = "70. Division" 
        type     = infantry 
        strength  = 40 
-       model    = 2
+       model    = 3
       } 
     } 
    landunit = 
@@ -199,7 +202,7 @@ country =
        name     	= "211/218/205. Infantry Brigades" 
        type     	= infantry 
        strength  	= 90 
-       model    	= 2
+       model    	= 3
        extra         = artillery 
        brigade_model = 2
       } 
@@ -220,7 +223,7 @@ country =
        name     = "68. Division" 
        type     = infantry 
        strength  = 80 
-       model    = 2
+       model    = 3
        extra    = anti_air 
 	   brigade_model = 2
       } 
@@ -234,7 +237,7 @@ country =
        name  = "1. Cavalry Division" 
        type     = cavalry 
 	   strength  = 50 
-       model = 2
+       model = 3
       } 
 	Division = 
      {
@@ -242,7 +245,7 @@ country =
        name       = "2. Cavalry Division" 
        type     = cavalry
        strength   = 33
-       model      = 2
+       model      = 3
      }
     }
   } 

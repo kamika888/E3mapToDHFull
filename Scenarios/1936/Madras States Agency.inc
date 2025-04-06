@@ -17,6 +17,8 @@
    supplies               = 100 
    money                  = 50 
    manpower               = 200
+   
+   headofstate            = {  type = 9 id = 55500  } 
       
    transports             = 50 
    escorts                = 0 

@@ -9,6 +9,7 @@ country =
   control                = JAP
   name					 = U8736
   ai_settings			 = { flags = { puppetLevel3 = 1 garSpec = 1 war_preparedness = 5 } }
+  ai					 = "exp_0.ai"
   intrinsic_gov_type     = fascist
   dissent				 = 30
   capital                = 2576
@@ -115,10 +116,10 @@ country =
 #mongolia
 1404 3768 1418 3594
 }
-  ownedprovinces         = { 2576 2527 6916
+  ownedprovinces         = { 2576 2527 6916 5634
   #1203
   }
-  controlledprovinces    = { 2576 2527 6916
+  controlledprovinces    = { 2576 2527 6916 5634
   #1203
   }
 

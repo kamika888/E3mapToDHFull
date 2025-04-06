@@ -6,8 +6,9 @@ country =
 { tag                    = MEN
   regular_id             = MON
   puppet                 = JAP
-  control                = JAP
+  #control                = JAP
   ai_settings			 = { flags = { puppetLevel7 = 1 } }
+  ai					 = "exp_0.ai"
   intrinsic_gov_type     = fascist
   capital                = 5629
 	# Resource Reserves 

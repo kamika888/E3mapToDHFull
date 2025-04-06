@@ -256,6 +256,7 @@ province = { id = 5570 air_base = { size = 1 current_size = 1 } }
 province = { id = 1267 air_base = { size = 1 current_size = 1 } }
 province = { id = 1232 air_base = { size = 2 current_size = 2 } }
 province = { id = 1276 air_base = { size = 1 current_size = 1 } }
+province = { id = 1433 air_base = { size = 1 current_size = 1 } }
 province = { id = 1237 air_base = { size = 3 current_size = 3 } }
 province = { id = 5628 air_base = { size = 1 current_size = 1 } }
 province = { id = 1397 air_base = { size = 2 current_size = 2 } }
@@ -2711,11 +2712,11 @@ province = {
 #	oilpool = 10
 #}
 
-province = { 
-	id = 2333
-	supplypool = 1000
-	oilpool = 10
-}
+#province = { 
+#	id = 2333
+#	supplypool = 1000
+#	oilpool = 10
+#}
 
 province = { 
 	id = 2345
@@ -2819,10 +2820,12 @@ province = { id = 5547
 #other CHC
 province = { id = 1270   # Yan'an - Shaanxi - China
    landfort = 3 
+   anti_air = 1
 } 
  
 province = { id = 5571   # Suide - Shaanxi - China
    landfort = 2 
+   anti_air = 1
 } 
  
 province = { id = 5570   # Fuxian - Shaanxi - China

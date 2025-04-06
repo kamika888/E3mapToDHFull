@@ -7,8 +7,9 @@ country =
 { tag                    = SIK
   regular_id             = CHI
   puppet				 = SOV
-  control				 = SOV
+  #control				 = SOV
   ai_settings			 = { flags = { puppetLevel6 = 1 } }
+  ai					 = "exp_0.ai"
   # Resource Reserves
   energy                 = 20000
   metal                  = 20000
@@ -18,7 +19,7 @@ country =
   money                  = 10
   capital                = 1433 # Urumqi
   manpower               = 300
-  dissent                = 30
+  dissent                = 16
   policy =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
@@ -104,10 +105,13 @@ country =
   ownedprovinces         = { 1435 1445 1447 1421 1432 1433 1446 1431
 3737 3738 3739 3740 3741 3742 3743 3744 3745 3746 3747 3748 3749
 5481 5482 5483 5484 5485 5486 5487 5488 5489 5490 5491 5492 5493 5494 5495 5496 5497 5498 5499 5500 5501 5502 5503 5504
+1430 1728
   }
-  controlledprovinces    = { 1421 1432 1433 1446 1431 1445 1447 1435
-3737 3738 3739 3740 3741 3742 3743 3744 3745 3746 3747 3748 3749
-5481 5482 5483 5484 5485 5486 5487 5488 5489 5490 5491 5492 5493 5494 5495 5496 5497 5498 5499 5500 5501 5502 5503 5504
+  controlledprovinces    = { 1421 1432 1433 1446 1431 1445 1435
+3737 3738 3739 3740 3741 3742 3743 3744 3745 3746 3747 3749 5489
+5481 5482 5483 5485 5490 5493 5494 5495 5496 5497 5498 5499 5500 5501 5502 5503 5504
+#5491 5492 3748 5487 5486 1447 1728 1430 5488 5484 
+
   }
   claimedprovinces  	 = { 1420 7917 } 
   # ROTW Minor Tech '36
@@ -228,13 +232,6 @@ blueprints = {
 	   model    = 4
       } 
      Division = 
-     {  id   = {  type = 25600 id = 22 } 
-       name = "Dihua City Defense Battalion" 
-       type = garrison
-	   strength = 8 
-	   model    = 3
-      } 
-     Division = 
      {  id   = {  type = 25600 id = 23  } 
        name = "Training Regiment" 
        type = militia
@@ -300,10 +297,19 @@ blueprints = {
      id       = {  type = 25600 id = 32 } 
      Division = 
      {  id   = {  type = 25600 id = 33  } 
-       name = "12th Infantry 8th Cavalry" 
+       name = "7/8/12. Infantry" 
        type = infantry 
-	   strength = 12
+	   strength = 43
 	   model    = 5
+      }
+     Division = 
+     {  id   = {  type = 25600 id = 44  } 
+       name = "6. Cavalry Brigade" 
+       type = cavalry 
+	   strength = 30
+	   model    = 6
+	   extra1    = artillery
+	   brigade_model1 = 4
       } 
     }
     landunit = 
@@ -313,16 +319,9 @@ blueprints = {
      id       = {  type = 25600 id = 34 } 
      Division = 
      {  id   = {  type = 25600 id = 35  } 
-       name = "4. 5. 7. 9. Cavalry Regiments" 
+       name = "4/5/7/9. Cavalry Regiments" 
        type = cavalry 
 	   strength = 20
-	   model    = 6
-      } 
-	 Division = 
-     {  id   = {  type = 25600 id = 36  } 
-       name = "7. Division" 
-       type = infantry
-	   strength = 15
 	   model    = 6
       } 
     }
@@ -342,16 +341,30 @@ blueprints = {
     landunit = 
    {  
       location = 1433 #Hotan
-     name     = "White Russian Expeditionary Force" 
+     name     = "White Russian Volunteer Detachments" 
      id       = {  type = 25600 id = 39 } 
      Division = 
      {  id   = {  type = 25600 id = 40  } 
-       name = "6. Cavalry Regiment" 
+       name = "Asanov&Bekteev Brigades" 
        type = cavalry
-	   strength = 6
-	   model    = 5
-	   extra1    = artillery
-	   brigade_model1 = 4
+	   strength = 41
+	   model    = 8
+      }
+    }
+	
+	landunit = 
+   {  
+      location = 1433 #Hotan
+     name     = "Soviet Expeditionary Force - Xinjiang" 
+     id       = {  type = 25600 id = 42 } 
+     Division = 
+     {  id   = {  type = 25600 id = 43  } 
+       name = "NKVD Advisor force" 
+       type = hq
+	   strength = 50
+	   model    = 2
+	   extra1    = armored_car
+	   brigade_model = 4
       }
     }
   } 

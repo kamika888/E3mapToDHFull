@@ -19,6 +19,9 @@ country =
   money                  = 50
   capital                = 1228 
   manpower               = 400
+  
+  headofstate            = {  type = 9 id = 55500  } 
+  
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }
@@ -217,7 +220,7 @@ country =
        name       = "85. Division" 
        type       = infantry 
 	   strength = 40
-       model      = 2 
+       model      = 3 
       } 
 	 Division = 
      {  experience = 0
@@ -233,7 +236,7 @@ country =
        name       = "141. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
 	 Division = 
      {  experience = 0
@@ -241,7 +244,7 @@ country =
        name       = "142. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
     } 
    landunit = 

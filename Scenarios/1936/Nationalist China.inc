@@ -13,13 +13,13 @@ country =
 	supplies               = 3000 
 	money                  = 10 
 	manpower               = 1455 #More to warlords
-	dissent                = 12
+	dissent                = 20
 	transports             = 100 
 	escorts                = 2 
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CGX value = 200 }
-	relation = { tag = SIK value = 40 access = yes }
+	relation = { tag = SIK value = 40 }
 	relation = { tag = TIB value = 40 access = yes }
     relation = { tag = CSX value = 200 access = yes }
     relation = { tag = CXB value = 200 access = yes }
@@ -126,8 +126,12 @@ country =
 1984 1993 2000 2311 1996 2502 1997
 1995 1910 1966 2556 2558 1965 1964
 1939 2571 1936 1937 2572 2570 2568 2573 2574 2567 2569 1941 1938
-5611 5612 5613 5618 5619 5621 5644 5620 1243
+5611 5612 5613 5618 5619 5621
 5642 5643 5645 5646 5647 5648 5649 5650 5651 6497 6498
+#5644
+#5620
+#1243
+5491 5492 3748 5487 5486 1447 1728 1430 5488 5484 
                            }
   # ROTW Minor Tech '36
   # Group E 1936 techs
@@ -266,7 +270,7 @@ blueprints = {
     freedom           = 3
     professional_army = 7
     defense_lobby     = 4
-    interventionism   = 4
+    interventionism   = 5
   }
 inventions = { 3000027 }
 
@@ -784,7 +788,7 @@ inventions = { 3000027 }
        name       = "133. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
 	  Division = 
      {  experience = 30 
@@ -792,7 +796,7 @@ inventions = { 3000027 }
        name       = "134. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
     }
 	landunit = 
@@ -805,7 +809,7 @@ inventions = { 3000027 }
        name       = "52. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
 	  Division = 
      {  experience = 30 
@@ -825,7 +829,7 @@ inventions = { 3000027 }
        name       = "192. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
     }
 
@@ -839,7 +843,7 @@ inventions = { 3000027 }
        name       = "175. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
 	  Division = 
      {  experience = 30 
@@ -847,7 +851,7 @@ inventions = { 3000027 }
        name       = "188. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
     }
 
@@ -861,7 +865,7 @@ inventions = { 3000027 }
        name       = "195. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
     }
 
@@ -875,7 +879,7 @@ inventions = { 3000027 }
        name       = "95. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
 	 Division = 
      {  experience = 30
@@ -883,7 +887,7 @@ inventions = { 3000027 }
        name       = "151. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
 	 Division = 
      {  experience = 30
@@ -891,7 +895,7 @@ inventions = { 3000027 }
        name       = "157. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
     }
 
@@ -905,7 +909,7 @@ inventions = { 3000027 }
        name       = "156. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
 	 Division = 
      {  experience = 30
@@ -913,7 +917,7 @@ inventions = { 3000027 }
        name       = "159. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
     }
 
@@ -927,7 +931,7 @@ inventions = { 3000027 }
        name       = "56. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
     }
 
@@ -985,7 +989,7 @@ inventions = { 3000027 }
        name       = "190. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
     }
 
@@ -999,7 +1003,7 @@ inventions = { 3000027 }
        name       = "32. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
 
     }
@@ -1014,7 +1018,7 @@ inventions = { 3000027 }
        name       = "201. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 3
       }
 
     }
@@ -1353,228 +1357,4 @@ inventions = { 3000027 }
 		id    = {  type = 22000 id = 148  } 
 		date  = {  year = 1936 month = july day = 1  } 
 	}
-	
-   landunit = 
-   {  location = 1267 # Xi'an 
-     name     = "Manchurian Army" 
-	 leader   = 55012
-     id       = {  type = 22005 id = 1  } 
-     Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 2  } 
-       name       	= "105. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-     Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 3  } 
-       name       	= "106. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-	 Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 4  } 
-       name       	= "107. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-	 Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 5  } 
-       name       	= "108. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-     Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 6  } 
-       name       	= "109. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-	 Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 7  } 
-       name       	= "110. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-	 Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 8  } 
-       name       	= "111. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-	 Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 9  } 
-       name       	= "112. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-     Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 10  } 
-       name       	= "113. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-	 Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 11  } 
-       name       	= "114. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-     Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 12  } 
-       name       	= "115. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-     Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 13  } 
-       name       	= "116. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      }
-     Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 14  } 
-       name       	= "118. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-     Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 15  } 
-       name       	= "117. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-     Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 16  } 
-       name       	= "119. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-     Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 17  } 
-       name       	= "120. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-     Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 18  } 
-       name       	= "129. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-     Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 19  } 
-       name       	= "130. Division" 
-       type  		= infantry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-	 Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 20  } 
-       name       	= "3. Cavalry Division" 
-       type  		= cavalry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-	 Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 21  } 
-       name       	= "4. Cavalry Division" 
-       type  		= cavalry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-     Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 22  } 
-       name       	= "6. Cavalry Division" 
-       type  		= cavalry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-	 Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 23  } 
-       name       	= "7. Cavalry Division" 
-       type  		= cavalry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-	 Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 24  } 
-       name       	= "10. Cavalry Division" 
-       type  		= cavalry 
-	   strength  = 40
-       model		= 3 
-	   locked		= yes
-      } 
-	 Division = 
-     { experience 	= 20 
-       id         	= {  type = 22005 id = 25  } 
-       name       	= "Northeastern Army HQ" 
-       type  		= hq 
-	   strength  = 40
-       model		= 1 
-	   locked		= yes
-      } 
-     dig_in   = 20.000 
-    }
 }

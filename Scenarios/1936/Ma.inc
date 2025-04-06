@@ -254,6 +254,16 @@ blueprints = {
        extra2 = cavalry_brigade
 	   brigade_model2 = 6
       }
+     Division = 
+     {  experience = 40 
+       id         = {  type = 22200 id = 14  } 
+       name       = "New 36. Division" 
+       type       = infantry
+	   strength  = 80
+       model     = 5
+       extra2 = cavalry_brigade
+	   brigade_model2 = 6
+      }
     }
 	landunit = 
    {  location = 1442 # Germu
@@ -340,16 +350,6 @@ blueprints = {
    {  location = 2504 # Yinchuan
      name     = "11th Corps" 
      id       = {  type = 22200 id = 11 } 
-     Division = 
-     {  experience = 40 
-       id         = {  type = 22200 id = 12 } 
-       name       = "New 7. Division" 
-       type       = infantry
-	   strength  = 100
-       model     = 4
-	   extra1 = cavalry_brigade
-	   brigade_model1 = 3
-      }
 	  Division = 
      {  experience = 40 
        id         = {  type = 22200 id = 13  } 

@@ -155,7 +155,7 @@ event = {
 			type = local_setflag which = legitIndie
 		}
 		
-		#Defense buffs (may lead to ww1-style meatgrinders)
+		#Defense buffs
 		command = { type = defensiveness 		which = land value = -10 }
 		command = { type = mountain_defense		which = land value = 90  }
 		command = { type = urban_defense 		which = land value = 90  }
@@ -216,7 +216,10 @@ event = {
 		command = { type = suppression which = land 	value = 1 } #1
 		command = { type = suppression which = militia	value = 1 } #2
 		
-		command = { trigger = { country = U58 } type = ground_def_eff	when  = 0 value = 1.50 }
+		command = { trigger = { country = U58 } type = ground_def_eff	when  = 0 		value = 1.50 }
+		command = { trigger = { country = U58 } type = max_organization which = land	value = 10 }
+		command = { trigger = { country = U58 } type = morale 			which = land 	value = 20 }
+		command = { trigger = { country = CHC } type = ground_def_eff	when  = 1 		value = 0.20 }
 		
 		command = { trigger = { ai = yes } type = ai which = "default.ai" }
 		command = { trigger = { country = GER } type = ai which = "nations\GER.ai" }
@@ -239,6 +242,7 @@ event = {
 		command = { trigger = { country = MAN } type = ai which = "nations\MAN.ai" }
 		command = { trigger = { country = GRE } type = ai which = "nations\GRE.ai" }
 		command = { trigger = { country = POR } type = ai which = "nations\POR.ai" }
+		command = { trigger = { country = SIK } type = ai which = "nations\SIK.ai" }
 		
 		command = { trigger = { country = CGX } type = ai which = "EXP_50.ai" }
 		command = { trigger = { country = CRO } type = ai which = "EXP_40.ai" }
@@ -250,20 +254,32 @@ event = {
 		command = { trigger = { country = SER } type = ai which = "EXP_20.ai" }
 		command = { trigger = { country = HUN } type = ai which = "EXP_20.ai" }
 		command = { trigger = { country = ROM } type = ai which = "EXP_20.ai" }
-		command = { trigger = { country = MON } type = ai which = "EXP_20.ai" }
+		#command = { trigger = { country = MON } type = ai which = "EXP_20.ai" }
 		command = { trigger = { country = U03 } type = ai which = "EXP_20.ai" }
 		command = { trigger = { country = U04 } type = ai which = "EXP_20.ai" }
+		#command = { trigger = { country = MAN } type = ai which = "EXP_20.ai" }
 		command = { trigger = { country = FIN } type = ai which = "EXP_10.ai" }
-		command = { trigger = { country = POL } type = ai which = "EXP_0.ai"  }
-		command = { trigger = { country = IRQ } type = ai which = "EXP_0.ai"  }
-		command = { trigger = { country = EGY } type = ai which = "EXP_0.ai"  }
-		command = { trigger = { country = OMN } type = ai which = "EXP_0.ai"  }
-		command = { trigger = { country = YEM } type = ai which = "EXP_0.ai"  }
-		command = { trigger = { country = NEP } type = ai which = "EXP_0.ai"  }
-		command = { trigger = { country = BHU } type = ai which = "EXP_0.ai"  }
-		command = { trigger = { country = SIK } type = ai which = "EXP_0.ai"  }
-		command = { trigger = { country = U63 } type = ai which = "EXP_0.ai"  }
+		#command = { trigger = { country = U65 } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = U87 } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = POL } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = IRQ } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = EGY } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = OMN } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = YEM } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = NEP } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = BHU } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = SIK } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = U63 } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = MEN } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = MON } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = TAN } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = MAN } type = ai which = "EXP_0.ai" }
+		command = { trigger = { country = SOV } type = ai which = "EXP_0_01.ai" }
+		command = { trigger = { country = JAP } type = ai which = "EXP_0_01.ai" }
 		command = { type = trigger which = 101 } #The belligerence assignment command is not stable if given directly inside the triggerable event, have to separate it into its own event
+		
+		#no need
+		#command = { trigger = { country = U87 } type = event which = 2400055 where = U87 when = 0 } #enforcenoexp
 		
 		command = { trigger = { OR = { NOT = { ic = 50 } ispuppet = yes } }	type = ai which = "specNoneMinor.ai" }
 		
@@ -798,7 +814,7 @@ event = {
 }
 
 event = {
-	id = 102
+	id = 1020000
 	random = no
 	persistent = yes
 	
@@ -809,7 +825,7 @@ event = {
 		OR = {
 			ai = no
 			NOT = { country = JAP }
-			month = 2 #delay for AI japan, so that it doesn't deploy only garrisons to Shanghai
+			month = 1 #delay for AI japan, so that it doesn't deploy only garrisons to Shanghai
 		}
 	}
 	
@@ -1538,12 +1554,12 @@ event = {
 		OR = {
 			ai = no
 			NOT = { country = JAP }
-			month = 2 #delay for AI japan, so that it doesn't deploy only militia to Shanghai
+			month = 1 #delay for AI japan, so that it doesn't deploy only militia to Shanghai
 		}
 	}
 	
 	name = "The National Guard"
-	desc = "Aside from the Armed Forces, most countries also have a separate paramilitary institution called the Gendarmerie, also often referred to as the Internal Troops, or most commonly - the National Guard. The Gendarmerie is typically not a part of the Armed Forces, it has its own chain of command, and it is ultimately subordinated to the Ministry of the Interior rather than the Ministry of Defense. While it is more lightly equipped than the Army, it can often be as numerous or even more numerous than the Army itself. The primary role of the Gendarmerie is to provide internal security. However, it has a role in war as well. While it is not commonly used in offensive operations against the enemy abroad, the Gendarmerie will fight defensively alongside the army should our country become the target of an invasion, and it will provide a sizable boost to the nation's defensive capabilities. The Gendarmerie can also be deployed outside the country to act as a form of military police on the occupied territories as well. Finally, the Gendarmerie often serves the role of an Army Reserve. Should it become necessary, Gendarmerie units can be mobilized and transferred to Army authority on a fairly short notice and become a form of light infantry. (Game note: On a map with a ton of provinces and an insane amount of beaches, a large empire will need a large number of militias in order to stand a chance at defending itself. Militias can be upgraded to garrisons at little cost, or simply disbanded for additional manpower if necessary.)"
+	desc = "Aside from the Armed Forces, most countries also have a separate paramilitary institution called the Gendarmerie, also often referred to as the Internal Troops, or most commonly - the National Guard. The Gendarmerie is typically not a part of the Armed Forces, it has its own chain of command, and it is ultimately subordinated to the Ministry of the Interior rather than the Ministry of Defense. While it is more lightly equipped than the Army, it can often be as numerous or even more numerous than the Army itself. The primary role of the Gendarmerie is to provide internal security, however, it has a role in war as well. While it is not commonly used in offensive operations against the enemy abroad, the Gendarmerie will fight defensively alongside the army should our country become the target of an invasion, and it will provide a sizable boost to the nation's defensive capabilities. The Gendarmerie can also be deployed outside the country to act as a form of military police on the occupied territories as well. Finally, the Gendarmerie often serves the role of an Army Reserve. Should it become necessary, Gendarmerie units can be mobilized and transferred to Army authority on a fairly short notice and become a form of light infantry. (Game note: On a map with a ton of provinces and an insane amount of beaches, a large empire will need a large number of militias in order to stand a chance at defending itself. Militias can be upgraded to garrisons at little cost, or simply disbanded for additional manpower if necessary.)"
 	style = 2
 	picture = "news_paper"
 
@@ -2490,7 +2506,7 @@ event = {
 		command = { type = set_domestic which = professional_army 	value = 5  } #+5 mobilization
 		command = { type = set_domestic which = interventionism		value = 5  } #+5 militarism
 		
-		#Defense buffs (may lead to ww1-style meatgrinders)
+		#Defense buffs
 		command = { type = defensiveness 		which = land value = -10 }
 		command = { type = mountain_defense		which = land value = 90  }
 		command = { type = urban_defense 		which = land value = 90  }
@@ -2528,7 +2544,9 @@ event = {
 		
 		command = { type = suppression which = land value = 1 }
 		
-		command = { type = ground_def_eff	when  = 0 value = 1.00 }
+		command = { type = ground_def_eff	when  = 0 		value = 1.00 }
+		command = { type = max_organization which = land	value = 10	 }
+		command = { type = morale 			which = land 	value = 20	 }
 		
 		command = { type = ai which = "default.ai" }
 	}

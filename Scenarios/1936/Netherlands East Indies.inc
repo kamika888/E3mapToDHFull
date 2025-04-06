@@ -16,6 +16,8 @@ country = {
 	supplies 		= 500
 	money			= 40
 
+    headofstate            = {  type = 9 id = 55500  } 
+
    policy = 
    {  date              = {  year = 0 month = january day = 0  } 
      democratic        = 1 

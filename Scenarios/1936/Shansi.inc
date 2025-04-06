@@ -337,7 +337,7 @@ blueprints = {
        name       = "7/8/9. Independent Brigades" 
        type     = infantry 
        strength   = 40
-       model      = 2
+       model      = 3
       }
 	  Division = 
      {  experience = 30 
