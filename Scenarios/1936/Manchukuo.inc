@@ -6,7 +6,7 @@ country =
 { tag                    = MAN
   puppet                 = JAP
   control				 = JAP #AI will not autonomously suppress revolts otherwise
-  ai_settings			 = { flags = { puppetLevel5 = 1 } }
+  ai_settings			 = { flags = { puppetLevel5 = 1 } } #min dissent 20-25
 	# Resource Reserves 
 	energy                 = 900
 	metal                  = 450
@@ -16,7 +16,7 @@ country =
 	supplies               = 100 
 	money                  = 10 
 	manpower               = 8 
-	dissent				   = 20
+	dissent				   = 30
   capital                = 2241
   free                   = { energy = 14 metal = 7 rare_materials = 4 }
   diplomacy =

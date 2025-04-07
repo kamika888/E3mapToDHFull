@@ -6,7 +6,8 @@ country =
 { tag                    = SOV
   regular_id             = RUS
   intrinsic_gov_type     = leninist
-  ai_settings			 = { flags = { WARDebt = 8 } }
+  ai_settings			 = { flags = { WARDebt = 7 } }
+  ai					 = "EXP_0_01.ai"
   capital                = 175
 	# Resource Reserves 
 	energy                 = 16000 
@@ -1677,37 +1678,6 @@ landunit =
 	   model    = 4
       } 
 	} 
-
-   landunit = 
-   {  id       = {  type = 10848 id = 199 } 
-     name     = "Severokavkazskyi Voennyi Okrug" 
-     location =  175 # Rostov
-      Division = 
-     {  id       = {  type = 10848 id =  201 } 
-       name     = "10-ya Severokavkazskaya Kavaleriiskaya Diviziya" 
-       strength = 100 
-       type     = cavalry
-	   model    = 9
-	extra = engineer
-	brigade_model = 2
-      } 
-        Division = 
-     {  id       = {  type = 10848 id = 202  } 
-       name     = "28-ya Gorskaya Strelkovaya Diviziya" 
-       strength = 80 
-       type     = bergsjaeger
-	   model    = 8
-	extra = anti_air
-	brigade_model = 0
-      } 
-	  Division = 
-     {  id       = {  type = 10848 id = 203  } 
-       name     = "12-ya Kubanskaya Kavaleriiskaya Diviziya" 
-       strength = 100 
-       type     = cavalry
-	   model    = 9
-      } 	 
-    }
  landunit = 
    {  id       = {  type = 10848 id = 204  } 
      name     = "9-i Territorialnyi Korpus" 

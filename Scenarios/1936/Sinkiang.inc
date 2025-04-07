@@ -9,7 +9,7 @@ country =
   puppet				 = SOV
   #control				 = SOV
   ai_settings			 = { flags = { puppetLevel6 = 1 } }
-  ai					 = "exp_0.ai"
+  ai					 = "nations\SIK.ai"
   # Resource Reserves
   energy                 = 20000
   metal                  = 20000
@@ -355,11 +355,11 @@ blueprints = {
 	landunit = 
    {  
       location = 1433 #Hotan
-     name     = "Soviet Expeditionary Force - Xinjiang" 
+     name     = "Soviet NKVD Advisors" 
      id       = {  type = 25600 id = 42 } 
      Division = 
      {  id   = {  type = 25600 id = 43  } 
-       name = "NKVD Advisor force" 
+       name = "NKVD Advisor HQ" 
        type = hq
 	   strength = 50
 	   model    = 2
@@ -367,5 +367,37 @@ blueprints = {
 	   brigade_model = 4
       }
     }
+	
+   landunit = 
+   {  id       = {  type = 25600 id = 50 } 
+     name     = "Soviet Expeditionary Force - Xinjiang" 
+     location =  1433
+	 control = "SOV" 
+        Division = 
+     {  id       = {  type = 25600 id = 51  } 
+       name     = "28-ya Gorskaya Strelkovaya Diviziya" 
+       strength = 100 
+       type     = bergsjaeger
+	   model    = 8
+	   extra = anti_air
+	   brigade_model = 0
+      }
+      Division = 
+     {  id       = {  type = 25600 id =  52 } 
+       name     = "10-ya Severokavkazskaya Kavaleriiskaya Diviziya" 
+       strength = 100 
+       type     = cavalry
+	   model    = 9
+	   extra = engineer
+	   brigade_model = 2
+      } 
+	  Division = 
+     {  id       = {  type = 25600 id = 53  } 
+       name     = "12-ya Kubanskaya Kavaleriiskaya Diviziya" 
+       strength = 100 
+       type     = cavalry
+	   model    = 9
+      } 
+	 }
   } 
  

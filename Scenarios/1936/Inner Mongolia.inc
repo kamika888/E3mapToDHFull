@@ -150,30 +150,37 @@ country =
 	id = { type = 11855 id = 1 }
 	name = "Mongolian Army"
 	location = 3753 	    
-	division = { id = { type = 11855 id = 2 } name = "1. Cavalry Division"			type = cavalry model = 7 strength = 40 extra = artillery brigade_model = 7 max_strength = 50 } 
-	division = { id = { type = 11855 id = 3 } name = "2. Cavalry Division"			type = cavalry model = 7 strength = 40 max_strength = 50 } 
-	division = { id = { type = 11855 id = 4 } name = "3. Cavalry Division"			type = cavalry model = 7 strength = 40 max_strength = 50 } 
+	division = { id = { type = 11855 id = 2 } name = "1. Cavalry Division"			type = cavalry 	model = 7 strength = 40 extra = artillery brigade_model = 7 max_strength = 50 } 
+	division = { id = { type = 11855 id = 3 } name = "2. Cavalry Division"			type = cavalry 	model = 7 strength = 40 max_strength = 50 } 
+	division = { id = { type = 11855 id = 4 } name = "3. Cavalry Division"			type = cavalry 	model = 7 strength = 40 max_strength = 50 } 
 	division = { id = { type = 11855 id = 5 } name = "9. Infantry Division"			type = infantry model = 7 strength = 20 max_strength = 50 } 
  }	
  landunit = {
 	id = { type = 11855 id = 10 }
 	name = "Grand Han Righteous Army"
 	location = 3753 	    
-	division = { id = { type = 11855 id = 11 } name = "Grand Han Righteous Army"	type = militia model = 4 strength = 30 max_strength = 50 } 
+	division = { id = { type = 11855 id = 11 } name = "Grand Han Righteous Army"	type = militia 	model = 4 strength = 30 max_strength = 50 } 
  }
  landunit = {
 	id = { type = 11855 id = 12 }
 	name = "Reserve Army"
 	location = 5627 	    
-	division = { id = { type = 11855 id = 13 } name = "Teh Wang's Army"				type = militia model = 4 strength = 40 max_strength = 50 } 
+	division = { id = { type = 11855 id = 13 } name = "Teh Wang's Army"				type = militia 	model = 4 strength = 40 max_strength = 50 } 
  }	
  airunit = {
     id = { type = 11855 id = 14 }
     name = "Japanese Volunteer Group"
     location = 5628
     base = 5628 
-		division = { id = { type = 11855 id = 15 } name = "JVG Fighter Wing"		type = multi_role model = 4 strength = 30 max_strength = 40 }		
-    }
+	division = { id = { type = 11855 id = 15 } name = "JVG Fighter Wing"			type = multi_role model = 4 strength = 30 max_strength = 40 }		
+}
+landunit = {
+	id       = {  type = 11855 id = 20  } 
+	name     = "Moko Hakengun shireibu" 
+	location = 1397 
+	control  = "JAP"
+	division = { id = { type = 11855 id = 21 } name = "Shina Hakengun shireibu" 	type = hq 		model = 2 strength  = 100 }  
+}
 }  
  
  

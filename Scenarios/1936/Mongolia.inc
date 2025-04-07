@@ -7,6 +7,7 @@ country =
   puppet                 = SOV
   control				 = SOV
   ai_settings			 = { flags = { puppetLevel8 = 1 } }
+  ai                     = "exp_0.ai"
 	# Resource Reserves 
 	energy                 = 300
 	metal                  = 150

@@ -7,6 +7,7 @@ country =
 { tag                    = TAN
   puppet				 = SOV
   control				 = SOV
+  ai                     = "exp_0.ai"
   ai_settings			 = { flags = { puppetLevel8 = 1 } }
 	# Resource Reserves 
 	energy                 = 300

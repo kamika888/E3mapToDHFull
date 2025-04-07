@@ -1,4 +1,4 @@
-province = { id = 6916 naval_base = { size = 1 current_size = 1 } }
+province = { id = 6916 naval_base = { size = 1 current_size = 1 } anti_air = 1 }
 province = { id = 3558 naval_base = { size = 1 current_size = 1 } }
 province = { id = 549 naval_base = { size = 4 current_size = 4 } }
 province = { id = 556 naval_base = { size = 10 current_size = 10 } }
@@ -252,7 +252,6 @@ province = { id = 2885 air_base = { size = 1 current_size = 1 } }
 province = { id = 2496 air_base = { size = 2 current_size = 2 } }
 province = { id = 4157 air_base = { size = 2 current_size = 2 } }
 province = { id = 1823 air_base = { size = 2 current_size = 2 } }
-province = { id = 5570 air_base = { size = 1 current_size = 1 } }
 province = { id = 1267 air_base = { size = 1 current_size = 1 } }
 province = { id = 1232 air_base = { size = 2 current_size = 2 } }
 province = { id = 1276 air_base = { size = 1 current_size = 1 } }
@@ -538,7 +537,7 @@ province = { id = 2569 air_base = { size = 4 current_size = 4 } }
 province = { id = 1244 air_base = { size = 1 current_size = 1 } }
 province = { id = 1238 air_base = { size = 4 current_size = 4 } }
 province = { id = 2533 air_base = { size = 4 current_size = 4 } }
-province = { id = 1205 air_base = { size = 5 current_size = 5 } }
+province = { id = 1205 air_base = { size = 5 current_size = 5 } anti_air = 2 }
 province = { id = 1379 air_base = { size = 2 current_size = 2 } }
 province = { id = 3090 air_base = { size = 7 current_size = 7 } }
 province = { id = 1391 air_base = { size = 4 current_size = 4 } }
@@ -856,6 +855,11 @@ province = { id = 2533   # Jinan - Shandong - China
  } 
  
  province = { id = 1235   # Nanjing
+   landfort = 2
+   anti_air = 2
+ } 
+ 
+ province = { id = 1232   # Wuhan
    landfort = 2
  } 
 

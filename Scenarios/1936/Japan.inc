@@ -5,6 +5,7 @@
 country =
 { tag                    = JAP
   belligerence           = 3
+  ai					 = "EXP_0_01.ai"
   capital                = 1184
 	manpower               = 886
 	# Resource Reserves 
@@ -276,13 +277,6 @@ country =
 		id       = {  type = 13016 id = 3050  } 
 		name     = "Shina chutongun" 
 		location = 1397 
-		 Division = 
-		 {  id       = {  type = 13016 id = 3002  } 
-		   name     = "Shina Hakengun shireibu" 
-		   strength  = 70 
-		   type     = hq 
-		   model    = 2 
-		  }  
 		division = {
 			id       = {  type = 13016 id = 3003  } 
 			name     = "Dai 1 Hoheishidan" 
@@ -2188,7 +2182,7 @@ country =
        strength = 100 
        type     = infantry 
        model    = 8
-	   locked   = yes
+	   #locked   = yes
 	   experience = 90
        extra    = artillery 
 	   brigade_model = 6
@@ -2200,7 +2194,7 @@ country =
        strength = 100 
        type     = infantry 
        model    = 8
-	   locked   = yes
+	   #locked   = yes
 	   experience = 90
        extra    = artillery 
 	   brigade_model = 6
@@ -2212,7 +2206,7 @@ country =
        strength = 100 
        type     = infantry 
        model    = 8
-	   locked   = yes
+	   #locked   = yes
 	   experience = 90
        extra    = artillery 
 	   brigade_model = 6
@@ -2224,7 +2218,7 @@ country =
        strength = 100 
        type     = infantry 
        model    = 8
-	   locked   = yes
+	   #locked   = yes
 	   experience = 90
        extra    = artillery 
 	   brigade_model = 6
@@ -2236,10 +2230,20 @@ country =
        strength = 100 
        type     = infantry 
        model    = 8
-	   locked   = yes
+	   #locked   = yes
 	   experience = 90
        extra    = artillery 
 	   brigade_model = 6
+     } 
+     Division = 
+     { 
+	   id       = {  type = 13016 id = 1509 } 
+       name     = "Central China Expeditionary HQ" 
+       strength = 100 
+       type     = hq 
+       model    = 2
+	   #locked   = yes
+	   experience = 20
      } 
     } 
 } 

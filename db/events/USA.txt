@@ -1146,6 +1146,33 @@ event = {
 		command = { type = event which = 553 where = USA when = 170 } #slightly less than 6 months
 	}
 	action = {
+		name = "Send a CAS wing"
+		ai_chance = 100
+		trigger = { 
+			flag = AVG
+			war = { country = CHI country = JAP }
+			NOT = { war = { country = JAP } war = { country = GER } }
+			OR = {
+				control = { province = 1918 data = CHI }
+				control = { province = 1360 data = CHI }
+			}
+			cas = { value = 1 }
+			OR = { 
+				local_flag = { which = AVG_count when = 0 value = 6  }
+				local_flag = { which = AVG_count when = 0 value = 12 }
+				local_flag = { which = AVG_count when = 0 value = 18 }
+				ai = no
+			}
+		}
+		command = { type = local_setflag which = AVG_count when = 1 value = 1 }
+		command = { type = setflag which = AVG_cas_plane }
+		command = { type = demobilize which = cas when = 0 where = 0 value = -1 }
+		command = { type = event which = 554 where = CHI when = 3 }
+		command = { type = relation which = CHI value = 5 }
+		
+		command = { type = event which = 553 where = USA when = 170 } #slightly less than 6 months
+	}
+	action = {
 		name = "Send an air transport wing"
 		ai_chance = 100
 		trigger = { 
@@ -1158,9 +1185,9 @@ event = {
 			}
 			transport_plane = { value = 1 }
 			OR = { 
-				local_flag = { which = AVG_count when = 0 value = 6  }
-				local_flag = { which = AVG_count when = 0 value = 12 }
-				local_flag = { which = AVG_count when = 0 value = 18 }
+				#local_flag = { which = AVG_count when = 0 value = 6  }
+				#local_flag = { which = AVG_count when = 0 value = 12 }
+				#local_flag = { which = AVG_count when = 0 value = 18 }
 				ai = no
 			}
 		}
@@ -1213,7 +1240,7 @@ event = {
 				}
 				AND = {
 					ai = yes
-					transport_plane = { value = 1 }
+					cas = { value = 1 }
 					OR = {
 						local_flag = { which = AVG_count when = 0 value = 6  }
 						local_flag = { which = AVG_count when = 0 value = 12 }
@@ -1292,6 +1319,16 @@ event = {
 		command = { type = add_division which = "AVG Tactical Bomber Wing" value = tactical_bomber when = 8 }	
 		
 		command = { type = clrflag which = AVG_tactical_bomber }
+	}
+	action = {
+		name = "We got a CAS wing!"
+		trigger = { 
+			flag = AVG_cas_plane
+		}
+		
+		command = { type = add_division which = "AVG CAS Wing" value = cas when = 3 }	
+		
+		command = { type = clrflag which = AVG_cas_plane }
 	}
 	action = {
 		name = "We got an air transport wing!"
@@ -3168,8 +3205,14 @@ event = {
 		name = ACTION_NAME_EXCELLENT
 		command = { type = dissent value = -1 }
 		
-		command = { type = construct which = air_base where = 1360 value = 3 } #Chengdu +
-		command = { type = construct which = air_base where = 1918 value = 1 } #Dali +
+		command = { type = construct which = air_base where = 1360 value = 2 } #Chengdu
+		command = { type = construct which = air_base where = 1918 value = 1 } #Dali
+		command = { type = construct which = air_base where = 5570 value = 1 } #Fuxian
+		
+		command = { type = construct which = flak where = 1360 value = 1 }
+		command = { type = construct which = flak where = 2551 value = 1 }
+		command = { type = construct which = flak where = 1270 value = 1 }
+		command = { type = construct which = flak where = 1267 value = 1 }
 		
 		command = { type = supplies value = 1500 }
 		command = { type = oilpool value = 250 }
@@ -3345,6 +3388,40 @@ event = {
 		command = { type = event which = 574 where = SOV when = 170 } #slightly less than 6 months
 	}
 	action = {
+		name = "Send a CAS wing"
+		ai_chance = 100
+		trigger = { 
+			flag = SVG
+			war = { country = CHI country = JAP }
+			alliance = { country = CHI country = CHC }
+			NOT = { 
+				war = { country = GER }
+				AND = {
+					war = { country = JAP }
+					NOT = { non_aggression = { country = MAN country = SOV } }
+				}
+			}
+			OR = {
+				control = { province = 1918 data = CHI }
+				control = { province = 1360 data = CHI }
+			}
+			cas = { value = 1 }
+			OR = { 
+				local_flag = { which = SVG_count when = 0 value = 6  }
+				local_flag = { which = SVG_count when = 0 value = 12 }
+				local_flag = { which = SVG_count when = 0 value = 18 }
+				ai = no
+			}
+		}
+		command = { type = local_setflag which = SVG_count when = 1 value = 1 }
+		command = { type = setflag which = SVG_cas_plane }
+		command = { type = demobilize which = cas when = 0 where = 0 value = -1 }
+		command = { type = event which = 575 where = CHI when = 3 }
+		command = { type = relation which = CHI value = 5 }
+		
+		command = { type = event which = 574 where = SOV when = 170 } #slightly less than 6 months
+	}
+	action = {
 		name = "Send an air transport wing"
 		ai_chance = 100
 		trigger = { 
@@ -3364,9 +3441,9 @@ event = {
 			}
 			transport_plane = { value = 1 }
 			OR = { 
-				local_flag = { which = SVG_count when = 0 value = 6  }
-				local_flag = { which = SVG_count when = 0 value = 12 }
-				local_flag = { which = SVG_count when = 0 value = 18 }
+				#local_flag = { which = SVG_count when = 0 value = 6  }
+				#local_flag = { which = SVG_count when = 0 value = 12 }
+				#local_flag = { which = SVG_count when = 0 value = 18 }
 				ai = no
 			}
 		}
@@ -3419,7 +3496,7 @@ event = {
 				}
 				AND = {
 					ai = yes
-					transport_plane = { value = 1 }
+					cas = { value = 1 }
 					OR = {
 						local_flag = { which = SVG_count when = 0 value = 6  }
 						local_flag = { which = SVG_count when = 0 value = 12 }
@@ -3505,6 +3582,16 @@ event = {
 		command = { type = add_division which = "SVG Tactical Bomber Wing" value = tactical_bomber when = 7 }	
 		
 		command = { type = clrflag which = SVG_tactical_bomber }
+	}
+	action = {
+		name = "We got an CAS wing!"
+		trigger = { 
+			flag = SVG_cas_plane
+		}
+		
+		command = { type = add_division which = "SVG CAS Wing" value = cas when = 2 }	
+		
+		command = { type = clrflag which = SVG_cas_plane }
 	}
 	action = {
 		name = "We got an air transport wing!"
@@ -3616,6 +3703,13 @@ event = {
 	action = {
 		name = ACTION_NAME_EXCELLENT
 		command = { type = dissent value = -1 }
+		
+		command = { type = construct which = air_base where = 1360 value = 1 } #Chengdu +
+		
+		command = { type = construct which = flak where = 1360 value = 1 }
+		command = { type = construct which = flak where = 2551 value = 1 }
+		command = { type = construct which = flak where = 1270 value = 1 }
+		command = { type = construct which = flak where = 1267 value = 1 }
 		
 		command = { type = trade which = CHI where = CHC energy = -5 metal = -2 rare_materials = -1 supplies = -5 value = 1 } 
 
@@ -3760,6 +3854,13 @@ event = {
 	action = {
 		name = ACTION_NAME_EXCELLENT
 		command = { type = dissent value = -1 }
+		
+		command = { type = construct which = air_base where = 1360 value = 1 } #Chengdu +
+		
+		command = { type = construct which = flak where = 1360 value = 1 }
+		command = { type = construct which = flak where = 2551 value = 1 }
+		command = { type = construct which = flak where = 1270 value = 1 }
+		command = { type = construct which = flak where = 1267 value = 1 }
 		
 		command = { type = trade which = CHI where = CHC energy = -5 metal = -2 rare_materials = -1 supplies = -5 value = 1 } 
 
