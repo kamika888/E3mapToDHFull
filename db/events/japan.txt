@@ -50,7 +50,7 @@ event = {
 #  Marco Polo Bridge Incident (Japan, China)
 #########################################################################
 event = {
-	id = 2011022
+	id = 2011000
 	random = no
 	country = JAP
 
@@ -74,6 +74,8 @@ event = {
 		}
 		OR = {
 			war = { country = CHI }
+			war = { country = U61 country = U87 } 
+			control = { province = 1205 data = CHI } 
 			lost_national = { country = MEN value = 30 }
 			control = { province = 6916 data = CHI } 
 			control = { province = 2527 data = CHI } 
@@ -88,6 +90,8 @@ event = {
 			area = { area = "Liaoning" 	country = CHC data = 1 value = 1 }
 			area = { area = "Rehe" 		country = CHI data = 1 value = 1 }
 			area = { area = "Rehe" 		country = CHC data = 1 value = 1 }
+			event = 2012016
+			alliance = { country = CHI country = CHC }
 			AND = {
 				month = 4
 				NOT = { ai = CHI }
@@ -141,7 +145,8 @@ event = {
 		command = { type = secedearea which = -1 value = "Suiyuan_Ningxia"	when = 2 }
 		command = { type = make_puppet which = MEN }
 		command = { type = event which = 2400537 where = MEN when = 0 } #medium-strong puppet
-		#command = { type = make_puppet which = MAN }
+		#command = { type = alliance which = MAN when = 1 }
+		command = { type = trigger which = 2011001 }
 		command = { type = event which = 2400010 where = MEN when = 0 } #reset province priorities
 		command = { type = event which = 2400041 where = MEN when = 0 } #10 exp
 		command = { type = event which = 2400045 where = MAN when = 0 } #50 exp
@@ -222,6 +227,24 @@ event = {
 		command = { type = relation which = FRA value = 50 }
 		
 		command = { type = remove_claim_region which = "China" where = JAP }
+	}
+}
+
+event = {
+	id = 2011001
+	random = no
+	country = MAN
+
+	name = EVT_20_NAME
+	desc = "Japanese garrison troops in Feng-Tai, southwest of Beijing, clashed with Chinese forces at the Marco Polo Bridge following an incident involving a Japanese solder who had temporarily gone missing. The battle was at first limited to a local conflict and some hurried negotiations restored order. However, new incidents flared up soon after, and following a major Tongzhou mutiny which resulted in a massacare of Japanese and Korean civilians, the Japanese troops began offensive operations. Although the incidents themselves appear to have been accidental, Japan's frustration was real and growing every day. Japan's decision to escalate the conflict was the result of the gradual consolidation of China as well as the successful reconciliation between the two main Chinese parties - KMT and CCP. This all but guaranteed conflict between Japan and China, especially due to the hardline anti-Japanese position of the CCP and its sympathizers. The Chinese could not accept the loss of Manchuria and other Japanese gains since 1930 - they continued to provoke clashes, boycott Japanese products, and incite anti-Japanese uprisings. Under CCP's guidance, a whole 'Counter-Japanese Volunteer Army' was formed with the goal of driving Japan out of Northern China. Meanwhile, the Japanese took every opportunity to gradually expand their holdings, as an ever-expanding 'buffer' against the hostile Chinese polities. The rapprochement between the Communists and Nationalists convinced leadership in Tokyo that the status quo was no longer tenable. The choice now was to either fight or flee. Japan already fled from Russia in 1920s under similar circumstances, could it really afford to show such cowardice again, and miss its possibly last historical chance for greatness?"
+	style = 2
+ 	picture = "Marco_Polo_bridge"
+
+	action = {
+		name = "Strike while the iron is hot"
+		command = { type = war which = U61 }
+		command = { type = war which = CSX }
+		command = { type = war which = CHI }
 	}
 }
 
@@ -2997,7 +3020,7 @@ event = {
 		
 		#sleep various events
 		command = { type = sleepevent which = 2011025 } # Pearl Harbor
-		command = { type = sleepevent which = 2011022 } # Marco Polo Bridge
+		command = { type = sleepevent which = 2011000 } # Marco Polo Bridge
 		command = { type = sleepevent which = 2011021 } # German Recognition of Manchukuo
 	}
 

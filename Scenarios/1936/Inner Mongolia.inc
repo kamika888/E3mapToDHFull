@@ -161,12 +161,12 @@ country =
 	location = 3753 	    
 	division = { id = { type = 11855 id = 11 } name = "Grand Han Righteous Army"	type = militia 	model = 4 strength = 30 max_strength = 50 } 
  }
- landunit = {
-	id = { type = 11855 id = 12 }
-	name = "Reserve Army"
-	location = 5627 	    
-	division = { id = { type = 11855 id = 13 } name = "Teh Wang's Army"				type = militia 	model = 4 strength = 40 max_strength = 50 } 
- }	
+# landunit = {
+#	id = { type = 11855 id = 12 }
+#	name = "Reserve Army"
+#	location = 5627 	    
+#	division = { id = { type = 11855 id = 13 } name = "Teh Wang's Army"				type = militia 	model = 4 strength = 40 max_strength = 50 } 
+# }	
  airunit = {
     id = { type = 11855 id = 14 }
     name = "Japanese Volunteer Group"
@@ -179,7 +179,8 @@ landunit = {
 	name     = "Moko Hakengun shireibu" 
 	location = 1397 
 	control  = "JAP"
-	division = { id = { type = 11855 id = 21 } name = "Shina Hakengun shireibu" 	type = hq 		model = 2 strength  = 100 }  
+	division = { id = { type = 11855 id = 21 }   name = "Shina Hakengun shireibu" 	type = hq 		model = 2 strength  = 100 }  
+	division = { id = { type = 13016 id = 3005 } name = "Dai 3 Manchuko Kiheishidan" type = cavalry model = 9 strength = 55   } 
 }
 }  
  

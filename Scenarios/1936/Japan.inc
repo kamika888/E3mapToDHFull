@@ -380,13 +380,6 @@ landunit =
 			brigade_model2 = 2
 		} 
 		division = {
-			id       = {  type = 13016 id = 3005  } 
-			name     = "Dai 3 Manchuko Kiheishidan" 
-			strength = 55
-			type     = cavalry 
-			model    = 9 
-		} 
-		division = {
 			id       = {  type = 13016 id = 3006  } 
 			name     = "Dai 4 Hoheishidan" 
 			strength = 100
