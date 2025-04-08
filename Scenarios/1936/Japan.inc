@@ -243,39 +243,9 @@ country =
  
 	### Japan Land OOB ### 
 	
-   landunit = 
-   {  id       = {  type = 13016 id = 3060  } 
-     name     = "Dai 4 Gun"
-     location = 3090 
-     Division = 
-     {  id       = {  type = 13016 id = 3061  } 
-       name     = "Dai 2 Dokuritsu shubitai" # Border Guards 
-       strength  = 60 
-       type     = garrison 
-       model    = 4
-       extra    = anti_air 
-	   brigade_model = 1
-	   locked = yes
-      } 
-    } 
-	
-   landunit = 
-   {  id       = {  type = 13016 id = 3062  } 
-     name     = "Dai 6 Gun"
-     location = 1202 
-     Division = 
-     {  id       = {  type = 13016 id = 3063  } 
-       name     = "Dai 3 Dokuritsu shubitai" 
-       strength  = 60 
-       type     = garrison 
-       model    = 4
-	   locked = yes
-      } 
-	}
-	
 landunit = 
    {  id       = {  type = 13016 id = 380  } 
-     name     = "Dai 5 Gun" # Toan, Manchuko 
+     name     = "Dai 5 Gun"
      location = 1202 
      Division = 
      {  id       = {  type = 13016 id = 381  } 
@@ -297,73 +267,164 @@ landunit =
       } 
      Division = 
      {  id       = {  type = 13016 id = 383  } 
-       name     = "Dai 6 Dokuritsu shubitai" 
-       strength  = 60 
-       type     = garrison 
-       model    = 4 
-      } 
-     Division = 
-     {  id       = {  type = 13016 id = 384  } 
-       name     = "Dai 7 Shubitai" 
-       strength  = 60 
-       type     = garrison 
-       model    = 4
-      } 
-     Division = 
-     {  id       = {  type = 13016 id = 385  } 
        name     = "Dai 57 Shubitai" 
        strength  = 60 
        type     = garrison 
        model    = 4
       } 
+}
+	
+landunit = 
+   {  id       = {  type = 13016 id = 390  }
+     name     = "Chôsen 1 Gun"   
+	 location = 1201
      Division = 
-     {  id       = {  type = 13016 id = 386  } 
-       name     = "Dai 8 Shubitai" 
-       strength  = 60 
-       type     = garrison 
-       model    = 4
-       extra    = anti_air 
-	   brigade_model = 1
-      } 
-     Division = 
-     {  id       = {  type = 13016 id = 387  } 
-       name     = "Dai 14 Shubitai" 
-       strength  = 60 
-       type     = garrison 
-       model    = 4
-       extra    = anti_air 
-	   brigade_model = 1
-      } 
-     Division = 
-     {  id       = {  type = 13016 id = 388  } 
+     {  id       = {  type = 13016 id = 391  } 
        name     = "Dai 1 Chôsen Shubitai"
        strength  = 60 
        type     = garrison 
        model    = 4
+	   locked   = yes
       } 
+}
+landunit = 
+   {  id       = {  type = 13016 id = 392  }
+     name     = "Chôsen 2 Gun"
+	 location = 1199
      Division = 
-     {  id       = {  type = 13016 id = 389  } 
+     {  id       = {  type = 13016 id = 393  } 
        name     = "Dai 2 Chôsen Shubitai" 
        strength  = 60 
        type     = garrison 
        model    = 4
+	   locked   = yes
       } 
+}
+landunit = 
+   {  id       = {  type = 13016 id = 394  }
+     name     = "Chôsen 3 Gun"
+     location = 1391
      Division = 
-     {  id       = {  type = 13016 id = 390  } 
+     {  id       = {  type = 13016 id = 395  } 
+       name     = "Dai 6 Dokuritsu shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4 
+	   locked   = yes
+      } 
+}
+landunit = 
+   {  id       = {  type = 13016 id = 396  }
+     name     = "Chôsen 4 Gun"
+     location = 1197
+     Division = 
+     {  id       = {  type = 13016 id = 397  } 
+       name     = "Dai 7 Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+	   locked   = yes
+      } 
+}
+landunit = 
+   {  id       = {  type = 13016 id = 398  }
+     name     = "Taiwan 1 Gun"
+     location = 1923
+     Division = 
+     {  id       = {  type = 13016 id = 399  } 
        name     = "Dai 1 Taiwan Shubitai"
        strength  = 60 
        type     = garrison 
        model    = 4
+	   locked   = yes
       } 
+}
+landunit = 
+   {  id       = {  type = 13016 id = 400  }
+     name     = "Taiwan 2 Gun"
+     location = 1322
      Division = 
-     {  id       = {  type = 13016 id = 391  } 
+     {  id       = {  type = 13016 id = 401 } 
        name     = "Dai 2 Taiwan Shubitai" 
        strength  = 60 
        type     = garrison 
        model    = 4
+	   locked   = yes
       } 
+}
+landunit = 
+   {  id       = {  type = 13016 id = 402  }
+     name     = "Taiwan 3 Gun"
+     location = 1323
+     Division = 
+     {  id       = {  type = 13016 id = 403  } 
+       name     = "Dai 3 Taiwan Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+       extra    = anti_air 
+	   brigade_model = 1
+	   locked   = yes
+      } 
+}
+landunit = 
+   {  id       = {  type = 13016 id = 404  }
+	 name     = "Shanghai Gun"
+     location = 1237
+     Division = 
+     {  id       = {  type = 13016 id = 405  } 
+       name     = "Shanghai 8 Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+       extra    = anti_air 
+	   brigade_model = 1
+	   locked   = yes
+      } 
+}
+landunit = {
+	id       = {  type = 13016 id = 406  }
+	name     = "Ryojun Kaigunku"
+	location = 1193 
+	division = {
+		id       = { type = 13016 id = 407 }
+		name     = "Ryojun Rikusentai"
+		strength = 15
+		type     = garrison
+		model    = 3
+		locked   = yes
 	}
-	
+}
+landunit = 
+{  id       = {  type = 13016 id = 3060  } 
+	 name     = "Dai 4 Gun"
+	 location = 3090 
+	 Division = 
+	 {  id       = {  type = 13016 id = 3061  } 
+	   name     = "Dai 2 Dokuritsu shubitai"
+	   strength  = 60 
+	   type     = garrison 
+	   model    = 4
+	   extra    = anti_air 
+	   brigade_model = 1
+	   locked = yes
+	  } 
+} 
+
+landunit = 
+{  id       = {  type = 13016 id = 3062  } 
+	 name     = "Dai 6 Gun"
+	 location = 1202 
+	 Division = 
+	 {  id       = {  type = 13016 id = 3063  } 
+	   name     = "Dai 3 Dokuritsu shubitai" 
+	   strength  = 60 
+	   type     = garrison 
+	   model    = 4
+	   locked = yes
+	  } 
+}
+
 	landunit = {
 		id       = {  type = 13016 id = 3050  } 
 		name     = "Shina chutongun" 
@@ -888,18 +949,6 @@ landunit =
  			extra2   = engineer
 			brigade_model2 = 3
 		} 
-	}
-	landunit = {
-		id       = {  type = 13016 id = 4222  }
-		name     = "Ryojun Kaigunku"
-		location = 1184 
-		division = {
-			id       = { type = 13016 id = 4223 }
-			name     = "Ryojun Rikusentai"
-			strength = 15
-			type     = garrison
-			model    = 3
-		}
 	}
 	landunit = {
 		id       = {  type = 13016 id = 42  } 
