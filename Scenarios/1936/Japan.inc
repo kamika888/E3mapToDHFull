@@ -252,7 +252,7 @@ country =
        name     = "Dai 2 Dokuritsu shubitai" # Border Guards 
        strength  = 60 
        type     = garrison 
-       model    = 5
+       model    = 4
        extra    = anti_air 
 	   brigade_model = 1
 	   locked = yes
@@ -268,8 +268,99 @@ country =
        name     = "Dai 3 Dokuritsu shubitai" 
        strength  = 60 
        type     = garrison 
-       model    = 5
+       model    = 4
 	   locked = yes
+      } 
+	}
+	
+landunit = 
+   {  id       = {  type = 13016 id = 380  } 
+     name     = "Dai 5 Gun" # Toan, Manchuko 
+     location = 1202 
+     Division = 
+     {  id       = {  type = 13016 id = 381  } 
+       name     = "Dai 4 Dokuritsu shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+       extra    = anti_air 
+	   brigade_model = 1
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 382  } 
+       name     = "Dai 5 Dokuritsu shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+       extra    = anti_air 
+	   brigade_model = 1
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 383  } 
+       name     = "Dai 6 Dokuritsu shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4 
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 384  } 
+       name     = "Dai 7 Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 385  } 
+       name     = "Dai 57 Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 386  } 
+       name     = "Dai 8 Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+       extra    = anti_air 
+	   brigade_model = 1
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 387  } 
+       name     = "Dai 14 Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+       extra    = anti_air 
+	   brigade_model = 1
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 388  } 
+       name     = "Dai 1 Chôsen Shubitai"
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 389  } 
+       name     = "Dai 2 Chôsen Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 390  } 
+       name     = "Dai 1 Taiwan Shubitai"
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 391  } 
+       name     = "Dai 2 Taiwan Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
       } 
 	}
 	
