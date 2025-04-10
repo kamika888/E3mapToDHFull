@@ -562,7 +562,7 @@ inventions = { 3000027 }
      id       = {  type = 22002 id = 123  } 
 	  Division = 
      { experience 	= 30 
-       id         	= {  type = 22005 id = 152  } 
+       id         	= {  type = 22002 id = 114  } 
        name       	= "National Revolutionary Army HQ" 
        type  		= hq 
 	   strength  = 40
@@ -588,6 +588,15 @@ inventions = { 3000027 }
        model     = 0
 	   dormant = yes
       }
+	landdivision = 
+     { experience 	= 80 
+       id         	= {  type = 22002 id = 112  } 
+       name       	= "German Advisors HQ" 
+       type  		= hq 
+	   strength     = 90
+       model		= 3 
+	   dormant = yes
+      } 
 
 	# Attack Corps
 	# 1st/2. Corps: See CGX
@@ -1290,7 +1299,7 @@ inventions = { 3000027 }
 		brigade_model1 = 2
 		extra2 = artillery
 		brigade_model2 = 6
-		cost  = 9
+		cost  = 7.7
 		id    = {  type = 22000 id = 142  } 
 		date  = {  year = 1936 month = july day = 1  } 
 	}
@@ -1303,7 +1312,7 @@ inventions = { 3000027 }
 		brigade_model1 = 2
 		extra2 = artillery
 		brigade_model2 = 4
-		cost  = 9
+		cost  = 7.0
 		id    = {  type = 22000 id = 120  } 
 		date  = {  year = 1936 month = september day = 1  } 
 	}
@@ -1314,7 +1323,7 @@ inventions = { 3000027 }
 		new_model = no
 		extra1 = engineer
 		brigade_model1 = 2
-		cost  = 6
+		cost  = 4.8
 		id    = {  type = 22000 id = 43  } 
 		date  = {  year = 1936 month = september day = 5  } 
 	}
@@ -1325,7 +1334,7 @@ inventions = { 3000027 }
 		new_model = no
 		extra1 = artillery
 		brigade_model1 = 4
-		cost  = 7
+		cost  = 6.2
 		id    = {  type = 22000 id = 110  } 
 		date  = {  year = 1936 month = august day = 1  } 
 	}
@@ -1338,7 +1347,7 @@ inventions = { 3000027 }
 		brigade_model1 = 2
 		extra2 = artillery
 		brigade_model2 = 6
-		cost  = 9
+		cost  = 7.7
 		id    = {  type = 22000 id = 147  } 
 		date  = {  year = 1936 month = august day = 1  } 
 	}
@@ -1351,7 +1360,7 @@ inventions = { 3000027 }
 		brigade_model1 = 2
 		extra2 = artillery
 		brigade_model2 = 6
-		cost  = 9
+		cost  = 7.7
 		id    = {  type = 22000 id = 148  } 
 		date  = {  year = 1936 month = july day = 1  } 
 	}

@@ -64,6 +64,7 @@ country =
 3081 3082 3083 3084 3085 3086 3087 3088 3089
 5653 5655
 7938 7939 7940 7941 7962 7963 7964 7965 7966 7967 7968 7969 7970 7971
+5654
 }
   ownedprovinces    	 = { 1177 1178 1179 1180 1181 1182 1183 1184 1185 1186 1187 1188 1189 1190 1191 1784 1599 1192 1193 1785 1627 1626 1625 1619
                              1621 1604 1620 1618 1617 1600 1601 1602 1603 1608 1323 1322 1324 1376 1391
@@ -249,15 +250,6 @@ landunit =
      location = 1202 
      Division = 
      {  id       = {  type = 13016 id = 381  } 
-       name     = "Dai 4 Dokuritsu shubitai" 
-       strength  = 60 
-       type     = garrison 
-       model    = 4
-       extra    = anti_air 
-	   brigade_model = 1
-      } 
-     Division = 
-     {  id       = {  type = 13016 id = 382  } 
        name     = "Dai 5 Dokuritsu shubitai" 
        strength  = 60 
        type     = garrison 
@@ -266,24 +258,79 @@ landunit =
 	   brigade_model = 1
       } 
      Division = 
-     {  id       = {  type = 13016 id = 383  } 
+     {  id       = {  type = 13016 id = 382  } 
        name     = "Dai 57 Shubitai" 
        strength  = 60 
        type     = garrison 
        model    = 4
       } 
+     Division = 
+     {  id       = {  type = 13016 id = 310 } 
+       name     = "Dai 3 Manchuko Kiheishidan" 
+       strength = 70 
+       type     = cavalry 
+       model    = 8 
+      }
 }
-	
+landunit = 
+   {  id       = {  type = 13016 id = 384  }
+     name     = "Jeju Gun"   
+	 location = 1194
+	 mission = { type = anti_partisan_duty target = 1194 night = yes } 
+     Division = 
+     {  id       = {  type = 13016 id = 385  } 
+       name     = "Jeju Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+	   locked   = yes
+      } 
+}
+landunit = 
+   {  id       = {  type = 13016 id = 386  }
+     name     = "Chôsen 6 Gun"   
+	 location = 3105
+	 mission = { type = anti_partisan_duty target = 3105 night = yes } 
+     Division = 
+     {  id       = {  type = 13016 id = 387  } 
+       name     = "Dai 6 Chôsen Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+	   extra    = police 
+	   brigade_model = 1
+	   locked   = yes
+      } 
+}
+landunit = 
+   {  id       = {  type = 13016 id = 388  }
+     name     = "Chôsen 5 Gun"   
+	 location = 1376
+	 mission = { type = anti_partisan_duty target = 1376 night = yes } 
+     Division = 
+     {  id       = {  type = 13016 id = 389  } 
+       name     = "Dai 5 Chôsen Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+       extra    = anti_air 
+	   brigade_model = 1
+	   locked   = yes
+      } 
+}
 landunit = 
    {  id       = {  type = 13016 id = 390  }
      name     = "Chôsen 1 Gun"   
 	 location = 1201
+	 mission = { type = anti_partisan_duty target = 1201 night = yes } 
      Division = 
      {  id       = {  type = 13016 id = 391  } 
        name     = "Dai 1 Chôsen Shubitai"
        strength  = 60 
        type     = garrison 
        model    = 4
+	   extra    = police 
+	   brigade_model = 1
 	   locked   = yes
       } 
 }
@@ -291,25 +338,31 @@ landunit =
    {  id       = {  type = 13016 id = 392  }
      name     = "Chôsen 2 Gun"
 	 location = 1199
+	 mission = { type = anti_partisan_duty target = 1199 night = yes } 
      Division = 
      {  id       = {  type = 13016 id = 393  } 
        name     = "Dai 2 Chôsen Shubitai" 
        strength  = 60 
        type     = garrison 
        model    = 4
+	   extra    = police 
+	   brigade_model = 1
 	   locked   = yes
       } 
 }
 landunit = 
    {  id       = {  type = 13016 id = 394  }
      name     = "Chôsen 3 Gun"
-     location = 1391
+     location = 1392
+	 mission = { type = anti_partisan_duty target = 1392 night = yes } 
      Division = 
      {  id       = {  type = 13016 id = 395  } 
        name     = "Dai 6 Dokuritsu shubitai" 
        strength  = 60 
        type     = garrison 
        model    = 4 
+	   extra    = police 
+	   brigade_model = 1
 	   locked   = yes
       } 
 }
@@ -317,12 +370,15 @@ landunit =
    {  id       = {  type = 13016 id = 396  }
      name     = "Chôsen 4 Gun"
      location = 1197
+	 mission = { type = anti_partisan_duty target = 1197 night = yes } 
      Division = 
      {  id       = {  type = 13016 id = 397  } 
        name     = "Dai 7 Shubitai" 
        strength  = 60 
        type     = garrison 
        model    = 4
+	   extra    = police 
+	   brigade_model = 1
 	   locked   = yes
       } 
 }
@@ -330,12 +386,15 @@ landunit =
    {  id       = {  type = 13016 id = 398  }
      name     = "Taiwan 1 Gun"
      location = 1923
+	 mission = { type = anti_partisan_duty target = 1923 night = yes } 
      Division = 
      {  id       = {  type = 13016 id = 399  } 
        name     = "Dai 1 Taiwan Shubitai"
        strength  = 60 
        type     = garrison 
        model    = 4
+	   extra    = police 
+	   brigade_model = 1
 	   locked   = yes
       } 
 }
@@ -343,12 +402,15 @@ landunit =
    {  id       = {  type = 13016 id = 400  }
      name     = "Taiwan 2 Gun"
      location = 1322
+	 mission = { type = anti_partisan_duty target = 1322 night = yes } 
      Division = 
      {  id       = {  type = 13016 id = 401 } 
        name     = "Dai 2 Taiwan Shubitai" 
        strength  = 60 
        type     = garrison 
        model    = 4
+	   extra    = police 
+	   brigade_model = 1
 	   locked   = yes
       } 
 }
@@ -356,6 +418,7 @@ landunit =
    {  id       = {  type = 13016 id = 402  }
      name     = "Taiwan 3 Gun"
      location = 1323
+	 mission = { type = anti_partisan_duty target = 1323 night = yes } 
      Division = 
      {  id       = {  type = 13016 id = 403  } 
        name     = "Dai 3 Taiwan Shubitai" 
@@ -371,6 +434,7 @@ landunit =
    {  id       = {  type = 13016 id = 404  }
 	 name     = "Shanghai Gun"
      location = 1237
+	 mission = { type = anti_partisan_duty target = 1237 night = yes } 
      Division = 
      {  id       = {  type = 13016 id = 405  } 
        name     = "Shanghai 8 Shubitai" 
@@ -386,6 +450,7 @@ landunit = {
 	id       = {  type = 13016 id = 406  }
 	name     = "Ryojun Kaigunku"
 	location = 1193 
+	mission = { type = anti_partisan_duty target = 1193 night = yes } 
 	division = {
 		id       = { type = 13016 id = 407 }
 		name     = "Ryojun Rikusentai"
@@ -399,6 +464,7 @@ landunit =
 {  id       = {  type = 13016 id = 3060  } 
 	 name     = "Dai 4 Gun"
 	 location = 3090 
+	 mission = { type = anti_partisan_duty target = 3090 night = yes } 
 	 Division = 
 	 {  id       = {  type = 13016 id = 3061  } 
 	   name     = "Dai 2 Dokuritsu shubitai"
@@ -415,6 +481,7 @@ landunit =
 {  id       = {  type = 13016 id = 3062  } 
 	 name     = "Dai 6 Gun"
 	 location = 1202 
+	 mission = { type = anti_partisan_duty target = 1202 night = yes } 
 	 Division = 
 	 {  id       = {  type = 13016 id = 3063  } 
 	   name     = "Dai 3 Dokuritsu shubitai" 
@@ -1990,32 +2057,32 @@ landunit =
 			model = 2
 		} 
 	} 
-	airunit = {
-		id       = {  type = 13016 id = 250  } 
-		name     = "Dai 1 Kyokuchi Hikodan" 
-		location = 1184 
-		base     = 1199 
-		division = {
-			id       = {  type = 13016 id = 251  } 
-			name     = "Dai 1 Kyokuchi Hikodan" 
-			strength = 85 
-			type     = interceptor 
-			model    = 7
-		} 
-	} 
-	airunit = {
-		id       = {  type = 13016 id = 252  } 
-		name     = "Dai 2 Kyokuchi Hikodan" 
-		location = 1184 
-		base     = 1199 
-		division = {
-			id       = {  type = 13016 id = 253  } 
-			name     = "Dai 2 Kyokuchi Hikodan" 
-			strength = 85 
-			type     = interceptor 
-			model    = 7
-		} 
-	} 
+	#airunit = {
+	#	id       = {  type = 13016 id = 250  } 
+	#	name     = "Dai 1 Kyokuchi Hikodan" 
+	#	location = 1184 
+	#	base     = 1199 
+	#	division = {
+	#		id       = {  type = 13016 id = 251  } 
+	#		name     = "Dai 1 Kyokuchi Hikodan" 
+	#		strength = 85 
+	#		type     = interceptor 
+	#		model    = 7
+	#	} 
+	#} 
+	#airunit = {
+	#	id       = {  type = 13016 id = 252  } 
+	#	name     = "Dai 2 Kyokuchi Hikodan" 
+	#	location = 1184 
+	#	base     = 1199 
+	#	division = {
+	#		id       = {  type = 13016 id = 253  } 
+	#		name     = "Dai 2 Kyokuchi Hikodan" 
+	#		strength = 85 
+	#		type     = interceptor 
+	#		model    = 7
+	#	} 
+	#} 
 	airunit = {
 		id       = {  type = 13016 id = 254  } 
 		name     = "Dai 3 Kyokuchi Hikodan" 
@@ -2289,7 +2356,6 @@ landunit =
        strength = 100 
        type     = marine 
        model    = 3
-	   locked   = yes
 	   experience = 90
      } 
      Division = 
@@ -2299,7 +2365,6 @@ landunit =
        strength = 30 
        type     = infantry 
        model    = 7
-	   locked   = yes
 	   experience = 90
      } 
     } 

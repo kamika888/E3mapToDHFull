@@ -854,6 +854,11 @@ province = { id = 2533   # Jinan - Shandong - China
    anti_air = 2 
  } 
  
+ province = { id = 1267   # Xian
+   landfort = 2
+   anti_air = 1
+ } 
+ 
  province = { id = 1235   # Nanjing
    landfort = 2
    anti_air = 2
@@ -2792,6 +2797,12 @@ province = { id = 5565
 } 
 province = { id = 2520
    landfort = 3
+} 
+province = { id = 3751
+   landfort = 2
+} 
+province = { id = 1272
+   landfort = 2
 } 
 province = { id = 1271
    landfort = 5 #CHC

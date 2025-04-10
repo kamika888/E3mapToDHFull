@@ -170,9 +170,12 @@ country =
  airunit = {
     id = { type = 11855 id = 14 }
     name = "Japanese Volunteer Group"
+	control  = "JAP"
     location = 5628
     base = 5628 
-	division = { id = { type = 11855 id = 15 } name = "JVG Fighter Wing"			type = multi_role model = 4 strength = 30 max_strength = 40 }		
+	division = { id = { type = 11855 id = 15 } name = "Daihon'ei Kokutai"			type = multi_role model = 4 strength = 80  }		
+	division = { id = { type = 11855 id = 16 } name = "Dai 1 Kyokuchi Hikodan" 		type = interceptor model = 7 strength = 85 } 
+	division = { id = { type = 11855 id = 17 } name = "Dai 2 Kyokuchi Hikodan" 		type = interceptor model = 7 strength = 85 } 
 }
 landunit = {
 	id       = {  type = 11855 id = 20  } 
@@ -180,7 +183,7 @@ landunit = {
 	location = 1397 
 	control  = "JAP"
 	division = { id = { type = 11855 id = 21 }   name = "Shina Hakengun shireibu" 	type = hq 		model = 2 strength  = 100 }  
-	division = { id = { type = 13016 id = 3005 } name = "Dai 3 Manchuko Kiheishidan" type = cavalry model = 9 strength = 55   } 
+	#division = { id = { type = 13016 id = 3005 } name = "Dai 3 Manchuko Kiheishidan" type = cavalry model = 9 strength = 55   } 
 }
 }  
  

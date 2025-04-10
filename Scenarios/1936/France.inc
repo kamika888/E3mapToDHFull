@@ -1876,13 +1876,26 @@ landunit =
 	}
 	
 	landunit = {  
-		id = {  type = 13500 id = 2050  } 
+		id = {  type = 13500 id = 2051  } 
 		location = 1337 
-		name = "Saigon Garrison"
+		name = "Legion etrangere 5e REI"
 		Division = 
 		{
-			id       = {  type = 13500 id = 2031 } 
-			name     = "Saigon Garrison" 
+			id       = {  type = 13500 id = 2020 } 
+			name     = "Legion etrangere 5e REI" 
+			type     = infantry 
+			model    = 8 
+			locked = yes
+		} 
+    }
+	landunit = {  
+		id = {  type = 13500 id = 2050  } 
+		location = 1337 
+		name = "Division du Annam-Laos"
+		Division = 
+		{
+			id       = {  type = 13500 id = 2021 } 
+			name     = "Division du Annam-Laos" 
 			type     = garrison 
 			model    = 5 
 			locked = yes
@@ -1891,11 +1904,11 @@ landunit =
 	landunit = {  
 		id = {  type = 13500 id = 2052  } 
 		location = 1333 
-		name = "Hanoi Garrison"
+		name = "Division du Tonkin"
 		Division = 
 		{
-			id       = {  type = 13500 id = 2032 } 
-			name     = "Hanoi Garrison" 
+			id       = {  type = 13500 id = 2022 } 
+			name     = "Division du Tonkin" 
 			type     = garrison 
 			model    = 5 
 			locked = yes
@@ -1904,11 +1917,11 @@ landunit =
 	landunit = {  
 		id = {  type = 13500 id = 2054  } 
 		location = 1339 
-		name = "Phnom Penh Garrison"
+		name = "Division du Cochinchina-Cambodia"
 		Division = 
 		{
-			id       = {  type = 13500 id = 2033 } 
-			name     = "Phnom Penh Garrison" 
+			id       = {  type = 13500 id = 2023 } 
+			name     = "Division du Cochinchina-Cambodia" 
 			type     = infantry 
 			model    = 8 
 			locked = yes
@@ -1922,7 +1935,7 @@ landunit =
 		name = "Beirut Garrison"
 		Division = 
 		{
-			id       = {  type = 13500 id = 2034 } 
+			id       = {  type = 13500 id = 2024 } 
 			name     = "Beirut Garrison" 
 			type     = infantry 
 			model    = 8 
@@ -1932,25 +1945,27 @@ landunit =
 		} 
     }
 	
-	landdivision = { dormant = yes id = { type = 13500 id = 2035 } name = "Saigon Garrison" type = garrison model = 6 locked = yes }
-	landdivision = { dormant = yes id = { type = 13500 id = 2036 } name = "Hanoi Garrison"  type = garrison model = 6 locked = yes }
-	landdivision = { dormant = yes id = { type = 13500 id = 2037 } name = "Phnom Penh Garrison" type = infantry model = 10 extra = artillery brigade_model = 8 locked = yes }
-	landdivision = { dormant = yes id = { type = 13500 id = 2038 } name = "French Forces in the Levant" type = infantry model = 10 extra = light_armor_brigade brigade_model = 6 locked = yes }
-	#landdivision = { dormant = yes id = { type = 13500 id = 2039 } name = "French Forces in the Levant" type = infantry model = 12 extra = light_armor_brigade brigade_model = 4 locked = no } #To U04
+	landdivision = { dormant = yes id = { type = 13500 id = 2010 } 	name = "27ème Division Alpine" 				type = bergsjaeger model = 8 }
 	
-	landdivision = { dormant = yes id = { type = 13500 id = 2040 } name = "27ème Division Alpine" type = bergsjaeger model = 8 }
+	landdivision = { dormant = yes id = { type = 13500 id = 2034 } 	name = "Legion etrangere 5e REI" 			type = infantry model = 10 experience = 60 locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2035 } 	name = "Division du Annam-Laos" 			type = garrison model = 6 locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2036 } 	name = "Division du Tonkin"  				type = garrison model = 6 locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2037 } 	name = "Division du Cochinchina-Cambodia" 	type = infantry model = 10 extra = artillery brigade_model = 8 locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2038 } 	name = "French Forces in the Levant" 		type = infantry model = 10 extra = light_armor_brigade brigade_model = 6 locked = yes }
+	#landdivision = { dormant = yes id = { type = 13500 id = 2039 } name = "French Forces in the Levant" 		type = infantry model = 12 extra = light_armor_brigade brigade_model = 4 locked = no } #To U04
 	
-	landdivision = { dormant = yes id = { type = 13500 id = 2041 } name = "Saigon Garrison" type = garrison model = 6 locked = no }
-	landdivision = { dormant = yes id = { type = 13500 id = 2042 } name = "Hanoi Garrison"  type = garrison model = 6 locked = no }
-	landdivision = { dormant = yes id = { type = 13500 id = 2043 } name = "Phnom Penh Garrison" type = infantry model = 11 extra = artillery brigade_model = 9 locked = no }
-	#landdivision = { dormant = yes id = { type = 13500 id = 2044 } name = "French Forces in the Levant" type = infantry model = 11 extra = light_armor_brigade brigade_model = 7 locked = no }
+	landdivision = { dormant = yes id = { type = 13500 id = 2040 } 	name = "Legion etrangere 5e REI" 			type = infantry model = 11 experience = 60 locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2041 } 	name = "Division du Annam-Laos" 			type = garrison model = 6 locked = no }
+	landdivision = { dormant = yes id = { type = 13500 id = 2042 } 	name = "Division du Tonkin"  				type = garrison model = 6 locked = no }
+	landdivision = { dormant = yes id = { type = 13500 id = 2043 } 	name = "Division du Cochinchina-Cambodia" 	type = infantry model = 11 extra = artillery brigade_model = 9 locked = no }
+	#landdivision = { dormant = yes id = { type = 13500 id = 2044 } name = "French Forces in the Levant" 		type = infantry model = 11 extra = light_armor_brigade brigade_model = 7 locked = no }
 	
-	landdivision = { dormant = yes id = { type = 14800 id = 855 }  name = "First Army HQ"  						type = hq 		model = 4	extra = anti_air 		brigade_model = 4	}
-	landdivision = { dormant = yes id = { type = 14800 id = 857 }  name = "1st Infantry Division"			  	type = infantry model = 11	extra = artillery 		brigade_model = 10  } 	
-	landdivision = { dormant = yes id = { type = 14800 id = 856 }  name = "1st Armored Division"		 		type = armor	model = 2										 		} 
-	landdivision = { dormant = yes id = { type = 14800 id = 858 }  name = "3rd Algerian Infantry Division"	  	type = infantry model = 11	extra = tank_destroyer 	brigade_model = 2 	} 
-	landdivision = { dormant = yes id = { type = 14800 id = 859 }  name = "9th Colonial Infantry Division"  	type = militia	model = 6	extra = engineer  		brigade_model = 4  	} 
-	landdivision = { dormant = yes id = { type = 14800 id = 860 }  name = "2nd Colonial Infantry Division"  	type = militia	model = 6												} 
+	landdivision = { dormant = yes id = { type = 14800 id = 855 }  	name = "First Army HQ"  					type = hq 		model = 4	extra = anti_air 		brigade_model = 4	}
+	landdivision = { dormant = yes id = { type = 14800 id = 857 }  	name = "1st Infantry Division"			  	type = infantry model = 11	extra = artillery 		brigade_model = 10  } 	
+	landdivision = { dormant = yes id = { type = 14800 id = 856 }  	name = "1st Armored Division"		 		type = armor	model = 2										 		} 
+	landdivision = { dormant = yes id = { type = 14800 id = 858 }  	name = "3rd Algerian Infantry Division"	  	type = infantry model = 11	extra = tank_destroyer 	brigade_model = 2 	} 
+	landdivision = { dormant = yes id = { type = 14800 id = 859 }  	name = "9th Colonial Infantry Division"  	type = militia	model = 6	extra = engineer  		brigade_model = 4  	} 
+	landdivision = { dormant = yes id = { type = 14800 id = 860 }  	name = "2nd Colonial Infantry Division"  	type = militia	model = 6												} 
 
 } 
  

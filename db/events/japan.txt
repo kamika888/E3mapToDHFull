@@ -53,6 +53,7 @@ event = {
 	id = 2011000
 	random = no
 	country = JAP
+	save_date = yes
 
 	name = EVT_20_NAME
 	desc = "Japanese garrison troops in Feng-Tai, southwest of Beijing, clashed with Chinese forces at the Marco Polo Bridge following an incident involving a Japanese solder who had temporarily gone missing. The battle was at first limited to a local conflict and some hurried negotiations restored order. However, new incidents flared up soon after, and following a major Tongzhou mutiny which resulted in a massacare of Japanese and Korean civilians, the Japanese troops began offensive operations. Although the incidents themselves appear to have been accidental, Japan's frustration was real and growing every day. Japan's decision to escalate the conflict was the result of the gradual consolidation of China as well as the successful reconciliation between the two main Chinese parties - KMT and CCP. This all but guaranteed conflict between Japan and China, especially due to the hardline anti-Japanese position of the CCP and its sympathizers. The Chinese could not accept the loss of Manchuria and other Japanese gains since 1930 - they continued to provoke clashes, boycott Japanese products, and incite anti-Japanese uprisings. Under CCP's guidance, a whole 'Counter-Japanese Volunteer Army' was formed with the goal of driving Japan out of Northern China. Meanwhile, the Japanese took every opportunity to gradually expand their holdings, as an ever-expanding 'buffer' against the hostile Chinese polities. The rapprochement between the Communists and Nationalists convinced leadership in Tokyo that the status quo was no longer tenable. The choice now was to either fight or flee. Japan already fled from Russia in 1920s under similar circumstances, could it really afford to show such cowardice again, and miss its possibly last historical chance for greatness?"
@@ -160,7 +161,6 @@ event = {
 		command = { type = removeclaim which = 1203 }
 		command = { type = removeclaim which = 1206 }
 		command = { type = removeclaim which = 5626 }
-		#command = { type = non_aggression which = JAP where = CHI when = 10 }
 		command = { type = relation which = USA value = -10 }
 		command = { type = relation which = ENG value = -10 }
 		command = { type = relation which = SOV value = -10 }
@@ -182,6 +182,13 @@ event = {
 		command = { trigger = { ai = MEN } 	type = event 	which = 2400042 where = MEN when = 0 } #20 exp
 		command = { trigger = { ai = MAN } 	type = event 	which = 2400042 where = MAN when = 0 } #20 exp
 		command = { trigger = { puppet = { country = MEN country = JAP } }	type = military_control which = JAP where = MEN value = 1 }
+		
+		command = { type = end_non_aggression which = U58 where = JAP }
+		command = { type = end_non_aggression which = U58 where = MAN }
+		command = { type = end_non_aggression which = U58 where = MEN }
+		command = { type = end_non_aggression which = U58 where = U87 }
+		
+		command = { type = event which = 1330110076 where = U58 when = 0 }
 		
 		command = { type = end_trades which = JAP where = MEN }
 	}
@@ -357,8 +364,6 @@ event = {
 	random = no
 	country = CHI
 
-	#Triggered by 1330110082 CHI Nationalist Army Shatters
-
 	name = EVT_1330110083_NAME #Battle of Nanjing
 	desc = EVT_1330110083_DESC
 
@@ -370,9 +375,14 @@ event = {
 		name = EVT_1330110083_ACTION1 #Defend Nanjing at all costs!
 		command = { type = dissent value = -1 }
 		command = { trigger = { control = { province = 1235 } } type = construct which = land_fort where = 1235  value = 1 }
-        command = { type = max_organization which = land value = -1 }
-		command = { type = morale 			which = land value = -1 }
-		command = { type = ground_def_eff 	when = 1	 value = -0.01 }
+		command = { type = ground_def_eff 		when  = 1	 value = 0.30 }
+
+		command = { type = event which = 1330110082 when = 15 where = CHI } #Nationalist Army Shatters
+		command = { type = event which = 1330110082 when = 15 where = CHC } #Nationalist Army Shatters
+		command = { type = event which = 1330110082 when = 15 where = CGX } #Nationalist Army Shatters
+		command = { type = event which = 1330110082 when = 15 where = CYN } #Nationalist Army Shatters
+		command = { type = event which = 1330110082 when = 15 where = JAP } #Nationalist Army Shatters
+		command = { type = event which = 1330110082 when = 15 where = CSX } #Nationalist Army Shatters
 		command = { type = local_setflag which = 1330110083 } 
 	}
 
@@ -380,7 +390,8 @@ event = {
 		ai_chance = 1
 		name = EVT_1330110083_ACTION2 #Make an organized retreat
 		#Nanjing industry evacuation will not happen
-		command = { type = dissent value = 10 }
+		command = { type = dissent 						value = 10 }
+		command = { type = belligerence which = JAP 	value = -5 }
 		command = { trigger = { control = { province = 1235 } } type = construct which = land_fort where = 1235  value = -2 }
 		command = { type = sleepevent which = 2012001 } # Nanjing Massacre, happened partly due to exhaustion by Japanese troops and stronger than expected defense.
 		command = { type = sleepevent which = 2011007 }
@@ -398,6 +409,75 @@ event = {
 	}
 }
 
+#Nationalist Army Shatters
+
+event = {
+	id = 1330110082
+	random = no
+	tag = { CHI CSX CHC CYN CGX JAP }
+	persistent = yes
+
+	# Triggered by 1330110081 JAP Bloody Saturday
+
+	name = EVT_1330110082_NAME 
+	desc = EVT_1330110082_DESC
+
+	picture = "ccip_cw"
+	style = 2
+
+	action = {
+		trigger = {
+			country = CHI
+		}
+		name = ACTION_NAME_DAMN
+		#huge overall losses
+		command = { type = strength which = land when = 1 where = 1 org = 1 value = -0.2 }
+		#German-trained elite divisions particularly badly mauled by the fighting
+		command = { type = damage_division 			which = 22002 value = 132 where = 50 } 
+		command = { type = damage_division 			which = 22002 value = 117 where = 50 }
+		command = { type = damage_division 			which = 22002 value = 158 where = 50 }
+		command = { type = damage_division 			which = 22002 value = 181 where = 50 }
+		command = { type = damage_division 			which = 22002 value = 183 where = 50 }
+		command = { type = damage_division 			which = 22002 value = 230 where = 50 }
+		command = { type = damage_division 			which = 22000 value = 142 where = 50 }
+		command = { type = damage_division 			which = 22000 value = 120 where = 50 }
+		command = { type = damage_division 			which = 22000 value = 43  where = 50 }
+		command = { type = damage_division 			which = 22000 value = 110 where = 50 }
+		command = { type = damage_division 			which = 22000 value = 147 where = 50 }
+		command = { type = damage_division 			which = 22000 value = 148 where = 50 }
+		command = { type = damage_division 			which = 22400 value = 29  where = 50 }
+		command = { type = damage_division 			which = 22400 value = 31  where = 50 }
+		command = { type = damage_division 			which = 22400 value = 33  where = 50 }
+		command = { type = damage_division 			which = 22400 value = 37  where = 50 }
+		command = { type = damage_division 			which = 22400 value = 28  where = 50 }
+		command = { type = damage_division 			which = 22300 value = 182 where = 50 }
+		
+        command = { type = max_organization which = land value = -5    }
+		command = { type = morale 			which = land value = -5    }
+		command = { type = ground_def_eff 	when = 1	 value = -0.35 }
+		command = { type = local_setflag 			which = 1330110082 }
+	}
+
+	action = {
+		trigger = {
+			not = {
+				country = CHI
+				country = JAP
+			}
+		}
+		name = ACTION_NAME_DAMN
+		command = { }
+	}
+
+	action = {
+		trigger = {
+			country = JAP
+		}
+		name = ACTION_NAME_EXCELLENT
+		command = { type = dissent value = -1 }
+	}
+}
+
 #################
 # Army Recovers #
 #################
@@ -407,14 +487,12 @@ event = {
 	country = CHI
 
 	trigger = {
+		event = 1330110083
+		local_flag = 1330110082
 		OR = {
-			event = 1330110082
-			event = 1330110083
-		}
-		or = {
-			lost_national = { value = 15 }
-			region = { region = "China" country = -2 value = 25 } #Seems about right
-			event = { id = 1330110081 days = 180 } #JAP Bloody Saturday
+			lost_national = { value = 35 }
+			NOT = { region = { region = "China" country = CHI data = 1 value = 38 } } #Seems about right
+			event = { id = 1330110081 days = 180 } #JAP Bloody Saturday / Jan 1938
 		}
 	}
 	
@@ -430,10 +508,12 @@ event = {
 
 	action = {
 		name = ACTION_NAME_GREAT
-		command = { type = dissent value = -1 }
-		command = { trigger = { local_flag = 1330110083 } type = ground_def_eff 	when = 1	 value = 0.01 }
-		command = { trigger = { local_flag = 1330110083 } type = morale 			which = land value = 1 }
-		command = { trigger = { local_flag = 1330110083 } type = max_organization 	which = land value = 1 }
+		command = { type = dissent 				value = -1 }
+		command = { type = ground_def_eff 		when  = 1	 value = 0.05 }
+		command = { type = morale 				which = land value = 5    }
+		command = { type = max_organization 	which = land value = 5    }
+		
+		command = { type = strength 			which = land when = 1 where = 0 org = 1 value = 0.10 } 
 	}
 }
 
@@ -1624,7 +1704,10 @@ event = {
 		}
 	}
 	decision_trigger = {
-		year = 1937
+		OR = {
+			year = 1939
+			event = { id = 2011000 days = 210 } #~7 months / feb 1937
+		}
 		OR = {
 			war = { country = JAP country = CHI }
 			alliance = { country = GER country = JAP }
@@ -1635,6 +1718,10 @@ event = {
 		OR = {
 			war = { country = JAP country = CHI }
 			alliance = { country = GER country = JAP }
+		}
+		OR = {
+			year = 1939
+			event = { id = 2011000 days = 210 } #~7 months / feb 1937
 		}
 		NOT = {
 			alliance = { country = GER country = CHI }
@@ -1658,16 +1745,13 @@ event = {
 
 	action = {
 		name = "EVT_3835_ACTA"
-		ai_chance = 100
 		command = { type = trigger which = 2011020 } #GER response
 		command = { type = money value = -150 } #Expenditure
-		command = { type = relation which = MAN value = 20 }
+		command = { type = relation which = MAN value =  20 }
 		command = { type = relation which = GER value = -10 }
 	}
 }
-#####################################
-# German response to Japanese pressure over Manchuria
-#####################################
+
 event = {
 	id = 2011020
 	random = no
@@ -1685,12 +1769,13 @@ event = {
 		ai_chance = 100
 		name = "ACTIONNAME2035A"
 		command = { type = money value = 150 }
-		command = { type = relation which = JAP value = 25 }
-		command = { type = relation which = MAN value = 20 }
+		command = { type = relation which = JAP value =  25 }
+		command = { type = relation which = MAN value =  20 }
 		command = { type = relation which = CHI value = -15 }
 		command = { type = end_trades which = GER where = CHI }
+		command = { type = add_division value = hq when = 3 }
 		command = { type = wakeleader which = 292 } #Von Falkenhausen
-		command = { type = trigger which = 2012002 } #CHI Event
+		command = { type = event which = 2012003 where = CHI when = 30 } #German aid was withdrawn by April, a few months after the recognition
 		command = { type = trigger which = 2011004 } #JAP event
 	}
 	action = {
@@ -1698,8 +1783,140 @@ event = {
 		name = "ACTIONNAME2035B"
 		command = { type = relation which = JAP value = -25 }
 		command = { type = relation which = MAN value = -30 }
-		command = { type = relation which = CHI value = 50 }
+		command = { type = relation which = CHI value =  50 }
 		command = { type = setflag which = NO_JAP_Anti_comintern_pact }
+	}
+}
+
+event = {
+	id = 2012002
+	random = no
+	country = CHI
+	
+	trigger = {
+		exists = GER
+		local_flag = DEV_level
+		NOT = { war = { country = GER } }
+		NOT = { event = 2012003 }
+	}
+
+	date = { day = 1 month = January year = 1936 }
+	offset = 5
+	deathdate = { day = 30 month = december year = 1942 }
+
+	name = "German Military Mission in China"
+	desc = "EVT_4103_DESC"
+  	style = 2
+  	picture = "ccip_wjw"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = wakeleader 					which = 55303 								} #Von Falkenhausen
+		command = { type = waketeam 					which = 55005 					when  = 1 	} #Von Falkenhausen
+		command = { type = relation 					which = GER 					value = 100 }
+		
+		#Industrial development & training assistance:
+		command = { type = research_mod  																			value = 5 	  }
+		
+		command = { type = build_cost					which = infantry 				when = now where = relative value = -15   } #30% cost reduction
+		command = { type = build_cost					which = militia 				when = now where = relative value = -15   }
+		command = { type = build_cost					which = garrison 				when = now where = relative value = -15   }
+		command = { type = build_cost					which = hq	 					when = now where = relative value = -12   }
+		command = { type = build_cost					which = cavalry 				when = now where = relative value = -12   }
+		command = { type = build_cost					which = cavalry_brigade			when = now where = relative value = -12   }
+		command = { type = build_cost					which = bergsjaeger	 			when = now where = relative value = -12   }
+		command = { type = build_cost					which = artillery				when = now where = relative value = -9    }
+		command = { type = build_cost					which = tank_destroyer			when = now where = relative value = -9    }
+		command = { type = build_cost					which = armored_car				when = now where = relative value = -6    }
+		command = { type = build_cost					which = anti_air				when = now where = relative value = -6    }
+		command = { type = build_cost					which = police					when = now where = relative value = -6    }
+		command = { type = build_cost					which = engineer				when = now where = relative value = -6    }
+		command = { type = build_cost					which = motorized 				when = now where = relative value = -3	  }
+		
+		#Advisory role during operations
+		command = { type = counterattack 																			value = 5 	  }
+		command = { type = max_organization 			which = land 												value = 2 	  }
+		command = { type = morale 				 		which = land												value = 2     }
+		command = { type = morale	  					which = naval												value = 2     }
+		command = { type = morale	  					which = air													value = 2     }
+		command = { type = task_efficiency 				which = Air_superiority 									value = 0.02  }
+		command = { type = task_efficiency 				which = Air_scramble 										value = 0.02  }
+		command = { type = task_efficiency 				which = Ground_attack 										value = 0.02  }
+		command = { type = task_efficiency 				which = interdiction 										value = 0.02  }
+		command = { type = task_efficiency 				which = convoy_air_raiding 									value = 0.02  }
+		command = { type = task_efficiency 				which = Naval_strike 										value = 0.02  }
+		command = { type = task_efficiency 				which = Strategic_bombardment 								value = 0.02  }
+		command = { type = task_efficiency 				which = Logistical_strike 									value = 0.02  }
+		command = { type = task_efficiency 				which = Air_supply 											value = 0.02  }
+		command = { type = task_efficiency 				which = Port_strike 										value = 0.02  }
+		command = { type = task_efficiency 				which = Installation_strike 								value = 0.02  }
+		command = { type = task_efficiency 				which = Runway_cratering 									value = 0.02  }
+		
+		command = { type = activate_division 			which = 22002 	value = 112 when = 0						where = 1235  }
+		
+		#Barter agreement
+		command = { type = trade which = GER where = CHI rare_materials = 50 supplies = -10 when = 1800 			value = 1 } #5 years
+    }
+}
+
+event = {
+	id = 2012003
+	random = no
+	country = CHI
+
+	#Triggered by GER 2003071A
+
+	name = "EVT_4103_NAME"
+	desc = "EVT_4103_DESC"
+  	style = 2
+  	picture = "ccip_wjw"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = sleepleader 					which = 55303 								 } #Von Falkenhausen
+		command = { type = sleepteam 					which = 55005 when = 2 						 } #Von Falkenhausen
+		command = { type = relation 					which = GER 					value = -200 }
+		
+		#Industrial development & training assistance:
+		command = { type = research_mod  																			value = -5 	  }
+		
+		command = { type = build_cost					which = infantry 				when = now where = relative value = 15    }
+		command = { type = build_cost					which = militia 				when = now where = relative value = 15    }
+		command = { type = build_cost					which = garrison 				when = now where = relative value = 15    }
+		command = { type = build_cost					which = hq	 					when = now where = relative value = 12    }
+		command = { type = build_cost					which = cavalry 				when = now where = relative value = 12    }
+		command = { type = build_cost					which = cavalry_brigade			when = now where = relative value = 12    }
+		command = { type = build_cost					which = bergsjaeger	 			when = now where = relative value = 12    }
+		command = { type = build_cost					which = artillery				when = now where = relative value = 9     }
+		command = { type = build_cost					which = tank_destroyer			when = now where = relative value = 9     }
+		command = { type = build_cost					which = armored_car				when = now where = relative value = 6     }
+		command = { type = build_cost					which = anti_air				when = now where = relative value = 6     }
+		command = { type = build_cost					which = police					when = now where = relative value = 6     }
+		command = { type = build_cost					which = engineer				when = now where = relative value = 6     }
+		command = { type = build_cost					which = motorized 				when = now where = relative value = 3	  }
+		
+		#Advisory role during operations
+		command = { type = counterattack 																			value = -5 	  }
+		command = { type = max_organization 			which = land 												value = -2 	  }
+		command = { type = morale 				 		which = land												value = -2    }
+		command = { type = morale	  					which = naval												value = -2    }
+		command = { type = morale	  					which = air													value = -2    }
+		command = { type = task_efficiency 				which = Air_superiority 									value = -0.02 }
+		command = { type = task_efficiency 				which = Air_scramble 										value = -0.02 }
+		command = { type = task_efficiency 				which = Ground_attack 										value = -0.02 }
+		command = { type = task_efficiency 				which = interdiction 										value = -0.02 }
+		command = { type = task_efficiency 				which = convoy_air_raiding 									value = -0.02 }
+		command = { type = task_efficiency 				which = Naval_strike 										value = -0.02 }
+		command = { type = task_efficiency 				which = Strategic_bombardment 								value = -0.02 }
+		command = { type = task_efficiency 				which = Logistical_strike 									value = -0.02 }
+		command = { type = task_efficiency 				which = Air_supply 											value = -0.02 }
+		command = { type = task_efficiency 				which = Port_strike 										value = -0.02 }
+		command = { type = task_efficiency 				which = Installation_strike 								value = -0.02 }
+		command = { type = task_efficiency 				which = Runway_cratering 									value = -0.02 }
+		
+		command = { type = remove_division 				which = 22002 	value = 112 }
+
+		command = { type = end_trades 					which = GER 	where = CHI }
 	}
 }
 
@@ -1714,9 +1931,11 @@ event = {
   	picture = "news_paper"
 	action_a = {
 		name = EVT_73_ACTA
-		command = { type = relation which = SOV value = -10 }
-		command = { type = relation which = GER value = 10 }
-		command = { type = setflag which = JAP_Anti_comintern_pact }
+		command = { type = relation 	which = SOV value = -10 }
+		command = { type = relation 	which = GER value =  10 }
+		command = { type = setflag 		which = JAP_Anti_comintern_pact }
+		
+		#Germany did not provide any meaningful aid to Japan, but it did share blueprints after Japan joined the Axis
 	}
 }
 
@@ -2384,38 +2603,40 @@ event = {
 		NOT = { alliance = { country = JAP country = USA } }
 		NOT = { alliance = { country = JAP country = ENG } }
 		NOT = { alliance = { country = JAP country = U05 } }
-		NOT = { war = { country = USA } }
-		NOT = { war = { country = SOV } }
 		NOT = { event = 2011018 } #JAP The Fading Sun
 		NOT = { event = 2011028 } #JAP Japanese surrender negotiations
 	}
 	decision_trigger = {
-		NOT = { lost_VP = { country = JAP value = 3 } }
 		garrison = { country = JAP province = 2562 type = naval size = 6 area = no } # Pearl Harbor Bay
 		carrier = { country = JAP value = 6 }
 	}
 	trigger = {
-		event = { id = 560 days = 120 } #Oil embargo
 		NOT = { ispuppet = JAP }
 		NOT = { alliance = { country = JAP country = USA } }
 		NOT = { alliance = { country = JAP country = ENG } }
 		NOT = { alliance = { country = JAP country = U05 } }
-		NOT = { war = { country = USA } }
-		NOT = { war = { country = SOV } }
-		NOT = { event = 2011018 } #JAP The Fading Sun
-		NOT = { event = 2011028 } #JAP Japanese surrender negotiations	
-		NOT = { lost_VP = { country = JAP value = 3 } }
-		OR = {
-			war = { country = SOV country = GER }
-			non_aggression = { country = JAP country = SOV }
-		}
-		region = { region = China country = -3 value = 20 } #Not losing in China
-		NOT = { control = { province = 2241 data = -2 } } #Changchun/Xinjing not controlled by enemy country
-		OR = { random = 30 year = 1942 }
-		#Guarantee that Japan will not fight alone
-		OR = {
-			alliance = { country = GER }
-			event = { id = 640 days = 30 } #1 month after Undeclared War
+		OR = { 
+			war = { country = USA }
+			AND = {
+				event = { id = 560 days = 120 } #Oil embargo
+				NOT = { event = 2011018 } #JAP The Fading Sun
+				NOT = { event = 2011028 } #JAP Japanese surrender negotiations	
+				NOT = { lost_VP = { country = JAP value = 3 } }
+				NOT = { war = { country = SOV } }
+				OR = {
+					war = { country = SOV country = GER }
+					non_aggression = { country = JAP country = SOV }
+				}
+				region = { region = China country = -3 value = 20 } #Not losing in China
+				NOT = { control = { province = 2241 data = -2 } } #Changchun/Xinjing not controlled by enemy country
+				OR = { random = 30 year = 1942 }
+				#Guarantee that Japan will not fight alone
+				OR = {
+					alliance = { country = GER }
+					event = { id = 640 days = 30  } #1 month after Undeclared War
+					event = { id = 560 days = 360 } #oil embargo year
+				}
+			}
 		}
 	}
 
@@ -2438,6 +2659,7 @@ event = {
 		command = { type = addclaim which = 1315 } #Hong Kong
 		command = { type = war which = PHI }
 		command = { trigger = { NOT = { alliance = { country = U36 country = GER } } } type = war which = U36 }
+		command = { type = local_setflag which = inMajorWar	}
 		command = { type = trigger which = 2049002 }
 	}
 }
