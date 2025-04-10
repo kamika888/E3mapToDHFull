@@ -1877,7 +1877,7 @@ landunit =
 	
 	landunit = {  
 		id = {  type = 13500 id = 2051  } 
-		location = 1337 
+		location = 7025 
 		name = "Legion etrangere 5e REI"
 		Division = 
 		{
