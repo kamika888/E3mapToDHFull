@@ -4320,10 +4320,7 @@ event = {
 
 	trigger = {
 		event = 3100
-		OR = {
-			NOT = { exists = SPA }
-			lost_national = { country = SPA value = 90 } 
-		}
+		region = { region = "Spain"  country = -3 data = 1 value = 90 }
 	} 
 
 	name = "Victory"
@@ -4331,7 +4328,7 @@ event = {
 	style = 2
 
 	date = { day = 1 month = january year = 1936 }
-	offset = 20
+	offset = 10
 	deathdate = { day = 29 month = december year = 1999 } 
 
 	action = { 
@@ -4558,6 +4555,8 @@ event = {
 		command = { type = local_clrflag which = FrontAILock }
 		
 		command = { trigger = { ai = yes } type = end_trades which = SPR where = EUS }
+		
+		command = { trigger = { war = { country = GER } } type = event which = 3322 where = GER when = 1 }
 	} 
 }
 
@@ -4569,10 +4568,7 @@ event = {
 
 	trigger = {
 		event = 3100
-		OR = {
-			NOT = { exists = SPR }
-			lost_national = { country = SPR value = 90 } 
-		}
+		region = { region = "Spain"  country = -3 data = 1 value = 90 }
 	} 
 
 	name = "Victory"
@@ -4580,7 +4576,7 @@ event = {
 	style = 2
 
 	date = { day = 1 month = january year = 1936 }
-	offset = 20
+	offset = 10
 	deathdate = { day = 29 month = december year = 1999 } 
 
 	action = { 
@@ -4801,6 +4797,26 @@ event = {
 		
 		command = { trigger = { ai = yes } type = ai which = "nations\SPA.ai" }
 		command = { type = local_clrflag which = FrontAILock }
+		
+		command = { trigger = { war = { country = ENG } } type = event which = 3322 where = ENG when = 1 }
+	} 
+}
+
+event = { 
+	id = 3322
+	random = no
+	persistent = yes
+
+	name = "Defeat in Spain"
+	desc = "After a long and bloody stuggle, our enemies triumphed in Spain and overran the country. All the effort we have put in to supporting our Spanish allies has proved insufficient."
+	style = 2
+
+	action = { 
+		name = "ACTION_NAME_DAMN"
+		command = { type = dissent value = 1 }
+		command = { trigger = { war = { country = SPA } } 	type = secederegion 	which = SPA value = "Spain" when = 1 }
+		command = { trigger = { war = { country = SPR } } 	type = secederegion 	which = SPR value = "Spain" when = 1 }
+		command = { trigger = { country = ENG } 			type = secedeprovince 	which = ENG value = 348 	when = 2 }
 	} 
 }
 
@@ -5108,6 +5124,7 @@ event = {
 			region = { region = "Benelux" country = GER data = 1 value = 30 }
 			region = { region = "France"  country = GER data = 1 value = 5  }
 		}
+		control = { province = 341 data = SPR } # Madrid
 	}
 
 	date = { day = 1 month = january year = 1936 }
@@ -5168,6 +5185,7 @@ event = {
 			#NOT = { region = { region = "France"  country = -2 data = 1 value = 10 } }
 			control = { province = 326 data = -3 } #Land connection
 		}
+		control = { province = 333 data = SPR } # Burgos
 	}
 
 	date = { day = 1 month = january year = 1936 }

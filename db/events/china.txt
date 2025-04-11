@@ -611,7 +611,7 @@ event = {
 		command = { type = unlock_division which = 22003 value = 56 }
 		
 		#command = { type = local_setflag which = inMajorWar	}
-		command = { type = ai  which = "nations\CHI_JAP.ai" }
+		command = { type = ai  which = "nations\CHI_defense.ai" }
 		
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 8 } } } type = event which = 8300108 where = -1 when = 0 } #General mobilization
 		
@@ -5691,8 +5691,11 @@ event = {
 	trigger = {
 		NOT = { war = { country = JAP } }
 		OR = {
-			war = { country = GER }
-			flag = JAP_SOV_NAP
+			AND = {
+				flag = JAP_SOV_NAP
+				NOT = { area = { area = "Jilin"		country = U58 data = 1 value = 8 } }
+				NOT = { area = { area = "Pyongyang" country = U58 data = 1 value = 8 } }
+			}
 			AND = {
 				NOT = { area = { area = "Jilin"		country = U58 data = 1 value = 1 } }
 				NOT = { area = { area = "Pyongyang" country = U58 data = 1 value = 1 } }
@@ -5727,12 +5730,13 @@ event = {
 		command = { type = remove_units which = land where = U58 when = 0 value = 7993 }
 		
 		command = { type = inherit which = U58 value = 1 }
-		command = { type = secedeprovince which = CHC value = 7993 when = 2 }
 		
 		command = { type = add_corps value = land where = 1366 } #Khabarovsk
 		command = { trigger = { 				  NOT = { technology = 1110 } } type = add_division value = infantry 	when = 9  where = -70 } #1936
 		command = { trigger = { technology = 1110 NOT = { technology = 1120 } } type = add_division value = infantry 	when = 10 where = -70 } #1939
 		command = { trigger = { technology = 1120 NOT = { technology = 1130 } } type = add_division value = infantry 	when = 11 where = -70 } #1942
+		
+		command = { type = secedeprovince which = CHC value = 7993 when = 2 }
 		
 		command = { type = secedeprovince which = CHC value = 1206 when = 1 }
 		command = { type = secedeprovince which = CHC value = 5626 when = 1 }
