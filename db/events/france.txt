@@ -11,11 +11,23 @@ event = {
 
 	trigger = {
 		war = { country = GER } 
-		control = { province = 56 data = -2 } 
-		lost_national = { country = FRA value = 5 }
+		lost_national = { country = FRA value = 5 } 
+		control = { province = 56 data = -2 } #paris lost
 		OR = { 
-			lost_national = { country = FRA value = 50 }	# At least 50% of national provinces lost
+			#At least 50% of national provinces lost
+			lost_national = { country = FRA value = 50 }
+			#Army destroyed
 			NOT = { land_percentage = { country = GER value = 0.4 } }
+			#Significant army group encircled at the maginot line
+			AND = { 
+				lost_national = { country = FRA value = 20 } 
+				control = { province = 3172	data = -2 } 
+				control = { province = 841	data = -2 } 
+				control = { province = 317	data = -2 } 
+				control = { province = 1643	data = -2 } 
+				control = { province = 73	data = -3 } 
+				garrison = { province = 73 	country = -3 type = land size = 25 area = yes }
+			}
         }
 	}
 

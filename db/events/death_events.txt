@@ -1223,6 +1223,54 @@ event = {
 
 #######################################################
 
+### Goring replaces Hess
+
+event = {
+	id = 2003096
+	random = no
+	country = GER
+	style = 2
+
+	trigger = {
+		Headofstate = 1 	#Hitler as HOS
+		OR = { 
+			event = 2003025
+			war = { country = ENG }
+			war = { country = FRA }
+			war = { country = SOV }
+		}
+	}
+
+	date = { year = 1937 month = may day = 10 }
+	offset = 30
+	deathdate = { year = 1941 month = october day = 11 } 
+
+	name = "Hermann Goring"
+	desc = "Just prior to the invasion of Poland in September 1939, Adolf Hitler initiated a critical restructuring of his leadership hierarchy to prepare for the expanding war effort. Dissatisfied with Rudolf Hess's indecisiveness and increasingly erratic behavior, Hitler issued a formal decree naming Hermann Goring as his designated successor in the event of his death or incapacitation. Goring was also appointed Chairman of the Reich Defense Council, granting him sweeping authority over Germany's war economy and internal mobilization. Goring, already head of the Luftwaffe, now held sweeping authority second only to Hitler himself. His appointment not only sidelined Hess but also signaled a new phase of aggressive leadership as the Reich escalated its campaign across Europe."
+	picture = "minister_resign"
+
+	action = {
+		name = "Goring"
+		ai_chance = 100
+		trigger = { minister = 21 }
+		command = { type = headofgovernment which = 21 }
+	}
+	action = {
+		name = "Bormann"
+		ai_chance = 0
+		trigger = { minister = 23 }
+		command = { type = dissent value = 1 }
+		command = { type = headofgovernment which = 23 }
+	}
+	action = {
+		name = "Hess must stay"
+		ai_chance = 0
+		trigger = { minister = 2  }
+		command = { type = dissent value = 3 }
+		command = { type = headofgovernment which = 2  }
+	}
+}
+
 ### Rudolf Hess flees to the United Kingdom
 
 event = {
@@ -1234,7 +1282,7 @@ event = {
 	trigger = {
 		random = 61
 		Headofstate = 1 	#Hitler as HOS
-		headofgovernment = 2 	#Hess as HOG
+		#headofgovernment = 2 	#Hess as HOG
 		war = { country = GER country = ENG }
 		control = { province = 56 data = GER } #Paris is GER +
 		OR = {
@@ -1258,10 +1306,10 @@ event = {
 
 	action_a = {
 		name = "EVT_362_ACTC"
-		command = { type = headofgovernment which = 23 } # Bormann
+		command = { trigger = { headofgovernment = 2 } 				type = dissent value = 3 } # Pretty embarassing and destabilising since he was second in line of succession
+		command = { trigger = { NOT = { headofgovernment = 2 } } 	type = dissent value = 1 } # Slightly embarassing, but really not that bad since he was already sidelined
+		command = { trigger = { headofgovernment = 2 } 				type = headofgovernment which = 21 } # Goring
 		command = { type = sleepminister which = 2 }
-		command = { type = dissent value = 2 }
-
 	}
 }
 
@@ -1430,8 +1478,15 @@ event = {
 
 	action = {
 		name = "EVT_362_ACTA"
-		command = { type = headofgovernment which = 30144 } #Stalin replaces Molotov as Head of Government
-		command = { type = headofstate which = 30001 } #Kalinin in his rightful place as head of state
+		command = { type = headofgovernment 		which = 30144 } #Stalin replaces Molotov as Head of Government
+		command = { type = headofstate 				which = 30001 } #Kalinin in his rightful place as head of state
+		
+		#1941 pre-war purge
+		command = { type = chiefofair 				which = 30143 } #Zhigarev
+		command = { type = ministerofintelligence 	which = 30035 } #Panfilov
+		command = { type = sleepminister 			which = 30052 } #Rychagov
+		command = { type = sleepminister 			which = 30053 } #Smushkevich
+		command = { type = sleepminister 			which = 30033 } #Proskurov
 	}
 }
 

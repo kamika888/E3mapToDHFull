@@ -2305,9 +2305,18 @@ event = {
 		exists = POL
 		#atwar = no		
 		OR = {
-			event = { id = 2003025 days = 15  } 
+			event = { id = 2003025 days = 10  } 
 			event = 2003026 #pact rejected
 			control = { province = 56 data = -3 } #Paris
+		}
+		OR = {
+			random = 2
+			AND = { 
+				year 	= 1939
+				month	= September
+				day		= 0
+				random	= 50
+			}
 		}
 		OR = {
 			region = { region = Austria country = GER }
@@ -2335,7 +2344,7 @@ event = {
 	decision_picture = "decision_danzig_or_war"
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 7
+	offset = 2
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -2370,13 +2379,12 @@ event = {
 		command = { type = relation which = SOV value = 5 }
 		command = { type = relation which = ENG value = 10 }
 		command = { type = relation which = FRA value = 10 }
-		command = { type = domestic which = political_left value = 1 }
 		command = { type = trigger which = 2003037 } #GER  Danzig or War - WAR!
 		#command = { type = sleepevent which = 2001032 }
 		command = { type = dissent value = -5 }
 		command = { type = songs which = ChamberlainDeclaresWar.txt }
 		command = { trigger = { ai = yes NOT = { local_flag = MOB7 } NOT = { local_flag = demob } } type = local_setflag which = do_not_demob }
-		command = { trigger = { ai = yes NOT = { local_flag = MOB7 } NOT = { local_flag = demob } } type = trigger which = 8300107 } #Partial Mobilization #Historical, Finland recalled reserves for additional refresher training
+		command = { trigger = { ai = yes NOT = { local_flag = MOB7 } NOT = { local_flag = demob } } type = trigger which = 8300107 }
 		command = { trigger = { ai = yes NOT = { local_flag = MOB7 } NOT = { local_flag = demob } } type = event which = 130132 where = POL when = 360 }
 	}
 	action = { 
@@ -2418,6 +2426,7 @@ event = {
 		command = { type = sleepminister which = 69 } # Fritz Thyssen - He left Germany on war breakout.
 		command = { trigger = { event = 2003025 } type = access which = SOV }
 		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = POL value = 1 }
+		command = { trigger = { ai = yes ai = SLO } type = non_aggression which = SLO where = POL when = 4 } #Give germany time to deploy troops to Slovakia
 	}
 }
 #########################################################################
@@ -2868,8 +2877,6 @@ event = {
 			war = { country = BEL }
 			war = { country = LUX }
 		}
-		#garrison = { country = -3 province = 66 type = land size = 12 area = 3 } # Aachen
-        #garrison = { country = -3 province = 81 type = land size = 3 area = 3 } # Munster +	
 	}
 	
 	trigger = {
@@ -2901,18 +2908,31 @@ event = {
 				NOT = { region = { region = "Spain"  country = SPA data = 1 value = 30 } } #ally on the verge of defeat
 			}
 			AND = {
-				month = 4 # May
-				NOT = { month = 7 } # August
+				NOT = { month = August }
+				OR = {
+					AND = {
+						year 	= 1940
+						month 	= April
+						random 	= 4
+					}
+					AND = { 
+						year	= 1940
+						month	= May
+						day		= 8
+						random	= 50
+					}
+				}
 			}
+			war = { country = BEL }
+			war = { country = HOL }
 			region = { region = "Benelux" country = GER data = 1 value = 20 }
 		}
-		random = 30
 	 	#garrison = { country = -3 province = 66 type = land size = 12 area = 3 } # Aachen
         #garrison = { country = -3 province = 81 type = land size = 3 area = 3 } # Munster +	
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 4
+	offset = 3
 	deathdate = { day = 29 month = december year = 1963 }
 	
 	name = "evt_4700_name"
@@ -2997,7 +3017,16 @@ event = {
 		}
 		NOT = { control = { province = 56 data = -2 } } # Paris
 		month = 4
-		NOT = { month = 9 }	
+		NOT = { month = 9 }
+		OR = {
+			random = 5
+			AND = { 
+				year 	= 1941
+				month	= June
+				day		= 20
+				random	= 50
+			}
+		}
 		OR = {
 			event = { id = 2002004 days = 120 } #at least 4 months after the defeat of France
 			region = { region = "France" country = -3 value = 90 }
@@ -3009,8 +3038,6 @@ event = {
 			NOT = { war = { country = ENG } } #finished war in the west, or England never guaranteed Poland
 		}
 		#local_flag = GERInvadeRussia
-		NOT = { local_flag = GERInvadePoland }
-		NOT = { local_flag = GERInvadeYugoslavia }
 		NOT = { lost_national = { country = GER value = 2 } }
 		NOT = { war = { country = SPA } }
 		NOT = { war = { country = SPR } }
@@ -3020,6 +3047,7 @@ event = {
 				exists = YUG
 				event = 2003056
 				NOT = { local_flag = ignore_YUG }
+				NOT = { alliance = { country = YUG } }
 			}
 		}
 		
@@ -3047,11 +3075,10 @@ event = {
 				alliance = { country = HUN }
 			}
 		}
-		random = 30
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 4
+	offset = 2
 	deathdate = { day = 29 month = december year = 1963 }
 	
 	name = "evt_4701_name"
@@ -3068,6 +3095,7 @@ event = {
 		command = { trigger = { local_flag = GerSovNAP } type = dissent value = -3 }
 		command = { trigger = { local_flag = GerSovNAP } type = local_clrflag which = GerSovNAP }
 		
+		command = { type = end_trades which = GER where = SOV }
 		command = { type = war which = SOV } 
 	}
 }
@@ -3141,7 +3169,7 @@ event = {
 	
 	decision_trigger = {
 		flag = SPA_GERAssistFlag # GER intervention in SCW
-		flag = SPA_ENGAssistFlag 
+		NOT = { flag = SPA_ENGAssistFlag }
 		garrison = { country = GER province = 326 type = land size = 9 area = 1 } #Spanish border
 		relation = { which = SPA value = 100 }
 		control = { province = 56 data = -3 } # Paris
@@ -3169,7 +3197,7 @@ event = {
 			war = { country = FRA }
 		}
 		flag = SPA_GERAssistFlag 
-		flag = SPA_ENGAssistFlag 
+		NOT = { flag = SPA_ENGAssistFlag }
 		control = { province = 56 data = -3 } # Paris
 		NOT = { alliance = { country = FRA } } #Spain and France are mutually exclusive
 		event = { id = 2002004 days = 60 } #at least 2 months after the defeat of France
@@ -4208,11 +4236,6 @@ event = {
 
 	trigger = {
 		exists = YUG
-		OR = {
-			flag = InvYugoslavia 		
-			random = 50 
-			AND = { year = 1941 month = march } 
-		}
 		event = 2003047 # German 1940 diplomatic offensive
 		event = 2003033 # Tripartite Pact
 		war = { country = ENG }
@@ -4223,7 +4246,10 @@ event = {
 			war = { country = YUG country = ITA }
 			war = { country = YUG country = SOV }
 		}
-		event = { id = 2003047 days = 90 } #3 months minimum
+		OR = {
+			AND = { year = 1941 month = february } 
+			event = { id = 2003047 days = 120 } #4 months minimum
+		}
 		alliance = { country = HUN }
 		#alliance = { country = ROM }
 		OR = { 
@@ -4343,7 +4369,7 @@ event = {
 			alliance = { country = GER }
 			event = { id = 2003053 days = 4 }
 		}
-		NOT = { puppet = { country = YUG country = GER } }
+		#NOT = { puppet = { country = YUG country = GER } }
 		dissent = 20
 	}
 
@@ -4360,7 +4386,7 @@ event = {
 		name = EVT_6_ACTA
 		ai_chance = 90
 		command = { type = end_access which = GER }
-		command = { type = dissent value = -10 } #Some dissent removed, but deep divisions remain
+		command = { type = dissent value = -15 } #Some dissent removed, but deep divisions remain
 		command = { type = leave_alliance when = 1 }
 		command = { type = peace which = ENG value = 1 }
 		command = { type = peace which = SOV value = 1 }
@@ -4395,6 +4421,7 @@ event = {
 		command = { trigger = { NOT = { alliance = { country = GER } } } type = alliance which = GER when = 1 }
 		command = { trigger = { NOT = { event = 2003056 } } type = sleepevent which = 2003056 }
 		command = { trigger = { NOT = { ai = GER } } type = military_control which = GER where = YUG value = 1 }
+		command = { type = event which = 2400044 where = YUG when = 0 } #Exp_4 (need to contain internal revolts)
 	}
 }
 
@@ -4416,6 +4443,7 @@ event = {
 		command = { type = addclaim which = 6560 }
 		
 		command = { type = war which = YUG }
+		command = { type = non_aggression which = YUG where = ROM when = 15 } #Romania itself did not participate and germany attacked from it later
 		command = { type = belligerence which = GER value = 10 }
 	}
 	action = {
@@ -5288,12 +5316,20 @@ event = {
 
 	trigger = {
 		OR = { 
-			random = 1 
+			AND = {
+				NOT = { year = 1940 }
+				random = 1
+			}
+			AND = {
+				year = 1940
+				random = 3
+			}
 			AND = { 
-				year = 1940 
-				#month = 2 
-				random = 20 
-			} 
+				year	= 1940
+				month	= April
+				day		= 7
+				random	= 50
+			}
 			#Somehow ended up at war or in alliance with Norway (e.g. UK made the first move), but needs to attack Denmark
 			war = { country = NOR }
 			alliance = { country = NOR }
@@ -5317,7 +5353,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 6
+	offset = 3
 	deathdate = { day = 29 month = january year = 1960 }
 
 	action_a = {

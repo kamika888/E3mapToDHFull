@@ -1784,7 +1784,11 @@ event = {
 		policy = { type = professional_army value = 3 }
 		OR = {
 			policy = { type = professional_army value = 8 } #General mobilization
-			lost_national = { value = 5 } #Invaded
+			AND = {
+				lost_national = { value = 3 } #Invaded
+				NOT = { lost_national = { value = 100 } } #Colony
+			}
+			lost_IC = { value = 3 } #Invaded
 			local_flag = inMajorWar
 			AND = {
 				continent = "North America"
@@ -1971,8 +1975,11 @@ event = {
 		policy = { type = professional_army value = 3 }
 		OR = {
 			policy = { type = professional_army value = 9 } #Extended mobilization
-			lost_national 	= { value = 5 } #Invaded
-			lost_IC 		= { value = 3 } #Invaded
+			AND = {
+				lost_national = { value = 10 } #Invaded
+				NOT = { lost_national = { value = 100 } } #Colony
+			}
+			lost_IC = { value = 5 } #Invaded
 			local_flag = inMajorWar
 			AND = {
 				continent = "North America"
@@ -2161,8 +2168,11 @@ event = {
 		OR = {
 			policy = { type = professional_army value = 10 } #Total mobilization
 			policy = { type = interventionism value = 10 } 
-			lost_national	= { value = 10 } #Invaded
-			lost_IC 		= { value = 5  } #Invaded
+			AND = {
+				lost_national = { value = 20 } #Invaded
+				NOT = { lost_national = { value = 100 } } #Colony
+			}
+			lost_IC = { value = 15 } #Invaded
 			local_flag = inMajorWar
 		}
 	}
@@ -2218,8 +2228,11 @@ event = {
 		policy = { type = professional_army value = 4 }
 		NOT = { local_flag = { which = WARDebt when = 1 value = 28 } } #Will not enact if nearing exhaustion
 		OR = {
-			lost_national 	= { value = 25 } #Losing territory badly
-			lost_IC 		= { value = 20 } #Losing territory badly
+			AND = {
+				lost_national = { value = 30 } #Losing territory badly
+				NOT = { lost_national = { value = 100 } } #Colony
+			}
+			lost_IC = { value = 25 } #Losing territory badly
 			local_flag = inMajorWar
 		}
 	}
@@ -2278,6 +2291,11 @@ event = {
 		OR = {
 			lost_national	= { value = 40 } #Facing imminent defeat
 			lost_IC 		= { value = 35 } #Facing imminent defeat
+			AND = {
+				lost_national = { value = 40 } #Facing imminent defeat
+				NOT = { lost_national = { value = 100 } } #Colony
+			}
+			lost_IC = { value = 35 } #Facing imminent defeat
 			AND = {
 				local_flag = inMajorWar
 				OR = {
@@ -3788,6 +3806,12 @@ event = {
 		command = { trigger = { local_flag = { which = WARRuin when = 1 value = 1 } } 							type = industrial_modifier 	   	which = ic		value =  1 }
 		command = { trigger = { local_flag = { which = WARRuin when = 1 value = 1 } }							type = local_setflag when = 1	which = WARRuin	value = -1 }
 		
+		#New: Really high WARRuin = faster recovery
+		command = { trigger = { local_flag = { which = WARRuin when = 1 value = 15 } } 							type = industrial_modifier 	   	which = ic		value =  1 }
+		command = { trigger = { local_flag = { which = WARRuin when = 1 value = 15 } }							type = local_setflag when = 1	which = WARRuin	value = -1 }
+		command = { trigger = { local_flag = { which = WARRuin when = 1 value = 30 } } 							type = industrial_modifier 	   	which = ic		value =  1 }
+		command = { trigger = { local_flag = { which = WARRuin when = 1 value = 30 } }							type = local_setflag when = 1	which = WARRuin	value = -1 }
+		
 		
 		command = { trigger = { local_flag = { which = RepPay1	when = 1 value = 1 } } type = industrial_modifier		which = ic		value = -1 } #Paying reparations
 		command = { trigger = { local_flag = { which = RepPay1	when = 1 value = 1 } } type = local_setflag when = 1	which = RepPay1	value = -1 } #Paying reparations
@@ -3959,7 +3983,7 @@ event = {
 }
 
 event = { #Casualties of war
-	#Losses include permanent + wounded. Wounded are about 300% of total
+	#Losses include irrecoverable + wounded. WIA are about 300% of KIA
  
 	id = 3010
 	random = no
@@ -4391,8 +4415,10 @@ event = { #Casualties of war
 		#experience is the best teacher
 		command = { type = gain_tech 			which = -1 }
 		
-		command = { type = industrial_modifier 	which = ic 					value = -1.1 } #-1% temporary, -0.1% permanent GDP loss for each 200,000 casualties.
-		command = { type = local_setflag 		which = WARRuin when = 1 	value = 1    }
+		#-1% temporary, -0.1% permanent GDP loss for each 200,000 casualties. WarRuin disabled until i can figure out how to improve it. Might have to just do it manually for different countries
+		command = { type = industrial_modifier 	which = ic 					value = -0.1 }
+		#command = { type = industrial_modifier which = ic	 				value = -1.0 } 
+		#command = { type = local_setflag 		which = WARRuin when = 1 	value = 1    }
 		
 		command = { type = local_setflag 		which = mpLossesCount 		value = 2 when = 1 }
 		
@@ -4425,8 +4451,10 @@ event = { #Casualties of war
 		#experience is the best teacher
 		command = { type = gain_tech 			which = -1 }
 		
-		command = { type = industrial_modifier 	which = ic 					value = -1.1 } #-1% temporary, -0.1% permanent GDP loss for each 200,000 casualties.
-		command = { type = local_setflag 		which = WARRuin when = 1 	value = 1    }
+		#-1% temporary, -0.1% permanent GDP loss for each 200,000 casualties. WarRuin disabled until i can figure out how to improve it. Might have to just do it manually for different countries
+		command = { type = industrial_modifier 	which = ic 					value = -0.1 }
+		#command = { type = industrial_modifier which = ic	 				value = -1.0 } 
+		#command = { type = local_setflag 		which = WARRuin when = 1 	value = 1    }
 		
 		command = { type = local_setflag 		which = mpLossesCount 		value = 2 when = 1 }
 		
@@ -9397,7 +9425,7 @@ event = {
 	picture = "news_paper"
 
 	action = {
-		name = ACTION_NAME_DAMN
+		name = ACTION_NAME_GREAT
 		trigger = { local_flag = { which = war_preparedness when = 0 value = 1 } }
 		
 		command = { type = surprise 			 		which = naval 					value = 9    }
@@ -9429,7 +9457,7 @@ event = {
 		command = { type = local_clrflag 				which = war_preparedness_debuff }
 	}
 	action = {
-		name = ACTION_NAME_DAMN
+		name = ACTION_NAME_GREAT
 		trigger = { local_flag = { which = war_preparedness when = 0 value = 2 } }
 		
 		command = { type = surprise 			 		which = naval 					value = 8    }
@@ -9461,7 +9489,7 @@ event = {
 		command = { type = local_clrflag 				which = war_preparedness_debuff }
 	}
 	action = {
-		name = ACTION_NAME_DAMN
+		name = ACTION_NAME_GREAT
 		trigger = { local_flag = { which = war_preparedness when = 0 value = 3 } }
 		
 		command = { type = surprise 			 		which = naval 					value = 7    }
@@ -9493,7 +9521,7 @@ event = {
 		command = { type = local_clrflag 				which = war_preparedness_debuff }
 	}
 	action = {
-		name = ACTION_NAME_DAMN
+		name = ACTION_NAME_GREAT
 		trigger = { local_flag = { which = war_preparedness when = 0 value = 4 } }
 		
 		command = { type = surprise 			 		which = naval 					value = 6    }
@@ -9525,7 +9553,7 @@ event = {
 		command = { type = local_clrflag 				which = war_preparedness_debuff }
 	}
 	action = {
-		name = ACTION_NAME_DAMN
+		name = ACTION_NAME_GREAT
 		trigger = { local_flag = { which = war_preparedness when = 0 value = 5 } }
 		
 		command = { type = surprise 			 		which = naval 					value = 5    }
@@ -9557,7 +9585,7 @@ event = {
 		command = { type = local_clrflag 				which = war_preparedness_debuff }
 	}
 	action = {
-		name = ACTION_NAME_DAMN
+		name = ACTION_NAME_GREAT
 		trigger = { local_flag = { which = war_preparedness when = 0 value = 6 } }
 		
 		command = { type = surprise 			 		which = naval 					value = 4    }
@@ -9589,7 +9617,7 @@ event = {
 		command = { type = local_clrflag 				which = war_preparedness_debuff }
 	}
 	action = {
-		name = ACTION_NAME_DAMN
+		name = ACTION_NAME_GREAT
 		trigger = { local_flag = { which = war_preparedness when = 0 value = 7 } }
 		
 		command = { type = surprise 			 		which = naval 					value = 3    }
@@ -9621,7 +9649,7 @@ event = {
 		command = { type = local_clrflag 				which = war_preparedness_debuff }
 	}
 	action = {
-		name = ACTION_NAME_DAMN
+		name = ACTION_NAME_GREAT
 		trigger = { local_flag = { which = war_preparedness when = 0 value = 8 } }
 		
 		command = { type = surprise 			 		which = naval 					value = 2    }
@@ -9653,7 +9681,7 @@ event = {
 		command = { type = local_clrflag 				which = war_preparedness_debuff }
 	}
 	action = {
-		name = ACTION_NAME_DAMN
+		name = ACTION_NAME_GREAT
 		trigger = { local_flag = { which = war_preparedness when = 0 value = 9 } }
 		
 		command = { type = surprise 			 		which = naval 					value = 1    }
@@ -9818,7 +9846,7 @@ event = {
 					}
 				}
 				OR = {
-					NOT = {	lost_IC = { value = 100 } }
+					NOT = {	lost_IC = { value = 100 } }	
 					lost_national = { value = 10 }
 				}
 				OR = {
@@ -9852,10 +9880,33 @@ event = {
 						policy = { 	type = free_market 	value = 2 }
 			}
 		}
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = industry when = all value =  5  }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = industry when = all value =  10 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = industry when = all value =  15 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = industry when = all value =  20 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = industry when = all value =  25 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = industry when = all value =  30 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = industry when = all value =  35 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = industry when = all value =  40 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = industry when = all value =  45 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = supplies when = all value =  11 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = supplies when = all value =  22 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = supplies when = all value =  33 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = supplies when = all value =  44 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = supplies when = all value =  55 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = supplies when = all value =  66 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = supplies when = all value =  77 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = supplies when = all value =  88 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = supplies when = all value =  99 }
+		
+		#command = { 																		type = stockpile which = industry when = all value = -0  }
+		#command = { 																		type = stockpile which = supplies when = all value = -0  }
+		
 		command = { type = set_domestic which = free_market value = 1 }
+		command = { type = local_setflag which = storageLost when = 0 value = 1 }
 	}
 	action = {
-		name = "10% of storage is lost"
+		name = "Over 10% of storage is lost"
 		trigger = { 
 			lost_IC = { value = 10 } 
 			NOT = { lost_IC = { value = 20 } } 
@@ -9864,10 +9915,33 @@ event = {
 						policy = {	type = free_market	value = 3 }
 			}
 		}
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = industry when = all value =  5  }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = industry when = all value =  10 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = industry when = all value =  15 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = industry when = all value =  20 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = industry when = all value =  25 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = industry when = all value =  30 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = industry when = all value =  35 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = industry when = all value =  40 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = industry when = all value =  45 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = supplies when = all value =  11 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = supplies when = all value =  22 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = supplies when = all value =  33 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = supplies when = all value =  44 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = supplies when = all value =  55 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = supplies when = all value =  66 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = supplies when = all value =  77 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = supplies when = all value =  88 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = supplies when = all value =  99 }
+		
+		#command = { 																		type = stockpile which = industry when = all value = -5  }
+		command = { 																		type = stockpile which = supplies when = all value = -11 }
+		
 		command = { type = set_domestic which = free_market value = 2 }
+		command = { type = local_setflag which = storageLost when = 0 value = 2 }
 	}
 	action = {
-		name = "20% of storage is lost"
+		name = "Over 20% of storage is lost"
 		trigger = { 
 			lost_IC = { value = 20 } 
 			NOT = { lost_IC = { value = 30 } } 
@@ -9876,10 +9950,33 @@ event = {
 						policy = {	type = free_market	value = 4 }
 			}
 		}
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = industry when = all value =  5  }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = industry when = all value =  10 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = industry when = all value =  15 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = industry when = all value =  20 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = industry when = all value =  25 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = industry when = all value =  30 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = industry when = all value =  35 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = industry when = all value =  40 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = industry when = all value =  45 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = supplies when = all value =  11 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = supplies when = all value =  22 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = supplies when = all value =  33 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = supplies when = all value =  44 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = supplies when = all value =  55 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = supplies when = all value =  66 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = supplies when = all value =  77 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = supplies when = all value =  88 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = supplies when = all value =  99 }
+		
+		#command = { 																		type = stockpile which = industry when = all value = -10 }
+		command = { 																		type = stockpile which = supplies when = all value = -22 }
+		
 		command = { type = set_domestic which = free_market value = 3 }
+		command = { type = local_setflag which = storageLost when = 0 value = 3 }
 	}
 	action = {
-		name = "30% of storage is lost"
+		name = "Over 30% of storage is lost"
 		trigger = { 
 			lost_IC = { value = 30 } 
 			NOT = { lost_IC = { value = 40 } } 
@@ -9888,10 +9985,33 @@ event = {
 						policy = {	type = free_market	value = 5 }
 			}
 		}
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = industry when = all value =  5  }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = industry when = all value =  10 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = industry when = all value =  15 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = industry when = all value =  20 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = industry when = all value =  25 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = industry when = all value =  30 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = industry when = all value =  35 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = industry when = all value =  40 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = industry when = all value =  45 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = supplies when = all value =  11 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = supplies when = all value =  22 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = supplies when = all value =  33 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = supplies when = all value =  44 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = supplies when = all value =  55 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = supplies when = all value =  66 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = supplies when = all value =  77 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = supplies when = all value =  88 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = supplies when = all value =  99 }
+		
+		#command = { 																		type = stockpile which = industry when = all value = -15 }
+		command = { 																		type = stockpile which = supplies when = all value = -33 }
+		
 		command = { type = set_domestic which = free_market value = 4 }
+		command = { type = local_setflag which = storageLost when = 0 value = 4 }
 	}
 	action = {
-		name = "40% of storage is lost"
+		name = "Over 40% of storage is lost"
 		trigger = { 
 			lost_IC = { value = 40 } 
 			NOT = { lost_IC = { value = 50 } } 
@@ -9900,10 +10020,33 @@ event = {
 						policy = {	type = free_market	value = 6 }
 			}
 		}
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = industry when = all value =  5  }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = industry when = all value =  10 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = industry when = all value =  15 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = industry when = all value =  20 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = industry when = all value =  25 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = industry when = all value =  30 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = industry when = all value =  35 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = industry when = all value =  40 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = industry when = all value =  45 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = supplies when = all value =  11 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = supplies when = all value =  22 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = supplies when = all value =  33 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = supplies when = all value =  44 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = supplies when = all value =  55 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = supplies when = all value =  66 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = supplies when = all value =  77 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = supplies when = all value =  88 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = supplies when = all value =  99 }
+		
+		#command = { 																		type = stockpile which = industry when = all value = -20 }
+		command = { 																		type = stockpile which = supplies when = all value = -44 }
+		
 		command = { type = set_domestic which = free_market value = 5 }
+		command = { type = local_setflag which = storageLost when = 0 value = 5 }
 	}
 	action = {
-		name = "50% of storage is lost"
+		name = "Over 50% of storage is lost"
 		trigger = { 
 			lost_IC = { value = 50 } 
 			NOT = { lost_IC = { value = 60 } } 
@@ -9913,10 +10056,33 @@ event = {
 						policy = {	type = free_market	value = 7 }
 			}
 		}
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = industry when = all value =  5  }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = industry when = all value =  10 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = industry when = all value =  15 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = industry when = all value =  20 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = industry when = all value =  25 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = industry when = all value =  30 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = industry when = all value =  35 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = industry when = all value =  40 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = industry when = all value =  45 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = supplies when = all value =  11 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = supplies when = all value =  22 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = supplies when = all value =  33 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = supplies when = all value =  44 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = supplies when = all value =  55 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = supplies when = all value =  66 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = supplies when = all value =  77 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = supplies when = all value =  88 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = supplies when = all value =  99 }
+		
+		#command = { 																		type = stockpile which = industry when = all value = -25 }
+		command = { 																		type = stockpile which = supplies when = all value = -55 }
+		
 		command = { type = set_domestic which = free_market value = 6 }
+		command = { type = local_setflag which = storageLost when = 0 value = 6 }
 	}
 	action = {
-		name = "60% of storage is lost"
+		name = "Over 60% of storage is lost"
 		trigger = { 
 			lost_IC = { value = 60 } 
 			NOT = { lost_IC = { value = 70 } } 
@@ -9926,10 +10092,33 @@ event = {
 						policy = {	type = free_market	value = 8 }
 			}
 		}
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = industry when = all value =  5  }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = industry when = all value =  10 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = industry when = all value =  15 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = industry when = all value =  20 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = industry when = all value =  25 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = industry when = all value =  30 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = industry when = all value =  35 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = industry when = all value =  40 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = industry when = all value =  45 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = supplies when = all value =  11 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = supplies when = all value =  22 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = supplies when = all value =  33 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = supplies when = all value =  44 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = supplies when = all value =  55 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = supplies when = all value =  66 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = supplies when = all value =  77 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = supplies when = all value =  88 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = supplies when = all value =  99 }
+		
+		#command = { 																		type = stockpile which = industry when = all value = -30 }
+		command = { 																		type = stockpile which = supplies when = all value = -66 }
+		
 		command = { type = set_domestic which = free_market value = 7 }
+		command = { type = local_setflag which = storageLost when = 0 value = 7 }
 	}
 	action = {
-		name = "70% of storage is lost"
+		name = "Over 70% of storage is lost"
 		trigger = { 
 			lost_IC = { value = 70 } 
 			NOT = { lost_IC = { value = 80 } } 
@@ -9939,10 +10128,33 @@ event = {
 						policy = {	type = free_market	value = 9 }
 			}
 		}
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = industry when = all value =  5  }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = industry when = all value =  10 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = industry when = all value =  15 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = industry when = all value =  20 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = industry when = all value =  25 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = industry when = all value =  30 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = industry when = all value =  35 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = industry when = all value =  40 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = industry when = all value =  45 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = supplies when = all value =  11 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = supplies when = all value =  22 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = supplies when = all value =  33 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = supplies when = all value =  44 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = supplies when = all value =  55 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = supplies when = all value =  66 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = supplies when = all value =  77 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = supplies when = all value =  88 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = supplies when = all value =  99 }
+		
+		#command = { 																		type = stockpile which = industry when = all value = -35 }
+		command = { 																		type = stockpile which = supplies when = all value = -77 }
+		
 		command = { type = set_domestic which = free_market value = 8 }
+		command = { type = local_setflag which = storageLost when = 0 value = 8 }
 	}
 	action = {
-		name = "80% of storage is lost"
+		name = "Over 80% of storage is lost"
 		trigger = { 
 			lost_IC = { value = 80 } 
 			NOT = { lost_IC = { value = 90 } } 
@@ -9952,10 +10164,33 @@ event = {
 						policy = {	type = free_market	value = 10 }
 			}
 		}
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = industry when = all value =  5  }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = industry when = all value =  10 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = industry when = all value =  15 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = industry when = all value =  20 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = industry when = all value =  25 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = industry when = all value =  30 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = industry when = all value =  35 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = industry when = all value =  40 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = industry when = all value =  45 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = supplies when = all value =  11 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = supplies when = all value =  22 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = supplies when = all value =  33 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = supplies when = all value =  44 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = supplies when = all value =  55 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = supplies when = all value =  66 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = supplies when = all value =  77 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = supplies when = all value =  88 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = supplies when = all value =  99 }
+		
+		#command = { 																		type = stockpile which = industry when = all value = -40 }
+		command = { 																		type = stockpile which = supplies when = all value = -88 }
+		
 		command = { type = set_domestic which = free_market value = 9 }
+		command = { type = local_setflag which = storageLost when = 0 value = 9 }
 	}
 	action = {
-		name = "90% of storage is lost"
+		name = "Over 90% of storage is lost"
 		trigger = { 
 			OR = {
 				lost_IC = { value = 90 } 
@@ -9970,7 +10205,30 @@ event = {
 			}
 			NOT = { policy = { 	type = free_market	value = 10 } } 
 		}
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = industry when = all value =  5  }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = industry when = all value =  10 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = industry when = all value =  15 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = industry when = all value =  20 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = industry when = all value =  25 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = industry when = all value =  30 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = industry when = all value =  35 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = industry when = all value =  40 }
+		#command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = industry when = all value =  45 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 2 } } 	type = stockpile which = supplies when = all value =  11 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 3 } } 	type = stockpile which = supplies when = all value =  22 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 4 } } 	type = stockpile which = supplies when = all value =  33 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 5 } } 	type = stockpile which = supplies when = all value =  44 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 6 } } 	type = stockpile which = supplies when = all value =  55 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 7 } } 	type = stockpile which = supplies when = all value =  66 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 8 } } 	type = stockpile which = supplies when = all value =  77 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 9 } } 	type = stockpile which = supplies when = all value =  88 }
+		command = { trigger = { local_flag = { which = storageLost when = 0 value = 10 } }	type = stockpile which = supplies when = all value =  99 }
+		
+		#command = { 																		type = stockpile which = industry when = all value = -45 }
+		command = { 																		type = stockpile which = supplies when = all value = -99 }
+		
 		command = { type = set_domestic which = free_market value = 10 }
+		command = { type = local_setflag which = storageLost when = 0 value = 10 }
 	}
 }
 

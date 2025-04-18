@@ -1841,21 +1841,17 @@ province = { id = 154   # Arkhangelsk - Arkhangelsk - Northern Russia
 province = { id = 7003   # Kirjasali
    landfort = 2 
 } 
-
-province = { id = 7003   # Kirjasali
-   landfort = 1 
-} 
  
 province = { id = 188   # Kingisepp - Novgorod - Western Russia
-   landfort = 1 
+   landfort = 2 
 } 
  
 province = { id = 192   # Gdov - Novgorod - Western Russia
-   landfort = 1 
+   landfort = 2 
  } 
   
 province = { id = 7002   # Luga - Western Russia
-   landfort = 1 
+   landfort = 2 
  }   
  
 province = { id = 3400   # Lepiel - Western Russia
@@ -1863,7 +1859,7 @@ province = { id = 3400   # Lepiel - Western Russia
  } 
   
 province = { id = 7065   # Starobin - Western Russia
-   landfort = 2
+   landfort = 1
  } 
    
 province = { id = 3401   # Pietrykau - Western Russia
@@ -1893,7 +1889,7 @@ province = { id = 1564   # Opochka - Pskov - Western Russia
  } 
  
 province = { id = 201   # Pskov - Pskov - Western Russia
-   landfort = 2 
+   landfort = 1 
  } 
  
 province = { id = 175   # Moscow - Moscow - Russia
@@ -1958,16 +1954,16 @@ province = { id = 161   # Kamenets-Podolsky - Transnistria - Ukraine
  } 
  
 province = { id = 231   # Mogilev-Podolsky
-   landfort = 1 
+   landfort = 2 
  } 
  
  province = { id = 1571   # Tiraspol
-   landfort = 1 
+   landfort = 2 
  } 
 
 province = { id = 233   # Odessa - Odessa - Ukraine
    anti_air = 3 
-   landfort = 2 
+   landfort = 1 
  } 
  
 province = { id = 228   # Vinnitsa

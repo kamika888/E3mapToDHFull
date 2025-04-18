@@ -115,7 +115,15 @@ event = {
 					year = 1938
 					AND = {
 						event = { id = 2012014 days = 150 } #5 months Xi'an incident
-						random = 25
+						OR = {
+							random = 2
+							AND = { 
+								year 	= 1937
+								month	= July
+								day		= 6
+								random	= 50
+							}
+						}
 					}
 					AND = {
 						NOT = { war = { country = CHI country = CHC } }
@@ -127,7 +135,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1933 }
-	offset = 5
+	offset = 2
 	deathdate = { day = 29 month = august year = 1963 }
 
 	action = {
@@ -148,11 +156,7 @@ event = {
 		command = { type = event which = 2400537 where = MEN when = 0 } #medium-strong puppet
 		#command = { type = alliance which = MAN when = 1 }
 		command = { type = trigger which = 2011001 }
-		command = { type = event which = 2400010 where = MEN when = 0 } #reset province priorities
-		command = { type = event which = 2400041 where = MEN when = 0 } #10 exp
-		command = { type = event which = 2400045 where = MAN when = 0 } #50 exp
-		command = { type = event which = 2400043 where = U87 when = 0 } #30 exp
-		command = { type = event which = 2400056 where = U87 when = 0 } #unenforcenoexp
+
 		command = { type = secedeprovince which = U87 value = 1203 when = 1 }
 		#command = { type = secedeprovince which = MEN value = 1206 when = 1 }
 		#command = { type = secedeprovince which = MEN value = 5626 when = 1 }
@@ -177,10 +181,13 @@ event = {
 		command = { type = ai which = "nations\JAP_CHI.ai" }
 		command = { trigger = { ai = yes NOT = { local_flag = MOB7 } NOT = { local_flag = demob } } type = trigger which = 8300107 } #partial Mobilization
 		
+		command = { trigger = { ai = MEN } 	type = event 	which = 2400010 where = MEN when = 0 } #reset province priorities
+		command = { trigger = { ai = U87 } 	type = event 	which = 2400056 where = U87 when = 0 } #unenforcenoexp
 		command = { trigger = { ai = MEN } 	type = event 	which = 2400009 where = MEN when = 0 } #front leader no
 		command = { trigger = { ai = JAP } 	type = event 	which = 2400047 where = JAP when = 0 } #70 exp
+		command = { trigger = { ai = MAN } 	type = event 	which = 2400043 where = MAN when = 0 } #30 exp
+		command = { trigger = { ai = U87 } 	type = event 	which = 2400043 where = U87 when = 0 } #30 exp
 		command = { trigger = { ai = MEN } 	type = event 	which = 2400042 where = MEN when = 0 } #20 exp
-		command = { trigger = { ai = MAN } 	type = event 	which = 2400042 where = MAN when = 0 } #20 exp
 		command = { trigger = { puppet = { country = MEN country = JAP } }	type = military_control which = JAP where = MEN value = 1 }
 		
 		command = { type = end_non_aggression which = U58 where = JAP }
@@ -2049,7 +2056,7 @@ event = {
 		command = { type = setflag which = SOV_JAP_undeclared_war }
 		
 		#60 days to prepare on the Mongolian border
-		command = { trigger = { ai = yes }	type = local_setflag	which = japChi value = 10 }
+		command = { trigger = { ai = yes }	type = setflag			which = japChi value = 10 }
 		command = { trigger = { ai = yes }	type = ai 				which = "home_10.ai" }
 		
 		command = { trigger = { OR = { ai = SOV ai = JAP } } 	type = non_aggression which = JAP where = SOV when = 30 } 
@@ -2521,13 +2528,16 @@ event = {
 	persistent = yes
 
 	name = "Major revolt in Manchuria"
-	desc = "As the Japanese withdrew the bulk of their forces from Manchuria to confront threats in other parts of the world, the Chinese partisans used this opportunity to reorganize in the countryside and launch a new major insurgency against the government of Manchukuo. Japan needs to keep at least 15 divisions in Manchuria at all times to contain major revolts."
+	desc = "As the Japanese withdrew the bulk of their forces from Manchuria to confront threats in other parts of the world, the Chinese partisans used this opportunity to reorganize in the countryside and launch a new major insurgency against the government of Manchukuo. The Japanese and Manchurian Armies both need to keep at least 15 divisions in Manchuria at all times (30 divisions total) to contain major revolts."
 	style = 2
 
 	trigger = {
 		NOT = { ai = JAP }
 		NOT = { flag = ManRevoltCooldown }
-		NOT = { garrison = { country = JAP province = 2241 type = land size = 15 area = yes } }
+		OR = {
+			NOT = { garrison = { country = MAN province = 2241 type = land size = 15 area = yes } }
+			NOT = { garrison = { country = JAP province = 2241 type = land size = 15 area = yes } }
+		}
 	}
 
 	date = { day = 1 month = january year = 1936 }
@@ -2564,7 +2574,7 @@ event = {
 	persistent = yes
 
 	name = "Major revolt in Manchuria"
-	desc = "As the Japanese withdrew the bulk of their forces from Manchuria to confront threats in other parts of the world, the Chinese partisans used this opportunity to reorganize in the countryside and launch a new major insurgency against the government of Manchukuo. Japan needs to keep at least 15 divisions in Manchuria at all times to contain major revolts."
+	desc = "As the Japanese withdrew the bulk of their forces from Manchuria to confront threats in other parts of the world, the Chinese partisans used this opportunity to reorganize in the countryside and launch a new major insurgency against the government of Manchukuo. The Japanese and Manchurian Armies both need to keep at least 15 divisions in Manchuria at all times (30 divisions total) to contain major revolts."
 	style = 2
 
 	action = {
@@ -3844,9 +3854,6 @@ event = {
 		
 		command = { type = secederegion which = IND value = "India" when = 1 }
 		
-		command = { type = set_domestic which = freedom			value = 2 }
-		command = { type = set_domestic which = interventionism value = 2 }
-		
 		command = { type = remove_claim_region   which = "India" where = JAP }
 
 		command = { type = trigger which = 203211 }
@@ -3884,6 +3891,9 @@ event = {
 		
 		command = { type = manpowerpool value = 60  }
 		command = { type = supplies 	value = 100 }
+		
+		command = { type = set_domestic which = freedom			value = 2 }
+		command = { type = set_domestic which = interventionism value = 2 }
 		
 		command = { type = flag_ext where = IND		which = "_UIN" }
 

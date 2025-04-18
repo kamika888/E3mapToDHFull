@@ -16,8 +16,8 @@ country =
 	oil                    = 4000 
 	supplies               = 500 
 	money                  = 30 
-	manpower               = 1453 #mob 5 instead of 6
-	dissent                = 5 
+	manpower               = 1553 #mob 5 instead of 6
+	dissent                = 12 
 	transports             = 300 
 	escorts                = 20 
   diplomacy =
@@ -296,7 +296,7 @@ inventions = { 3000027 }
    armamentminister       = {  type = 9 id = 30004  } 
    ministerofsecurity     = {  type = 9 id = 30005  } 
    ministerofintelligence = {  type = 9 id = 30006  } 
-   chiefofstaff           = {  type = 9 id = 30007  } 
+   chiefofstaff           = {  type = 9 id = 30153  } 
    chiefofarmy            = {  type = 9 id = 30008  } 
    chiefofnavy            = {  type = 9 id = 30009  } 
    chiefofair             = {  type = 9 id = 30010  } 
