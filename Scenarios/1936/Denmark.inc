@@ -52,7 +52,7 @@ country =
 1588
 2078 2105
   }
-  claimedprovinces = { 3301 3302 93 3303 7370 7045 7986 90 88 2370 }
+  claimedprovinces = { 3301 3302 93 3303 7370 7045 7986 90 88 89 }
   # Western Minor Tech '36
   # Group C 1936 techs
   # ######################

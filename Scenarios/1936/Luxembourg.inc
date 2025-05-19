@@ -86,7 +86,7 @@ country =
      free_market       = 1
      professional_army = 1 
      defense_lobby     = 2 
-     interventionism   = 1
+     interventionism   = 2
   }
 inventions = { 3000027 }
    headofstate            = {  type = 9 id = 385001  } 

@@ -127,7 +127,7 @@ country =
  inventions = { 3000027 }
   policy =
   { date              = { year = 0 month = january day = 0 }
-     democratic        = 7 
+     democratic        = 8 
      political_left    = 3 
      freedom           = 3 
      free_market       = 1

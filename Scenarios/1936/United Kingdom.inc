@@ -8,13 +8,13 @@ country =
   capital                = 19
 	manpower               = 20 
 	dissent 			   = 5
-	energy                 = 8040
-	metal                  = 4020
-	rare_materials         = 2010
-	oil                    = 500 
+	energy                 = 80400
+	metal                  = 40200
+	rare_materials         = 20100
+	oil                    = 5000 
 	supplies               = 500 
 	money                  = 70 
-	transports             = 800 
+	transports             = 1300 
 	escorts                = 150 
   #Turkish straits
   free = {
@@ -283,7 +283,7 @@ country =
 2238 2234 2085
 1756 1764
 1609 1610 1606 1607 1605
-95 418 
+7004 418 7012 7013
 2633 2743 2744 2763 2765 2766 2767
 2768 2769 2770 2771 2782 2783 2799 2800 2801 2802
 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812

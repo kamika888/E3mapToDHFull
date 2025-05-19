@@ -10,9 +10,9 @@ country =
   ai					 = "EXP_0_01.ai"
   capital                = 175
 	# Resource Reserves 
-	energy                 = 16000 
-	metal                  = 8000 
-	rare_materials         = 4000 
+	energy                 = 86000 
+	metal                  = 40000 
+	rare_materials         = 20000 
 	oil                    = 4000 
 	supplies               = 500 
 	money                  = 30 

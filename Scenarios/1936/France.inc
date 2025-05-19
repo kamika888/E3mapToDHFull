@@ -4,13 +4,13 @@
 
 country =
 { tag                    = FRA
-  ai_settings			 = { flags = { WARDebt = 16 } }
+  ai_settings			 = { flags = { WARDebt = 16 garSpec = 1 } }
   capital                = 56
 	# Resource Reserves 
-	energy                 = 7440
-	metal                  = 3720
-	rare_materials         = 1860
-	oil                    = 500 
+	energy                 = 44400
+	metal                  = 17200
+	rare_materials         = 12600
+	oil                    = 4000 
 	supplies               = 500 
 	money                  = 50 
 	manpower               = 380 
@@ -1931,12 +1931,12 @@ landunit =
     }
 	landunit = {  
 		id = {  type = 13500 id = 2055  } 
-		location = 1794 
-		name = "Beirut Garrison"
+		location = 1792
+		name = "Damascus Garrison"
 		Division = 
 		{
 			id       = {  type = 13500 id = 2024 } 
-			name     = "Beirut Garrison" 
+			name     = "8e Division d'Infanterie" 
 			type     = infantry 
 			model    = 8 
 			locked = yes
@@ -1944,21 +1944,41 @@ landunit =
 			brigade_model = 4
 		} 
     }
+	landunit = {  
+		id = {  type = 13500 id = 2056  } 
+		location = 1794 
+		name = "Beirut Garrison"
+		Division = 
+		{
+			id       = {  type = 13500 id = 2025 } 
+			name     = "6e Division d'Infanterie" 
+			type     = infantry 
+			model    = 8 
+			locked = yes
+		} 
+    }
 	
 	landdivision = { dormant = yes id = { type = 13500 id = 2010 } 	name = "27ème Division Alpine" 				type = bergsjaeger model = 8 }
 	
-	landdivision = { dormant = yes id = { type = 13500 id = 2034 } 	name = "Legion etrangere 5e REI" 			type = infantry model = 10 experience = 60 locked = yes }
-	landdivision = { dormant = yes id = { type = 13500 id = 2035 } 	name = "Division du Annam-Laos" 			type = garrison model = 6 locked = yes }
-	landdivision = { dormant = yes id = { type = 13500 id = 2036 } 	name = "Division du Tonkin"  				type = garrison model = 6 locked = yes }
-	landdivision = { dormant = yes id = { type = 13500 id = 2037 } 	name = "Division du Cochinchina-Cambodia" 	type = infantry model = 10 extra = artillery brigade_model = 8 locked = yes }
-	landdivision = { dormant = yes id = { type = 13500 id = 2038 } 	name = "French Forces in the Levant" 		type = infantry model = 10 extra = light_armor_brigade brigade_model = 6 locked = yes }
-	#landdivision = { dormant = yes id = { type = 13500 id = 2039 } name = "French Forces in the Levant" 		type = infantry model = 12 extra = light_armor_brigade brigade_model = 4 locked = no } #To U04
+	#After vichy is formed
+	landdivision = { dormant = yes id = { type = 13500 id = 2034 } 	name = "Legion etrangere 5e REI" 			type = infantry model = 10 experience = 60 									locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2035 } 	name = "Division du Annam-Laos" 			type = garrison model = 6 													locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2036 } 	name = "Division du Tonkin"  				type = garrison model = 6 													locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2037 } 	name = "Division du Cochinchina-Cambodia" 	type = infantry model = 10 extra = artillery brigade_model = 8 				locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2038 } 	name = "8e Division d'Infanterie" 			type = infantry model = 10 extra = light_armor_brigade brigade_model = 6 	locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2039 } 	name = "6e Division d'Infanterie" 			type = infantry model = 10 												 	locked = yes }
 	
-	landdivision = { dormant = yes id = { type = 13500 id = 2040 } 	name = "Legion etrangere 5e REI" 			type = infantry model = 11 experience = 60 locked = yes }
-	landdivision = { dormant = yes id = { type = 13500 id = 2041 } 	name = "Division du Annam-Laos" 			type = garrison model = 6 locked = no }
-	landdivision = { dormant = yes id = { type = 13500 id = 2042 } 	name = "Division du Tonkin"  				type = garrison model = 6 locked = no }
-	landdivision = { dormant = yes id = { type = 13500 id = 2043 } 	name = "Division du Cochinchina-Cambodia" 	type = infantry model = 11 extra = artillery brigade_model = 9 locked = no }
-	#landdivision = { dormant = yes id = { type = 13500 id = 2044 } name = "French Forces in the Levant" 		type = infantry model = 11 extra = light_armor_brigade brigade_model = 7 locked = no }
+	#Mandatory/German version
+	landdivision = { dormant = yes id = { type = 13501 id = 2038 } name = "8e Division d'Infanterie" 			type = infantry model = 10 extra = light_armor_brigade brigade_model = 6	locked = no }
+	landdivision = { dormant = yes id = { type = 13501 id = 2039 } name = "6e Division d'Infanterie" 			type = infantry model = 10 													locked = no }
+	
+	#after vichy collapse, for operation bright moon. Since free france inherits Vichy, it should inherit the dormand divisions as well
+	landdivision = { dormant = yes id = { type = 13500 id = 2040 } 	name = "Legion etrangere 5e REI" 			type = infantry model = 11 experience = 60 									locked = no }
+	landdivision = { dormant = yes id = { type = 13500 id = 2041 } 	name = "Division du Annam-Laos" 			type = garrison model = 6 													locked = no }
+	landdivision = { dormant = yes id = { type = 13500 id = 2042 } 	name = "Division du Tonkin"  				type = garrison model = 6 													locked = no }
+	landdivision = { dormant = yes id = { type = 13500 id = 2043 } 	name = "Division du Cochinchina-Cambodia" 	type = infantry model = 11 extra = artillery brigade_model = 9 				locked = no }
+	#landdivision = { dormant = yes id = { type = 13500 id = 2044 } name = "8e Division d'Infanterie" 			type = infantry model = 11 extra = light_armor_brigade brigade_model = 7 	locked = no }
+	#landdivision = { dormant = yes id = { type = 13500 id = 2045 } name = "6e Division d'Infanterie" 			type = infantry model = 11 												 	locked = no }
 	
 	landdivision = { dormant = yes id = { type = 14800 id = 855 }  	name = "First Army HQ"  					type = hq 		model = 4	extra = anti_air 		brigade_model = 4	}
 	landdivision = { dormant = yes id = { type = 14800 id = 857 }  	name = "1st Infantry Division"			  	type = infantry model = 11	extra = artillery 		brigade_model = 10  } 	

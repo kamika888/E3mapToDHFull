@@ -491,7 +491,8 @@ event = {
 	id = 2074001
 	random = no
 	country = IRQ
-	
+	save_date = yes
+
 	trigger = { 
 		event = 2003047 #German Diplo offensive
 		war = { country = GER country = ENG }
@@ -504,8 +505,9 @@ event = {
 			random = 1 
 			AND = { year = 1941 random = 15 } 
 			AND = { year = 1942 random = 40 } 
-			control = { province = 900 data = GER } #Suez
-			control = { province = 900 data = ITA } #Suez
+			region = { region = "Anatolia"	country = GER data = 1 value = 20 }
+			NOT = { area = { area = "Palestine"	country = -3 data = 1 value = 20 } }
+			NOT = { control = { province = 900 data = -3 } } #Suez
 			alliance = { country = GER country = EGY }
 		}
 	}
@@ -523,22 +525,18 @@ event = {
 		ai_chance = 90
 		name = 8a
 		command = { type = end_puppet }
-		command = { type = secedeprovince which = ENG value = 4157 when = 2 }
-		command = { type = secedeprovince which = ENG value = 1823 when = 2 }
-		command = { type = supplies value = 500 where = 4157 }
-		command = { type = oilpool	value = 50	where = 4157 }
 		command = { type = leave_alliance when = 1 }
 		command = { type = peace which = GER value = 1 }
 		command = { type = peace which = FRA value = 1 }
 		command = { type = end_access which = ENG }
-		#command = { type = alliance which = GER when = 1 }
+		command = { type = alliance which = GER when = 1 }
 		command = { type = access which = GER }
 		command = { type = access which = ITA }
 		command = { type = access which = FRA }
 		command = { type = dissent value = -5 } #was 15. Still significant internal opposition
 		command = { type = relation which = ENG value = -75 }
 		command = { type = relation which = GER value = 40 }
-		command = { type = domestic which = political_left value = 3 }
+		command = { type = set_domestic which = political_left value = 3 }
 		command = { type = headofstate which = 365136 } #Rashid Ali al-Gaylani
 		command = { type = headofgovernment which = 365030 } #Rashid Ali al-Gaylani
 		command = { type = foreignminister which = 365052 } #Rashid Ali al-Gaylani
@@ -550,15 +548,26 @@ event = {
 		command = { type = chiefofnavy which = 365137 } #Rashid Ali al-Gaylani
 		command = { type = chiefofair which = 365172 } #Mahmud Salman
 		command = { type = event which = 2400530 where = IRQ when = 0 } #independent state
-		command = { type = non_aggression which = ENG where = IRQ when = 6 } #6 days non-aggression
-		command = { type = event which = 2022005 where = ENG when = 7 }
-		command = { type = unlock_division which = 12700 value = 21 } #Iraq
-		command = { type = unlock_division which = 12700 value = 23 } #Iraq
+		command = { type = event which = 2022005 where = ENG when = 0 }
+		#not necessary
+		#command = { type = non_aggression which = ENG where = IRQ when = 6 } #6 days non-aggression
+		#command = { type = secedeprovince which = ENG value = 4157 when = 2 }
+		#command = { type = secedeprovince which = ENG value = 1823 when = 2 }
+		#command = { type = supplies value = 500 where = 4157 }
+		#command = { type = oilpool	value = 50	where = 4157 }
 	}
 	
 	action = {
 		ai_chance = 10
 		name = ACTION_NAME_THE_COUP_HAS_FAILED
+		trigger = {
+			NOT = {
+				region = { region = "Anatolia"	country = GER data = 1 value = 20 }
+				NOT = { area = { area = "Palestine"	country = -3 data = 1 value = 20 } }
+				NOT = { control = { province = 900 data = -3 } } #Suez
+				alliance = { country = GER country = EGY }
+			}
+		}
 		command = { type = dissent value = 10 }
 		command = { type = revolt which = -2 }
 		command = { type = revolt which = -2 }
@@ -579,17 +588,17 @@ event = {
 	action = {
 		name = "Punish them!"
 		ai_chance = 100
-		command = { type = war which = IRQ }
+		command = { type = unlock_division which = 12700 value = 21 } #Iraq
+		command = { type = unlock_division which = 12700 value = 23 } #Iraq
 		command = { type = dissent value = 1 } #Arab subjects are not happy
 		command = { trigger = { NOT = { ai = GER } } type = military_control which = GER where = IRQ value = 1 }
 	}
-	
 	action = {
-		ai_chance = 0
 		name = "Leave them alone"
+		ai_chance = 0
 		command = { type = dissent value = 10 } #Major show of weakness. Now everybody wants to revolt. Especially Arabs.
-		command = { type = secedeprovince which = IRQ value = 4157 when = 2 }
-		command = { type = secedeprovince which = IRQ value = 1823 when = 2 }
+		#command = { type = secedeprovince which = IRQ value = 4157 when = 2 }
+		#command = { type = secedeprovince which = IRQ value = 1823 when = 2 }
 	}
 }
 
@@ -653,6 +662,7 @@ event = {
 		name = "Another solid victory"
 		command = { type = make_puppet which = IRQ }
 		command = { type = event which = 2400537 where = IRQ when = 0 } #puppet level 7
+		command = { trigger = { ai = IRQ } 	type = event which = 2400097 where = IRQ when = 0 } #garSpec
 		command = { trigger = { ai = IRQ }	type = event which = 2400020 where = IRQ when = 0 } #gar100
 		command = { trigger = { ai = IRQ }	type = event which = 2400040 where = IRQ when = 0 } #exp0
 		command = { trigger = { ai = IRQ }	type = event which = 2400055 where = IRQ when = 0 } #enforcenoexp
@@ -696,10 +706,10 @@ event = {
         }
 		control = { province = 1862 data = -3 } #Aleppo
 		control = { province = 1865 data = -3 } #Baghdad
-		control = { province = 1792 data = -3 } #Damascus
 		OR = {
 			event = 2074001 #Iraq coup
 			event = 1942
+			control = { province = 1792 data = -3 } #Damascus
 		}
     }
 
@@ -802,6 +812,7 @@ event = {
 		command = { type = belligerence value = 3 }
 		command = { type = set_relation which = USA value = -10 }
 		command = { type = war which = PER }
+		command = { trigger = { NOT = { ai = GER } } type = military_control which = GER where = PER value = 1 }
 	}
 }
 
@@ -979,6 +990,8 @@ event = {
 		command = { type = end_trades	which = PER where = GER }
 		command = { type = dissent		value = 15 }
 		
+		
+		command = { trigger = { ai = PER } type = event which = 2400097 where = PER when = 0 }
 		command = { trigger = { ai = PER } type = event which = 2400040 where = PER when = 0 }
 		command = { trigger = { ai = PER } type = event	which = 2400055 where = PER when = 0 }
 		command = { trigger = { ai = PER } type = event which = 2400020 where = PER when = 0 }
@@ -1184,6 +1197,7 @@ event = {
 		command = { type = chiefofarmy which = 270043 }
 		command = { type = chiefofnavy which = 270049 }
 		command = { type = chiefofair which = 270052 }
+		#command = { type = local_setflag which = sliderSet }
 		}
 	}
 
@@ -1252,6 +1266,7 @@ event = {
 		command = { type = chiefofarmy which = 590048 }
 		command = { type = chiefofnavy which = 590052 }
 		command = { type = chiefofair which = 590056 }
+		#command = { type = local_setflag which = sliderSet }
 	}
 }
 
@@ -1310,6 +1325,9 @@ event = {
 
 	action = {
 		name = "EVT_900127_ACTA"
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom		 	value = 2  }
+		command = { type = set_domestic which = interventionism	value = 3  }
 		command = { type = dissent value = -10 }
 		command = { type = set_domestic which = political_left value = 4 }
 		command = { type = headofstate which = 340011 }
@@ -1394,6 +1412,7 @@ event = {
 		command = { type = chiefofarmy which = 465041 }
 		command = { type = chiefofnavy which = 465046 }
 		command = { type = chiefofair which = 465050 }
+		#command = { type = local_setflag which = sliderSet }
 		}
 	}
 	
@@ -1497,6 +1516,10 @@ event = {
 
 	action = {
 		name = "EVT_900127_ACTA"
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom		 	value = 7  }
+		command = { type = set_domestic which = defense_lobby 	value = 5  }
+		command = { type = set_domestic which = interventionism	value = 8  }
 		command = { type = dissent value = -10 }
 		command = { type = set_domestic which = political_left value = 7 }
 		command = { type = headofstate which = 675001 }
@@ -1571,6 +1594,10 @@ event = {
 
 	action = {
 		name = "EVT_900127_ACTA"
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom		 	value = 2  }
+		command = { type = set_domestic which = defense_lobby 	value = 3  }
+		command = { type = set_domestic which = interventionism	value = 3  }
 		command = { type = dissent value = -10 }
 		command = { type = set_domestic which = political_left value = 4 }
 		command = { type = headofstate which = 370001 }
@@ -1639,6 +1666,9 @@ event = {
 
 	action = {
 		name = "EVT_900127_ACTA"
+		#command = { type = local_setflag which = sliderSet }
+		#command = { type = set_domestic which = freedom		 	value = 2  }
+		#command = { type = set_domestic which = interventionism	value = 3  }
 		command = { type = dissent value = -10 }
 		command = { type = set_domestic which = political_left value = 4 }
 		command = { type = headofstate which = 685001 }
@@ -1658,7 +1688,7 @@ event = {
 ##### The Independance of LIBYA 
 
 event = {
-	id = 2006019
+	id = 2006200
 	random = no
 	country = ENG
 
@@ -1708,6 +1738,9 @@ event = {
 
 	action = {
 		name = "EVT_900127_ACTA"
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom		 	value = 2  }
+		command = { type = set_domestic which = interventionism	value = 3  }
 		command = { type = dissent value = -10 }
 		command = { type = set_domestic which = political_left value = 4 }
 		command = { type = headofstate which = 495011 }
@@ -1985,6 +2018,9 @@ event = {
 
 	action = {
 		name = "EVT_900127_ACTA"
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom		 	value = 3  }
+		command = { type = set_domestic which = interventionism	value = 3  }
 		command = { type = dissent value = -10 }
 		command = { type = set_domestic which = political_left value = 4 }
 		command = { type = headofstate which = 375013 }
@@ -2052,6 +2088,9 @@ event = {
 
 	action = {
 		name = "EVT_900127_ACTA"
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom		 	value = 3  }
+		command = { type = set_domestic which = interventionism	value = 3  }
 		command = { type = dissent value = -10 }
 		command = { type = set_domestic which = political_left value = 4 }
 	}
@@ -2288,7 +2327,7 @@ event = {
 	action = {
 		name = "Cnuke_act"
 		command = { type = capital which = 513 } #Florence
-		command = { trigger = { NOT = { event = 2006019 } } type = sleepevent which = 2006019 }
+		command = { trigger = { NOT = { event = 2006200 } } type = sleepevent which = 2006200 }
 	}
 }
 
@@ -2879,6 +2918,7 @@ event = {
 		command = { type = set_domestic which = political_left 	value = 1 }
 		command = { type = set_domestic which = interventionism value = 4 }
 		command = { type = set_domestic which = freedom 		value = 4 }
+		command = { type = local_setflag which = sliderSet }
 		
 		command = { type = secedeprovince which = CRO value = 382  when = 2 }
 		command = { type = secedeprovince which = CRO value = 383  when = 2 }
@@ -2922,6 +2962,7 @@ event = {
 		command = { type = set_domestic which = political_left 	value = 2 }
 		command = { type = set_domestic which = interventionism value = 5 }
 		command = { type = set_domestic which = freedom 		value = 3 }
+		command = { type = local_setflag which = sliderSet }
 		
 		command = { type = supplies		value = 200 }
 		command = { type = secedeprovince which = SER value = 453  when = 2 }
@@ -2954,7 +2995,7 @@ event = {
 	trigger = {	
 		NOT = { alliance = { country = GRE } }
 		area = { area = "Attica" country = -3 data = 1 value = 90 }
-		area = { area = "Thrace" country = -3 data = 1 value = 95 }
+		area = { area = "Thrace" country = -3 data = 1 value = 100 }
 
 		control = { province = 401 data = -3 } #Belgrade is allied-controlled
 		participant = { country = GER value = 2 } #is member of Axis
@@ -3011,38 +3052,43 @@ event = {
 		
 		command = { type = secedeprovince which = GER value = 401   when = 2 }
 		command = { type = secedeprovince which = GER value = 405   when = 2 }
-		command = { type = secedeprovince which = GER value = 412   when = 2 }
-		command = { type = secedeprovince which = GER value = 411   when = 2 }
-		command = { type = secedeprovince which = GER value = 7319  when = 2 }
 		command = { type = secedeprovince which = GER value = 2321  when = 2 }
 		command = { type = secedeprovince which = GER value = 7352  when = 2 }
-		command = { type = secedeprovince which = GER value = 6508  when = 2 }
 		command = { type = secedeprovince which = GER value = 396   when = 1 } #Crete
 		command = { type = secedeprovince which = GER value = 7320  when = 1 } #Crete
+		command = { trigger = { NOT = { alliance = { country = YUG } } } type = secedeprovince which = GER value = 412   when = 2 }
+		command = { trigger = { NOT = { alliance = { country = YUG } } } type = secedeprovince which = GER value = 411   when = 2 }
+		command = { trigger = { NOT = { alliance = { country = YUG } } } type = secedeprovince which = GER value = 7319  when = 2 }
+		command = { trigger = { NOT = { alliance = { country = YUG } } } type = secedeprovince which = GER value = 6508  when = 2 }
 		
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 392   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 393   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 394   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 395   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 400   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 402   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 403   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 2319  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 653   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 563   when = 1 } #Crete
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 2625  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 2872  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 3355  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 3392  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 6509  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 6918  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 7316  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 7317  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 7318  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 7914  when = 2 }
+		command = { trigger = { alliance = { country = YUG } } type = secedeprovince which = YUG value = 411   when = 2 }
+		command = { trigger = { alliance = { country = YUG } } type = secedeprovince which = YUG value = 412   when = 2 }
+		command = { trigger = { alliance = { country = YUG } } type = secedeprovince which = YUG value = 6508  when = 2 }
+		command = { trigger = { alliance = { country = YUG } } type = secedeprovince which = YUG value = 7319  when = 2 }
 		
-		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 2610  when = 2 }
-		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 410   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 392   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 393   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 394   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 395   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 400   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 402   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 403   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 2319  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 653   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 563   when = 1 } #Crete
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 2625  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 2872  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 3355  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 3392  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 6509  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 6918  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 7316  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 7317  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 7318  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 7914  when = 2 }
+		
+		command = { trigger = { alliance = { country = BUL } } type = secedeprovince which = BUL value = 2610  when = 2 }
+		command = { trigger = { alliance = { country = BUL } } type = secedeprovince which = BUL value = 410   when = 2 }
 	}
 	action = {
 		name = "Let our allies handle Greece"
@@ -3083,45 +3129,184 @@ event = {
 		command = { type = addclaim which = 412  	where = BUL } 
 		command = { type = addclaim which = 6508  	where = BUL } 
 		command = { type = addclaim which = 7319 	where = BUL }
-		command = { type = addclaim which = 7055 	where = BUL }
 		
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 401   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 405   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 396   when = 1 } #Crete
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 7320  when = 1 } #Crete
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 392   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 393   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 394   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 395   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 400   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 402   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 403   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 2319  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 653   when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 563   when = 1 } #Crete
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 2625  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 2872  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 3355  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 3392  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 6509  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 6918  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 7316  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 7317  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 7318  when = 2 }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 7914  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 401   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 405   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 396   when = 1 } #Crete
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 7320  when = 1 } #Crete
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 392   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 393   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 394   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 395   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 400   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 402   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 403   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 2319  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 653   when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 563   when = 1 } #Crete
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 2625  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 2872  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 3355  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 3392  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 6509  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 6918  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 7316  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 7317  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 7318  when = 2 }
+		command = { trigger = { alliance = { country = ITA } } type = secedeprovince which = ITA value = 7914  when = 2 }
 		
-		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 7352  when = 2 }
-		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 7055  when = 2 }
-		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 2321  when = 2 }
-		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 2610  when = 2 }
-		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 410   when = 2 }
-		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 411   when = 2 }
-		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 412   when = 2 }
-		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 6508  when = 2 }
-		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 7319  when = 2 }
+		command = { trigger = { alliance = { country = BUL } } type = secedeprovince which = BUL value = 7352  when = 2 }
+		command = { trigger = { alliance = { country = BUL } } type = secedeprovince which = BUL value = 7055  when = 2 }
+		command = { trigger = { alliance = { country = BUL } } type = secedeprovince which = BUL value = 2321  when = 2 }
+		command = { trigger = { alliance = { country = BUL } } type = secedeprovince which = BUL value = 2610  when = 2 }
+		command = { trigger = { alliance = { country = BUL } } type = secedeprovince which = BUL value = 410   when = 2 }
+		command = { trigger = { alliance = { country = BUL } NOT = { alliance = { country = YUG } } } type = secedeprovince which = BUL value = 411   when = 2 }
+		command = { trigger = { alliance = { country = BUL } NOT = { alliance = { country = YUG } } } type = secedeprovince which = BUL value = 412   when = 2 }
+		command = { trigger = { alliance = { country = BUL } NOT = { alliance = { country = YUG } } } type = secedeprovince which = BUL value = 6508  when = 2 }
+		command = { trigger = { alliance = { country = BUL } NOT = { alliance = { country = YUG } } } type = secedeprovince which = BUL value = 7319  when = 2 }
+		
+		command = { trigger = { alliance = { country = YUG } } type = secedeprovince which = YUG value = 411   when = 2 }
+		command = { trigger = { alliance = { country = YUG } } type = secedeprovince which = YUG value = 412   when = 2 }
+		command = { trigger = { alliance = { country = YUG } } type = secedeprovince which = YUG value = 6508  when = 2 }
+		command = { trigger = { alliance = { country = YUG } } type = secedeprovince which = YUG value = 7319  when = 2 }
 	}
 }
 
+#USSR occupation zones
+
+event = {
+	id = 2022030
+	random = no
+	persistent = yes
+	tag = { ROM HUN }
+	
+	name = "Occupation of USSR"
+	desc = "As our forces advance deeper into the Soviet Union, we must divide the responsibility of occupation with our allies."
+	style = 2
+	picture = "news_paper"
+
+	trigger = {	
+		alliance = { country = GER }
+		OR = {
+			region = { region = "Poland"		data = 1 value = 1 }
+			region = { region = "Belarus"		data = 1 value = 1 }
+			region = { region = "Ukraine"		data = 1 value = 1 }
+		}
+		NOT = {
+			AND = {
+				country = ROM
+				NOT = { region = { region = "Poland"		data = 1 value = 1  } }
+				NOT = { region = { region = "Belarus"		data = 1 value = 1  } }
+				NOT = { region = { region = "Ukraine"		data = 1 value = 13 } } #<8/58
+				control = { province = 233  }
+				control = { province = 1565 }
+				control = { province = 3404 }
+				control = { province = 3405 }
+				control = { province = 232  }
+				control = { province = 1571 }
+				control = { province = 231  }
+			}
+		}
+	}
+
+    date = { day = 0 month = january year = 1936 }
+    offset = 30
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Divide the lands with our allies"
+		command = { type = secederegion		which = GER value = "Poland"		when = 1 }
+		command = { type = secederegion		which = GER value = "Belarus"		when = 1 }
+		command = { type = secederegion		which = GER value = "Ukraine"		when = 1 }
+	}
+}
+
+event = {
+	id = 2022031
+	random = no
+	persistent = yes
+	country = GER
+	
+	name = "Occupation of USSR"
+	desc = "As our forces advance deeper into the Soviet Union, we must divide the responsibility of occupation with our allies."
+	style = 2
+	picture = "news_paper"
+
+	trigger = {	
+		alliance = { country = ROM }
+		OR = {
+			region = { region = "Romania"		data = 1 value = 1 }
+			control = { province = 233  }
+			control = { province = 1565 }
+			control = { province = 3404 }
+			control = { province = 3405 }
+			control = { province = 232  }
+			control = { province = 1571 }
+			control = { province = 231  }
+		}
+	}
+
+    date = { day = 0 month = january year = 1936 }
+    offset = 30
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Divide the lands with our allies"
+		command = { type = secederegion		which = ROM value = "Romania"		when = 1 }
+		command = { type = secedeprovince	which = ROM value = 233				when = 1 }
+		command = { type = secedeprovince	which = ROM value = 1565			when = 1 }
+		command = { type = secedeprovince	which = ROM value = 3404			when = 1 }
+		command = { type = secedeprovince	which = ROM value = 3405			when = 1 }
+		command = { type = secedeprovince	which = ROM value = 232				when = 1 }
+		command = { type = secedeprovince	which = ROM value = 1571			when = 1 }
+		command = { type = secedeprovince	which = ROM value = 231				when = 1 }
+	}
+}
+
+
+#Northern Africa to Italy
+
+event = {
+	id = 2022040
+	random = no
+	persistent = yes
+	tag = { GER }
+	
+	name = "North Africa policy"
+	desc = "As part of our alliance with Italy, we recognize Northern Africa and the mediterranean coast as a whole as Italian sphere of influence. The Italians will not look kindly on us if we continue to hold on to territory which they claim as theirs."
+	style = 2
+	picture = "news_paper"
+
+	trigger = {	
+		alliance = { country = ITA } #not RSI
+		OR = {
+			region = { region = "Italy"					data = 1 value = 1 }
+			region = { region = "Tunisia"				data = 1 value = 1 }
+			region = { region = "Libya"					data = 1 value = 1 }
+			region = { region = "Egypt"					data = 1 value = 1 }
+			region = { region = "Sudan"					data = 1 value = 1 }
+			region = { region = "Middle East"			data = 1 value = 1 }
+			area   = { area   = "Greek Island"			data = 1 value = 1 }
+			area   = { area   = "Anatolian South Coast"	data = 1 value = 1 }
+		}
+	}
+
+    date = { day = 0 month = january year = 1936 }
+    offset = 30
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Divide the lands with our allies"
+		command = { type = secederegion		which = ITA value = "Italy"					when = 1 }
+		command = { type = secederegion		which = ITA value = "Tunisia"				when = 1 }
+		command = { type = secederegion		which = ITA value = "Libya"					when = 1 }
+		command = { type = secederegion		which = ITA value = "Egypt"					when = 1 }
+		command = { type = secederegion		which = ITA value = "Sudan"					when = 1 }
+		command = { type = secederegion		which = ITA value = "Middle East"			when = 1 }
+		command = { type = secedearea		which = ITA value = "Greek Island"			when = 1 }
+		command = { type = secedearea		which = ITA value = "Anatolian South Coast"	when = 1 }
+	}
+}
 
 
 #9005000 USA Return provinces to France, Belgium, Netherlands and Luxembourg
@@ -3171,6 +3356,7 @@ event = {
 		command = { trigger = { NOT = { exists = FRA exists = U01 } } type = local_setflag which = FRA_ally }
 		command = { trigger = { local_flag = FRA_ally } type = independence which = FRA value = 1 when = 1 }
 		command = { trigger = { local_flag = FRA_ally } type = alliance which = FRA when = 1 }
+		command = { trigger = { local_flag = FRA_ally } type = event which = 2400530 where = FRA when = 0 } #legit indie	
 		command = { trigger = { local_flag = FRA_ally } type = local_clrflag which = FRA_ally }			
 		command = { trigger = { exists = FRA alliance = { country = USA country = FRA } } type = secederegion which = FRA value = France when = 1 }
 		command = { trigger = { exists = FRA alliance = { country = USA country = FRA } } type = secederegion which = FRA value = Morocco when = 1 }
@@ -3180,17 +3366,20 @@ event = {
 		command = { trigger = { NOT = { exists = LUX  } } type = local_setflag which = LUX_ally }
 		command = { trigger = { local_flag = LUX_ally } type = independence which = LUX value = 1 when = 1 }
 		command = { trigger = { local_flag = LUX_ally } type = alliance which = LUX when = 1 }
+		command = { trigger = { local_flag = LUX_ally } type = event which = 2400530 where = LUX when = 0 } #legit indie	
 		command = { trigger = { local_flag = LUX_ally } type = local_clrflag which = LUX_ally }			
 		command = { trigger = { exists = BEL alliance = { country = USA country = BEL } } type = secedearea which = BEL value = Flanders when = 1 }
 		command = { trigger = { exists = BEL alliance = { country = USA country = BEL } } type = secedearea which = BEL value = Wallonia when = 1 }
 		command = { trigger = { NOT = { exists = BEL  } } type = local_setflag which = BEL_ally }
 		command = { trigger = { local_flag = BEL_ally } type = independence which = BEL value = 1 when = 1 }
 		command = { trigger = { local_flag = BEL_ally } type = alliance which = BEL when = 1 }
+		command = { trigger = { local_flag = BEL_ally } type = event which = 2400530 where = BEL when = 0 } #legit indie	
 		command = { trigger = { local_flag = BEL_ally } type = local_clrflag which = BEL_ally }		
 		command = { trigger = { exists = HOL alliance = { country = USA country = HOL } } type = secedearea which = HOL value = Netherlands when = 1 }
 		command = { trigger = { NOT = { exists = HOL  } } type = local_setflag which = HOL_ally }
 		command = { trigger = { local_flag = HOL_ally } type = independence which = HOL value = 1 when = 1 }
 		command = { trigger = { local_flag = HOL_ally } type = alliance which = HOL when = 1 }
+		command = { trigger = { local_flag = HOL_ally } type = event which = 2400530 where = HOL when = 0 } #legit indie	
 		command = { trigger = { local_flag = HOL_ally } type = local_clrflag which = HOL_ally }		
     }
 } 
@@ -3233,7 +3422,7 @@ event = {
 		command = { trigger = { NOT = { exists = ITA  } } type = local_setflag which = ITA_ally }
 		command = { trigger = { local_flag = ITA_ally } type = independence which = ITA value = 1 when = 0 }
 		command = { trigger = { local_flag = ITA_ally } type = alliance which = ITA when = 1 }
-		command = { trigger = { local_flag = ITA_ally } type = event which = 2006013 where = ITA when = 1 }
+		command = { trigger = { local_flag = ITA_ally } type = event which = 2400530 where = ITA when = 0 } #legit indie
 		command = { trigger = { local_flag = ITA_ally } type = local_clrflag which = ITA_ally }
     }
 } 
@@ -3262,7 +3451,7 @@ event = {
 		name = "Agree to their terms"
 		command = { type = dissent 		value = 2 }
 		command = { type = free_ic  	value = -2 }
-		command = { type = free_money 	value = -2 }
+		command = { type = free_money 	value = -1 }
 		command = { type = construct which = coastal_fort where = 7057 value = 1 }
 		command = { type = construct which = coastal_fort where = 409  value = 1 }
 		command = { type = setflag which = Montreux }

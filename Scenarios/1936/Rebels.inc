@@ -30,12 +30,12 @@ country =
 	policy = 
    {  date              = {  year = 0 month = january day = 0  } 
      democratic        = 1 
-     political_left    = 2 
-     free_market       = 1
-     freedom           = 1 
-     professional_army = 1 
-     defense_lobby     = 1
-     interventionism   = 1  
+     political_left    = 10 
+     free_market       = 5
+     freedom           = 5 
+     professional_army = 5 
+     defense_lobby     = 10
+     interventionism   = 5  
     } 
 #   landunit = 
 #   {  location = 5644 # 

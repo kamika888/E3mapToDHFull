@@ -6,9 +6,9 @@ country =
 { tag                    = CHI
   capital                = 1235 # Nanjing
 	# Resource Reserves 
-	energy                 = 8100
-	metal                  = 3050
-	rare_materials         = 2525
+	energy                 = 30100
+	metal                  = 12050
+	rare_materials         = 5525
 	oil                    = 1000 
 	supplies               = 3000 
 	money                  = 10 

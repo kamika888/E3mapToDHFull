@@ -1466,7 +1466,7 @@ province = { id = 3057   # Siracuse - Sicilian Gap - Italy
  
 province = { id = 534   # Cagliari - Ligurian Islands - Italy
    anti_air = 2 
-   coastalfort = 1 
+   coastalfort = 2 
  } 
  
 province = { id = 545   # Sassari - Ligurian Islands - Italy

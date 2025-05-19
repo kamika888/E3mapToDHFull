@@ -234,7 +234,7 @@ province = { id = 161 points = 1 }
 province = { id = 163 points = 7 }
 province = { id = 166 points = 3 }
 province = { id = 174 points = 2 }
-province = { id = 175 points = 15 }
+province = { id = 175 points = 20 }
 province = { id = 178 points = 2 }
 province = { id = 265 points = 1 }
 province = { id = 256 points = 1 }
@@ -262,7 +262,7 @@ province = { id = 2866 points = 1 }
 province = { id = 2496 points = 2 }
 province = { id = 1822 points = 1 }
 province = { id = 276 points = 1 }
-province = { id = 187 points = 20 }
+province = { id = 187 points = 15 }
 province = { id = 194 points = 2 }
 province = { id = 197 points = 3 }
 province = { id = 199 points = 1 }

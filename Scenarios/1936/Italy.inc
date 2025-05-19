@@ -7,15 +7,15 @@ country =
   ai_settings			 = { flags = { WARDebt = 7 SanctionsEvt = 1 SanctionsDelay1 = 1 } }
 		manpower               = 714 #was 460
 		# Resource Reserves
-		energy                 = 16000 
-		metal                  = 8000 
-		rare_materials         = 4000 
+		energy                 = 26000 
+		metal                  = 18000 
+		rare_materials         = 8000 
 		oil                    = 4000 
 		supplies               = 2000
 		money                  = 500
 		belligerence           = 0
 		capital                = 515
-		transports             = 400
+		transports             = 700
 		escorts                = 100
   # Illyrian Coast
   diplomacy =
@@ -113,6 +113,7 @@ country =
 							2622 2621 2871 2870 2623 2624
 6525 6546 6547 6548 6549 6550 6551 6552 6553 6554 6555
 7123 7125 7126 3137 2583 
+3357 3359 3358 7936
   }
   ownedprovinces         = { 525  526  524  523  522  521  520  519  518  517  516  515  513  514  512  379  369  368  531  370  371  378  534  398 
                              399  927  933  932  930  929  925  924  923  922  921  920  919  916  917  926  928  931  1017    1033
@@ -158,9 +159,8 @@ country =
 	claimedprovinces 	= {
 							2583 3060 367 31 380 384 389 
 							2608 1894 415 1169 665 390 391 664
-							3373 3359 3372 3358
+							3373 3372
 							5464 5465 5466 6559
-							7936
 							7937 7270 7269 7315 7961 7163 7914 399 398
 							932 933 952 931 930 928 929 927 926 925 922
 							924 923 921 920 919 916 917 1017
@@ -172,7 +172,7 @@ country =
 6539 6540 6541 6542 7445 7448 7449 7446 7346 7447 7935
 1056 1058 1055 2916 2635 1035 1037 4683 4684 4685 4686 4687 4688 4689 4690 4691 4692 4693 4694 4695 4696 4697 4698 4699
 4700 4701 4713 4714 2810 6543 6544 6545 6938 6939 6940 6941 6942 7343 7344 7345 7442 4712 6943 7450
-1408 3357 7124 3360
+1408 7124 3360
 #527 3215 365 3134 528 2626 3135 #Extra France claims
 }
 
@@ -1635,6 +1635,19 @@ landunit =
 		date  = { year = 1940 month = april day = 28 }
 		new_model = no
 	} 
-
+	convoy_development = { 
+		id = { type = 23500 id = 545 } 
+		cost = 0.1
+		size = 100 
+		type = escorts 
+		date  = {  year = 1964 } 
+		} 
+	convoy_development = { 
+		id = { type = 23500 id = 546 } 
+		cost = 0.1
+		size = 100
+		type = transports 
+		date  = {  year = 1964 } 
+		} 
 
 }

@@ -999,7 +999,10 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		command = { type = inherit which = CHI value = 1 }
-		command = { type = country which = CHI }
+		#TAG change mid game will:
+		#very likely CRASH MP game
+		#reset all triggered events without resetting the flags
+		#command = { type = country which = CHI }
 		
 		command = { type = sleepteam which = 55006 } 	# Chiang Kai-shek
 		command = { type = sleepminister which = 55312 } # Chiang Kai-shek
@@ -1144,7 +1147,7 @@ event = {
 #######################################
 
 event = {
-	id = 2011049
+	id = 2011048
 	country = JAP
 
 	decision = {
@@ -1193,7 +1196,24 @@ event = {
 		command = { type = event which = 2400537 where = MEN when = 0 } #Strong puppet?
 		command = { type = belligerence which = JAP value = -2 }
 		command = { trigger = { NOT = { ai = JAP } } type = military_control which = JAP where = MEN value = 1 }
+		
+		command = { type = event which = 2011049 where = MEN when = 0 }
 	}	
+}
+
+event = {
+	id = 2011049
+	random = no
+	persistent = yes
+	style = 2
+
+	name = "AI_EVENT"
+
+	action = {
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom		 	value = 3 }
+		command = { type = set_domestic which = interventionism	value = 5 }
+    } 
 }
 
 #########################################################################
@@ -1244,7 +1264,7 @@ event = {
 #  China-Nanjing setup
 #########################################################################
 event = { 
-	id = 2011051
+	id = 2011052
 	random = no
 	#invisible
 	#tag = { JAP MAN }
@@ -1582,7 +1602,7 @@ event = {
 	}
 	
 	name = "Battle of Singapore (30-day Japanese Blitz)"
-	desc = "Singapore was the foremost British military base and economic port in South East Asia and had been of great importance to British interwar defence strategy. The Japanese under General Tomoyuki Yamashita had advanced with approximately 30,000 men against at least 85,000 Allied troops dug in the heavily fortified island of Singapore, although many Allied troops were inexperienced and less than reliable. The Japanese managed to surprise the defenders establish a crossing where they were not expected. A week later, Singapore surrendered. After the battle, about 40,000 Indian soldiers, mostly conscripted, joined the pro-Japanese Indian National Army and later fought with the Japanese in the Burma campaign. Churchill called the defeat at Singapore the worst disaster in British military history."
+	desc = "Singapore was the foremost British military base and economic port in South East Asia and had been of great importance to British interwar defence strategy. The Japanese under General Tomoyuki Yamashita had advanced with approximately 30,000 men against at least 85,000 Allied troops dug in the heavily fortified island of Singapore, although many Allied troops were inexperienced and less than reliable. The Japanese managed to surprise the defenders and establish a crossing where they were not expected. A week later, Singapore surrendered. After the battle, about 40,000 Indian soldiers, mostly conscripted, joined the pro-Japanese Indian National Army and later fought with the Japanese in the Burma campaign. Churchill called the defeat at Singapore the worst disaster in British military history."
 	style = 2
  	picture = "news_paper"
 	
@@ -1643,17 +1663,13 @@ event = {
 	random = no
 	country = ENG
 	
-	name = "Battle of Singapore"
-	desc = "Battle of Singapore took place in the South–East Asian theatre of the Pacific War. Singapore was the foremost British military base and economic port in South–East Asia and had been of great importance to British interwar defence strategy. The Japanese under General Tomoyuki Yamashita had advanced with approximately 30,000 men against at least 85,000 Allied troops dug in the heavily fortified island of Singapore, although many Allied troops were inexperienced and less than reliable. The Japanese managed to surprise the defenders establish a crossing where they were not expected. A week later, Singapore surrendered. After the battle, about 40,000 Indian soldiers, mostly conscripted, joined the pro-Japanese Indian National Army and fought with the Japanese in the Burma campaign. Churchill called the defeat at Singapore the worst disaster in British military history."
-	style = 2
-
 	trigger = {
 		war = { country = JAP }
 		control = { province = 1353 data = -2 }
 	}
 	
 	name = "Disaster at Singapore"
-	desc = "Singapore was the foremost British military base and economic port in South East Asia and had been of great importance to British interwar defence strategy. The Japanese under General Tomoyuki Yamashita had advanced with approximately 30,000 men against at least 85,000 Allied troops dug in the heavily fortified island of Singapore, although many Allied troops were inexperienced and less than reliable. The Japanese managed to surprise the defenders establish a crossing where they were not expected. A week later, Singapore surrendered. After the battle, about 40,000 Indian soldiers, mostly conscripted, joined the pro-Japanese Indian National Army and later fought with the Japanese in the Burma campaign. Churchill called the defeat at Singapore the worst disaster in British military history."
+	desc = "Singapore was the foremost British military base and economic port in South East Asia and had been of great importance to British interwar defence strategy. The Japanese under General Tomoyuki Yamashita had advanced with approximately 30,000 men against at least 85,000 Allied troops dug in the heavily fortified island of Singapore, although many Allied troops were inexperienced and less than reliable. The Japanese managed to surprise the defenders and establish a crossing where they were not expected. A week later, Singapore surrendered. After the battle, about 40,000 Indian soldiers, mostly conscripted, joined the pro-Japanese Indian National Army and later fought with the Japanese in the Burma campaign. Churchill called the defeat at Singapore the worst disaster in British military history."
 	style = 2
  	picture = "news_paper"
 	
@@ -1689,6 +1705,200 @@ event = {
 		command = { type = demobilize which = land when = 0 where = 0 value = -4 } #remove 4 land divisions
 	}
 }
+
+####################################################################
+#  TC costs for the occupation of China
+####################################################################
+
+event = { 
+	id = 2141030
+	random = no
+	#invisible
+	#country = JAP
+	persistent = yes
+	
+	trigger = {
+		country = JAP
+		OR = {
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value =  5 } }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 10 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 10 } }
+							region = { region = "China" country = -3 data = 1 value = 10 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 15 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 15 } }
+							region = { region = "China" country = -3 data = 1 value = 15 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 20 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 20 } }
+							region = { region = "China" country = -3 data = 1 value = 20 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 25 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 25 } }
+							region = { region = "China" country = -3 data = 1 value = 25 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 30 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 30 } }
+							region = { region = "China" country = -3 data = 1 value = 30 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 35 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 35 } }
+							region = { region = "China" country = -3 data = 1 value = 35 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 40 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 40 } }
+							region = { region = "China" country = -3 data = 1 value = 40 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 45 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 45 } }
+							region = { region = "China" country = -3 data = 1 value = 45 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 50 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 50 } }
+							region = { region = "China" country = -3 data = 1 value = 50 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 55 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 55 } }
+							region = { region = "China" country = -3 data = 1 value = 55 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 60 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 60 } }
+							region = { region = "China" country = -3 data = 1 value = 60 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 65 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 65 } }
+							region = { region = "China" country = -3 data = 1 value = 65 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 70 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 70 } }
+							region = { region = "China" country = -3 data = 1 value = 70 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 75 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 75 } }
+							region = { region = "China" country = -3 data = 1 value = 75 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 80 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 80 } }
+							region = { region = "China" country = -3 data = 1 value = 80 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 85 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 85 } }
+							region = { region = "China" country = -3 data = 1 value = 85 }
+				NOT = { 	region = { region = "China" country = -3 data = 1 value = 90 } }
+			}
+			AND = {
+				NOT = { 	flag = { which = japChi when = 0 				  value = 90 } }
+							region = { region = "China" country = -3 data = 1 value = 90 }
+			}
+		}
+	}
+	
+	name = "Occupation of China"
+	desc = "Occupation of the vast territory of China with poor infrastructure and restive population is putting a serious strain on our logistical capacity."
+	style = 2
+ 	picture = "news_paper"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	action = {
+		name = ACTION_NAME_DAMN 
+		command = { trigger = { flag = { which = japChi when = 0 				  value =  5 } } type = extra_tc	value =   25 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 10 } } type = extra_tc	value =   50 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 15 } } type = extra_tc	value =   75 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 20 } } type = extra_tc	value =  100 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 25 } } type = extra_tc	value =  125 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 30 } } type = extra_tc	value =  150 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 35 } } type = extra_tc	value =  175 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 40 } } type = extra_tc	value =  200 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 45 } } type = extra_tc	value =  225 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 50 } } type = extra_tc	value =  250 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 55 } } type = extra_tc	value =  275 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 60 } } type = extra_tc	value =  300 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 65 } } type = extra_tc	value =  325 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 70 } } type = extra_tc	value =  350 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 75 } } type = extra_tc	value =  375 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 80 } } type = extra_tc	value =  400 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 85 } } type = extra_tc	value =  425 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 90 } } type = extra_tc	value =  450 }
+		
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value =  5 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 10 } } } type = setflag 	which = japChi value =  5 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 10 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 15 } } } type = setflag 	which = japChi value = 10 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 15 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 20 } } } type = setflag 	which = japChi value = 15 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 20 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 25 } } } type = setflag 	which = japChi value = 20 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 25 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 30 } } } type = setflag 	which = japChi value = 25 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 30 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 35 } } } type = setflag 	which = japChi value = 30 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 35 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 40 } } } type = setflag 	which = japChi value = 35 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 40 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 45 } } } type = setflag 	which = japChi value = 40 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 45 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 50 } } } type = setflag 	which = japChi value = 45 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 50 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 55 } } } type = setflag 	which = japChi value = 50 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 55 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 60 } } } type = setflag 	which = japChi value = 55 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 60 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 65 } } } type = setflag 	which = japChi value = 60 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 65 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 70 } } } type = setflag 	which = japChi value = 65 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 70 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 75 } } } type = setflag 	which = japChi value = 70 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 75 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 80 } } } type = setflag 	which = japChi value = 75 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 80 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 85 } } } type = setflag 	which = japChi value = 80 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 85 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 90 } } } type = setflag 	which = japChi value = 85 }
+		command = { trigger = { region = { region = "China" country = -3 data = 1 value = 90 }
+					NOT = { 	region = { region = "China" country = -3 data = 1 value = 95 } } } type = setflag 	which = japChi value = 90 }
+
+		command = { trigger = { flag = { which = japChi when = 0 				  value =  5 } } type = extra_tc	value =  -25 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 10 } } type = extra_tc	value =  -50 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 15 } } type = extra_tc	value =  -75 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 20 } } type = extra_tc	value = -100 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 25 } } type = extra_tc	value = -125 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 30 } } type = extra_tc	value = -150 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 35 } } type = extra_tc	value = -175 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 40 } } type = extra_tc	value = -200 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 45 } } type = extra_tc	value = -225 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 50 } } type = extra_tc	value = -250 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 55 } } type = extra_tc	value = -275 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 60 } } type = extra_tc	value = -300 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 65 } } type = extra_tc	value = -325 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 70 } } type = extra_tc	value = -350 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 75 } } type = extra_tc	value = -375 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 80 } } type = extra_tc	value = -400 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 85 } } type = extra_tc	value = -425 }
+		command = { trigger = { flag = { which = japChi when = 0 				  value = 90 } } type = extra_tc	value = -450 }
+	}
+}
+
 
 
 ####################################################################
@@ -2064,7 +2274,7 @@ event = {
 		#command = { trigger = { OR = { ai = SOV ai = JAP } } 	type = non_aggression which = MON where = MAN when = 60 } 
 		command = { type = relation which = SOV value = -10 }
 		command = { type = trigger which = 2007009 }
-		command = { trigger = { ai = JAP ai = CHI ai = CHC } 	type = event which = 2401330 where = JAP when = 28 }
+		command = { trigger = { ai = JAP ai = CHI ai = CHC } 	type = event which = 2011122 where = JAP when = 28 }
 	}
 	action = {
 		name = "For the Emperor!"
@@ -2091,7 +2301,7 @@ event = {
 }
 
 event = {
-	id = 2401330
+	id = 2011122
 	random = no 
 	country = JAP
 
@@ -2639,12 +2849,25 @@ event = {
 				}
 				region = { region = China country = -3 value = 20 } #Not losing in China
 				NOT = { control = { province = 2241 data = -2 } } #Changchun/Xinjing not controlled by enemy country
-				OR = { random = 30 year = 1942 }
 				#Guarantee that Japan will not fight alone
 				OR = {
 					alliance = { country = GER }
 					event = { id = 640 days = 30  } #1 month after Undeclared War
 					event = { id = 560 days = 360 } #oil embargo year
+				}
+				OR = {
+					random = 2
+					AND = { 
+						year 	= 1941
+						month	= December
+						day		= 5
+						NOT = { day = 8 }
+						random	= 30
+					}
+					AND = {
+						year = 1942
+						random = 10
+					}
 				}
 			}
 		}
@@ -2657,7 +2880,7 @@ event = {
 	decision_picture = "decision_Pearl_harbor"
 	
 	date = { day = 0 month = january year = 1936 }
-	offset = 30
+	offset = 3
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -3296,6 +3519,7 @@ event = {
 		command = { trigger = { NOT = { exists = KOR } } type = independence which = KOR value = 1 when = 0 }
 		command = { type = make_puppet which = KOR }
 		command = { type = event which = 2400537 where = KOR when = 0 } #medium puppet
+		command = { type = event which = 2011049 where = KOR when = 0 }
 		
 		#command = { trigger = { puppet = { country = KOR country = JAP } }  type = setflag which = KOR_FROM_JAP_TO_CHI }
 		#command = { trigger = { flag = fs_kmt } type = independence which = KOR value = 1 when = 0 }
@@ -3541,6 +3765,7 @@ event = {
 		command = { type = independence which = PRK value = 1 } 
 		command = { type = make_puppet which = PRK }
 		command = { type = event which = 2400538 where = PRK when = 0 } #strong puppet	
+		command = { type = event which = 2011049 where = PRK when = 0 }
 		command = { type = access which = CHC }
 		#command = { type = access which = CHI }
 	}
@@ -3609,6 +3834,7 @@ event = {
 		command = { type = independence which = KOR value = 1 } 
 		command = { type = make_puppet which = KOR } 
 		command = { type = event which = 2400538 where = KOR when = 0 } #strong puppet	
+		command = { type = event which = 2011049 where = KOR when = 0 }
 	}
 }
 
@@ -3654,6 +3880,7 @@ event = {
 		command = { type = independence which = U87 value = 1 }
 		command = { type = make_puppet which = U87 }
 		command = { type = event which = 2400533 where = U87 when = 0 } #weak puppet	
+		command = { type = event which = 2011049 where = U87 when = 0 }
 		command = { trigger = { NOT = { ai = JAP } } type = military_control which = JAP where = U87 value = 1 }
 		
 		command = { type = remove_claim_region which = "China" where = JAP }
@@ -3845,6 +4072,7 @@ event = {
 		command = { type = independence which = IND value = 0 } #garrison switches sides
 		command = { type = make_puppet which = IND }
 		command = { type = event which = 2400535 where = IND when = 0 } #weaker puppet initially. Maybe stronger later.
+		command = { type = event which = 2011049 where = IND when = 0 }
 		
 		command = { type = manpowerpool value = -10  }
 		command = { type = supplies 	value = -100 }
@@ -4016,6 +4244,7 @@ event = {
 		command = { type = independence which = INO value = 1 }
 		command = { type = make_puppet which = INO }
 		command = { type = event which = 2400535 where = INO when = 0 } #weaker puppet initially. Maybe stronger later.
+		command = { type = event which = 2011049 where = INO when = 0 }
 		
 		command = { type = manpowerpool value = -10  }
 		command = { type = supplies 	value = -100 }

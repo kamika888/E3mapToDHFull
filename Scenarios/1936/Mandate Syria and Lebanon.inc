@@ -9,7 +9,7 @@
 
  country = 
  {  tag                    = U04 
-    capital                = 1794
+    capital                = 1792
     puppet                 = FRA 
 	ai_settings			   = { flags = { puppetLevel9 = 1 } }
 	# Resource Reserves 
@@ -19,7 +19,7 @@
 	oil                    = 500 
 	supplies               = 2000 
 	money                  = 50 
-	manpower               = 40 
+	manpower               = 60 
 	transports             = 100 
 	escorts                = 10 
       
@@ -105,29 +105,29 @@
      freedom           = 3 
      professional_army = 2 
      defense_lobby     = 3 
-     interventionism   = 2 
+     interventionism   = 3 
     } 
 
     landunit = 
-   {  id       = {  type = 13500 id = 1001  } 
+   {  id       = {  type = 13501 id = 1001  } 
      name     = "Troupes du Levant" 
      location = 1792 
      Division = 
-     {  id       = {  type = 13500 id = 1002  } 
+     {  id       = {  type = 13501 id = 1002  } 
        name     = "Forces supplétives du Levant" 
 	   model    = 3
        strength = 50 
        type     = militia
       } 
      Division = 
-     {  id       = {  type = 13500 id = 1003  } 
+     {  id       = {  type = 13501 id = 1003  } 
        name     = "Subdivision de Damas" 
        strength = 100 
        type     = militia
 	   model    = 4
       } 
 	Division = 
-     {  id       = {  type = 13500 id = 1004  } 
+     {  id       = {  type = 13501 id = 1004  } 
        name     = "Subdivision de Alep" 
        strength = 100 
        type     = militia
@@ -135,17 +135,16 @@
       } 
     } 
     landunit = 
-   {  id       = {  type = 13500 id = 1005  } 
+   {  id       = {  type = 13501 id = 1005  } 
      name     = "Subdivision de Beyrouth" 
      location = 1792 
      Division = 
-     {  id       = {  type = 13500 id = 1006  } 
+     {  id       = {  type = 13501 id = 1006  } 
        name     = "Subdivision de Beyrouth" 
        strength = 100 
        type     = militia
 	   model    = 4
       } 
     } 
-	
-	landdivision = { dormant = yes id = { type = 13500 id = 2039 } name = "Beirut Garrison" type = infantry model = 12 extra = light_armor_brigade brigade_model = 4 locked = no }
+
 }

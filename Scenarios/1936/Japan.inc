@@ -9,9 +9,9 @@ country =
   capital                = 1184
 	manpower               = 886
 	# Resource Reserves 
-	energy                 = 16000 
-	metal                  = 8000 
-	rare_materials         = 4000 
+	energy                 = 46000 
+	metal                  = 28000 
+	rare_materials         = 14000 
 	oil                    = 4000 
 	supplies               = 500 
 	money                  = 100 
@@ -81,7 +81,7 @@ country =
 #3753 3754 1386 5627 5628 5629 5630 5631 5632 3770 
 #East Hebei China
 #2576 2527 1203 6916
-1203
+1203 8002
 }
 
   controlledprovinces    = { 1177 1178 1179 1180 1181 1182 1183 1184 1185 1186 1187 1188 1189 1190 1191 1784 1599 1192 1193 1785 1627 1626 1625 1619
@@ -99,7 +99,7 @@ country =
 #3753 3754 1386 5627 5628 5629 5630 5631 5632 3770 
 #East Hebei China
 #2576 2527 1203 6916
-1203
+1203 8002
 }
   claimedprovinces 		 = { 
 1202 3090 1324 3133 1322 1923 1323
@@ -108,7 +108,7 @@ country =
 5654 5652 7034 1523 7943 7942 7944 1237 2529 5640 
 1203
 #1206 5626
-1206
+1206 8002
 }
   # JAP 1936 techs
   # ######################
@@ -2286,6 +2286,20 @@ landunit =
 		date = { year = 1936 month = may day = 1 }
 		cost = 0.1
 	}
+	convoy_development = { 
+		id = { type = 13016 id = 545 } 
+		cost = 0.1
+		size = 100 
+		type = escorts 
+		date  = {  year = 1964 } 
+		} 
+	convoy_development = { 
+		id = { type = 13016 id = 546 } 
+		cost = 0.1
+		size = 100
+		type = transports 
+		date  = {  year = 1964 } 
+		} 
 
 	landdivision = { dormant = yes id = { type = 13016 id = 2000 } name = "1 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
 	landdivision = { dormant = yes id = { type = 13016 id = 2001 } name = "22 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }

@@ -62,13 +62,13 @@ economy = {
 # Wartime oversea provinces Manpower Multiplier (multiplied on the other)
 	1.0 #0.0
 # Peacetime Manpower Multiplier (multiplied on the other)
-	0.30 #was 0.30
+	0.50 #was 0.30
 # Wartime Manpower Multiplier (multiplied on the other)
-	0.30 #was 0.30
+	0.50 #was 0.30
 # Daily retired Manpower - percentage of the current MP pool
 	0.0 #0.0
-# Trickle-back factor for manpower from losses in battle. (ie, how many are just wounded.)
-	0.35 # 0.2 # 0.35
+# Trickle-back factor for manpower from losses in battle. (ie, how many are lightly wounded and return to service.)
+	0.35 # 50% of casualties are WIA, from these 70% return to service, factor can be improved with medical research
 # Reinforcement Manpower Cost Factor
 	1.0
 # Reinforce cost
@@ -112,7 +112,7 @@ economy = {
 # Stockpile limit multiplier for industry resources (energy, metal, rare materials). -1 = Disable, else = Desired Stockpile (unmodified) * this
 	2.0 #was 2
 # Stockpile limits multiplier for supplies and oil. -1 = Disable, else = Desired Stockpile (unmodified) * this
-	4.0 #was 4
+	5.0 #was 4
 # Over stockpile limit daily loss (percentage of the exceeding resource). 0.0 = no loss, 1.0 = 100%
 	0.10 #Need to drop fast in case of capital doomstack and similar scenarios. 
 # Max provincial energy/metal/rare materials depot size.
@@ -225,7 +225,7 @@ diplomacy = {
 # Days between diplomatic missions in a country. Do not use fractions
 	8 #8
 # Days between policy slider moves
-	1800 #5 years
+	60 #60 days
 # Requirement for "Influence Nation" to affect domestic sliders: Our IC >= Target IC * X
 	2.0 # 2.0
 # Use minister personality value when replacing ministers: 0 = disabled; 1 = enabled
@@ -260,7 +260,7 @@ diplomacy = {
 
 combat = {
 # Land XP gain Factor
-	0.5 # 1.0 # was 3.0
+	0.4 # 1.0 # was 3.0
 # Naval XP gain Factor
 	15.0 # was 2.0
 # Air XP gain Factor
@@ -302,7 +302,7 @@ combat = {
 # Combat Modifier: Envelopment Mod (for each attack direction above one)
 	-0.05
 # Combat Modifier: Encircled Mod (for completely surrounded units)
-	0.50 # Based on Liddle Hart theories, surrounded units fight even harder for their life
+	0.40 # Based on Liddle Hart theories, surrounded units fight even harder for their life (this can affect island invasions too)
 # Combat Modifier: Land Fort Multiplier ( value * fort level)
 	-0.09 # -0.04 # -0.07
 # Combat Modifier: Coastal Fort Multiplier ( value * fort level)
@@ -312,7 +312,7 @@ combat = {
 # Combat Modifier: Dissent Multiplier
 	-0.015
 # Combat Modifier: Default Supply Problems Mod - Land
-	-0.35 #if no retreat possible, -0.35+0.50=0.15 (plus envelopment modifiers?)
+	-0.30 #if no retreat possible, -0.30+0.40=0.10 (plus envelopment modifiers?)
 # Combat Modifier: Default Supply Problems Mod - Air
 	-0.2
 # Combat Modifier: Default Supply Problems Mod - Naval
@@ -384,7 +384,7 @@ combat = {
 # Duration in hours of Ground attack bombing
 	4 #4 
 # Effect of experience on combat
-	0.5
+	0.4
 # Damage factor versus Naval Bases from bombing
 	3.0
 # Damage factor versus Air Bases from bombing
@@ -901,7 +901,7 @@ mission = {
 	0.002	# Combat Modifier: Shore Bombardment Multiplier (Applies to the SB value of ships for org damage)
 # _MISSION_AMPHIBOUS_ASSAULT_
 	0 	# 0 = disabled by default, 1 = enabled by default
-	0.5	# Starting missions efficiency. Valid values: 0.05 to 10.0
+	0.6	# Starting missions efficiency. Valid values: 0.05 to 10.0
 # _MISSION_SEA_TRANSPORT_
 	1 	# 0 = disabled by default, 1 = enabled by default
 	0.5	# Starting missions efficiency. Valid values: 0.05 to 10.0
@@ -970,7 +970,7 @@ country = {
 # Enemy intelligence chance
 	50 #50
 # Max amphibious army size
-	3 #3
+	2 #3
 # Energy to Oil
 	0.0 #0.0
 # Industrial production efficiency
@@ -986,7 +986,7 @@ country = {
 # Money from CG production efficiency
 	1.0 #1.0
 # Supply production efficiency
-	1.0 #1.0
+	0.8 #1.0
 # AA power
 	0.1 #0.1
 # Air surprise chance
@@ -1088,7 +1088,7 @@ trade = {
 # Extra import (Percentage) on top of what is needed when "Stockpile" is selected for that resource. This also increases the Desired Stockpile for the resource
 	0.30 #0.0
 # Days to deliver resources from single trades. 1 - exchange resources instantly
-	1 #1
+	10 #1
 # Merge trade deals. 0 = do not merge, 1 = merge all active trade deals except those that cannot be canceled.
 	1 #0
 # Manual trade deals (players only, Diplomacy). -1 = Disable manual trade deals, [0 to 100] = Offer value threshold - AI returns 0 accept chance if below this
@@ -1098,7 +1098,7 @@ trade = {
 # Multiplier on puppets critical supply stockpile - all supplies above THIS * puppet's critical supply stockpile can be sent to Master. Used when the setting above is not 0.
 	1.5 #1.5
 # Puppets max pool for oil, energy, metal and rare materials - give all above this value to the master. Use negative number to set max pool as a percentage of the critical stockpile (for example -1.2 sets the max pool to 1.2 * critical stockpile)
-	-2 #1000
+	-2 #this bypasses the trade system and uses convoys and the "puppet to depot" mechanic. The trade AI gets VERY confused by this
 # New trade deals min effectiveness threshold - do not make new trades if effectiveness is below this value (0..100). Used by auto-trade
 	45 #45
 # Cancel trade deals if effectiveness is below this value (0..100). Used by auto-trade
@@ -1114,7 +1114,7 @@ ai = {
 # Multiplier on overproduce supplies when at war
 	2.0
 # Do not produce supplies when current supply stockpile is greater then THIS * max supply production (all IC to supplies). This overrides all other settings.
-	10000.0 #10000
+	40.0 #10000
 # Max. serial line depth for production of Garrison and Militia units. Valid values: 1 - 99
 	99 #1
 # Min. total IC threshold required to enable serial production of naval and air units. 

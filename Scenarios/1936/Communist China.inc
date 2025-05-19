@@ -7,7 +7,7 @@ country =
   intrinsic_gov_type     = leninist
   extra_tc               = 7
   capital                = 1270 # Yan'an
-  ai_settings			 = { flags = { ControlDeny = 1 } }
+  ai_settings			 = { flags = { ControlDeny = 1 war_preparedness = 5 } }
 	# Resource Reserves 
 	energy                 = 1240
 	metal                  = 520

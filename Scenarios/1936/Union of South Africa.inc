@@ -150,7 +150,7 @@ country =
   policy =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
-     political_left    = 5 
+     political_left    = 3 
      freedom           = 6 
      free_market       = 1
      professional_army = 3 

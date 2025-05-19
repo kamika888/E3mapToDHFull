@@ -258,7 +258,10 @@ event = {
 
 	action_a = {
 		name = "elec_IVA"
-		command = { type = set_domestic which = political_left value = 5 }
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom		 	value = 7 }
+		command = { type = set_domestic which = interventionism	value = 5 }
+		command = { type = set_domestic which = political_left 	value = 5 }
 		command = { type = headofstate which = 25015 }
 		command = { type = headofgovernment which = 25029 }
 		command = { type = foreignminister which = 25041 }
@@ -337,7 +340,10 @@ event = {
 		name = ACTION_NAME_THE_COUP_HAS_FAILED
 		ai_chance = 1
 		#player gets a choice to stay in the Axis, at a high cost
-		command = { type = country which = RSI }
+		#command = { type = country which = RSI }
+		#TAG change mid game will:
+		#very likely CRASH MP game
+		#reset all triggered events without resetting the flags
 		command = { type = dissent value = 30 } 
 		
 		#Need to sleep ministers/leaders or changetag takes care of it?
@@ -425,13 +431,14 @@ event = {
 
 	action = {
 		name = "Inquire about their conditions"
-		command = { type = event which = 2001015 where = ENG when = 1 }
+		command = { trigger = { war = { country = USA } } 			type = event which = 2001015 where = USA when = 1 }
+		command = { trigger = { NOT = { war = { country = USA } } } type = event which = 2001015 where = ENG when = 1 }
 	}
 }
 event = {
 	id = 2001015
 	random = no
-	country = ENG
+	tag = { ENG USA }
 
 	name = "Italian armistice negotiations"
 	desc = "After the fall of the Mussolini government, the new government led by Pietro Badoglio and supported by parts of the Fascist party opposed to Mussolini immediately proclaimed its committment to continue the war alongside Germany and kept reassuring the German leadership of its loyalty to the Axis cause, but at the same time it began negotiations with the Allies for surrender terms. The Germans were keenly aware that the Italian defection was imminent and the atmosphere at the military meetings was so tense that the German delegations refused food and beverages offered by the Italians, fearing they would be poisoned."
@@ -463,6 +470,8 @@ event = {
 		command = { type = secederegion which = -1 value = "Egypt" when = 1 } 
 		command = { type = secederegion which = -1 value = "Ethiopia" when = 1 } 
 		command = { type = secederegion which = -1 value = "Horn of Africa" when = 1 } 
+		
+		command = { type = demobilize which = land when = 0 where = 0 value = 50 }
 		
 		command = { type = military_control which = GER where = ITA value = 0 }
 		command = { type = ai which = "EXP_0.ai" }
@@ -535,6 +544,8 @@ event = {
 		command = { trigger = { ai = GER } type = secederegion which = GER value = "France" when = 1 } 
 		
 		command = { type = local_clrflag which = SanctionsEvt }
+		
+		command = { type = ai which = "EXP_80.ai" }
 	}
 	action = {
 		name = "Stay loyal to Germany"
@@ -597,8 +608,10 @@ event = {
 		#What remained of the Italian army split roughly half in half after the armistice.
 		#About 500k for RSI, another 500k for the Royal Army and the resistance together
 		command = { type = civil_war which = RSI }
-		command = { trigger = { ai = GER } type = event which = 2001014 where = ENG when = 1 }
-		command = { trigger = { NOT = { ai = GER } } type = event which = 2001014 where = ENG when = 0 }
+		command = { trigger = { ai = GER 			alliance = { country = USA country = ENG } } 			type = event which = 2001014 where = USA when = 1 }
+		command = { trigger = { ai = GER 			NOT = { alliance = { country = USA country = ENG } } }  type = event which = 2001014 where = ENG when = 1 }
+		command = { trigger = { NOT = { ai = GER }	alliance = { country = USA country = ENG } } 			type = event which = 2001014 where = USA when = 0 }
+		command = { trigger = { NOT = { ai = GER } 	NOT = { alliance = { country = USA country = ENG } } }	type = event which = 2001014 where = ENG when = 0 }
 		command = { type = event which = 2006031 where = GER when = 0 }
 		command = { type = ai which = "EXP_90.ai" }
 		#The enemy gains the same amount so not much of a cheat
@@ -615,7 +628,7 @@ event = {
 event = {
 	id = 2001014
 	random = no
-	country = ENG
+	tag = { USA ENG }
 
 	name = "Italy switches sides"
 	desc = "After the United Nations presented their demand for Italian unconditional surrender, the government of Badoglio and the King deliberated for several days, and eventually made the decision to abandon the alliance with Germany and side with the Allies. However, swift German response completely disorganized the Italian army, occupied Rome and rescued Mussolini from prison."
@@ -624,9 +637,18 @@ event = {
 
 	action = {
 		name = "Their common sense prevailed!"
+		#command = { type = add_claim_region which = "Italy" }
+		command = { type = add_claim_region which = "Libya" }
+		command = { type = add_claim_region which = "Tunisia" }
+		command = { type = add_claim_region which = "Egypt" }
+		command = { type = add_claim_region which = "Ethiopia" }
+		command = { type = add_claim_region which = "Horn of Africa" } 
 		command = { type = make_puppet which = ITA }
 		command = { type = event which = 2400538 where = ITA when = 0 } #strong puppet
-		command = { type = military_control which = ENG where = ITA value = 1 }
+		command = { trigger = { country = ENG ai = no } type = military_control which = ENG where = ITA value = 1 }
+		command = { trigger = { country = USA ai = no } type = military_control which = USA where = ITA value = 1 }
+		command = { type = event which = 2006019 where = -1  when = 0 }
+		command = { type = event which = 2006020 where = ITA when = 0 }
 	}
 }
 
@@ -749,6 +771,10 @@ event = {
 		command = { trigger = { alliance = { country = GER country = ROM } } type = access which = ROM }
 		command = { trigger = { alliance = { country = GER country = HUN } } type = access which = HUN }
 		command = { trigger = { alliance = { country = GER country = CRO } } type = access which = CRO }
+		
+		command = { type = set_domestic which = freedom		 	value = 8  }
+		command = { type = set_domestic which = defense_lobby 	value = 8  }
+		command = { type = set_domestic which = interventionism	value = 5  }
 		command = { type = event which = 2006016 where = GER when = 1 }
 	}
 }
@@ -770,6 +796,16 @@ event = {
 		command = { type = event which = 2400536 where = RSI when = 0 } #medium puppet
 		command = { type = event which = 2006017 where = GER when = 0 }
 		command = { type = military_control which = GER where = RSI value = 1 }
+		
+		#The enemy gains the same amount so not much of a cheat
+		command = { type = add_corps value = land where = 519 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_corps value = land where = 517 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_corps value = land where = 543 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_corps value = land where = 6553 }
+		command = { type = add_division value = infantry when = 11 }
 	}
 }
 
@@ -812,18 +848,87 @@ event = {
 		
 		command = { type = add_claim_region which = "Balkan" where = GER } 
 		command = { type = remove_claim_area which = "Bulgaria" where = GER }
-		
-		#The enemy gains the same amount so not much of a cheat
-		command = { type = add_corps value = land where = 519 }
-		command = { type = add_division value = infantry when = 11 }
-		command = { type = add_corps value = land where = 517 }
-		command = { type = add_division value = infantry when = 11 }
-		command = { type = add_corps value = land where = 543 }
-		command = { type = add_division value = infantry when = 11 }
-		command = { type = add_corps value = land where = 6553 }
-		command = { type = add_division value = infantry when = 11 }
 	}
 }
+
+event = {
+	id = 2006019
+	random = no
+	tag = { USA ENG }
+
+	name = "Italy switches sides"
+	desc = "After the United Nations presented their demand for Italian unconditional surrender, the government of Badoglio and the King deliberated for several days, and eventually made the decision to abandon the alliance with Germany and side with the Allies. However, swift German response completely disorganized the Italian army, occupied Rome and rescued Mussolini from prison."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = "Their common sense prevailed!"
+		command = { type = secederegion which = ITA value = "Italy" when = 1 } 
+	}
+}
+
+event = {
+	id = 2006020
+	random = no
+	country = ITA
+
+	name = "Italy switches sides"
+	desc = "After the United Nations presented their demand for Italian unconditional surrender, the government of Badoglio and the King deliberated for several days, and eventually made the decision to abandon the alliance with Germany and side with the Allies. However, swift German response completely disorganized the Italian army, occupied Rome and rescued Mussolini from prison."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = "Curses!"
+		command = { trigger = { alliance = { country = ENG } } type = secederegion which = ENG value = "Libya" when = 1 } 
+		command = { trigger = { alliance = { country = ENG } } type = secederegion which = ENG value = "Tunisia" when = 1 } 
+		command = { trigger = { alliance = { country = ENG } } type = secederegion which = ENG value = "Egypt" when = 1 } 
+		command = { trigger = { alliance = { country = ENG } } type = secederegion which = ENG value = "Ethiopia" when = 1 } 
+		command = { trigger = { alliance = { country = ENG } } type = secederegion which = ENG value = "Horn of Africa" when = 1 } 
+		command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Libya" when = 1 } 
+		command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Tunisia" when = 1 } 
+		command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Egypt" when = 1 } 
+		command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Ethiopia" when = 1 } 
+		command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Horn of Africa" when = 1 } 
+		
+		command = { type = set_domestic which = political_left value = 4 }
+		command = { type = headofstate which = 25015 } #Vittorio Emanuele III
+		command = { type = headofgovernment which = 25026 } #Pietro Badoglio
+		command = { type = foreignminister which = 25035 } #Pietro Badoglio
+		command = { type = armamentminister which = 25063 } #Luigi Einaudi
+		command = { type = ministerofsecurity which = 25076 } #Alcide De Gasperi
+		command = { type = ministerofintelligence which = 25012 } #Umberto Ricci
+		command = { type = chiefofstaff which = 25153 } #Pietro Badoglio
+		command = { type = chiefofarmy which = 25112 } #Vittorio Ambrosio
+		command = { type = chiefofnavy which = 25121 } #Raffaele De Courten
+		command = { type = chiefofair which = 25129 } #Pietro Piacentini
+		
+		command = { type = make_puppet which = U38 }
+		command = { type = event which = 2006021 where = U38 when = 2 }
+	}
+}
+
+event = {
+	id = 2006021
+	random = no
+	country = U38
+
+	name = "Italy switches sides"
+	desc = "After the United Nations presented their demand for Italian unconditional surrender, the government of Badoglio and the King deliberated for several days, and eventually made the decision to abandon the alliance with Germany and side with the Allies. However, swift German response completely disorganized the Italian army, occupied Rome and rescued Mussolini from prison."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = "Curses!"
+		command = { }
+		command = { type = leave_alliance when = 1 }
+	}
+}
+
+
+
+
+
+
 
 event = {
 	id = 14000018
@@ -1070,7 +1175,7 @@ event = {
 	picture = "Mussolini"	
 	
 	date = { day = 1 month = january year = 1936 }
-	offset = 15
+	offset = 10
 	deathdate = { day = 30 month = december year = 1963 }
 
 	action = {
@@ -1123,6 +1228,61 @@ event = {
 	action = {
 		name = "Ritorneremo!"
 		command = { type = dissent value = 2 }
+		command = { type = control which = ENG value = 1033 }
+		command = { type = control which = ENG value = 1038 }
+		command = { type = control which = ENG value = 1039 }
+		command = { type = control which = ENG value = 1042 }
+		command = { type = control which = ENG value = 1043 }
+		command = { type = control which = ENG value = 1044 }
+		command = { type = control which = ENG value = 1045 }
+		command = { type = control which = ENG value = 1046 }
+		command = { type = control which = ENG value = 1047 }
+		command = { type = control which = ENG value = 1048 }
+		command = { type = control which = ENG value = 1049 }
+		command = { type = control which = ENG value = 1050 }
+		command = { type = control which = ENG value = 1051 }
+		command = { type = control which = ENG value = 1052 }
+		command = { type = control which = ENG value = 1053 }
+		command = { type = control which = ENG value = 1054 }
+		command = { type = control which = ENG value = 2342 }
+		command = { type = control which = ENG value = 4658 }
+		command = { type = control which = ENG value = 4659 }
+		command = { type = control which = ENG value = 4660 }
+		command = { type = control which = ENG value = 4661 }
+		command = { type = control which = ENG value = 4662 }
+		command = { type = control which = ENG value = 4663 }
+		command = { type = control which = ENG value = 4664 }
+		command = { type = control which = ENG value = 4665 }
+		command = { type = control which = ENG value = 4666 }
+		command = { type = control which = ENG value = 4667 }
+		command = { type = control which = ENG value = 4668 }
+		command = { type = control which = ENG value = 4669 }
+		command = { type = control which = ENG value = 4670 }
+		command = { type = control which = ENG value = 4671 }
+		command = { type = control which = ENG value = 4672 }
+		command = { type = control which = ENG value = 4673 }
+		command = { type = control which = ENG value = 4674 }
+		command = { type = control which = ENG value = 4675 }
+		command = { type = control which = ENG value = 4676 }
+		command = { type = control which = ENG value = 4677 }
+		command = { type = control which = ENG value = 4678 }
+		command = { type = control which = ENG value = 4679 }
+		command = { type = control which = ENG value = 4680 }
+		command = { type = control which = ENG value = 4682 }
+		command = { type = control which = ENG value = 6539 }
+		command = { type = control which = ENG value = 6540 }
+		command = { type = control which = ENG value = 6541 }
+		command = { type = control which = ENG value = 6542 }
+		command = { type = control which = ENG value = 7346 }
+		command = { type = control which = ENG value = 7445 }
+		command = { type = control which = ENG value = 7446 }
+		command = { type = control which = ENG value = 7447 }
+		command = { type = control which = ENG value = 7448 }
+		command = { type = control which = ENG value = 7449 }
+		command = { type = control which = ENG value = 7935 }
+		
+		command = { type = control which = ENG value = 7935 }
+		command = { type = control which = ENG value = 7450 }
 	}
 }
 
@@ -1151,6 +1311,56 @@ event = {
 	action = {
 		name = "Ritorneremo!"
 		command = { type = dissent value = 5 }
+		command = { type = control which = ENG value = 916 }
+		command = { type = control which = ENG value = 917 }
+		command = { type = control which = ENG value = 919 }
+		command = { type = control which = ENG value = 920 }
+		command = { type = control which = ENG value = 921 }
+		command = { type = control which = ENG value = 922 }
+		command = { type = control which = ENG value = 923 }
+		command = { type = control which = ENG value = 924 }
+		command = { type = control which = ENG value = 925 }
+		command = { type = control which = ENG value = 926 }
+		command = { type = control which = ENG value = 927 }
+		command = { type = control which = ENG value = 928 }
+		command = { type = control which = ENG value = 929 }
+		command = { type = control which = ENG value = 930 }
+		command = { type = control which = ENG value = 931 }
+		command = { type = control which = ENG value = 932 }
+		command = { type = control which = ENG value = 933 }
+		command = { type = control which = ENG value = 952 }
+		command = { type = control which = ENG value = 1017 }
+		command = { type = control which = ENG value = 2886 }
+		command = { type = control which = ENG value = 2887 }
+		command = { type = control which = ENG value = 2888 }
+		command = { type = control which = ENG value = 2889 }
+		command = { type = control which = ENG value = 2890 }
+		command = { type = control which = ENG value = 2891 }
+		command = { type = control which = ENG value = 2892 }
+		command = { type = control which = ENG value = 2893 }
+		command = { type = control which = ENG value = 2894 }
+		command = { type = control which = ENG value = 2895 }
+		command = { type = control which = ENG value = 2896 }
+		command = { type = control which = ENG value = 4535 }
+		command = { type = control which = ENG value = 4536 }
+		command = { type = control which = ENG value = 4537 }
+		command = { type = control which = ENG value = 4538 }
+		command = { type = control which = ENG value = 4539 }
+		command = { type = control which = ENG value = 4540 }
+		command = { type = control which = ENG value = 4541 }
+		command = { type = control which = ENG value = 4542 }
+		command = { type = control which = ENG value = 4543 }
+		command = { type = control which = ENG value = 4544 }
+		command = { type = control which = ENG value = 4545 }
+		command = { type = control which = ENG value = 4546 }
+		command = { type = control which = ENG value = 4547 }
+		command = { type = control which = ENG value = 4548 }
+		command = { type = control which = ENG value = 4549 }
+		command = { type = control which = ENG value = 4550 }
+		command = { type = control which = ENG value = 4551 }
+		command = { type = control which = ENG value = 4552 }
+		command = { type = control which = ENG value = 4553 }
+		command = { type = control which = ENG value = 4554 }
 	}
 }
 
