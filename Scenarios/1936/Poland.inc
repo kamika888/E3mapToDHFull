@@ -684,14 +684,21 @@ landunit =
       } 
     } 
 	
-landdivision = { dormant = yes id = { type = 12700 id = 10100 }  name = "Warsaw City Center" 	type = militia  model = 6  strength = 60 }
-landdivision = { dormant = yes id = { type = 12700 id = 10101 }  name = "Warsaw - North"  		type = militia  model = 6  strength = 60 }
-landdivision = { dormant = yes id = { type = 12700 id = 10102 }  name = "Warsaw - South"  		type = militia  model = 6  strength = 60 }
-landdivision = { dormant = yes id = { type = 12700 id = 10103 }  name = "Powisle"  				type = militia  model = 6  strength = 60 }
-landdivision = { dormant = yes id = { type = 12700 id = 10104 }  name = "Zoliborz"  			type = militia  model = 6  strength = 60 }
-landdivision = { dormant = yes id = { type = 12700 id = 10105 }  name = "Kampinos Forest"  		type = militia  model = 6  strength = 60 }
-landdivision = { dormant = yes id = { type = 12700 id = 10106 }  name = "Kedyw Units"  			type = infantry model = 11 strength = 60 }
+landdivision = { dormant = yes id = { type = 12700 id = 10100 }  name = "Warsaw City Center" 		type = militia  model = 6  strength = 60 }
+landdivision = { dormant = yes id = { type = 12700 id = 10101 }  name = "Warsaw - North"  			type = militia  model = 6  strength = 60 }
+landdivision = { dormant = yes id = { type = 12700 id = 10102 }  name = "Warsaw - South"  			type = militia  model = 6  strength = 60 }
+landdivision = { dormant = yes id = { type = 12700 id = 10103 }  name = "Powisle"  					type = militia  model = 6  strength = 60 }
+landdivision = { dormant = yes id = { type = 12700 id = 10104 }  name = "Zoliborz"  				type = militia  model = 6  strength = 60 }
+landdivision = { dormant = yes id = { type = 12700 id = 10105 }  name = "Kampinos Forest"  			type = militia  model = 6  strength = 60 }
+landdivision = { dormant = yes id = { type = 12700 id = 10106 }  name = "Kedyw Units"  				type = infantry model = 11 strength = 60 }
 
-landdivision = { dormant = yes id = { type = 12700 id = 10110 }  name = "Underground State"		type = garrison model = 4	locked = yes }
+landdivision = { dormant = yes id = { type = 12700 id = 10110 }  name = "Underground State"			type = garrison model = 4	locked = yes }
+
+landdivision = { dormant = yes id = { type = 12700 id = 10150 }  name = "Polish Army in the East"	type = hq		model = 3	locked = yes extra = anti_air				brigade_model = 3 }
+landdivision = { dormant = yes id = { type = 12700 id = 10151 }  name = "3rd Carpathian Division"	type = infantry model = 10  locked = yes }
+landdivision = { dormant = yes id = { type = 12700 id = 10152 }  name = "5th Kresowa Division"		type = infantry model = 10  locked = yes }
+landdivision = { dormant = yes id = { type = 12700 id = 10153 }  name = "6th Lwow Division"			type = infantry model = 10  locked = yes extra = light_armor_brigade	brigade_model = 7 }
+landdivision = { dormant = yes id = { type = 12700 id = 10154 }  name = "7th Infantry Division"		type = infantry model = 10  locked = yes }
+landdivision = { dormant = yes id = { type = 12700 id = 10155 }  name = "8th Infantry Division"		type = infantry model = 10  locked = yes extra = artillery				brigade_model = 9 }
 } 
  

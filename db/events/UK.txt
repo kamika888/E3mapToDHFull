@@ -3289,6 +3289,7 @@ event = {
 		command = { type = add_division value = militia when = 6 where = -30 }
 		command = { type = trade which = USA where = IRE supplies = -10 value = 1 }
 		command = { type = local_setflag which = inMajorWar	}
+		command = { type = event which = 3130 where = -1 when = 1080 } #inMajorWar clear
 	}
 }
 
@@ -3495,30 +3496,39 @@ event = {
 		name = "ACTION_NAME_GREAT"
 		trigger = {
 			event = 2002106
-			atwar = POL
-			NOT = { local_flag = { which = POLArmyEast when = 1 value = 8 } }
-			NOT = { region = { region = Poland country = -3 data = 1 value = 50 } }
+			#atwar = POL
+			NOT = { local_flag = { which = POLArmyEast when = 1 value = 6 } }
+			#NOT = { region = { region = Poland country = -3 data = 1 value = 50 } }
 		}
 		
-		command = { trigger = { NOT = { local_flag = { which = POLArmyEast when = 1 value = 1 } } control = { province = 269 data = SOV } } 			type = add_corps value = land where = 3668 when = 60003 } #Anders
-		command = { trigger = { NOT = { local_flag = { which = POLArmyEast when = 1 value = 1 } } NOT = { control = { province = 269 data = SOV } } } 	type = add_corps value = land where = 1427 when = 60003 } #Anders
-		command = { trigger = { NOT = { local_flag = { which = POLArmyEast when = 1 value = 1 } } } 	type = add_division which = "Polish Army in the East" value = hq when = 3 where = -30 }
-		#command = { trigger = { NOT = { local_flag = { which = POLArmyEast when = 1 value = 1 } } } 	type = add_division value = garrison when = 5 where = -30 }
+		command = { trigger = { local_flag = { which = POLArmyEast when = 0 value = 0 } control = { province = 269 data = SOV } } 				type = add_corps 			when = 60003  value = land  where = 3668 } #Anders
+		command = { trigger = { local_flag = { which = POLArmyEast when = 0 value = 0 } NOT = { control = { province = 269 data = SOV } } } 	type = add_corps 			when = 60003  value = land  where = 1427 } #Anders
+		command = { trigger = { local_flag = { which = POLArmyEast when = 0 value = 0 } control = { province = 269 data = SOV } } 				type = activate_division 	which = 12700 value = 10150 where = 3668 when = 0 }
+		command = { trigger = { local_flag = { which = POLArmyEast when = 0 value = 0 } NOT = { control = { province = 269 data = SOV } } }		type = activate_division 	which = 12700 value = 10150 where = 1427 when = 0 }
+		#command = { trigger = { local_flag = { which = POLArmyEast when = 0 value = 0 } } 	type = add_division value = garrison when = 5 where = -30 }
 		
-		command = { trigger = { control = { province = 269 data = SOV } } 			type = add_corps value = land where = 3668 } #Buzuluk
-		command = { trigger = { NOT = { control = { province = 269 data = SOV } } }	type = add_corps value = land where = 1427 } #Tashkent
-		command = { trigger = { NOT = { year = 1943 } } 							type = add_division value = infantry when = 10 where = -90 } #1939
-		command = { trigger = { year = 1943 }										type = add_division value = infantry when = 11 where = -90 } #1942
+		command = { trigger = { control = { province = 269 data = SOV } } 																		type = add_corps 						  value = land  where = 3668 } #Buzuluk
+		command = { trigger = { NOT = { control = { province = 269 data = SOV } } }																type = add_corps 						  value = land  where = 1427 } #Tashkent
+		command = { trigger = { control = { province = 269 data = SOV } 			local_flag = { which = POLArmyEast when = 0 value = 1 } }	type = activate_division 	which = 12700 value = 10151 where = 3668 when = 0 }
+		command = { trigger = { control = { province = 269 data = SOV } 			local_flag = { which = POLArmyEast when = 0 value = 2 } }	type = activate_division 	which = 12700 value = 10152 where = 3668 when = 0 }
+		command = { trigger = { control = { province = 269 data = SOV } 			local_flag = { which = POLArmyEast when = 0 value = 3 } }	type = activate_division 	which = 12700 value = 10153 where = 3668 when = 0 }
+		command = { trigger = { control = { province = 269 data = SOV } 			local_flag = { which = POLArmyEast when = 0 value = 4 } }	type = activate_division 	which = 12700 value = 10154 where = 3668 when = 0 }
+		command = { trigger = { control = { province = 269 data = SOV } 			local_flag = { which = POLArmyEast when = 0 value = 5 } }	type = activate_division 	which = 12700 value = 10155 where = 3668 when = 0 }
+		command = { trigger = { NOT = { control = { province = 269 data = SOV } }	local_flag = { which = POLArmyEast when = 0 value = 1 } }	type = activate_division 	which = 12700 value = 10151 where = 1427 when = 0 }
+		command = { trigger = { NOT = { control = { province = 269 data = SOV } }	local_flag = { which = POLArmyEast when = 0 value = 2 } }	type = activate_division 	which = 12700 value = 10152 where = 1427 when = 0 }
+		command = { trigger = { NOT = { control = { province = 269 data = SOV } }	local_flag = { which = POLArmyEast when = 0 value = 3 } }	type = activate_division 	which = 12700 value = 10153 where = 1427 when = 0 }
+		command = { trigger = { NOT = { control = { province = 269 data = SOV } }	local_flag = { which = POLArmyEast when = 0 value = 4 } }	type = activate_division 	which = 12700 value = 10154 where = 1427 when = 0 }
+		command = { trigger = { NOT = { control = { province = 269 data = SOV } }	local_flag = { which = POLArmyEast when = 0 value = 5 } }	type = activate_division 	which = 12700 value = 10155 where = 1427 when = 0 }
 		
 		command = { type = local_setflag which = POLArmyEast when = 1 value = 1 }
 		
-		command = { type = event which = 2002107 where = POL when = 60 } #One division per 2 months. Will reach 8 divisions by ~November 1942.
+		command = { type = event which = 2002107 where = POL when = 80 } #Will reach 6 divisions by ~November 1942.
 	}
 	action = {
 		name = "The Soviets are stiffling aid!"
 		trigger = {
 			event = 2002106
-			local_flag = { which = POLArmyEast when = 1 value = 8 }
+			local_flag = { which = POLArmyEast when = 1 value = 6 }
 		}
 		
 		command = { type = event which = 2002108 where = SOV when = 1 }
@@ -3537,6 +3547,7 @@ event = {
 	
 	action = {
 		name = "Let them go, they are of no use to us."
+		trigger = { OR = { ai = no NOT = { event = 2002114 } } }
 		#Polish divisions will auto-redeploy to London
 		command = { type = end_access which = POL when = 0 }
 		command = { type = end_access which = POL when = 1 }
@@ -3544,7 +3555,12 @@ event = {
 		command = { type = dissent value = -2 }
 		
 		command = { type = event which = 2002109 where = POL when = 1 }
-		#command = { type = event which = 2002110 where = SOV when = 60 } #~March 1943
+		#command = { type = event which = 2002110 where = SOV when = 90 } #~March 1943
+	}
+	action = {
+		name = "We can still work together"
+		trigger = { event = 2002114 }
+		command = { type = dissent value = 0.5 }
 	}
 }
 
@@ -3560,6 +3576,63 @@ event = {
 	action = {
 		name = "USSR is not a friend and never will be"
 		command = { type = relation which = SOV value = -20 }
+		command = { type = unlock_division which = 12700 value = 10150 }
+		command = { type = unlock_division which = 12700 value = 10151 }
+		command = { type = unlock_division which = 12700 value = 10152 }
+		command = { type = unlock_division which = 12700 value = 10153 }
+		command = { type = unlock_division which = 12700 value = 10154 }
+		command = { type = unlock_division which = 12700 value = 10155 }
+	}
+}
+
+event = { 
+	id = 2002114
+	random = no 
+	country = POL
+	
+	decision = {
+		war = { country = GER country = POL }
+		war = { country = GER country = SOV }
+		NOT = { alliance = { country = GER } } 
+		NOT = { event = 2002109 }
+	}
+	decision_trigger = {
+		region = { 		region = "Russia" 	country = -2 value = 20 } 
+	}
+	trigger = {
+		war = { country = GER country = POL }
+		war = { country = GER country = SOV }
+		NOT = { alliance = { country = GER } } 
+		NOT = { event = 2002109 }
+		region = { 	region = "Russia" 	country = -2 value = 50 } 
+		OR = {
+			area = { 	area = "Kuybyshev" 	country = -2 value = 10 } 
+			area = { 	area = "Ufa"	 	country = -2 value = 10 } 
+		}
+	}
+
+	date = { day = 0 month = january year = 1937 }
+	offset = 15
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = "Activate Polish Armed Forces in the East"
+	desc = "As the German war machine is rapidly conquering Russia and getting close to Buzuluk, the original place of formation of the Polish Army in the East, perhaps it is time to put our differences with Moscow aside, at least temporarily, and join them in battle. Otherwise, all Slavs might face a terrible fate and never emerge from this nightmare."
+  	style = 2
+	
+	action = {
+		name = "We should help Moscow"
+		command = { type = dissent value = 1 }
+		command = { trigger = { NOT = {
+									area = { 	area = "Kuybyshev" 	country = -2 value = 10 } 
+									area = { 	area = "Ufa"	 	country = -2 value = 10 } 
+								} }  type = dissent value = 10 }
+		command = { type = relation which = SOV value = 30 }
+		command = { type = unlock_division which = 12700 value = 10150 }
+		command = { type = unlock_division which = 12700 value = 10151 }
+		command = { type = unlock_division which = 12700 value = 10152 }
+		command = { type = unlock_division which = 12700 value = 10153 }
+		command = { type = unlock_division which = 12700 value = 10154 }
+		command = { type = unlock_division which = 12700 value = 10155 }
 	}
 }
 

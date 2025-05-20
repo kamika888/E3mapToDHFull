@@ -217,7 +217,7 @@ event = {
 		#move capital to Vichy
 		
 		#command = { type = ai_prepare_war which = SOV }
-		command = { type = event which = 2002008 where = FRA when = 1 } # L'Etat Français
+		command = { type = event which = 2002008 where = FRA when = 0 } # L'Etat Français
     } 
 
 	action = { trigger = { flag = Rethondes2 }
@@ -248,7 +248,7 @@ event = {
         #command = { trigger = { region = { region = Tunisia country = ITA value = 60 } } type = secederegion which = ITA value = Tunisia when = 2 }
 		
 		#command = { type = ai_prepare_war which = SOV }
-		command = { type = event which = 2002008 where = FRA when = 1 } # L'Etat Français
+		command = { type = event which = 2002008 where = FRA when = 0 } # L'Etat Français
     } 
 }
 
@@ -307,16 +307,28 @@ event = {
 		#Levant: 45,000 men (15k army, 30k militia)
 		#Indochina: 60,000 men (20k army, 40k militia)
 		#Madagascar: 10,000 men (militia)
-		command = { type = demobilize which = armor 		when = 0 where = 0 value = 2  }
-		command = { type = demobilize which = light_armor 	when = 0 where = 0 value = 2  }
-		command = { type = demobilize which = garrison	 	when = 0 where = 0 value = 3  }
-		command = { type = demobilize which = hq		 	when = 0 where = 0 value = 3  }
-		command = { type = demobilize which = cavalry	 	when = 0 where = 0 value = 3  }
-		command = { type = demobilize which = motorized 	when = 0 where = 0 value = 5  }
-		command = { type = demobilize which = bergsjaeger 	when = 0 where = 0 value = 5  }
-		command = { type = demobilize which = infantry	 	when = 0 where = 0 value = 25 }
+		command = { type = demobilize which = armor 			when = 0 where = 0 value = 2  }
+		command = { type = demobilize which = light_armor 		when = 0 where = 0 value = 2  }
+		command = { type = demobilize which = garrison	 		when = 0 where = 0 value = 3  }
+		command = { type = demobilize which = hq		 		when = 0 where = 0 value = 3  }
+		command = { type = demobilize which = cavalry	 		when = 0 where = 0 value = 3  }
+		command = { type = demobilize which = motorized 		when = 0 where = 0 value = 5  }
+		command = { type = demobilize which = bergsjaeger 		when = 0 where = 0 value = 5  }
+		command = { type = demobilize which = infantry	 		when = 0 where = 0 value = 25 }
 		
 		command = { trigger = { army = { size = 50 } } type = demobilize which = land when = 0 where = 0 value = 50 } #leave ~50 land units (best models)
+		
+		#French had only 612 combat planes left at the end of the campaign, which germany reluctantly allowed them to keep
+		command = { type = demobilize which = strategic_bomber	when = 0 where = 0 value = 0  }
+		command = { type = demobilize which = tactical_bomber	when = 0 where = 0 value = 5  }
+		command = { type = demobilize which = air	 			when = 0 where = 0 value = 10 }
+		
+		command = { type = local_setflag which = FRA_AIR when = 1 value = 5 }
+		command = { type = event which = 975 where = GER when = 0 }
+		command = { type = event which = 975 where = GER when = 0 }
+		command = { type = event which = 975 where = GER when = 0 }
+		command = { type = event which = 975 where = GER when = 0 }
+		command = { type = event which = 975 where = GER when = 0 }
 		
 		#Forced remove General Mobilization. Theoretically should remove partial mob and even conscription too, but this can cause problems in Vichy's proxy wars. Keeping for now.
 		command = { type = event which = 8300112 where = FRA when = 0 } 
@@ -375,11 +387,6 @@ event = {
 		command = { trigger = { NOT = { division_exists = { type = 13500 id = 2024 } } } type = activate_division which = 13500 		value = 2038 where = 1792 when = 0 }
 		command = { trigger = { NOT = { division_exists = { type = 13500 id = 2025 } } } type = add_corps which = "Beirut Defence" 		value = land where = 1794 } # Beirut
 		command = { trigger = { NOT = { division_exists = { type = 13500 id = 2025 } } } type = activate_division which = 13500 		value = 2039 where = 1794 when = 0 }
-		
-		command = { type = make_puppet which = U55 }
-		command = { type = make_puppet which = U57 }
-		command = { type = make_puppet which = U03 }
-		command = { type = make_puppet which = U04 }
 		
         # tech teams
         command = { type = sleepteam which = 5006 }
@@ -629,9 +636,35 @@ event = {
 		command = { type = event which = 2400040 where = U03 when = 0 } #Exp_0
 		command = { type = event which = 2400040 where = U04 when = 0 } #Exp_0
 		
+		command = { type = ai which = "home_10.ai" }
+		
+		command = { type = trigger which = 2002032 }
+    } 
+}
+
+event = {
+	id = 2002032
+	random = no
+	country = FRA
+	style = 2
+
+	name = "German Puppet"
+	desc = "We are now effectively a German sattelite state." 
+
+	action = {
+		name = "ACTION_NAME_OK"
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { }
+		
+		command = { type = make_puppet which = U55 }
+		command = { type = make_puppet which = U57 }
+		command = { type = make_puppet which = U03 }
+		command = { type = make_puppet which = U04 }
+		
 		command = { type = event which = 2002017 where = U03 when = 0 }
 		command = { type = event which = 2002017 where = U04 when = 0 }
-		command = { type = ai which = "home_10.ai" }
     } 
 }
 
@@ -872,7 +905,7 @@ event = {
 		command = { type = transport_pool which = U01 value = 150 }
 		
 		command = { type = local_setflag which = sliderSet }
-		command = { type = set_domestic which = political_left 	value = 4 }
+		command = { type = set_domestic which = political_left 	value = 5 } #ML
 		command = { type = set_domestic which = interventionism value = 4 }
 		command = { type = set_domestic which = freedom 		value = 9 }
 		command = { type = manpowerpool value = 300 } #defections and new recruits
@@ -3942,18 +3975,28 @@ event = {
 		NOT = { war = { country = GER country = FRA } }
 		#NOT = { alliance = { country = GER country = FRA } }
 		#non_aggression = { country = FRA country = ENG }
-		NOT = { region = { region = "Egypt" country = -2 value = 1 } }
+		#NOT = { region = { region = "Egypt" country = -2 value = 5 } }
 		
+		OR = { 
+			control = { province = 348	data = -3 }
+			control = { province = 932	data = -3 }
+			control = { province = 31	data = -3 }
+		}
 		OR = {
 			AND = {
 				alliance = { country = ENG country = USA }
 				NOT = { flag = debuff_USA }
 			}
-			event = { id = 2002011 days = 1095 } #3 years since attack on Mers-el-Kebir
+			event = { id = 2002011 days = 1095 } #3 years since attack on Mers-el-Kebir - UK goes alone
 		}
 		OR = {
-			region = { region = "Libya" country = -3 value = 70 } #Advancing across Libya
+			region = { region = "Libya" country = -3 value = 20 } #Advancing in Libya
 			control = { province = 515 data = -3 } #Took Rome
+			AND = {
+				event = { id = 2002011 days = 1095 } #3 years since attack on Mers-el-Kebir
+				alliance = { country = ENG country = USA }
+				NOT = { flag = debuff_USA }
+			}
 		}
 		OR = {
 			AND = {
@@ -4312,18 +4355,18 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 10
+	offset = 15
 	deathdate = { day = 29 month = december year = 1963 }
 
 	name = "Armistice Army limits exceeded"
-	desc = "Article IV of the Armistice of 22 June 1940 placed strict limits on the size of the remaining French Army and its deployment area. Our total army size cannot exceed 60 divisions, out of which at most 20 can be located in Metropolitain France at any given time. At the same time, we cannot have less than 10 divisions in Metropolitain France, or else Germany will not trust us to defend from a possible Allied invasion or even maintain order against resistance from the Maquis. We have 15 days to fix the problem, or we will face consequences..."
+	desc = "Article IV of the Armistice of 22 June 1940 placed strict limits on the size of the remaining French Army and its deployment area. Our total army size cannot exceed 60 divisions, out of which at most 20 can be located in Metropolitain France at any given time. At the same time, we cannot have less than 10 divisions in Metropolitain France, or else Germany will not trust us to defend against a possible Allied invasion or even maintain order against resistance from the Maquis. We have 15 days to fix the problem, or we will face consequences..."
 
 	action = {
 		name = ACTION_NAME_OK
 		command = { type = local_setflag which = armisticeCheck  }
 		command = { type = set_relation which = GER value = -30 }
-		command = { type = event which = 971 where = -1 when = 5 }
-		command = { type = event which = 972 where = -1 when = 5 }
+		command = { type = event which = 971 where = -1 when = 15 }
+		command = { type = event which = 972 where = -1 when = 15 }
 	}
 }
 
@@ -4375,7 +4418,140 @@ event = {
 		command = { type = local_clrflag which = armisticeCheck  }
 		#command = { type = end_puppet }
 		command = { type = set_relation which = GER value = -100 }
-		command = { type = event which = 2002049 where = FRA when = 0 } #Vichy coup (chance of failure 15%, but will happen again if the problem is not resolved)
+		command = { type = event which = 2002049 where = FRA when = 0 } #Vichy coup (chance of failure 15%, will happen though again if the problem is not resolved)
+	}
+}
+
+####################################
+# French Airforce Seized
+# 1940: 800-1000 possibly captured in various condition, limiting to 500
+# 1942: 300 confiscated?
+####################################
+
+event = {
+	id = 975
+	random = no
+	country = GER
+	style = 2
+	picture = "Petain"
+	persistent = yes
+
+	name = "Fate of the French Airforce"
+	desc = "During both the fall of France in 1940 as well as after Case Anton, Germany was able to seize a number of French combat aircraft, some of it in servicable condition. While much of the aircraft was outdated, failed German standartization requirements, needed meaintenance and crew training, some of it could still be useful - particularly the Dewoitine D.520 fighter planes. Historically, Germany did not make much combat use of the seized aircraft, preferring to use it for spare parts, for logisitical and for training purposes. But many planes were also sold to other Axis powers like Finland and Bulgaria at low prices, where they saw direct combat service. (Each instance of this event covers approximately 100 appropriated aircraft)"
+
+	action = {
+		name = "Put them in service"
+		ai_chance = 5
+		command = { type = dissent 		value = 0.05  } #Germans are convinced their equipment is superior, why are they being forced to fly foreign planes?
+		command = { type = manpowerpool	value = -1    }
+		command = { type = supplies		value = -2000 } #crew training & maintenance (2000/5000 = ~40%)
+		command = { type = add_division	value = multi_role when = 5	where = -30 } #-30 To simulate difficulty with parts replacement
+		command = { type = local_setflag which = FRA_AIR when = 1 value = -1 }
+	}
+	action = {
+		name = "Use for training and parts"
+		ai_chance = 40
+		#about half the cost of 1 modern mult_role, though German airforce is even cheaper thanks to Goring, so this is a really attractive option
+		command = { type = supplies		value = 2500  }
+		command = { type = local_setflag which = FRA_AIR when = 1 value = -1 }
+	}
+	action = {
+		name = "Sell to Italy"
+		ai_chance = 15
+		trigger = { exists = ITA }
+		command = { type = money		value = 500 }
+		command = { type = relation 	value = 20	which = ITA  }
+		command = { type = local_setflag which = FRA_AIR when = 1 value = -1 }
+		command = { type = event which = 976 where = ITA when = 0 }
+	}
+	action = {
+		name = "Sell to Spain"
+		ai_chance = 1
+		trigger = { exists = SPA }
+		command = { type = money		value = 500 }
+		command = { type = relation 	value = 20	which = SPA  }
+		command = { type = local_setflag which = FRA_AIR when = 1 value = -1 }
+		command = { type = event which = 976 where = SPA when = 0 }
+	}
+	action = {
+		name = "Sell to Finland"
+		ai_chance = 12
+		trigger = { exists = FIN }
+		command = { type = money		value = 500 }
+		command = { type = relation 	value = 20	which = FIN  }
+		command = { type = local_setflag which = FRA_AIR when = 1 value = -1 }
+		command = { type = event which = 976 where = FIN when = 0 }
+	}
+	action = {
+		name = "Sell to Hungary"
+		ai_chance = 5
+		trigger = { exists = HUN }
+		command = { type = money		value = 500 }
+		command = { type = relation 	value = 20	which = HUN  }
+		command = { type = local_setflag which = FRA_AIR when = 1 value = -1 }
+		command = { type = event which = 976 where = HUN when = 0 }
+	}
+	action = {
+		name = "Sell to Romania"
+		ai_chance = 1
+		trigger = { exists = ROM }
+		command = { type = money		value = 500 }
+		command = { type = relation 	value = 20	which = ROM  }
+		command = { type = local_setflag which = FRA_AIR when = 1 value = -1 }
+		command = { type = event which = 976 where = ROM when = 0 }
+	}
+	action = {
+		name = "Sell to Bulgaria"
+		ai_chance = 20
+		trigger = { exists = BUL }
+		command = { type = money		value = 500 }
+		command = { type = relation 	value = 20	which = BUL  }
+		command = { type = local_setflag which = FRA_AIR when = 1 value = -1 }
+		command = { type = event which = 976 where = BUL when = 0 }
+	}
+	action = {
+		name = "Sell to Croatia"
+		ai_chance = 1
+		trigger = { exists = CRO } 
+		command = { type = money		value = 500 }
+		command = { type = relation 	value = 20	which = CRO  }
+		command = { type = local_setflag which = FRA_AIR when = 1 value = -1 }
+		command = { type = event which = 976 where = CRO when = 0 }
+	}
+}
+
+event = {
+	id = 976
+	random = no
+	tag = { ITA FIN HUN ROM BUL CRO }
+	style = 2
+	picture = "Petain"
+	persistent = yes
+
+	name = "Fate of the French Airforce"
+	desc = "During both the fall of France in 1940 as well as after Case Anton, Germany was able to seize a number of French combat aircraft, some of it in servicable condition. While much of the aircraft was outdated, failed German standartization requirements, needed meaintenance and crew training, some of it could still be useful - particularly the Dewoitine D.520 fighter planes. Historically, Germany did not make much combat use of the seized aircraft, preferring to use it for spare parts, for logisitical and for training purposes. But many planes were also sold to other Axis powers like Finland and Bulgaria at low prices, where they saw direct combat service. (Each instance of this event covers approximately 100 appropriated aircraft)"
+
+	action = {
+		name = "Put them in service"
+		ai_chance = 90
+		command = { type = money		value = -500  }
+		command = { type = manpowerpool	value = -1    }
+		command = { type = supplies		value = -2000 } #crew training & maintenance
+		command = { type = add_division	value = multi_role when = 5	where = -30 } #-30 To simulate difficulty with parts replacement
+	}
+	action = {
+		name = "Use for training and parts"
+		ai_chance = 10
+		command = { type = money		value = -500  }
+		#about half the cost of 1 modern mult_role for advanced countries
+		#But since aircraft is much more expensive for the more backward Axis nations, this option is actually far less attractive for them
+		command = { type = supplies		value = 2500  }
+		command = { type = local_setflag which = FRA_AIR when = 1 value = -1 }
+	}
+	action = {
+		name = "Sell off to third parties"
+		ai_chance = 1
+		command = { type = money		value = 1500 } #the price of an outdated INT on the market (2000) minus what we paid to germany (500)
 	}
 }
 
@@ -4454,6 +4630,11 @@ event = {
 		
 		#command = { type = event which = 2400530 where = U55 when = 0 } #independent state
 		#command = { type = event which = 2400530 where = U57 when = 0 } #independent state
+		
+		command = { type = local_setflag which = FRA_AIR when = 1 value = 3 }
+		command = { type = event which = 975 where = GER when = 0 }
+		command = { type = event which = 975 where = GER when = 0 }
+		command = { type = event which = 975 where = GER when = 0 }
 		
 		command = { trigger = { control = { province = 1134 data = -3 } } type = independence which = MAD value = 0 } # Antananarivo. Units stationed in madagascar will change allegiance
 
@@ -5351,7 +5532,7 @@ event = {
 }
 
 event = { 
-	id = 976
+	id = 977
 	random = no
 	country = GER
 	
