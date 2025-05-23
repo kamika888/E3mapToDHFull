@@ -7,7 +7,7 @@
  { tag                    = U03 
    capital                = 1333 
    puppet                 = FRA 
-   ai_settings			 = { flags = { puppetLevel7 = 1 } }
+   ai_settings			 = { flags = { puppetLevel9 = 1 } }
 	# Resource Reserves 
 	energy                 = 420
 	metal                  = 210

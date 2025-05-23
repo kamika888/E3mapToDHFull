@@ -54,16 +54,6 @@ event = {
 		command = { type = strategic_attack	which = cas 					value = 1 }
 		command = { type = task_efficiency 	which = strategic_bombardment 	value = 1 }
 
-		#command = { type = speed  			which = land 					value = 3 }
-		command = { type = plain_move 		which = land value = 50 }
-		command = { type = desert_move 		which = land value = 50 }
-		command = { type = mountain_move 	which = land value = 50 }
-		command = { type = urban_move 		which = land value = 50 }
-		command = { type = hill_move 		which = land value = 50 }
-		command = { type = forest_move 		which = land value = 50 }
-		command = { type = jungle_move 		which = land value = 50 }
-		command = { type = swamp_move 		which = land value = 50 }
-		
 
 		command = { type = build_time which = amph_armor 			when = now where = relative value = -70 } #/170
 		command = { type = build_time which = anti_air	 			when = now where = relative value = -70 } #/70
@@ -82,6 +72,15 @@ event = {
 		command = { type = build_time which = super_heavy_armor	 	when = now where = relative value = -70 } #/180
 		command = { type = build_time which = super_heavy_artillery	when = now where = relative value = -70 } #/200
 		command = { type = build_time which = tank_destroyer	 	when = now where = relative value = -70 } #/140
+		
+		command = { type = build_time which = battleship		 	when = now where = relative value = -10 } #
+		command = { type = build_time which = light_cruiser		 	when = now where = relative value = -10 } #
+		command = { type = build_cost which = heavy_cruiser		 	when = now where = relative value = -10 } #
+		command = { type = build_time which = nuclear_submarine	 	when = now where = relative value =  50 } #
+		command = { type = build_cost which = nuclear_submarine	 	when = now where = relative value = -20 } #
+		command = { type = build_time which = submarine			 	when = now where = relative value =  30 } #
+		command = { type = build_time which = destroyer			 	when = now where = relative value =  50 } #
+		command = { type = build_time which = transport			 	when = now where = relative value =  50 } #
 
 		command = { type = build_cost which = cag	 				when = now where = relative value = -40 } #/2
 		command = { type = build_cost which = light_cag	 			when = now where = relative value = -40 } #/1.1
@@ -98,6 +97,10 @@ event = {
 		command = { type = build_cost which = naval_torpedoes_s	 	when = now where = relative value = -40 } #/0.3
 
 		command = { type = build_cost which = escort	 			when = now where = relative value = -80 } #/3.6
+		
+		command = { type = convoy_prod_mod which = transports									value = -50 }
+		command = { type = convoy_prod_mod which = escorts										value = -70 }
+		
 		
 		command = { trigger = { 						 NOT = { lost_IC = { value = 10 } } }	type = set_domestic which = free_market 	value = 1  } 
 		command = { trigger = { lost_IC = { value = 10 } NOT = { lost_IC = { value = 20 } } }	type = set_domestic which = free_market 	value = 2  } 
@@ -180,40 +183,96 @@ event = {
 		#Defense buffs
 		command = { type = defensiveness 		which = land value = -7  }
 		
-		command = { type = mountain_defense		which = land value = 90  }
-		command = { type = urban_defense 		which = land value = 90  }
-		command = { type = swamp_defense 		which = land value = 90  }
 		command = { type = plain_defense 		which = land value = 30  }
 		command = { type = desert_defense 		which = land value = 30  }
+		command = { type = mountain_defense		which = land value = 90  }
+		command = { type = urban_defense 		which = land value = 70  }
 		command = { type = hill_defense 		which = land value = 30  }
 		command = { type = forest_defense 		which = land value = 30  }
 		command = { type = jungle_defense 		which = land value = 30  }
+		command = { type = swamp_defense 		which = land value = 90  }
 		
 		command = { type = shore_attack 		which = land value = -30 }
 		command = { type = river_attack 		which = land value = -30 }
 		
-		command = { type = mountain_attack 		which = land value = -10 }
-		command = { type = urban_attack 		which = land value = -10 }
-		command = { type = swamp_attack 		which = land value = -10 }
 		command = { type = plain_attack 		which = land value = -5  }
 		command = { type = desert_attack 		which = land value = -5  }
+		command = { type = mountain_attack 		which = land value = -10 }
+		command = { type = urban_attack 		which = land value = -7  }
 		command = { type = hill_attack 			which = land value = -5  }
 		command = { type = forest_attack 		which = land value = -5  }
 		command = { type = jungle_attack 		which = land value = -5  }
-
-																		   #arm		#inf
-		command = { type = plain_move	 		which = land value = -0  } #-0		#-0
-		command = { type = desert_move	 		which = land value = -5  } #-0		#-25
-		command = { type = mountain_move 		which = land value = -10 } #-40		#-20
-		command = { type = hill_move			which = land value = -5  } #-5		#-10
-		command = { type = forest_move	 		which = land value = -10 } #-15		#-15
-		command = { type = jungle_move	 		which = land value = -10 } #-50		#-35
-		command = { type = swamp_move	 		which = land value = -10 } #-60		#-25
-		command = { type = urban_move	 		which = land value = -5  } #-15		#-5
+		command = { type = swamp_attack 		which = land value = -10 }
+		
+		#command = { type = speed  				which = land value = 3  } #arm		#inf
+		command = { type = plain_move 			which = land value = 50 } #-0		#-0
+		command = { type = desert_move 			which = land value = 45 } #-0		#-25
+		command = { type = mountain_move 		which = land value = 40 } #-40		#-20
+		command = { type = urban_move 			which = land value = 45 } #-15		#-5
+		command = { type = hill_move 			which = land value = 45 } #-5		#-10
+		command = { type = forest_move 			which = land value = 40 } #-15		#-15
+		command = { type = jungle_move 			which = land value = 40 } #-50		#-35
+		command = { type = swamp_move 			which = land value = 40 } #-60		#-25
 		
 		command = { type = max_organization 	which = land  value = 5  }
 		command = { type = max_organization 	which = naval value = 5  }
 		command = { type = max_organization 	which = air   value = 3  }
+		
+		
+		#experimental: while infantry and other land units are better at defense than attack, armor should be more balanced so it's not as much of a beast at defense
+		command = { type = plain_attack 		which = armor		value = 10  }
+		command = { type = desert_attack 		which = armor		value = 10  }
+		command = { type = mountain_attack 		which = armor		value = 10  }
+		command = { type = urban_attack 		which = armor		value = 10  }
+		command = { type = hill_attack 			which = armor		value = 10  }
+		command = { type = forest_attack 		which = armor		value = 10  }
+		command = { type = jungle_attack 		which = armor		value = 10  }
+		command = { type = swamp_attack 		which = armor		value = 10  }
+		command = { type = plain_defense 		which = armor		value = -30 }
+		command = { type = desert_defense 		which = armor		value = -30 }
+		command = { type = mountain_defense		which = armor		value = -30 }
+		command = { type = urban_defense 		which = armor		value = -30 }
+		command = { type = hill_defense 		which = armor		value = -30 }
+		command = { type = forest_defense 		which = armor		value = -30 }
+		command = { type = jungle_defense 		which = armor		value = -30 }
+		command = { type = swamp_defense 		which = armor		value = -30 }
+
+		command = { type = plain_attack 		which = light_armor value = 10  }
+		command = { type = desert_attack 		which = light_armor value = 10  }
+		command = { type = mountain_attack 		which = light_armor value = 10  }
+		command = { type = urban_attack 		which = light_armor value = 10  }
+		command = { type = hill_attack 			which = light_armor value = 10  }
+		command = { type = forest_attack 		which = light_armor value = 10  }
+		command = { type = jungle_attack 		which = light_armor value = 10  }
+		command = { type = swamp_attack 		which = light_armor value = 10  }
+		command = { type = plain_defense 		which = light_armor value = -30 }
+		command = { type = desert_defense 		which = light_armor value = -30 }
+		command = { type = mountain_defense		which = light_armor value = -30 }
+		command = { type = urban_defense 		which = light_armor value = -30 }
+		command = { type = hill_defense 		which = light_armor value = -30 }
+		command = { type = forest_defense 		which = light_armor value = -30 }
+		command = { type = jungle_defense 		which = light_armor value = -30 }
+		command = { type = swamp_defense 		which = light_armor value = -30 }
+		
+		command = { type = plain_attack 		which = mechanized	value = 10  }
+		command = { type = desert_attack 		which = mechanized	value = 10  }
+		command = { type = mountain_attack 		which = mechanized	value = 10  }
+		command = { type = urban_attack 		which = mechanized	value = 10  }
+		command = { type = hill_attack 			which = mechanized	value = 10  }
+		command = { type = forest_attack 		which = mechanized	value = 10  }
+		command = { type = jungle_attack 		which = mechanized	value = 10  }
+		command = { type = swamp_attack 		which = mechanized	value = 10  }
+		command = { type = plain_defense 		which = mechanized	value = -30 }
+		command = { type = desert_defense 		which = mechanized	value = -30 }
+		command = { type = mountain_defense		which = mechanized	value = -30 }
+		command = { type = urban_defense 		which = mechanized	value = -30 }
+		command = { type = hill_defense 		which = mechanized	value = -30 }
+		command = { type = forest_defense 		which = mechanized	value = -30 }
+		command = { type = jungle_defense 		which = mechanized	value = -30 }
+		command = { type = swamp_defense 		which = mechanized	value = -30 }
+
+	
+		
 
 		
 		#Reduced defense buffs
@@ -251,6 +310,36 @@ event = {
 		command = { type = fuel_consumption which = naval_bomber		value = -0.20 }
 		command = { type = fuel_consumption which = rocket_interceptor	value = -0.20 }
 		command = { type = fuel_consumption which = transport_plane		value = -0.20 }
+		
+		command = { type = fuel_consumption which = naval				value =  1.00 }
+		command = { type = range			which = naval				value = -5000 }
+		
+		command = { type = visibility 		which = submarine			value = 2.75  }
+		command = { type = visibility 		which = nuclear_submarine	value = 0.25  }
+		command = { type = visibility 		which = destroyer			value = -45   }
+		command = { type = visibility 		which = light_cruiser		value = -55   }
+		command = { type = visibility 		which = heavy_cruiser		value = -63.5 }
+		command = { type = visibility 		which = battlecruiser		value = -60   }
+		command = { type = visibility 		which = battleship			value = -67.5 }
+		command = { type = visibility 		which = escort_carrier		value = -75.5 }
+		command = { type = visibility 		which = light_carrier		value = -70.5 }
+		command = { type = visibility 		which = carrier				value = -86   }
+		command = { type = visibility 		which = transport			value = -17.5 }
+		
+		command = { type = surface_detection which = escort_carrier		value = -7    }
+		command = { type = surface_detection which = light_cag			value = -4    }
+		command = { type = surface_detection which = cag				value = -10   }
+		command = { type = air_detection 	which = cag					value = -4    }
+		
+		command = { type = speed 			which = carrier				value = -5    }
+		command = { type = speed 			which = light_carrier		value = -4    }
+		command = { type = speed 			which = escort_carrier		value = -3    }
+		command = { type = speed 			which = light_cruiser		value = -1    }
+		command = { type = speed 			which = destroyer			value = 5     }
+		
+		command = { type = naval_attack		which = nuclear_submarine	value = -2	  }
+		command = { type = sub_attack		which = submarine			value = 2	  }
+		
 		
 		command = { type = suppression which = militia	value = 3 } #3
 		

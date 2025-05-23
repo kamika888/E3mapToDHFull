@@ -7,7 +7,7 @@ country =
   control                = USA
   puppet			     = USA
   #control				 = USA #AI will not autonomously suppress revolts otherwise
-  ai_settings			 = { flags = { puppetLevel5 = 1 } }
+  ai_settings			 = { flags = { puppetLevel6 = 1 } }
 	# Resource Reserves 
 	energy                 = 480
 	metal                  = 240

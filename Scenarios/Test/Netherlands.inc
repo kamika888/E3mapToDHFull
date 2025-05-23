@@ -4,8 +4,8 @@
 
 country =
 { tag                    = HOL
-  control = BEL
-  capital                = 47
+control = ENG
+  capital                = 1019
 	manpower               = 4 
 	# Resource Reserves 
 	energy                 = 1740
@@ -206,74 +206,25 @@ inventions = { 3000027 }
      location = 49 
      name     = "Ie Legerkorps" 
      Division = 
-     {  id    = {  type = 18500 id = 2  } 
-       name  = "1" 
+     {  id   = {  type = 18500 id = 12  } 
+       name = "11" 
 	   strength     = 100
-       type  = infantry 
-	   model = 8 
+       type = armor 
+	   model = 1 
       } 
      Division = 
-     {  id   = {  type = 18500 id = 3  } 
-       name = "2" 
+     {  id   = {  type = 18500 id = 13  } 
+       name = "12" 
 	   strength     = 100
-       type = infantry 
-	   model = 8 
+       type = armor 
+	   model = 1 
       } 
      Division = 
-     {  id   = {  type = 18500 id = 4  } 
-       name = "3" 
+     {  id   = {  type = 18500 id = 14  } 
+       name = "13" 
 	   strength     = 100
-       type = infantry 
-	   model = 8 
-      } 
-     Division = 
-     {  id   = {  type = 18500 id = 5  } 
-       name = "4" 
-	   strength     = 100
-       type = infantry 
-	   model = 8 
-      } 
-     Division = 
-     {  id   = {  type = 18500 id = 6  } 
-       name = "5" 
-	   strength     = 100
-       type = infantry 
-	   model = 8 
-      } 
-     Division = 
-     {  id   = {  type = 18500 id = 7  } 
-       name = "6" 
-	   strength     = 100
-       type = infantry 
-	   model = 8 
-      } 
-     Division = 
-     {  id   = {  type = 18500 id = 8  } 
-       name = "7" 
-	   strength     = 100
-       type = infantry 
-	   model = 8 
-      } 
-     Division = 
-     {  id   = {  type = 18500 id = 9  } 
-       name = "8" 
-	   strength     = 100
-       type = infantry 
-	   model = 8 
-      } 
-     Division = 
-     {  id   = {  type = 18500 id = 10  } 
-       name = "9" 
-	   strength     = 100
-       type = infantry 
-	   model = 8 
-      } 
-     Division = 
-     {  id   = {  type = 18500 id = 11  } 
-       name = "10" 
-	   strength     = 100
-       type = infantry 
-	   model = 8 
+       type = armor 
+	   model = 1 
       } 
     } 
   } 

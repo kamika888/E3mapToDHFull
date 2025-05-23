@@ -6,7 +6,8 @@ country =
 { tag                    = SAF
   puppet				 = ENG
   control				 = ENG
-  ai_settings			 = { flags = { puppetLevel9 = 1 } }
+  dissent = 5
+  ai_settings			 = { flags = { puppetLevel8 = 1 } }
 	# Resource Reserves 
 	energy                 = 720
 	metal                  = 360

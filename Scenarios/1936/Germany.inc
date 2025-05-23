@@ -8,6 +8,7 @@
 country =
 { tag                    = GER
   ai_settings			 = { flags = { Depression = 6 WARDebt = 2 } }
+  dissent				 = 8
   belligerence			 = 4
   capital                = 300
 	manpower               = 794.5
