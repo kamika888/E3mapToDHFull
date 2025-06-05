@@ -254,7 +254,7 @@ country =
 	#Improved Construction Engineering 
 	5800 5080 5090
 	#Basic Oil Refining
-	5190 5200
+	5190 5200 5210
 	#Computers & cryptografi
 	5310 54010 54020 54030 5316 5326
 	#Exp. Rocket
@@ -263,7 +263,6 @@ country =
 	5700 5710 5010 5020
 	#Medicine
 	5600 5610 5620 5630
-
 	# Great War Land Doctrines (central powers)
 	6500 6510 6530 6550 6590 6600 6620 6650 6670 6610 6680 6690 6700 6710 6910
 	# WW2 Land Doctrines
@@ -298,7 +297,7 @@ blueprints = { 6240 6260 6270 7560 } # Elastic Defense, Combined Arms Off. and K
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 1 
-     free_market       = 1
+     free_market       = 3
      freedom           = 9 
      professional_army = 4 
      defense_lobby     = 5 

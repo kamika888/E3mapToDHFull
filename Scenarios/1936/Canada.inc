@@ -17,6 +17,7 @@ country =
     manpower               = 18 
     transports             = 100 
     escorts                = 10
+	dissent				   = 5
   capital                = 588
   diplomacy =
   { relation = { tag = AST value = 200 } # was access = yes
@@ -132,7 +133,7 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 5 
-     free_market       = 1
+     free_market       = 8
      freedom           = 8 
      professional_army = 2 
      defense_lobby     = 2 

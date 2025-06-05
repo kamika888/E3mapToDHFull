@@ -156,7 +156,8 @@ country =
 	6500 6510 6530 6580 6600 6610 6680 6620 6630 6640 6650 6660 6670 6540 6910
 	# Manpower Doctrine
 	6570 6300
-
+	#AA
+	2800 2450 21180 21190
 
 	} 
 
@@ -193,7 +194,7 @@ blueprints = {
   { date              = { year = 0 month = january day = 0 }
      democratic        = 7 
      political_left    = 9 
-     free_market       = 1
+     free_market       = 2
      freedom           = 3 
      professional_army = 7 
      defense_lobby     = 4 

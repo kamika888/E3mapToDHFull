@@ -4910,6 +4910,8 @@ event = {
 		command = { trigger = { country = ENG NOT = { ai = ENG } } type = military_control which = ENG where = NOR value = 1 }
 		command = { trigger = { country = GER NOT = { ai = GER } } type = military_control which = GER where = NOR value = 1 }
 		
+		command = { type = secedeprovince	which = -1 value = 7176	when = 2 } #Jan Mayen island
+		
 		command = { trigger = { region = { region = "Norway" country = -1 data = 1 value = 1 } } type = event which = 2025005 where = -1 when = 0 }
 	}
 }
@@ -5482,15 +5484,15 @@ event = { # swiss forced trade
 event = {
 	id = 2003070
 	random = no
-	country = DEN
+	country = GER
 	
 	name = "Danish surrender"
 	desc = "After less than six hours the Danish government surrendered, believing that resistance was futile and hoping to work out an advantageous agreement with Germany. Not only was the flat Jutland territory a perfect area for the German army to operate in, the surprise attack on Copenhagen had made any attempt to defend Zealand impossible. Believing that further resistance would only result in the futile loss of more Danish lives, the Danish cabinet ultimately decided to bow to the German pressure. As a result of the cooperative attitude of the Danish authorities, German officials claimed that they would respect Danish sovereignty and territorial integrity, as well as neutrality. They also hoped to score propaganda points by making Denmark, in Hitler's words, 'a model protectorate'. However, the relationship broke down after just a couple of years."
 	style = 2
-	picture = "Narvik"
+	picture = "Fall_Weserubung"
 
 	trigger = {
-		war = { country = GER }
+		war = { country = DEN }
 		NOT = { 
 			war = { country = GER country = SOV }
 			war = { country = GER country = USA }
@@ -5498,10 +5500,10 @@ event = {
 		}
 		OR = {
 			ai = GER
-			area = { area = "Denmark" data = -2 value = 50 }
+			area = { area = "Denmark" data = -3 value = 50 }
 			OR = {
-				control = { province = 3350 data = -2 }
-				control = { province = 294  data = -2 }
+				control = { province = 3350 data = -3 }
+				control = { province = 294  data = -3 }
 			}
 		}
 	}
@@ -5514,13 +5516,12 @@ event = {
 		name = "Propose cooperation"
 		ai_chance = 99
 		command = { type = trigger which = 2003071 }
-		command = { trigger = { ai = yes } type = event which = 2400040 where = DEN when = 0 } #Exp_0
 	}
 	action = {
-		name = "Fight to the last Dane!"
+		name = "Denmark will be part of the greater Germanic Reich" 
 		ai_chance = 1
-		command = { type = dissent value = 10 }
-		command = { type = demobilize which = land when = 0 where = 0 value = -2 } #Army doesn't want to fight a suicidal war
+		command = { type = dissent value = 2 }
+		command = { type = belligerence value = 5 } 
 	}
 }
 
@@ -5528,38 +5529,17 @@ event = {
 event = {
 	id = 2003071
 	random = no
-	country = GER
+	country = DEN
 	
 	name = "Danish surrender"
 	desc = "After less than six hours the Danish government surrendered, believing that resistance was futile and hoping to work out an advantageous agreement with Germany. Not only was the flat Jutland territory a perfect area for the German army to operate in, the surprise attack on Copenhagen had made any attempt to defend Zealand impossible. Believing that further resistance would only result in the futile loss of more Danish lives, the Danish cabinet ultimately decided to bow to the German pressure. As a result of the cooperative attitude of the Danish authorities, German officials claimed that they would respect Danish sovereignty and territorial integrity, as well as neutrality. They also hoped to score propaganda points by making Denmark, in Hitler's words, 'a model protectorate'. However, the relationship broke down after just a couple of years."
 	style = 2
-	picture = "Narvik"
-
-	action = {
-		name = "Accept their cooperation" 
-		ai_chance = 100
-		command = { type = event which = 2003072 where = DEN when = 0 }
-	}
-	action = {
-		name = "Denmark will be part of the greater Germanic Reich" 
-		ai_chance = 0
-		command = { type = dissent value = 2 }
-		command = { type = belligerence value = 5 } 
-	}
-}
-
-event = {
-	id = 2003072
-	random = no
-	country = DEN
-	
-	name = "Danish surrender - Germany accepts"
-	desc = "Denmark managed to work out a rather favourable relationship with Nazi Germany. The government remained somewhat intact, and the parliament continued to function more or less as it had before. They were able to maintain much of their former control over domestic policy. The police and judicial system remained in Danish hands, and unlike most occupied countries, King Christian X remained in the country as Danish head of state. The German Reich was formally represented by a Reichsbevollmachtigter ('Reich Plenipotentiary'), i.e. a diplomat accredited to the Sovereign, a post awarded to Cecil von Renthe-Fink, the German ambassador, and then in November 1942 to the lawyer and SS general Werner Best. Meanwhile, Britain responded to the change in Denmark's status by sending a force to occupy Iceland, Greenland, and the Faroe Islands. The Danish presense in Jutland was limited, and in 1942 Germans ordered the remnants of the Danish army to withdraw from Jutland after an incident involving a telegram communication between Hitler and King Christian."
-	style = 2
-	picture = "Narvik"
+	picture = "Fall_Weserubung"
 
 	action = {
 		name = "We will endure the occupation"
+		ai_chance = 99
+		command = { trigger = { ai = yes } type = event which = 2400040 where = DEN when = 0 } #Exp_0
 		command = { type = demobilize which = land 		when = 1 where = 0 value = 3 } #Army demobilized
 		#command = { type = demobilize which = naval 	when = 1 where = 0 value = 1 } #Navy demobilized
 		#command = { type = demobilize which = air 		when = 1 where = 0 value = 1 } #Air demobilized
@@ -5578,19 +5558,36 @@ event = {
 		command = { type = secedeprovince which = GER value = 292 	when = 2 }
 		command = { type = secedeprovince which = GER value = 3351 	when = 2 }
 		
-		command = { type = event which = 2003073 where = GER when = 0 }
+		command = { type = end_mastery which = ICL }
+		command = { type = event which = 2400530 where = ICL when = 0 } #independent state
+		
+		command = { type = event which = 2003072 where = GER when = 0 }
+	}
+	action = {
+		name = "Fight to the last Dane!"
+		ai_chance = 1
+		command = { type = dissent value = 10 }
+		command = { type = strength which = all when = 1 where = 0 value = -0.5 } #People don't want to fight a suicidal war
+		command = { trigger = { event = 2045012 } 			type = secederegion	which = USA value = "Greenland"	when = 2 }
+		command = { trigger = { event = 2045012 } 			type = secederegion	which = USA value = "Iceland"	when = 2 }
+		command = { trigger = { NOT = { event = 2045012 } } type = secederegion	which = ENG value = "Greenland"	when = 2 }
+		command = { trigger = { NOT = { event = 2045012 } }	type = secederegion	which = ENG value = "Iceland"	when = 2 }
+		
+		#population is too low to really have any revolt risk
+		command = { trigger = { NOT = { event = 2045012 } } type = add_core_region which = "Greenland" 	where = ENG }
+		command = { trigger = { NOT = { event = 2045012 } } type = add_core_region which = "Iceland" 	where = ENG }
 	}
 }
 
 event = {
-	id = 2003073
+	id = 2003072
 	random = no
 	country = GER
-	
-	name = "Occupation of Copenhagen"
-	desc = "When the German infantry arrived at the Amalienborg Palace in the morning of 9 April, they were met with determined opposition from the King's Royal Guard, which repelled the initial attack, suffering three wounded. This gave Christian X and his ministers time to confer with the Danish Army chief General William Wain Prior. As the discussions were ongoing, several formations of German bombers flew over the city dropping leaflets. Faced with the threat of the Luftwaffe bombing the civilian population of Copenhagen, the Danish government capitulated in exchange for retaining political independence in domestic matters."
+
+	name = "Danish surrender"
+	desc = "After less than six hours the Danish government surrendered, believing that resistance was futile and hoping to work out an advantageous agreement with Germany. Not only was the flat Jutland territory a perfect area for the German army to operate in, the surprise attack on Copenhagen had made any attempt to defend Zealand impossible. Believing that further resistance would only result in the futile loss of more Danish lives, the Danish cabinet ultimately decided to bow to the German pressure. As a result of the cooperative attitude of the Danish authorities, German officials claimed that they would respect Danish sovereignty and territorial integrity, as well as neutrality. They also hoped to score propaganda points by making Denmark, in Hitler's words, 'a model protectorate'. However, the relationship broke down after just a couple of years."
 	style = 2
-	picture = "Narvik"
+	picture = "Fall_Weserubung"
 
 	action = {
 		name = ACTION_NAME_GREAT
@@ -5602,12 +5599,12 @@ event = {
 		command = { type = removeclaim 	which = 3350 }
 		command = { type = removeclaim 	which = 293  }
 		command = { type = make_puppet 	which = DEN  }
-		command = { type = event which = 2400538 where = DEN when = 0 } #strong puppet
-		command = { type = event which = 2003074 where = DEN when = 1 }
-		command = { type = demobilize which = garrison when = 0 where = 1 value = -1 }
-		command = { type = add_corps which = "XXI Army Corps" value = land where = 294 }
-		command = { type = activate_division which = 14500 value = 11120 where = 294 when = 0 }
-		command = { trigger = { ai = no } type = unlock_division which = 14500 value = 11120 }
+		command = { type = event which = 2400537 where = DEN when = 0 } #medium-strong puppet
+		command = { type = event which = 2003073 where = DEN when = 0 }
+		command = { trigger = { ai = yes } type = demobilize which = garrison when = 0 where = 1 value = -1 }
+		command = { trigger = { ai = yes } type = add_corps which = "XXI Army Corps" value = land where = 294 }
+		command = { trigger = { ai = yes } type = activate_division which = 14500 value = 11120 where = 294 when = 0 }
+		#command = { trigger = { ai = no } type = unlock_division which = 14500 value = 11120 }
 		
 		command = { type = province_revoltrisk which = 120		value = 5  }
 		command = { type = province_revoltrisk which = 122		value = 5  }
@@ -5618,14 +5615,14 @@ event = {
 }
 
 event = {
-	id = 2003074
+	id = 2003073
 	random = no
 	country = DEN
 	
 	name = "Occupation of Copenhagen"
 	desc = "When the German infantry arrived at the Amalienborg Palace in the morning of 9 April, they were met with determined opposition from the King's Royal Guard, which repelled the initial attack, suffering three wounded. This gave Christian X and his ministers time to confer with the Danish Army chief General William Wain Prior. As the discussions were ongoing, several formations of German bombers flew over the city dropping leaflets. Faced with the threat of the Luftwaffe bombing the civilian population of Copenhagen, the Danish government capitulated in exchange for retaining political independence in domestic matters."
 	style = 2
-	picture = "Narvik"
+	picture = "Fall_Weserubung"
 
 	action = {
 		name = ACTION_NAME_GREAT
@@ -5634,30 +5631,137 @@ event = {
 		command = { type = secedeprovince which = DEN value = 295 	when = 2 }
 		command = { type = secedeprovince which = DEN value = 3350 	when = 2 }
 		
-		command = { trigger = { event = 2045012 } 			type = secederegion	which = USA value = "Greenland"	 }
-		command = { trigger = { event = 2045012 } 			type = secederegion	which = USA value = "Iceland"	 }
-		command = { trigger = { NOT = { event = 2045012 } } type = secederegion	which = ENG value = "Greenland"	 }
-		command = { trigger = { NOT = { event = 2045012 } }	type = secederegion	which = ENG value = "Iceland"	 }
+		command = { type = remove_claim_region 	which = "Iceland"	where = DEN }
+		command = { type = remove_core_region 	which = "Iceland"	where = DEN }
 		
+		command = { type = make_puppet which = ICL }
+		command = { type = event which = 2400537 where = ICL when = 0 }
+		
+		command = { type = set_domestic which = political_left value = 6 }
+		
+		command = { type = add_claim_region which = "Denmark" 	where = GER }
+		
+		command = { type = event which = 2003074 where = DEN when = 0 } #cannot make peace in the same event
+		command = { type = event which = 2003074 where = ICL when = 1 }
+	}
+}
+
+event = {
+	id = 2003074
+	random = no
+	tag = { DEN ICL }
+	persistent = yes
+	
+	name = "Occupation of Copenhagen"
+	desc = "Denmark managed to work out a rather favourable relationship with Nazi Germany. The government remained somewhat intact, and the parliament continued to function more or less as it had before. They were able to maintain much of their former control over domestic policy. The police and judicial system remained in Danish hands, and unlike most occupied countries, King Christian X remained in the country as Danish head of state. The German Reich was formally represented by a Reichsbevollmachtigter ('Reich Plenipotentiary'), i.e. a diplomat accredited to the Sovereign, a post awarded to Cecil von Renthe-Fink, the German ambassador, and then in November 1942 to the lawyer and SS general Werner Best. Meanwhile, Britain responded to the change in Denmark's status by sending a force to occupy Iceland, Greenland, and the Faroe Islands. The Danish presense in Jutland was limited, and in 1942 Germans ordered the remnants of the Danish army to withdraw from Jutland after an incident involving a telegram communication between Hitler and King Christian."
+	style = 2
+	picture = "Fall_Weserubung"
+
+	action = {
+		name = ACTION_NAME_GREAT
 		command = { type = leave_alliance when = 1 }
 		command = { type = peace which = ENG value = 1 }
 		command = { type = peace which = FRA value = 1 }
 		command = { type = peace which = POL value = 1 }
 		command = { type = peace which = SOV value = 1 }
-		command = { type = access which = GER }
 		
-		command = { type = set_domestic which = political_left value = 6 }
+		command = { type = access which = GER } #includes iceland
 		
-		command = { type = add_claim_region which = "Greenland" where = ENG }
-		command = { type = add_claim_region which = "Iceland" 	where = ENG }
-		command = { type = add_claim_region which = "Denmark" 	where = GER }
+		command = { type = add_core_region 	which = "Iceland"	where = DEN }
 	}
 }
 
 
 
+
 event = {
 	id = 2003075
+	random = no
+	country = ENG
+	
+	name = "Occupy Danish crown posessions"
+	desc = "On 9 April 1940, German forces began Operation Weserubung, invading both Norway and Denmark. Denmark was subdued within a day and occupied. On the same day, the British government sent a message to the Icelandic government, stating that the UK was willing to assist Iceland in maintaining its independence but would require facilities in Iceland to do so. Iceland was invited to join the UK in the war as a belligerent and an ally. Iceland refused the British offer and stalled the negotiations. Britain responded with Operation Fork and Operation Valentine, forcibly occupying undefended Iceland and Faroe Islands against protests of their local governments."
+	style = 2
+	picture = "Fall_Weserubung"
+
+	decision = {
+		puppet = { country = DEN country = GER }
+		NOT = { war = { country = DEN } }
+		NOT = { war = { country = ICL } }
+	}
+	decision_trigger = {
+	}
+	trigger = {
+		puppet = { country = DEN country = GER }
+		NOT = { war = { country = DEN } }
+		NOT = { war = { country = ICL } }
+	}
+
+	date = { day = 2 month = january year = 1936 }
+	offset = 12
+	deathdate = { day = 29 month = december year = 1950 }
+
+	action = {
+		name = "Launch the operation!"
+		#command = { type = war which = DEN }
+		command = { type = war which = ICL }
+		command = { type = belligerence value = 2 } 
+		
+		#population is too low to really have any revolt risk
+		command = { type = add_core_region which = "Greenland" 	where = ENG }
+		command = { type = add_core_region which = "Iceland" 	where = ENG }
+		
+		command = { type = event which = 2003076 where = DEN when = 0 }
+		
+		command = { trigger = { ai = yes } type = event which = 2405070 where = ENG when = 2 }
+	}
+}
+
+event = {
+	id = 2003076
+	random = no
+	country = DEN
+	
+	name = "Britain occupies Danish crown posessions"
+	desc = "On 9 April 1940, German forces began Operation Weserubung, invading both Norway and Denmark. Denmark was subdued within a day and occupied. On the same day, the British government sent a message to the Icelandic government, stating that the UK was willing to assist Iceland in maintaining its independence but would require facilities in Iceland to do so. Iceland was invited to join the UK in the war as a belligerent and an ally. Iceland refused the British offer and stalled the negotiations. Britain responded with Operation Fork and Operation Valentine, forcibly occupying undefended Iceland and Faroe Islands against protests of their local governments."
+	style = 2
+	picture = "Fall_Weserubung"
+
+	action = {
+		name = "Declare war!"
+		ai_chance = 1
+		command = { type = alliance which = GER } 
+		command = { type = alliance which = ICL } 
+		command = { type = war which = ENG }
+		command = { type = dissent value = 10 }
+		command = { type = strength which = all when = 1 where = 0 value = -0.5 }
+		
+		command = { trigger = { ai = yes } type = event which = 2400047 where = DEN when = 0 } #Exp_7
+	}
+	action = {
+		name = "Issue a strongly-worded protest"
+		ai_chance = 99
+		command = { type = leave_alliance when = 1 }
+		#command = { type = peace which = ENG value = 1 }
+		#command = { type = peace which = FRA value = 1 }
+		#command = { type = peace which = POL value = 1 }
+		#command = { type = peace which = SOV value = 1 }
+		command = { type = access which = GER }
+		command = { type = dissent value = 3 }
+		
+		command = { type = remove_core_region 	which = "Iceland"	where = DEN }
+		command = { type = add_claim_region 	which = "Iceland"	where = DEN }
+
+		command = { trigger = { event = 2045012 } 			type = secederegion	which = USA value = "Greenland"	when = 1 }
+		command = { trigger = { event = 2045012 } 			type = secederegion	which = USA value = "Iceland"	when = 1 }
+		command = { trigger = { NOT = { event = 2045012 } } type = secederegion	which = ENG value = "Greenland"	when = 1 }
+		command = { trigger = { NOT = { event = 2045012 } }	type = secederegion	which = ENG value = "Iceland"	when = 1 } #iceland stays
+	}
+}
+
+
+event = {
+	id = 2003079
 	random = no
 	country = GER
 	
@@ -5700,6 +5804,7 @@ event = {
 		command = { type = end_mastery which = DEN }
 		command = { type = remove_claim_region which = "Denmark" 	where = GER }
 		command = { type = secederegion which = DEN value = "Denmark"  when = 2 }
+		command = { type = unlock_division which = 14500 value = 11120 }
 	}
 }
 

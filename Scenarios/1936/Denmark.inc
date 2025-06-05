@@ -25,6 +25,7 @@ country =
     relation = { tag = PER value = 50 }
     relation = { tag = SWE value = 75 }
     relation = { tag = USA value = 75 }
+	relation = { tag = ICL value = 120 access = yes  } 
   }
   SpyInfo                = { country = "ENG" NumberOfSpies = 3 }
   SpyInfo                = { country = "FRA" NumberOfSpies = 2 }
@@ -36,23 +37,14 @@ country =
   SpyInfo                = { country = "GER" NumberOfSpies = 3 }
   SpyInfo                = { country = "HOL" NumberOfSpies = 1 }
   SpyInfo                = { country = "USA" NumberOfSpies = 1 }
-  nationalprovinces      = { 91 92 292 293 294 295 800 1 2 122 120 2632 3350 3351 7137 7138 7139 7973 7974 7975 1588 2078 2105 794
+  nationalprovinces      = { 91 92 292 293 294 295 800 2 122 120 3350 3351 7973 7974 7975 1588 2078 2105 794 1165
+  1 7137 7138 7139 2632
   }
-  ownedprovinces         = { 91 92 292 293 294 295 800 1 2 122 120
-2632
-3350	3351
-7137 7138 7139 7973 7974 7975
-1588
-2078 2105
+  ownedprovinces         = { 91 92 292 293 294 295 800 2 122 120 3350 3351 7973 7974 7975 1588 2078 2105 }
+  controlledprovinces    = { 91 92 292 293 294 295 800 2 122 120 3350 3351 7973 7974 7975 1588 2078 2105 }
+  claimedprovinces = { 3301 3302 93 3303 7045 7986 90 88 89 2370
+  #1 7137 7138 7139 2632
   }
-  controlledprovinces    = { 91 92 292 293 294 295 800 1 2 122 120
-2632
-3350	3351
-7137 7138 7139 7973 7974 7975
-1588
-2078 2105
-  }
-  claimedprovinces = { 3301 3302 93 3303 7370 7045 7986 90 88 89 }
   # Western Minor Tech '36
   # Group C 1936 techs
   # ######################
@@ -123,7 +115,7 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 6 
-     free_market       = 1
+     free_market       = 5
      freedom           = 10
      professional_army = 3 
      defense_lobby     = 1 

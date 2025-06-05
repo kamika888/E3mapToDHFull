@@ -166,6 +166,9 @@ techapps = {
 	2860 2870
 	# Field Artillery 
 	2290 2300 2310 2900 2910 2920 2930
+	#AA
+	2800 2450 21180 21190
+
 
 	# Medicine
 	5600 5610
@@ -264,7 +267,7 @@ blueprints = {
   { date              = { year = 0 month = january day = 0 }
     democratic        = 7
     political_left    = 3
-    free_market       = 1
+    free_market       = 2
     freedom           = 3
     professional_army = 7
     defense_lobby     = 4

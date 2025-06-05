@@ -37,10 +37,15 @@ country =
   SpyInfo                = { country = "FIN" NumberOfSpies = 2 }
   SpyInfo                = { country = "DEN" NumberOfSpies = 2 }
   SpyInfo                = { country = "HOL" NumberOfSpies = 1 }
-  claimedprovinces       = { 7168 3315 3316 6530 7170 3340 132 3341 133 3342 134 3343 2634 1 7137 7138 7139 2632 7288 7287 1588 2078 7975 7973 2105 800 7974 3 }
+  claimedprovinces       = { 7168 3315 3316 6530 7170 3340 132 3341 133 3342 134 3343 
+  #1 7137 7138 7139 2632
+ }
   nationalprovinces      = { 107 108 109 110 111 116 117 118 124 125 128 129 114 112 104 2276
   3290	3291	3292	3293	3294	3295	3296	3297	3298	3299
 7170 7171 7176 3300 2 5 1165 6530
+1588 2078 7975 7973 2105 800 7974
+1 7137 7138 7139 2632
+7288 7287 3 2634
   }
   ownedprovinces         = { 107 108 109 110 111 116 117 118 124 125 128 129 114 112 104 2276
 3290	3291	3292	3293	3294	3295	3296	3297	3298	3299
@@ -127,7 +132,7 @@ country =
      democratic        = 1 
      political_left    = 7 
      freedom           = 8 
-     free_market       = 1
+     free_market       = 4
      professional_army = 4 
      defense_lobby     = 2 
      interventionism   = 1

@@ -121,6 +121,26 @@ event = {
 		command = { type = sce_frequency 					value = -0.3 }
 		command = { type = attrition_mod 					value = -2 }
 		command = { type = trickleback_mod 					value = -5 }
+		
+		command = { type = event which = 1300004 where = -1 when = 1440 } #4 years
+	}
+}
+
+event = {
+	id = 1300004
+	random = no
+	persistent = yes
+	#Invisible reset
+	
+	name = "Grand Offensive is ready"
+	desc = "The general staff has meticulously planned our next grand offensive to finally subdue the enemy and end the war in our favor. After a long preparation and stockpiling of resources, we are finally ready to execute this offensive and crush the enemy." 
+	style = 2
+	picture = "Wehrmacht"
+
+	action = {
+		name = ACTION_NAME_OK
+		trigger = { local_flag = grand_offensive }
+		command = { type = local_clrflag 	which = grand_offensive }
 	}
 }
 
@@ -1447,6 +1467,8 @@ event = {
 		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
 		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
 		command = { trigger = { 			NOT = { policy = { type = professional_army value = 3 } } } type = manpowerpool value = 1.0 }
+		
+		command = { type = industrial_modifier which = total value = 0.10 } #recruitment spending is actually a form of economic stimulus as well
 					
 		command = { type = local_clrflag which = invest_recruitment }
 	}
@@ -1758,7 +1780,7 @@ event = {
 		name = ACTION_NAME_EXCELLENT
 		command = { type = attrition_mod 	value = 1 }
 		command = { type = trickleback_mod 	value = 1 } 
-		command = { type = industrial_modifier which = total value = 0.10 }
+		command = { type = industrial_modifier which = total value = 0.10 } #healthier workers, healthier economy
 		command = { type = local_clrflag which = invest_medicine }
 	}
 }

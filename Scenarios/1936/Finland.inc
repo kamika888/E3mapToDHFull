@@ -151,7 +151,7 @@ inventions = { 3000027 }
    {  date              = {  year = 0 month = january day = 0  } 
      democratic        = 1 
      political_left    = 5 
-     free_market       = 1
+     free_market       = 4
      freedom           = 7 
      professional_army = 4 
      defense_lobby     = 4 

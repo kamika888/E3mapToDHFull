@@ -62,7 +62,7 @@ country =
     relation = { tag = POL value = -50 }
     relation = { tag = ROM value = 1 }
     relation = { tag = SAU value = 1 }
-    relation = { tag = SIK value = 125 }
+    relation = { tag = SIK value = 125 access = yes }
     relation = { tag = SPR value = -10 }
     relation =
     { tag        = TAN
@@ -284,7 +284,7 @@ blueprints             = {   }
      democratic        = 1 
      political_left    = 9 
      freedom           = 5 
-     free_market       = 1
+     free_market       = 5
      professional_army = 5 
      defense_lobby     = 4 
      interventionism   = 5 
@@ -2473,19 +2473,6 @@ airunit = {
 		}
 
 #DVO
-airunit = { 
-	id = { type = 10848 id = 7052 } 
-	name = "26 TBABR DVO" 
-	location = 175 #  Khabarovsk
-	base = 175 # Khabarovsk	
-	division = { 
-	id = { type = 10848 id = 7053 } 
-		name = "26.TBABR" 
-		strength = 80 
-		type = tactical_bomber 
-		model = 3 
-			}
-		}
 airunit = { 
 	id = { type = 10848 id = 7054 } 
 	name = "50 LSHABR DVO" 

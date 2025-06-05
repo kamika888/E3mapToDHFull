@@ -7,7 +7,7 @@ country =
   ai_settings			 = { flags = { WARDebt = 17 } }
   capital                = 19
 	manpower               = 20 
-	dissent 			   = 5
+	dissent 			   = 10
 	energy                 = 80400
 	metal                  = 40200
 	rare_materials         = 20100
@@ -445,7 +445,7 @@ techapps               = {
      democratic        = 1 
      political_left    = 5 
      freedom           = 10 
-     free_market       = 1
+     free_market       = 7
      professional_army = 2 #UK did not introduce 6-month conscription until April 1939 
      defense_lobby     = 1 
      interventionism   = 1
@@ -2314,5 +2314,10 @@ landunit =
 	landdivision = { dormant = yes id = { type = 14800 id = 883 }  name = "78th 'Battleaxe' Division"			type = infantry model = 11 	extra = engineer  brigade_model = 4 	} 
 	landdivision = { dormant = yes id = { type = 14800 id = 884 }  name = "1st Airborne Division"				type = paratrooper model = 11 extra = glider_artillery brigade_model = 1 } 
 	landdivision = { dormant = yes id = { type = 14800 id = 885 }  name = "1st Infantry Division"				type = infantry model = 11 										 	} 
+	
+	#2405070 Valentine
+	landdivision = { dormant = yes id = { type = 14800 id = 900 }  name = "Royal Marines Division"				type = marine	model = 4 	strength = 80							} 
+	landdivision = { dormant = yes id = { type = 14800 id = 901 }  name = "Faroe Island Garrison"				type = garrison	model = 5 	strength = 50							} 
+	landdivision = { dormant = yes id = { type = 14800 id = 902 }  name = "Greenland Force"						type = militia	model = 5 	strength = 50							} 
   } 
  

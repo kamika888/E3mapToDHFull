@@ -16,7 +16,7 @@ country =
 	manpower               = 380 
 	transports             = 570 
 	escorts                = 60
-	dissent 			   = 10
+	dissent 			   = 13
   diplomacy =
   { relation = { tag = AST value = 150 }
     relation = { tag = AUS value = -10 }
@@ -330,7 +330,7 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 6 
-     free_market       = 1
+     free_market       = 6
      freedom           = 9 
      professional_army = 5 #France had 2-year conscription in 1936
      defense_lobby     = 1 

@@ -88,7 +88,7 @@
    {  date              = {  year = 0 month = january day = 0  } 
      democratic        = 1 
      political_left    = 4 
-     free_market       = 1
+     free_market       = 7
      freedom           = 10 
      professional_army = 1 
      defense_lobby     = 1 

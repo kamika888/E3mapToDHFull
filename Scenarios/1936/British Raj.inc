@@ -198,7 +198,7 @@
      democratic        = 1 
      political_left    = 5 
      freedom           = 3 
-     free_market       = 1
+     free_market       = 2
      professional_army = 2 # no conscription 
      defense_lobby     = 3 
      interventionism   = 3 

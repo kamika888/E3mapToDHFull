@@ -13,10 +13,11 @@ country =
 	supplies               = 5000   
 	money                  = 100   
 	manpower               = 102   
-	transports             = 360   
+	transports             = 560   
 	escorts                = 53   
 	dissent                = 10
-  capital                = 606
+  capital                  = 606
+  industrial_modifier 	   = 0.74 # depression - effective 0.80
   diplomacy =
   { relation =
     { tag        = ARG
@@ -283,7 +284,7 @@ country =
      democratic        = 1 
       political_left    = 6  
       freedom           = 10  
-      free_market       = 1
+      free_market       = 10
       professional_army = 2  
       defense_lobby     = 1  
       interventionism   = 1
@@ -291,14 +292,14 @@ country =
 blueprints = { 81880 81890 }
 inventions = { 3000027 }
     headofstate            = {  type = 9 id = 240001  }  
-    headofgovernment       = {  type = 9 id = 240232  } # Harry Hopkins  
+    headofgovernment       = {  type = 9 id = 240002  }
     foreignminister        = {  type = 9 id = 240003  }  
     armamentminister       = {  type = 9 id = 240004  }  
     ministerofsecurity     = {  type = 9 id = 240005  }  
     ministerofintelligence = {  type = 9 id = 240006  }  
     chiefofstaff           = {  type = 9 id = 240007  }  
     chiefofarmy            = {  type = 9 id = 240008  }  
-    chiefofnavy            = {  type = 9 id = 240121  }  
+    chiefofnavy            = {  type = 9 id = 240009  }  
     chiefofair             = {  type = 9 id = 240010  }  
  
     landunit =  

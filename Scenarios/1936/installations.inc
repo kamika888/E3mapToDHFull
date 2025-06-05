@@ -2441,6 +2441,9 @@ province = { id = 1184 naval_base = { size = 10 current_size = 10 } }
 province = { id = 1181 naval_base = { size = 10 current_size = 10 } }
 province = { id = 1372 naval_base = { size = 10 current_size = 10 } }
 
+province = { id = 1424 air_base = { size = 1 current_size = 1 } }
+province = { id = 1427 air_base = { size = 1 current_size = 1 } }
+province = { id = 1431 air_base = { size = 1 current_size = 1 } }
 province = { id = 332 air_base = { size = 1 current_size = 1 } }
 province = { id = 1726 air_base = { size = 1 current_size = 1 } }
 province = { id = 3184 air_base = { size = 1 current_size = 1 } }

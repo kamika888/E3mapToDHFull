@@ -1994,14 +1994,42 @@ event = {
 		command = { trigger = { policy = { type = freedom value = 10 } 													} type = local_setflag	which = AI1936_land  value = 10 }
 		
 		#speshul cases.
-		#Disabled SOV, they start building too many transport planes, paratroopers, tanks, and air force in general.
+		#Disabled, they start building too many transport planes, paratroopers, tanks, and air force in general.
 		#command = { trigger = { country = SOV policy = { type = freedom value = 6 } NOT = { policy = { type = freedom value = 7 } } } type = ai which = "buildLand7_8.ai"		}
-		command = { trigger = { country = FIN 																						} type = ai which = "nations\FIN_build.ai"	}
 		
 		command = { 																									  type = ai 			which = "airLand.ai"			}
 	}
 }
 
+
+#Override default build
+event = {
+	id = 2400181
+	random = no 
+	tag = { U87 FIN CHC }
+	persistent = yes
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		local_flag = AI1936_land #any
+		NOT = { local_flag = buildSpec }
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { trigger = { country = U87 } type = ai which = "nations\U87.ai" }
+		command = { trigger = { country = FIN } type = ai which = "nations\FIN.ai" }
+		command = { trigger = { country = CHC } type = ai which = "nations\CHC.ai" }
+		
+		command = { type = local_setflag 	which = buildSpec }
+	}
+}
 
 
 ###############################################
@@ -4741,7 +4769,7 @@ event = {
 }
 
 event = {
-	id = 2401801
+	id = 2401802
 	random = no 
 	country = FIN
 	
@@ -4765,7 +4793,7 @@ event = {
 }
 
 event = {
-	id = 2401802
+	id = 2401803
 	random = no 
 	country = FIN
 	
@@ -5724,6 +5752,35 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		command = { type = secederegion which = USA value = "Italy" when = 1 }
+	}
+}
+
+#Fork/Valentine ENG
+
+event = { 
+	id = 2405070
+	random = no 
+	country = ENG
+	
+	name = "AI_EVENT"
+	
+	action = {
+		command = { 												type = demobilize which = militia 		when = 1 where = 1 	value = -1   }
+		command = { trigger = { 		marine = { value = 1 } }	type = demobilize which = marine 		when = 1 where = 1 	value = -1   }
+		command = { trigger = { NOT = {	marine = { value = 1 } } }	type = remove_division					which = 12700 		value = 1504 } #46th Infantry
+		
+		command = { type = add_corps which = "Iceland"		value = land	where = 1	when = 10244 } #Robert Sturges
+		command = { type = activate_division which = 14800 	value = 900		where = 1	when = 1 } 
+		
+		command = { type = add_corps which = "Faroe"		value = land	where = 2	when = 1 }
+		command = { type = activate_division which = 14800 	value = 901		where = 2	when = 1 } 
+		
+		command = { type = add_corps which = "Greenland"	value = land	where = 800	when = 1 }
+		command = { type = activate_division which = 14800 	value = 902		where = 800	when = 1 } 
+		
+		command = { type = disorg_division   which = 14800 value = 900 where = -100 }
+		command = { type = disorg_division   which = 14800 value = 901 where = -100 }
+		command = { type = disorg_division   which = 14800 value = 902 where = -100 }
 	}
 }
 

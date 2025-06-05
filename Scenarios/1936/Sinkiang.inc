@@ -25,7 +25,7 @@ country =
      democratic        = 1 
      political_left    = 8 
      freedom           = 3 
-     free_market       = 1
+     free_market       = 2
      professional_army = 7 
      defense_lobby     = 2 
      interventionism   = 7 
@@ -201,7 +201,7 @@ blueprints = {
   inventions = { 3000027 }
    diplomacy = 
    {  relation = {  tag = CHC value = 40  } 
-     relation = {  tag = SOV value = 125  } 
+     relation = {  tag = SOV value = 125 access = yes } 
      relation = {  tag = TAN value = 125  } 
 	 relation = { tag = U58 value = 200 access = yes }
     } 
@@ -399,5 +399,20 @@ blueprints = {
 	   model    = 9
       } 
 	 }
+	 
+	airunit = { 
+	id = { type = 25600 id = 55 } 
+	name = "26 TBABR DVO" 
+	control = "SOV" 
+	location = 1424 #  Khabarovsk
+	base = 1424 # Khabarovsk	
+	division = { 
+	id = { type = 25600 id = 56 } 
+	name = "26.TBABR" 
+	strength = 100 
+	type = tactical_bomber 
+	model = 3 
+		}
+	}
   } 
  
