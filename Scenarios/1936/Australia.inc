@@ -25,7 +25,7 @@ country =
      political_left    = 5 
      free_market       = 6
      freedom           = 10 
-     professional_army = 2 
+     professional_army = 1 
      defense_lobby     = 3 
      interventionism   = 2 
   }
@@ -191,7 +191,7 @@ claimedprovinces 	= { 5863 1667 5857 5864 1666 5862 1677 5853 5859 5860 3114 585
     relation = { tag = CAN value = 200 } # was access = yes
     relation = { tag = ENG value = 200 } # was access = yes
     relation = { tag = FIN value = 65 }
-    relation = { tag = FRA value = 150 }
+    relation = { tag = VIC value = 150 }
     relation = { tag = GER value = 1 }
     relation = { tag = IRE value = 75 }
     relation = { tag = IRQ value = 100 }

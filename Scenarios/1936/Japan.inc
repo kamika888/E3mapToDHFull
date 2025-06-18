@@ -29,7 +29,7 @@ country =
     relation = { tag = ENG value = -25 }
     relation = { tag = ETH value = 35 }
     relation = { tag = FIN value = 20 }
-    relation = { tag = FRA value = -20 }
+    relation = { tag = VIC value = -20 }
     relation = { tag = GER value = 20 }
     relation = { tag = HOL value = -50 }
     relation = { tag = MAN value = 200 access = yes }
@@ -224,7 +224,7 @@ country =
      political_left    = 3 
      freedom           = 7
      free_market       = 5
-     professional_army = 6 
+     professional_army = 4  
      defense_lobby     = 5 
      interventionism   = 10 
   }

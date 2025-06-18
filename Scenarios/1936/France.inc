@@ -3,7 +3,7 @@
 #####################
 
 country =
-{ tag                    = FRA
+{ tag                    = VIC
   ai_settings			 = { flags = { WARDebt = 16 garSpec = 1 } }
   capital                = 56
 	# Resource Reserves 
@@ -217,7 +217,7 @@ country =
 7173 7174 7207 7208 7209 7210 7211 7212 7213 7228 7229 7230 7231 7232 7233 7234 7235 7236 7237 7238 7296 7297 7321 7322 7323 7324 7325 7326 7327 7329 7330 7331 7332 7333 7339 7444 7897 7898 7899 7900 7902 7903
    }
 
-  # FRA 1936 techs
+  # VIC 1936 techs
   # ######################
    techapps               = { 
 #Basic Armoured Car  
@@ -332,9 +332,9 @@ country =
      political_left    = 6 
      free_market       = 6
      freedom           = 9 
-     professional_army = 5 #France had 2-year conscription in 1936
+     professional_army = 4 #France had 2-year conscription in 1936
      defense_lobby     = 1 
-     interventionism   = 4
+     interventionism   = 3
   }
 inventions = { 3000027 }
    headofstate            = {  type = 9 id = 5001  } 

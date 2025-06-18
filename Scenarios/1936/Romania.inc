@@ -19,7 +19,7 @@ country =
     relation = { tag = CZE value = 20 }
     relation = { tag = ENG value = 50 }
     relation = { tag = FIN value = 40 }
-    relation = { tag = FRA value = 50 }
+    relation = { tag = VIC value = 50 }
     relation = { tag = GER value = 50 }
     relation =
     { tag        = GRE
@@ -156,7 +156,7 @@ country =
      political_left    = 6 
      freedom           = 4 
      free_market       = 4
-     professional_army = 5 
+     professional_army = 4 
      defense_lobby     = 3 
      interventionism   = 3 
   }

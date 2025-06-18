@@ -179,7 +179,7 @@ event = {
 		command = { type = remove_units which = land where = U58 when = 1 value = "Shanxi" }
 		
 		command = { type = ai which = "nations\JAP_CHI.ai" }
-		command = { trigger = { ai = yes NOT = { local_flag = MOB7 } NOT = { local_flag = demob } } type = trigger which = 8300107 } #partial Mobilization
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = trigger which = 8300105 }  #partial Mobilization
 		
 		command = { trigger = { ai = MEN } 	type = event 	which = 2400010 where = MEN when = 0 } #reset province priorities
 		command = { trigger = { ai = U87 } 	type = event 	which = 2400056 where = U87 when = 0 } #unenforcenoexp
@@ -238,7 +238,7 @@ event = {
 		command = { type = set_relation which = SOV value = 100 }
 		command = { type = relation which = USA value = 100 }
 		command = { type = relation which = ENG value = 50 }
-		command = { type = relation which = FRA value = 50 }
+		command = { type = relation which = VIC value = 50 }
 		
 		command = { type = remove_claim_region which = "China" where = JAP }
 	}
@@ -355,7 +355,7 @@ event = {
 		command = { type = belligerence which = JAP value = 1 }
 		command = { type = relation which = ENG value = -5 }
 		command = { type = relation which = USA value = -5 }
-		command = { type = relation which = FRA value = -5 }
+		command = { type = relation which = VIC value = -5 }
 		command = { type = relation which = SOV value = -5 }
 		command = { type = relation which = CHI value = -25 }
 		command = { type = event which = 1330110083 when = 2 where = CHI } #Nanjing
@@ -404,7 +404,7 @@ event = {
 		command = { type = sleepevent which = 2011007 }
         command = { type = relation which = ENG value = -15 }
 		command = { type = relation which = USA value = -15 }
-		command = { type = relation which = FRA value = -15 }
+		command = { type = relation which = VIC value = -15 }
 		command = { type = relation which = SOV value = -15 }
 		command = { type = relation which = CHC value = -50 }
 		command = { type = relation which = CYN value = -50 }
@@ -685,7 +685,7 @@ event = {
 		command = { type = relation which = JAP value = 20 }
 		command = { type = relation which = GER value = 10 }
 		command = { type = relation which = ENG value = -25 }
-		command = { type = relation which = FRA value = -20 }
+		command = { type = relation which = VIC value = -20 }
 		command = { type = set_domestic which = political_left value = 2 }
 		command = { type = headofstate which = 290001 }
 		command = { type = headofgovernment which = 290014 }
@@ -705,7 +705,7 @@ event = {
 		command = { type = relation which = JAP value = -15 }
 		command = { type = relation which = GER value = -10 }
 		command = { type = relation which = ENG value = 15 }
-		command = { type = relation which = FRA value = 15 }
+		command = { type = relation which = VIC value = 15 }
 		command = { type = relation which = USA value = 10 }
 		command = { type = domestic which = political_left value = 1 }
 		command = { type = trigger which = 2011011 } # Japan
@@ -787,7 +787,7 @@ event = {
 		command = { type = leave_alliance when = 1 }
 		command = { type = access which = USA }
 		command = { type = access which = ENG }
-		command = { type = access which = FRA }
+		command = { type = access which = VIC }
 		command = { type = access which = CAN }
 		command = { type = access which = AST }
 		command = { type = access which = NZL }
@@ -803,7 +803,11 @@ event = {
 		command = { type = secedearea which = ENG value = "North Burma" when = 1 }
 		command = { type = secedearea which = ENG value = "South Burma" when = 1 }
 		command = { type = secedearea which = U03 value = "Indochine" when = 1 }
-		command = { type = secedearea which = FRA value = "Indochine" when = 1 }
+		command = { type = secedearea which = VIC value = "Indochine" when = 1 }
+		
+		command = { trigger = { ai = yes }	type = event which = 2400040 where = -1 when = 0 } #exp_0
+		command = { trigger = { ai = yes }	type = event which = 2400055 where = -1 when = 0 } #enforcenoexp
+		command = { 						type = event which = 2400530 where = -1 when = 0 } #legit indie
 	}
 }
 
@@ -1214,370 +1218,6 @@ event = {
 		command = { type = set_domestic which = freedom		 	value = 3 }
 		command = { type = set_domestic which = interventionism	value = 5 }
     } 
-}
-
-#########################################################################
-#  Mengukuo setup
-#########################################################################
-event = { 
-	id = 2011050
-	random = no
-	#invisible
-	#tag = { JAP MAN U87 CHI }
-	persistent = yes
-
-	trigger = {
-		OR = { country = JAP country = MAN country = U87 country = CHI }
-		NOT = {	war = { country = SOV }	}
-		alliance = { country = MEN }
-		OR = {
-			war = { country = JAP country = CHI }
-			alliance = { country = JAP country = CHI }
-		}
-		OR = {
-			area = { area = "Chahar"			data = 1 value = 1 }
-			area = { area = "Suiyuan_Ningxia"	data = 1 value = 1 }
-			control = { province = 1209 }
-			control = { province = 5565 }
-		}
-	}
-	
-	name = "EVT_3834_NAME"
-	desc = "Our Mongolian ally grows to include new territory!"
-	style = 2
- 	picture = "news_paper"
-	
-	date = { year = 1936 month = january day = 1 }
-	offset = 30
-	deathdate = { year = 1948 month = january day = 3 }
-	
-	action = {
-		name = "ACTION_NAME_HURRAH" 
-		command = { type = secedearea		which = MEN value = "Chahar" when = 1 }
-		command = { type = secedearea		which = MEN value = "Suiyuan_Ningxia" when = 1 }
-		command = { type = secedeprovince	which = MEN value = 1209 when = 1 }
-		command = { type = secedeprovince	which = MEN value = 5565 when = 1 }
-	}
-}
-
-#########################################################################
-#  China-Nanjing setup
-#########################################################################
-event = { 
-	id = 2011052
-	random = no
-	#invisible
-	#tag = { JAP MAN }
-	persistent = yes
-
-	trigger = {
-		OR = { country = JAP country = MAN }
-		OR = {
-			alliance = { country = U87 }
-			alliance = { country = CHI }
-		}
-		OR = {
-			area = { area = "Guangxi"			data = 1 value = 1 }
-			area = { area = "Shanxi"			data = 1 value = 1 }
-			area = { area = "Anhui"				data = 1 value = 1 }
-			area = { area = "Henan"				data = 1 value = 1 }
-			area = { area = "Hubei"				data = 1 value = 1 }
-			area = { area = "Zhejiang"			data = 1 value = 1 }
-			area = { area = "Jiangxi"			data = 1 value = 1 }
-			area = { area = "Fujian"			data = 1 value = 1 }
-			area = { area = "Hunan"				data = 1 value = 1 }
-			area = { area = "Guizhou"			data = 1 value = 1 }
-			area = { area = "Sichuan"			data = 1 value = 1 }
-			area = { area = "Shaanxi"			data = 1 value = 1 }
-			area = { area = "Alice Springs"		data = 1 value = 1 }
-			area = { area = "Gansu"				data = 1 value = 1 }
-			area = { area = "Xikang"			data = 1 value = 1 }
-			area = { area = "Yunnan"			data = 1 value = 1 }
-			area = { area = "Xinjiang"			data = 1 value = 1 }
-			area = { area = "Poltava"			data = 1 value = 1 }
-			area = { area = "Qinghai"			data = 1 value = 1 }
-			area = { area = "Tibet"				data = 1 value = 1 }
-			#area = { area = "Guangdong"		data = 1 value = 1 }
-			#area = { area = "Liaoning"			data = 1 value = 1 }
-			#area = { area = "Hebei"			data = 1 value = 1 }
-			#area = { area = "Chahar"			data = 1 value = 1 }
-			#area = { area = "Suiyuan_Ningxia"	data = 1 value = 1 }
-			#area = { area = "Shandong"			data = 1 value = 1 }
-			#area = { area = "Jiangsu"			data = 1 value = 1 }
-			#area = { area = "Taiwan"			data = 1 value = 1 }
-			#area = { area = "Jilin"			data = 1 value = 1 }
-			#area = { area = "Heilongjiang"		data = 1 value = 1 }
-			#area = { area = "Mongolia"			data = 1 value = 1 }
-			#area = { area = "Rehe"				data = 1 value = 1 }
-
-			#AND = { control = { province = 1206 } NOT = { war = { country = CHI } } }
-			AND = { control = { province = 5626 } NOT = { war = { country = CHI } } }
-
-			control = { province = 1204 }
-			control = { province = 1205 }
-			control = { province = 1210 }
-			control = { province = 1211 }
-			control = { province = 1212 }
-			control = { province = 2523 }
-			control = { province = 2525 }
-			control = { province = 2526 }
-			control = { province = 2527 }
-			control = { province = 2576 }
-			control = { province = 5637 }
-			control = { province = 6916 }
-
-			control = { province = 1225 }
-			control = { province = 1226 }
-			control = { province = 2517 }
-			control = { province = 2518 }
-			control = { province = 2520 }
-			control = { province = 5563 }
-			control = { province = 5564 }
-			control = { province = 5566 }
-			control = { province = 5567 }
-			control = { province = 5568 }
-
-			control = { province = 1213 }
-			control = { province = 1214 }
-			control = { province = 1215 }
-			control = { province = 1216 }
-			control = { province = 2522 }
-			control = { province = 2528 }
-			control = { province = 2530 }
-			control = { province = 2531 }
-			control = { province = 2533 }
-			control = { province = 2534 }
-			control = { province = 2941 }
-			control = { province = 2942 }
-			control = { province = 3775 }
-			control = { province = 5638 }
-			control = { province = 5639 }
-			control = { province = 5641 }
-
-			control = { province = 1217 }
-			control = { province = 1219 }
-			control = { province = 1220 }
-			control = { province = 1235 }
-			control = { province = 1236 }
-			control = { province = 1966 }
-			control = { province = 2556 }
-			control = { province = 5642 }
-			control = { province = 5643 }
-			
-			control = { province = 568 }
-			control = { province = 570 }
-			control = { province = 746 }
-			control = { province = 1248 }
-			control = { province = 1249 }
-			control = { province = 1312 }
-			control = { province = 1313 }
-			control = { province = 1314 }
-			control = { province = 1317 }
-			control = { province = 1318 }
-			control = { province = 1320 }
-			control = { province = 1321 }
-			control = { province = 1325 }
-			control = { province = 1880 }
-			control = { province = 1912 }
-			control = { province = 5608 }
-			control = { province = 5609 }
-			control = { province = 5610 }
-		}
-	}
-	
-	name = "Collaborationist China takes shape"
-	desc = "Our Chinese ally grows to include new territory!"
-	style = 2
- 	picture = "news_paper"
-	
-	date = { year = 1936 month = january day = 1 }
-	offset = 30
-	deathdate = { year = 1948 month = january day = 3 }
-	
-	action = {
-		name = "ACTION_NAME_HURRAH" 
-		trigger = { alliance = { country = U87 } }
-		command = { type = secedearea		which = U87 value = "Guangxi"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Guangdong"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Shanxi"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Anhui"			when = 1 }
-		command = { type = secedearea		which = U87 value = "Henan"			when = 1 }
-		command = { type = secedearea		which = U87 value = "Hubei"			when = 1 }
-		command = { type = secedearea		which = U87 value = "Zhejiang"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Jiangxi"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Fujian"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Hunan"			when = 1 }
-		command = { type = secedearea		which = U87 value = "Guizhou"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Sichuan"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Shaanxi"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Alice Springs"	when = 1 }
-		command = { type = secedearea		which = U87 value = "Gansu"			when = 1 }
-		command = { type = secedearea		which = U87 value = "Xikang"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Yunnan"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Xinjiang"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Poltava"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Qinghai"		when = 1 }
-		command = { type = secedearea		which = U87 value = "Tibet"			when = 1 }
-		#command = { type = secedearea		which = U87 value = "Liaoning"		when = 1 }
-		#command = { type = secedearea		which = U87 value = "Hebei"			when = 1 }
-		#command = { type = secedearea		which = U87 value = "Chahar"		when = 1 }
-		#command = { type = secedearea		which = U87 value = "Suiyuan_Ningxia"	when = 1 }
-		#command = { type = secedearea		which = U87 value = "Shandong"		when = 1 }
-		#command = { type = secedearea		which = U87 value = "Jiangsu"		when = 1 }
-		#command = { type = secedearea		which = U87 value = "Taiwan"		when = 1 }
-		#command = { type = secedearea		which = U87 value = "Jilin"			when = 1 }
-		#command = { type = secedearea		which = U87 value = "Heilongjiang"	when = 1 }
-		#command = { type = secedearea		which = U87 value = "Mongolia"		when = 1 }
-		#command = { type = secedearea		which = U87 value = "Rehe"			when = 1 }
-
-		#command = { trigger = { control = { province = 1206 } NOT = { war = { country = CHI } } } type = secedeprovince	which = U87 value = 1206	when = 1 }
-		command = { trigger = { control = { province = 5626 } NOT = { war = { country = CHI } } } type = secedeprovince	which = U87 value = 5626	when = 1 }
-
-		command = { type = secedeprovince	which = U87 value = 1204	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1205	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1210	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1211	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1212	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2523	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2525	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2526	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2527	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2576	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 5637	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 6916	when = 1 }
-
-		command = { type = secedeprovince	which = U87 value = 1225	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1226	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2517	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2518	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2520	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 5563	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 5564	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 5566	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 5567	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 5568	when = 1 }
-
-		command = { type = secedeprovince	which = U87 value = 1213	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1214	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1215	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1216	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2522	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2528	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2530	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2531	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2533	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2534	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2941	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2942	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 3775	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 5638	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 5639	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 5641	when = 1 }
-
-		command = { type = secedeprovince	which = U87 value = 1217	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1219	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1220	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1235	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1236	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1966	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 2556	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 5642	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 5643	when = 1 }
-		
-		command = { trigger = { ai = JAP } type = belligerence which = JAP value = -0.2 }
-	}
-	action = {
-		name = "ACTION_NAME_HURRAH" 
-		trigger = { alliance = { country = CHI } }
-		command = { type = secedearea		which = CHI value = "Guangxi"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Guangdong"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Shanxi"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Anhui"			when = 1 }
-		command = { type = secedearea		which = CHI value = "Henan"			when = 1 }
-		command = { type = secedearea		which = CHI value = "Hubei"			when = 1 }
-		command = { type = secedearea		which = CHI value = "Zhejiang"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Jiangxi"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Fujian"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Hunan"			when = 1 }
-		command = { type = secedearea		which = CHI value = "Guizhou"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Sichuan"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Shaanxi"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Alice Springs"	when = 1 }
-		command = { type = secedearea		which = CHI value = "Gansu"			when = 1 }
-		command = { type = secedearea		which = CHI value = "Xikang"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Yunnan"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Xinjiang"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Poltava"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Qinghai"		when = 1 }
-		command = { type = secedearea		which = CHI value = "Tibet"			when = 1 }
-		#command = { type = secedearea		which = CHI value = "Liaoning"		when = 1 }
-		#command = { type = secedearea		which = CHI value = "Hebei"			when = 1 }
-		#command = { type = secedearea		which = CHI value = "Chahar"		when = 1 }
-		#command = { type = secedearea		which = CHI value = "Suiyuan_Ningxia"	when = 1 }
-		#command = { type = secedearea		which = CHI value = "Shandong"		when = 1 }
-		#command = { type = secedearea		which = CHI value = "Jiangsu"		when = 1 }
-		#command = { type = secedearea		which = CHI value = "Taiwan"		when = 1 }
-		#command = { type = secedearea		which = CHI value = "Jilin"			when = 1 }
-		#command = { type = secedearea		which = CHI value = "Heilongjiang"	when = 1 }
-		#command = { type = secedearea		which = CHI value = "Mongolia"		when = 1 }
-		#command = { type = secedearea		which = CHI value = "Rehe"			when = 1 }
-
-		command = { trigger = { control = { province = 1206 } NOT = { exists = MEN } } type = secedeprovince	which = CHI value = 1206	when = 1 }
-		command = { trigger = { control = { province = 5626 } NOT = { exists = MEN } } type = secedeprovince	which = CHI value = 5626	when = 1 }
-
-		command = { type = secedeprovince	which = CHI value = 1204	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 1205	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 1210	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 1211	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 1212	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2523	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2525	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2526	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2527	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2576	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 5637	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 6916	when = 1 }
-
-		command = { type = secedeprovince	which = CHI value = 1225	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 1226	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2517	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2518	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2520	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 5563	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 5564	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 5566	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 5567	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 5568	when = 1 }
-
-		command = { type = secedeprovince	which = CHI value = 1213	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 1214	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 1215	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 1216	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2522	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2528	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2530	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2531	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2533	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2534	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2941	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2942	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 3775	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 5638	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 5639	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 5641	when = 1 }
-
-		command = { type = secedeprovince	which = CHI value = 1217	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 1219	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 1220	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 1235	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 1236	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 1966	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 2556	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 5642	when = 1 }
-		command = { type = secedeprovince	which = CHI value = 5643	when = 1 }
-		
-		command = { trigger = { ai = JAP } type = belligerence which = JAP value = -0.2 }
-	}
 }
 
 
@@ -3149,7 +2789,7 @@ event = {
 		name = 459a
 		command = { type = alliance which = GER when = 1 }
 		command = { type = relation which = ENG value = -100 }
-		command = { type = relation which = FRA value = -100 }
+		command = { type = relation which = VIC value = -100 }
 		command = { type = relation which = GER value = 50 }
 		command = { type = relation which = ITA value = 50 }
 		command = { type = addclaim which = 1315 } #Hong Kong
@@ -3513,7 +3153,7 @@ event = {
 		command = { trigger = { flag = fs_ccp } type = secederegion which = CHI value = "China" when = 1 }
 		
 		command = { type = secederegion which = U03 value = Indochine }
-		command = { type = secederegion which = FRA value = Indochine }
+		command = { type = secederegion which = VIC value = Indochine }
 
 		#Japans retains Korea as a puppet in peace settlement. This is the bare minimum for Japan to even consider negotiations
 		command = { trigger = { NOT = { exists = KOR } } type = secedeprovince which = JAP value = 1199 when = 2 } 
@@ -3715,7 +3355,7 @@ event = {
 		
 		command = { type = secedeprovince which = ENG value = 1315 when = 2 } # Hong Kong - China
 		command = { type = secedeprovince which = POR value = 1316 when = 2 } # Macao - China
-		command = { type = secedeprovince which = FRA value = 696 when = 2 } # Kouang - China
+		command = { type = secedeprovince which = VIC value = 696 when = 2 } # Kouang - China
 		
 		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } type = secedearea which = CHI value = "Heilongjiang" when = 1 }
 		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } type = secedearea which = CHI value = "Jilin" when = 1 }
@@ -3726,7 +3366,7 @@ event = {
 		command = { type = secederegion which = CHI value = "China" when = 1 }
 		
 		#command = { type = secedearea which = U03 value = Indochine when = 2 } 
-		command = { type = secedearea which = FRA value = Indochine when = 2 } #giving directly to France   
+		command = { type = secedearea which = VIC value = Indochine when = 2 } #giving directly to France   
 		
 		command = { trigger = { flag = JAP_CHI_WAR } type = event which = 2049003 where = CHI when = 1 } #Japan Surrenders     
 		command = { trigger = { flag = JAP_CHC_WAR } type = event which = 2049004 where = CHC when = 1 } #Japan Surrenders     

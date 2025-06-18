@@ -74,7 +74,7 @@ event = {
 		command = { type = local_setflag 		which = disOrgGeneric_1 when = 1 value = 1 }
 		
 		#Recovery in 3 months.
-		command = { type = event which = 2400061 where = -1 when = 90 }
+		command = { type = event which = 2400161 where = -1 when = 90 }
 		
 		command = { type = trigger which = 2006009 }
 	}
@@ -167,8 +167,8 @@ event = {
 			war = { country = ENG }
 			event = 2002008 #French State
 			AND = {
-				lost_national = { country = FRA value = 10 }
-				lost_VP = { country = FRA value = 10 }
+				lost_national = { country = VIC value = 10 }
+				lost_VP = { country = VIC value = 10 }
 				control = { province = 56 data = GER } # Paris
 			}
 		}
@@ -201,7 +201,7 @@ event = {
 		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
 		command = { type = alliance which = GER when = 1 }
 		command = { type = relation which = ENG value = -100 }
-		command = { type = relation which = FRA value = -100 }
+		command = { type = relation which = VIC value = -100 }
 		command = { type = relation which = GER value = 50 }
 		command = { type = addclaim which = 527 } 
 		command = { type = addclaim which = 3215 } 
@@ -298,7 +298,7 @@ event = {
 			region = { region = "Italy" country = -2 value = 20 } #Invaded Italy
 			AND = {
 				region = { region = "Italy" country = -2 value = 5 } #Invaded Italy
-				region = { region = "Libya" country = -2 value = 70 } #Lost Libya
+				region = { region = "Libya" country = -2 value = 80 } #Lost Libya
 				region = { region = "Ethiopia" country = -2 value = 90 } #Lost Ethiopia
 				dissent = 10
 			}
@@ -328,7 +328,7 @@ event = {
 		command = { type = chiefofair which = 25129 } #Pietro Piacentini
 		
 		command = { type = military_control which = GER where = ITA value = 0 }
-		command = { type = ai which = "EXP_0.ai" }
+		command = { trigger = { ai = yes } type = event which = 2400040 where = -1 when = 0 } #exp_0
 		
 		#command = { type = strength which = militia when = 0 where = 0 org = 0 value = 0 } #remove all militia units
 				
@@ -350,15 +350,15 @@ event = {
 		
 		command = { type = domestic which = political_left value = -1 }
 		
-		command = { type = event which = 2400051 where = RSI when = 1   } #initial confusion
-		command = { type = event which = 2400061 where = RSI when = 180 } #recovery in 6 months
+		command = { type = event which = 2400151 where = RSI when = 1   } #initial confusion
+		command = { type = event which = 2400161 where = RSI when = 180 } #recovery in 6 months
 	}
 }
 
 event = {
 	id = 2006018
 	random = no
-	tag = { GER ENG SOV USA FRA JAP }
+	tag = { GER ENG SOV USA VIC JAP }
 	persistent = yes
 	all = yes
 
@@ -390,36 +390,50 @@ event = {
   	picture = "news_paper"
 	
 	decision = {
-		country = ITA
+		event = 2006014
 		war = { country = ENG }
+	}
+	decision_trigger = {
+		event = { id = 2006014 days = 40 } #46 days later...
+		#Wait until Allies invaded mainland Italy or Sardinia
 		OR = {
 			control = { province = 515 data = -2 } #Rome is controlled by Enemy
 			control = { province = 370 data = -2 } #Milan is controlled by Enemy
 			control = { province = 521 data = -2 } #Naples is controlled by Enemy
-			region = { region = "Italy" country = -2 value = 15 } #Invaded Italy
+			region = { region = "Italy" country = -2 value = 25 } #Invaded Italy
 			AND = {
-				region = { region = "Italy" country = -2 value = 5 } #Invaded Italy
-				region = { region = "Libya" country = -2 value = 90 } #Lost Libya
+				OR = {
+					region = { region = "Italy" country = -2 value = 12 } #Invaded Italy
+					AND = {
+						area = { area = "Sicilian Gap"	country = -2 value = 80 }
+						area = { area = "South Italy"	country = -2 value = 1  }
+					}
+				}
+				region = { region = "Libya" country = -2 value = 80 } #Lost Libya
 				region = { region = "Ethiopia" country = -2 value = 90 } #Lost Ethiopia
 			}
 		}
-	}
-	decision_trigger = {
-		#Wait until Allies invaded mainland italy?
-		event = { id = 2006014 days = 40 } #46 days later...
+
 	}
 	trigger = {
-		#Wait until Allies invaded mainland italy?
-		event = { id = 2006014 days = 40 } #46 days later...
+		event = 2006014
 		war = { country = ENG }
+		event = { id = 2006014 days = 40 } #46 days later...
+		#Wait until Allies invaded mainland Italy or Sardinia
 		OR = {
 			control = { province = 515 data = -2 } #Rome is controlled by Enemy
 			control = { province = 370 data = -2 } #Milan is controlled by Enemy
 			control = { province = 521 data = -2 } #Naples is controlled by Enemy
-			region = { region = "Italy" country = -2 value = 15 } #Invaded Italy
+			region = { region = "Italy" country = -2 value = 25 } #Invaded Italy
 			AND = {
-				region = { region = "Italy" country = -2 value = 3 } #Invaded Italy
-				region = { region = "Libya" country = -2 value = 90 } #Lost Libya
+				OR = {
+					region = { region = "Italy" country = -2 value = 12 } #Invaded Italy
+					AND = {
+						area = { area = "Sicilian Gap"	country = -2 value = 80 }
+						area = { area = "South Italy"	country = -2 value = 1  }
+					}
+				}
+				region = { region = "Libya" country = -2 value = 80 } #Lost Libya
 				region = { region = "Ethiopia" country = -2 value = 90 } #Lost Ethiopia
 			}
 		}
@@ -464,17 +478,21 @@ event = {
 	action = {
 		name = "Sign the armistice"
 		ai_chance = 99
-		command = { type = secederegion which = -1 value = "Italy" when = 1 } 
-		command = { type = secederegion which = -1 value = "Libya" when = 1 } 
-		command = { type = secederegion which = -1 value = "Tunisia" when = 1 } 
-		command = { type = secederegion which = -1 value = "Egypt" when = 1 } 
-		command = { type = secederegion which = -1 value = "Ethiopia" when = 1 } 
-		command = { type = secederegion which = -1 value = "Horn of Africa" when = 1 } 
+		command = { type = secederegion which = -1 value = "Italy" 			when = 1 } 
+		command = { type = secederegion which = -1 value = "Libya" 			when = 1 } 
+		command = { type = secederegion which = -1 value = "Tunisia" 		when = 1 } 
+		command = { type = secederegion which = -1 value = "Egypt" 			when = 1 } 
+		command = { type = secederegion which = -1 value = "Ethiopia" 		when = 1 } 
+		command = { type = secederegion which = -1 value = "Horn of Africa"	when = 1 } 
 		
-		command = { type = demobilize which = land when = 0 where = 0 value = 50 }
+		#About 500k fought for the RSI, another 500k for the Royal Army and the resistance together, so the numbers were fairly even
+		#But that is total mobilized rather than peak strength, also they were not all available from the start. 10 divisions to each side at the start is probably more than enough
+		#command = { type = demobilize which = land when = 0 where = 0 value = 50 }
+		command = { type = demobilize which = land when = 0 where = 0 value = 20 }
 		
+		command = { type = end_trades which = ITA where = GER } 
+		command = { type = end_trades which = ITA where = SCH } 
 		command = { type = military_control which = GER where = ITA value = 0 }
-		command = { type = ai which = "EXP_0.ai" }
 		
 		command = { trigger = { ai = GER } 				type = event which = 2006030 where = ITA when = 1 } 
 		command = { trigger = { NOT = { ai = GER } }	type = event which = 2006030 where = ITA when = 15 } #exp forces and mil_control forces return home
@@ -489,7 +507,7 @@ event = {
 		#command = { type = peace which = USA value = 1 }
 		command = { type = war which = ENG }
 		command = { trigger = { NOT = { ai = GER } } type = access which = GER }
-		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = FRA } } type = access which = FRA }
+		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = VIC } } type = access which = VIC }
 		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = SPA } } type = access which = SPA }
 		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = ROM } } type = access which = ROM }
 		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = HUN } } type = access which = HUN }
@@ -535,13 +553,14 @@ event = {
 		command = { type = sleepminister which = 25005 } #Guido Buffarini-Guidi
 		command = { type = sleepminister which = 25025 } #Junio Borghese
 		
-		command = { type = secederegion which = ENG value = "Tunisia" when = 1 } 
-		command = { type = secederegion which = ENG value = "Egypt" when = 1 } 
-		command = { type = secederegion which = ENG value = "Ethiopia" when = 1 } 
-		command = { type = secederegion which = ENG value = "Horn of Africa" when = 1 } 
+		command = { type = secederegion which = ENG value = "Tunisia" 			when = 1 } 
+		command = { type = secederegion which = ENG value = "Egypt" 			when = 1 } 
+		command = { type = secederegion which = ENG value = "Ethiopia" 			when = 1 } 
+		command = { type = secederegion which = ENG value = "Horn of Africa"	when = 1 } 
 		
-		command = { trigger = { ai = GER } type = secederegion which = GER value = "Balkan" when = 1 } 
-		command = { trigger = { ai = GER } type = secederegion which = GER value = "France" when = 1 } 
+		command = { trigger = { ai = GER } type = secederegion 	 which = GER value = "Balkan" 	when = 1 } 
+		command = { trigger = { ai = GER } type = secederegion 	 which = GER value = "France" 	when = 1 } 
+		command = { trigger = { ai = GER } type = secedeprovince which = GER value = 2583 		when = 1 } #monaco
 		
 		command = { type = local_clrflag which = SanctionsEvt }
 		
@@ -554,12 +573,12 @@ event = {
 		command = { type = dissent value = 20 } 
 		
 		command = { type = military_control which = GER where = ITA value = 1 }
-		command = { type = ai which = "EXP_90.ai" }
+		command = { type = ai which = "EXP_80.ai" }
 		
 		command = { type = set_domestic which = political_left value = 3 }
 		
-		command = { type = event which = 2400051 where = ITA when = 1   } #initial confusion
-		command = { type = event which = 2400061 where = ITA when = 180 } #recovery in 6 months
+		command = { type = event which = 2400151 where = ITA when = 1   } #initial confusion
+		command = { type = event which = 2400161 where = ITA when = 180 } #recovery in 6 months
 		command = { type = trigger which = 2002019 } 
 	}
 }
@@ -567,7 +586,7 @@ event = {
 event = {
 	id = 2002019
 	random = no
-	tag = { GER ENG SOV USA FRA JAP }
+	tag = { GER ENG SOV USA VIC JAP }
 	persistent = yes
 	all = yes
 
@@ -592,6 +611,7 @@ event = {
 	id = 2006030
 	random = no
 	country = ITA
+	save_date = yes
 
 	name = "The Badoglio Proclamation"
 	desc = "The Badoglio Proclamation was a speech read on Ente Italiano per le Audizioni Radiofoniche (EIAR) at 19:42 on 8 September 1943 by Marshal Pietro Badoglio, Italian head of government, announcing that the Armistice of Cassibile between Italy and the Allies signed on the 3rd of September had come into force. It followed a speech on Radio Algiers by U.S. General Dwight D. Eisenhower at 18:30 also announcing the armistice."
@@ -601,27 +621,22 @@ event = {
 	action = {
 		name = "Announce the armistice"
 		command = { type = peace which = ENG value = 1 }
-		command = { type = peace which = FRA value = 1 }
+		command = { type = peace which = VIC value = 1 }
 		command = { type = peace which = SOV value = 1 }
 		command = { type = peace which = USA value = 1 }
 		command = { type = alliance which = ENG when = 1 }
-		#What remained of the Italian army split roughly half in half after the armistice.
-		#About 500k for RSI, another 500k for the Royal Army and the resistance together
 		command = { type = civil_war which = RSI }
+		
 		command = { trigger = { ai = GER 			alliance = { country = USA country = ENG } } 			type = event which = 2001014 where = USA when = 1 }
 		command = { trigger = { ai = GER 			NOT = { alliance = { country = USA country = ENG } } }  type = event which = 2001014 where = ENG when = 1 }
 		command = { trigger = { NOT = { ai = GER }	alliance = { country = USA country = ENG } } 			type = event which = 2001014 where = USA when = 0 }
-		command = { trigger = { NOT = { ai = GER } 	NOT = { alliance = { country = USA country = ENG } } }	type = event which = 2001014 where = ENG when = 0 }
+		command = { trigger = { NOT = { ai = GER }	NOT = { alliance = { country = USA country = ENG } } }	type = event which = 2001014 where = ENG when = 0 }
+		
 		command = { type = event which = 2006031 where = GER when = 0 }
-		command = { type = ai which = "EXP_90.ai" }
-		#The enemy gains the same amount so not much of a cheat
-		command = { type = add_corps value = land where = 521 }
-		command = { type = add_division value = infantry when = 11 }
-		command = { type = add_division value = infantry when = 11 }
-		command = { type = add_corps value = land where = 522 }
-		command = { type = add_division value = infantry when = 11 }
-		command = { type = add_corps value = land where = 520 }
-		command = { type = add_division value = infantry when = 11 }
+		command = { type = ai which = "EXP_80.ai" }
+		
+		command = { type = local_clrflag which = AllDefense }
+		command = { type = setflag which = ItaAllies }
 	}
 }
 
@@ -637,7 +652,7 @@ event = {
 
 	action = {
 		name = "Their common sense prevailed!"
-		#command = { type = add_claim_region which = "Italy" }
+		command = { type = add_claim_region which = "Italy" }
 		command = { type = add_claim_region which = "Libya" }
 		command = { type = add_claim_region which = "Tunisia" }
 		command = { type = add_claim_region which = "Egypt" }
@@ -647,8 +662,9 @@ event = {
 		command = { type = event which = 2400538 where = ITA when = 0 } #strong puppet
 		command = { trigger = { country = ENG ai = no } type = military_control which = ENG where = ITA value = 1 }
 		command = { trigger = { country = USA ai = no } type = military_control which = USA where = ITA value = 1 }
-		command = { type = event which = 2006019 where = -1  when = 0 }
-		command = { type = event which = 2006020 where = ITA when = 0 }
+		
+		command = { type = event which = 2006019 where = -1  when = 90 } #return control of provinces
+		command = { type = event which = 2006020 where = ITA when = 0  }
 	}
 }
 
@@ -665,15 +681,24 @@ event = {
 	action = {
 		name = "Fools!"
 		trigger = { ai = GER } #Less chaotic version
+		command = { type = add_claim_region which = "Italy"  where = GER } 
+		command = { type = add_claim_region which = "Balkan" where = GER } 
+		
+		command = { type = event which = 2400048 where = RSI when = 0 } #exp_80
 		command = { type = event which = 2006015 where = RSI when = 0 }
 		command = { type = event which = 2006032 where = ITA when = 0 }
 	}
 	action = {
 		name = "Fools!"
 		trigger = { NOT = { ai = GER } } #More chaotic version
+		command = { type = add_claim_region which = "Italy"  where = GER } 
+		command = { type = add_claim_region which = "Balkan" where = GER } 
+		
 		command = { type = make_puppet which = RSI }
+		command = { type = event which = 2400048 where = RSI when = 0 } #exp_80
 		command = { type = event which = 2400536 where = RSI when = 0 } #medium puppet
-		command = { type = event which = 2006017 where = GER when = 0 }
+		
+		command = { type = event which = 2006017 where = GER when = 0 } #return control of provinces
 		command = { type = military_control which = GER where = RSI value = 1 }
 	}
 }
@@ -745,6 +770,10 @@ event = {
 		command = { type = secedeprovince which = RSI value = 7123 when = 1 }
 		command = { type = secedeprovince which = RSI value = 7124 when = 1 }
 		command = { type = secedeprovince which = RSI value = 7125 when = 1 }
+		
+		command = { type = secedeprovince which = RSI value = 520 when = 1 }
+		command = { type = secedeprovince which = RSI value = 521 when = 1 }
+		command = { type = secedeprovince which = RSI value = 522 when = 1 }
 	}
 }
 
@@ -766,7 +795,7 @@ event = {
 		command = { type = peace which = SOV value = 1 }
 		command = { type = peace which = USA value = 1 }
 		command = { type = access which = GER }
-		command = { trigger = { alliance = { country = GER country = FRA } } type = access which = FRA }
+		command = { trigger = { alliance = { country = GER country = VIC } } type = access which = VIC }
 		command = { trigger = { alliance = { country = GER country = SPA } } type = access which = SPA }
 		command = { trigger = { alliance = { country = GER country = ROM } } type = access which = ROM }
 		command = { trigger = { alliance = { country = GER country = HUN } } type = access which = HUN }
@@ -776,6 +805,19 @@ event = {
 		command = { type = set_domestic which = defense_lobby 	value = 8  }
 		command = { type = set_domestic which = interventionism	value = 5  }
 		command = { type = event which = 2006016 where = GER when = 1 }
+		
+		
+		#Germany just lost most of its allied Italian army, least that can be done to compensate is simulate Italian POWs building simple fortifications for free
+		#gothic line
+		command = { type = construct which = land_fort		where = 3222	value = 1 }
+		command = { type = construct which = land_fort		where = 3221	value = 1 }
+		command = { type = construct which = land_fort		where = 513		value = 1 }
+		
+		#gustav line
+		command = { type = construct which = land_fort		where = 519		value = 1 }
+		command = { type = construct which = land_fort		where = 6553	value = 1 }
+		command = { type = construct which = land_fort		where = 518		value = 1 }
+		command = { type = construct which = land_fort		where = 3220	value = 1 }
 	}
 }
 
@@ -794,18 +836,23 @@ event = {
 		#command = { type = alliance which = RSI }
 		command = { type = make_puppet which = RSI }
 		command = { type = event which = 2400536 where = RSI when = 0 } #medium puppet
-		command = { type = event which = 2006017 where = GER when = 0 }
+		command = { type = event which = 2400038 where = RSI when = 0 } #allDefense set
+		command = { type = event which = 2400039 where = RSI when = 5 } #allDefense clr
+		
+		command = { type = event which = 2006017 where = GER when = 0 } #return control of provinces
+		
 		command = { type = military_control which = GER where = RSI value = 1 }
 		
 		#The enemy gains the same amount so not much of a cheat
-		command = { type = add_corps value = land where = 519 }
-		command = { type = add_division value = infantry when = 11 }
-		command = { type = add_corps value = land where = 517 }
-		command = { type = add_division value = infantry when = 11 }
-		command = { type = add_corps value = land where = 543 }
-		command = { type = add_division value = infantry when = 11 }
-		command = { type = add_corps value = land where = 6553 }
-		command = { type = add_division value = infantry when = 11 }
+		command = { trigger = { ai = GER } type = add_corps 	value = land where = 515 }
+		command = { trigger = { ai = GER } type = add_division 	value = infantry when = 11 }
+		command = { trigger = { ai = GER } type = add_corps 	value = land where = 520 }
+		command = { trigger = { ai = GER } type = add_division 	value = infantry when = 11 }
+		command = { trigger = { ai = GER } type = add_division 	value = infantry when = 11 }
+		command = { trigger = { ai = GER } type = add_corps 	value = land where = 521 }
+		command = { trigger = { ai = GER } type = add_division 	value = infantry when = 11 }
+		command = { trigger = { ai = GER } type = add_corps 	value = land where = 522 }
+		command = { trigger = { ai = GER } type = add_division 	value = infantry when = 11 }
 	}
 }
 
@@ -821,32 +868,39 @@ event = {
 
 	action = {
 		name = "Thank you, Skorzeny"
+		command = { type = remove_claim_region which = "Italy"  where = GER } 
 		command = { type = secederegion which = RSI value = "Italy" when = 1 } 
-		command = { type = secedeprovince which = GER value = 1408 when = 2 }
-		command = { type = secedeprovince which = GER value = 371 when = 2 }
-		command = { type = secedeprovince which = GER value = 3226 when = 2 }
-		command = { type = secedeprovince which = GER value = 7126 when = 2 }
-		command = { type = secedeprovince which = GER value = 668 when = 2 }
-		command = { type = secedeprovince which = GER value = 7123 when = 2 }
-		command = { type = secedeprovince which = GER value = 7124 when = 2 }
-		command = { type = secedeprovince which = GER value = 7125 when = 2 }
-		command = { type = secedeprovince which = GER value = 666 when = 2 }
-		command = { type = secedeprovince which = GER value = 2326 when = 2 }
-		command = { type = secedeprovince which = GER value = 3357 when = 2 }
+		command = { type = secedeprovince which = GER value = 1408 	when = 2 }
+		command = { type = secedeprovince which = GER value = 371 	when = 2 }
+		command = { type = secedeprovince which = GER value = 3226 	when = 2 }
+		command = { type = secedeprovince which = GER value = 7126 	when = 2 }
+		command = { type = secedeprovince which = GER value = 668 	when = 2 }
+		command = { type = secedeprovince which = GER value = 7123 	when = 2 }
+		command = { type = secedeprovince which = GER value = 7124 	when = 2 }
+		command = { type = secedeprovince which = GER value = 7125 	when = 2 }
+		command = { type = secedeprovince which = GER value = 666 	when = 2 }
+		command = { type = secedeprovince which = GER value = 2326 	when = 2 }
+		command = { type = secedeprovince which = GER value = 3357 	when = 2 }
+		command = { type = secedeprovince which = GER value = 2325 	when = 2 }
 		
-		command = { type = addclaim which = 1408 where = GER } 
-		command = { type = addclaim which = 371 where = GER } 
-		command = { type = addclaim which = 3226 where = GER } 
-		command = { type = addclaim which = 7126 where = GER } 
-		command = { type = addclaim which = 668 where = GER } 
-		command = { type = addclaim which = 7123 where = GER } 
-		command = { type = addclaim which = 7124 where = GER } 
-		command = { type = addclaim which = 7125 where = GER } 
-		command = { type = addclaim which = 666 where = GER } 
-		command = { type = addclaim which = 2326 where = GER } 
-		command = { type = addclaim which = 3357 where = GER } 
+		command = { trigger = { ai = GER } type = non_aggression which = RSI where = USA when = 15 } #AI needs time to react and re-garrison the beaches
+		command = { trigger = { ai = GER } type = non_aggression which = RSI where = ENG when = 15 } 
 		
-		command = { type = add_claim_region which = "Balkan" where = GER } 
+		command = { type = event which = 2006022 where = GER when = 12 }
+		
+		command = { type = addclaim which = 1408 	where = GER } 
+		command = { type = addclaim which = 371 	where = GER } 
+		command = { type = addclaim which = 3226 	where = GER } 
+		command = { type = addclaim which = 7126 	where = GER } 
+		command = { type = addclaim which = 668 	where = GER } 
+		command = { type = addclaim which = 7123 	where = GER } 
+		command = { type = addclaim which = 7124 	where = GER } 
+		command = { type = addclaim which = 7125 	where = GER } 
+		command = { type = addclaim which = 666 	where = GER } 
+		command = { type = addclaim which = 2326 	where = GER } 
+		command = { type = addclaim which = 3357 	where = GER } 
+		command = { type = addclaim which = 2325 	where = GER } 
+		
 		command = { type = remove_claim_area which = "Bulgaria" where = GER }
 	}
 }
@@ -863,7 +917,14 @@ event = {
 
 	action = {
 		name = "Their common sense prevailed!"
-		command = { type = secederegion which = ITA value = "Italy" when = 1 } 
+		command = { type = setflag which = ItalyReturn }
+		command = { type = secederegion which = ITA value = "Italy" when = 1 } #that would include malta..
+		command = { type = secedeprovince which = ENG value = 31 when = 2 } #malta
+		#ai cheat to make sure forces stay under allied control
+		command = { trigger = { control = { province = 3058 data = -3 } claims = { province = 3058 data = USA } ai = yes } type = secedeprovince which = USA value = 3058 when = 2 } #tmp
+		command = { trigger = { control = { province = 3057 data = -3 } claims = { province = 3057 data = ENG } ai = yes } type = secedeprovince which = ENG value = 3057 when = 2 } #tmp
+		command = { type = addclaim which = 3058 where = USA }
+		command = { type = addclaim which = 3057 where = ENG }
 	}
 }
 
@@ -879,16 +940,30 @@ event = {
 
 	action = {
 		name = "Curses!"
+		#The enemy gains the same amount so not much of a cheat
+		command = { trigger = { ai = GER } type = add_corps value = land where = 3223 }
+		command = { trigger = { ai = GER } type = add_division value = infantry when = 11 }
+		command = { trigger = { ai = GER } type = add_corps value = land where = 2621 }
+		command = { trigger = { ai = GER } type = add_division value = infantry when = 11 }
+		command = { trigger = { ai = GER } type = add_division value = infantry when = 11 }
+		command = { trigger = { ai = GER } type = add_corps value = land where = 2622 }
+		command = { trigger = { ai = GER } type = add_division value = infantry when = 11 }
+		command = { trigger = { ai = GER } type = add_corps value = land where = 523 }
+		command = { trigger = { ai = GER } type = add_division value = infantry when = 11 }
+		
+		command = { type = construct which = land_fort		where = 2621	value = 1 }
+		command = { type = construct which = land_fort		where = 523		value = 1 }
+		
 		command = { trigger = { alliance = { country = ENG } } type = secederegion which = ENG value = "Libya" when = 1 } 
 		command = { trigger = { alliance = { country = ENG } } type = secederegion which = ENG value = "Tunisia" when = 1 } 
 		command = { trigger = { alliance = { country = ENG } } type = secederegion which = ENG value = "Egypt" when = 1 } 
 		command = { trigger = { alliance = { country = ENG } } type = secederegion which = ENG value = "Ethiopia" when = 1 } 
 		command = { trigger = { alliance = { country = ENG } } type = secederegion which = ENG value = "Horn of Africa" when = 1 } 
-		command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Libya" when = 1 } 
-		command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Tunisia" when = 1 } 
-		command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Egypt" when = 1 } 
-		command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Ethiopia" when = 1 } 
-		command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Horn of Africa" when = 1 } 
+		#command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Libya" when = 1 } 
+		#command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Tunisia" when = 1 } 
+		#command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Egypt" when = 1 } 
+		#command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Ethiopia" when = 1 } 
+		#command = { trigger = { alliance = { country = USA } } type = secederegion which = USA value = "Horn of Africa" when = 1 } 
 		
 		command = { type = set_domestic which = political_left value = 4 }
 		command = { type = headofstate which = 25015 } #Vittorio Emanuele III
@@ -921,6 +996,25 @@ event = {
 		name = "Curses!"
 		command = { }
 		command = { type = leave_alliance when = 1 }
+	}
+}
+
+event = {
+	id = 2006022
+	random = no
+	country = GER
+
+	name = "Napoli Uprising"
+	desc = "In the days following the armistice, episodes of intolerance and armed resistance against Naples' German occupiers intensified and were more organized, including on 1 September when a student demonstration in Piazza del Plebiscito, and the first meeting of the Liceo Sannazaro in Vomero occurred. Numerous soldiers were killed on the streets of Naples, and about 4,000 Italian soldiers and civilians were deported for forced labor. An announcement on 22 September decreed compulsory labor for all men from 18 to 33, who were to be deported to work camps in northern Italy and Germany. Neapolitans refused, and, as men were rounded up and brought to the stadium in the Vomero, a civilian uprising ensued. "
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_DAMN
+		trigger = { control = { province = 521 data = -3 } }
+		command = { type = revolt which = 521 when = 1 }
+		command = { type = revolt which = 521 when = 1 }
+		command = { type = revolt which = 521 when = 1 }
 	}
 }
 
@@ -1029,8 +1123,8 @@ event = {
 		OR = {
 			event = { id = 2002008 days = 60 } #French State
 			AND = {
-				lost_national = { country = FRA value = 50 }
-				lost_VP = { country = FRA value = 30 }
+				lost_national = { country = VIC value = 50 }
+				lost_VP = { country = VIC value = 30 }
 				control = { province = 56 data = GER } # Paris
 			}
 		}
@@ -1187,7 +1281,7 @@ event = {
 		
 		#Voted in favor of lifting sanctions
 		command = { type = relation which = ENG value = 10 }
-		command = { type = relation which = FRA value = 10 }
+		command = { type = relation which = VIC value = 10 }
 		command = { type = relation which = GER value = 10 }
 		command = { type = relation which = JAP value = 10 }
 		command = { type = relation which = SPA value = 10 }
@@ -1290,6 +1384,7 @@ event = {
 	id = 14000051
 	random = no 
 	country = ITA
+	save_date = yes
 
 	trigger = {
 		atwar = yes
@@ -1361,6 +1456,8 @@ event = {
 		command = { type = control which = ENG value = 4552 }
 		command = { type = control which = ENG value = 4553 }
 		command = { type = control which = ENG value = 4554 }
+		command = { type = control which = ENG value = 4599 }
+		command = { type = control which = ENG value = 4600 }
 	}
 }
 

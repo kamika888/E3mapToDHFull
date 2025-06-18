@@ -20,7 +20,7 @@ country =
       value      = 150
     }
     relation = { tag = FIN value = 90 }
-    relation = { tag = FRA value = 65 }
+    relation = { tag = VIC value = 65 }
     relation = { tag = GER value = 10 }
     relation =
     { tag        = LIT
@@ -110,7 +110,7 @@ country =
      political_left    = 4 
      freedom           = 6 
      free_market       = 3
-     professional_army = 5 
+     professional_army = 4 
      defense_lobby     = 3 
      interventionism   = 3
   }

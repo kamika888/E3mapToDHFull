@@ -24,7 +24,7 @@ country =
     relation = { tag = BEL value = 150 }
     relation = { tag = BHU value = 200 }
     relation = { tag = ENG value = 200 } # was access = yes
-    relation = { tag = FRA value = 150 }
+    relation = { tag = VIC value = 150 }
     relation = { tag = GER value = 1 }
     relation = { tag = HOL value = 80 }
     relation = { tag = IRE value = 75 }
@@ -135,7 +135,7 @@ country =
      political_left    = 5 
      free_market       = 8
      freedom           = 8 
-     professional_army = 2 
+     professional_army = 1 
      defense_lobby     = 2 
      interventionism   = 1
   }

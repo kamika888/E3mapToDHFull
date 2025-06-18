@@ -5,7 +5,7 @@
  country = 
  { tag                    = U55 
    capital                = 2583 
-   puppet				  = FRA
+   puppet				  = VIC
    ai_settings			  = { flags = { puppetLevel9 = 1 demilitarized = 1 } }
    # Resource Reserves 
    energy                 = 100 
@@ -22,7 +22,7 @@
    diplomacy = 
    {   
    relation = {  tag = GER value = 80 access = no  }  
-   relation = {  tag = FRA value = 120 access = yes  }  
+   relation = {  tag = VIC value = 120 access = yes  }  
     } 
    SpyInfo                = {  country = "U06" NumberOfSpies = 3  } 
   
@@ -31,7 +31,7 @@
    ownedprovinces         = {  2583  } 
    controlledprovinces    = {  2583  } 
    
-  # FRA 1936 techs 
+  # VIC 1936 techs 
    # ###################### 
    techapps               = {  
 #Interwar Fighter  

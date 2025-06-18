@@ -54,7 +54,7 @@ country =
     { tag        = FIN
       value      = 25
     }
-    relation = { tag = FRA value = -35 }
+    relation = { tag = VIC value = -35 }
     relation = { tag = GRE value = 15 }
     relation = { tag = HOL value = 1 }
     relation = { tag = HUN value = 100 }
@@ -299,7 +299,7 @@ blueprints = { 6240 6260 6270 7560 } # Elastic Defense, Combined Arms Off. and K
      political_left    = 1 
      free_market       = 3
      freedom           = 9 
-     professional_army = 4 
+     professional_army = 3 
      defense_lobby     = 5 
      interventionism   = 8
   }

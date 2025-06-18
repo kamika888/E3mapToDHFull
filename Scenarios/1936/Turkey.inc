@@ -22,7 +22,7 @@ country =
      political_left    = 3
      freedom           = 5 
      free_market       = 3
-     professional_army = 5 
+     professional_army = 4 
      defense_lobby     = 3 
      interventionism   = 4
   }
@@ -145,7 +145,7 @@ inventions = { 3000027 }
    {  relation = {  tag = AFG value = 50  } 
      relation = {  tag = BUL value = 75  } 
      relation = {  tag = ENG value = 75  } 
-     relation = {  tag = FRA value = 50  } 
+     relation = {  tag = VIC value = 50  } 
      relation = {  tag = GER value = 10  } 
      relation = 
      {  tag        = GRE 

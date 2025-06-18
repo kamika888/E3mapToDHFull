@@ -25,7 +25,7 @@ country =
     relation = { tag = CAN value = 200 } # was access = yes
     relation = { tag = ENG value = 200 } # was access = yes
     relation = { tag = FIN value = 50 }
-    relation = { tag = FRA value = 150 }
+    relation = { tag = VIC value = 150 }
     relation = { tag = GER value = 1 }
     relation = { tag = IRE value = 80 }
     relation = { tag = IRQ value = 100 }
@@ -154,7 +154,7 @@ country =
      political_left    = 3 
      freedom           = 6 
      free_market       = 4
-     professional_army = 3 
+     professional_army = 2 
      defense_lobby     = 2 
      interventionism   = 3 
   }

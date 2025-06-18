@@ -16,7 +16,7 @@ event = {
 			#atwar = JAP
 			atwar = SOV
 			atwar = GER
-			atwar = FRA
+			atwar = VIC
 			atwar = ENG
 			#atwar = ITA
 			belligerence = { country = GER value = 50 } 
@@ -24,7 +24,7 @@ event = {
 			belligerence = { country = RUS value = 50 } 
 			belligerence = { country = SOV value = 50 } 
 			belligerence = { country = ENG value = 50 } 
-			belligerence = { country = FRA value = 50 } 
+			belligerence = { country = VIC value = 50 } 
 			belligerence = { country = JAP value = 50 } 
 			belligerence = { country = U09 value = 50 }
 			belligerence = { country = OTT value = 50 }
@@ -61,7 +61,7 @@ event = {
 	decision = {
 		OR = {
 			war = { country = ENG country = GER }
-			war = { country = FRA country = GER }
+			war = { country = VIC country = GER }
 			war = { country = SOV country = GER }
 		}
 		NOT = {
@@ -79,7 +79,7 @@ event = {
 		ai = no #currently only for player
 		OR = {
 			war = { country = ENG country = GER }
-			war = { country = FRA country = GER }
+			war = { country = VIC country = GER }
 			war = { country = SOV country = GER }
 		}
 		NOT = {
@@ -92,7 +92,7 @@ event = {
 			AND = {
 				OR = {
 					control = { province = 56 data = GER }
-					alliance = { country = FRA country = GER }
+					alliance = { country = VIC country = GER }
 				}
 				OR = {
 					#England is invaded
@@ -130,7 +130,7 @@ event = {
 							belligerence = { country = GER value = 150 } 
 							belligerence = { country = ITA value = 150 } 
 							control = { province = 56 data = GER }
-							alliance = { country = FRA country = GER }
+							alliance = { country = VIC country = GER }
 						}
 					}
 		type = dissent value = 23 }
@@ -141,7 +141,7 @@ event = {
 							AND = {
 								OR = {
 									control = { province = 56 data = GER }
-									alliance = { country = FRA country = GER }
+									alliance = { country = VIC country = GER }
 								}
 								OR = {
 									#Balkans/Spain in Axis
@@ -168,7 +168,7 @@ event = {
 							AND = {
 								OR = {
 									control = { province = 56 data = GER }
-									alliance = { country = FRA country = GER }
+									alliance = { country = VIC country = GER }
 								}
 								OR = {
 									#England is invaded
@@ -204,7 +204,7 @@ event = {
 	decision = {
 		OR = {
 			war = { country = ENG country = JAP }
-			war = { country = FRA country = JAP }
+			war = { country = VIC country = JAP }
 			war = { country = SOV country = JAP }
 		}
 		NOT = {
@@ -219,7 +219,7 @@ event = {
 		ai = no #currently only for player
 		OR = {
 			war = { country = ENG country = JAP }
-			war = { country = FRA country = JAP }
+			war = { country = VIC country = JAP }
 			war = { country = SOV country = JAP }
 		}
 		NOT = {
@@ -1549,6 +1549,10 @@ event = {
 			war = { country = JAP country = HOL }
 			war = { country = JAP country = SOV }
 		}
+		OR = {
+			NOT = { war = { country = JAP } }
+			flag = GER_USA_undeclared_war
+		}
 	}
 	decision_trigger = {
 		OR = {
@@ -1579,6 +1583,10 @@ event = {
 			war = { country = JAP country = ENG }
 			war = { country = JAP country = HOL }
 			war = { country = JAP country = SOV }
+		}
+		OR = {
+			NOT = { war = { country = JAP } }
+			flag = GER_USA_undeclared_war
 		}
 		OR = {
 			belligerence = { country = JAP value = 240 } 
@@ -1675,17 +1683,20 @@ event = {
 	decision = {
 		OR = {
 			war = { country = GER country = ENG }
-			war = { country = GER country = FRA }
+			war = { country = GER country = VIC }
 			war = { country = GER country = SOV }
 		}
-		#NOT = { war = { country = GER } }
+		OR = {
+			NOT = { war = { country = GER } }
+			flag = GER_USA_undeclared_war
+		}
 	}
 	decision_trigger = {
 		OR = {
 			belligerence = { country = GER value = 80 } 
 			NOT = { region = { region = "Poland" country = POL data = 1 value = 60 } }
 			event = 2002008 #French State
-			NOT = { war = { country = FRA country = GER } }
+			NOT = { war = { country = VIC country = GER } }
 			#Balkans/Spain in Axis
 			alliance = { country = SPA country = GER }
 			alliance = { country = YUG country = GER }
@@ -1706,15 +1717,18 @@ event = {
 	trigger = {
 		OR = {
 			war = { country = GER country = ENG }
-			war = { country = GER country = FRA }
+			war = { country = GER country = VIC }
 			war = { country = GER country = SOV }
 		}
-		#NOT = { war = { country = GER } }
+		OR = {
+			NOT = { war = { country = GER } }
+			flag = GER_USA_undeclared_war
+		}
 		OR = {
 			belligerence = { country = GER value = 80 } 
 			NOT = { region = { region = "Poland" country = POL data = 1 value = 60 } }
 			event = 2002008 #French State
-			NOT = { war = { country = FRA country = GER } }
+			NOT = { war = { country = VIC country = GER } }
 			#Balkans/Spain in Axis
 			alliance = { country = SPA country = GER }
 			alliance = { country = YUG country = GER }
@@ -1745,13 +1759,13 @@ event = {
 		
 		command = { type = belligerence value = 1 }
 		command = { type = trade which = USA where = ENG supplies = -30 money = 2 value = 1 } 
-		command = { type = trade which = USA where = FRA supplies = -30 money = 2 value = 1 } 
+		command = { type = trade which = USA where = VIC supplies = -30 money = 2 value = 1 } 
 		
 		command = { type = setflag which = USA_Lend_Lease_to_ENG0 }
 		command = { type = setflag which = USA_Lend_Lease_to_FRA0 }
 		
 		command = { type = relation which = ENG value =  10 }
-		command = { type = relation which = FRA value =  10 }
+		command = { type = relation which = VIC value =  10 }
 		command = { type = relation which = GER value = -10 }
 		command = { type = relation which = ITA value = -10 }
 		command = { type = trigger which = 611 }
@@ -1781,7 +1795,7 @@ event = {
 event = {
 	id = 612
 	random = no
-	country = FRA
+	country = VIC
 
 	name = "Cash and Carry program"
 	desc = "Following the outbreak of war in Europe, Roosevelt finally managed to convince Congress to sign a new 'Neutrality Act' of 1939. This act, despite its name, allowed for arms trade with belligerent nations on a cash-and-carry basis, thus in effect ending the neutral arms embargo. Furthermore, the National Munitions Control Board (which had been created by the 1935 Neutrality Act) was charged with issuing licenses for all arms imports and exports. Arms trade without a license became a federal crime. This allowed the administration to make sure that arms trade went specifically to support Britain and France, and not Germany."
@@ -1829,7 +1843,7 @@ event = {
 	decision = {
 		OR = {
 			war = { country = GER country = ENG }
-			war = { country = GER country = FRA }
+			war = { country = GER country = VIC }
 			war = { country = GER country = SOV }
 		}
 		#NOT = { war = { country = GER } }
@@ -1839,7 +1853,7 @@ event = {
 		OR = {
 			belligerence = { country = GER value = 120 } 
 			event = 2002008 #French State
-			NOT = { war = { country = FRA country = GER } }
+			NOT = { war = { country = VIC country = GER } }
 			#Balkans/Spain in Axis
 			#Disabled - causes US entry into the war far too early if SCW never ended or Greece invaded early. Need to wait for France to be defeated before things get really serious.
 			#alliance = { country = SPA country = GER } 
@@ -1861,14 +1875,14 @@ event = {
 	trigger = {
 		OR = {
 			war = { country = GER country = ENG }
-			war = { country = GER country = FRA }
+			war = { country = GER country = VIC }
 			war = { country = GER country = SOV }
 		}
 		#NOT = { war = { country = GER } }
 		event = 610
 		OR = {
 			belligerence = { country = GER value = 120 } 
-			NOT = { war = { country = FRA country = GER } }
+			NOT = { war = { country = VIC country = GER } }
 			#Balkans/Spain in Axis
 			#Disabled - causes US entry into the war far too early if SCW never ended or Greece invaded early. Need to wait for France to be defeated before things get really serious.
 			#alliance = { country = SPA country = GER } 
@@ -1979,7 +1993,7 @@ event = {
 		command = { type = demobilize which = destroyer when = 0 where = 0 value = -10 } #remove ~10 DD units - oldest models (US starts with 5 DDs of model 3, predating even Town-class)
 		
 		command = { type = relation which = ENG value =  10 }
-		command = { type = relation which = FRA value =  10 }
+		command = { type = relation which = VIC value =  10 }
 		command = { type = relation which = GER value = -10 }
 		command = { type = relation which = ITA value = -10 }
 		
@@ -2018,7 +2032,7 @@ event = {
 	decision = {
 		OR = {
 			war = { country = GER country = ENG }
-			war = { country = GER country = FRA }
+			war = { country = GER country = VIC }
 			war = { country = GER country = SOV }
 		}
 		#NOT = { war = { country = GER } }
@@ -2044,7 +2058,7 @@ event = {
 	trigger = {
 		OR = {
 			war = { country = GER country = ENG }
-			war = { country = GER country = FRA }
+			war = { country = GER country = VIC }
 			war = { country = GER country = SOV }
 		}
 		#NOT = { war = { country = GER } }
@@ -2077,7 +2091,7 @@ event = {
 		
 		#replacing C&C with a more favorable deal
 		command = { type = end_trades which = USA where = ENG }
-		command = { type = end_trades which = USA where = FRA }
+		command = { type = end_trades which = USA where = VIC }
 		
 		
 		command = { trigger = { war = { country = GER country = ENG } } type = belligerence value = 2 }
@@ -2086,14 +2100,14 @@ event = {
 		command = { trigger = { war = { country = GER country = ENG } } type = extra_tc value = -50 }
 		command = { trigger = { war = { country = GER country = ENG } } type = setflag which = USA_Lend_Lease_to_ENG2 }
 		
-		command = { trigger = { war = { country = GER country = FRA } } type = belligerence value = 2 }
-		command = { trigger = { war = { country = GER country = FRA } } type = trade which = USA where = FRA energy = -25 metal = -15 rare_materials = 5 money = 0.6 	supplies = -80	value = 1 } 
-		command = { trigger = { war = { country = GER country = FRA } } type = free_ic 	value = -10 }
-		command = { trigger = { war = { country = GER country = FRA } } type = extra_tc value = -50 }
-		command = { trigger = { war = { country = GER country = FRA } } type = setflag which = USA_Lend_Lease_to_FRA2 }
+		command = { trigger = { war = { country = GER country = VIC } } type = belligerence value = 2 }
+		command = { trigger = { war = { country = GER country = VIC } } type = trade which = USA where = VIC energy = -25 metal = -15 rare_materials = 5 money = 0.6 	supplies = -80	value = 1 } 
+		command = { trigger = { war = { country = GER country = VIC } } type = free_ic 	value = -10 }
+		command = { trigger = { war = { country = GER country = VIC } } type = extra_tc value = -50 }
+		command = { trigger = { war = { country = GER country = VIC } } type = setflag which = USA_Lend_Lease_to_FRA2 }
 		
 		command = { type = relation which = ENG value =  20 }
-		command = { type = relation which = FRA value =  20 }
+		command = { type = relation which = VIC value =  20 }
 		command = { type = relation which = GER value = -20 }
 		command = { type = relation which = ITA value = -20 }
 		
@@ -2106,7 +2120,7 @@ event = {
 		command = { trigger = { alliance = { country = GER country = FIN } } type = embargo which = USA where = FIN value = 1 }
 		
 		command = { type = trigger which = 631 }
-		command = { trigger = { war = { country = GER country = FRA } } type = trigger which = 632 }
+		command = { trigger = { war = { country = GER country = VIC } } type = trigger which = 632 }
 		command = { type = trigger which = 633 }
 	}
 }
@@ -2134,7 +2148,7 @@ event = {
 event = {
 	id = 632
 	random = no
-	country = FRA
+	country = VIC
 
 	name = "The Lend-Lease Act"
 	desc = "Since 1939, Britain had been paying for its materiel with gold as part of the 'cash and carry' program, as required by the U.S. Neutrality Acts of the 1930s, but by 1941 it had liquidated a large part of its overseas holdings and its gold reserves were becoming depleted in paying for materiel from the United States. As the US was just beginning to mobilize for war, Great Britain was running out of liquid currency and asked not to be forced to sell off British assets. In March 1941, Congress passed the Lend-Lease act, allowing for the delivery of military supplies to belligerent nations at no cost, to be used until returned or destroyed. Meanwhile, the U.S. froze German and Axis assets in American banks as part of broader financial controls designed to limit access to American resources, and a month later it placed an embargo on the export of oil and other strategic materials to Germany. Effectively, the decision to enter the war was made."
@@ -2185,7 +2199,7 @@ event = {
 	decision = {
 		OR = {
 			war = { country = GER country = ENG }
-			war = { country = GER country = FRA }
+			war = { country = GER country = VIC }
 			war = { country = GER country = SOV }
 		}
 		NOT = { war = { country = GER } }
@@ -2194,6 +2208,10 @@ event = {
 	decision_trigger = {
 		OR = {
 			belligerence = { country = GER value = 200 } 
+			#England is invaded
+			area = { area = "East England" country = GER data = 1 value = 1 }
+			area = { area = "West England" country = GER data = 1 value = 1 }
+			area = { area = "North England" country = GER data = 1 value = 1 }
 			#USSR is losing the war
 			NOT = { control = { province = 175 data = SOV } } #Moscow
 			NOT = { control = { province = 187 data = SOV } } #Leningrad
@@ -2204,13 +2222,17 @@ event = {
 	trigger = {
 		OR = {
 			war = { country = GER country = ENG }
-			war = { country = GER country = FRA }
+			war = { country = GER country = VIC }
 			war = { country = GER country = SOV }
 		}
 		NOT = { war = { country = GER } }
 		event = 630
 		OR = {
 			belligerence = { country = GER value = 200 } 
+			#England is invaded
+			area = { area = "East England" country = GER data = 1 value = 1 }
+			area = { area = "West England" country = GER data = 1 value = 1 }
+			area = { area = "North England" country = GER data = 1 value = 1 }
 			#USSR is losing the war
 			NOT = { control = { province = 175 data = SOV } } #Moscow
 			NOT = { control = { province = 187 data = SOV } } #Leningrad
@@ -2229,7 +2251,7 @@ event = {
 		
 		
 		command = { type = relation which = ENG value =  10 }
-		command = { type = relation which = FRA value =  10 }
+		command = { type = relation which = VIC value =  10 }
 		command = { type = relation which = GER value = -10 }
 		command = { type = relation which = ITA value = -10 }
 		
@@ -2302,12 +2324,12 @@ event = {
 		}
 		OR = {
 			alliance = { country = ENG }
-			alliance = { country = FRA }
+			alliance = { country = VIC }
 			alliance = { country = SOV }
 			alliance = { country = GER }
 			alliance = { country = JAP }
 			access = { country = ENG country = USA }
-			access = { country = FRA country = USA }
+			access = { country = VIC country = USA }
 			access = { country = SPR country = USA }
 			access = { country = IRE country = USA }
 			access = { country = POR country = USA }
@@ -2346,7 +2368,7 @@ event = {
 		command = { type = dissent value = 5.0 } #correction gives -2
 		command = { type = leave_alliance when = 0 }
 		command = { type = end_access which = ENG when = 1 }
-		command = { type = end_access which = FRA when = 1 }
+		command = { type = end_access which = VIC when = 1 }
 		command = { type = end_access which = SPR when = 1 }
 		command = { type = end_access which = IRE when = 1 }
 		command = { type = end_access which = POR when = 1 }
@@ -2396,12 +2418,12 @@ event = {
 			}
 			OR = {
 				alliance = { country = ENG }
-				alliance = { country = FRA }
+				alliance = { country = VIC }
 				alliance = { country = SOV }
 				alliance = { country = GER }
 				alliance = { country = JAP }
 				access = { country = ENG country = USA }
-				access = { country = FRA country = USA }
+				access = { country = VIC country = USA }
 				access = { country = SPR country = USA }
 				access = { country = IRE country = USA }
 				access = { country = POR country = USA }
@@ -2432,7 +2454,7 @@ event = {
 		command = { type = dissent value = 3.0 }
 		command = { type = leave_alliance when = 0 }
 		command = { type = end_access which = ENG when = 1 }
-		command = { type = end_access which = FRA when = 1 }
+		command = { type = end_access which = VIC when = 1 }
 		command = { type = end_access which = SPR when = 1 }
 		command = { type = end_access which = IRE when = 1 }
 		command = { type = end_access which = POR when = 1 }
@@ -2461,12 +2483,12 @@ event = {
 			}
 			OR = {
 				alliance = { country = ENG }
-				alliance = { country = FRA }
+				alliance = { country = VIC }
 				alliance = { country = SOV }
 				alliance = { country = GER }
 				alliance = { country = JAP }
 				access = { country = ENG country = USA }
-				access = { country = FRA country = USA }
+				access = { country = VIC country = USA }
 				access = { country = SPR country = USA }
 				access = { country = IRE country = USA }
 				access = { country = POR country = USA }
@@ -2518,12 +2540,12 @@ event = {
 					}
 					OR = {
 						alliance = { country = ENG }
-						alliance = { country = FRA }
+						alliance = { country = VIC }
 						alliance = { country = SOV }
 						alliance = { country = GER }
 						alliance = { country = JAP }
 						access = { country = ENG country = USA }
-						access = { country = FRA country = USA }
+						access = { country = VIC country = USA }
 						access = { country = SPR country = USA }
 						access = { country = IRE country = USA }
 						access = { country = POR country = USA }
@@ -2577,6 +2599,10 @@ event = {
 		flag = GER_USA_undeclared_war
 		OR = {
 			belligerence = { country = GER value = 240 } 
+			#England is invaded
+			area = { area = "East England" country = GER data = 1 value = 1 }
+			area = { area = "West England" country = GER data = 1 value = 1 }
+			area = { area = "North England" country = GER data = 1 value = 1 }
 			event = { id = 640 days = 180 } #6 months after Undeclared War, other conditions same
 			event = 653 #Pearl Harbor happened and Germany chose not to DoW
 		}
@@ -2586,6 +2612,10 @@ event = {
 		flag = GER_USA_undeclared_war
 		OR = {
 			belligerence = { country = GER value = 240 } 
+			#England is invaded
+			area = { area = "East England" country = GER data = 1 value = 1 }
+			area = { area = "West England" country = GER data = 1 value = 1 }
+			area = { area = "North England" country = GER data = 1 value = 1 }
 			event = { id = 640 days = 180 } #6 months after Undeclared War, other conditions same
 			event = 653 #Pearl Harbor happened and Germany chose not to DoW
 		}
@@ -6872,36 +6902,36 @@ event = {
 		OR = {
 			AND = {
 				NOT = { flag = USA_Lend_Lease_to_FRA1 }
-				war = { country = GER country = FRA }
+				war = { country = GER country = VIC }
 				NOT = { lost_national = { value = 10 } }
-				region = { region = "France" country = FRA data = 1 value = 90 }
+				region = { region = "France" country = VIC data = 1 value = 90 }
 				lost_national = { country = GER value = 15 }
 			}
 			AND = {
 				NOT = { flag = USA_Lend_Lease_to_FRA2 }
-				war = { country = GER country = FRA }
+				war = { country = GER country = VIC }
 				NOT = { lost_national = { value = 10 } }
-				region = { region = "France" country = FRA data = 1 value = 90 }
+				region = { region = "France" country = VIC data = 1 value = 90 }
 				NOT = { lost_national = { country = GER value = 15 } }
 			}
 			AND = {
 				NOT = { flag = USA_Lend_Lease_to_FRA3 }
-				war = { country = GER country = FRA }
+				war = { country = GER country = VIC }
 				NOT = { lost_national = { value = 10 } }
-				region = { region = "France" country = FRA data = 1 value = 70 }
-				NOT = { region = { region = "France" country = FRA data = 1 value = 90 } }
+				region = { region = "France" country = VIC data = 1 value = 70 }
+				NOT = { region = { region = "France" country = VIC data = 1 value = 90 } }
 			}
 			AND = {
 				NOT = { flag = USA_Lend_Lease_to_FRA4 }
-				war = { country = GER country = FRA }
+				war = { country = GER country = VIC }
 				NOT = { lost_national = { value = 10 } }
-				region = { region = "France" country = FRA data = 1 value = 20 }
-				NOT = { region = { region = "France" country = FRA data = 1 value = 70 } }
+				region = { region = "France" country = VIC data = 1 value = 20 }
+				NOT = { region = { region = "France" country = VIC data = 1 value = 70 } }
 			}
 			AND = {
 				OR = { flag = USA_Lend_Lease_to_FRA0 flag = USA_Lend_Lease_to_FRA1 flag = USA_Lend_Lease_to_FRA2 flag = USA_Lend_Lease_to_FRA3 flag = USA_Lend_Lease_to_FRA4 }
 				OR = { 
-					NOT = { war = { country = GER country = FRA } }
+					NOT = { war = { country = GER country = VIC } }
 					lost_national = { value = 10 }
 				}
 			}
@@ -6919,50 +6949,50 @@ event = {
 			OR = {
 				ai = no
 				AND = {
-					war = { country = GER country = FRA }
+					war = { country = GER country = VIC }
 					NOT = { lost_national = { value = 10 } }
-					region = { region = "France" country = FRA data = 1 value = 90 }
+					region = { region = "France" country = VIC data = 1 value = 90 }
 					lost_national = { country = GER value = 15 }
 				}
 			}
 		}
 		
-		command = { type = end_trades which = USA where = FRA }
+		command = { type = end_trades which = USA where = VIC }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = belligerence value = -1  }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = FRA value = -10 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = VIC value = -10 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = GER value =  10 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = clrflag 		which = USA_Lend_Lease_to_FRA1 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = belligerence value = -2  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = free_ic  	value = 10  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = extra_tc 	value = 50  }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = FRA value = -20 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = VIC value = -20 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = GER value =  20 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = clrflag 		which = USA_Lend_Lease_to_FRA2 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = belligerence value = -4  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = free_ic  	value = 20  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = extra_tc 	value = 100 }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = FRA value = -40 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = VIC value = -40 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = GER value =  40 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = clrflag 		which = USA_Lend_Lease_to_FRA3 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = belligerence value = -6  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = free_ic  	value = 30  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = extra_tc 	value = 150 }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = FRA value = -60 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = VIC value = -60 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = GER value =  60 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = clrflag 		which = USA_Lend_Lease_to_FRA4 }
 		
 		
 		command = { type = trade which = USA money = 0.4 	supplies = -40	value = 1 } 
 		command = { 											type = belligerence value = 1   }
-		command = { 											type = relation 	which = FRA value =  10 }
+		command = { 											type = relation 	which = VIC value =  10 }
 		command = { 											type = relation 	which = GER value = -10 }
 		command = { 											type = setflag 		which = USA_Lend_Lease_to_FRA1 }
 		
-		command = { type = event 	which = 1061 where = FRA when = 1 }
+		command = { type = event 	which = 1061 where = VIC when = 1 }
 	}
 	action = {
 		name = "Medium volume"
@@ -6971,51 +7001,51 @@ event = {
 			OR = {
 				ai = no
 				AND = {
-					war = { country = GER country = FRA }
+					war = { country = GER country = VIC }
 					NOT = { lost_national = { value = 10 } }
-					region = { region = "France" country = FRA data = 1 value = 90 }
+					region = { region = "France" country = VIC data = 1 value = 90 }
 					NOT = { lost_national = { country = GER value = 15 } }
 				}
 			}
 		}
 		
-		command = { type = end_trades which = USA where = FRA }
+		command = { type = end_trades which = USA where = VIC }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = belligerence value = -1  }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = FRA value = -10 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = VIC value = -10 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = GER value =  10 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = clrflag 		which = USA_Lend_Lease_to_FRA1 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = belligerence value = -2  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = free_ic  	value = 10  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = extra_tc 	value = 50  }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = FRA value = -20 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = VIC value = -20 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = GER value =  20 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = clrflag 		which = USA_Lend_Lease_to_FRA2 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = belligerence value = -4  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = free_ic  	value = 20  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = extra_tc 	value = 100 }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = FRA value = -40 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = VIC value = -40 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = GER value =  40 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = clrflag 		which = USA_Lend_Lease_to_FRA3 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = belligerence value = -6  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = free_ic  	value = 30  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = extra_tc 	value = 150 }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = FRA value = -60 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = VIC value = -60 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = GER value =  60 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = clrflag 		which = USA_Lend_Lease_to_FRA4 }
 		
-		command = { type = trade which = USA where = FRA energy = -25 metal = -15 rare_materials = 5 money = 0.6 	supplies = -80	value = 1 } 
+		command = { type = trade which = USA where = VIC energy = -25 metal = -15 rare_materials = 5 money = 0.6 	supplies = -80	value = 1 } 
 		command = { 											type = belligerence value = 2   }
 		command = { 											type = free_ic  	value = -10 }
 		command = { 											type = extra_tc 	value = -50 }
-		command = { 											type = relation 	which = FRA value =  10 }
+		command = { 											type = relation 	which = VIC value =  10 }
 		command = { 											type = relation 	which = GER value = -10 }
 		command = { 											type = setflag 		which = USA_Lend_Lease_to_FRA2 }
 		
-		command = { type = event 	which = 1061 where = FRA when = 1 }
+		command = { type = event 	which = 1061 where = VIC when = 1 }
 	}
 	action = {
 		name = "High volume"
@@ -7024,52 +7054,52 @@ event = {
 			OR = {
 				ai = no
 				AND = {
-					war = { country = GER country = FRA }
+					war = { country = GER country = VIC }
 					NOT = { lost_national = { value = 10 } }
-					region = { region = "France" country = FRA data = 1 value = 70 }
-					NOT = { region = { region = "France" country = FRA data = 1 value = 90 } }
+					region = { region = "France" country = VIC data = 1 value = 70 }
+					NOT = { region = { region = "France" country = VIC data = 1 value = 90 } }
 				}
 			}
 		}
 		
-		command = { type = end_trades which = USA where = FRA }
+		command = { type = end_trades which = USA where = VIC }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = belligerence value = -1  }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = FRA value = -10 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = VIC value = -10 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = GER value =  10 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = clrflag 		which = USA_Lend_Lease_to_FRA1 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = belligerence value = -2  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = free_ic  	value = 10  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = extra_tc 	value = 50  }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = FRA value = -20 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = VIC value = -20 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = GER value =  20 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = clrflag 		which = USA_Lend_Lease_to_FRA2 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = belligerence value = -4  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = free_ic  	value = 20  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = extra_tc 	value = 100 }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = FRA value = -40 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = VIC value = -40 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = GER value =  40 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = clrflag 		which = USA_Lend_Lease_to_FRA3 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = belligerence value = -6  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = free_ic  	value = 30  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = extra_tc 	value = 150 }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = FRA value = -60 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = VIC value = -60 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = GER value =  60 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = clrflag 		which = USA_Lend_Lease_to_FRA4 }
 		
 		
-		command = { type = trade which = USA where = FRA energy = -50 metal = -30 rare_materials = 10 money = 0.8 	supplies = -120	value = 1 } 
+		command = { type = trade which = USA where = VIC energy = -50 metal = -30 rare_materials = 10 money = 0.8 	supplies = -120	value = 1 } 
 		command = { 											type = belligerence value = 4    }
 		command = { 											type = free_ic  	value = -20  }
 		command = { 											type = extra_tc 	value = -100 }
-		command = { 											type = relation 	which = FRA value =  40 }
+		command = { 											type = relation 	which = VIC value =  40 }
 		command = { 											type = relation 	which = GER value = -40 }
 		command = { 											type = setflag 		which = USA_Lend_Lease_to_FRA3 }
 		
-		command = { type = event 	which = 1061 where = FRA when = 1 }
+		command = { type = event 	which = 1061 where = VIC when = 1 }
 	}
 	action = {
 		name = "Very high volume"
@@ -7078,52 +7108,52 @@ event = {
 			OR = {
 				ai = no
 				AND = {
-					war = { country = GER country = FRA }
+					war = { country = GER country = VIC }
 					NOT = { lost_national = { value = 10 } }
-					region = { region = "France" country = FRA data = 1 value = 20 }
-					NOT = { region = { region = "France" country = FRA data = 1 value = 70 } }
+					region = { region = "France" country = VIC data = 1 value = 20 }
+					NOT = { region = { region = "France" country = VIC data = 1 value = 70 } }
 				}
 			}
 		}
 		
-		command = { type = end_trades which = USA where = FRA }
+		command = { type = end_trades which = USA where = VIC }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = belligerence value = -1  }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = FRA value = -10 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = VIC value = -10 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = GER value =  10 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = clrflag 		which = USA_Lend_Lease_to_FRA1 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = belligerence value = -2  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = free_ic  	value = 10  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = extra_tc 	value = 50  }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = FRA value = -20 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = VIC value = -20 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = GER value =  20 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = clrflag 		which = USA_Lend_Lease_to_FRA2 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = belligerence value = -4  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = free_ic  	value = 20  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = extra_tc 	value = 100 }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = FRA value = -40 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = VIC value = -40 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = GER value =  40 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = clrflag 		which = USA_Lend_Lease_to_FRA3 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = belligerence value = -6  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = free_ic  	value = 30  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = extra_tc 	value = 150 }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = FRA value = -60 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = VIC value = -60 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = GER value =  60 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = clrflag 		which = USA_Lend_Lease_to_FRA4 }
 		
 		
-		command = { type = trade which = USA where = FRA energy = -75 metal = -45 rare_materials = 15 money = 1.0 	supplies = -160	value = 1 } 
+		command = { type = trade which = USA where = VIC energy = -75 metal = -45 rare_materials = 15 money = 1.0 	supplies = -160	value = 1 } 
 		command = { 											type = belligerence value = 6    }
 		command = { 											type = free_ic  	value = -30  }
 		command = { 											type = extra_tc 	value = -150 }
-		command = { 											type = relation 	which = FRA value =  60 }
+		command = { 											type = relation 	which = VIC value =  60 }
 		command = { 											type = relation 	which = GER value = -60 }
 		command = { 											type = setflag 		which = USA_Lend_Lease_to_FRA4 }
 		
-		command = { type = event 	which = 1061 where = FRA when = 1 }
+		command = { type = event 	which = 1061 where = VIC when = 1 }
 	}
 	action = {
 		name = "Permanently terminate aid"
@@ -7131,49 +7161,49 @@ event = {
 			OR = { flag = USA_Lend_Lease_to_FRA0 flag = USA_Lend_Lease_to_FRA1 flag = USA_Lend_Lease_to_FRA2 flag = USA_Lend_Lease_to_FRA3 flag = USA_Lend_Lease_to_FRA4 }
 			OR = {
 				ai = no
-				NOT = { war = { country = GER country = FRA } }
+				NOT = { war = { country = GER country = VIC } }
 				lost_national = { value = 10 }
 			}
 		}
 		command = { type = dissent value = -0.5 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA0 } type = clrflag 		which = USA_Lend_Lease_to_FRA0 }
 	
-		command = { type = end_trades which = USA where = FRA }
+		command = { type = end_trades which = USA where = VIC }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = belligerence value = -1  }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = FRA value = -10 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = VIC value = -10 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = relation 	which = GER value =  10 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1 } type = clrflag 		which = USA_Lend_Lease_to_FRA1 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = belligerence value = -2  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = free_ic  	value = 10  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = extra_tc 	value = 50  }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = FRA value = -20 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = VIC value = -20 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = relation 	which = GER value =  20 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2 } type = clrflag 		which = USA_Lend_Lease_to_FRA2 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = belligerence value = -4  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = free_ic  	value = 20  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = extra_tc 	value = 100 }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = FRA value = -40 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = VIC value = -40 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = relation 	which = GER value =  40 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA3 } type = clrflag 		which = USA_Lend_Lease_to_FRA3 }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = belligerence value = -6  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = free_ic  	value = 30  }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = extra_tc 	value = 150 }
-		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = FRA value = -60 }
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = VIC value = -60 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = relation 	which = GER value =  60 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA4 } type = clrflag 		which = USA_Lend_Lease_to_FRA4 }
 
-		command = { type = event 	which = 1061 where = FRA when = 1 }
+		command = { type = event 	which = 1061 where = VIC when = 1 }
 	}
 }
 
 event = {
 	id = 1061
 	random = no
-	tag = { FRA }
+	tag = { VIC }
 	persistent = yes
 
 	name = "USA adjusts Aid to France"
@@ -7182,7 +7212,7 @@ event = {
 
 	action = {
 		name = "Low volume"
-		trigger = { country = FRA flag = USA_Lend_Lease_to_FRA1 }
+		trigger = { country = VIC flag = USA_Lend_Lease_to_FRA1 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1_local } type = clrflag 	which = USA_Lend_Lease_to_FRA1_local }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2_local } type = free_ic  	value = -10  }
@@ -7201,7 +7231,7 @@ event = {
 	}
 	action = {
 		name = "Medium volume"
-		trigger = { country = FRA flag = USA_Lend_Lease_to_FRA2 }
+		trigger = { country = VIC flag = USA_Lend_Lease_to_FRA2 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1_local } type = clrflag 	which = USA_Lend_Lease_to_FRA1_local }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2_local } type = free_ic  	value = -10  }
@@ -7223,7 +7253,7 @@ event = {
 	}
 	action = {
 		name = "High volume"
-		trigger = { country = FRA flag = USA_Lend_Lease_to_FRA3 }
+		trigger = { country = VIC flag = USA_Lend_Lease_to_FRA3 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1_local } type = clrflag 	which = USA_Lend_Lease_to_FRA1_local }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2_local } type = free_ic  	value = -10  }
@@ -7245,7 +7275,7 @@ event = {
 	}
 	action = {
 		name = "Very high volume"
-		trigger = { country = FRA flag = USA_Lend_Lease_to_FRA4 }
+		trigger = { country = VIC flag = USA_Lend_Lease_to_FRA4 }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1_local } type = clrflag 	which = USA_Lend_Lease_to_FRA1_local }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2_local } type = free_ic  	value = -10  }
@@ -7267,7 +7297,7 @@ event = {
 	}
 	action = {
 		name = "Aid terminated"
-		trigger = { country = FRA NOT = { flag = USA_Lend_Lease_to_FRA1 flag = USA_Lend_Lease_to_FRA2 flag = USA_Lend_Lease_to_FRA3 flag = USA_Lend_Lease_to_FRA4 } }
+		trigger = { country = VIC NOT = { flag = USA_Lend_Lease_to_FRA1 flag = USA_Lend_Lease_to_FRA2 flag = USA_Lend_Lease_to_FRA3 flag = USA_Lend_Lease_to_FRA4 } }
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA1_local } type = clrflag 	which = USA_Lend_Lease_to_FRA1_local }
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_FRA2_local } type = free_ic  	value = -10  }
@@ -7792,7 +7822,7 @@ event = {
 		command = { type = leave_alliance when = 1 }				
 		command = { trigger = { war = { country = USA country = RUS } } type = peace which = RUS value = 1 }
 		command = { trigger = { war = { country = USA country = SOV } } type = peace which = SOV value = 1 }
-		command = { trigger = { war = { country = USA country = FRA } } type = peace which = FRA value = 1 }
+		command = { trigger = { war = { country = USA country = VIC } } type = peace which = VIC value = 1 }
 		command = { trigger = { war = { country = USA country = ENG } } type = peace which = ENG value = 1 }
 		command = { trigger = { war = { country = USA country = JAP } } type = peace which = JAP value = 1 }
 		command = { trigger = { war = { country = USA country = ITA } } type = peace which = ITA value = 1 }
@@ -7823,7 +7853,7 @@ event = {
 		command = { type = leave_alliance when = 1 }				
 		command = { trigger = { war = { country = USA country = RUS } } type = peace which = RUS value = 1 }
 		command = { trigger = { war = { country = USA country = SOV } } type = peace which = SOV value = 1 }
-		command = { trigger = { war = { country = USA country = FRA } } type = peace which = FRA value = 1 }
+		command = { trigger = { war = { country = USA country = VIC } } type = peace which = VIC value = 1 }
 		command = { trigger = { war = { country = USA country = ENG } } type = peace which = ENG value = 1 }
 		command = { trigger = { war = { country = USA country = JAP } } type = peace which = JAP value = 1 }
 		command = { trigger = { war = { country = USA country = ITA } } type = peace which = ITA value = 1 }
@@ -7911,14 +7941,14 @@ event = {
 	country = USA
 
 	decision = {
-		ai = FRA
-		NOT = { military_control = { country = FRA } }
-		war = { country = FRA country = GER } 
+		ai = VIC
+		NOT = { military_control = { country = VIC } }
+		war = { country = VIC country = GER } 
 		#war = { country = USA country = GER } 
 	}
 	
 	decision_trigger = { 
-		relation = { which = FRA value = 0 }
+		relation = { which = VIC value = 0 }
 	}	
 	
 	trigger = {
@@ -7936,7 +7966,7 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
-		command = { type = military_control which = USA where = FRA value = 1 }
+		command = { type = military_control which = USA where = VIC value = 1 }
 	}
 }
 
@@ -7947,11 +7977,11 @@ event = {
 
 	trigger = {
 		ai = no
-		military_control = { country = FRA }
+		military_control = { country = VIC }
 		NOT = { 
 			AND = {
-				ai = FRA
-				war = { country = FRA country = GER } 
+				ai = VIC
+				war = { country = VIC country = GER } 
 				#war = { country = USA country = GER } 
 			}
 		}
@@ -7968,7 +7998,7 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
-		command = { type = military_control which = USA where = FRA }
+		command = { type = military_control which = USA where = VIC }
 	}
 }
 
@@ -8111,7 +8141,7 @@ event = {
 		
 		command = { trigger = { flag = USA_Lend_Lease_to_ENG1 } type = trigger which = 1031 }
 		command = { type = end_trades which = USA where = ENG }
-		command = { type = end_trades which = USA where = FRA }
+		command = { type = end_trades which = USA where = VIC }
 		command = { trigger = { flag = USA_Lend_Lease_to_ENG2 } type = free_ic  value = 20 }
 		command = { trigger = { flag = USA_Lend_Lease_to_ENG2 } type = extra_tc value = 100 }
 		command = { type = clrflag which = USA_Lend_Lease_to_ENG1 }
@@ -8271,10 +8301,10 @@ event = {
 	picture = "news_paper"
 
 	decision = {
-		event = 2003076
+		event = 2049114
 	}
 	trigger = {
-		event = 2003076
+		event = 2049114
 		NOT = { 
 			ispuppet = USA
 			alliance = { country = USA country = GER }

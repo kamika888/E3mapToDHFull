@@ -57,7 +57,7 @@ event = {
 		
 		#Allies have 30 days to decide how to react
 		command = { trigger = { alliance = { country = POL country = ENG } } type = non_aggression which = ENG where = SOV when = 30 } 
-		command = { trigger = { alliance = { country = POL country = FRA } } type = non_aggression which = FRA where = SOV when = 30 }
+		command = { trigger = { alliance = { country = POL country = VIC } } type = non_aggression which = VIC where = SOV when = 30 }
 		command = { trigger = { alliance = { country = POL country = CAN } } type = non_aggression which = CAN where = SOV when = 30 }
 		command = { trigger = { alliance = { country = POL country = AST } } type = non_aggression which = AST where = SOV when = 30 }
 		command = { trigger = { alliance = { country = POL country = U02 } } type = non_aggression which = U02 where = SOV when = 30 }
@@ -247,7 +247,7 @@ event = {
 		command = { type = set_relation which = SOV value = 100 }
 		command = { type = trade which = SOV where = POL supplies = -4 when = 1825 value = 1 } #For 5 years
 		command = { type = access which = ENG }
-		command = { type = access which = FRA }
+		command = { type = access which = VIC }
 		command = { trigger = { NOT = { ai = SOV } } type = military_control which = SOV where = POL value = 1 }
 		command = { type = ai which = "EXP_80.ai"  }
 		
@@ -298,7 +298,7 @@ event = {
 		ai_chance = 0
 		command = { type = dissent value = 20 } #Allies and their supporters are upset
 		command = { type = relation which = ENG value = -100 }
-		command = { type = relation which = FRA value = -100 }
+		command = { type = relation which = VIC value = -100 }
 		command = { type = relation which = SOV value = -200 }
 		command = { type = domestic which = political_left value = -1 }
 		command = { type = event which = 3183023 where = SOV when = 1 }
@@ -383,7 +383,7 @@ event = {
 		OR = {
 			alliance = { country = ENG country = USA }
 			AND = {
-				war = { country = GER country = FRA }
+				war = { country = GER country = VIC }
 				NOT = { control = { province = 56 data = GER } }
 			}
 		}
@@ -399,10 +399,10 @@ event = {
 				NOT = { month = 9 }	
 				random = 40
 			}
-			region 	= { region 	= "Scotland"		country = GER value = 1 } #Sealion
-			area 	= { area 	= "North England"	country = GER value = 1 } #Sealion
-			area 	= { area 	= "West England"	country = GER value = 1 } #Sealion
-			area 	= { area 	= "East England"	country = GER value = 1 } #Sealion
+			region 	= { region 	= "Scotland"		country = GER value = 5  } #Sealion
+			area 	= { area 	= "North England"	country = GER value = 10 } #Sealion
+			area 	= { area 	= "West England"	country = GER value = 30 } #Sealion
+			area 	= { area 	= "East England"	country = GER value = 30 } #Sealion
 		}
 		#Under normal circumstances, USSR will attack in early 1943
 		#Will also attack if Germany does sealion, but will wait for the US to join first.
@@ -414,11 +414,17 @@ event = {
 
 	action = {
 		name = "evt_4700a"
-		#Will give net +2 dissent if there was a non-aggression pact. Otherwise, no dissent.
-		command = { trigger = { non_aggression = { country = SOV country = GER } } type = local_setflag which = GerSovNAP }
-		command = { trigger = { local_flag = GerSovNAP } type = end_non_aggression which = SOV where = GER } #will give 5 dissent
-		command = { trigger = { local_flag = GerSovNAP } type = dissent value = -3 }
-		command = { trigger = { local_flag = GerSovNAP } type = local_clrflag which = GerSovNAP }
+		#Leaving net +2 dissent if there was a non-aggression pact. Otherwise, no dissent.
+		command = { trigger = { non_aggression = { country = SOV country = GER } } type = local_setflag which = NAPDissent }
+		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = SOV where = GER } #will give 5 dissent
+		command = { trigger = { local_flag = NAPDissent } type = dissent value = -3 }
+		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
+		
+		#finland may also have NAP, removing it in full
+		command = { trigger = { non_aggression = { country = SOV country = FIN } } type = local_setflag which = NAPDissent }
+		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = SOV where = FIN } #will give 5 dissent
+		command = { trigger = { local_flag = NAPDissent } type = dissent value = -5 }
+		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
 		
 		command = { type = war which = GER } 
 	}
@@ -756,7 +762,7 @@ event = {
 		}
 		OR = { 
 			control = { province = 56 data = GER } # Paris is in German hands
-			alliance = { country = FRA country = GER }
+			alliance = { country = VIC country = GER }
 			event = { id = 2003025 days = 360 } # Baltic recognized as Soviet territory by Germany in Mol-Rib Pact
 		} 
 		control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
@@ -934,7 +940,7 @@ event = {
 		control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
 		OR = { 
 			control = { province = 56 data = GER } # Paris is in German hands
-			alliance = { country = FRA country = GER }
+			alliance = { country = VIC country = GER }
 			event = { id = 2003025 days = 360 } # Baltic recognized as Soviet territory by Germany in Mol-Rib Pact
 		} 
 		OR = {
@@ -951,7 +957,7 @@ event = {
 		#NOT = { non_aggression = { country = SOV country = FIN } }
 		OR = { 
 			control = { province = 56 data = GER } # Paris is in German hands
-			alliance = { country = FRA country = GER }
+			alliance = { country = VIC country = GER }
 			event = { id = 2003025 days = 360 } # Baltic recognized as Soviet territory by Germany in Mol-Rib Pact
 		} 
 		control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
@@ -1060,7 +1066,7 @@ event = {
 	decision_trigger = { 
 		OR = { 
 			control = { province = 56 data = GER } # Paris is in German hands
-			alliance = { country = FRA country = GER }
+			alliance = { country = VIC country = GER }
 			event = { id = 2003025 days = 360 } # Bessarabia recognized as Soviet territory by Germany in Mol-Rib Pact
 		} 
 		#control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
@@ -1079,7 +1085,7 @@ event = {
 		owned = { province = 434 data = ROM } #Cisinau
 		OR = { 
 			control = { province = 56 data = GER } # Paris is in German hands
-			alliance = { country = FRA country = GER }
+			alliance = { country = VIC country = GER }
 			event = { id = 2003025 days = 360 } # Bessarabia recognized as Soviet territory by Germany in Mol-Rib Pact
 		} 
 		#control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
@@ -1356,9 +1362,10 @@ event = {
 		command = { type = relation which = SOV value = -10 }
 		command = { type = relation which = SWE value = 5 }
 		command = { type = relation which = NOR value = 5 }
-		command = { trigger = { ai = yes NOT = { local_flag = MOB7 } NOT = { local_flag = demob } } type = local_setflag which = do_not_demob }
-		command = { trigger = { ai = yes NOT = { local_flag = MOB7 } NOT = { local_flag = demob } } type = trigger which = 8300107 } #Partial Mobilization #Historical, Finland recalled reserves for additional refresher training
-		command = { trigger = { ai = yes NOT = { local_flag = MOB7 } NOT = { local_flag = demob } } type = event which = 130309 where = FIN when = 360 }
+		
+		#command = { trigger = { ai = yes } type = local_setflag which = do_not_demob } #not necessary?
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = trigger which = 8300105 }  #partial Mobilization
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = event which = 13500053 where = FIN when = 360 } #allow AI demob
 		
 		command = { type = headofgovernment 		which = 145028 } #Ryti
 		command = { type = foreignminister 			which = 145038 }
@@ -1414,7 +1421,7 @@ event = {
 	id = 2030010
 	random = no
 	persistent = yes
-	tag = { ENG GER ITA FRA SWE }
+	tag = { ENG GER ITA VIC SWE }
 
 	trigger = {
 		war = { country = FIN country = SOV }
@@ -1446,7 +1453,7 @@ event = {
 		command = { trigger = { country = SWE } type = trade which = SWE where = FIN supplies = -20	money = 0.4 value = 1 } 
 		command = { trigger = { country = GER } type = trade which = GER where = FIN supplies = -10	money = 0.2 value = 1 } 
 		command = { trigger = { country = ENG } type = trade which = ENG where = FIN supplies = -10	money = 0.2 value = 1 } 
-		command = { trigger = { country = FRA } type = trade which = FRA where = FIN supplies = -10	money = 0.2 value = 1 } 
+		command = { trigger = { country = VIC } type = trade which = VIC where = FIN supplies = -10	money = 0.2 value = 1 } 
 		command = { trigger = { country = ITA } type = trade which = ITA where = FIN supplies = -5	money = 0.1 value = 1 } 
 		command = { type = local_setflag which = assistFIN }
 		command = { type = local_setflag which = 2030010 }
@@ -1459,7 +1466,7 @@ event = {
 		command = { trigger = { country = SWE } type = dissent value = 2   }
 		command = { trigger = { country = GER } type = dissent value = 1   }
 		command = { trigger = { country = ENG } type = dissent value = 1   }
-		command = { trigger = { country = FRA } type = dissent value = 1   }
+		command = { trigger = { country = VIC } type = dissent value = 1   }
 		command = { trigger = { country = ITA } type = dissent value = 0.5 }
 	}
 }
@@ -1468,7 +1475,7 @@ event = {
 	id = 2030011
 	random = no
 	persistent = yes
-	tag = { ENG GER ITA FRA SWE }
+	tag = { ENG GER ITA VIC SWE }
 
 	decision = {
 		local_flag = assistFIN
@@ -1512,13 +1519,13 @@ event = {
 		command = { trigger = { country = SWE } type = end_trades which = SWE where = FIN }
 		command = { trigger = { country = GER } type = end_trades which = GER where = FIN }
 		command = { trigger = { country = ENG } type = end_trades which = ENG where = FIN }
-		command = { trigger = { country = FRA } type = end_trades which = FRA where = FIN }
+		command = { trigger = { country = VIC } type = end_trades which = VIC where = FIN }
 		command = { trigger = { country = ITA } type = end_trades which = ITA where = FIN }
 		command = { type = relation which = FIN value = -10 }
 		command = { trigger = { country = SWE } type = dissent value = 2   }
 		command = { trigger = { country = GER } type = dissent value = 1   }
 		command = { trigger = { country = ENG } type = dissent value = 1   }
-		command = { trigger = { country = FRA } type = dissent value = 1   }
+		command = { trigger = { country = VIC } type = dissent value = 1   }
 		command = { trigger = { country = ITA } type = dissent value = 0.5 }
 		command = { type = local_clrflag which = assistFIN }
 	}
@@ -1537,13 +1544,13 @@ event = {
 		command = { trigger = { country = SWE } type = end_trades which = SWE where = FIN }
 		command = { trigger = { country = GER } type = end_trades which = GER where = FIN }
 		command = { trigger = { country = ENG } type = end_trades which = ENG where = FIN }
-		command = { trigger = { country = FRA } type = end_trades which = FRA where = FIN }
+		command = { trigger = { country = VIC } type = end_trades which = VIC where = FIN }
 		command = { trigger = { country = ITA } type = end_trades which = ITA where = FIN }
 		command = { type = relation which = FIN value = -10 }
 		command = { trigger = { country = SWE } type = dissent value = 2   }
 		command = { trigger = { country = GER } type = dissent value = 1   }
 		command = { trigger = { country = ENG } type = dissent value = 1   }
-		command = { trigger = { country = FRA } type = dissent value = 1   }
+		command = { trigger = { country = VIC } type = dissent value = 1   }
 		command = { trigger = { country = ITA } type = dissent value = 0.5 }
 		command = { type = local_clrflag which = assistFIN }
 	}
@@ -1704,8 +1711,8 @@ event = {
 		command = { type = activate_division which = 32000 value = 407 where = 3337 when = 0 }
 		command = { type = activate_division which = 32000 value = 408 where = 2631 when = 0 }
 		command = { type = local_setflag which = popularMobilization } 
-		command = { trigger = { ai = yes NOT = { local_flag = MOB7 } NOT = { local_flag = demob } } type = local_setflag which = do_not_demob }
-		command = { trigger = { ai = yes NOT = { local_flag = MOB7 } NOT = { local_flag = demob } } type = trigger which = 8300107 } #Partial Mobilization #Historical, Finland recalled reserves for additional refresher training.
+		#command = { trigger = { ai = yes } type = local_setflag which = do_not_demob } #not necessary?
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = trigger which = 8300105 }  #partial Mobilization
 	}
 }
 
@@ -1766,11 +1773,11 @@ event = {
 		command = { type = war which = SWE }
 		command = { type = relation which = FIN value = -150 }
 		command = { type = relation which = ENG value = -100 }
-		command = { type = relation which = FRA value = -100 }
+		command = { type = relation which = VIC value = -100 }
 		command = { type = relation which = GER value = -75 }
 		command = { type = relation which = USA value = -75 }
 		#command = { type = end_non_aggression which = SOV where = GER }
-		#command = { type = end_non_aggression which = SOV where = FRA }	
+		#command = { type = end_non_aggression which = SOV where = VIC }	
 		#command = { type = end_non_aggression which = SOV where = ENG }
 		#command = { type = end_non_aggression which = SOV where = USA }	
 	}
@@ -2359,7 +2366,7 @@ event = {
 				NOT = { land_percentage = { country = GER value = 0.3 } } #SOV has not enough troops
 				NOT = { lost_national = { country = GER value = 7 } } #Germany is not losing national provinces
 				NOT = { war = { country = GER country = ENG } } #Germany is concentrated on the Soviet front
-				NOT = {	war = { country = GER country = FRA } }
+				NOT = {	war = { country = GER country = VIC } }
 				NOT = { war = { country = GER country = USA } }
 				NOT = { war = { country = GER country = ITA } }
 			}
@@ -2647,7 +2654,7 @@ event = {
         command = { type = relation which = HUN value = 20 }
         command = { type = relation which = FIN value = 20 }
         command = { type = relation which = ENG value = -20 }
-        command = { type = relation which = FRA value = -20 }
+        command = { type = relation which = VIC value = -20 }
         command = { type = relation which = USA value = -20 }
 		
         command = { type = non_aggression which = GER where = SOV }
@@ -2676,7 +2683,7 @@ event = { #SOV Communist Puppets go to GER
 	action = {
 		name = ACTION_NAME_OK
     	command = { trigger = { puppet = { country = U10 country = SOV } NOT = { exists = HOL } } type = setflag which = U10_SOV_puppet }
-    	command = { trigger = { puppet = { country = U11 country = SOV } NOT = { exists = FRA } } type = setflag which = U11_SOV_puppet }
+    	command = { trigger = { puppet = { country = U11 country = SOV } NOT = { exists = VIC } } type = setflag which = U11_SOV_puppet }
     	command = { trigger = { puppet = { country = U12 country = SOV } NOT = { exists = ENG } } type = setflag which = U12_SOV_puppet }
     	command = { trigger = { puppet = { country = U13 country = SOV } NOT = { exists = HUN } } type = setflag which = U13_SOV_puppet }
     	command = { trigger = { puppet = { country = U14 country = SOV } NOT = { exists = ITA } } type = setflag which = U14_SOV_puppet }
@@ -2712,7 +2719,7 @@ event = { #SOV Communist Puppets go to GER
     	command = { trigger = { puppet = { country = GRE country = SOV } } type = setflag which = GRE_SOV_puppet }
     	#if there are communist countries and regular versions exist, GER inherit communist countries
 		command = { trigger = { puppet = { country = U10 country = SOV } exists = HOL } type = setflag which = inherit_U10 }
-    	command = { trigger = { puppet = { country = U11 country = SOV } exists = FRA } type = setflag which = inherit_U11 }
+    	command = { trigger = { puppet = { country = U11 country = SOV } exists = VIC } type = setflag which = inherit_U11 }
     	command = { trigger = { puppet = { country = U12 country = SOV } exists = ENG } type = setflag which = inherit_U12 }
     	command = { trigger = { puppet = { country = U13 country = SOV } exists = HUN } type = setflag which = inherit_U13 }
     	command = { trigger = { puppet = { country = U14 country = SOV } exists = ITA } type = setflag which = inherit_U14 }
@@ -2917,7 +2924,7 @@ event = {
 
 	trigger = {
 		NOT = { war = { country = ENG } }
-		NOT = { war = { country = FRA } }
+		NOT = { war = { country = VIC } }
 		NOT = { war = { country = SOV } }
 		OR = {
 			event = 2007033 #bitter peace
@@ -2938,21 +2945,21 @@ event = {
 		ai_chance = 99
 		command = { type = remove_claim_region which = "France" }
 		command = { type = dissent value = -2 }
-		command = { trigger = { NOT = { exists = FRA } }	type = independence which = FRA value = 1 }
-		command = { trigger = { NOT = { ispuppet = FRA } }	type = event which = 2400530 where = FRA when = 0 }
-		command = { 										type = event which = 2002025 where = FRA when = 0 }
+		command = { trigger = { NOT = { exists = VIC } }	type = independence which = VIC value = 1 }
+		command = { trigger = { NOT = { ispuppet = VIC } }	type = event which = 2400530 where = VIC when = 0 }
+		command = { 										type = event which = 2002025 where = VIC when = 0 }
 		
 		command = { type = remove_units which = land where = REB when = 2 value = "France" } 
 		command = { type = remove_units which = land where = REB when = 2 value = "Russia" } 
 		
-		command = { type = end_access which = FRA when = 1 }
-		command = { type = end_access which = FRA when = 0 }
+		command = { type = end_access which = VIC when = 1 }
+		command = { type = end_access which = VIC when = 0 }
 		command = { type = end_access which = ITA when = 1 }
 		command = { type = end_access which = ITA when = 0 }
 		command = { type = end_access which = SOV when = 1 }
 		command = { type = end_access which = SOV when = 0 }
 		
-		command = { type = secederegion 	which = FRA value = "France" 	when = 2 }
+		command = { type = secederegion 	which = VIC value = "France" 	when = 2 }
 		command = { type = secedeprovince 	which = GER value = 72			when = 2 } 
 		command = { type = secedeprovince 	which = GER value = 73			when = 2 } 
 		command = { type = secedeprovince 	which = GER value = 316			when = 2 } 
@@ -3011,8 +3018,8 @@ event = {
 		ai_chance = 1
 		command = { type = dissent value = 10 }
 		command = { type = leave_alliance when = 1 }
-		command = { type = end_access which = FRA when = 1 }
-		command = { type = end_access which = FRA when = 0 }
+		command = { type = end_access which = VIC when = 1 }
+		command = { type = end_access which = VIC when = 0 }
 		command = { type = end_access which = ITA when = 1 }
 		command = { type = end_access which = ITA when = 0 }
 		command = { type = end_access which = SOV when = 1 }
@@ -3074,8 +3081,8 @@ event = {
 				NOT = { non_aggression = { country = SOV country = ENG } }
 			}
 			AND = {
-				war = { country = FRA }
-				NOT = { non_aggression = { country = SOV country = FRA } }
+				war = { country = VIC }
+				NOT = { non_aggression = { country = SOV country = VIC } }
 			}
 			AND = {
 				war = { country = USA }
@@ -3112,7 +3119,7 @@ event = {
 		name = "ACTIONNAME2633A" # Let's move our industrial base to Sibiria
 		command = { type = armamentminister which = 30076 } #Stalin replaces Tymoshenko as Minister of Defense
 		command = { type = local_setflag which = inMajorWar	}
-		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 8 } } } type = event which = 8300108 where = -1 when = 0 } #General mobilization
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
 		
 		command = { trigger = { ai = SIK } 	type = event 	which = 2400040 where = SIK when = 0 } #0 exp
 		command = { trigger = { ai = SOV } 	type = event 	which = 2400047 where = SOV when = 0 } #70 exp
@@ -3758,7 +3765,7 @@ event = {
 	action = {
 		name = "Inquire about their conditions"
 		ai_chance = 100
-		command = { type = trigger which = 2007111 }
+		command = { type = trigger which = 2030026 }
 	}
 	action = {
 		name = "Keep fighting"
@@ -3768,7 +3775,7 @@ event = {
 }
 
 event = {
-	id = 2007111
+	id = 2030026
 	random = no
 	country = SOV
 
@@ -3806,7 +3813,7 @@ event = {
 	action = {
 		ai_chance = 1
 		name = ACTION_NAME_REFUSE
-		command = { type = relation which = FRA value = -60 }
+		command = { type = relation which = VIC value = -60 }
 		command = { type = relation which = ENG value = -60 }
 		command = { type = relation which = USA value = -60 }
 		#Finnish population flees/expelled - separate event
@@ -3836,7 +3843,7 @@ event = {
 	random = no
 	country = FIN
 
-	# Triggered by Soviet event 2007111
+	# Triggered by Soviet event 2030026
 
 	name = EVT_2030022_NAME #The Moscow Armistice
 	desc = EVT_2030021_DESC
@@ -3969,6 +3976,8 @@ event = {
 		command = { type = control which = GER value = 7154 }
 		command = { type = control which = GER value = 7155 }
 		command = { type = control which = GER value = 3337 }
+		
+		command = { type = setflag which = FinAllies }
 		
 		command = { type = trigger which = 2030024 }
 	}
@@ -4987,11 +4996,11 @@ event = {
 			war = { country = ENG }
 			war = { country = USA }
 			war = { country = JAP }
-			war = { country = FRA }
+			war = { country = VIC }
 		}
 	}
 	trigger = {
-		policy = { type = professional_army value = 8 }
+		policy = { type = professional_army value = 6 }
 		OR = {
 			lost_national = { value = 15 }
 			lost_VP = { value = 20 }
@@ -5013,6 +5022,7 @@ event = {
 		name = "ACTION_NAME_GREAT" # Great!
 		command = { type = dissent value = -10 }
 		command = { type = local_setflag which = inMajorWar	}
+		command = { type = local_setflag which = popularMobilization }
 		
 		#GPW-specific bonuses (will last for 5 years with purges, 1 year without purges)
 		command = { type = repair_mod 			value = 15 } #reinforcement efficiency
@@ -5040,6 +5050,7 @@ event = {
 	action = {
 		name = ACTION_NAME_DAMN
 		command = { type = local_clrflag which = inMajorWar	}
+		command = { type = local_clrflag which = popularMobilization }
 		
 		command = { type = repair_mod 			value = -15 }
 		command = { type = morale which = land 	value = -5  }
@@ -5053,7 +5064,7 @@ event = {
 	country = SOV
 
 	trigger = {
-		policy = { type = professional_army value = 7 } 
+		policy = { type = professional_army value = 5 } 
 		#NOT = { lost_national = { value = 5 } }
 	}
 
@@ -5097,8 +5108,8 @@ event = {
 				NOT = { non_aggression = { country = SOV country = ENG } }
 			}
 			AND = {
-				war = { country = FRA }
-				NOT = { non_aggression = { country = SOV country = FRA } }
+				war = { country = VIC }
+				NOT = { non_aggression = { country = SOV country = VIC } }
 			}
 			AND = {
 				war = { country = USA }
@@ -5126,19 +5137,19 @@ event = {
 		command = { trigger = { NOT = { local_flag = SOVterror3 } } type = dissent value = 3 }
 		command = { type = manpowerpool value = -100 }
 		
-		command = { type = event which = 2400051 where = -1 when = 1   } #initial confusion
+		command = { type = event which = 2400151 where = -1 when = 1   } #initial confusion
 		
 		#More purges - longer period before recovery
 		#No purges - recovery in 1 month. Full purges - recovery in 6 months.
 		
-		command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 } 						type = event which = 2400061 where = -1 when = 60 } #recovery in 60 days YYY
-		command = { trigger = { NOT = { local_flag = SOVterror1 } local_flag = SOVterror2 local_flag = SOVterror3 } 			type = event which = 2400061 where = -1 when = 50 } #recovery in 50 days XYY
-		command = { trigger = { local_flag = SOVterror1 NOT = { local_flag = SOVterror2 } local_flag = SOVterror3 } 			type = event which = 2400061 where = -1 when = 50 } #recovery in 50 days YXY
-		command = { trigger = { NOT = { local_flag = SOVterror1 } NOT = { local_flag = SOVterror2 } local_flag = SOVterror3 }	type = event which = 2400061 where = -1 when = 40 } #recovery in 40 days XXY
-		command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 NOT = { local_flag = SOVterror3 } } 			type = event which = 2400061 where = -1 when = 30 } #recovery in 30 days YYX
-		command = { trigger = { NOT = { local_flag = SOVterror1 } local_flag = SOVterror2 NOT = { local_flag = SOVterror3 } } 	type = event which = 2400061 where = -1 when = 20 } #recovery in 20 days XYX
-		command = { trigger = { local_flag = SOVterror1 NOT = { local_flag = SOVterror2 } NOT = { local_flag = SOVterror3 } } 	type = event which = 2400061 where = -1 when = 20 } #recovery in 20 days YXX
-		command = { trigger = { NOT = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 } } 			type = event which = 2400061 where = -1 when = 10 } #recovery in 10 days XXX
+		command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 } 						type = event which = 2400161 where = -1 when = 60 } #recovery in 60 days YYY
+		command = { trigger = { NOT = { local_flag = SOVterror1 } local_flag = SOVterror2 local_flag = SOVterror3 } 			type = event which = 2400161 where = -1 when = 50 } #recovery in 50 days XYY
+		command = { trigger = { local_flag = SOVterror1 NOT = { local_flag = SOVterror2 } local_flag = SOVterror3 } 			type = event which = 2400161 where = -1 when = 50 } #recovery in 50 days YXY
+		command = { trigger = { NOT = { local_flag = SOVterror1 } NOT = { local_flag = SOVterror2 } local_flag = SOVterror3 }	type = event which = 2400161 where = -1 when = 40 } #recovery in 40 days XXY
+		command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 NOT = { local_flag = SOVterror3 } } 			type = event which = 2400161 where = -1 when = 30 } #recovery in 30 days YYX
+		command = { trigger = { NOT = { local_flag = SOVterror1 } local_flag = SOVterror2 NOT = { local_flag = SOVterror3 } } 	type = event which = 2400161 where = -1 when = 20 } #recovery in 20 days XYX
+		command = { trigger = { local_flag = SOVterror1 NOT = { local_flag = SOVterror2 } NOT = { local_flag = SOVterror3 } } 	type = event which = 2400161 where = -1 when = 20 } #recovery in 20 days YXX
+		command = { trigger = { NOT = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 } } 			type = event which = 2400161 where = -1 when = 10 } #recovery in 10 days XXX
 		
 		command = { type = damage_division which = -1 where = 50 }
 		command = { type = damage_division which = -1 where = 50 }
@@ -5147,6 +5158,1507 @@ event = {
 		command = { type = disorg_division which = -1 where = 90 }
 		command = { type = disorg_division which = -1 where = 90 }
 		command = { type = disorg_division which = -1 where = 90 }
+	}
+}
+
+
+##########################################################
+# Soviet mobilization sweeps in liberated territories
+# Note: Mob6 and above always happen sequentially
+##########################################################
+
+event = {
+	id = 2007100
+	random = no
+	persistent = yes
+
+	name = "People under occupation"
+	desc = "The NKVD stands ready to conduct mobilization sweeps in those territories which are currently not under our control, once we inevitably liberate these lands from the enemy occupation."
+	style = 2
+
+	action = {
+		name = ACTION_NAME_OK
+		trigger = { local_flag = { which = MOB_level when = 0 value = 6 } }
+		command = { trigger = { NOT = { area = { area = "Astrakhan"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Astrakhan		}
+		command = { trigger = { NOT = { area = { area = "Brest Litovsk"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Brest_Litovsk	}
+		command = { trigger = { NOT = { area = { area = "Dnepropretovsk"	data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Dnepropretovsk	}
+		command = { trigger = { NOT = { area = { area = "Kharkov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Kharkov			}
+		command = { trigger = { NOT = { area = { area = "Kiev"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Kiev				}
+		command = { trigger = { NOT = { area = { area = "Krasnodar"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Krasnodar		}
+		command = { trigger = { NOT = { area = { area = "Krim"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Krim				}
+		command = { trigger = { NOT = { area = { area = "Kursk"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Kursk			}
+		command = { trigger = { NOT = { area = { area = "Leningrad"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Leningrad		}
+		command = { trigger = { NOT = { area = { area = "Minsk"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Minsk			}
+		command = { trigger = { NOT = { area = { area = "Moscow"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Moscow			}
+		command = { trigger = { NOT = { area = { area = "Novgorod"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Novgorod			}
+		command = { trigger = { NOT = { area = { area = "Odessa"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Odessa			}
+		command = { trigger = { NOT = { area = { area = "Polotsk"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Polotsk			}
+		command = { trigger = { NOT = { area = { area = "Pskov"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Pskov			}
+		command = { trigger = { NOT = { area = { area = "Rogachev"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Rogachev			}
+		command = { trigger = { NOT = { area = { area = "Rostov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Rostov			}
+		command = { trigger = { NOT = { area = { area = "Ryazan"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Ryazan			}
+		command = { trigger = { NOT = { area = { area = "Smolensk"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Smolensk			}
+		command = { trigger = { NOT = { area = { area = "Stalingrad"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Stalingrad		}
+		command = { trigger = { NOT = { area = { area = "Tambov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Tambov			}
+		command = { trigger = { NOT = { area = { area = "Transnistria"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Transnistria		}
+		command = { trigger = { NOT = { area = { area = "Velikiye Luki"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Velikiye_Luki	}
+		command = { trigger = { NOT = { area = { area = "Vladimir"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Vladimir			}
+	}
+	action = {
+		name = ACTION_NAME_OK
+		trigger = { local_flag = { which = MOB_level when = 0 value = 7 } }
+		command = { trigger = { NOT = { area = { area = "Astrakhan"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Astrakhan		}
+		command = { trigger = { NOT = { area = { area = "Brest Litovsk"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Brest_Litovsk	}
+		command = { trigger = { NOT = { area = { area = "Dnepropretovsk"	data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Dnepropretovsk	}
+		command = { trigger = { NOT = { area = { area = "Kharkov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Kharkov			}
+		command = { trigger = { NOT = { area = { area = "Kiev"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Kiev				}
+		command = { trigger = { NOT = { area = { area = "Krasnodar"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Krasnodar		}
+		command = { trigger = { NOT = { area = { area = "Krim"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Krim				}
+		command = { trigger = { NOT = { area = { area = "Kursk"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Kursk			}
+		command = { trigger = { NOT = { area = { area = "Leningrad"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Leningrad		}
+		command = { trigger = { NOT = { area = { area = "Minsk"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Minsk			}
+		command = { trigger = { NOT = { area = { area = "Moscow"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Moscow			}
+		command = { trigger = { NOT = { area = { area = "Novgorod"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Novgorod			}
+		command = { trigger = { NOT = { area = { area = "Odessa"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Odessa			}
+		command = { trigger = { NOT = { area = { area = "Polotsk"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Polotsk			}
+		command = { trigger = { NOT = { area = { area = "Pskov"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Pskov			}
+		command = { trigger = { NOT = { area = { area = "Rogachev"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Rogachev			}
+		command = { trigger = { NOT = { area = { area = "Rostov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Rostov			}
+		command = { trigger = { NOT = { area = { area = "Ryazan"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Ryazan			}
+		command = { trigger = { NOT = { area = { area = "Smolensk"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Smolensk			}
+		command = { trigger = { NOT = { area = { area = "Stalingrad"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Stalingrad		}
+		command = { trigger = { NOT = { area = { area = "Tambov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Tambov			}
+		command = { trigger = { NOT = { area = { area = "Transnistria"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Transnistria		}
+		command = { trigger = { NOT = { area = { area = "Velikiye Luki"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Velikiye_Luki	}
+		command = { trigger = { NOT = { area = { area = "Vladimir"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Vladimir			}
+	}
+	action = {
+		name = ACTION_NAME_OK
+		trigger = { local_flag = { which = MOB_level when = 0 value = 8 } }
+		command = { trigger = { NOT = { area = { area = "Astrakhan"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Astrakhan		}
+		command = { trigger = { NOT = { area = { area = "Brest Litovsk"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Brest_Litovsk	}
+		command = { trigger = { NOT = { area = { area = "Dnepropretovsk"	data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Dnepropretovsk	}
+		command = { trigger = { NOT = { area = { area = "Kharkov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Kharkov			}
+		command = { trigger = { NOT = { area = { area = "Kiev"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Kiev				}
+		command = { trigger = { NOT = { area = { area = "Krasnodar"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Krasnodar		}
+		command = { trigger = { NOT = { area = { area = "Krim"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Krim				}
+		command = { trigger = { NOT = { area = { area = "Kursk"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Kursk			}
+		command = { trigger = { NOT = { area = { area = "Leningrad"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Leningrad		}
+		command = { trigger = { NOT = { area = { area = "Minsk"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Minsk			}
+		command = { trigger = { NOT = { area = { area = "Moscow"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Moscow			}
+		command = { trigger = { NOT = { area = { area = "Novgorod"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Novgorod			}
+		command = { trigger = { NOT = { area = { area = "Odessa"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Odessa			}
+		command = { trigger = { NOT = { area = { area = "Polotsk"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Polotsk			}
+		command = { trigger = { NOT = { area = { area = "Pskov"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Pskov			}
+		command = { trigger = { NOT = { area = { area = "Rogachev"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Rogachev			}
+		command = { trigger = { NOT = { area = { area = "Rostov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Rostov			}
+		command = { trigger = { NOT = { area = { area = "Ryazan"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Ryazan			}
+		command = { trigger = { NOT = { area = { area = "Smolensk"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Smolensk			}
+		command = { trigger = { NOT = { area = { area = "Stalingrad"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Stalingrad		}
+		command = { trigger = { NOT = { area = { area = "Tambov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Tambov			}
+		command = { trigger = { NOT = { area = { area = "Transnistria"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Transnistria		}
+		command = { trigger = { NOT = { area = { area = "Velikiye Luki"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Velikiye_Luki	}
+		command = { trigger = { NOT = { area = { area = "Vladimir"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Vladimir			}
+	}
+	action = {
+		name = ACTION_NAME_OK
+		trigger = { local_flag = { which = MOB_level when = 0 value = 9 } }
+		command = { trigger = { NOT = { area = { area = "Astrakhan"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Astrakhan		}
+		command = { trigger = { NOT = { area = { area = "Brest Litovsk"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Brest_Litovsk	}
+		command = { trigger = { NOT = { area = { area = "Dnepropretovsk"	data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Dnepropretovsk	}
+		command = { trigger = { NOT = { area = { area = "Kharkov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Kharkov			}
+		command = { trigger = { NOT = { area = { area = "Kiev"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Kiev				}
+		command = { trigger = { NOT = { area = { area = "Krasnodar"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Krasnodar		}
+		command = { trigger = { NOT = { area = { area = "Krim"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Krim				}
+		command = { trigger = { NOT = { area = { area = "Kursk"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Kursk			}
+		command = { trigger = { NOT = { area = { area = "Leningrad"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Leningrad		}
+		command = { trigger = { NOT = { area = { area = "Minsk"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Minsk			}
+		command = { trigger = { NOT = { area = { area = "Moscow"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Moscow			}
+		command = { trigger = { NOT = { area = { area = "Novgorod"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Novgorod			}
+		command = { trigger = { NOT = { area = { area = "Odessa"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Odessa			}
+		command = { trigger = { NOT = { area = { area = "Polotsk"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Polotsk			}
+		command = { trigger = { NOT = { area = { area = "Pskov"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Pskov			}
+		command = { trigger = { NOT = { area = { area = "Rogachev"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Rogachev			}
+		command = { trigger = { NOT = { area = { area = "Rostov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Rostov			}
+		command = { trigger = { NOT = { area = { area = "Ryazan"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Ryazan			}
+		command = { trigger = { NOT = { area = { area = "Smolensk"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Smolensk			}
+		command = { trigger = { NOT = { area = { area = "Stalingrad"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Stalingrad		}
+		command = { trigger = { NOT = { area = { area = "Tambov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Tambov			}
+		command = { trigger = { NOT = { area = { area = "Transnistria"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Transnistria		}
+		command = { trigger = { NOT = { area = { area = "Velikiye Luki"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Velikiye_Luki	}
+		command = { trigger = { NOT = { area = { area = "Vladimir"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Vladimir			}
+	}
+	action = {
+		name = ACTION_NAME_OK
+		trigger = { local_flag = { which = MOB_level when = 0 value = 10 } }
+		command = { trigger = { NOT = { area = { area = "Astrakhan"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Astrakhan		}
+		command = { trigger = { NOT = { area = { area = "Brest Litovsk"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Brest_Litovsk	}
+		command = { trigger = { NOT = { area = { area = "Dnepropretovsk"	data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Dnepropretovsk	}
+		command = { trigger = { NOT = { area = { area = "Kharkov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Kharkov			}
+		command = { trigger = { NOT = { area = { area = "Kiev"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Kiev			}
+		command = { trigger = { NOT = { area = { area = "Krasnodar"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Krasnodar		}
+		command = { trigger = { NOT = { area = { area = "Krim"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Krim			}
+		command = { trigger = { NOT = { area = { area = "Kursk"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Kursk			}
+		command = { trigger = { NOT = { area = { area = "Leningrad"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Leningrad		}
+		command = { trigger = { NOT = { area = { area = "Minsk"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Minsk			}
+		command = { trigger = { NOT = { area = { area = "Moscow"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Moscow			}
+		command = { trigger = { NOT = { area = { area = "Novgorod"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Novgorod		}
+		command = { trigger = { NOT = { area = { area = "Odessa"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Odessa			}
+		command = { trigger = { NOT = { area = { area = "Polotsk"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Polotsk			}
+		command = { trigger = { NOT = { area = { area = "Pskov"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Pskov			}
+		command = { trigger = { NOT = { area = { area = "Rogachev"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Rogachev		}
+		command = { trigger = { NOT = { area = { area = "Rostov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Rostov			}
+		command = { trigger = { NOT = { area = { area = "Ryazan"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Ryazan			}
+		command = { trigger = { NOT = { area = { area = "Smolensk"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Smolensk		}
+		command = { trigger = { NOT = { area = { area = "Stalingrad"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Stalingrad		}
+		command = { trigger = { NOT = { area = { area = "Tambov"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Tambov			}
+		command = { trigger = { NOT = { area = { area = "Transnistria"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Transnistria	}
+		command = { trigger = { NOT = { area = { area = "Velikiye Luki"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Velikiye_Luki	}
+		command = { trigger = { NOT = { area = { area = "Vladimir"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Vladimir		}
+	}
+}
+
+event = {
+	id = 2007101
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Astrakhan
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Astrakhan
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Astrakhan
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Astrakhan
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Astrakhan
+			}
+		}
+		area = { area = "Astrakhan"				data = 1 value = 100 }
+	}
+	
+	name = "Astrakhan Mobilization Sweep"
+	desc = "Since we have now liberated Astrakhan, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#4MP
+		command = { trigger = { local_flag = PendingMOB6_Astrakhan	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 196 } #49
+		command = { trigger = { local_flag = PendingMOB7_Astrakhan	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB8_Astrakhan	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB9_Astrakhan	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB10_Astrakhan	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 140 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Astrakhan	}
+		command = { type = local_clrflag which = PendingMOB7_Astrakhan	}
+		command = { type = local_clrflag which = PendingMOB8_Astrakhan	}
+		command = { type = local_clrflag which = PendingMOB9_Astrakhan	}
+		command = { type = local_clrflag which = PendingMOB10_Astrakhan	}
+	}
+}
+
+event = {
+	id = 2007102
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Brest_Litovsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Brest_Litovsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Brest_Litovsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Brest_Litovsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Brest_Litovsk
+			}
+		}
+		area = { area = "Brest Litovsk"			data = 1 value = 70  } #exception due to polish provinces with no MP
+	}
+	
+	name = "Brest Litovsk Mobilization Sweep"
+	desc = "Since we have now liberated Brest Litovsk, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#2MP
+		command = { trigger = { local_flag = PendingMOB6_Brest_Litovsk	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 98  } #49
+		command = { trigger = { local_flag = PendingMOB7_Brest_Litovsk	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB8_Brest_Litovsk	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB9_Brest_Litovsk	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB10_Brest_Litovsk	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 70  } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Brest_Litovsk	}
+		command = { type = local_clrflag which = PendingMOB7_Brest_Litovsk	}
+		command = { type = local_clrflag which = PendingMOB8_Brest_Litovsk	}
+		command = { type = local_clrflag which = PendingMOB9_Brest_Litovsk	}
+		command = { type = local_clrflag which = PendingMOB10_Brest_Litovsk	}
+	}
+}
+
+event = {
+	id = 2007103
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Dnepropretovsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Dnepropretovsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Dnepropretovsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Dnepropretovsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Dnepropretovsk
+			}
+		}
+		area = { area = "Dnepropretovsk"		data = 1 value = 100 }
+	}
+	
+	name = "Dnepropretovsk Mobilization Sweep"
+	desc = "Since we have now liberated Dnepropretovsk, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#8MP
+		command = { trigger = { local_flag = PendingMOB6_Dnepropretovsk		local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 392 } #49
+		command = { trigger = { local_flag = PendingMOB7_Dnepropretovsk		local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 280 } #35
+		command = { trigger = { local_flag = PendingMOB8_Dnepropretovsk		local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 280 } #35
+		command = { trigger = { local_flag = PendingMOB9_Dnepropretovsk		local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 280 } #35
+		command = { trigger = { local_flag = PendingMOB10_Dnepropretovsk	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 280 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Dnepropretovsk		}
+		command = { type = local_clrflag which = PendingMOB7_Dnepropretovsk		}
+		command = { type = local_clrflag which = PendingMOB8_Dnepropretovsk		}
+		command = { type = local_clrflag which = PendingMOB9_Dnepropretovsk		}
+		command = { type = local_clrflag which = PendingMOB10_Dnepropretovsk	}
+	}
+}
+
+event = {
+	id = 2007104
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Kharkov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Kharkov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Kharkov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Kharkov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Kharkov
+			}
+		}
+		area = { area = "Kharkov"				data = 1 value = 100 }
+	}
+	
+	name = "Kharkov Mobilization Sweep"
+	desc = "Since we have now liberated Kharkov, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#10MP
+		command = { trigger = { local_flag = PendingMOB6_Kharkov	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 490 } #49
+		command = { trigger = { local_flag = PendingMOB7_Kharkov	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 350 } #35
+		command = { trigger = { local_flag = PendingMOB8_Kharkov	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 350 } #35
+		command = { trigger = { local_flag = PendingMOB9_Kharkov	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 350 } #35
+		command = { trigger = { local_flag = PendingMOB10_Kharkov	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 350 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Kharkov	}
+		command = { type = local_clrflag which = PendingMOB7_Kharkov	}
+		command = { type = local_clrflag which = PendingMOB8_Kharkov	}
+		command = { type = local_clrflag which = PendingMOB9_Kharkov	}
+		command = { type = local_clrflag which = PendingMOB10_Kharkov	}
+	}
+}
+
+event = {
+	id = 2007105
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Kiev
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Kiev
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Kiev
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Kiev
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Kiev
+			}
+		}
+		area = { area = "Kiev"					data = 1 value = 100 }
+	}
+	
+	name = "Kiev Mobilization Sweep"
+	desc = "Since we have now liberated Kiev, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#6MP
+		command = { trigger = { local_flag = PendingMOB6_Kiev	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 294 } #49
+		command = { trigger = { local_flag = PendingMOB7_Kiev	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 210 } #35
+		command = { trigger = { local_flag = PendingMOB8_Kiev	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 210 } #35
+		command = { trigger = { local_flag = PendingMOB9_Kiev	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 210 } #35
+		command = { trigger = { local_flag = PendingMOB10_Kiev	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 210 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Kiev	}
+		command = { type = local_clrflag which = PendingMOB7_Kiev	}
+		command = { type = local_clrflag which = PendingMOB8_Kiev	}
+		command = { type = local_clrflag which = PendingMOB9_Kiev	}
+		command = { type = local_clrflag which = PendingMOB10_Kiev	}
+	}
+}
+
+event = {
+	id = 2007106
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Krasnodar
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Krasnodar
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Krasnodar
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Krasnodar
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Krasnodar
+			}
+		}
+		area = { area = "Krasnodar"				data = 1 value = 100 }
+	}
+	
+	name = "Krasnodar Mobilization Sweep"
+	desc = "Since we have now liberated Krasnodar, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#3MP
+		command = { trigger = { local_flag = PendingMOB6_Krasnodar	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 147 } #49
+		command = { trigger = { local_flag = PendingMOB7_Krasnodar	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB8_Krasnodar	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB9_Krasnodar	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB10_Krasnodar	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 105 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Krasnodar	}
+		command = { type = local_clrflag which = PendingMOB7_Krasnodar	}
+		command = { type = local_clrflag which = PendingMOB8_Krasnodar	}
+		command = { type = local_clrflag which = PendingMOB9_Krasnodar	}
+		command = { type = local_clrflag which = PendingMOB10_Krasnodar	}
+	}
+}
+
+event = {
+	id = 2007107
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Krim
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Krim
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Krim
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Krim
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Krim
+			}
+		}
+		area = { area = "Krim"					data = 1 value = 100 }
+	}
+	
+	name = "Krim Mobilization Sweep"
+	desc = "Since we have now liberated Krim, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#2MP
+		command = { trigger = { local_flag = PendingMOB6_Krim	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 98  } #49
+		command = { trigger = { local_flag = PendingMOB7_Krim	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB8_Krim	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB9_Krim	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB10_Krim	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 70  } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Krim	}
+		command = { type = local_clrflag which = PendingMOB7_Krim	}
+		command = { type = local_clrflag which = PendingMOB8_Krim	}
+		command = { type = local_clrflag which = PendingMOB9_Krim	}
+		command = { type = local_clrflag which = PendingMOB10_Krim	}
+	}
+}
+
+event = {
+	id = 2007108
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Kursk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Kursk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Kursk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Kursk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Kursk
+			}
+		}
+		area = { area = "Kursk"					data = 1 value = 100 }
+	}
+	
+	name = "Kursk Mobilization Sweep"
+	desc = "Since we have now liberated Kursk, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#4MP
+		command = { trigger = { local_flag = PendingMOB6_Kursk	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 196 } #49
+		command = { trigger = { local_flag = PendingMOB7_Kursk	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB8_Kursk	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB9_Kursk	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB10_Kursk	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 140 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Kursk	}
+		command = { type = local_clrflag which = PendingMOB7_Kursk	}
+		command = { type = local_clrflag which = PendingMOB8_Kursk	}
+		command = { type = local_clrflag which = PendingMOB9_Kursk	}
+		command = { type = local_clrflag which = PendingMOB10_Kursk	}
+	}
+}
+
+event = {
+	id = 2007109
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Leningrad
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Leningrad
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Leningrad
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Leningrad
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Leningrad
+			}
+		}
+		area = { area = "Leningrad"				data = 1 value = 100 }
+	}
+	
+	name = "Leningrad Mobilization Sweep"
+	desc = "Since we have now liberated Leningrad, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#7MP
+		command = { trigger = { local_flag = PendingMOB6_Leningrad	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 343 } #49
+		command = { trigger = { local_flag = PendingMOB7_Leningrad	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 245 } #35
+		command = { trigger = { local_flag = PendingMOB8_Leningrad	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 245 } #35
+		command = { trigger = { local_flag = PendingMOB9_Leningrad	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 245 } #35
+		command = { trigger = { local_flag = PendingMOB10_Leningrad	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 245 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Leningrad	}
+		command = { type = local_clrflag which = PendingMOB7_Leningrad	}
+		command = { type = local_clrflag which = PendingMOB8_Leningrad	}
+		command = { type = local_clrflag which = PendingMOB9_Leningrad	}
+		command = { type = local_clrflag which = PendingMOB10_Leningrad	}
+	}
+}
+
+event = {
+	id = 2007110
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Minsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Minsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Minsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Minsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Minsk
+			}
+		}
+		area = { area = "Minsk"					data = 1 value = 100 }
+	}
+	
+	name = "Minsk Mobilization Sweep"
+	desc = "Since we have now liberated Minsk, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#3MP
+		command = { trigger = { local_flag = PendingMOB6_Minsk	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 147 } #49
+		command = { trigger = { local_flag = PendingMOB7_Minsk	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB8_Minsk	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB9_Minsk	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB10_Minsk	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 105 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Minsk	}
+		command = { type = local_clrflag which = PendingMOB7_Minsk	}
+		command = { type = local_clrflag which = PendingMOB8_Minsk	}
+		command = { type = local_clrflag which = PendingMOB9_Minsk	}
+		command = { type = local_clrflag which = PendingMOB10_Minsk	}
+	}
+}
+
+event = {
+	id = 2007111
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Moscow
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Moscow
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Moscow
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Moscow
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Moscow
+			}
+		}
+		area = { area = "Moscow"				data = 1 value = 100 }
+	}
+	
+	name = "Moscow Mobilization Sweep"
+	desc = "Since we have now liberated Moscow, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#10MP
+		command = { trigger = { local_flag = PendingMOB6_Moscow		local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 490 } #49
+		command = { trigger = { local_flag = PendingMOB7_Moscow		local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 350 } #35
+		command = { trigger = { local_flag = PendingMOB8_Moscow		local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 350 } #35
+		command = { trigger = { local_flag = PendingMOB9_Moscow		local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 350 } #35
+		command = { trigger = { local_flag = PendingMOB10_Moscow	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 350 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Moscow		}
+		command = { type = local_clrflag which = PendingMOB7_Moscow		}
+		command = { type = local_clrflag which = PendingMOB8_Moscow		}
+		command = { type = local_clrflag which = PendingMOB9_Moscow		}
+		command = { type = local_clrflag which = PendingMOB10_Moscow	}
+	}
+}
+
+event = {
+	id = 2007112
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Novgorod
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Novgorod
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Novgorod
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Novgorod
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Novgorod
+			}
+		}
+		area = { area = "Novgorod"				data = 1 value = 100 }
+	}
+	
+	name = "Novgorod Mobilization Sweep"
+	desc = "Since we have now liberated Novgorod, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#1MP
+		command = { trigger = { local_flag = PendingMOB6_Novgorod	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 49  } #49
+		command = { trigger = { local_flag = PendingMOB7_Novgorod	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 35  } #35
+		command = { trigger = { local_flag = PendingMOB8_Novgorod	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 35  } #35
+		command = { trigger = { local_flag = PendingMOB9_Novgorod	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 35  } #35
+		command = { trigger = { local_flag = PendingMOB10_Novgorod	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 35  } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Novgorod	}
+		command = { type = local_clrflag which = PendingMOB7_Novgorod	}
+		command = { type = local_clrflag which = PendingMOB8_Novgorod	}
+		command = { type = local_clrflag which = PendingMOB9_Novgorod	}
+		command = { type = local_clrflag which = PendingMOB10_Novgorod	}
+	}
+}
+
+event = {
+	id = 2007113
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Odessa
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Odessa
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Odessa
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Odessa
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Odessa
+			}
+		}
+		area = { area = "Odessa"				data = 1 value = 100 }
+	}
+	
+	name = "Odessa Mobilization Sweep"
+	desc = "Since we have now liberated Odessa, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#5MP
+		command = { trigger = { local_flag = PendingMOB6_Odessa		local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 245 } #49
+		command = { trigger = { local_flag = PendingMOB7_Odessa		local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 175 } #35
+		command = { trigger = { local_flag = PendingMOB8_Odessa		local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 175 } #35
+		command = { trigger = { local_flag = PendingMOB9_Odessa		local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 175 } #35
+		command = { trigger = { local_flag = PendingMOB10_Odessa	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 175 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Odessa		}
+		command = { type = local_clrflag which = PendingMOB7_Odessa		}
+		command = { type = local_clrflag which = PendingMOB8_Odessa		}
+		command = { type = local_clrflag which = PendingMOB9_Odessa		}
+		command = { type = local_clrflag which = PendingMOB10_Odessa	}
+	}
+}
+
+event = {
+	id = 2007114
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Polotsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Polotsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Polotsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Polotsk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Polotsk
+			}
+		}
+		area = { area = "Polotsk"				data = 1 value = 100 }
+	}
+	
+	name = "Polotsk Mobilization Sweep"
+	desc = "Since we have now liberated Polotsk, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#2MP
+		command = { trigger = { local_flag = PendingMOB6_Polotsk	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 98  } #49
+		command = { trigger = { local_flag = PendingMOB7_Polotsk	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB8_Polotsk	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB9_Polotsk	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB10_Polotsk	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 70  } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Polotsk	}
+		command = { type = local_clrflag which = PendingMOB7_Polotsk	}
+		command = { type = local_clrflag which = PendingMOB8_Polotsk	}
+		command = { type = local_clrflag which = PendingMOB9_Polotsk	}
+		command = { type = local_clrflag which = PendingMOB10_Polotsk	}
+	}
+}
+
+event = {
+	id = 2007115
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Pskov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Pskov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Pskov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Pskov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Pskov
+			}
+		}
+		area = { area = "Pskov"					data = 1 value = 100 }
+	}
+	
+	name = "Pskov Mobilization Sweep"
+	desc = "Since we have now liberated Pskov, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#1MP
+		command = { trigger = { local_flag = PendingMOB6_Pskov	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 49  } #49
+		command = { trigger = { local_flag = PendingMOB7_Pskov	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 35  } #35
+		command = { trigger = { local_flag = PendingMOB8_Pskov	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 35  } #35
+		command = { trigger = { local_flag = PendingMOB9_Pskov	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 35  } #35
+		command = { trigger = { local_flag = PendingMOB10_Pskov	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 35  } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Pskov	}
+		command = { type = local_clrflag which = PendingMOB7_Pskov	}
+		command = { type = local_clrflag which = PendingMOB8_Pskov	}
+		command = { type = local_clrflag which = PendingMOB9_Pskov	}
+		command = { type = local_clrflag which = PendingMOB10_Pskov	}
+	}
+}
+
+event = {
+	id = 2007116
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Rogachev
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Rogachev
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Rogachev
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Rogachev
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Rogachev
+			}
+		}
+		area = { area = "Rogachev"				data = 1 value = 100 }
+	}
+	
+	name = "Rogachev Mobilization Sweep"
+	desc = "Since we have now liberated Rogachev, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#3MP
+		command = { trigger = { local_flag = PendingMOB6_Rogachev	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 147 } #49
+		command = { trigger = { local_flag = PendingMOB7_Rogachev	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB8_Rogachev	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB9_Rogachev	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB10_Rogachev	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 105 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Rogachev	}
+		command = { type = local_clrflag which = PendingMOB7_Rogachev	}
+		command = { type = local_clrflag which = PendingMOB8_Rogachev	}
+		command = { type = local_clrflag which = PendingMOB9_Rogachev	}
+		command = { type = local_clrflag which = PendingMOB10_Rogachev	}
+	}
+}
+
+event = {
+	id = 2007117
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Rostov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Rostov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Rostov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Rostov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Rostov
+			}
+		}
+		area = { area = "Rostov"				data = 1 value = 100 }
+	}
+	
+	name = "Rostov Mobilization Sweep"
+	desc = "Since we have now liberated Rostov, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#3MP
+		command = { trigger = { local_flag = PendingMOB6_Rostov		local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 147 } #49
+		command = { trigger = { local_flag = PendingMOB7_Rostov		local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB8_Rostov		local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB9_Rostov		local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB10_Rostov	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 105 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Rostov		}
+		command = { type = local_clrflag which = PendingMOB7_Rostov		}
+		command = { type = local_clrflag which = PendingMOB8_Rostov		}
+		command = { type = local_clrflag which = PendingMOB9_Rostov		}
+		command = { type = local_clrflag which = PendingMOB10_Rostov	}
+	}
+}
+
+event = {
+	id = 2007118
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Ryazan
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Ryazan
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Ryazan
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Ryazan
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Ryazan
+			}
+		}
+		area = { area = "Ryazan"				data = 1 value = 100 }
+	}
+	
+	name = "Ryazan Mobilization Sweep"
+	desc = "Since we have now liberated Ryazan, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#5MP
+		command = { trigger = { local_flag = PendingMOB6_Ryazan		local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 245 } #49
+		command = { trigger = { local_flag = PendingMOB7_Ryazan		local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 175 } #35
+		command = { trigger = { local_flag = PendingMOB8_Ryazan		local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 175 } #35
+		command = { trigger = { local_flag = PendingMOB9_Ryazan		local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 175 } #35
+		command = { trigger = { local_flag = PendingMOB10_Ryazan	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 175 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Ryazan		}
+		command = { type = local_clrflag which = PendingMOB7_Ryazan		}
+		command = { type = local_clrflag which = PendingMOB8_Ryazan		}
+		command = { type = local_clrflag which = PendingMOB9_Ryazan		}
+		command = { type = local_clrflag which = PendingMOB10_Ryazan	}
+	}
+}
+
+event = {
+	id = 2007119
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Smolensk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Smolensk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Smolensk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Smolensk
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Smolensk
+			}
+		}
+		area = { area = "Smolensk"				data = 1 value = 100 }
+	}
+	
+	name = "Smolensk Mobilization Sweep"
+	desc = "Since we have now liberated Smolensk, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#4MP
+		command = { trigger = { local_flag = PendingMOB6_Smolensk	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 196 } #49
+		command = { trigger = { local_flag = PendingMOB7_Smolensk	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB8_Smolensk	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB9_Smolensk	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB10_Smolensk	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 140 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Smolensk	}
+		command = { type = local_clrflag which = PendingMOB7_Smolensk	}
+		command = { type = local_clrflag which = PendingMOB8_Smolensk	}
+		command = { type = local_clrflag which = PendingMOB9_Smolensk	}
+		command = { type = local_clrflag which = PendingMOB10_Smolensk	}
+	}
+}
+
+event = {
+	id = 2007120
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Stalingrad
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Stalingrad
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Stalingrad
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Stalingrad
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Stalingrad
+			}
+		}
+		area = { area = "Stalingrad"			data = 1 value = 100 }
+	}
+	
+	name = "Stalingrad Mobilization Sweep"
+	desc = "Since we have now liberated Stalingrad, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#2MP
+		command = { trigger = { local_flag = PendingMOB6_Stalingrad		local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 98  } #49
+		command = { trigger = { local_flag = PendingMOB7_Stalingrad		local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB8_Stalingrad		local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB9_Stalingrad		local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB10_Stalingrad	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 70  } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Stalingrad		}
+		command = { type = local_clrflag which = PendingMOB7_Stalingrad		}
+		command = { type = local_clrflag which = PendingMOB8_Stalingrad		}
+		command = { type = local_clrflag which = PendingMOB9_Stalingrad		}
+		command = { type = local_clrflag which = PendingMOB10_Stalingrad	}
+	}
+}
+
+event = {
+	id = 2007121
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Tambov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Tambov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Tambov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Tambov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Tambov
+			}
+		}
+		area = { area = "Tambov"				data = 1 value = 100 }
+	}
+	
+	name = "Tambov Mobilization Sweep"
+	desc = "Since we have now liberated Tambov, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#4MP
+		command = { trigger = { local_flag = PendingMOB6_Tambov		local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 196 } #49
+		command = { trigger = { local_flag = PendingMOB7_Tambov		local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB8_Tambov		local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB9_Tambov		local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB10_Tambov	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 140 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Tambov		}
+		command = { type = local_clrflag which = PendingMOB7_Tambov		}
+		command = { type = local_clrflag which = PendingMOB8_Tambov		}
+		command = { type = local_clrflag which = PendingMOB9_Tambov		}
+		command = { type = local_clrflag which = PendingMOB10_Tambov	}
+	}
+}
+
+event = {
+	id = 2007122
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Transnistria
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Transnistria
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Transnistria
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Transnistria
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Transnistria
+			}
+		}
+		area = { area = "Transnistria"			data = 1 value = 100 }
+	}
+	
+	name = "Transnistria Mobilization Sweep"
+	desc = "Since we have now liberated Transnistria, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#1MP
+		command = { trigger = { local_flag = PendingMOB6_Transnistria	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 49  } #49
+		command = { trigger = { local_flag = PendingMOB7_Transnistria	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 35  } #35
+		command = { trigger = { local_flag = PendingMOB8_Transnistria	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 35  } #35
+		command = { trigger = { local_flag = PendingMOB9_Transnistria	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 35  } #35
+		command = { trigger = { local_flag = PendingMOB10_Transnistria	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 35  } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Transnistria	}
+		command = { type = local_clrflag which = PendingMOB7_Transnistria	}
+		command = { type = local_clrflag which = PendingMOB8_Transnistria	}
+		command = { type = local_clrflag which = PendingMOB9_Transnistria	}
+		command = { type = local_clrflag which = PendingMOB10_Transnistria	}
+	}
+}
+
+event = {
+	id = 2007123
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Velikiye_Luki
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Velikiye_Luki
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Velikiye_Luki
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Velikiye_Luki
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Velikiye_Luki
+			}
+		}
+		area = { area = "Velikiye Luki"			data = 1 value = 100 }
+	}
+	
+	name = "Velikiye Luki Mobilization Sweep"
+	desc = "Since we have now liberated Velikiye Luki, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#2MP
+		command = { trigger = { local_flag = PendingMOB6_Velikiye_Luki	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 98  } #49
+		command = { trigger = { local_flag = PendingMOB7_Velikiye_Luki	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB8_Velikiye_Luki	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB9_Velikiye_Luki	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB10_Velikiye_Luki	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 70  } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Velikiye_Luki	}
+		command = { type = local_clrflag which = PendingMOB7_Velikiye_Luki	}
+		command = { type = local_clrflag which = PendingMOB8_Velikiye_Luki	}
+		command = { type = local_clrflag which = PendingMOB9_Velikiye_Luki	}
+		command = { type = local_clrflag which = PendingMOB10_Velikiye_Luki	}
+	}
+}
+
+event = {
+	id = 2007124
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Vladimir
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Vladimir
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Vladimir
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Vladimir
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Vladimir
+			}
+		}
+		area = { area = "Vladimir"				data = 1 value = 100 }
+	}
+	
+	name = "Vladimir Mobilization Sweep"
+	desc = "Since we have now liberated Vladimir, the NKVD will conduct a mobilization sweep in the area to replenish our mobilization reserves."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#4MP
+		command = { trigger = { local_flag = PendingMOB6_Vladimir	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 196 } #49
+		command = { trigger = { local_flag = PendingMOB7_Vladimir	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB8_Vladimir	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB9_Vladimir	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB10_Vladimir	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 140 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Vladimir	}
+		command = { type = local_clrflag which = PendingMOB7_Vladimir	}
+		command = { type = local_clrflag which = PendingMOB8_Vladimir	}
+		command = { type = local_clrflag which = PendingMOB9_Vladimir	}
+		command = { type = local_clrflag which = PendingMOB10_Vladimir	}
 	}
 }
 
@@ -5321,7 +6833,7 @@ event = {
 		ai = no 
 	}
 
-	name = "TEST - take control FRA"
+	name = "TEST - take control ENG"
 	desc = "TEST" 
 	style = 2
 
@@ -5331,7 +6843,6 @@ event = {
 
 	action = {
 		name = "plus"
-		command = { type = military_control which = GER where = FRA value = 1 }
-		#command = { type = military_control which = ARG where = GER value = 1 }
+		command = { type = military_control which = ARG where = ENG value = 1 }
 	}
 }

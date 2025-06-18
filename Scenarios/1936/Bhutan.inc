@@ -23,7 +23,7 @@ country =
      political_left    = 5 
      free_market       = 1
      freedom           = 1 
-     professional_army = 2 
+     professional_army = 1 
      defense_lobby     = 1 
      interventionism   = 1 
   }
@@ -67,7 +67,7 @@ country =
   { relation = { tag = AST value = 200 }
     relation = { tag = CAN value = 200 }
     relation = { tag = ENG value = 200 }
-    relation = { tag = FRA value = 150 }
+    relation = { tag = VIC value = 150 }
     relation = { tag = GER value = 1 }
     relation = { tag = IRQ value = 100 }
     relation = { tag = ITA value = 1 }

@@ -31,7 +31,7 @@
    ownedprovinces         = {  2457  } 
    controlledprovinces    = {  2457  } 
    
-  # FRA 1936 techs 
+  # VIC 1936 techs 
    # ###################### 
    techapps               = {  
 #Interwar Fighter  

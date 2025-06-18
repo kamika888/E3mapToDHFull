@@ -34,7 +34,7 @@
    ownedprovinces         = {  631 5264 5266 722 5263 5259 5258 1460 5257 } 
    controlledprovinces    = {  631 5264 5266 722 5263 5259 5258 1460 5257 } 
    
-  # FRA 1936 techs 
+  # VIC 1936 techs 
    # ###################### 
    techapps               = {  
 #Great War Infantry Division  
@@ -95,7 +95,7 @@
      political_left    = 4 
      freedom           = 3 
      free_market       = 1
-     professional_army = 2 # no conscription 
+     professional_army = 1 # no conscription 
      defense_lobby     = 3 
      interventionism   = 3 
     } 

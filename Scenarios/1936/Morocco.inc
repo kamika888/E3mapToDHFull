@@ -61,7 +61,7 @@
   inventions = { 3000027 }
   diplomacy =
   { relation = { tag = ENG value = 50 }
-    relation = { tag = FRA value = 50 }
+    relation = { tag = VIC value = 50 }
     relation = { tag = SPA value = 50 }
     relation = { tag = ITA value = 50 }
   }

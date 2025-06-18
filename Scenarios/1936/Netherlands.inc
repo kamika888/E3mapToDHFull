@@ -21,7 +21,7 @@ country =
     relation = { tag = DEN value = 100 }
     relation = { tag = ENG value = 125 }
     relation = { tag = FIN value = 100 }
-    relation = { tag = FRA value = 75 }
+    relation = { tag = VIC value = 75 }
     relation = { tag = GER value = 1 }
     relation = { tag = IRE value = 75 }
     relation = { tag = ITA value = -20 }
@@ -146,9 +146,9 @@ country =
      political_left    = 5 
      free_market       = 7
      freedom           = 9 
-     professional_army = 3 
+     professional_army = 2 
      defense_lobby     = 1 
-     interventionism   = 3 
+     interventionism   = 2 
   }
 inventions = { 3000027 }
 

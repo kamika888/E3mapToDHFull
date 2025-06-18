@@ -18,7 +18,7 @@ country =
   { relation = { tag = BUL value = 25 }
     relation = { tag = CZE value = 50 }
     relation = { tag = FIN value = 35 }
-    relation = { tag = FRA value = 50 }
+    relation = { tag = VIC value = 50 }
     relation = { tag = GER value = 50 }
     relation =
     { tag        = GRE
@@ -72,6 +72,7 @@ country =
 382 455 3365 454 291 3360 3366 6558 388 6561 2289 459 7122 6560 380 3359 461 2326 7125 2325 3369 3372 415 6562 1169 1819 6536 387 6534 7267 6534 386 7270
 6508 412 2319 410 416 7055 7123 7126 668
 3357 7124 666
+390 391 664 5465 5466 7163 7961 7936 392 393 7316 
   }
 
   # Eastern Minor Tech '36
@@ -139,7 +140,7 @@ country =
      political_left    = 3 
      freedom           = 4
      free_market       = 2
-     professional_army = 5 
+     professional_army = 4 
      defense_lobby     = 3 
      interventionism   = 4 
   }

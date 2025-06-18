@@ -32,7 +32,7 @@ event = {
 			war = { country = GER country = SOV }
 		}
 		NOT = { 
-			control = { province = 56 data = FRA }
+			control = { province = 56 data = VIC }
 		}
 	}
 
@@ -108,7 +108,7 @@ event = {
 		command = { type = peace which = SOV value = 1 }
 		command = { type = peace which = ENG value = 1 }
 		command = { type = peace which = USA value = 1 }
-		command = { type = peace which = FRA value = 1 }
+		command = { type = peace which = VIC value = 1 }
 		command = { type = end_guarantee which = SOV where = BUL }
 		command = { type = end_guarantee which = GER where = BUL }
 		command = { type = dissent value = -5 }
@@ -198,7 +198,7 @@ event = {
 		command = { trigger = { ai = yes }	type = event which = 2400055 where = BUL when = 0 } #enforcenoexp
 		
 		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = ENG when = 1080 }
-		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = FRA when = 1080 }
+		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = VIC when = 1080 }
 		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = SAF when = 1080 }
 		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = CAN when = 1080 }
 		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = AST when = 1080 }
@@ -290,15 +290,20 @@ event = {
 			NOT = { war = { country = BUL } }
 			non_aggression = { country = -1 country = BUL } 
 		}
+		region = { region = "Romania"	country = -3 value = 30 }
 		OR = {
-			region = { region = "Romania"	country = -3 value = 70 }
-			region = { region = "Balkan" 	country = -3 value = 15 }
+			region = { region = "Romania"	country = -3 value = 80 }
+			region = { region = "Balkan" 	country = -3 value = 15 } #this could also be trigged by something like YUG revolt
+			AND = {
+				region = { region = "Romania"	country = -3 value = 60 }
+				random = 5
+			}
 		}
 		event = { id = 2003250 days = 360 }
 	}
 
 	date = { day = 0 month = january year = 1938 }
-	offset = 30
+	offset = 15
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -306,6 +311,8 @@ event = {
 		
 		command = { trigger = { NOT = { war = { country = BUL } } } type = war which = BUL }
 		command = { type = setflag which = BulgariaUnderAttack }
+		command = { trigger = { ai = yes } type = non_aggression which = BUL where = ROM when = 12 }
+		command = { trigger = { ai = yes } type = non_aggression which = BUL where = U30 when = 12 }
 		command = { type = event which = 2020010 where = BUL when = 0 }
 	}
 }
@@ -369,7 +376,7 @@ event = {
 		command = { trigger = { ai = yes }	type = event which = 2400013 where = BUL when = 0 } #gar30
 		
 		command = { trigger = { non_aggression = { country = -1 country = ENG } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
-		command = { trigger = { non_aggression = { country = -1 country = FRA } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { trigger = { non_aggression = { country = -1 country = VIC } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
 		command = { trigger = { non_aggression = { country = -1 country = SAF } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
 		command = { trigger = { non_aggression = { country = -1 country = CAN } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
 		command = { trigger = { non_aggression = { country = -1 country = AST } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
@@ -379,7 +386,7 @@ event = {
 		command = { trigger = { non_aggression = { country = -1 country = SOV } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
 		
 		command = { type = end_non_aggression which = BUL where = ENG }
-		command = { type = end_non_aggression which = BUL where = FRA }
+		command = { type = end_non_aggression which = BUL where = VIC }
 		command = { type = end_non_aggression which = BUL where = SAF }
 		command = { type = end_non_aggression which = BUL where = CAN }
 		command = { type = end_non_aggression which = BUL where = AST }
@@ -463,13 +470,8 @@ event = {
 	trigger = {
 		NOT = { ispuppet = yes }
 		NOT = { exists = U29 }
-		OR = {
-			war = { country = BUL country = SOV }
-			AND = {
-				alliance = { country = GER country = BUL }
-				war = { country = GER country = SOV }
-			}
-		}
+		war = { country = SOV }
+		NOT = { non_aggression = { country = BUL country = SOV } }
 		OR = {
 			AND = {
 				war = { country = SOV }
@@ -526,7 +528,7 @@ event = {
 	action = {
 		ai_chance = 0
 		name = ACTION_NAME_REFUSE
-		command = { type = relation which = FRA value = -60 }
+		command = { type = relation which = VIC value = -60 }
 		command = { type = relation which = ENG value = -60 }
 		command = { type = relation which = USA value = -60 }
 		
@@ -630,13 +632,15 @@ event = {
 		command = { type = set_domestic which = political_left	value = 8 }
 		command = { type = set_relation which = GER	value = -50 }
 		
-		command = { type = event which = 2400051 where = -1 when = 1   } #initial confusion
-		command = { type = event which = 2400061 where = -1 when = 180 } #recovery in 6 months
+		command = { type = event which = 2400151 where = -1 when = 1   } #initial confusion
+		command = { type = event which = 2400161 where = -1 when = 180 } #recovery in 6 months
 		
 		command = { trigger = { ai = BUL }	type = event which = 2400045 where = BUL when = 0 } #exp50
 		command = { trigger = { ai = BUL }	type = event which = 2400056 where = BUL when = 0 } #noexp_unenforce
 		command = { trigger = { ai = BUL }	type = event which = 2400098 where = BUL when = 0 } #garspec_remove
 		command = { trigger = { ai = BUL }	type = event which = 2400013 where = BUL when = 0 } #gar30
+		
+		command = { type = setflag which = BulAllies }
 		
 		#will be handled in post-war settlement event
 		#command = { type = local_setflag	when = 0	which = RepPay3	value = 6 }

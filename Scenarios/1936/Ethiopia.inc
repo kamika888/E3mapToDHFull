@@ -21,7 +21,7 @@ country =
      political_left    = 4 
      free_market       = 1
      freedom           = 2 
-     professional_army = 7 
+     professional_army = 5 
      defense_lobby     = 5 
      interventionism   = 3
   }
@@ -81,7 +81,7 @@ country =
  inventions = { 3000027 }
    diplomacy = 
    {  relation = {  tag = ENG value = 50  } 
-     relation = {  tag = FRA value = 25  } 
+     relation = {  tag = VIC value = 25  } 
      relation = {  tag = IRE value = 100  } 
      relation = {  tag = ITA value = -200  } 
      relation = {  tag = JAP value = 35  } 

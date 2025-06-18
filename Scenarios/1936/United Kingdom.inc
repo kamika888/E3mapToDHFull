@@ -46,7 +46,7 @@ country =
     relation = { tag = EST value = 65 }
     relation = { tag = ETH value = 50 }
     relation = { tag = FIN value = 85 }
-    relation = { tag = FRA value = 150 }
+    relation = { tag = VIC value = 150 }
     relation = { tag = GER value = 1 }
     relation =
     { tag        = GRE
@@ -167,7 +167,8 @@ country =
 #Cyprus
 5413 5412
 #Islands
-538 573 2964 652 2963 2962 584 896 795 572 897 587 586 805 807 591 806 808 5 1165 
+538 573 2964 652 2963 2962 584 896 795 572 897 587 586 805 807 591 806 808 5 1165
+5462 
 }
   # GREAT BRITAIN
   ownedprovinces         = { 3 5 6 7 8 9 10 11 12 13 14 15 16 17 19 20 21 22 23 28 29 348  31 444 
@@ -446,9 +447,9 @@ techapps               = {
      political_left    = 5 
      freedom           = 10 
      free_market       = 7
-     professional_army = 2 #UK did not introduce 6-month conscription until April 1939 
+     professional_army = 1 #UK did not introduce 6-month conscription until April 1939 
      defense_lobby     = 1 
-     interventionism   = 1
+     interventionism   = 2
   }
 inventions = { 3000027 }
    headofstate            = {  type = 9 id = 10001  } 
@@ -2285,39 +2286,48 @@ landunit =
 	landdivision = { dormant = yes id = { type = 12700 id = 10018 }  name = "18. Home Guard"  type = garrison model = 5 extra = artillery brigade_model = 9 }
 	
 	#2401800 Wilfred
-	landdivision = { dormant = yes id = { type = 12700 id = 10020 }  name = "5th 'Globe Trotters' Division" 	type = infantry model = 10 											}
-	landdivision = { dormant = yes id = { type = 12700 id = 10021 }  name = "49th 'West Riding' Division"  		type = infantry model = 10 											}
-	landdivision = { dormant = yes id = { type = 12700 id = 10022 }  name = "1st Infantry Division"  			type = infantry model = 10 											}
+	landdivision = { dormant = yes id = { type = 12700 id = 10020 }  name = "5th 'Globe Trotters' Division" 	type = infantry 	model = 10 											}
+	landdivision = { dormant = yes id = { type = 12700 id = 10021 }  name = "49th 'West Riding' Division"  		type = infantry 	model = 10 											}
+	landdivision = { dormant = yes id = { type = 12700 id = 10022 }  name = "1st Infantry Division"  			type = infantry 	model = 10 											}
 	
 	#2401830 Torch
-	landdivision = { dormant = yes id = { type = 14800 id = 807 }	 name = "78th 'Battleaxe' Division" 		type = infantry model = 10	extra = engineer  brigade_model = 4 	} 
-	landdivision = { dormant = yes id = { type = 14800 id = 808 }	 name = "1st/3rd Special Service Brigades" 	type = marine 	model = 4	strength = 80							} 
+	landdivision = { dormant = yes id = { type = 14800 id = 807 }	 name = "78th 'Battleaxe' Division" 		type = infantry 	model = 10	extra = engineer  brigade_model = 4 	} 
+	landdivision = { dormant = yes id = { type = 14800 id = 808 }	 name = "1st/3rd Special Service Brigades" 	type = marine 		model = 4	strength = 80							} 
 	
 	#2401840 Overlord
-	landdivision = { dormant = yes id = { type = 14800 id = 832 }  name = "21st Army Group HQ" 					type = hq 		model = 4										 	}
-	landdivision = { dormant = yes id = { type = 14800 id = 833 }  name = "50th 'Northumbrian' Division" 		type = infantry model = 11	extra = medium_armor brigade_model = 5 	}
-	landdivision = { dormant = yes id = { type = 14800 id = 834 }  name = "7th 'Desert Rats' Division"			type = armor 	model = 2	 									 	}
-	landdivision = { dormant = yes id = { type = 14800 id = 835 }  name = "1st/4th Special Service Brigades" 	type = marine 	model = 5	strength = 80							} 
-	landdivision = { dormant = yes id = { type = 14800 id = 836 }  name = "51st 'Highland' Division" 			type = infantry model = 11	extra = medium_armor brigade_model = 5 	} 
-	landdivision = { dormant = yes id = { type = 14800 id = 837 }  name = "3rd 'Ironsides' Division" 			type = infantry model = 11											}
-	landdivision = { dormant = yes id = { type = 14800 id = 838 }  name = "6th Airborne Division" 				type = paratrooper model = 2									 	}
-	landdivision = { dormant = yes id = { type = 14800 id = 839 }  name = "79th 'Funnies' Division" 			type = armor 	model = 2	 									 	}
+	landdivision = { dormant = yes id = { type = 14800 id = 832 }  name = "21st Army Group HQ" 					type = hq 			model = 4										 	}
+	landdivision = { dormant = yes id = { type = 14800 id = 833 }  name = "50th 'Northumbrian' Division" 		type = infantry 	model = 11	extra = medium_armor brigade_model = 5 	}
+	landdivision = { dormant = yes id = { type = 14800 id = 834 }  name = "7th 'Desert Rats' Division"			type = armor 		model = 2	 									 	}
+	landdivision = { dormant = yes id = { type = 14800 id = 835 }  name = "1st/4th Special Service Brigades" 	type = marine 		model = 5	strength = 80							} 
+	landdivision = { dormant = yes id = { type = 14800 id = 836 }  name = "51st 'Highland' Division" 			type = infantry 	model = 11	extra = medium_armor brigade_model = 5 	} 
+	landdivision = { dormant = yes id = { type = 14800 id = 837 }  name = "3rd 'Ironsides' Division" 			type = infantry 	model = 11											}
+	landdivision = { dormant = yes id = { type = 14800 id = 838 }  name = "6th Airborne Division" 				type = paratrooper	model = 2									 		}
+	landdivision = { dormant = yes id = { type = 14800 id = 839 }  name = "79th 'Funnies' Division" 			type = armor 		model = 2	 									 	}
 	
 	#2401850 Dragoon (did not participate)
 	
 	#2401860 Husky
-	landdivision = { dormant = yes id = { type = 14800 id = 878 }  name = "8th Army Group HQ" 					type = hq 		model = 4										 	}
-	landdivision = { dormant = yes id = { type = 14800 id = 879 }  name = "1st/4th Special Service Brigades"	type = marine 	model = 5	strength = 80							} 
-	landdivision = { dormant = yes id = { type = 14800 id = 880 }  name = "5th 'Globe Trotters' Division" 		type = infantry model = 11 	extra = artillery brigade_model = 10 	} 
-	landdivision = { dormant = yes id = { type = 14800 id = 881 }  name = "50th 'Northumbrian' Division" 		type = infantry model = 11 	extra = medium_armor brigade_model = 5	}
-	landdivision = { dormant = yes id = { type = 14800 id = 882 }  name = "51st 'Highland' Division"			type = infantry model = 11 	extra = medium_armor brigade_model = 5	}
-	landdivision = { dormant = yes id = { type = 14800 id = 883 }  name = "78th 'Battleaxe' Division"			type = infantry model = 11 	extra = engineer  brigade_model = 4 	} 
-	landdivision = { dormant = yes id = { type = 14800 id = 884 }  name = "1st Airborne Division"				type = paratrooper model = 11 extra = glider_artillery brigade_model = 1 } 
-	landdivision = { dormant = yes id = { type = 14800 id = 885 }  name = "1st Infantry Division"				type = infantry model = 11 										 	} 
+	landdivision = { dormant = yes id = { type = 14800 id = 878 }  name = "8th Army Group HQ" 					type = hq 			model = 4										 	}
+	landdivision = { dormant = yes id = { type = 14800 id = 879 }  name = "1st/4th Special Service Brigades"	type = marine 		model = 5	strength = 80							} 
+	landdivision = { dormant = yes id = { type = 14800 id = 880 }  name = "5th 'Globe Trotters' Division" 		type = infantry 	model = 11 	extra = artillery brigade_model = 10 	} 
+	landdivision = { dormant = yes id = { type = 14800 id = 881 }  name = "50th 'Northumbrian' Division" 		type = infantry 	model = 11 	extra = medium_armor brigade_model = 5	}
+	landdivision = { dormant = yes id = { type = 14800 id = 882 }  name = "51st 'Highland' Division"			type = infantry 	model = 11 	extra = medium_armor brigade_model = 5	}
+	landdivision = { dormant = yes id = { type = 14800 id = 883 }  name = "78th 'Battleaxe' Division"			type = infantry 	model = 11 	extra = engineer  brigade_model = 4 	} 
+	landdivision = { dormant = yes id = { type = 14800 id = 884 }  name = "1st Airborne Division"				type = paratrooper 	model = 2 	extra = glider_artillery brigade_model = 1 } 
+	landdivision = { dormant = yes id = { type = 14800 id = 885 }  name = "1st Infantry Division"				type = infantry		model = 11 										 	} 
 	
 	#2405070 Valentine
-	landdivision = { dormant = yes id = { type = 14800 id = 900 }  name = "Royal Marines Division"				type = marine	model = 4 	strength = 80							} 
-	landdivision = { dormant = yes id = { type = 14800 id = 901 }  name = "Faroe Island Garrison"				type = garrison	model = 5 	strength = 50							} 
-	landdivision = { dormant = yes id = { type = 14800 id = 902 }  name = "Greenland Force"						type = militia	model = 5 	strength = 50							} 
+	landdivision = { dormant = yes id = { type = 14800 id = 900 }  name = "Royal Marines Division"				type = marine		model = 4 	strength = 80							} 
+	landdivision = { dormant = yes id = { type = 14800 id = 901 }  name = "Faroe Island Garrison"				type = garrison		model = 5 	strength = 50							} 
+	landdivision = { dormant = yes id = { type = 14800 id = 902 }  name = "Greenland Force"						type = militia		model = 5 	strength = 50							} 
+	
+	#2405075 Manna
+	landdivision = { dormant = yes id = { type = 14800 id = 910 }  name = "3rd Army Corps HQ"					type = hq			model = 4 											} 
+	landdivision = { dormant = yes id = { type = 14800 id = 911 }  name = "4th Infantry Division"				type = infantry		model = 11 	extra = medium_armor brigade_model = 5	} 
+	landdivision = { dormant = yes id = { type = 14800 id = 912 }  name = "46th Infantry Division"				type = infantry		model = 11 	strength = 80							} 
+	landdivision = { dormant = yes id = { type = 14800 id = 913 }  name = "2nd Parachute Division"				type = paratrooper	model = 2 strength = 60								} 
+	landdivision = { dormant = yes id = { type = 14800 id = 914 }  name = "3/4 Greek Mountain Brigades"			type = bergsjaeger	model = 8 strength = 50								} 
+	landdivision = { dormant = yes id = { type = 14800 id = 915 }  name = "Greek Security Battalions"			type = militia		model = 5 strength = 70								} 
+	landdivision = { dormant = yes id = { type = 14800 id = 916 }  name = "4th Indian Division"					type = infantry		model = 11 strength = 80							} 
   } 
  

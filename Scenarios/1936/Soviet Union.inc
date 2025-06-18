@@ -39,7 +39,7 @@ country =
     }
     relation = { tag = FIN value = 1 }
     relation =
-    { tag        = FRA
+    { tag        = VIC
       value      = 100
     }
     relation = { tag = GER value = 1 }
@@ -285,7 +285,7 @@ blueprints             = {   }
      political_left    = 9 
      freedom           = 5 
      free_market       = 5
-     professional_army = 5 
+     professional_army = 4 
      defense_lobby     = 4 
      interventionism   = 5 
   }

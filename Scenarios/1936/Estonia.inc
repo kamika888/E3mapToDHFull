@@ -17,7 +17,7 @@ country =
   diplomacy =
   { relation = { tag = ENG value = 65 }
     relation = { tag = FIN value = 120 }
-    relation = { tag = FRA value = 65 }
+    relation = { tag = VIC value = 65 }
     relation = { tag = GER value = 10 }
     relation =
     { tag        = LAT
@@ -109,7 +109,7 @@ country =
      political_left    = 4 
      free_market       = 3
      freedom           = 6 
-     professional_army = 3 
+     professional_army = 2 
      defense_lobby     = 3 
      interventionism   = 3
   }

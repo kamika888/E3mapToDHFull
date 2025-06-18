@@ -10,7 +10,7 @@
  country = 
  {  tag                    = U04 
     capital                = 1792
-    puppet                 = FRA 
+    puppet                 = VIC 
 	ai_settings			   = { flags = { puppetLevel9 = 1 } }
 	# Resource Reserves 
 	energy                 = 60
@@ -25,7 +25,7 @@
       
    diplomacy = 
    {   
-   relation = {  tag = FRA value = 50 access = yes  }  
+   relation = {  tag = VIC value = 50 access = yes  }  
     } 
    SpyInfo                = {  country = "U04" NumberOfSpies = 3  } 
   
@@ -36,7 +36,7 @@
    ownedprovinces         = { 1792 1795 2883 4150 2885 4151 1863 2884 1159 1862 1861 4152 2019 1793 1794 7276 7277 7278 7279 7280 7281 7353 7354 7355 7356 7357 7358 7359 7360 } 
    controlledprovinces    = { 1792 1795 2883 4150 2885 4151 1863 2884 1159 1862 1861 4152 2019 1793 1794 7276 7277 7278 7279 7280 7281 7353 7354 7355 7356 7357 7358 7359 7360 } 
    
-  # FRA 1936 techs 
+  # VIC 1936 techs 
    # ###################### 
    techapps               = {  
 #Great War Infantry Division  
@@ -103,7 +103,7 @@
      political_left    = 5 
      free_market       = 2
      freedom           = 3 
-     professional_army = 2 
+     professional_army = 1 
      defense_lobby     = 3 
      interventionism   = 3 
     } 

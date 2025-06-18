@@ -355,7 +355,6 @@ event = {
 	random = no 
 	persistent = yes
 	
-	
 	trigger = {
 		ai = yes
 		local_flag = AllInit
@@ -366,7 +365,7 @@ event = {
 			country = ITA
 			country = RUS
 			country = USA
-			country = FRA
+			country = VIC
 			country = ENG
 			country = JAP
 			country = SOV
@@ -378,7 +377,7 @@ event = {
 			alliance = { country = ITA }
 			alliance = { country = RUS }
 			alliance = { country = USA }
-			alliance = { country = FRA }
+			alliance = { country = VIC }
 			alliance = { country = ENG }
 			alliance = { country = JAP }
 			alliance = { country = SOV }
@@ -414,7 +413,7 @@ event = {
 			country = ITA
 			country = RUS
 			country = USA
-			country = FRA
+			country = VIC
 			country = ENG
 			country = JAP
 			country = SOV
@@ -426,7 +425,7 @@ event = {
 			alliance = { country = ITA }
 			alliance = { country = RUS }
 			alliance = { country = USA }
-			alliance = { country = FRA }
+			alliance = { country = VIC }
 			alliance = { country = SPA }
 			alliance = { country = SPR }
 			alliance = { country = ENG }
@@ -480,7 +479,7 @@ event = {
 ###############################################
 
 event = {
-	id = 2400035
+	id = 2400034
 	random = no
 	persistent = yes
 	
@@ -489,7 +488,7 @@ event = {
 		ai = yes
 		OR = {
 			atwar = yes
-			policy = { type = professional_army value = 7 }
+			policy = { type = professional_army value = 5 }
 		}
 		NOT = { local_flag = reinf }
 	}
@@ -508,7 +507,7 @@ event = {
 }	
 
 event = {
-	id = 2400036
+	id = 2400035
 	random = no
 	persistent = yes
 
@@ -517,7 +516,7 @@ event = {
 		ai = yes
 		NOT = {
 			atwar = yes
-			policy = { type = professional_army value = 7 }
+			policy = { type = professional_army value = 5 }
 		}
 		NOT = { local_flag = noreinf }
 	}
@@ -533,6 +532,72 @@ event = {
 		command = { type = local_setflag which = noreinf }
 		command = { type = ai which = "Reinforcement_Boost_Down.ai" }
 	}	
+}
+
+##########################
+# Lower panic ratio (will respond better to new fronts/invasions, but may end up pulling garrisons from places where they need to stay)
+##########################
+
+event = {
+	id = 2400036
+	random = no 
+	persistent = yes
+	
+	name = "AI_EVENT"	
+
+	action = {
+		command = { type = local_setflag which = AI_Panic }
+		command = { type = ai which = "panicRatioLow.ai" }
+	}
+}
+
+##########################
+# Reset panic ratio
+##########################
+
+event = {
+	id = 2400037
+	random = no 
+	persistent = yes
+	
+	name = "AI_EVENT"	
+
+	action = {
+		command = { type = local_clrflag which = AI_Panic }
+		command = { type = ai which = "panicRatioHigh.ai" }
+	}
+}
+
+##########################
+# AllDefense set
+##########################
+
+event = {
+	id = 2400038
+	random = no 
+	persistent = yes
+	
+	name = "AI_EVENT"	
+
+	action = {
+		command = { type = local_setflag which = AllDefense }
+	}
+}
+
+##########################
+# AllDefense clear
+##########################
+
+event = {
+	id = 2400039
+	random = no 
+	persistent = yes
+	
+	name = "AI_EVENT"	
+
+	action = {
+		command = { type = local_clrflag which = AllDefense }
+	}
 }
 
 ###############################################
@@ -683,6 +748,32 @@ event = {
 }
 
 event = {
+	id = 2400051
+	random = no
+	persistent = yes
+
+	name = "AI_EVENT"
+
+	action = {
+		command = { type = local_setflag which = exp value = 1 }
+		command = { type = ai which = "EXP_0_01.ai" }
+	}
+}
+
+event = {
+	id = 2400052
+	random = no
+	persistent = yes
+
+	name = "AI_EVENT"
+
+	action = {
+		command = { type = local_setflag which = exp value = 5 }
+		command = { type = ai which = "EXP_0_05.ai" }
+	}
+}
+
+event = {
 	id = 2400055
 	random = no
 	persistent = yes
@@ -714,7 +805,7 @@ event = {
 
 
 event = {
-	id = 2400051
+	id = 2400151
 	persistent = yes
 	
 	name = "Morale collapses"
@@ -731,7 +822,7 @@ event = {
 }
 
 event = {
-	id = 2400052
+	id = 2400152
 	persistent = yes
 	
 	name = "Morale collapses"
@@ -748,7 +839,7 @@ event = {
 }
 
 event = {
-	id = 2400053
+	id = 2400153
 	persistent = yes
 	
 	name = "Morale collapses"
@@ -765,7 +856,7 @@ event = {
 }
 
 event = {
-	id = 2400054
+	id = 2400154
 	persistent = yes
 	
 	name = "Morale collapses"
@@ -782,7 +873,7 @@ event = {
 }
 
 event = {
-	id = 2400060
+	id = 2400160
 	persistent = yes
 	
 	name = "Combat effectiveness reset"
@@ -933,7 +1024,7 @@ event = {
 }
 
 event = {
-	id = 2400061
+	id = 2400161
 	persistent = yes
 	
 	name = "Morale recovers"
@@ -952,7 +1043,7 @@ event = {
 }
 
 event = {
-	id = 2400062
+	id = 2400162
 	persistent = yes
 	
 	name = "Morale recovers"
@@ -971,7 +1062,7 @@ event = {
 }
 
 event = {
-	id = 2400063
+	id = 2400163
 	persistent = yes
 	
 	name = "Morale recovers"
@@ -990,7 +1081,7 @@ event = {
 }
 
 event = {
-	id = 2400064
+	id = 2400164
 	persistent = yes
 	
 	name = "Morale recovers"
@@ -1005,77 +1096,6 @@ event = {
 		command = { type = morale			which = land value = 8 }
 		command = { type = ground_def_eff	when  = 1 value = 0.04 }
 		command = { type = local_setflag which = disOrgGeneric_4 when = 1 value = -1 }
-	}
-}
-
-
-event = {
-	id = 2149070
-	random = no
-	persistent = yes
-	
-	trigger = {
-		local_flag = AllInit
-		OR = {
-			AND = {
-				policy = { type = professional_army value = 3 }
-				NOT = { belligerence = { value = 1 } }
-			}
-			AND = {
-				policy = { type = professional_army value = 4 }
-				NOT = { belligerence = { value = 3 } }
-			}
-			AND = {
-				policy = { type = professional_army value = 5 }
-				NOT = { belligerence = { value = 6 } }
-			}
-			AND = {
-				policy = { type = professional_army value = 6 }
-				NOT = { belligerence = { value = 10 } }
-			}
-			AND = {
-				policy = { type = professional_army value = 7 }
-				NOT = { belligerence = { value = 30 } }
-			}
-			AND = {
-				policy = { type = professional_army value = 8 }
-				NOT = { belligerence = { value = 50 } }
-			}
-			AND = {
-				policy = { type = professional_army value = 9 }
-				NOT = { belligerence = { value = 60 } }
-			}
-			AND = {
-				policy = { type = professional_army value = 10 }
-				NOT = { belligerence = { value = 70 } }
-			}
-		}
-	}
-	
-	name = "Belligerence lower limit"
-	desc = "Our belligerence cannot be lower than what is mandated by our current mobilization level."
-	style = 2
-	picture = "news_paper"
-
-	date = { day = 1 month = january year = 1914 }
-	offset = 15
-	deathdate = { day = 29 month = march year = 1963 }
-
-	action = {
-		name = ACTION_NAME_OK
-		command = { type = belligerence value = -100 } #first, reset
-		#command = { trigger = { policy = { type = professional_army value = 1 } } type = belligerence value = 0 }
-		#command = { trigger = { policy = { type = professional_army value = 2 } } type = belligerence value = 0 }
-		command = { trigger = { policy = { type = professional_army value = 3 } } type = belligerence value = 1 }
-		command = { trigger = { policy = { type = professional_army value = 4 } } type = belligerence value = 2 }
-		command = { trigger = { policy = { type = professional_army value = 5 } } type = belligerence value = 3 }
-		command = { trigger = { policy = { type = professional_army value = 6 } } type = belligerence value = 4 }
-		command = { trigger = { policy = { type = professional_army value = 7 } } type = belligerence value = 20 }
-		command = { trigger = { policy = { type = professional_army value = 8 } } type = belligerence value = 20 }
-		command = { trigger = { policy = { type = professional_army value = 9 } } type = belligerence value = 10 }
-		command = { trigger = { policy = { type = professional_army value = 10 } } type = belligerence value = 10 }
-		
-		command = { type = belligerence value = 5 } #5 extra as buffer, to make sure the event doesn't fire every 15 days
 	}
 }
 
@@ -1138,13 +1158,13 @@ event = {
 			}
 		}
 		OR = {
-			NOT = { country = USA country = FRA country = JAP country = SOV country = GER country = ENG }
+			NOT = { country = USA country = VIC country = JAP country = SOV country = GER country = ENG }
 			AND = {
 				country = USA
 				control = { province = 6093 data = -1 }
 			}
 			AND = {
-				country = FRA
+				country = VIC
 				control = { province = 3139 data = -1 }
 			}
 			AND = {
@@ -1193,9 +1213,9 @@ event = {
 		command = { type = local_clrflag which = nukeBuild }
 		command = { type = free_ic value = 15 }
 		command = { trigger = { nuclear_reactor = 1 } type = construct which = nuclear_reactor where = -4 value = 1 }
-		command = { trigger = { NOT = { nuclear_reactor = 1 } NOT = { country = USA country = FRA country = JAP country = SOV country = GER country = ENG } } type = construct which = nuclear_reactor where = -1 value = 1 }
+		command = { trigger = { NOT = { nuclear_reactor = 1 } NOT = { country = USA country = VIC country = JAP country = SOV country = GER country = ENG } } type = construct which = nuclear_reactor where = -1 value = 1 }
 		command = { trigger = { control = { province = 6093 data = -1 } NOT = { nuclear_reactor = 1 } country = USA }	type = construct which = nuclear_reactor where = 6093 	value = 1 }
-		command = { trigger = { control = { province = 3139 data = -1 } NOT = { nuclear_reactor = 1 } country = FRA } 	type = construct which = nuclear_reactor where = 3139 	value = 1 }
+		command = { trigger = { control = { province = 3139 data = -1 } NOT = { nuclear_reactor = 1 } country = VIC } 	type = construct which = nuclear_reactor where = 3139 	value = 1 }
 		command = { trigger = { control = { province = 3071 data = -1 } NOT = { nuclear_reactor = 1 } country = JAP } 	type = construct which = nuclear_reactor where = 3071 	value = 1 }
 		command = { trigger = { control = { province = 3699 data = -1 } NOT = { nuclear_reactor = 1 } country = SOV } 	type = construct which = nuclear_reactor where = 3699 	value = 1 }
 		command = { trigger = { control = { province = 2597 data = -1 } NOT = { nuclear_reactor = 1 } country = GER } 	type = construct which = nuclear_reactor where = 2597 	value = 1 }
@@ -1945,8 +1965,8 @@ event = {
 		command = { 																									  type = ai 			which = "airStrat.ai"			}
 	}
 	action = {
-		#trigger = { OR = { country = GER country = FRA country = ITA } }
-		trigger = { OR = { country = GER country = FRA country = ITA country = JAP } }
+		#trigger = { OR = { country = GER country = VIC country = ITA } }
+		trigger = { OR = { country = GER country = VIC country = ITA country = JAP } }
 		command = { trigger = { policy = { type = freedom value = 1  } NOT = { policy = { type = freedom value = 2  } } } type = ai 			which = "buildMixed1_2.ai"		}
 		command = { trigger = { policy = { type = freedom value = 1  } NOT = { policy = { type = freedom value = 2  } } } type = local_setflag	which = AI1936_mixed value = 1  }
 		command = { trigger = { policy = { type = freedom value = 2  } NOT = { policy = { type = freedom value = 3  } } } type = ai 			which = "buildMixed1_2.ai"		}
@@ -1971,7 +1991,7 @@ event = {
 		command = { 																									  type = ai 			which = "airMixed.ai"			}
 	}
 	action = {
-		trigger = { NOT = { country = USA country = ENG country = JAP country = GER country = FRA country = ITA } }
+		trigger = { NOT = { country = USA country = ENG country = JAP country = GER country = VIC country = ITA } }
 		command = { trigger = { policy = { type = freedom value = 1  } NOT = { policy = { type = freedom value = 2  } } } type = ai 			which = "buildLand1_2.ai"		}
 		command = { trigger = { policy = { type = freedom value = 1  } NOT = { policy = { type = freedom value = 2  } } } type = local_setflag	which = AI1936_land  value = 1  }
 		command = { trigger = { policy = { type = freedom value = 2  } NOT = { policy = { type = freedom value = 3  } } } type = ai 			which = "buildLand1_2.ai"		}
@@ -2879,7 +2899,7 @@ event = {
 event = {
 	id = 2401100
 	random = no 
-	#tag = { ENG FRA GER ITA }
+	#tag = { ENG VIC GER ITA }
 	tag = { ITA }
 	
 	trigger = {	
@@ -2888,7 +2908,7 @@ event = {
 		NOT = { local_flag = redeployDisabled }
 		NOT = {
 			war = { country = ENG }
-			war = { country = FRA }
+			war = { country = VIC }
 			war = { country = GER }
 			war = { country = SOV }
 		}
@@ -2909,7 +2929,7 @@ event = {
 event = {
 	id = 2401101
 	random = no 
-	#tag = { ENG FRA GER ITA }
+	#tag = { ENG VIC GER ITA }
 	tag = { ITA }
 	
 	trigger = {	
@@ -2918,7 +2938,7 @@ event = {
 		local_flag = redeployDisabled
 		OR = {
 			war = { country = ENG }
-			war = { country = FRA }
+			war = { country = VIC }
 			war = { country = GER }
 			war = { country = SOV }
 		}
@@ -2959,6 +2979,69 @@ event = {
 
 	action = {
 		command = { type = ai which = "nations\ITA_GRE.ai" }
+	}
+}
+
+#Withdraw army from Russia if losing in North Africa
+
+event = {
+	id = 2401105
+	random = no 
+	country = ITA
+	persistent = yes
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		alliance = { country = GER }
+		local_flag = exp
+		OR = {
+			event = 14000051 #defeat in north africa
+			event = 2006014 #anti-fascist coup (automatically causes exp_0)
+			region = { region = "Libya" country = -2 value = 50 }
+		}
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = local_clrflag which = exp }
+		command = { type = ai which = "EXP_0.ai" }
+	}
+}
+
+#exp forces return if situation improved
+
+event = {
+	id = 2401106
+	random = no 
+	country = ITA
+	persistent = yes
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		alliance = { country = GER }
+		NOT = { local_flag = exp }
+		NOT = {
+			event = 2006014 #anti-fascist coup (automatically causes exp_0)
+			region = { region = "Libya" country = -2 value = 30 }
+		}
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = local_setflag which = exp value = 20 }
+		command = { type = ai which = "EXP_20.ai" }
 	}
 }
 
@@ -3073,7 +3156,7 @@ event = {
 	trigger = {	
 		ai = yes
 		local_flag = AllInit
-		war = { country = FRA } 
+		war = { country = VIC } 
 		OR = { 
 			control = { province = 51  data = -2 } # Brussels
 			control = { province = 51  data = -3 } # Brussels
@@ -3110,7 +3193,7 @@ event = {
 		event = 2401204
 		NOT = { lost_national = { country = GER value = 5 } }
 		OR = { 
-			NOT = { war = { country = FRA } }
+			NOT = { war = { country = VIC } }
 			region = { region = "France" country = -3 data = 1 value = 40 }
 		}
 	}
@@ -3222,7 +3305,7 @@ event = {
 			AND = {
 				NOT = { lost_national = { country = GER value = 3 } }
 				OR = { 
-					NOT = { war = { country = FRA } }
+					NOT = { war = { country = VIC } }
 					region = { region = "France" country = -3 data = 1 value = 30 }
 				}
 				OR = {
@@ -3243,6 +3326,58 @@ event = {
 		command = { type = ai which = "garrison30.ai" }
 		command = { type = local_clrflag which = garSpec		}
 		command = { type = local_setflag which = gar value = 30 }
+	}
+}
+
+#Ger temporarily lower PanicRatio in response to invasions
+
+event = {
+	id = 2401220
+	random = no 
+	country = GER
+	persistent = yes
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		year = 1942
+		NOT = { local_flag = AI_Panic }
+		#rebels can trigger this too...
+		OR = {
+			AND = {
+						region	= { region = "Germany" 		country = -2 	data = 1 value = 1  }
+				NOT = { region	= { region = "Germany" 		country = REB 	data = 1 value = 1  } }
+			}
+			AND = {
+						area	= { area = "South Italy"	country = -2 	data = 1 value = 1  }
+				NOT = { area	= { area = "South Italy"	country = REB 	data = 1 value = 1  } }
+			}
+			AND = {
+						area	= { area = "Central Italy"	country = -2 	data = 1 value = 1  }
+				NOT = { area	= { area = "Central Italy"	country = REB 	data = 1 value = 1  } }
+			}
+			AND = {
+						area	= { area = "North Italy"	country = -2 	data = 1 value = 1  }
+				NOT = { area	= { area = "North Italy"	country = REB 	data = 1 value = 1  } }
+			}
+			area	= { area = "Sicilian Gap"	country = -2 data = 1 value = 40 }
+			AND = {
+				event = { id = 2002004 days = 360 } #France fell
+						region = { region = "France" 		country = -2 	data = 1 value = 1 }
+				NOT = { region = { region = "France" 		country = REB	data = 1 value = 1 } }
+			}
+		}
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = event which = 2400036 where = GER when = 0  } #
+		command = { type = event which = 2400037 where = GER when = 60 } #Reset to default in 2 months
 	}
 }
 
@@ -4262,13 +4397,13 @@ event = {
 
 
 ###############################################
-# FRA
+# VIC
 ###############################################
 
 event = {
 	id = 2401500
 	random = no 
-	country = FRA
+	country = VIC
 	
 	trigger = {	
 		ai = yes
@@ -4294,7 +4429,7 @@ event = {
 event = {
 	id = 2401501
 	random = no 
-	country = FRA
+	country = VIC
 	
 	trigger = {	
 		ai = yes
@@ -4325,11 +4460,12 @@ event = {
 event = {
 	id = 2401502
 	random = no 
-	country = FRA
+	country = VIC
 	
 	name = "AI_EVENT"
 	
 	action = {
+		command = { type = local_setflag which = ControlDeny }
 		command = { type = ai which = "noExpGER.ai" }
 	}
 }
@@ -4337,10 +4473,11 @@ event = {
 event = {
 	id = 2401503
 	random = no 
-	country = FRA
+	country = VIC
 	
 	trigger = {	
 		ai = yes
+		flag = FRA_Axis
 		local_flag = AllInit
 		event = 2401502
 		alliance = { country = GER }
@@ -4349,10 +4486,11 @@ event = {
 	name = "AI_EVENT"
 	
 	date = { day = 1 month = january year = 1936 }
-	offset = 15
+	offset = 10
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
+		command = { type = local_clrflag which = ControlDeny }
 		command = { type = ai which = "NOEXP_unenforce.ai" }
 	}
 }
@@ -4366,7 +4504,7 @@ event = {
 		ai = yes
 		local_flag = AllInit
 		alliance = { country = GER }
-		puppet = { country = FRA country = GER }
+		puppet = { country = VIC country = GER }
 	}
 
 	name = "AI_EVENT"
@@ -4517,9 +4655,13 @@ event = {
 		NOT = { event = 2002004 }
 		NOT = { year = 1942 }
 		NOT = { alliance = { country = USA } }
-		NOT = { country = FRA }
-		NOT = { country = POL }
-		NOT = { country = U36 }
+		NOT = { 
+			country = VIC
+			country = POL
+			country = U36
+			country = BEL
+			country = HOL
+		}
 		war = { country = GER }
 		NOT = { region = { region = "Benelux" country = -3 data = 1 value = 50 } }	#Losing in Benelux
 		OR = {
@@ -4540,9 +4682,10 @@ event = {
 	name = "AI_EVENT"
 	
 	#80-90% of the time the AI just makes things worse when it tries to evacuate the troops, so, disabled.
-	#date = { day = 1 month = january year = 1936 }
-	#offset = 2 #Need to make a decision very quickly
-	#deathdate = { day = 29 month = december year = 1963 }
+	#but there is a problem with england beaches otherwise...
+	date = { day = 1 month = january year = 1936 }
+	offset = 2 #Need to make a decision very quickly
+	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
 		command = { type = local_setflag which = noExpFRA }
@@ -4570,7 +4713,7 @@ event = {
 		ai = yes
 		local_flag = AllInit
 		OR = {
-			NOT = { alliance = { country = FRA } }
+			NOT = { alliance = { country = VIC } }
 			event = { id = 2002004 days = 120 }
 		}
 	}
@@ -4627,8 +4770,8 @@ event = {
 		local_flag = AllInit
 		war = { country = GER }
 		OR = { 
-			war 	 = { country = FRA }
-			alliance = { country = FRA }
+			war 	 = { country = VIC }
+			alliance = { country = VIC }
 			alliance = { country = U01 }
 		}
 		region = { region = "France" country = -2 value = 40 }
@@ -4643,6 +4786,7 @@ event = {
 
 	action = {
 		command = { type = add_claim_region which = "France" }
+		command = { type = add_claim_region which = "Benelux" }
 	}
 }
 
@@ -4669,7 +4813,8 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		command = { type = add_claim_region which = "France" }
+		command = { type = remove_claim_region which = "France" }
+		command = { type = remove_claim_region which = "Benelux" }
 	}
 }
 
@@ -4688,7 +4833,7 @@ event = {
 			war 	 = { country = RSI }
 			alliance = { country = ITA }
 		}
-		region = { region = "Italy" country = -2 value = 40 }
+		region = { region = "Italy" country = -2 value = 20 }
 		NOT = { claims = { province = 515 } }
 	}
 
@@ -4699,7 +4844,7 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		command = { type = remove_claim_region which = "Italy" }
+		command = { type = add_claim_region which = "Italy" }
 	}
 }
 
@@ -4714,7 +4859,7 @@ event = {
 		local_flag = AllInit
 		OR = { 
 			NOT = { war = { country = GER } }
-			NOT = { region = { region = "Italy" country = -2 value = 5 } }
+			NOT = { region = { region = "Italy" country = -2 value = 20 } }
 		}
 		claims = { province = 515 }
 	}
@@ -4832,7 +4977,7 @@ event = {
 		atwar = yes
 		OR = {
 			alliance 	= { country = ENG }
-			alliance 	= { country = FRA }
+			alliance 	= { country = VIC }
 			NOT = { flag = GER_USA_undeclared_war }
 		}
 	}
@@ -4904,14 +5049,14 @@ event = {
 		command = { type = disorg_division   which = 12700 value = 10021 where = -100 }
 		command = { type = disorg_division   which = 12700 value = 10022 where = -100 }
 		
-		command = { trigger = { ai = FRA } type = event which = 2405001 where = FRA when = 0 }
+		command = { trigger = { ai = VIC } type = event which = 2405001 where = VIC when = 0 }
 	}
 }
 
 event = {
 	id = 2405001
 	random = no
-	country = FRA
+	country = VIC
 
 	name = "AI_EVENT"
 
@@ -5168,17 +5313,25 @@ event = {
 		alliance 	= { country = ENG }
 		war 		= { country = GER }
 		war			= { country = GER country = SOV }
-		control = { province = 56 data = -2 } #paris
 		event = { id = 2002004 days = 360 } #1 year since the defeat of france
-		NOT = { region = { region = "France" country = -3 value = 5 } }
-		NOT = { region = { region = "Egypt" country = -2 value = 25 } }
+		NOT = { area = { area = "Normandy" 		country = -3 value = 90 } }
+		NOT = { region = { region = "Egypt" 	country = -2 value = 25 } }
 		OR = {
 			AND = {
-				region = { region = "Libya" country = -3 value = 50 } #Advancing across Libya
-				event = { id = 2002004 days = 1440 } #4 years since the defeat of france
+				region = { region = "Libya" country = -3 value = 80 } #Advancing across Libya
+				event = { id = 2002004 days = 1260 } #3.5 years since the defeat of france
 			}
-			NOT = {	control = { province = 515 data = -2 } } #Took Rome /Italy neutral 
+			control = { province = 515 data = -3 } #Rome
+			control = { province = 485 data = -3 } #Warsaw
+			control = { province = 510 data = -3 } #Konigsberg
 		}
+		
+		#Need at least 50 days from the Dragoon invasion to rebase the transports. The allies originally planned to launch both operations at the same time, but realized that they don't have enough landing craft
+		OR = {
+			event = { id = 2405050 days = 50 }
+			NOT = { event = 2405050 }
+		}
+		
 		month = 2
 		NOT = { month = 10 }
 		OR = {
@@ -5366,7 +5519,10 @@ event = {
 		event = 2405040
 		alliance 	= { country = USA }
 		OR = {
-			control = { province = 39 	data = -1 }
+			control = { province = 37 	data = -1 }
+			control = { province = 38 	data = -1 }
+			control = { province = 40 	data = -1 }
+			control = { province = 2555	data = -1 }
 			control = { province = 3160 data = -1 }
 		}
 	}
@@ -5380,6 +5536,35 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		command = { type = secederegion which = USA value = "France" when = 1 }
+		
+		command = { trigger = { control = { province = 3057 data = -3 } claims = { province = 39	data = ENG } ai = yes } type = secedeprovince which = ENG value = 39	when = 2 } #tmp
+	}
+}
+
+event = { 
+	id = 2405044
+	random = no 
+	tag = { CAN USA }
+	
+	trigger = {
+		ai = yes
+		event = 2405040
+		alliance 	= { country = ENG }
+		control = { province = 39 	data = -1 }
+	}
+
+	#date = { day = 0 month = january year = 1936 }
+	#offset = 5
+	#deathdate = { day = 29 month = january year = 1960 }
+	
+	name = "AI_EVENT"
+	
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = secederegion which = ENG value = "France" when = 1 }
+		
+		command = { trigger = { control = { province = 3160 data = -3 } claims = { province = 3160	data = USA } ai = yes } type = secedeprovince which = USA value = 3160	when = 2 } #tmp
+		command = { trigger = { control = { province = 3160 data = -3 } claims = { province = 365	data = USA } ai = yes } type = secedeprovince which = USA value = 365	when = 2 } #tmp
 	}
 }
 
@@ -5389,6 +5574,7 @@ event = {
 	id = 2405050
 	random = no 
 	country = USA
+	save_date = yes
 	
 	trigger = {
 		ai = yes
@@ -5396,20 +5582,43 @@ event = {
 		NOT 		= { local_flag = war_preparedness_debuff }
 		alliance 	= { country = ENG }
 		war 		= { country = GER }
+		war			= { country = GER country = SOV }
+		event = { id = 2002004 days = 360 } #1 year since the defeat of france
+		NOT = { area = { area = "Alpes_Provence"	country = -3 value = 90 } }
+		NOT = { region = { region = "Egypt" 		country = -2 value = 25 } }
 		OR = { 
-			alliance	= { country = FRA }
-			#alliance	= { country = U01 }
+			alliance	= { country = VIC }
+			alliance	= { country = U01 }
 		}
 		OR = {
 			control = { province = 365 data = -2 }
 			control = { province = 365 data = -3 }
 		}
 		OR = {
-			NOT = { war = { country = FRA } }
-			NOT = { non_aggression = { country = FRA country = ENG } }
+			NOT = { war = { country = VIC } }
+			NOT = { non_aggression = { country = VIC country = ENG } }
 		}
-		#Need at least 30 days from the Normandy invasion to rebase the transports. The allies originally planned to launch both operations at the same time, but realized that they don't have enough landing craft
-		event = { id = 2405040 days = 30 }
+		OR = {
+			AND = {
+				region = { region = "Libya" country = -3 value = 80 } #Advancing across Libya
+				event = { id = 2002004 days = 1260 } #3.5 years since the defeat of france
+			}
+			control = { province = 515 data = -3 } #Rome
+			control = { province = 485 data = -3 } #Warsaw
+			control = { province = 510 data = -3 } #Konigsberg
+		}
+		
+		#Need at least 50 days from the Normandy invasion to rebase the transports. The allies originally planned to launch both operations at the same time, but realized that they don't have enough landing craft
+		OR = {
+			event = { id = 2405040 days = 50 }
+			NOT = { event = 2405040 }
+		}
+		#Will try to launch after Normandy, but sometimes can launch first
+		OR = {
+			event = 2405040
+			control = { province = 3160 data = -3 }
+			random = 10
+		}
 		OR = {
 			ai = GER
 			AND = {
@@ -5467,15 +5676,15 @@ event = {
 		command = { type = disorg_division   which = 14800 value = 853 where = -100 }
 		command = { type = disorg_division   which = 14800 value = 854 where = -100 }
 		
-		command = { trigger = { alliance = { country = FRA } } type = event which = 2405051 where = FRA when = 0 }	
-		#command = { trigger = { alliance = { country = U01 } } type = event which = 2405051 where = U01 when = 0 }	#TBD
+		command = { trigger = { alliance = { country = VIC } } type = event which = 2405051 where = VIC when = 0 }	
+		command = { trigger = { alliance = { country = U01 } } type = event which = 2405051 where = U01 when = 0 }	#TBD
 	}
 }
 
 event = { 
 	id = 2405051
 	random = no 
-	tag = { FRA }
+	tag = { VIC U01 }
 	
 	name = "AI_EVENT"
 	
@@ -5513,13 +5722,58 @@ event = {
 event = { 
 	id = 2405052
 	random = no 
-	tag = { FRA }
+	tag = { VIC ENG }
 	
 	trigger = {
 		ai = yes
 		event = 2405050
 		alliance 	= { country = USA }
 		control = { province = 365 	data = -1 }
+	}
+
+	#date = { day = 0 month = january year = 1936 }
+	#offset = 5
+	#deathdate = { day = 29 month = january year = 1960 }
+	
+	name = "AI_EVENT"
+	
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = secederegion which = USA value = "France" when = 1 }
+	}
+}
+
+event = { 
+	id = 2405053
+	random = no 
+	tag = { VIC USA }
+	
+	trigger = {
+		ai = yes
+		event = 2405050
+		alliance 	= { country = ENG }
+		control = { province = 365 	data = -1 }
+	}
+
+	#date = { day = 0 month = january year = 1936 }
+	#offset = 5
+	#deathdate = { day = 29 month = january year = 1960 }
+	
+	name = "AI_EVENT"
+	
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = secederegion which = ENG value = "France" when = 1 }
+	}
+}
+
+event = { 
+	id = 2405057
+	random = no 
+	tag = { ITA }
+	
+	trigger = {
+		ai = yes
 	}
 
 	date = { day = 0 month = january year = 1936 }
@@ -5530,7 +5784,63 @@ event = {
 	
 	action = {
 		name = ACTION_NAME_OK
-		command = { type = secederegion which = USA value = "France" when = 1 }
+		command = { type = remove_units which = all where = ITA when = 2 value = "Libya" }
+		command = { type = remove_units which = all where = GER when = 2 value = "Libya" }
+		command = { type = add_claim_region which = "Libya"  where = ENG } 
+		command = { type = secederegion which = ENG value = "Libya" when = 1 }
+		command = { type = secederegion which = ENG value = "Central Africa" when = 1 }
+	}
+}
+
+event = { 
+	id = 2405058
+	random = no 
+	tag = { JAP MAN MEN U87 }
+	persistent = yes
+	
+	trigger = {
+		ai = yes
+	}
+
+	#date = { day = 0 month = january year = 1936 }
+	#offset = 10
+	#deathdate = { day = 29 month = january year = 1960 }
+	
+	name = "AI_EVENT"
+	
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = leave_alliance when = 1 }
+	}
+}
+
+event = { 
+	id = 2405059
+	random = no 
+	persistent = yes
+	
+	trigger = {
+		NOT = {
+			country = USA
+			country = CAN
+			country = HOL
+		}
+		OR = {
+			continent = "South America"
+			continent = "North America"
+		}
+		ai = yes
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 10
+	deathdate = { day = 29 month = january year = 1960 }
+	
+	name = "AI_EVENT"
+	
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = leave_alliance when = 1 }
 	}
 }
 
@@ -5551,7 +5861,8 @@ event = {
 		war			= { country = GER country = SOV }
 		event = { id = 2002004 days = 360 } #1 year since the defeat of france
 		NOT = { region = { region = "Egypt" country = -2 value = 25 } }
-		region = { region = "Libya" country = -3 value = 80 }
+		NOT = { region = { region = "Libya" country = -2 value = 80 } }
+		event = { id = 14000051 days = 30 } #ITA defeat in north africa 
 		OR = {
 			AND = {
 				region = { region = "Algeria" country = -3 value = 90 }
@@ -5559,8 +5870,8 @@ event = {
 			}
 			event = { id = 2002004 days = 1080 } #3 years since the defeat of france
 		}
-		month = 2
-		NOT = { month = 10 }
+		#month = 2
+		#NOT = { month = 10 }
 		OR = {
 			ai = GER
 			AND = {
@@ -5612,7 +5923,7 @@ event = {
 		command = { type = activate_division which = 14800 value = 870 where = 3058	when = 1 } #9th 'Varsity' Division #arm brigade
 		command = { type = activate_division which = 14800 value = 871 where = 3058	when = 1 } #82nd 'All American' Division
 		#Attached but did not actually participate
-		#command = { type = activate_division which = 14800 value = 872 where = 3058 when = 1 } #46th British Division
+		#46th British Division
 
 		#7th Army (George S. Patton) / TF West
 		command = { type = add_corps which = "7th Army" 			value = land where = 3058 } 	# George S. Patton (auto-assign)
@@ -5657,7 +5968,7 @@ event = {
 		command = { trigger = { event = 2405030 }			type = remove_division 					which = 14800 value = 808 }		#1st/4th Special Service Brigades
 		command = { trigger = { event = 2405040 }			type = remove_division 					which = 14800 value = 835 }		#1st/4th Special Service Brigades
 		command = { trigger = { NOT = { event = 2405030 event = 2405040 } }
-															type = demobilize which = marine 	when = 1 where = 1 value = -1 }		#1st/4th Special Service Brigades
+															type = demobilize which = marine 		when = 1 where = 1 value = -1 }		#1st/4th Special Service Brigades
 		command = { 										type = remove_division 					which = 12700 value = 5 }		#5th 'Globe Trotters' Division
 		command = { trigger = { event = 2405000 }			type = remove_division 					which = 12700 value = 10020 }	#5th 'Globe Trotters' Division
 		command = { 										type = remove_division 					which = 12700 value = 1502 }	#50th 'Northumbrian' Division
@@ -5691,7 +6002,7 @@ event = {
 		
 		#Corkscrew
 		command = { type = remove_units which = land where = -2 when = 0 value = 6525 } #province is impossible to defend, the garrison surrendered as soon as the enemy landed
-		command = { type = add_corps which = "XIII Corps (P)" value = land where = 6525 when = 10060 } 		# Walter Clutterbuck
+		command = { type = add_corps which = "XIII Corps (P)" value = land where = 6525 when = 10060 } 			# Walter Clutterbuck
 		command = { type = activate_division which = 14800 value = 885 where = 6525 when = 1 } #1st Infantry Division
 
 
@@ -5730,15 +6041,15 @@ event = {
 event = { 
 	id = 2405063
 	random = no 
-	tag = { CAN ENG }
+	tag = { CAN USA }
 	
 	trigger = {
 		ai = yes
 		event = 2405060
-		alliance 	= { country = USA }
+		alliance 	= { country = ENG }
 		OR = {
-			control = { province = 3058	data = -1 }
-			control = { province = 6525	data = -1 }
+			#control = { province = 3058	data = -1 }
+			#control = { province = 6525	data = -1 }
 			control = { province = 3057 data = -1 }
 		}
 	}
@@ -5751,7 +6062,38 @@ event = {
 	
 	action = {
 		name = ACTION_NAME_OK
-		command = { type = secederegion which = USA value = "Italy" when = 1 }
+		#command = { type = secederegion which = ENG value = "Italy" when = 1 }
+		command = { type = secedeprovince which = ENG value = 3057 when = 2 }
+	}
+}
+
+event = { 
+	id = 2405064
+	random = no 
+	tag = { CAN ENG }
+	
+	trigger = {
+		ai = yes
+		event = 2405060
+		alliance 	= { country = USA }
+		OR = {
+			control = { province = 3058	data = -1 }
+			#control = { province = 6525	data = -1 }
+			#control = { province = 3057 data = -1 }
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = january year = 1960 }
+	
+	name = "AI_EVENT"
+	
+	action = {
+		name = ACTION_NAME_OK
+		#command = { type = secederegion which = USA value = "Italy" when = 1 }
+		#command = { type = secedeprovince which = ENG value = 31 when = 2 } #malta
+		command = { type = secedeprovince which = USA value = 3058 when = 2 }
 	}
 }
 
@@ -5767,7 +6109,7 @@ event = {
 	action = {
 		command = { 												type = demobilize which = militia 		when = 1 where = 1 	value = -1   }
 		command = { trigger = { 		marine = { value = 1 } }	type = demobilize which = marine 		when = 1 where = 1 	value = -1   }
-		command = { trigger = { NOT = {	marine = { value = 1 } } }	type = remove_division					which = 12700 		value = 1504 } #46th Infantry
+		command = { trigger = { NOT = {	marine = { value = 1 } } }	type = remove_division					which = 12700 		value = 507  } #45th Infantry
 		
 		command = { type = add_corps which = "Iceland"		value = land	where = 1	when = 10244 } #Robert Sturges
 		command = { type = activate_division which = 14800 	value = 900		where = 1	when = 1 } 
@@ -5781,6 +6123,87 @@ event = {
 		command = { type = disorg_division   which = 14800 value = 900 where = -100 }
 		command = { type = disorg_division   which = 14800 value = 901 where = -100 }
 		command = { type = disorg_division   which = 14800 value = 902 where = -100 }
+	}
+}
+
+#Manna ENG
+
+event = { 
+	id = 2405075
+	random = no 
+	country = ENG
+	
+	trigger = {
+		ai = yes
+		ai = ENG
+		war 		= { country = GER }
+		war 		= { country = GER country = U33 }
+		OR = {
+			alliance = { country = BUL country = SOV }
+			alliance = { country = U29 country = SOV }
+			area = { area = "Bulgaria" 		country = SOV	data = 1 value = 80 }
+		}
+		OR = {
+			ai = GER
+			AND = {
+				NOT = { garrison = { country = -2	province = 401		type = land size = 4  area = 0 } }
+				NOT = { garrison = { country = -2	province = 401		type = land size = 9  area = 1 } }
+			}
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 10
+	deathdate = { day = 29 month = january year = 1960 }
+	
+	name = "AI_EVENT"
+	
+	action = {
+		name = ACTION_NAME_OK
+		command = { 										type = demobilize which = hq			when = 1 where = 1 	value = -1 		} 	#3rd Army Corps HQ
+		command = { 										type = remove_division 					which = 12700 		value = 522 	}	#4th Infantry Division + 23rd Armored Brigade
+		command = { 										type = remove_division 					which = 12700 		value = 1504 	}	#46th Infantry Division
+		command = { 										type = demobilize which = paratrooper	when = 1 where = 1 	value = -1 		} 	#2nd Parachute Brigade/5th Indian Brigade
+		command = { 										type = demobilize which = bergsjaeger	when = 1 where = 1 	value = -1 		} 	#3rd Greek Mountain Brigade/1st Greek Brigade
+		command = { 										type = demobilize which = militia		when = 1 where = 1 	value = -1 		} 	#Security Battalions/Gendarmerie
+		
+		#Subtracting from ENG instead of U02 because most of the Indian army is exp_forced to ENG at this point
+		command = { type = demobilize which = infantry		when = 1 where = 1 	value = -1 		} 	#4th Indian Division
+
+		command = { type = add_corps which = "3rd Army Group"		value = land where = 401 when = 10233 }	# Sir Ronald Scobie
+		command = { type = activate_division which = 14800 value = 910 where = 401	when = 1 } #3rd Army Corps HQ
+		command = { type = activate_division which = 14800 value = 911 where = 401	when = 1 } #4th Infantry Division + 23rd Armored Brigade
+		command = { type = activate_division which = 14800 value = 912 where = 401	when = 1 } #46th Infantry Division
+		command = { type = activate_division which = 14800 value = 913 where = 401	when = 1 } #2nd Parachute Brigade/5th Indian Brigade
+		command = { type = activate_division which = 14800 value = 914 where = 401	when = 1 } #3rd Greek Mountain Brigade/1st Greek Brigade
+		command = { type = activate_division which = 14800 value = 915 where = 401	when = 1 } #Security Battalions/Gendarmerie
+
+		command = { type = disorg_division   which = 14800 value = 910 where = -100 }
+		command = { type = disorg_division   which = 14800 value = 911 where = -100 }
+		command = { type = disorg_division   which = 14800 value = 912 where = -100 }
+		command = { type = disorg_division   which = 14800 value = 913 where = -100 }
+		command = { type = disorg_division   which = 14800 value = 914 where = -100 }
+		command = { type = disorg_division   which = 14800 value = 915 where = -100 }
+		
+		command = { type = event which = 2405076 where = U02 when = 30 } #4th Indian Division (and 46th British) actually came in a bit later
+	}
+}
+
+event = { 
+	id = 2405076
+	random = no 
+	country = U02
+	
+	name = "AI_EVENT"
+	
+	action = {
+		name = ACTION_NAME_OK
+		#command = { type = demobilize which = infantry		when = 1 where = 1 	value = -1 		} 	#4th Indian Division
+
+		command = { type = add_corps which = "4th Indian Division"	value = land where = 401 when = 10136 } # Arthur Holworthy (ENG)
+		command = { type = activate_division which = 14800 value = 916 where = 401	when = 1 } #4th Indian Division
+
+		command = { type = disorg_division   which = 14800 value = 916 where = -100 }
 	}
 }
 
