@@ -390,6 +390,10 @@ event = {
 		OR = {
 			lost_national = { country = GER value = 10 } #Germany is invaded by the Allies
 			AND = {
+				flag = ENG_invaded
+				random = 30
+			}
+			AND = {
 				event = { id = 2007030 days = 30 } # Finished reogranization of the Red Army (Nov 1942)
 				OR = {
 					NOT = { event = 2003025 } #M-R pact
@@ -399,10 +403,6 @@ event = {
 				NOT = { month = 9 }	
 				random = 40
 			}
-			region 	= { region 	= "Scotland"		country = GER value = 5  } #Sealion
-			area 	= { area 	= "North England"	country = GER value = 10 } #Sealion
-			area 	= { area 	= "West England"	country = GER value = 30 } #Sealion
-			area 	= { area 	= "East England"	country = GER value = 30 } #Sealion
 		}
 		#Under normal circumstances, USSR will attack in early 1943
 		#Will also attack if Germany does sealion, but will wait for the US to join first.
@@ -3035,6 +3035,458 @@ event = {
 
 
 #########################################################################
+#  Compromise peace with the Germans
+#########################################################################
+event = {
+	id = 2007200
+	random = no
+	country = SOV
+
+	decision = {
+		war = { country = GER }
+		policy = { country = SOV type = professional_army value = 9 } #Extended mob
+	}
+	decision_trigger = {
+		policy = { country = GER type = professional_army value = 9 } #Extended mob
+		NOT = { manpower = 1000 }
+		NOT = { lost_national = { country = SOV value = 15 } }
+		NOT = { lost_national = { country = GER value = 15 } }
+		losses = { country = SOV type = manpower value = 10000000	data = 0 }
+		losses = { country = GER type = manpower value = 5000000	data = 0 }
+	}
+	trigger = {
+		war = { country = GER }
+		policy = { country = SOV type = professional_army value = 9 } #Extended mob
+		policy = { country = GER type = professional_army value = 9 } #Extended mob
+		NOT = { lost_national = { country = SOV value = 15 } }
+		NOT = { lost_national = { country = GER value = 15 } }
+		losses = { country = SOV type = manpower value = 10000000	data = 0 }
+		losses = { country = GER type = manpower value = 5000000	data = 0 }
+		NOT = { event = 2003181 } #July plot. That means there is a two-front war and Germany is getting close to defeat
+	}
+	
+	name = "Peace Negotiations"
+	desc = "After years of brutal and destructive conflict, even the seemingly inexhaustable manpower reserves of the Soviet Union are nearing depletion. We will not be able to prosecute this war at the current level of intensity for much longer. Meanwhile, our opponent still stands, and does not appear to be close to defeat. Yet, we have been receiving signals from the other side indicating that they are growing tired of this war as well and would prefer to settle it soon, even if their initial goals are nowhere close to achieved. Should we open the negotiations with them?"
+	style = 2
+	picture = "news_paper"
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 30
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	action = {
+		name = "Open the negotiations with Germany"
+		command = { trigger = { war = { country = ENG country = GER }} type = relation which = ENG value = -15 }
+		command = { trigger = { war = { country = U01 country = GER }} type = relation which = U01 value = -15 }
+		command = { trigger = { war = { country = USA country = GER }} type = relation which = USA value = -15 }
+		command = { type = event which = 2007201 where = GER when = 15 }
+	}
+}
+event = {
+	id = 2007201
+	random = no
+	country = GER
+	
+	name = "A bitter compromise"
+	desc = "After years of brutal and destructive conflict, even the seemingly inexhaustable manpower reserves of Germany and its allies are nearing depletion. We will not be able to prosecute this war at the current level of intensity for much longer. Meanwhile, our opponent still stands, and does not appear to be close to defeat. Yet, we have been receiving signals from the other side indicating that they are growing tired of this war as well and would prefer to settle it soon. In fact, a representative of the Soviet government approached us recently and arranged for a back-channel of negotiations to find out conditions for a possible peace settlment. This may be our one and only chance to get out of this bloody mess."
+	style = 2
+	picture = "news_paper"
+	
+	action = {
+		name = "Propose white peace"
+		ai_chance = 100
+		trigger = {
+			OR = {
+				ai = no
+				AND = {
+					NOT = { lost_national = { country = SOV value = 5 } }
+					NOT = { lost_national = { country = GER value = 5 } }
+					NOT = { control = { province = 485 data = -2 } } #Warsaw
+					NOT = { control = { province = 424 data = -2 } } #Bucharest
+				}
+			}
+		}
+		command = { type = event which = 2007202 where = SOV when = 3 }
+	}
+	action = {
+		name = "Propose Soviet withdrawal to pre 1939 border"
+		ai_chance = 100
+		trigger = {
+			OR = {
+				ai = no
+				AND = {
+					lost_national = { country = SOV value = 5 }
+					NOT = { lost_national = { country = GER value = 5 } }
+					NOT = { control = { province = 485 data = -2 } } #Warsaw
+					NOT = { control = { province = 424 data = -2 } } #Bucharest
+				}
+			}
+		}
+		
+		command = { type = add_claim_region which = "Baltic States"	where = GER }
+		command = { type = add_claim_region which = "Poland" 		where = GER }
+		
+		command = { type = event which = 2007203 where = SOV when = 3 }
+	}
+	action = {
+		name = "Propose German withdrawal from Finland and East Balkans"
+		ai_chance = 100
+		trigger = {
+			OR = {
+				ai = no
+				AND = {
+					NOT = { lost_national = { country = SOV value = 5 } }
+					OR = { 
+						lost_national = { country = GER value = 5 }
+						control = { province = 485 data = -2 } #Warsaw
+						control = { province = 424 data = -2 } #Bucharest
+					}
+				}
+			}
+		}
+		command = { type = event which = 2007204 where = SOV when = 3 }
+	}
+	action = {
+		name = "ACTIONNAME2024B" # No peace with the bolsheviks!
+		ai_chance = 0
+		command = { type = dissent value = 1 }
+		command = { type = event which = 2007205 where = SOV when = 3 }
+	}
+}
+
+##########################################################################
+#  White Peace
+##########################################################################
+event = {
+	id = 2007202
+	random = no
+	country = SOV
+	
+	name = "White Peace"
+	desc = "After weeks of negotiations, the German side settled on a deal that would essentially restore the status quo between the two sides prior to the beginning of the conflict. Of course, that would mean that the aggressor did not pay for its crimes, and the massive death and destruction he has unleashed upon out people would remain unpunished. However, it would still be our defensive victory, and given the exhaustion of our people, it may be best to accept this deal for the forseeable future."
+	style = 2
+	picture = "news_paper"
+
+    action = {
+        name = ACTION_NAME_ACCEPT
+		ai_chance = 99
+		trigger = {
+			OR = {
+				ai = no
+				AND = {
+					NOT = { lost_national = { country = SOV value = 5 } }
+					NOT = { lost_national = { country = GER value = 5 } }
+					NOT = { control = { province = 485 data = -3 } } #Warsaw
+					NOT = { control = { province = 424 data = -3 } } #Bucharest
+				}
+			}
+		}
+		
+		command = { type = setflag which = GerSovPeace1 }
+		
+		command = { type = peace which = GER value = 0 }
+		command = { type = peace which = JAP value = 0 }
+		
+		command = { type = independence	which = FIN value = 1 }
+		command = { type = end_mastery	which = FIN }
+		command = { type = independence	which = ROM value = 1 }
+		command = { type = end_mastery	which = ROM }
+		
+		command = { type = secederegion which = FIN value = "Finland"		when = 2 }
+		command = { type = secederegion which = ROM value = "Romania"		when = 1 }
+		command = { type = secederegion which = GER value = "Poland"		when = 2 }
+		command = { type = secederegion which = SOV value = "Belarus"		when = 2 }
+		command = { type = secederegion which = SOV value = "Ukraine"		when = 2 }
+		command = { type = secederegion which = SOV value = "Baltic States"	when = 2 }
+		
+		command = { 							   type = secedeprovince which = GER value = 2606 				when = 2 }
+		
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 123				when = 2 }
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 143				when = 2 }
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 145				when = 2 }
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 146				when = 2 }
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 3344				when = 2 }
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 3323				when = 2 }
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 2305				when = 2 }
+		
+		command = { trigger = { event = 20070280 } type = secedeprovince which = SOV value = 2305				when = 2 }
+		command = { trigger = { event = 20070280 } type = secedeprovince which = SOV value = 3323				when = 2 }
+		command = { trigger = { event = 20070280 } type = secedeprovince which = SOV value = 123				when = 2 }
+		command = { trigger = { event = 20070280 } type = secedeprovince which = FIN value = 3347				when = 2 }
+		command = { trigger = { event = 20070280 } type = secedeprovince which = FIN value = 7156				when = 2 }
+		
+		command = { trigger = { event = 2007022 }  type = secedearea	 which = SOV value = "Bessarabia"		when = 2 }
+		command = { trigger = { event = 2007022 }  type = secedeprovince which = SOV value = 1173				when = 2 }
+		
+		command = { trigger = { event = 2007042 }  type = secedearea	 which = SOV value = "Grodno"			when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedearea	 which = SOV value = "Polotsk"			when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedearea	 which = SOV value = "Brest Litovsk"	when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedearea 	 which = SOV value = "Lvov"				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = SOV value = 3279 				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = SOV value = 214 				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = SOV value = 7263 				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = SOV value = 7980 				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = GER value = 504  				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = GER value = 3270 				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = GER value = 509 				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = GER value = 2296 				when = 2 }
+		
+		command = { type = event which = 2007206 where = GER when = 1 }
+	}
+    action = {
+        name = ACTION_NAME_DECLINE
+		ai_chance = 1
+		command = { type = dissent 		value = 1 }
+		command = { type = belligerence	value = 1 }
+		
+		command = { type = event which = 2007207 where = GER when = 1 }
+	}
+}
+
+##########################################################################
+#  Compromise Peace - German Gain
+##########################################################################
+event = {
+	id = 2007203
+	random = no
+	country = SOV
+	
+	name = "Compromise Peace - German Gain"
+	desc = "After weeks of negotiations, the German side settled on a deal that would essentially restore the Soviet Union back to its pre-1939 border, meaning Eastern Poland, Baltic States, and parts of Finland would go to German control. Of course, that would mean that the aggressor not only did not pay for its crimes, the massive death and destruction he has unleashed upon out people would remain unpunished, but on top of that he is rewarded with territorial gain. However, given the amount of blood he has paid for this gain, it would still be a phyrric victory for him, and a defensive victory for us - given that his real aims in this conflict have clearly not been achieved. It's a tough pill to swallow, but given the exhaustion of our people, it may be best to accept this deal for the forseeable future."
+	style = 2
+	picture = "news_paper"
+
+    action = {
+        name = ACTION_NAME_ACCEPT
+		ai_chance = 99
+		trigger = {
+			OR = {
+				ai = no
+				AND = {
+					lost_national = { country = SOV value = 5 }
+					NOT = { lost_national = { country = GER value = 5 } }
+					NOT = { control = { province = 485 data = -3 } } #Warsaw
+					NOT = { control = { province = 424 data = -3 } } #Bucharest
+				}
+			}
+		}
+		
+		command = { type = setflag which = GerSovPeace2 }
+		
+		command = { type = peace which = GER value = 0 }
+		command = { type = peace which = JAP value = 0 }
+		
+		command = { type = dissent value = 3 }
+		command = { type = independence	which = FIN value = 1 }
+		command = { type = end_mastery	which = FIN }
+		command = { type = independence	which = ROM value = 1 }
+		command = { type = end_mastery	which = ROM }
+		
+		command = { type = secederegion which = GER value = "Poland"	when = 2 }
+		
+		command = { type = secederegion which = FIN value = "Finland"		when = 2 }
+		command = { type = secederegion which = ROM value = "Romania"		when = 1 }
+		command = { type = secederegion which = GER value = "Poland"		when = 2 }
+		command = { type = secederegion which = SOV value = "Belarus"		when = 2 }
+		command = { type = secederegion which = SOV value = "Ukraine"		when = 2 }
+		command = { type = secederegion which = GER value = "Baltic States"	when = 2 }
+		
+		command = { type = event which = 2007206 where = GER when = 1 }
+	}
+    action = {
+        name = ACTION_NAME_DECLINE
+		ai_chance = 1
+		command = { }
+		command = { type = event which = 2007207 where = GER when = 1 }
+	}
+}
+
+##########################################################################
+#  Compromise Peace - Soviet Gain
+##########################################################################
+event = {
+	id = 2007204
+	random = no
+	country = SOV
+	
+	name = "Compromise Peace - Soviet Gain"
+	desc = "After weeks of negotiations, the German side settled on a deal that would remove German forces and influence from Finland and East Balkans (Romania and Bulgaria), effectively ceding them to our control, while restoring the pre-war border between the USSR and Germany as spelled out in the previous agreements between the two sides. Of course, for the German aggressor these concessions are a very small price to pay for the crimes he committed, and the massive death and destruction he has unleashed upon out people. However, this is still a major victory for - we were not only able to defend our sovereignty and independence, but we ended up making gains and sqeezing concessions out of the enemy in the end. While it's tempting to push for total victory, given the exhaustion of our people, it may be best to accept this deal for the forseeable future."
+	style = 2
+	picture = "news_paper"
+
+    action = {
+        name = ACTION_NAME_ACCEPT
+		ai_chance = 99
+		trigger = {
+			OR = {
+				ai = no
+				AND = {
+					NOT = { lost_national = { country = SOV value = 5 } }
+					OR = { 
+						lost_national = { country = GER value = 5 }
+						control = { province = 485 data = -2 } #Warsaw
+						control = { province = 424 data = -2 } #Bucharest
+					}
+				}
+			}
+		}
+		
+		command = { type = setflag which = GerSovPeace3 }
+		
+		command = { type = peace which = GER value = 0 }
+		command = { type = peace which = JAP value = 0 }
+		
+		command = { type = add_claim_region which = "Finland" 		where = FIN }
+		
+		command = { type = dissent value = -3 }
+		
+		command = { type = belligerence		 value = 5 }
+		
+		command = { trigger = { NOT = { exists = FIN } } type = secederegion which = SOV value = "Finland"		when = 2 }
+		command = { trigger = { NOT = { exists = ROM } } type = secederegion which = SOV value = "Romania"		when = 2 }
+		command = { trigger = { NOT = { exists = BUL } } type = secedearea	 which = BUL value = "Bulgaria"		when = 2 }
+		
+		command = { type = independence	which = FIN value = 1 }
+		command = { type = independence	which = ROM value = 1 }
+		command = { type = independence	which = BUL value = 1 }
+		command = { trigger = { exists = FIN } type = make_puppet	which = FIN }
+		command = { type = event which = 2400537 where = FIN when = 0 } #medium-strong puppet
+	
+		command = { type = event which = 2023012 where = ROM when = 0 } #ROM surrender
+		command = { type = event which = 2020022 where = BUL when = 0 } #BUL surrender
+		
+		command = { type = secederegion which = FIN value = "Finland"		when = 2 }
+		command = { type = secederegion which = ROM value = "Romania"		when = 1 }
+		command = { type = secederegion which = GER value = "Poland"		when = 2 }
+		command = { type = secederegion which = SOV value = "Belarus"		when = 2 }
+		command = { type = secederegion which = SOV value = "Ukraine"		when = 2 }
+		command = { type = secederegion which = SOV value = "Baltic States"	when = 2 }
+		
+		command = { 							   type = secedeprovince which = GER value = 2606 				when = 2 }
+		
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 123				when = 2 }
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 143				when = 2 }
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 145				when = 2 }
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 146				when = 2 }
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 3344				when = 2 }
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 3323				when = 2 }
+		command = { trigger = { event = 2030004 }  type = secedeprovince which = SOV value = 2305				when = 2 }
+		
+		command = { trigger = { event = 20070280 } type = secedeprovince which = SOV value = 2305				when = 2 }
+		command = { trigger = { event = 20070280 } type = secedeprovince which = SOV value = 3323				when = 2 }
+		command = { trigger = { event = 20070280 } type = secedeprovince which = SOV value = 123				when = 2 }
+		command = { trigger = { event = 20070280 } type = secedeprovince which = FIN value = 3347				when = 2 }
+		command = { trigger = { event = 20070280 } type = secedeprovince which = FIN value = 7156				when = 2 }
+		
+		command = { trigger = { event = 2007022 }  type = secedearea	 which = SOV value = "Bessarabia"		when = 2 }
+		command = { trigger = { event = 2007022 }  type = secedeprovince which = SOV value = 1173				when = 2 }
+		
+		command = { trigger = { event = 2007042 }  type = secedearea	 which = SOV value = "Grodno"			when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedearea	 which = SOV value = "Polotsk"			when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedearea	 which = SOV value = "Brest Litovsk"	when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedearea 	 which = SOV value = "Lvov"				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = SOV value = 3279 				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = SOV value = 214 				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = SOV value = 7263 				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = SOV value = 7980 				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = GER value = 504  				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = GER value = 3270 				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = GER value = 509 				when = 2 }
+		command = { trigger = { event = 2007042 }  type = secedeprovince which = GER value = 2296 				when = 2 }
+		
+		command = { type = secedeprovince which = FIN value = 3339		when = 2 }
+		command = { type = secedeprovince which = FIN value = 3340		when = 2 }
+		command = { type = secedeprovince which = FIN value = 3338		when = 2 }
+		command = { type = secedeprovince which = FIN value = 7152		when = 2 }
+		command = { type = secedeprovince which = FIN value = 7153		when = 2 }
+		command = { type = secedeprovince which = FIN value = 130		when = 2 }
+		command = { type = secedeprovince which = FIN value = 2631		when = 2 }
+		command = { type = secedeprovince which = FIN value = 131		when = 2 }
+		command = { type = secedeprovince which = FIN value = 7154		when = 2 }
+		command = { type = secedeprovince which = FIN value = 7155		when = 2 }
+		command = { type = secedeprovince which = FIN value = 3337		when = 2 }
+		
+		command = { type = event which = 2007206 where = GER when = 1 }
+	}
+    action = {
+        name = ACTION_NAME_DECLINE
+		ai_chance = 1
+		command = { type = dissent 		value = 1 }
+		command = { type = belligerence	value = 1 }
+		
+		command = { type = event which = 2007207 where = GER when = 1 }
+	}
+}
+
+##########################################################################
+#  Compromise Peace - Germany rejects
+##########################################################################
+event = {
+	id = 2007205
+	random = no
+	country = SOV
+	
+	name = "Useless negotiations"
+	desc = "After weeks of negotiations, it became obvious that the German side is not taking the Soviet proposal seriously, and is instead simply viewing it as a sign of weakness. Despite all their losses, they are still intent on our destuction and nothing less."
+	style = 2
+	picture = "news_paper"
+
+    action = {
+        name = ACTION_NAME_DAMN
+		command = { type = dissent 		value = -5 }
+		command = { type = belligerence	value = -5 }
+	}
+}
+
+##########################################################################
+#  Compromise Peace - Success
+##########################################################################
+
+event = {
+	id = 2007206
+	random = no
+	country = GER
+	
+	name = "Armistice Day"
+	desc = "Today, after weeks of negotiations, the German and Soviet delegations officially met to conclude a peace deal which will finally put an end to years of bloody warfare. Both sides are left bitter and unhappy by this outcome, and the population as well as the elites have a lot of unanswered questions about the wisdom of having fought this war for so many years."
+	style = 2
+	picture = "news_paper"
+	
+    action = {
+        name = ACTION_NAME_GREAT
+		command = { trigger = { flag = GerSovPeace1 } type = dissent 		value = 1  }
+		command = { trigger = { flag = GerSovPeace2 } type = dissent 		value = -1 }
+		command = { trigger = { flag = GerSovPeace3 } type = dissent 		value = 3  }
+		
+		command = { trigger = { flag = GerSovPeace1 } type = belligerence	value = -1 }
+		command = { trigger = { flag = GerSovPeace2 } type = belligerence	value = 5  }
+		command = { trigger = { flag = GerSovPeace3 } type = belligerence	value = -5 }
+		
+		command = { type = non_aggression which = GER where = SOV when = 1800 } #5 years
+	}
+}
+
+##########################################################################
+#  Compromise Peace - USSR rejects
+##########################################################################
+
+event = {
+	id = 2007207
+	random = no
+	country = GER
+	
+	name = "Useless negotiations"
+	desc = "After weeks of negotiations, it became obvious that no consensus could be reached between our negotiating teams. The positions of the two sides remain diametrically opposed, and ultimately only force can resolve this impasse. While we tried to keep the negotiations secret, the news were quickly leaked and the business community and our people in general were holding high hopes that we could finally put an end to this conflict. They will be very disappointed to find out that the war will continue."
+	style = 2
+	picture = "news_paper"
+	
+    action = {
+        name = "We believe in our victory"
+		command = { type = dissent value = 1 }
+	}
+}
+
+#########################################################################
 #  Moving of Industry to Sibiria
 #########################################################################
 # State Defense Committee
@@ -3120,6 +3572,11 @@ event = {
 		command = { type = armamentminister which = 30076 } #Stalin replaces Tymoshenko as Minister of Defense
 		command = { type = local_setflag which = inMajorWar	}
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
+		
+		#Gearing up 8
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 8 } } NOT = { local_flag = WAR_change } } type = event which = 2028 where = -1 when = 0  }
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 8 } }			local_flag = WAR_change   } type = local_setflag which = WAR_manual when = 0 value = 1	}
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 8 } }			local_flag = WAR_change   } type = event which = 2028 where = -1 when = 0  }
 		
 		command = { trigger = { ai = SIK } 	type = event 	which = 2400040 where = SIK when = 0 } #0 exp
 		command = { trigger = { ai = SOV } 	type = event 	which = 2400047 where = SOV when = 0 } #70 exp
@@ -3875,9 +4332,9 @@ event = {
 		command = { type = construct which = flak 			where = 3344 value = -1 }
 		
 		#Finnish population evacuated/expelled
-		command = { type = removecore 	which = 123 }
-		command = { type = removecore 	which = 145 }
-		command = { type = removecore 	which = 146 }
+		command = { type = removecore 	which = 123  }
+		command = { type = removecore 	which = 145  }
+		command = { type = removecore 	which = 146  }
 		command = { type = removecore 	which = 3344 }
 		command = { type = removecore 	which = 3345 }
 		command = { type = removecore 	which = 3347 }
@@ -3887,9 +4344,9 @@ event = {
 		
 		command = { type = removecore 	which = 132 } #Petsamo
 		
-		command = { type = addclaim 	which = 123 }
-		command = { type = addclaim 	which = 145 }
-		command = { type = addclaim 	which = 146 }
+		command = { type = addclaim 	which = 123  }
+		command = { type = addclaim 	which = 145  }
+		command = { type = addclaim 	which = 146  }
 		command = { type = addclaim 	which = 3344 }
 		command = { type = addclaim 	which = 3345 }
 		command = { type = addclaim 	which = 3347 }
@@ -3927,11 +4384,11 @@ event = {
 		command = { type = chiefofnavy 			which = 145111 } #Eero Rahola
 		command = { type = chiefofair 			which = 145115 } #Toivo Somerto
 		
-		command = { type = secederegion which = SOV value = "White Sea Tundra" when = 1 } #Karelia
-		command = { type = secederegion which = SOV value = "Russia" when = 1 }
-		command = { type = secederegion which = SOV value = "Northern Russia" when = 1 }
-		command = { type = secederegion which = SOV value = "Western Russia" when = 1 }		
-		command = { type = secederegion which = SOV value = "Baltic States" when = 1 }		
+		command = { type = secederegion which = SOV value = "White Sea Tundra" 	when = 1 } #Karelia
+		command = { type = secederegion which = SOV value = "Russia" 			when = 1 }
+		command = { type = secederegion which = SOV value = "Northern Russia" 	when = 1 }
+		command = { type = secederegion which = SOV value = "Western Russia" 	when = 1 }		
+		command = { type = secederegion which = SOV value = "Baltic States" 	when = 1 }		
 		
 		#will be handled in post-war settlement event
 		#command = { type = local_setflag	when = 0	which = RepPay3	value = 6 } #6 years worth of reparation payments to USSR
@@ -5028,7 +5485,12 @@ event = {
 		command = { type = repair_mod 			value = 15 } #reinforcement efficiency
 		command = { type = morale which = land 	value = 5  }
 		
-		command = { trigger = { NOT = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 } }	type = event which = 2007050 where = SOV when = 365 }   #War Enthusiasm Wanes - 1 year
+		#Gearing up 10
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 10 } } 	NOT = { local_flag = WAR_change } } type = event which = 2030 where = -1 when = 0  }
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 10 } }			local_flag = WAR_change   } type = local_setflag which = WAR_manual when = 0 value = 1	}
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 10 } }			local_flag = WAR_change   } type = event which = 2030 where = -1 when = 0  }
+		
+		command = { trigger = { NOT = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 } }	type = event which = 2007050 where = SOV when = 365  }  #War Enthusiasm Wanes - 1 year
 		command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 }			type = event which = 2007050 where = SOV when = 1825 }	#War Enthusiasm Wanes - 5 years
 		
 		command = { trigger = { NOT = { technology = 6340 } } type = gain_tech which = 6340 }
@@ -6817,32 +7279,5 @@ event = {
 		name = ACTION_NAME_OK
 		command = { type = capital which = 175 }
 		command = { type = dissent value = -2 }
-	}
-}
-
-
-
-event = { 
-	id = 23199572
-	random = no
-	persistent = yes
-
-	decision = {
-	}
-	trigger= { 
-		ai = no 
-	}
-
-	name = "TEST - take control ENG"
-	desc = "TEST" 
-	style = 2
-
-	date = { day = 1 month = january year = 1936 }
-	offset = 3
-	deathdate = { day = 29 month = december year = 1999 }
-
-	action = {
-		name = "plus"
-		command = { type = military_control which = ARG where = ENG value = 1 }
 	}
 }

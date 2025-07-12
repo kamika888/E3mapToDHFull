@@ -6,7 +6,7 @@ country =
 { tag                    = IRQ
   puppet                 = ENG
   control				 = ENG
-  ai_settings			 = { flags = { puppetLevel7 = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 360
 	metal                  = 180

@@ -5,7 +5,7 @@
 country =
 { tag                    = ALB
   puppet				 = ITA
-  ai_settings			 = { flags = { puppetLevel6 = 1 } }
+  ai_settings			 = { flags = { puppetLevel6 = 1 ideology = 4 } }
 	manpower               	= -20
 	# Resource Reserves 
 	energy                 = 240

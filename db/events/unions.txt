@@ -14,50 +14,19 @@ event = {
 	style = 2
 	
 	trigger = {
-		NOT = { local_flag = UnionBonds1 }
-		NOT = { local_flag = UnionBonds2 }
 		OR = {
-			country = USA
-			country = SOV
-			country = ENG
-			country = ETH
-			country = BEL
-			country = U17
-			country = CZE
-			country = U31
-			country = SCH
-			country = DEN
-			country = YUG
-			country = U27
-			country = SPR
-			country = SPA
-			country = BRA
-			country = CHI
-			country = CHC
-			country = CGX
-			country = CSX
-			country = CYN
-			country = CXB
-			country = U58
-			country = U59
-			country = U60
-			country = U61
-			country = U62
-			country = U63
-			country = U64
-			country = U65
-			country = U00
-			country = U05
-			country = U87
-			country = SIK
-			country = SAF
-			country = AFG
-			country = PER
-			country = IND
-			country = PAK
-			country = U02
-			country = U69
-			country = PHI
+			AND = {
+				local_flag = { which = UnionBonds when = 0 value = 0 }
+				NOT = { local_flag = { which = UnionBondsSet when = 0 value = 0 } }
+			}
+			AND = {
+				local_flag = { which = UnionBonds when = 0 value = 1 }
+				NOT = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }
+			}
+			AND = {
+				local_flag = { which = UnionBonds when = 0 value = 2 }
+				NOT = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }
+			}
 		}
 	}
 	
@@ -66,32 +35,94 @@ event = {
 	deathdate = { day = 29 month = july year = 1970 }
 
 	action = {
-		name = "E Pluribus Unum"
-		trigger = { OR = { country = YUG country = DEN country = SPA country = SPR country = U69 country = ETH country = CHI country = CHC country = CGX country = CSX country = CYN country = CXB country = SIK country = U58 country = U59 country = U60 country = U61 country = U62 country = U63 country = U64 country = U65 country = U00 country = U05 country = U87 } } #Limited union
-		command = { type = local_setflag which = UnionBonds1 }
-
-		command = { type = research_mod 								value = 1  } 
-		command = { type = industrial_modifier	which = total			value = -5 }
-		command = { type = surprise 			which = naval 			value = -5 }
-		command = { type = surprise 			which = land 			value = -5 }
-		command = { type = surprise 			which = air 			value = -5 }
-		command = { type = morale 				which = land			value = -3 }
-		command = { type = intelligence			which = them 			value = 3  }
-		command = { type = army_detection		which = them 			value = 3  }
+		name = "E Pluribus Unum (No Union)"
+		trigger = { local_flag = { which = UnionBonds when = 0 value = 0 } }
+		
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = research_mod 						value = -1  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = industrial_modifier	which = total	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = surprise 			which = naval 	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = surprise 			which = land 	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = surprise 			which = air 	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = morale 				which = land	value = 2   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = intelligence			which = them 	value = -2  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = army_detection		which = them 	value = -2  }
+		
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = research_mod 						value = -2  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = industrial_modifier	which = total	value = 10  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = surprise 			which = naval 	value = 10  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = surprise 			which = land 	value = 10  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = surprise 			which = air 	value = 10  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = morale 				which = land	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = intelligence			which = them 	value = -5  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = army_detection		which = them 	value = -5  }
+		
+		command = { type = local_clrflag which = UnionBondsSet }
 	}
 	action = {
-		name = "E Pluribus Unum"
-		trigger = { NOT = { country = YUG country = DEN country = SPA country = SPR country = U69 country = ETH country = CHI country = CHC country = CGX country = CSX country = CYN country = CXB country = SIK country = U58 country = U59 country = U60 country = U61 country = U62 country = U63 country = U64 country = U65 country = U00 country = U05 country = U87 } } #Full/almost full union
-		command = { type = local_setflag which = UnionBonds2 }
+		name = "E Pluribus Unum (Partial Union)"
+		trigger = { local_flag = { which = UnionBonds when = 0 value = 1 } }
+		
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = research_mod 						value = -1  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = industrial_modifier	which = total	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = surprise 			which = naval 	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = surprise 			which = land 	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = surprise 			which = air 	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = morale 				which = land	value = 2   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = intelligence			which = them 	value = -2  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = army_detection		which = them 	value = -2  }
+		
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = research_mod 						value = -2  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = industrial_modifier	which = total	value = 10  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = surprise 			which = naval 	value = 10  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = surprise 			which = land 	value = 10  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = surprise 			which = air 	value = 10  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = morale 				which = land	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = intelligence			which = them 	value = -5  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = army_detection		which = them 	value = -5  }
 
-		command = { type = research_mod 								value = 2   } 
-		command = { type = industrial_modifier	which = total			value = -10 }
-		command = { type = surprise 			which = naval 			value = -10 }
-		command = { type = surprise 			which = land 			value = -10 }
-		command = { type = surprise 			which = air 			value = -10 }
-		command = { type = morale 				which = land			value = -5  }
-		command = { type = intelligence			which = them 			value = 5   }
-		command = { type = army_detection		which = them 			value = 5   }
+		command = { 																		type = research_mod 						value = 1   }
+		command = { 																		type = industrial_modifier	which = total	value = -5  }
+		command = { 																		type = surprise 			which = naval 	value = -5  }
+		command = { 																		type = surprise 			which = land 	value = -5  }
+		command = { 																		type = surprise 			which = air 	value = -5  }
+		command = { 																		type = morale 				which = land	value = -2  }
+		command = { 																		type = intelligence			which = them 	value = 2   }
+		command = { 																		type = army_detection		which = them 	value = 2   }
+		
+		command = { type = local_setflag which = UnionBondsSet when = 0 value = 1	}
+	}
+	action = {
+		name = "E Pluribus Unum (Full Union)"
+		trigger = { local_flag = { which = UnionBonds when = 0 value = 2 } }
+		
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = research_mod 						value = -1  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = industrial_modifier	which = total	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = surprise 			which = naval 	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = surprise 			which = land 	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = surprise 			which = air 	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = morale 				which = land	value = 2   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = intelligence			which = them 	value = -2  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 1 } }	type = army_detection		which = them 	value = -2  }
+		
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = research_mod 						value = -2  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = industrial_modifier	which = total	value = 10  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = surprise 			which = naval 	value = 10  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = surprise 			which = land 	value = 10  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = surprise 			which = air 	value = 10  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = morale 				which = land	value = 5   }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = intelligence			which = them 	value = -5  }
+		command = { trigger = { local_flag = { which = UnionBondsSet when = 0 value = 2 } }	type = army_detection		which = them 	value = -5  }
+
+		command = { 																		type = research_mod 						value = 2   }
+		command = { 																		type = industrial_modifier	which = total	value = -10 }
+		command = { 																		type = surprise 			which = naval 	value = -10 }
+		command = { 																		type = surprise 			which = land 	value = -10 }
+		command = { 																		type = surprise 			which = air 	value = -10 }
+		command = { 																		type = morale 				which = land	value = -5  }
+		command = { 																		type = intelligence			which = them 	value = 5   }
+		command = { 																		type = army_detection		which = them 	value = 5   }
+		
+		command = { type = local_setflag which = UnionBondsSet when = 0 value = 2	}
 	}
 }
 
@@ -120,16 +151,7 @@ event = {
 
 	action = {
 		name = "The pan-Turkish State"
-		command = { type = local_setflag which = UnionBonds }
-
-		command = { type = research_mod 								value = 2   } 
-		command = { type = industrial_modifier	which = total			value = -10 }
-		command = { type = surprise 			which = naval 			value = -10 }
-		command = { type = surprise 			which = land 			value = -10 }
-		command = { type = surprise 			which = air 			value = -10 }
-		command = { type = morale 				which = land			value = -5  }
-		command = { type = intelligence			which = them 			value = 5   }
-		command = { type = army_detection		which = them 			value = 5   }
+		command = { type = local_setflag which = UnionBonds when = 0 value = 2	}
 		
 		command = { type = addcore which = 7308 }
 		command = { type = addcore which = 1907 }

@@ -4,11 +4,10 @@
 
 country =
 { tag                    = AUS
-  # HACK to make sure that Germany gets the whole manpower pool, all units and resources on annex.
-  # Unwanted side-effect: Will never accept peace with Germany.
+  ai_settings			 = { flags = { ideology = 2 } }
   regular_id             = GER
   capital                = 463
-	manpower               = 23 
+	manpower               = 123 
 	# Resource Reserves 
 	energy                 = 1140
 	metal                  = 570
@@ -189,7 +188,7 @@ country =
      political_left    = 2
      free_market       = 3
      freedom           = 7 
-     professional_army = 1 
+     professional_army = 1 #selective conscription reinstated in july 1936
      defense_lobby     = 3 
      interventionism   = 5
   }

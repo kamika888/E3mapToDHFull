@@ -4,21 +4,22 @@
 
 country =
 { tag                    = MAN
+  regular_id             = CHI
   puppet                 = JAP
   control				 = JAP #AI will not autonomously suppress revolts otherwise
-  ai_settings			 = { flags = { puppetLevel5 = 1 } } #min dissent 20-25
+  ai_settings			 = { flags = { puppetLevel5 = 1 war_preparedness = 7 ideology = 2 } } #min dissent 20-25
 	# Resource Reserves 
 	energy                 = 900
 	metal                  = 450
 	rare_materials         = 225
-	transports = 100
+	transports             = 100
 	oil                    = 200 
 	supplies               = 100 
 	money                  = 10 
-	manpower               = 8 
+	manpower               = 2800 
 	dissent				   = 30
-  capital                = 2241
-  free                   = { energy = 14 metal = 7 rare_materials = 4 }
+    capital                = 2241
+    #free                   = { energy = 14 metal = 7 rare_materials = 4 }
   diplomacy =
   { relation = { tag = CHC value = -100 }
     relation = { tag = CHI value = -100 }
@@ -192,11 +193,11 @@ country =
   policy =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 5
-     political_left    = 3 
+     political_left    = 2 
      freedom           = 3 
      free_market       = 2
-     professional_army = 1 
-     defense_lobby     = 5 
+     professional_army = 5 
+     defense_lobby     = 7 
      interventionism   = 7 
   }
  inventions = { 3000027 }

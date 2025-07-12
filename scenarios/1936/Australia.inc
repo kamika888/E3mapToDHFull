@@ -6,7 +6,7 @@ country =
 { tag                    = AST
   puppet				 = ENG
   control				 = ENG
-  ai_settings			 = { flags = { puppetLevel9 = 1 } }
+  ai_settings			 = { flags = { puppetLevel9 = 1 ideology = 5 } }
 	manpower               = 16 
    # Resource Reserves 
 	energy                 = 1620

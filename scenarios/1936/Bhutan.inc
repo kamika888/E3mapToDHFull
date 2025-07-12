@@ -7,8 +7,8 @@ country =
 { tag                    = BHU
   control				 = ENG
   puppet                 = ENG
-  ai_settings			 = { flags = { puppetLevel7 = 1 } }
-	manpower               = 0 
+  ai_settings			 = { flags = { puppetLevel7 = 1 ideoology = 4 } }
+	manpower               = 5 
 	# Resource Reserves 
 	energy                 = 180
 	metal                  = 90
@@ -16,15 +16,15 @@ country =
 	oil                    = 200 
 	supplies               = 200 
 	money                  = 10 
-  capital                = 1455
+    capital                = 1455
   policy =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1
-     political_left    = 5 
+     political_left    = 4 
      free_market       = 1
      freedom           = 1 
-     professional_army = 1 
-     defense_lobby     = 1 
+     professional_army = 2 
+     defense_lobby     = 2 
      interventionism   = 1 
   }
   nationalprovinces      = { 1455 5180 7304 }

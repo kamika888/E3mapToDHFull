@@ -4,6 +4,7 @@
 
 country =
 { tag                    = BUL
+  ai_settings			 = { flags = { ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 1500
 	metal                  = 750
@@ -11,7 +12,7 @@ country =
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 50 
-	manpower               = 0 
+	manpower               = 98 
 	transports             = 100 
 	escorts                = 4 
   capital                = 417
@@ -150,7 +151,7 @@ country =
      political_left    = 4 
      free_market       = 3
      freedom           = 5 
-     professional_army = 1 
+     professional_army = 3 
      defense_lobby     = 4 
      interventionism   = 6
   }

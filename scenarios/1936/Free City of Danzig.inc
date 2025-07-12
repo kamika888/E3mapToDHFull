@@ -6,7 +6,7 @@
  { tag                    = U06 
    capital                = 303 
    puppet     			  = POL 
-   ai_settings			  = { flags = { puppetLevel5 = 1 } }
+   ai_settings			  = { flags = { puppetLevel5 = 1 ideology = 5 } }
    # Resource Reserves 
    energy                 = 100 
    metal                  = 100 
@@ -87,7 +87,7 @@
      free_market       = 4
      freedom           = 9 
      professional_army = 1 
-     defense_lobby     = 3 
+     defense_lobby     = 2 
      interventionism   = 2  
     } 
   

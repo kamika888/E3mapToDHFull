@@ -7,7 +7,7 @@ country =
   regular_id             = CHI
   puppet                 = CHI
   control				 = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   dissent				 = 15
   extra_tc               = 10
   # Resource Reserves
@@ -178,8 +178,8 @@ country =
      freedom           = 3 
      free_market       = 2
      professional_army = 5 
-     defense_lobby     = 1 
-     interventionism   = 7 
+     defense_lobby     = 4 
+     interventionism   = 5 
   }
   
    ###################
@@ -195,7 +195,7 @@ country =
      {  experience = 30 
        id         = {  type = 22002 id = 2  } 
        name       = "22. Division" 
-       type       = infantry 
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -203,7 +203,7 @@ country =
      {  experience = 30 
        id         = {  type = 22002 id = 3  } 
        name       = "29. Division" 
-       type       = infantry 
+       type       = militia
 	   strength  = 40
        model     = 3
 	   extra1 = artillery
@@ -213,7 +213,7 @@ country =
      {  experience = 30 
        id         = {  type = 22002 id = 4  } 
        name       = "74. Division" 
-       type       = infantry 
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -226,7 +226,7 @@ country =
      {  experience = 30 
        id         = {  type = 22002 id = 6  } 
        name       = "20. Division" 
-       type       = infantry 
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -234,7 +234,7 @@ country =
      {  experience = 30 
        id         = {  type = 22002 id = 7  } 
        name       = "81. Division" 
-       type       = infantry 
+       type       = militia
 	   strength  = 40
        model     = 3
 	   extra1 = artillery
@@ -257,7 +257,7 @@ country =
      {  experience = 30 
        id         = {  type = 22002 id = 10  } 
        name       = "1. 2. Independent Artillery Regiments" 
-       type       = infantry 
+       type       = militia
 	   strength  = 40
        model     = 3
 	   extra1 = artillery

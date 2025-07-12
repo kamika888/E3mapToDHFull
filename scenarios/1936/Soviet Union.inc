@@ -6,7 +6,7 @@ country =
 { tag                    = SOV
   regular_id             = RUS
   intrinsic_gov_type     = leninist
-  ai_settings			 = { flags = { WARDebt = 7 } }
+  ai_settings			 = { flags = { WARDebt = 7 ideology = 9 } }
   ai					 = "EXP_0_01.ai"
   capital                = 175
 	# Resource Reserves 
@@ -286,7 +286,7 @@ blueprints             = {   }
      freedom           = 5 
      free_market       = 5
      professional_army = 4 
-     defense_lobby     = 4 
+     defense_lobby     = 3 
      interventionism   = 5 
   }
 inventions = { 3000027 }

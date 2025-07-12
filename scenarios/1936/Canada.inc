@@ -6,7 +6,7 @@ country =
 { tag                    = CAN
   puppet				 = ENG
   #control				 = ENG #AI will not autonomously suppress revolts otherwise
-  ai_settings			 = { flags = { puppetLevel9 = 1 } }
+  ai_settings			 = { flags = { puppetLevel9 = 1 ideology = 5 } }
    # Resource Reserves 
 	energy                 = 2460
 	metal                  = 1230
@@ -136,7 +136,7 @@ country =
      free_market       = 8
      freedom           = 8 
      professional_army = 1 
-     defense_lobby     = 2 
+     defense_lobby     = 1 
      interventionism   = 1
   }
 inventions = { 3000027 }

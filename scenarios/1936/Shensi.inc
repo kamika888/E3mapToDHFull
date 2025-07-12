@@ -7,7 +7,7 @@ country =
   regular_id             = CHI
   puppet                 = CHI
   control				 = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   extra_tc               = 10
   dissent				 = 15
   # Resource Reserves
@@ -178,8 +178,8 @@ country =
      freedom           = 3 
      free_market       = 2
      professional_army = 5 
-     defense_lobby     = 2 
-     interventionism   = 7 
+     defense_lobby     = 4 
+     interventionism   = 5 
   }
 
 	#####################
@@ -194,7 +194,7 @@ country =
      {
        id         = {  type = 22003 id = 33 } 
        name       = "New 1. Division" 
-       type       = infantry 
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -210,7 +210,7 @@ country =
      {  experience = 30 
        id         = {  type = 22003 id = 35  } 
        name       = "1. 2. 3. Special Regiments" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
 	   extra1 = cavalry_brigade
@@ -243,7 +243,7 @@ country =
      { 
        id         = {  type = 22003 id = 52  } 
        name       = "New 7. Division (Guominjun)" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
 	   extra1 = cavalry_brigade
@@ -283,7 +283,7 @@ country =
      { 
        id         = {  type = 22003 id = 56  } 
        name       = "49/51/52. Independent Brigades (Guominjun)" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
 	   locked	 = yes
@@ -299,7 +299,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 2  } 
        name       	= "105. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -308,7 +308,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 3  } 
        name       	= "106. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -317,7 +317,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 4  } 
        name       	= "107. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -326,7 +326,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 5  } 
        name       	= "108. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -335,7 +335,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 6  } 
        name       	= "109. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -344,7 +344,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 7  } 
        name       	= "110. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -353,7 +353,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 8  } 
        name       	= "111. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -362,7 +362,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 9  } 
        name       	= "112. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -371,7 +371,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 10  } 
        name       	= "113. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -380,7 +380,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 11  } 
        name       	= "114. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -389,7 +389,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 12  } 
        name       	= "115. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -398,7 +398,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 13  } 
        name       	= "116. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -407,7 +407,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 14  } 
        name       	= "118. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -416,7 +416,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 15  } 
        name       	= "117. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -425,7 +425,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 16  } 
        name       	= "120. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes
@@ -434,7 +434,7 @@ country =
      { experience 	= 20 
        id         	= {  type = 22005 id = 17  } 
        name       	= "130. Division" 
-       type  		= infantry 
+       type  		= militia
 	   strength  	= 40
        model		= 3 
 	   locked		= yes

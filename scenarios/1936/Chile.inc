@@ -4,6 +4,7 @@
 
 country =
 { tag                    = CHL
+  ai_settings			 = { flags = { ideology = 6 } }
 	# Resource Reserves 
 	energy                 = 720
 	metal                  = 360
@@ -21,8 +22,8 @@ country =
      free_market       = 4
      freedom           = 7
      professional_army = 3
-     defense_lobby     = 1
-     interventionism   = 2
+     defense_lobby     = 2
+     interventionism   = 4
   }
   claimedprovinces 		 = { 7094 3885 7101 7102 7103 7417 7428 }
   nationalprovinces      = { 864 861 860 856 840 839 842 865 2993 2994 2995 2054 1930 3876 3877 3878 3879 3880 3881 3882 3883 3884 3886 4097 3839 5446 7093 7095 7096 7097 7098 7099 7100 7104 }

@@ -7,7 +7,7 @@ country =
   regular_id             = CHI
   puppet                 = CHI
   control				 = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   extra_tc               = 10
   dissent				 = 15
   # Resource Reserves
@@ -179,8 +179,8 @@ country =
      freedom           = 3 
      free_market       = 2
      professional_army = 5 
-     defense_lobby     = 3 
-     interventionism   = 7 
+     defense_lobby     = 5 
+     interventionism   = 6 #Military Academy 
   }
 
 	# Guangdong 1936
@@ -232,7 +232,7 @@ country =
      {  experience = 30 
        id         = {  type = 22400 id = 32  } 
        name       = "5. Division" 
-       type       = infantry 
+       type       = militia
        strength   = 60
        model      = 3
       }
@@ -258,7 +258,7 @@ country =
      {  experience = 30 
        id         = {  type = 22400 id = 36  } 
        name       = "8. Division" 
-       type       = infantry 
+       type       = militia
        strength   = 60
        model      = 3
       }

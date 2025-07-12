@@ -14,8 +14,7 @@ event = {
 		lost_national = { country = VIC value = 5 } 
 		control = { province = 56 data = -2 } #paris lost
 		OR = { 
-			#At least 50% of national provinces lost
-			lost_national = { country = VIC value = 50 }
+			region = { region = "France" country = -2 data = 1 value = 50 } 
 			#Army destroyed
 			NOT = { land_percentage = { country = GER value = 0.4 } }
 			#Significant army group encircled at the maginot line
@@ -210,6 +209,10 @@ event = {
 		command = { type = secedearea which = VIC value = "Alpes_Provence" 		when = 2 }
 		command = { type = secedearea which = VIC value = "Pyrenees_Languedoc" 	when = 2 }
 		command = { type = secedearea which = VIC value = "Limousin_Auvergne" 	when = 2 }
+		
+		command = { type = secedeprovince which = ENG value = 7131 				when = 2 } 
+		command = { type = secedeprovince which = ENG value = 1720 				when = 2 } 
+		
         command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 366 when = 2 } # Nice +
 		command = { trigger = { alliance = { country = GER country = SPA } } type = secedeprovince which = SPA value = 326 when = 2 } # Bayonne +
         #command = { trigger = { alliance = { country = GER country = SPA } } type = secedeprovince which = SPA value = 358 when = 2 } # Perpignan +
@@ -218,6 +221,8 @@ event = {
 		
 		#command = { type = ai_prepare_war which = SOV }
 		command = { type = event which = 2002008 where = VIC when = 0 } # L'Etat Français
+		
+		command = { type = event which = 2002021 where = ENG when = 2 } # Fate of the channel islands
     } 
 
 	action = { trigger = { flag = Rethondes2 }
@@ -242,6 +247,10 @@ event = {
 		command = { type = secedearea which = VIC value = "Alpes_Provence" 		when = 2 }
 		command = { type = secedearea which = VIC value = "Pyrenees_Languedoc" 	when = 2 }
 		command = { type = secedearea which = VIC value = "Limousin_Auvergne" 	when = 2 }
+		
+		command = { type = secedeprovince which = ENG value = 7131 				when = 2 } 
+		command = { type = secedeprovince which = ENG value = 1720 				when = 2 } 
+		
         command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 366 when = 2 } # Nice +
 		command = { trigger = { alliance = { country = GER country = SPA } } type = secedeprovince which = SPA value = 326 when = 2 } # Bayonne +
         #command = { trigger = { alliance = { country = GER country = SPA } } type = secedeprovince which = SPA value = 358 when = 2 } # Perpignan +
@@ -249,6 +258,8 @@ event = {
 		
 		#command = { type = ai_prepare_war which = SOV }
 		command = { type = event which = 2002008 where = VIC when = 0 } # L'Etat Français
+		
+		command = { type = event which = 2002021 where = ENG when = 2 } # Fate of the channel islands
     } 
 }
 
@@ -274,6 +285,78 @@ event = {
 		command = { type = add_division which = "2ème Flottille de Sous-Marins" value = submarine when = 5 }
 		command = { type = add_division which = "1ère Flottille de Convoi" value = transport when = 0 }
 		command = { type = add_division which = "2ème Flottille de Convoi" value = transport when = 0 }
+    } 
+}
+
+event = {
+	id = 2002021
+	random = no
+	country = ENG
+	style = 2
+
+	name = "Fate of the Channel Islands"
+	desc = "After the defeat in the Battle of France, we need to decide whether or not to defend the Channel Islands. Historically, the channel islands were seen as of no strategic importance and were given up without a shot. If we choose to defend the islands, we will need to have at least 3 divisions stationed on the islands within a month." 
+
+	action = {
+		name = "Evacuate the islands"
+		ai_chance = 100
+		trigger = {
+			exists = SCH
+			NOT = { war = { country = ENG country = SCH } }
+			NOT = { war = { country = GER country = SCH } }
+		}
+		command = { type = dissent value = 0.1 }
+		command = { trigger = { control = { province = 7131 data = -3 } } type = secedeprovince which = SCH value = 7131 				when = 2 } 
+		command = { trigger = { control = { province = 1720 data = -3 } } type = secedeprovince which = SCH value = 1720 				when = 2 } 
+		
+		command = { type = event which = 2002022 where = GER when = 1 }
+    } 
+	action = {
+		name = "Commit to their defense"
+		ai_chance = 0
+		trigger = {
+			OR = {
+				control = { province = 7131 data = -3 }
+				control = { province = 1720 data = -3 }
+			}
+		}
+		command = { type = event which = 2002023 where = ENG when = 30 }
+    } 
+}
+
+event = {
+	id = 2002022
+	random = no
+	country = GER
+	style = 2
+
+	name = "Fate of the Channel Islands"
+	desc = "After the Allied defeat in the Battle of France, the British government decided that the Channel Islands were of no strategic importance and would not be defended. Despite the reluctance of Prime Minister Winston Churchill, the British government gave up the oldest possession of the Crown 'without firing a single shot.' The Channel Islands served no purpose for the Germans other than the propaganda value of occupying British territory. The decision to abandon the islands was at first kept secret from Germany to make sure that evacuation is not disrupted, and when it was complete, London officially declared the islands an 'open city' and the German Luftwaffe landed unopposed." 
+
+	action = {
+		name = "Victory after victory!"
+		command = { type = dissent value = -0.5 }
+		command = { type = secedeprovince which = GER value = 7131 	when = 2 } 
+		command = { type = secedeprovince which = GER value = 1720 	when = 2 } 
+    } 
+}
+
+event = {
+	id = 2002023
+	random = no
+	country = ENG
+	style = 2
+
+	name = "Fate of the Channel Islands"
+	desc = "Despite assuring the Islanders and the British public that the islands would be defended, the London government still withdrew all defense from the islands to everybody's surprise. While all is fair in love and war, the Parliament and the British people were unpleasantly suprised to learn that the Germans landed on the islands unopposed." 
+
+	action = {
+		name = "It had to be done"
+		trigger = {
+			NOT = { garrison = { country = -3 province = 7131 type = land size = 3 area = 3 } }
+			NOT = { garrison = { country = -3 province = 1720 type = land size = 3 area = 3 } }
+		}
+		command = { type = dissent value = 2 }
     } 
 }
 
@@ -342,9 +425,9 @@ event = {
 		command = { type = manpowerpool value = -2000 } #remove any remaining manpower
 		
 		command = { type = capital which = 360 } # Vichy
-		command = { type = leave_alliance when = 1 }
-		command = { type = peace which = ENG value = 1 }
-		command = { type = peace which = SOV value = 1 }
+		#command = { type = leave_alliance when = 1 }
+		#command = { type = peace which = ENG value = 1 }
+		#command = { type = peace which = SOV value = 1 }
 		command = { type = end_trades which = VIC where = ENG }
 		command = { type = end_trades which = VIC where = USA }
 		command = { type = end_trades which = VIC where = CAN }
@@ -370,8 +453,8 @@ event = {
 		command = { type = set_relation which = USA value = -50 }
 		command = { type = set_relation which = ITA value = 50 }
 		command = { type = set_relation which = SPA value = 30 }
-      	command = { type = dissent value = -20 }
-		command = { type = belligerence value = -20 } 
+      	command = { type = dissent		value = -20 }
+		command = { type = belligerence	value = -20 } 
 		#command = { type = flag_ext where = VIC which = "_Vic" } 
 		
 		#command = { type = remove_division which = 13500 value = 2020 }	
@@ -664,7 +747,7 @@ event = {
 		command = { type = leave_alliance when = 1 }
 		command = { type = peace which = ENG value = 1 }
 		command = { type = peace which = SOV value = 1 }
-		command = { }
+		#command = { type = peace which = SPR value = 1 }
 		
 		command = { type = make_puppet which = U55 }
 		command = { type = make_puppet which = U57 }
@@ -713,6 +796,28 @@ event = {
 		command = { type = end_access which = GER }	
 		command = { type = end_access which = ITA }	
 		command = { type = end_access which = SPA }	
+	} 
+}
+
+event = {
+	id = 2002017
+	random = no
+	persistent = yes
+	style = 2
+
+	name = "French Neutrality"
+	desc = "By the terms of the Second Armistice at Compiegne, France was to remain strictly neutral while Germany was allowed to occupy the northern and western areas of metropolitain France until the end of war with Britain. While the Luftwaffe pilots occasionally overflew Vichy French territory, and there is some evidence that German and Italian subs may have temporarily entered French ports in the Mediterranean for resupply, any major or permanent Axis military presense in Vichy territory would constitute a major breach of the armistice terms and ruin any pretense of continued neutrality."
+	picture = "Petain"
+
+	action = { 
+		name = "No Germans or dogs allowed!"
+		command = { type = leave_alliance when = 1 }
+		command = { type = end_access which = GER }	
+		command = { type = end_access which = ITA }	
+		command = { type = end_access which = SPA }	
+		
+		command = { type = access which = VIC }	
+		command = { type = ai which = "nations\U04.ai" }
 	} 
 }
 
@@ -4562,6 +4667,7 @@ event = {
 		war = { country = GER }
 		#NOT = { alliance = { country = GER country = VIC } }
 		#NOT = { non_aggression = { country = VIC country = ENG } }
+		event = { id = 2002008 days = 180  }
 		OR = {
 			AND = {
 				region = { region = "Morocco" country = -3 value = 5 }
@@ -4593,6 +4699,7 @@ event = {
 		#command = { type = secederegion which = U01 value = "Grand Colombia" when = 1 }
 		#command = { type = secederegion which = U01 value = "Caribbean" when = 1 }
 		#command = { type = secederegion which = U01 value = "South Solomon Islands" when = 1 }
+		
 		command = { type = trigger which = 981 }
 	}
 }
@@ -4649,6 +4756,9 @@ event = {
 		command = { type = secedeprovince which = MAD value = 1135 when = 2 } #Reunion island
 		command = { type = addcore which = 1135 where = MAD }
 		
+		command = { trigger = { control = { province = 515 data = ITA } region = { region = "Tunisia" country = -3 value = 10 } } type = add_claim_region 	where = ITA which = "Tunisia" }
+		command = { trigger = { control = { province = 515 data = ITA } region = { region = "Tunisia" country = -3 value = 10 } } type = secederegion 		which = ITA value = "Tunisia" when = 1 }	
+		
 		command = { trigger = { war = { country = JAP country = ENG } } type = event which = 985 where = JAP when = 0 } #Japan grabs madagascar
 		command = { trigger = { NOT = { war = { country = JAP country = ENG } } } type = event which = 985 where = GER when = 0 } #Germany grabs madagascar
 		
@@ -4664,9 +4774,9 @@ event = {
 		command = { type = remove_division which = 13500 value = 2036 }
 		command = { type = remove_division which = 13500 value = 2037 }
 		
-		command = { trigger = { control = { province = 515 data = ITA } region = { region = "Tunisia" country = -3 value = 10 } } type = secederegion which = ITA value = "Tunisia" }	
+		command = { type = demobilize which = land	when = 0 where = 0 value = -1 } #Approximately 10,000 troops refused to join the Allies and melted away
 		
-		command = { type = demobilize which = naval when = 1 where = 0 value = 10 } #Scuttle most of the navy
+		command = { type = demobilize which = naval	when = 1 where = 0 value = 10 } #Scuttle most of the navy
 		
 		command = { type = leave_alliance when = 1 }
 		command = { type = peace which = ENG value = 1 }
@@ -4695,7 +4805,8 @@ event = {
 		command = { type = access which = SAF }
 		command = { type = access which = SOV }
 		
-		command = { type = trigger which = 982 }
+		command = { type = event which = 982 where = U01 when = 1 }
+		#command = { type = trigger which = 982 }
 	}
 	action = {
 		name = "Ally Germany"
@@ -4827,13 +4938,16 @@ event = {
 		event = 2002008 # French State
 	}
 	trigger = {
-		atwar = no 
+		#atwar = no 
 		#TAG change mid game will:
 		#very likely CRASH MP game
 		#reset all triggered events without resetting the flags
 		event = 2002008 # French State
 		OR = {
-			NOT = { exists = VIC }
+			AND = {
+				NOT = { exists = VIC }
+				event = 982 #Vichy folds
+			}
 			AND = {
 				region = { region = France country = -3 value = 20 }
 				control = { province = 56 data = -3 } #Paris +
@@ -4849,9 +4963,9 @@ event = {
 		name = "EVT1914_2002550_TEXT" #Vive la France!
         command = { trigger = { exists = VIC } type = inherit which = VIC value = 1 }
 		command = { type = country which = VIC }
-		command = { trigger = { alliance = { country = USA } } type = end_puppet } #make it a separate event/decision?
-		command = { trigger = { alliance = { country = USA } } type = event which = 2400530 where = VIC when = 0 } #independent state #might not work
-		command = { trigger = { alliance = { country = USA } } type = local_setflag which = legitIndie }
+		command = { type = end_puppet } #make it a separate event/decision?
+		command = { type = event which = 2400530 where = VIC when = 0 } #independent state #might not work
+		command = { type = local_setflag which = legitIndie }
 				
 		command = { type = trigger which = 986 }
 	}
@@ -5646,7 +5760,7 @@ event = {
 	}
 
 	date = { day = 2 month = january year = 1936 }
-	offset = 60
+	offset = 30
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {

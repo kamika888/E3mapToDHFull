@@ -5,7 +5,7 @@
 country =
 { tag                    = CUB
   puppet				 = USA
-  ai_settings			 = { flags = { puppetLevel7 = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 480
 	metal                  = 240

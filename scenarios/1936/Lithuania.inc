@@ -4,6 +4,7 @@
 
 country =
 { tag                    = LIT
+  ai_settings			 = { flags = { ideology = 4 } }
   capital                = 207
 	manpower               = 17 
 	# Resource Reserves 

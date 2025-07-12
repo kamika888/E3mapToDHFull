@@ -4,6 +4,7 @@
 
 country =
 { tag                    = SAU
+	ai_settings			 = { flags = { ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 360
 	metal                  = 180
@@ -20,8 +21,8 @@ country =
      political_left    = 4 
      freedom           = 2 
      free_market       = 3
-     professional_army = 4 
-     defense_lobby     = 2 
+     professional_army = 2 
+     defense_lobby     = 3 
      interventionism   = 3
   }
   nationalprovinces      = { 1821 1818 1809 1808 1807 1805 1804

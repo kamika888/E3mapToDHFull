@@ -12,7 +12,7 @@
    regular_id             = IND 
    puppet                 = ENG 
    capital                = 1469 
-   ai_settings			  = { flags = { puppetLevel7 = 1 } }
+   ai_settings			  = { flags = { puppetLevel7 = 1 ideology = 5 } }
 
    
 	manpower               = 489 

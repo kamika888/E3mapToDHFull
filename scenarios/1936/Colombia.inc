@@ -4,6 +4,7 @@
 
 country =
 { tag                    = COL
+  ai_settings			 = { flags = { ideology = 6 } }
 	# Resource Reserves 
 	energy                 = 660
 	metal                  = 330
@@ -17,7 +18,7 @@ country =
   policy =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
-     political_left    = 7 
+     political_left    = 6 
      free_market       = 4
      freedom           = 5 
      professional_army = 3 

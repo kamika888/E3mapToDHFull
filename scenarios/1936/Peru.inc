@@ -4,6 +4,7 @@
 
 country =
 { tag                    = PRU
+  ai_settings			 = { flags = { ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 600
 	metal                  = 300
@@ -90,8 +91,8 @@ country =
      freedom           = 6 
      free_market       = 4
      professional_army = 4 
-     defense_lobby     = 2 
-     interventionism   = 2 
+     defense_lobby     = 3 
+     interventionism   = 3 
   }
 inventions = { 3000027 }
    SpyInfo                = {  country = "PRU" NumberOfSpies = 4  } 

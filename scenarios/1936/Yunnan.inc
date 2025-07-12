@@ -8,7 +8,7 @@ country =
   regular_id             = CHI
   puppet                 = CHI
   control				 = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   intrinsic_gov_type     = paternal_autocrat
   extra_tc               = 4
   dissent				 = 15
@@ -29,8 +29,8 @@ country =
      freedom           = 3 
      free_market       = 2
      professional_army = 5 
-     defense_lobby     = 3 
-     interventionism   = 7 
+     defense_lobby     = 4 
+     interventionism   = 5 
   }
   nationalprovinces      = {
 1275 1276 1277 1440 1441 1267 1268 1269 1270 1271
@@ -251,7 +251,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22100 id = 6  } 
        name       = "182. Division" 
-       type     = infantry
+       type     = militia
        strength   = 40
        model      = 3
       }
@@ -259,7 +259,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22100 id = 7  } 
        name       = "183. Division" 
-       type     = infantry
+       type     = militia
        strength   = 40
        model      = 3
       } 
@@ -267,7 +267,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22100 id = 8  } 
        name       = "184. Division"
-       type       = infantry
+       type       = militia
        strength   = 40
        model      = 3
       }
@@ -275,7 +275,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22100 id = 9  } 
        name       = "5/7/9. Independent Brigades" 
-       type       = infantry
+       type       = militia
        strength   = 40
        model      = 3
       }
@@ -283,7 +283,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22100 id = 10  } 
        name       = "21/24/28. Independent Brigades" 
-       type       = infantry
+       type       = militia
        strength   = 40
        model      = 3
       }

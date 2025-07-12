@@ -4,6 +4,7 @@
 
 country =
 { tag                    = LAT
+  ai_settings			 = { flags = { ideology = 4 } }
 	energy                 = 420
 	metal                  = 210
 	rare_materials         = 105 

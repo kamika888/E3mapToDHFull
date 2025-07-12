@@ -5,6 +5,7 @@ event = {
 	
 	trigger = {
 		NOT = { local_flag = AllInit }
+		NOT = { local_flag = ShadowState }
 	}
 	
 	name = "Initial setup"
@@ -35,10 +36,9 @@ event = {
 		command = { type = metalpool 		value = 1000 }
 		command = { type = energypool 		value = 1000 }
 		command = { type = rarematerialspool value = 500 }
+		command = { type = money			value = 50 }
 		#doesn't seem to work properly for the player. But works fine for AI
 		command = { trigger = { ai = yes } type = transport_pool which = -1 value = 50 }
-		
-		#command = { type = industrial_modifier which = money value = -10 }
 		
 		command = { type = soft_attack		which = tactical_bomber 		value = 1 }
 		command = { type = strategic_attack which = strategic_bomber 		value = 1 }
@@ -104,16 +104,16 @@ event = {
 		
 		command = { trigger = { atwar = no }	type = local_setflag which = storageLost when = 0 value = 1 }
 		
-		command = { trigger = { policy = { type = political_left value = 1 }	NOT = { policy = { type = political_left value = 2	} } } type = local_setflag which = ideology when = 0 value = 1  }
-		command = { trigger = { policy = { type = political_left value = 2 }	NOT = { policy = { type = political_left value = 3	} } } type = local_setflag which = ideology when = 0 value = 2  }
-		command = { trigger = { policy = { type = political_left value = 3 }	NOT = { policy = { type = political_left value = 4	} } } type = local_setflag which = ideology when = 0 value = 3  }
-		command = { trigger = { policy = { type = political_left value = 4 }	NOT = { policy = { type = political_left value = 5	} } } type = local_setflag which = ideology when = 0 value = 4  }
-		command = { trigger = { policy = { type = political_left value = 5 }	NOT = { policy = { type = political_left value = 6	} } } type = local_setflag which = ideology when = 0 value = 5  }
-		command = { trigger = { policy = { type = political_left value = 6 }	NOT = { policy = { type = political_left value = 7	} } } type = local_setflag which = ideology when = 0 value = 6  }
-		command = { trigger = { policy = { type = political_left value = 7 }	NOT = { policy = { type = political_left value = 8	} } } type = local_setflag which = ideology when = 0 value = 7  }
-		command = { trigger = { policy = { type = political_left value = 8 }	NOT = { policy = { type = political_left value = 9	} } } type = local_setflag which = ideology when = 0 value = 8  }
-		command = { trigger = { policy = { type = political_left value = 9 }	NOT = { policy = { type = political_left value = 10	} } } type = local_setflag which = ideology when = 0 value = 9  }
-		command = { trigger = { policy = { type = political_left value = 10 }														    } type = local_setflag which = ideology when = 0 value = 10 }
+		command = { trigger = { NOT = { local_flag = ideology } policy = { type = political_left value = 1 }	NOT = { policy = { type = political_left value = 2	} } } type = local_setflag which = ideology when = 0 value = 1  }
+		command = { trigger = { NOT = { local_flag = ideology } policy = { type = political_left value = 2 }	NOT = { policy = { type = political_left value = 3	} } } type = local_setflag which = ideology when = 0 value = 2  }
+		command = { trigger = { NOT = { local_flag = ideology } policy = { type = political_left value = 3 }	NOT = { policy = { type = political_left value = 4	} } } type = local_setflag which = ideology when = 0 value = 3  }
+		command = { trigger = { NOT = { local_flag = ideology } policy = { type = political_left value = 4 }	NOT = { policy = { type = political_left value = 5	} } } type = local_setflag which = ideology when = 0 value = 4  }
+		command = { trigger = { NOT = { local_flag = ideology } policy = { type = political_left value = 5 }	NOT = { policy = { type = political_left value = 6	} } } type = local_setflag which = ideology when = 0 value = 5  }
+		command = { trigger = { NOT = { local_flag = ideology } policy = { type = political_left value = 6 }	NOT = { policy = { type = political_left value = 7	} } } type = local_setflag which = ideology when = 0 value = 6  }
+		command = { trigger = { NOT = { local_flag = ideology } policy = { type = political_left value = 7 }	NOT = { policy = { type = political_left value = 8	} } } type = local_setflag which = ideology when = 0 value = 7  }
+		command = { trigger = { NOT = { local_flag = ideology } policy = { type = political_left value = 8 }	NOT = { policy = { type = political_left value = 9	} } } type = local_setflag which = ideology when = 0 value = 8  }
+		command = { trigger = { NOT = { local_flag = ideology } policy = { type = political_left value = 9 }	NOT = { policy = { type = political_left value = 10	} } } type = local_setflag which = ideology when = 0 value = 9  }
+		command = { trigger = { NOT = { local_flag = ideology } policy = { type = political_left value = 10 }														    } type = local_setflag which = ideology when = 0 value = 10 }
 
 		#Default slider stats		
 		command = { trigger = { NOT = { local_flag = sliderSet } year = 1937 } type = set_domestic which = freedom		 	value = 1  } #Full developing
@@ -121,6 +121,20 @@ event = {
 		command = { trigger = { NOT = { local_flag = sliderSet } year = 1937 } type = set_domestic which = interventionism	value = 4  } #+3 militarism
 		
 		command = { type = local_setflag when = 0 which = EconomicGrowth value = 1935 }
+		
+		command = { 
+			trigger = { 
+				NOT = { local_flag = storageLost }
+				OR = {
+					NOT = { lost_IC = { value = 10 } } 
+					AND = {
+						lost_IC = { value = 100 }
+						NOT = { lost_VP = { value = 10 } }
+					}
+				}
+			}
+			type = local_setflag which = storageLost when = 0 value = 1
+		}
 		
 		command = { 
 			trigger = { 
@@ -138,14 +152,14 @@ event = {
 		#Defense buffs
 		command = { type = defensiveness 		which = land value = -7  }
 		
-		command = { type = plain_defense 		which = land value = 30  }
-		command = { type = desert_defense 		which = land value = 30  }
-		command = { type = mountain_defense		which = land value = 90  }
-		command = { type = urban_defense 		which = land value = 70  }
-		command = { type = hill_defense 		which = land value = 30  }
-		command = { type = forest_defense 		which = land value = 30  }
-		command = { type = jungle_defense 		which = land value = 30  }
-		command = { type = swamp_defense 		which = land value = 90  }
+		command = { type = plain_defense 		which = land value = 40  }
+		command = { type = desert_defense 		which = land value = 40  }
+		command = { type = mountain_defense		which = land value = 100 }
+		command = { type = urban_defense 		which = land value = 60  }
+		command = { type = hill_defense 		which = land value = 40  }
+		command = { type = forest_defense 		which = land value = 40  }
+		command = { type = jungle_defense 		which = land value = 40  }
+		command = { type = swamp_defense 		which = land value = 100 }
 		
 		command = { type = shore_attack 		which = land value = -30 }
 		command = { type = river_attack 		which = land value = -30 }
@@ -153,7 +167,7 @@ event = {
 		command = { type = plain_attack 		which = land value = -5  }
 		command = { type = desert_attack 		which = land value = -5  }
 		command = { type = mountain_attack 		which = land value = -10 }
-		command = { type = urban_attack 		which = land value = -7  }
+		command = { type = urban_attack 		which = land value = -5  }
 		command = { type = hill_attack 			which = land value = -5  }
 		command = { type = forest_attack 		which = land value = -5  }
 		command = { type = jungle_attack 		which = land value = -5  }
@@ -183,14 +197,14 @@ event = {
 		command = { type = forest_attack 		which = armor		value = 10  }
 		command = { type = jungle_attack 		which = armor		value = 10  }
 		command = { type = swamp_attack 		which = armor		value = 10  }
-		command = { type = plain_defense 		which = armor		value = -30 }
-		command = { type = desert_defense 		which = armor		value = -30 }
-		command = { type = mountain_defense		which = armor		value = -30 }
-		command = { type = urban_defense 		which = armor		value = -30 }
-		command = { type = hill_defense 		which = armor		value = -30 }
-		command = { type = forest_defense 		which = armor		value = -30 }
-		command = { type = jungle_defense 		which = armor		value = -30 }
-		command = { type = swamp_defense 		which = armor		value = -30 }
+		command = { type = plain_defense 		which = armor		value = -40 }
+		command = { type = desert_defense 		which = armor		value = -40 }
+		command = { type = mountain_defense		which = armor		value = -40 }
+		command = { type = urban_defense 		which = armor		value = -40 }
+		command = { type = hill_defense 		which = armor		value = -40 }
+		command = { type = forest_defense 		which = armor		value = -40 }
+		command = { type = jungle_defense 		which = armor		value = -40 }
+		command = { type = swamp_defense 		which = armor		value = -40 }
 
 		command = { type = plain_attack 		which = light_armor value = 10  }
 		command = { type = desert_attack 		which = light_armor value = 10  }
@@ -200,14 +214,14 @@ event = {
 		command = { type = forest_attack 		which = light_armor value = 10  }
 		command = { type = jungle_attack 		which = light_armor value = 10  }
 		command = { type = swamp_attack 		which = light_armor value = 10  }
-		command = { type = plain_defense 		which = light_armor value = -30 }
-		command = { type = desert_defense 		which = light_armor value = -30 }
-		command = { type = mountain_defense		which = light_armor value = -30 }
-		command = { type = urban_defense 		which = light_armor value = -30 }
-		command = { type = hill_defense 		which = light_armor value = -30 }
-		command = { type = forest_defense 		which = light_armor value = -30 }
-		command = { type = jungle_defense 		which = light_armor value = -30 }
-		command = { type = swamp_defense 		which = light_armor value = -30 }
+		command = { type = plain_defense 		which = light_armor value = -40 }
+		command = { type = desert_defense 		which = light_armor value = -40 }
+		command = { type = mountain_defense		which = light_armor value = -40 }
+		command = { type = urban_defense 		which = light_armor value = -40 }
+		command = { type = hill_defense 		which = light_armor value = -40 }
+		command = { type = forest_defense 		which = light_armor value = -40 }
+		command = { type = jungle_defense 		which = light_armor value = -40 }
+		command = { type = swamp_defense 		which = light_armor value = -40 }
 		
 		command = { type = plain_attack 		which = mechanized	value = 10  }
 		command = { type = desert_attack 		which = mechanized	value = 10  }
@@ -217,14 +231,14 @@ event = {
 		command = { type = forest_attack 		which = mechanized	value = 10  }
 		command = { type = jungle_attack 		which = mechanized	value = 10  }
 		command = { type = swamp_attack 		which = mechanized	value = 10  }
-		command = { type = plain_defense 		which = mechanized	value = -30 }
-		command = { type = desert_defense 		which = mechanized	value = -30 }
-		command = { type = mountain_defense		which = mechanized	value = -30 }
-		command = { type = urban_defense 		which = mechanized	value = -30 }
-		command = { type = hill_defense 		which = mechanized	value = -30 }
-		command = { type = forest_defense 		which = mechanized	value = -30 }
-		command = { type = jungle_defense 		which = mechanized	value = -30 }
-		command = { type = swamp_defense 		which = mechanized	value = -30 }
+		command = { type = plain_defense 		which = mechanized	value = -40 }
+		command = { type = desert_defense 		which = mechanized	value = -40 }
+		command = { type = mountain_defense		which = mechanized	value = -40 }
+		command = { type = urban_defense 		which = mechanized	value = -40 }
+		command = { type = hill_defense 		which = mechanized	value = -40 }
+		command = { type = forest_defense 		which = mechanized	value = -40 }
+		command = { type = jungle_defense 		which = mechanized	value = -40 }
+		command = { type = swamp_defense 		which = mechanized	value = -40 }
 
 	
 		
@@ -267,7 +281,18 @@ event = {
 		command = { type = fuel_consumption which = transport_plane		value = -0.20 }
 		
 		command = { type = fuel_consumption which = naval				value =  1.00 }
-		command = { type = range			which = naval				value = -3000 }
+		
+		command = { type = range	 		which = submarine			value = -6000  }
+		command = { type = range	 		which = nuclear_submarine	value = -10000 }
+		command = { type = range	 		which = destroyer			value = -4000  }
+		command = { type = range	 		which = light_cruiser		value = -3000  }
+		command = { type = range	 		which = heavy_cruiser		value = -3000  }
+		command = { type = range	 		which = battlecruiser		value = -3000  }
+		command = { type = range	 		which = battleship			value = -6000  }
+		command = { type = range	 		which = escort_carrier		value = -3000  }
+		command = { type = range	 		which = light_carrier		value = -6000  }
+		command = { type = range	 		which = carrier				value = -6000  }
+		command = { type = range	 		which = transport			value = -1500  }
 		
 		command = { type = visibility 		which = submarine			value = 2.75  }
 		command = { type = visibility 		which = nuclear_submarine	value = 0.25  }
@@ -734,7 +759,7 @@ event = {
 		
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = ground_def_eff 						when = 1					value = 0.45 }
 
-		command = { trigger = { country = ENG } type = local_setflag which = GarSpec }
+		command = { trigger = { country = ENG country = VIC country = U87 } type = local_setflag which = GarSpec }
 		
 		command = { trigger = { ai = yes } type = ai which = "default.ai" }
 		command = { trigger = { country = GER } type = ai which = "nations\GER.ai" }
@@ -758,6 +783,11 @@ event = {
 		command = { trigger = { country = GRE } type = ai which = "nations\GRE.ai" }
 		command = { trigger = { country = POR } type = ai which = "nations\POR.ai" }
 		command = { trigger = { country = SIK } type = ai which = "nations\SIK.ai" }
+		command = { trigger = { country = SPR } type = ai which = "nations\SPR.ai" }
+		command = { trigger = { country = U52 } type = ai which = "nations\SPR.ai" }
+		command = { trigger = { country = EUS } type = ai which = "nations\SPR.ai" }
+		command = { trigger = { country = SPA } type = ai which = "nations\SPA.ai" }
+		command = { trigger = { country = U69 } type = ai which = "nations\SPA.ai" }
 		
 		command = { trigger = { country = USA } type = ai which = "home_01.ai" }
 		command = { trigger = { country = U02 } type = ai which = "home_01.ai" }
@@ -765,10 +795,54 @@ event = {
 		command = { trigger = { country = AST } type = ai which = "home_01.ai" }
 		command = { trigger = { country = NZL } type = ai which = "home_01.ai" }
 		
-		command = { type = local_setflag which = exp value = 70 }
-		command = { type = ai which = "EXP_70.ai" }
+		command = { trigger = { ai = yes
+								NOT = {
+									#country = RSI
+									country = U69
+									country = CGX
+									country = CSX
+									country = CYN
+									country = U05
+									country = ENG
+									country = ITA
+									country = CXB
+									country = U59
+									country = CRO
+									country = SER
+									country = HUN
+									country = ROM
+									#country = MON
+									country = U03
+									country = U04
+									#country = MAN
+									country = FIN
+									#country = U65
+									country = U36
+									country = U58
+									country = U87
+									country = POL
+									country = IRQ
+									country = EGY
+									country = OMN
+									country = YEM
+									country = NEP
+									country = BHU
+									country = SIK
+									country = U63
+									country = MEN
+									country = MON
+									country = TAN
+									country = MAN
+									country = VIC
+									country = SOV
+									country = JAP
+								}
+		} type = event which = 2400047 where = -1 when = 0 } #default exp 70
 		
 		#command = { trigger = { country = RSI ai = yes } type = event which = 2400049 where = -1 when = 0 }
+		command = { trigger = { country = U69 ai = yes } type = event which = 2400049 where = -1 when = 0 }
+		command = { trigger = { country = U52 ai = yes } type = event which = 2400049 where = -1 when = 0 }
+		command = { trigger = { country = EUS ai = yes } type = event which = 2400049 where = -1 when = 0 }
 		command = { trigger = { country = CGX ai = yes } type = event which = 2400045 where = -1 when = 0 }
 		command = { trigger = { country = CSX ai = yes } type = event which = 2400044 where = -1 when = 0 }
 		command = { trigger = { country = CYN ai = yes } type = event which = 2400044 where = -1 when = 0 }
@@ -788,6 +862,7 @@ event = {
 		command = { trigger = { country = FIN ai = yes } type = event which = 2400041 where = -1 when = 0 }
 		#command = { trigger = { country = U65 ai = yes } type = event which = 2400040 where = -1 when = 0 }
 		command = { trigger = { country = U36 ai = yes } type = event which = 2400040 where = -1 when = 0 }
+		command = { trigger = { country = U58 ai = yes } type = event which = 2400040 where = -1 when = 0 }
 		command = { trigger = { country = U87 ai = yes } type = event which = 2400040 where = -1 when = 0 }
 		command = { trigger = { country = POL ai = yes } type = event which = 2400040 where = -1 when = 0 }
 		command = { trigger = { country = IRQ ai = yes } type = event which = 2400040 where = -1 when = 0 }
@@ -808,13 +883,31 @@ event = {
 		
 		command = { trigger = { lost_national = { value = 100 } } type = ai which = "desperationDisable.ai" }
 		
-		command = { type = belligerence value = -100 } #first, reset
+		#command = { type = belligerence value = -100 } #first, reset
 		command = { type = trigger which = 101 } #The belligerence assignment command is not stable if given directly inside the triggerable event, have to separate it into its own event
 		
 		command = { trigger = { country = JAP ai = yes } type = event which = 2401309 where = JAP when = 0 } #lock garrisons/shanghai
 		
 		
 		command = { trigger = { OR = { NOT = { ic = 50 } ispuppet = yes } }	type = ai which = "specNoneMinor.ai" }
+		
+		command = { trigger = { 
+						NOT = { local_flag = UnionBonds } 
+						OR = { 
+							country = YUG country = DEN country = SPA country = SPR country = ETH country = CHI country = CHC country = CGX country = CSX country = CYN country = CXB country = SIK
+							country = U58 country = U59 country = U60 country = U61 country = U62 country = U63 country = U64 country = U65 country = U00 country = U05 country = U87
+						}
+					} 
+					type = local_setflag which = UnionBonds when = 0 value = 1	} #Limited union
+					
+		command = { trigger = { 
+						NOT = { local_flag = UnionBonds } 
+						OR = { 
+							country = AFG country = BEL country = BRA country = CZE country = ENG country = IND country = PAK country = PER country = PHI country = SAF country = SCH country = SOV country = U02
+							country = U17 country = U27 country = U31 country = USA country = U52 country = U69
+						}
+					} 
+					type = local_setflag which = UnionBonds when = 0 value = 2	} #Full/almost full union
 		
 		command = { trigger = { ispuppet = yes } type = local_setflag which = puppetOf }
 		command = { trigger = { NOT = { puppet = { country = -1 country = AFG } } } type = local_clrflag which = puppetOfAFG }
@@ -2111,7 +2204,7 @@ event = {
 		trigger = { NOT = { technology = 1020 } }
 		
 		#70 max
-		command = { 						type = add_division value = militia when = 0 where = -50 }
+		command = { 						type = add_division value = garrison when = 0 where = -50 }
 		command = { trigger = { vp = 5  }	type = add_division value = militia when = 0 where = -50 }
 		command = { trigger = { vp = 10 }	type = add_division value = militia when = 0 where = -50 }
 		command = { trigger = { vp = 15 }	type = add_division value = militia when = 0 where = -50 }
@@ -2189,7 +2282,7 @@ event = {
 		trigger = { technology = 1020 NOT = { technology = 1040 } }
 		
 		#70 max
-		command = { 						type = add_division value = militia when = 1 where = -50 }
+		command = { 						type = add_division value = garrison when = 1 where = -50 }
 		command = { trigger = { vp = 5  }	type = add_division value = militia when = 1 where = -50 }
 		command = { trigger = { vp = 10 }	type = add_division value = militia when = 1 where = -50 }
 		command = { trigger = { vp = 15 }	type = add_division value = militia when = 1 where = -50 }
@@ -2267,7 +2360,7 @@ event = {
 		trigger = { technology = 1040 NOT = { technology = 1060 } }
 		
 		#70 max
-		command = { 						type = add_division value = militia when = 2 where = -50 }
+		command = { 						type = add_division value = garrison when = 2 where = -50 }
 		command = { trigger = { vp = 5  }	type = add_division value = militia when = 2 where = -50 }
 		command = { trigger = { vp = 10 }	type = add_division value = militia when = 2 where = -50 }
 		command = { trigger = { vp = 15 }	type = add_division value = militia when = 2 where = -50 }
@@ -2345,7 +2438,7 @@ event = {
 		trigger = { technology = 1060 NOT = { technology = 1080 } }
 		
 		#70 max
-		command = { 						type = add_division value = militia when = 3 where = -50 }
+		command = { 						type = add_division value = garrison when = 3 where = -50 }
 		command = { trigger = { vp = 5  }	type = add_division value = militia when = 3 where = -50 }
 		command = { trigger = { vp = 10 }	type = add_division value = militia when = 3 where = -50 }
 		command = { trigger = { vp = 15 }	type = add_division value = militia when = 3 where = -50 }
@@ -2423,7 +2516,7 @@ event = {
 		trigger = { technology = 1080 NOT = { technology = 1100 } }
 		
 		#70 max
-		command = { 						type = add_division value = militia when = 4 where = -50 }
+		command = { 						type = add_division value = garrison when = 4 where = -50 }
 		command = { trigger = { vp = 5  }	type = add_division value = militia when = 4 where = -50 }
 		command = { trigger = { vp = 10 }	type = add_division value = militia when = 4 where = -50 }
 		command = { trigger = { vp = 15 }	type = add_division value = militia when = 4 where = -50 }
@@ -2501,7 +2594,7 @@ event = {
 		trigger = { technology = 1100 NOT = { technology = 1120 } }
 		
 		#70 max
-		command = { 						type = add_division value = militia when = 5 where = -50 }
+		command = { 						type = add_division value = garrison when = 5 where = -50 }
 		command = { trigger = { vp = 5  }	type = add_division value = militia when = 5 where = -50 }
 		command = { trigger = { vp = 10 }	type = add_division value = militia when = 5 where = -50 }
 		command = { trigger = { vp = 15 }	type = add_division value = militia when = 5 where = -50 }
@@ -2579,7 +2672,7 @@ event = {
 		trigger = { technology = 1120 NOT = { technology = 1140 } }
 		
 		#70 max
-		command = { 						type = add_division value = militia when = 6 where = -50 }
+		command = { 						type = add_division value = garrison when = 6 where = -50 }
 		command = { trigger = { vp = 5  }	type = add_division value = militia when = 6 where = -50 }
 		command = { trigger = { vp = 10 }	type = add_division value = militia when = 6 where = -50 }
 		command = { trigger = { vp = 15 }	type = add_division value = militia when = 6 where = -50 }
@@ -2657,7 +2750,7 @@ event = {
 		trigger = { technology = 1140 NOT = { technology = 13000 } }
 		
 		#70 max
-		command = { 						type = add_division value = militia when = 7 where = -50 }
+		command = { 						type = add_division value = garrison when = 7 where = -50 }
 		command = { trigger = { vp = 5  }	type = add_division value = militia when = 7 where = -50 }
 		command = { trigger = { vp = 10 }	type = add_division value = militia when = 7 where = -50 }
 		command = { trigger = { vp = 15 }	type = add_division value = militia when = 7 where = -50 }
@@ -2735,7 +2828,7 @@ event = {
 		trigger = { technology = 13000 }
 		
 		#70 max
-		command = { 						type = add_division value = militia when = 8 where = -50 }
+		command = { 						type = add_division value = garrison when = 8 where = -50 }
 		command = { trigger = { vp = 5  }	type = add_division value = militia when = 8 where = -50 }
 		command = { trigger = { vp = 10 }	type = add_division value = militia when = 8 where = -50 }
 		command = { trigger = { vp = 15 }	type = add_division value = militia when = 8 where = -50 }
@@ -3091,7 +3184,7 @@ event = {
 	
 	trigger = {
 		local_flag = AllInit
-		ispuppet = no
+		NOT = { ispuppet = yes }
 		OR = {
 			AND = {
 				policy = { type = professional_army value = 2 }

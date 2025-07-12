@@ -6,7 +6,7 @@
  { tag                    = ICL 
    capital                = 1 
    puppet				  = DEN
-   ai_settings			  = { flags = { puppetLevel8 = 1 demilitarized = 1 } }
+   ai_settings			  = { flags = { puppetLevel8 = 1 demilitarized = 1 ideology = 6 } }
 
    # Resource Reserves 
    energy                 = 100 

@@ -8,7 +8,7 @@
     
       country =  
       {  tag               = EGY  
-	ai_settings			   = { flags = { puppetLevel5 = 1 } }
+	ai_settings			   = { flags = { puppetLevel5 = 1 ideology = 4 } }
     capital                = 903 # Cairo / Al-Qahirah  
     puppet    = ENG # UK  
 	# Resource Reserves  
@@ -98,7 +98,7 @@
       free_market       = 2
       freedom           = 2  
       professional_army = 2  
-      defense_lobby     = 3  
+      defense_lobby     = 2  
       interventionism   = 2  
       }  
 

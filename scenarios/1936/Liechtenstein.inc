@@ -6,7 +6,7 @@
  { tag                    = U54 
    capital                = 2273 
    puppet				  = SCH
-   ai_settings			  = { flags = { puppetLevel9 = 1 demilitarized = 1 } }
+   ai_settings			  = { flags = { puppetLevel9 = 1 demilitarized = 1 ideology = 5 } }
 
    # Resource Reserves 
    energy                 = 100 

@@ -48,10 +48,17 @@ event = {
 
 	action_a = {
 		name = ACTION_NAME_DAMN # En la Defensa de la Democracia!
+		command = { type = remove_units which = land where = REB when = 2 value = "Spain"  } 
+		command = { type = remove_units which = land where = REB when = 2 value = "Sahara" } 
+		command = { type = remove_units which = land where = REB when = 1 value = "El Rif" } 
         command = { type = civil_war which = SPA }
         command = { type = dissent value = -50 }  
 		
-        command = { type = set_domestic which = political_left value = 7 } #Social Democrat
+        command = { type = set_domestic which = political_left	value = 7 } #Social Democrat
+		command = { type = set_domestic which = freedom 		value = 6 }
+		command = { type = set_domestic which = free_market 	value = 4 }
+		command = { type = set_domestic which = defense_lobby 	value = 4 }
+		command = { type = set_domestic which = interventionism value = 2 } #1 down
 		command = { type = headofstate which = 255011 } #Azaña
 		#command = { type = headofgovernment which = 255030 } #Azaña
 		command = { type = headofgovernment which = 255033 } #Jose Giral Pereira
@@ -74,14 +81,14 @@ event = {
 		command = { type = remove_claim_area which = "Catalonia" 		}
 		command = { type = remove_claim_area which = "East Andalucia"	}
 		
-		command = { type = independence which = U52 value = 1 }
 		command = { type = independence which = EUS value = 1 }
-		command = { type = alliance which = U52 }
+		command = { type = independence which = U52 value = 1 }
 		command = { type = alliance which = EUS }
-		command = { type = make_puppet which = U52 }
+		command = { type = alliance which = U52 }
 		command = { type = make_puppet which = EUS }
-		command = { type = event which = 2400537 where = U52 when = 0 } #medium puppet
+		command = { type = make_puppet which = U52 }
 		command = { type = event which = 2400537 where = EUS when = 0 } #medium puppet
+		command = { type = event which = 2400537 where = U52 when = 0 } #medium puppet
 		command = { type = flag_ext where = U52 which = "_FAI" }
 		
 		
@@ -89,13 +96,17 @@ event = {
 		command = { type = local_setflag which = inMajorWar		}
 		command = { type = local_setflag which = RES }
 		command = { type = event which = 3130 where = -1 when = 1080 } #inMajorWar clear
-
+		
+		#command = { trigger = { NOT = { policy = { type = professional_army value = 5 } } } type = event which = 8300105 where = -1 when = 0 }
 		command = { trigger = { NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
-		command = { type = event which = 5101 where = SPR when = 0   }  
-		command = { type = event which = 5104 where = SPR when = 21  } #War start
-		command = { type = event which = 5130 where = SPR when = 180 } #Spanish economic crisis - 6 months after the war starts?
-		command = { type = event which = 5130 where = U52 when = 180 }
-		#command = { type = event which = 5130 where = EUS when = 180 }
+		
+		
+		
+		command = { type = event which = 2400605 where = SPR when = 0   }  #trade reset
+		command = { type = event which = 5101	 where = SPR when = 0   }  
+		command = { type = event which = 5130 	 where = SPR when = 180 } #Spanish economic crisis - 6 months after the war starts?
+		command = { type = event which = 5130 	 where = U52 when = 180 }
+		#command = { type = event which = 5130 	 where = EUS when = 180 }
 	}
 }
 
@@ -112,6 +123,7 @@ event = {
 		name = ACTION_NAME_DAMN 
 		command = { type = peace which = SPA value = 0 }
 		
+		command = { type = dissent value = 7 } 
 		command = { type = belligerence value = 1 }
 		#command = { type = end_mastery which = U52 }
 		#command = { type = end_mastery which = EUS }
@@ -125,19 +137,29 @@ event = {
 		command = { type = secedeprovince which = SPA value = 3184				when = 1 }
 		command = { type = secedeprovince which = SPA value = 3185				when = 1 }
 		
+		command = { type = secedeprovince which = U52 value = 7114 				when = 1 }
+		command = { type = secedeprovince which = U52 value = 3186 				when = 1 }
+		command = { type = secedeprovince which = U52 value = 2619 				when = 1 }
 		command = { type = secedeprovince which = U52 value = 357				when = 1 }
 		
-		command = { type = add_claim_area which = "Catalonia" 		}
-		command = { type = add_claim_area which = "East Andalucia"	}
+		command = { type = add_core_area which = "Catalonia" 		}
+		command = { type = add_core_area which = "Baleares" 		}
+		command = { type = add_core_area which = "East Andalucia"	}
+		command = { type = addcore		 which = 355				}
+		
+		command = { type = local_setflag which = UnionBonds when = 0 value = 2	}
 		
 		command = { type = transport_pool which = SPR value = 200 }
 		command = { type = dissent value = -50 }
 		command = { type = supplies value = 5000 }
-		command = { type = money value = 3000 }
+		command = { type = oilpool	value = 1000 }
+		#command = { type = money value = 500 }
 		command = { type = manpowerpool value = 500 }
 		#command = { type = capital which = 354 }
 		command = { type = event which = 5102 where = SPA when = 0 }
 		command = { type = event which = 5103 where = SPA when = 1 }
+		
+		#command = { type = capital which = 354 }
 	} 
 }
 
@@ -168,10 +190,11 @@ event = {
 		command = { type = dissent value = -50 }
 		
 		command = { type = local_setflag which = sliderSet }
-		command = { type = set_domestic which = political_left value = 4 } #Conservative
-		command = { type = set_domestic which = freedom value = 5 }
-		command = { type = set_domestic which = defense_lobby value = 7 }
-		command = { type = set_domestic which = interventionism value = 4 }
+		command = { type = set_domestic which = political_left	value = 4 } #Conservative
+		command = { type = set_domestic which = freedom 		value = 6 }
+		command = { type = set_domestic which = free_market 	value = 4 }
+		command = { type = set_domestic which = defense_lobby 	value = 4 }
+		command = { type = set_domestic which = interventionism value = 4 } #1 up
 		
 		command = { type = headofstate which = 35001 } #Cabanellas
 		command = { type = headofgovernment which = 35015 } #Mola
@@ -192,18 +215,25 @@ event = {
 		command = { type = sleepminister which = 35137 } #José Sanjurjo as CoA
 		command = { type = capital which = 334 }
 		#command = { type = capital which = 333 }
-		command = { type = money 		value = 3000 }
+		
+		command = { type = supplies 	value = 5000 }
+		command = { type = oilpool		value = 1000 }
+		command = { type = money 		value = 500  }
 		command = { type = manpowerpool value = 500 }
+		
+		command = { type = event which = 5104 where = U52 when = 0   }
+		command = { type = event which = 5105 where = EUS when = 0   }
+		command = { type = event which = 5106 where = U69 when = 0   }
+		command = { type = event which = 5107 where = SPR when = 21  } #War start
 		
 		command = { type = local_setflag which = SanctionsEvt	}
 		command = { type = local_setflag which = inMajorWar		}
 		command = { type = local_setflag which = RES }
 		command = { type = event which = 3130 where = -1 when = 1080 } #inMajorWar clear
 		
-		command = { trigger = { NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 3 } #delay to make sure that country init fires first
+		command = { trigger = { NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
 		command = { type = event which = 5120 where = SPA when = 75 } #Junta chooses a leader - ~2.5 months from the start of the war
 		command = { type = event which = 5121 where = SPR when = 45 } #Republic chooses a leader - ~1.5 months from the start of the war
-		
 	} 
 }
 
@@ -233,7 +263,7 @@ event = {
 }
 
 event = { 
-	id = 5104 
+	id = 5107 
 	random = no
 	country = SPR
 	
@@ -247,10 +277,10 @@ event = {
 		name = ACTION_NAME_DAMN
 		#command = { type = war which = SPA }
 		
-		command = { type = event which = 5105 where = U52 when = 0 }
-		command = { type = event which = 5106 where = EUS when = 0 }
-		command = { type = event which = 5107 where = SPA when = 0 } 
-		command = { type = event which = 5108 where = U69 when = 0 }
+		command = { type = event which = 5110 where = U52 when = 0 }
+		command = { type = event which = 5111 where = EUS when = 0 }
+		command = { type = event which = 5112 where = SPA when = 0 } 
+		command = { type = event which = 5113 where = U69 when = 0 }
 		
 		#Spain's starting army = 34. At civil war / 2 = ~16 full-strength divs
 		#1936 end strenth 446,800 including regular army and militias
@@ -274,19 +304,22 @@ event = {
 		command = { type = demobilize which = light_armor 	when = 0 where = 1 value = -1 }
 		command = { type = demobilize which = air 			when = 0 where = 1 value = 0 }
 		
-		command = { type = add_division value = interceptor		when = 7 where = -50 }
-		command = { type = add_division value = tactical_bomber	when = 4 where = -50 }
+		command = { type = add_division value = interceptor		when = 5 where = -50 }
+		command = { type = add_division value = tactical_bomber	when = 2 where = -50 }
 		
 		command = { type = add_corps value = land where = 3190 }
 		command = { type = add_division which = "2nd UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3190 }
 		command = { type = add_division which = "1st Republican Left Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 3195 }
 		command = { type = add_division which = "1st UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3195 }
 		command = { type = add_division which = "2nd PCE-JSU Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 341 } #Madrid
 		command = { type = add_division which = "2nd Republican Left Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 341 }
 		command = { type = add_division which = "4th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 3192 }
@@ -297,8 +330,11 @@ event = {
 		
 		command = { type = add_corps value = land where = 3197 }
 		command = { type = add_division which = "6th PCE-JSU Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3197 }
 		command = { type = add_division which = "10th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3197 }
 		command = { type = add_division which = "4th Republican Left Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3197 }
 		command = { type = add_division which = "11th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 7164 }
@@ -306,15 +342,18 @@ event = {
 		
 		command = { type = add_corps value = land where = 3202 }
 		command = { type = add_division which = "3rd Republican Left Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3202 }
 		#command = { type = add_division which = "1st Armor Division" value = light_armor when = 0 where = -80 }
 		command = { type = add_division which = "1st Armor Division" value = infantry when = 8 where = light_armor_brigade }
 		
 		command = { type = add_corps value = land where = 2618 }
 		command = { type = add_division which = "1st PCE-JSU Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 2618 }
 		command = { type = add_division which = "2nd Republican Union Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 3204 }
 		command = { type = add_division which = "6th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3204 }
 		command = { type = add_division which = "12th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 7107 }
@@ -322,12 +361,17 @@ event = {
 		
 		command = { type = add_corps value = land where = 1726 }
 		command = { type = add_division which = "Sovereign Council of Asturias and Leon" value = hq when = 2 where = -30 }
+		command = { type = add_corps value = land where = 1726 }
 		command = { type = add_division which = "Asturias garrison" value = garrison when = 4 where = -30 }
-		#command = { type = add_division which = "65th Division" value = infantry when = 8 where = -30 }
+		command = { type = add_corps value = land where = 1726 }
+		command = { type = add_division which = "65th Division" value = infantry when = 8 where = -30 }
 		
 		command = { type = add_corps value = land where = 3180 }
-		command = { type = add_division which = "5th PCE-JSU Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_division which = "63rd Division" value = infantry when = 8 where = -30 }
+		#command = { type = add_division which = "63rd Division" value = infantry when = 8 where = -30 }
+		command = { type = activate_division which = 27600 value = 600 where = 3180	when = 1 } #63rd Division
+		command = { type = add_corps value = land where = 3180 }
+		#command = { type = add_division which = "5th PCE-JSU Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = activate_division which = 27600 value = 601 where = 3180	when = 1 } #5th PCE-JSU Mil. Div.
 		
 		
 	
@@ -337,9 +381,12 @@ event = {
 		command = { type = add_corps value = land where = 1734 }
 		command = { type = add_division which = "9th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
 		
-		command = { type = add_division value = transport when = 0 }
-		command = { type = add_division value = transport when = 0 }
-		command = { type = add_division value = transport when = 0 }
+		command = { type = add_corps value = land where = 341 }
+		command = { type = add_division 							 	value = garrison when = 4 where = -50 }
+		
+		command = { trigger = { NOT = { transport = { value = 3 } } } type = add_division value = transport when = 2 }
+		command = { trigger = { NOT = { transport = { value = 3 } } } type = add_division value = transport when = 2 }
+		command = { trigger = { NOT = { transport = { value = 3 } } } type = add_division value = transport when = 2 }
 		
 		#command = { type = task_efficiency which = attack 			value = -0.3 }
 		#command = { type = task_efficiency which = support_attack 	value = -0.3 }
@@ -351,18 +398,14 @@ event = {
 		command = { type = construct which = land_fort where = 3195 value = 2 }
 		command = { type = construct which = land_fort where = 341	value = 2 }
 		
-		#command = { type = capital which = 354 }
-		
 		command = { trigger = { ai = yes } type = ai which = "nations\SPR.ai" }
-		#command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
-		#command = { trigger = { ai = yes } type = disable_task 		which = strat_redeploy }
-		#command = { trigger = { ai = yes } type = local_setflag 	which = redeployDisabled }	
+		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
 	} 
 }
 
 
 event = { 
-	id = 5105
+	id = 5104
 	random = no
 	country = U52
 
@@ -373,10 +416,11 @@ event = {
 	action = { 
 		name = ACTION_NAME_DAMN
 		command = { type = local_setflag which = sliderSet }
-		command = { type = set_domestic which = freedom value = 5 }
-		command = { type = set_domestic which = defense_lobby value = 7 }
-		command = { type = set_domestic which = interventionism value = 4 }
-        command = { type = set_domestic which = political_left value = 10 } 
+        command = { type = set_domestic which = political_left	value = 10 } 
+		command = { type = set_domestic which = freedom 		value = 6 }
+		command = { type = set_domestic which = free_market 	value = 4 }
+		command = { type = set_domestic which = defense_lobby 	value = 4 }
+		command = { type = set_domestic which = interventionism value = 1 } #no military experience at all
 		
 		command = { type = secedeprovince which = U69 value = 3184		when = 2 }
 		command = { type = secedeprovince which = U69 value = 3185		when = 2 }
@@ -387,6 +431,14 @@ event = {
 		command = { type = foreignminister		which = 511 } #Andreu Nin
 		command = { type = ministerofsecurity	which = 543 } #Joan Garcia i Oliver
 		command = { type = chiefofstaff			which = 516 } #Enric Perez i Farras
+		
+		command = { type = add_core_area which = "Catalonia" 		}
+		command = { type = add_core_area which = "Baleares" 		}
+		command = { type = add_core_area which = "East Andalucia"	}
+		command = { type = addcore		 which = 355				}
+		
+		command = { type = local_setflag which = UnionBonds when = 0 value = 2	}
+		#Revolutionary Catalonia is effectively alternative Spain
 
 		command = { type = local_setflag which = stayInWar		}
 		command = { type = local_setflag which = SanctionsEvt	}
@@ -398,79 +450,13 @@ event = {
 		command = { type = transport_pool which = U52 value = 50 }
 		command = { type = manpowerpool value = 200 }
 		command = { type = supplies value = 2000 }
-
-		command = { type = add_corps value = land where = 3190 }
-		command = { type = add_division which = "15th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 342 }
-		command = { type = add_division which = "16th CNT-FAI Mil. Div." 		value = militia when = 4 where = -30 }
-		command = { type = add_division which = "20th CNT-FAI Mil. Div." 		value = militia when = 4 where = -30 }
-		
-		command = { type = add_corps value = land where = 7164 }
-		command = { type = add_division which = "18th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 3202 }
-		command = { type = add_division which = "10th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 7107 }
-		command = { type = add_division which = "11th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 1726 }
-		command = { type = add_division which = "9th CNT-FAI Mil. Div." 		value = militia when = 4 where = -30 }
-		command = { type = add_division which = "20th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 7116 }
-		command = { type = add_division which = "4th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_division which = "17th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 3180 }
-		command = { type = add_division which = "7th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_division which = "8th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 7111 }
-		command = { type = add_division which = "1st CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_division which = "1st Catalan State Mil. Div." 	value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 7113 }
-		command = { type = add_division which = "2nd CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_division which = "1st POUM Mil. Div." 			value = militia when = 4 where = -50 }
-		command = { type = add_division which = "1st ERC Mil. Div." 			value = militia when = 4 where = -50 }
-		command = { type = add_division which = "19th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_division which = "2nd ERC Mil. Div." 			value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 7112 }
-		command = { type = add_division which = "5th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_division which = "2nd POUM Mil. Div." 			value = militia when = 4 where = -50 }
-		command = { type = add_division which = "2nd Catalan State Mil. Div." 	value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 3187 }
-		command = { type = add_division which = "3rd CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_division which = "12th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 1734 }
-		command = { type = add_division which = "6th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 7127 }
-		command = { type = add_division which = "13th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 2619 }
-		command = { type = add_division which = "14th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-
-		command = { type = construct which = land_fort where = 7113 value = 2 }
-		
-		#command = { type = task_efficiency which = attack 			value = -0.3 }
-		#command = { type = task_efficiency which = support_attack 	value = -0.3 }
-		
-		command = { trigger = { ai = yes } type = ai which = "nations\SPR.ai" }
-		#command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
-		#command = { trigger = { ai = yes } type = disable_task 		which = strat_redeploy }
-		#command = { trigger = { ai = yes } type = local_setflag 	which = redeployDisabled }	
-		command = { trigger = { ai = yes } type = ai which = "EXP_90.ai" }
-	} 
+		command = { type = oilpool	value = 500  }
+		command = { type = money 	value = 50   }
+	}
 }
 
 event = { 
-	id = 5106
+	id = 5105
 	random = no
 	country = EUS
 
@@ -481,10 +467,11 @@ event = {
 	action = { 
 		name = ACTION_NAME_DAMN
 		command = { type = local_setflag which = sliderSet }
-		command = { type = set_domestic which = freedom value = 5 }
-		command = { type = set_domestic which = defense_lobby value = 7 }
-		command = { type = set_domestic which = interventionism value = 4 }
-        command = { type = set_domestic which = political_left value = 6 } 
+        command = { type = set_domestic which = political_left	value = 6 } 
+		command = { type = set_domestic which = freedom 		value = 6 }
+		command = { type = set_domestic which = free_market 	value = 4 }
+		command = { type = set_domestic which = defense_lobby 	value = 4 }
+		command = { type = set_domestic which = interventionism value = 2 }
 		
 		command = { type = headofstate 			which = 645001 } #Jose Antonio Aguirre
 		command = { type = headofgovernment		which = 645002 } #Jose Antonio Aguirre
@@ -493,16 +480,6 @@ event = {
 		command = { type = ministerofsecurity	which = 645071 } #Telesforo Monzon
 		command = { type = chiefofstaff			which = 645068 } #Jose Antonio Aguirre
 		
-		command = { type = add_corps value = land where = 7127 }
-		command = { type = add_division which = "1st PNV Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_division which = "3rd PNV Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_division which = "13th CNT-FAI Mil. Div." 	value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 331 }
-		command = { type = add_division which = "2nd PNV Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_division which = "4th PCE-JSU Mil. Div." 	value = militia when = 4 where = -50 }
-		command = { type = add_division which = "4th PNV Mil. Div." 		value = militia when = 4 where = -50 }
-
 		command = { type = local_setflag which = stayInWar		}
 		command = { type = local_setflag which = SanctionsEvt	}
 		command = { type = local_setflag which = inMajorWar		}
@@ -516,22 +493,188 @@ event = {
 		
 		command = { type = manpowerpool value = 100 }
 		command = { type = supplies value = 2000 }
+		command = { type = oilpool	value = 500  }
+		command = { type = money 	value = 50   }
+	}
+}
+
+event = { 
+	id = 5106
+	random = no
+	country = U69
+
+	name = "EVT_3100_NAME"
+	desc = "EVT_3100_DESC"
+	style = 2
+
+	action = { 
+		name = ACTION_NAME_DAMN
+		command = { type = local_setflag which = sliderSet }
+        command = { type = set_domestic which = political_left	value = 4 } 
+		command = { type = set_domestic which = freedom 		value = 6 }
+		command = { type = set_domestic which = free_market 	value = 4 }
+		command = { type = set_domestic which = defense_lobby 	value = 4 }
+		command = { type = set_domestic which = interventionism value = 3 } #Not an army but very experienced fighters
+		
+		command = { type = headofstate 				which = 35507 } #Javier de Borbon-Parma
+		command = { type = headofgovernment			which = 35508 } #Manuel Fal Conde
+		command = { type = armamentminister			which = 35515 } #Jose Enrique Varela Iglesias
+		command = { type = foreignminister			which = 35501 } #Tomas Dominguez Arevalo
+		command = { type = ministerofsecurity		which = 35510 } #Manuel Fal Conde
+		command = { type = ministerofintelligence	which = 35512 } #Ricardo de Rada
+		command = { type = chiefofstaff				which = 35516 } #Jose Enrique Varela Iglesias
+		command = { type = chiefofarmy				which = 35514 } #Ricardo de Rada
+		command = { type = chiefofnavy				which = 35503 } #Tomas Dominguez Arevalo
+		command = { type = chiefofair				which = 35504 } #Tomas Dominguez Arevalo
+		
+		command = { type = local_setflag which = stayInWar		}
+		command = { type = local_setflag which = SanctionsEvt	}
+		command = { type = local_setflag which = inMajorWar		}
+		command = { type = local_setflag which = RES }
+		command = { type = event which = 3130 where = -1 when = 1080 } #inMajorWar clear
+		command = { trigger = { NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 }
+
+		command = { type = transport_pool which = EUS value = 50 }
+		command = { type = manpowerpool value = 200 }
+		command = { type = supplies value = 2000 }
+		command = { type = oilpool	value = 500  }
+		command = { type = money 	value = 50   }
+	}
+}
+		
+event = { 
+	id = 5110
+	random = no
+	country = U52
+
+	name = "EVT_3100_NAME"
+	desc = "EVT_3100_DESC"
+	style = 2
+
+	action = { 
+		name = ACTION_NAME_DAMN
+		command = { type = add_corps value = land where = 3190 }
+		command = { type = add_division which = "15th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 342 }
+		command = { type = add_division which = "16th CNT-FAI Mil. Div." 		value = militia when = 4 where = -30 }
+		command = { type = add_corps value = land where = 342 }
+		command = { type = add_division which = "20th CNT-FAI Mil. Div." 		value = militia when = 4 where = -30 }
+		
+		command = { type = add_corps value = land where = 7164 }
+		command = { type = add_division which = "18th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 3202 }
+		command = { type = add_division which = "10th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 7107 }
+		command = { type = add_division which = "11th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 1726 }
+		#command = { type = add_division which = "9th CNT-FAI Mil. Div." 		value = militia when = 4 where = -30 }
+		command = { type = activate_division which = 27600 value = 602 where = 1726	when = 1 } #9th CNT-FAI Mil. Div.
+		command = { type = add_corps value = land where = 1726 }
+		#command = { type = add_division which = "20th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = activate_division which = 27600 value = 603 where = 1726	when = 1 } #20th CNT-FAI Mil. Div.
+		
+		command = { type = add_corps value = land where = 332 }
+		command = { type = add_division which = "4th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 332 }
+		command = { type = add_division which = "17th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 3180 }
+		command = { type = add_division which = "7th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3180 }
+		command = { type = add_division which = "8th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 3186 }
+		command = { type = add_division which = "1st CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3186 }
+		command = { type = add_division which = "1st Catalan State Mil. Div." 	value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 1531 }
+		command = { type = add_division which = "2nd CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3195 }
+		command = { type = add_division which = "1st POUM Mil. Div." 			value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7113 }
+		command = { type = add_division which = "1st ERC Mil. Div." 			value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7113 }
+		command = { type = add_division which = "19th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7113 }
+		command = { type = add_division which = "2nd ERC Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 7114 }
+		command = { type = add_division which = "5th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7114 }
+		command = { type = add_division which = "2nd POUM Mil. Div." 			value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7114 }
+		command = { type = add_division which = "2nd Catalan State Mil. Div." 	value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 3187 }
+		command = { type = add_division which = "3rd CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3187 }
+		command = { type = add_division which = "12th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 1734 }
+		command = { type = add_division which = "6th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 7127 }
+		command = { type = add_division which = "13th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 2619 }
+		command = { type = add_division which = "14th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 357 }
+		command = { type = add_division which = "Comissaria d'Ordre Public" 	value = garrison when = 4 where = -50 }
+		
+		command = { trigger = { NOT = { transport = { value = 2 } } } type = add_division value = transport when = 2 }
+		command = { trigger = { NOT = { transport = { value = 2 } } } type = add_division value = transport when = 2 }
+
+		command = { type = construct which = land_fort where = 7113 value = 2 }
+		
+		#command = { type = task_efficiency which = attack 			value = -0.3 }
+		#command = { type = task_efficiency which = support_attack 	value = -0.3 }
+		
+		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
+	} 
+}
+		
+event = { 
+	id = 5111
+	random = no
+	country = EUS
+
+	name = "EVT_3100_NAME"
+	desc = "EVT_3100_DESC"
+	style = 2
+
+	action = { 
+		name = ACTION_NAME_DAMN
+		command = { type = add_corps value = land where = 7127 }
+		command = { type = add_division which = "1st PNV Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7127 }
+		command = { type = add_division which = "3rd PNV Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7127 }
+		command = { type = add_division which = "13th CNT-FAI Mil. Div." 	value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 331 }
+		command = { type = add_division which = "2nd PNV Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 331 }
+		command = { type = add_division which = "4th PCE-JSU Mil. Div." 	value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 331 }
+		command = { type = add_division which = "4th PNV Mil. Div." 		value = militia when = 4 where = -50 }
 		
 		#command = { type = task_efficiency which = attack 			value = -0.3 }
 		#command = { type = task_efficiency which = support_attack 	value = -0.3 }
 
 		command = { type = construct which = land_fort where = 331 value = 2 }
 		
-		command = { trigger = { ai = yes } type = ai which = "nations\SPR.ai" }
-		#command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
-		#command = { trigger = { ai = yes } type = disable_task 		which = strat_redeploy }
-		#command = { trigger = { ai = yes } type = local_setflag 	which = redeployDisabled }	
-		command = { trigger = { ai = yes } type = ai which = "EXP_90.ai" }
+		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
 	} 
 }
 
 event = { 
-	id = 5107
+	id = 5112
 	random = no
 	country = SPA
 	
@@ -556,46 +699,55 @@ event = {
 		command = { type = demobilize which = light_armor 	when = 0 where = 1 value = -1 }
 		command = { type = demobilize which = air 			when = 0 where = 1 value = 0 }
 		
-		command = { type = add_division value = interceptor		when = 7 where = -50 }
-		command = { type = add_division value = tactical_bomber	when = 4 where = -50 }
+		command = { type = add_division value = interceptor		when = 5 where = -50 }
+		command = { type = add_division value = tactical_bomber	when = 2 where = -50 }
 
-		command = { type = add_corps value = land where = 332 }
+		command = { type = add_corps value = land where = 7119 }
 		command = { type = add_division which = "9th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7119 }
 		command = { type = add_division which = "13th Falangist Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 7165 }
 		command = { type = add_division which = "1st CEDA Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7165 }
 		command = { type = add_division which = "2nd Spanish Renovation Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 1532 }
 		command = { type = add_division which = "3rd Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 1532 }
 		command = { type = add_division which = "6th Moroccan Division" value = infantry when = 8 where = -50 }
 		
-		command = { type = add_corps value = land where = 3182 }
+		command = { type = add_corps value = land where = 7116 }
 		command = { type = add_division which = "3rd Spanish Renovation Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7116 }
 		command = { type = add_division which = "10th Falangist Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 333 }
 		command = { type = add_division which = "14th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 333 }
 		command = { type = add_division which = "2nd Spanish Foreign Legion" value = infantry when = 8 where = -50 }
 		
-		command = { type = add_corps value = land where = 3186 }
+		command = { type = add_corps value = land where = 2244 }
 		command = { type = add_division which = "4th CEDA Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 329 }
 		command = { type = add_division which = "20th Falangist Mil. Div." value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 7114 }
+		command = { type = add_corps value = land where = 329 }
 		command = { type = add_division which = "1st Spanish Renovation Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 330 }
 		command = { type = add_division which = "17th Falangist Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 330 }
 		command = { type = add_division which = "8th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 330 }
 		command = { type = add_division which = "4th Moroccan Division" value = infantry when = 8 where = -50 }
+		command = { type = add_corps value = land where = 330 }
 		command = { type = add_division which = "15th Falangist Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 340 }
 		command = { type = add_division which = "7th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 340 }
 		command = { type = add_division which = "11th Falangist Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 961 }
@@ -603,24 +755,30 @@ event = {
 		
 		command = { type = add_corps value = land where = 3183 }
 		command = { type = add_division which = "5th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3183 }
 		command = { type = add_division which = "5th Moroccan Division" value = infantry when = 8 where = -50 }
 		
 		command = { type = add_corps value = land where = 3194 }
 		command = { type = add_division which = "4th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3194 }
 		command = { type = add_division which = "1st Spanish Foreign Legion" value = infantry when = 8 where = -50 }
+		command = { type = add_corps value = land where = 3194 }
 		#command = { type = add_division which = "1st Armor Division" value = light_armor when = 0 where = -80 }
 		command = { type = add_division which = "1st Armor Division" value = infantry when = 8 where = light_armor_brigade }
 		
 		command = { type = add_corps value = land where = 3196 }
 		command = { type = add_division which = "2nd CEDA Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3196 }
 		command = { type = add_division which = "12th Falangist Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 338 }
 		command = { type = add_division which = "3rd Moroccan Division" value = infantry when = 8 where = -50 }
+		command = { type = add_corps value = land where = 338 }
 		command = { type = add_division which = "19th Falangist Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 3198 }
 		command = { type = add_division which = "1st Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3198 }
 		command = { type = add_division which = "3rd CEDA Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 351 }
@@ -628,10 +786,12 @@ event = {
 		
 		command = { type = add_corps value = land where = 3201 }
 		command = { type = add_division which = "2nd Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3201 }
 		command = { type = add_division which = "4th Spanish Renovation Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 350 }
 		command = { type = add_division which = "1st Moroccan Division" value = infantry when = 8 where = -50 }
+		command = { type = add_corps value = land where = 350 }
 		command = { type = add_division which = "16th Falangist Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 349 }
@@ -643,28 +803,28 @@ event = {
 		command = { type = add_corps value = land where = 957 }
 		command = { type = add_division which = "7th Moroccan Division" value = infantry when = 8 where = -50 }
 		
-		command = { type = add_division value = transport when = 0 }
-		command = { type = add_division value = transport when = 0 }
-		command = { type = add_division value = transport when = 0 }
+		command = { type = add_corps value = land where = 334 }
+		command = { type = add_division 							 			value = garrison when = 4 where = -50 }
+		
+		command = { trigger = { NOT = { transport = { value = 2 } } } type = add_division value = transport when = 2 }
+		command = { trigger = { NOT = { transport = { value = 2 } } } type = add_division value = transport when = 2 }
+		command = { trigger = { NOT = { transport = { value = 2 } } } type = add_division value = transport when = 2 }
 
 		#command = { type = task_efficiency which = attack 			value = -0.3 }
 		#command = { type = task_efficiency which = support_attack 	value = -0.3 }
 
-		command = { type = construct which = land_fort where = 3194 value = 6 }
-		command = { type = construct which = land_fort where = 330  value = 4 }
+		command = { type = construct which = land_fort where = 3194 value = 4 }
+		command = { type = construct which = land_fort where = 330  value = 6 }
 		command = { type = construct which = land_fort where = 329  value = 4 }
 		command = { type = construct which = land_fort where = 7114 value = 4 }
 		command = { type = construct which = land_fort where = 338	value = 2 }
-				
-		command = { trigger = { ai = yes } type = ai which = "nations\SPA.ai" }
-		#command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
-		#command = { trigger = { ai = yes } type = disable_task 		which = strat_redeploy }
-		#command = { trigger = { ai = yes } type = local_setflag 	which = redeployDisabled }	
+		
+		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
 	}
 }
 
 event = { 
-	id = 5108
+	id = 5113
 	random = no
 	country = U69
 
@@ -674,23 +834,6 @@ event = {
 
 	action = { 
 		name = ACTION_NAME_DAMN
-		command = { type = local_setflag which = sliderSet }
-		command = { type = set_domestic which = freedom value = 5 }
-		command = { type = set_domestic which = defense_lobby value = 7 }
-		command = { type = set_domestic which = interventionism value = 4 }
-        command = { type = set_domestic which = political_left value = 4 } 
-		
-		command = { type = headofstate 				which = 35507 } #Javier de Borbon-Parma
-		command = { type = headofgovernment			which = 35508 } #Manuel Fal Conde
-		command = { type = armamentminister			which = 35515 } #Jose Enrique Varela Iglesias
-		command = { type = foreignminister			which = 35501 } #Tomas Dominguez Arevalo
-		command = { type = ministerofsecurity		which = 35510 } #Manuel Fal Conde
-		command = { type = ministerofintelligence	which = 35512 } #Ricardo de Rada
-		command = { type = chiefofstaff				which = 35516 } #Jose Enrique Varela Iglesias
-		command = { type = chiefofarmy				which = 35514 } #Ricardo de Rada
-		command = { type = chiefofnavy				which = 35503 } #Tomas Dominguez Arevalo
-		command = { type = chiefofair				which = 35504 } #Tomas Dominguez Arevalo
-		
 		command = { type = add_corps value = land where = 1532 }
 		command = { type = add_division which = "6th Carlist Mil. Div." value = militia when = 4 where = -50 }
 		
@@ -699,14 +842,17 @@ event = {
 		
 		command = { type = add_corps value = land where = 3184 }
 		command = { type = add_division which = "5th Carlist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3184 }
 		command = { type = add_division which = "8th Carlist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3184 }
 		command = { type = add_division which = "9th Carlist Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 2244 }
 		command = { type = add_division which = "4th Carlist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 2244 }
 		command = { type = add_division which = "7th Carlist Mil. Div." value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 3186 }
+		command = { type = add_corps value = land where = 2244 }
 		command = { type = add_division which = "3rd Carlist Mil. Div." value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 329 }
@@ -714,17 +860,10 @@ event = {
 		
 		command = { type = add_corps value = land where = 961 }
 		command = { type = add_division which = "10th Carlist Mil. Div." value = militia when = 4 where = -50 }
-
-		command = { type = local_setflag which = stayInWar		}
-		command = { type = local_setflag which = SanctionsEvt	}
-		command = { type = local_setflag which = inMajorWar		}
-		command = { type = local_setflag which = RES }
-		command = { type = event which = 3130 where = -1 when = 1080 } #inMajorWar clear
-		command = { trigger = { NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 }
-
-		command = { type = transport_pool which = EUS value = 50 }
-		command = { type = manpowerpool value = 200 }
-		command = { type = supplies value = 2000 }
+		
+		command = { type = add_corps value = land where = 2244 }
+		command = { type = add_division 							 	value = garrison when = 4 where = -50 }
+		
 		
 		#command = { type = task_efficiency which = attack 			value = -0.3 }
 		#command = { type = task_efficiency which = support_attack 	value = -0.3 }
@@ -732,11 +871,7 @@ event = {
 		command = { type = construct which = land_fort where = 2244 value = 2 }
 		command = { type = construct which = land_fort where = 3184 value = 4 }
 		
-		command = { trigger = { ai = yes } type = ai which = "nations\SPA.ai" }
-		#command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
-		#command = { trigger = { ai = yes } type = disable_task 		which = strat_redeploy }
-		#command = { trigger = { ai = yes } type = local_setflag 	which = redeployDisabled }	
-		command = { trigger = { ai = yes } type = ai which = "EXP_90.ai" }
+		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
 	} 
 }
 
@@ -751,7 +886,7 @@ event = {
 	country = SPA
 	
 	name = "National Defense Junta chooses a Leader"
-	desc = "At the beginning of the revolt in July, General Jose Sanjurjo, in exile in Portugal, was recognized as a leader and would-be 'Caudillo' of the rebel faction. However, he died on 20 July in a plane crash, while attempting to fly back to Spain. This left the revolt without a clear leader. A collective leadership body was then established, known as National Defense Junta, under the nominal leadership of Miguel Cabanellas, the most senior participating general. General Emilio Mola, the main 'Director' of the uprising and commander of the Nationalist forces in the north, was the second most prominent figure in the Junta. Francisco Franco was added to the council later in early August. The Junta immediately began bickering and was unable to set an overall strategy. Being career officers, all of the Junta members implicitly recognized that the army cannot be led by a collective leadership - there has to be a single leader of the armed forces, and a single future Caudillo of Spain. Thus, in September 1936, the Junta met to decide on a leader once and for all. Cabanellas was not favored for this role as he was too old, too moderate and a Freemason on top of that. Mola was a likelier candidate, but he was seen as too ruthless and radical, and his chief role as the planner of the coup earned him some derision as the coup effectively failed and degenerated into bloody civil war. Ultimately, Francisco Franco was chosen near-unanimously as a 'compromise candidate' who showed great promise as the leader of the Army of Africa, had little prior involvement in politics, good military credentials, and support from the Catholic Church."
+	desc = "At the beginning of the revolt in July, General Jose Sanjurjo, in exile in Portugal, was recognized as a leader and would-be 'Caudillo' of the rebel faction. However, he died on 20 July in a plane crash, while attempting to fly back to Spain. This left the revolt without a clear leader. A collective leadership body was then established, known as National Defense Junta, under the nominal leadership of Miguel Cabanellas, the most senior participating general. General Emilio Mola, the main 'Director' of the uprising and commander of the Nationalist forces in the north, was the second most prominent figure in the Junta. Francisco Franco was added to the council later in early August. The Junta immediately began bickering and was unable to set an overall strategy. Being career officers, all of the Junta members implicitly recognized that the army cannot be led by a collective leadership - there has to be a single leader of the armed forces, and a single future Caudillo of Spain. Thus, in September 1936, the Junta met to decide on a leader once and for all. Cabanellas was not favored for this role as he was too old, too moderate and a Freemason on top of that. Mola was a likelier candidate, but he was seen as too ruthless and radical, and his chief role as the planner of the coup earned him some derision as the coup effectively failed and degenerated into a bloody civil war. Ultimately, Francisco Franco was chosen near-unanimously as a 'compromise candidate' who showed great promise as the leader of the Army of Africa, had little prior involvement in politics, good military credentials, and support from the Catholic Church."
 	style = 2
 	
 	action = {
@@ -785,7 +920,7 @@ event = {
 			}
 		}
 		command = { type = dissent value = -1 }
-		command = { type = set_domestic 		which = political_left value = 3 } #Reactionary
+		command = { type = set_domestic 		which = political_left value = 3 } #Nationalist
 		command = { type = headofstate 			which = 35011 } #Francisco Franco Bahamonde
 		command = { type = headofgovernment		which = 35016 } #Francisco Franco Bahamonde
 		command = { type = chiefofarmy 			which = 35181 } #Francisco Franco Bahamonde
@@ -921,6 +1056,97 @@ event = {
 # Spanish economic crisis - a phenomenon unique to SPR
 #######################################################################
 
+#ver 1
+
+#event = { 
+#	id = 5130
+#	random = no
+#	tag = { SPR EUS U52 }
+#	persistent = yes
+#	
+#	name = "Spanish economic crisis - 1937"
+#	desc = "While both sides of the conflict in Spain experienced some level of economic hardship, nothing compared to the utter financial chaos that gripped the Republican-held areas starting in 1937. On the surface, nothing seemed to indicate the coming economic catastrophe. Republicans started the war in control of many major developed industrial centers, sizable gold reserves of the Spanish central bank, the privelege of being recognized as a legitimate government of Spain, foreign backing of the Soviet Union and sympathizers in many other countries. The reasons behind the crisis are still not completely understood, and much blame is laid at the feet of the Madrid government, the revolutionary militias, and Moscow. While the Francoist side developed a pragmatic approach to the economy which proved relatively successful, the Republican side faced unyielding pressure from within to transform the Spanish economy in the midst of a war, and it ended up with massive distortions and inability to collect taxes. The process of collectivizations and nationalizations, aimed at developing a socialist economy for the post-war period, has been pointed to as the cause for this situation as most of the taxable economic agents were eradicated. Banks stopped paying interest and were expropriated, rents were not collected anymore, collectivized factories distributed their earnings among their workers and were therefore permanently decapitalized, and public limited companies stopped paying dividends. Republican collectivizations also had a lasting effect on the tourism sector, as the socialization of hotels, cafes, restaurants and spectacle venues led to a complete paralysis of the activity. Meanwhile, despite the Republic's status as an internationally recognized government, most foreign businesses began to avoid the Republican areas, afraid of having their assets arbitrarily nationalized or simply ransacked and stolen. Where possible, they redirected their trade to the Nationalist zone instead. In the end, the only way Madrid could continue to fund the war effort was through massive monetary emission, which resulted in equally massive hyperinflation, reaching 200 to 300 percent. This, in turn, led to the improverishment of the Spanish populace, disillusionment and demoralization, blame trading, infighting, and ultimately, to defeat. By 1938, the Republican Treasury had lost all its collection power and the country was left in a year of absolute fiscal anarchy, with rampant inflation and deficit. Civil servants gradually started going away and the Treasury directive board stopped holding its meetings."
+#	style = 2
+#	
+#	action = {
+#		name = "The revolution cannot be stopped!"
+#		trigger = { NOT = { war = { country = U52 } } }
+#		ai_chance = 100
+#		command = { type = dissent value = -2 }
+#		command = { type = industrial_modifier which = total value = -8 }
+#		
+#		command = { type = event which = 5131 where = -1 when = 360 }
+#	}
+#	action = {
+#		name = "The revolution must wait!"
+#		trigger = { NOT = { war = { country = U52 } } NOT = { policy = { type = political_left value = 10 } } }
+#		ai_chance = 0
+#		command = { type = dissent value = 15 }
+#		
+#		command = { type = revolt which = -3 when = 1 }
+#		command = { type = revolt which = -3 when = 1 }
+#		
+#		command = { type = local_setflag when = 1 which = SPRRecovery value = 2 }
+#		command = { trigger = { NOT = { local_flag = { which = SPRRecovery when = 1 value = 4 } } } type = event which = 5131 where = -1 when = 360 }
+#	}
+#}
+#
+#event = { 
+#	id = 5131
+#	random = no
+#	tag = { SPR EUS U52 }
+#	persistent = yes
+#	
+#	name = "Spanish economic crisis - 1938"
+#	desc = "While both sides of the conflict in Spain experienced some level of economic hardship, nothing compared to the utter financial chaos that gripped the Republican-held areas starting in 1937. On the surface, nothing seemed to indicate the coming economic catastrophe. Republicans started the war in control of many major developed industrial centers, sizable gold reserves of the Spanish central bank, the privelege of being recognized as a legitimate government of Spain, foreign backing of the Soviet Union and sympathizers in many other countries. The reasons behind the crisis are still not completely understood, and much blame is laid at the feet of the Madrid government, the revolutionary militias, and Moscow. While the Francoist side developed a pragmatic approach to the economy which proved relatively successful, the Republican side faced unyielding pressure from within to transform the Spanish economy in the midst of a war, and it ended up with massive distortions and inability to collect taxes. The process of collectivizations and nationalizations, aimed at developing a socialist economy for the post-war period, has been pointed to as the cause for this situation as most of the taxable economic agents were eradicated. Banks stopped paying interest and were expropriated, rents were not collected anymore, collectivized factories distributed their earnings among their workers and were therefore permanently decapitalized, and public limited companies stopped paying dividends. Republican collectivizations also had a lasting effect on the tourism sector, as the socialization of hotels, cafes, restaurants and spectacle venues led to a complete paralysis of the activity. Meanwhile, despite the Republic's status as an internationally recognized government, most foreign businesses began to avoid the Republican areas, afraid of having their assets arbitrarily nationalized or simply ransacked and stolen. Where possible, they redirected their trade to the Nationalist zone instead. In the end, the only way Madrid could continue to fund the war effort was through massive monetary emission, which resulted in equally massive hyperinflation, reaching 200 to 300 percent. This, in turn, led to the improverishment of the Spanish populace, disillusionment and demoralization, blame trading, infighting, and ultimately, to defeat. By 1938, the Republican Treasury had lost all its collection power and the country was left in a year of absolute fiscal anarchy, with rampant inflation and deficit. Civil servants gradually started going away and the Treasury directive board stopped holding its meetings."
+#	style = 2
+#	
+#	action = {
+#		name = "The revolution cannot be stopped!"
+#		trigger = { NOT = { war = { country = U52 } } }
+#		ai_chance = 100
+#		command = { type = industrial_modifier which = total value = -8 }
+#		command = { type = dissent value = -2 }
+#		
+#		command = { type = event which = 5132 where = -1 when = 360 }
+#	}
+#	action = {
+#		name = "The revolution must wait!"
+#		trigger = { NOT = { war = { country = U52 } } NOT = { policy = { type = political_left value = 10 } } }
+#		ai_chance = 0
+#		command = { type = dissent value = 15 }
+#		
+#		command = { type = revolt which = -3 when = 1 }
+#		command = { type = revolt which = -3 when = 1 }
+#		
+#		command = { type = local_setflag when = 1 which = SPRRecovery value = 2 }
+#		command = { trigger = { NOT = { local_flag = { which = SPRRecovery when = 1 value = 4 } } } type = event which = 5132 where = -1 when = 360 }
+#	}
+#}
+#
+#event = { 
+#	id = 5132
+#	random = no
+#	tag = { SPR EUS U52 }
+#	persistent = yes
+#	
+#	name = "Spanish economic recovery"
+#	desc = "Over time, the Spanish economy began to gradually adjust to the new conditions. The unruly revolutionary militias were cracked down upon or integrated into the Armed Forces, a new tax code was implemented, a black market made up for the shortages of consumer goods, some of the revolutionary excesses were undone, and the currency situation somewhat stabilized. The Spanish economy thus started its long journey towards recovery. Madrid called it the 'New Economic Policy', modeled after Lenin's successful recovery program in the USSR after its civil war."
+#	style = 2
+#	
+#	action = {
+#		name = "ACTION_NAME_GREAT"
+#		trigger = { NOT = { local_flag = { which = SPRRecovery when = 1 value = 4 } } }
+#		
+#		command = { type = industrial_modifier which = total value = 3 } #for a total of 12
+#		
+#		command = { type = local_setflag when = 1 which = SPRRecovery value = 1 }
+#		command = { trigger = { NOT = { local_flag = { which = SPRRecovery when = 1 value = 4 } } } type = event which = 5132 where = -1 when = 360 }
+#	}
+#}
+
+#ver 2
+
 event = { 
 	id = 5130
 	random = no
@@ -928,22 +1154,23 @@ event = {
 	persistent = yes
 	
 	name = "Spanish economic crisis - 1937"
-	desc = "While both sides of the conflict in Spain experienced some level of economic hardship, nothing compared to the utter financial chaos that gripped the Republican-held areas starting in 1937. On the surface, nothing seemed to indicate the coming economic catastrophe. Republicans started the war in control of many major developed industrial centers, sizable gold reserves of the Spanish central bank, the privelege of being recognized as a legitimate government of Spain, foreign backing of the Soviet Union and sympathizers in many other countries. The reasons behind the crisis are still not completely understood, while blame is often laid at the feet of both government and revolutionary militias, which tried to transform the Spanish economy in the midst of a war - with disastarous results. While the Francoist side developed a pragmatic approach to the economy which proved relatively successful, the Republican revolutionary fervor resulted in massive distortions and inability to collect taxes. The process of collectivizations and nationalizations, aimed at developing a socialist economy for the post-war period, has been pointed to as the cause for this situation as most of the taxable economic agents were eradicated. Banks stopped paying interest and were expropriated, rents were not collected anymore, collectivized factories distributed their earnings among their workers and were therefore permanently decapitalized, and public limited companies stopped paying dividends. Republican collectivizations also had a lasting effect on the tourism sector, as the socialization of hotels, cafes, restaurants and spectacle venues led to a complete paralysis of the activity. Meanwhile, despite the Republic's status as an internationally recognized government, most foreign businesses began to avoid the Republican areas, afraid of having their assets arbitrarily nationalized or simply ransacked and stolen. Where possible, they redirected their trade to the Nationalist zone instead. In the end, the only way Madrid could continue to fund the war effort was through massive monetary emission, which resulted in equally massive hyperinflation, reaching 200 to 300 percent. This, in turn, led to the improverishment of the Spanish populace, disillusionment and demoralization, blame trading, infighting, and ultimately, to defeat. By 1938, the Republican Treasury had lost all its collection power and the country was left in a year of absolute fiscal anarchy, with rampant inflation and deficit. Civil servants gradually started going away and the Treasury directive board stopped holding its meetings."
+	desc = "While both sides of the conflict in Spain experienced some level of economic hardship, nothing compared to the utter financial chaos that gripped the Republican-held areas starting in 1937. On the surface, nothing seemed to indicate the coming economic catastrophe. Republicans started the war in control of many major developed industrial centers, sizable gold reserves of the Spanish central bank, the privelege of being recognized as a legitimate government of Spain, foreign backing of the Soviet Union and sympathizers in many other countries. The reasons behind the crisis are still not completely understood, and much blame is laid at the feet of the Madrid government, the revolutionary militias, and Moscow. While the Francoist side developed a pragmatic approach to the economy which proved relatively successful, the Republican side faced unyielding pressure from within to transform the Spanish economy in the midst of a war, and it ended up with massive distortions and inability to collect taxes. The process of collectivizations and nationalizations, aimed at developing a socialist economy for the post-war period, has been pointed to as the cause for this situation as most of the taxable economic agents were eradicated. Banks stopped paying interest and were expropriated, rents were not collected anymore, collectivized factories distributed their earnings among their workers and were therefore permanently decapitalized, and public limited companies stopped paying dividends. Republican collectivizations also had a lasting effect on the tourism sector, as the socialization of hotels, cafes, restaurants and spectacle venues led to a complete paralysis of the activity. Meanwhile, despite the Republic's status as an internationally recognized government, most foreign businesses began to avoid the Republican areas, afraid of having their assets arbitrarily nationalized or simply ransacked and stolen. Where possible, they redirected their trade to the Nationalist zone instead. In the end, the only way Madrid could continue to fund the war effort was through massive monetary emission, which resulted in equally massive hyperinflation, reaching 200 to 300 percent. This, in turn, led to the improverishment of the Spanish populace, disillusionment and demoralization, blame trading, infighting, and ultimately, to defeat. By 1938, the Republican Treasury had lost all its collection power and the country was left in a year of absolute fiscal anarchy, with rampant inflation and deficit. Civil servants gradually started going away and the Treasury directive board stopped holding its meetings."
 	style = 2
 	
 	action = {
 		name = "The revolution cannot be stopped!"
+		trigger = { NOT = { war = { country = U52 } } }
 		ai_chance = 100
-		command = { type = dissent value = 5 }
-		command = { type = industrial_modifier which = total value = -10 }
+		command = { type = dissent value = -2 }
+		command = { type = industrial_modifier which = total value = -8 }
 		
 		command = { type = event which = 5131 where = -1 when = 360 }
 	}
 	action = {
 		name = "The revolution must wait!"
-		trigger = { NOT = { policy = { type = political_left value = 10 } } }
+		trigger = { NOT = { war = { country = U52 } } NOT = { policy = { type = political_left value = 10 } } }
 		ai_chance = 0
-		command = { type = dissent value = 20 }
+		command = { type = dissent value = 15 }
 		
 		command = { type = revolt which = -3 when = 1 }
 		command = { type = revolt which = -3 when = 1 }
@@ -960,21 +1187,23 @@ event = {
 	persistent = yes
 	
 	name = "Spanish economic crisis - 1938"
-	desc = "While both sides of the conflict in Spain experienced some level of economic hardship, nothing compared to the utter financial chaos that gripped the Republican-held areas starting in 1937. On the surface, nothing seemed to indicate the coming economic catastrophe. Republicans started the war in control of many major developed industrial centers, sizable gold reserves of the Spanish central bank, the privelege of being recognized as a legitimate government of Spain, foreign backing of the Soviet Union and sympathizers in many other countries. The reasons behind the crisis are still not completely understood, while blame is often laid at the feet of both government and revolutionary militias, which tried to transform the Spanish economy in the midst of a war - with disastarous results. While the Francoist side developed a pragmatic approach to the economy which proved relatively successful, the Republican revolutionary fervor resulted in massive distortions and inability to collect taxes. The process of collectivizations and nationalizations, aimed at developing a socialist economy for the post-war period, has been pointed to as the cause for this situation as most of the taxable economic agents were eradicated. Banks stopped paying interest and were expropriated, rents were not collected anymore, collectivized factories distributed their earnings among their workers and were therefore permanently decapitalized, and public limited companies stopped paying dividends. Republican collectivizations also had a lasting effect on the tourism sector, as the socialization of hotels, cafes, restaurants and spectacle venues led to a complete paralysis of the activity. Meanwhile, despite the Republic's status as an internationally recognized government, most foreign businesses began to avoid the Republican areas, afraid of having their assets arbitrarily nationalized or simply ransacked and stolen. Where possible, they redirected their trade to the Nationalist zone instead. In the end, the only way Madrid could continue to fund the war effort was through massive monetary emission, which resulted in equally massive hyperinflation, reaching 200 to 300 percent. This, in turn, led to the improverishment of the Spanish populace, disillusionment and demoralization, blame trading, infighting, and ultimately, to defeat. By 1938, the Republican Treasury had lost all its collection power and the country was left in a year of absolute fiscal anarchy, with rampant inflation and deficit. Civil servants gradually started going away and the Treasury directive board stopped holding its meetings."
+	desc = "While both sides of the conflict in Spain experienced some level of economic hardship, nothing compared to the utter financial chaos that gripped the Republican-held areas starting in 1937. On the surface, nothing seemed to indicate the coming economic catastrophe. Republicans started the war in control of many major developed industrial centers, sizable gold reserves of the Spanish central bank, the privelege of being recognized as a legitimate government of Spain, foreign backing of the Soviet Union and sympathizers in many other countries. The reasons behind the crisis are still not completely understood, and much blame is laid at the feet of the Madrid government, the revolutionary militias, and Moscow. While the Francoist side developed a pragmatic approach to the economy which proved relatively successful, the Republican side faced unyielding pressure from within to transform the Spanish economy in the midst of a war, and it ended up with massive distortions and inability to collect taxes. The process of collectivizations and nationalizations, aimed at developing a socialist economy for the post-war period, has been pointed to as the cause for this situation as most of the taxable economic agents were eradicated. Banks stopped paying interest and were expropriated, rents were not collected anymore, collectivized factories distributed their earnings among their workers and were therefore permanently decapitalized, and public limited companies stopped paying dividends. Republican collectivizations also had a lasting effect on the tourism sector, as the socialization of hotels, cafes, restaurants and spectacle venues led to a complete paralysis of the activity. Meanwhile, despite the Republic's status as an internationally recognized government, most foreign businesses began to avoid the Republican areas, afraid of having their assets arbitrarily nationalized or simply ransacked and stolen. Where possible, they redirected their trade to the Nationalist zone instead. In the end, the only way Madrid could continue to fund the war effort was through massive monetary emission, which resulted in equally massive hyperinflation, reaching 200 to 300 percent. This, in turn, led to the improverishment of the Spanish populace, disillusionment and demoralization, blame trading, infighting, and ultimately, to defeat. By 1938, the Republican Treasury had lost all its collection power and the country was left in a year of absolute fiscal anarchy, with rampant inflation and deficit. Civil servants gradually started going away and the Treasury directive board stopped holding its meetings."
 	style = 2
 	
 	action = {
 		name = "The revolution cannot be stopped!"
+		trigger = { NOT = { war = { country = U52 } } }
 		ai_chance = 100
-		command = { type = dissent value = 5 }
-		command = { type = industrial_modifier which = total value = -10 }
+		command = { type = industrial_modifier which = total value = -8 }
+		command = { type = dissent value = -2 }
 		
 		command = { type = event which = 5132 where = -1 when = 360 }
 	}
 	action = {
 		name = "The revolution must wait!"
+		trigger = { NOT = { war = { country = U52 } } NOT = { policy = { type = political_left value = 10 } } }
 		ai_chance = 0
-		command = { type = dissent value = 20 }
+		command = { type = dissent value = 15 }
 		
 		command = { type = revolt which = -3 when = 1 }
 		command = { type = revolt which = -3 when = 1 }
@@ -998,8 +1227,7 @@ event = {
 		name = "ACTION_NAME_GREAT"
 		trigger = { NOT = { local_flag = { which = SPRRecovery when = 1 value = 4 } } }
 		
-		command = { type = dissent value = -1 }
-		command = { type = industrial_modifier which = total value = 4 }
+		command = { type = industrial_modifier which = total value = 3 } #for a total of 12
 		
 		command = { type = local_setflag when = 1 which = SPRRecovery value = 1 }
 		command = { trigger = { NOT = { local_flag = { which = SPRRecovery when = 1 value = 4 } } } type = event which = 5132 where = -1 when = 360 }
@@ -1017,7 +1245,7 @@ event = {
 	country = SPR
 
 	name = "May Days"
-	desc = "Since the defeat of the military uprising in Barcelona, the city and the rest of Catalonia and Aragon fell into de-facto control of various local militias, most of them loosely associated with the Anarchist organizations CNT and FAI. Initially, the militia leaders established the Central Committee of Antifascist Militias of Catalonia as the main governing body which held dual power with the Generalitat of Catalonia. In September, an agreement was reached by which the Central Committee became an official a part of Generalitat under a new name - Internal Security Junta of Catalonia. While theoretically subordinate to the Generalitat, the head of the Generalitat Lluis Companys had little effective control over the organization and could not even speak with Madrid without the Junta dictating what he can and cannot say. Furthermore, the Internal Security Junta was itself disunited and had only loose control over its constituent parts. One such part which was proving particularly troublesome was the so-called worker's 'Control Patrols', which became the new de-facto police force in Barcelona. In this capacity they routinely engaged in violence and performed arbitrary expropriations, arrests, and executions in the name of 'revolutionary justice'. Any attempt to reign in the 'Control Patrols' was proving futile, despite the fact that the Control Patrols themselves numbered no more than 700 people. Behind them, however, there was a wider struggle developing between different wings of the republican movement. On one side was the alliance of the moderate 'social democrats' and Stalinists, on the other - anarchists and Trostskyists. One on side were believiers in a strong, centralized Spanish state, on the other - supporters of Catalonian autonomy and decentralization. One side believed that victory over the Francoists had to take priority over any social and economic transformation, the other believed that war and revolution were inseparable and social justice was the only route to victory. Each side had its own trade unions, its own armed forces, its own governments, and the possibility of an inter-republican civil struggle loomed in the air. Absent the common enemy, it is almost certain that the Republic would have split in two. In May 1937, after repeatedly frustrated attempts to get in contact with Lluis Companys, Madrid sent a platoon of Spanish police officers to Barcelona in order to take control of the telephone exchange building. This sparked armed clashes with the local Anarchists, who insisted that their control over the telephone exchange is mandated by the Generalitat itself. Within the next few hours, the whole city erupted into clashes between the opposing sides, with Communists and moderate socialists largely supporting the police action. Meanwhile, the opposing side proved hopelessly divided. While the Trotskyist POUM and many local Anarchist militia groups advocated armed resistance, the majority of the Anarchist CNT was absolutely frightened by the possibility of war against both Burgos and Madrid at the same time." 
+	desc = "Since the defeat of the military uprising in Barcelona, the city and the rest of Catalonia and Aragon fell into de-facto control of various local militias, most of them associated with the Anarchist organizations CNT and FAI. Initially, the militia leaders established the Central Committee of Antifascist Militias of Catalonia as the main governing body which held dual power with the Generalitat of Catalonia. In September, an agreement was reached by which the Central Committee became an official a part of Generalitat under a new name - Internal Security Junta of Catalonia. While theoretically subordinate to the Generalitat, the head of the Generalitat Lluis Companys had little effective control over the organization and could not even speak with Madrid without the Junta dictating what he can and cannot say. Furthermore, the Internal Security Junta was itself disunited and had only loose control over its constituent parts. One such part which was proving particularly troublesome was the so-called worker's 'Control Patrols', which became the new de-facto police force in Barcelona. In this capacity they routinely engaged in violence and performed arbitrary expropriations, arrests, and executions in the name of 'revolutionary justice'. Any attempt to reign in the 'Control Patrols' was proving futile, despite the fact that the Control Patrols themselves numbered no more than 700 people. Behind them, however, there was a wider struggle developing between different wings of the republican movement. On one side was the alliance of the moderate 'social democrats' and Stalinists, on the other - anarchists and Trostskyists. One on side were believiers in a strong, centralized Spanish state, on the other - supporters of Catalonian autonomy and decentralization. One side believed that victory over the Francoists had to take priority over any social and economic transformation, the other believed that war and revolution were inseparable and social justice was the only route to victory. Each side had its own trade unions, its own armed forces, its own governments, and the possibility of an inter-republican civil struggle loomed in the air. Absent the common enemy, it is almost certain that the Republic would have split in two. In May 1937, after repeatedly frustrated attempts to get in contact with Lluis Companys, Madrid sent a platoon of Spanish police officers to Barcelona in order to take control of the telephone exchange building. This sparked armed clashes with the local Anarchists, who insisted that their control over the telephone exchange is mandated by the Generalitat itself. Within the next few hours, the whole city erupted into clashes between the opposing sides, with Communists and moderate socialists largely supporting the police action. Meanwhile, the opposing side proved hopelessly divided. While the Trotskyist POUM and many local Anarchist militia groups advocated armed resistance, the majority of the Anarchist CNT was absolutely frightened by the possibility of war against both Burgos and Madrid at the same time." 
 	style = 2
 	
 	trigger = {
@@ -1055,32 +1283,45 @@ event = {
 	country = U52
 
 	name = "May Days"
-	desc = "Since the defeat of the military uprising in Barcelona, the city and the rest of Catalonia and Aragon fell into de-facto control of various local militias, most of them loosely associated with the Anarchist organizations CNT and FAI. Initially, the militia leaders established the Central Committee of Antifascist Militias of Catalonia as the main governing body which held dual power with the Generalitat of Catalonia. In September, an agreement was reached by which the Central Committee became an official a part of Generalitat under a new name - Internal Security Junta of Catalonia. While theoretically subordinate to the Generalitat, the head of the Generalitat Lluis Companys had little effective control over the organization and could not even speak with Madrid without the Junta dictating what he can and cannot say. Furthermore, the Internal Security Junta was itself disunited and had only loose control over its constituent parts. One such part which was proving particularly troublesome was the so-called worker's 'Control Patrols', which became the new de-facto police force in Barcelona. In this capacity they routinely engaged in violence and performed arbitrary expropriations, arrests, and executions in the name of 'revolutionary justice'. Any attempt to reign in the 'Control Patrols' was proving futile, despite the fact that Control Patrols themselves numbered no more than 700 people. Behind them, however, there was a wider struggle developing between different wings of the republican movement. On one side was the alliance of the moderate 'social democrats' and Stalinists, on the other - anarchists and Trostskyists. One on side were believiers in a strong, centralized Spanish state, on the other - supporters of Catalonian autonomy and decentralization. One side believed that victory over the Francoists had to take priority over any social and economic transformation, the other believed that war and revolution were inseparable and social justice was the only route to victory. Each side had its own trade unions, its own armed forces, its own governments, and the possibility of an inter-republican civil struggle loomed in the air. Absent the common enemy, it is almost certain that the Republic would have split in two. In May 1937, after repeatedly frustrated attempts to get in contact with Lluis Companys, Madrid sent a platoon of Spanish police officers to Barcelona in order to take control of the telephone exchange building. This sparked armed clashes with the local Anarchists, who insisted that their control over the telephone exchange is mandated by the Generalitat itself. Within the next few hours, the whole city erupted into clashes between the opposing sides, with Communists and moderate socialists largely supporting the police action. Meanwhile, the opposing side proved hopelessly divided. While the Trotskyist POUM and many local Anarchist militia groups advocated armed resistance, the majority of the Anarchist CNT was absolutely frightened by the possibility of war against both Burgos and Madrid at the same time." 
+	desc = "Since the defeat of the military uprising in Barcelona, the city and the rest of Catalonia and Aragon fell into de-facto control of various local militias, most of them associated with the Anarchist organizations CNT and FAI. Initially, the militia leaders established the Central Committee of Antifascist Militias of Catalonia as the main governing body which held dual power with the Generalitat of Catalonia. In September, an agreement was reached by which the Central Committee became an official a part of Generalitat under a new name - Internal Security Junta of Catalonia. While theoretically subordinate to the Generalitat, the head of the Generalitat Lluis Companys had little effective control over the organization and could not even speak with Madrid without the Junta dictating what he can and cannot say. Furthermore, the Internal Security Junta was itself disunited and had only loose control over its constituent parts. One such part which was proving particularly troublesome was the so-called worker's 'Control Patrols', which became the new de-facto police force in Barcelona. In this capacity they routinely engaged in violence and performed arbitrary expropriations, arrests, and executions in the name of 'revolutionary justice'. Any attempt to reign in the 'Control Patrols' was proving futile, despite the fact that the Control Patrols themselves numbered no more than 700 people. Behind them, however, there was a wider struggle developing between different wings of the republican movement. On one side was the alliance of the moderate 'social democrats' and Stalinists, on the other - anarchists and Trostskyists. One on side were believiers in a strong, centralized Spanish state, on the other - supporters of Catalonian autonomy and decentralization. One side believed that victory over the Francoists had to take priority over any social and economic transformation, the other believed that war and revolution were inseparable and social justice was the only route to victory. Each side had its own trade unions, its own armed forces, its own governments, and the possibility of an inter-republican civil struggle loomed in the air. Absent the common enemy, it is almost certain that the Republic would have split in two. In May 1937, after repeatedly frustrated attempts to get in contact with Lluis Companys, Madrid sent a platoon of Spanish police officers to Barcelona in order to take control of the telephone exchange building. This sparked armed clashes with the local Anarchists, who insisted that their control over the telephone exchange is mandated by the Generalitat itself. Within the next few hours, the whole city erupted into clashes between the opposing sides, with Communists and moderate socialists largely supporting the police action. Meanwhile, the opposing side proved hopelessly divided. While the Trotskyist POUM and many local Anarchist militia groups advocated armed resistance, the majority of the Anarchist CNT was absolutely frightened by the possibility of war against both Burgos and Madrid at the same time." 
 	style = 2
 	
 	action = {
 		name = "Unity above all. Condemn the Trotskyists and troublemakers (game over)"
-		ai_chance = 99
+		ai_chance = 98
 		command = { type = event which = 5142 where = SPR when = 1 }
+		
+		#command = { type = revolt which = 357 when = 1 }
+		command = { type = trigger which = 5143 }
 	}
 	action = {
-		name = "Catalonian Revolution lives on!"
-		ai_chance = 1
+		name = "The Revolution will now bow to anyone!"
+		ai_chance = 2
 		command = { type = end_puppet }
 		command = { type = leave_alliance when = 1 }
 		command = { type = event which = 2400530 where = U52 when = 0 } #independent state
 		command = { type = war which = SPR }
 		command = { type = war which = SPA }
-		command = { type = dissent value = 25 }
+		command = { type = dissent value = 15 }
+		
+		command = { type = name where = U52 which = U52_SPA }
+		
 		#Far from all anarchists are willing to go this far...
+		command = { type = remove_division which = "15th CNT-FAI Mil. Div." value = SPR }
+		command = { type = remove_division which = "16th CNT-FAI Mil. Div." value = SPR }
+		command = { type = remove_division which = "6th CNT-FAI Mil. Div." 	value = SPR }
+		command = { type = remove_division which = "13th CNT-FAI Mil. Div." value = SPR }
 		command = { type = remove_division which = "15th CNT-FAI Mil. Div." value = U52 }
 		command = { type = remove_division which = "16th CNT-FAI Mil. Div." value = U52 }
 		command = { type = remove_division which = "6th CNT-FAI Mil. Div." 	value = U52 }
 		command = { type = remove_division which = "13th CNT-FAI Mil. Div." value = U52 }
-		command = { type = switch_allegiance which = -1 where = SPR }
-		command = { type = switch_allegiance which = -1 where = SPR }
-		command = { type = switch_allegiance which = -1 where = SPR }
+		#this doesn't work when all troops are exp forces
+		#command = { type = switch_allegiance which = -1 where = SPR }
+		#command = { type = switch_allegiance which = -1 where = SPR }
+		#command = { type = switch_allegiance which = -1 where = SPR }
+		
 		command = { type = non_aggression which = SPR where = U52 when = 1 }
+		command = { type = non_aggression which = EUS where = U52 when = 1 }
 	}
 }
 
@@ -1100,15 +1341,9 @@ event = {
 		command = { type = remove_division which = "1st POUM Mil. Div." 			value = U52 }
 		command = { type = remove_division which = "2nd POUM Mil. Div." 			value = U52 }
 		command = { type = remove_division which = "2nd CNT-FAI Mil. Div." 			value = U52 }
-		command = { type = remove_division which = "1st Catalan State Mil. Div." 	value = U52 }
-		command = { type = remove_division which = "2nd Catalan State Mil. Div." 	value = U52 }
 		command = { type = remove_division which = "1st POUM Mil. Div." 			value = SPR }
 		command = { type = remove_division which = "2nd POUM Mil. Div." 			value = SPR }
 		command = { type = remove_division which = "2nd CNT-FAI Mil. Div." 			value = SPR }
-		command = { type = remove_division which = "1st Catalan State Mil. Div." 	value = SPR }
-		command = { type = remove_division which = "2nd Catalan State Mil. Div." 	value = SPR }
-		
-		command = { type = revolt which = 357 when = 1 }
 		
 		command = { type = headofstate 			which = 255011 } #Manuel Azaña Diaz
 		command = { type = headofgovernment		which = 255026 } #Juan Negrin Lopez
@@ -1116,6 +1351,21 @@ event = {
 		command = { type = foreignminister		which = 255057 } #Jose Giral Pereira
 		command = { type = ministerofsecurity	which = 255132 } #Julian Zugazagoitia Mendieta
 		command = { type = chiefofnavy			which = 255246 } #Indalecio Prieto Tuero
+	}
+}
+
+event = { 
+	id = 5143
+	random = no
+	country = REB
+
+	name = "AI_EVENT"
+	style = 2
+	
+	action = {
+		command = { type = add_corps value = land where = 357 }
+		command = { type = add_division which = "2nd CNT-FAI Mil. Div." 			value = militia when = 4 where = -90 }
+		command = { type = add_division which = "1st POUM Mil. Div." 				value = militia when = 4 where = -90 }
 	}
 }
 
@@ -1129,7 +1379,7 @@ event = {
 	country = SPR
 
 	name = "September Days"
-	desc = "Since the defeat of the military uprising in the Basque region, much of the Basque country fell under de-facto control of the PNV - a Basque Nationalist party. PNV's alliance with the Republican government in Madrid was always somewhat of an odd coaltion - a conservative, Catholic, separatist party in alliance with a left-wing radical centralist government dominated by radical socialists and stalinists - it was always an alliance of pure convinience. On the surface, the PNV seemed to have much more in common with the Carlists. Indeed, not too long ago, the Carlists and Basque nationalists were allied to each other in the Cortes, and when the military uprising broke out in 1936, both sides initially hesitated and did not find either side very appealing. Ultimately, however, they ended up on the opposite sides of the frontline. The Carlists joined the military uprising, lulled in part by promises of broad regional autonomy, while the Basque nationalists decided to resist it. The PNV then went about forming a regional government in coalition with the Republican parties - including the socialists and communits. The government was dominated by the PNV and led by the President (Lehendakari) Jose Antonio Aguirre, who also served as minister of defence. Although the government did not formally declare its independence from Spain, in everything but formality it was a sovereign state - the first such Basque statehood in Spain's history. But as the civil war progressed, inherent contradictions in PNV's alliance with Madrid began to mount. While Madrid was willing to put up with some Basque autonomy especially for the duration of the war, it was completely and firmly against PNV's separatist agenda. Meanwhile the left-wing parties in the Cortes openly decried PNV as reactionary and even fascist due to its defense of Catholicism, private property, and traditional values. Eventually, the Basque government had to face the same ultimatum which was presented to Catalonia earlier. Madrid demanded submission and de-facto control in Bilbao. Absent that, there was a high risk of clashes between the pro-Republican parties and the PNV."
+	desc = "Since the defeat of the military uprising in the Basque region, much of the Basque country fell under de-facto control of the PNV - a Basque Nationalist party. PNV's alliance with the Republican government in Madrid was always somewhat of an odd coaltion - a conservative, Catholic, separatist party in alliance with a left-wing radical centralist government dominated by radical socialists and stalinists - it was always an alliance of pure convinience. On the surface, the PNV seemed to have much more in common with the Carlists. Indeed, not too long ago, the Carlists and Basque nationalists were allied to each other in the Cortes, and when the military uprising broke out in 1936, both of them initially hesitated and did not find either side very appealing. Ultimately, however, they ended up on the opposite sides of the frontline. The Carlists joined the military uprising, lulled in part by promises of broad regional autonomy, while the Basque nationalists decided to resist it. The PNV then went about forming a regional government in coalition with the Republican parties - including the socialists and communits. The government was dominated by the PNV and led by the President (Lehendakari) Jose Antonio Aguirre, who also served as minister of defence. Although the government did not formally declare its independence from Spain, in everything but formality it was a sovereign state - the first such Basque statehood in Spain's history. But as the civil war progressed, inherent contradictions in PNV's alliance with Madrid began to mount. While Madrid was willing to put up with some Basque autonomy especially for the duration of the war, it was completely and firmly against PNV's separatist agenda. Meanwhile the left-wing parties in the Cortes openly decried PNV as reactionary and even fascist due to its defense of Catholicism, private property, and traditional values. Eventually, the Basque government had to face the same ultimatum which was presented to Catalonia earlier. Madrid demanded submission and de-facto control in Bilbao. Absent that, there was a high risk of clashes between the pro-Republican parties and the PNV."
 	style = 2
 	
 	trigger = {
@@ -1175,17 +1425,17 @@ event = {
 	country = EUS
 
 	name = "September Days"
-	desc = "Since the defeat of the military uprising in the Basque region, much of the Basque country fell under de-facto control of the PNV - a Basque Nationalist party. PNV's alliance with the Republican government in Madrid was always somewhat of an odd coaltion - a conservative, Catholic, separatist party in alliance with a left-wing radical centralist government dominated by radical socialists and stalinists - it was always an alliance of pure convinience. On the surface, the PNV seemed to have much more in common with the Carlists. Indeed, not too long ago, the Carlists and Basque nationalists were allied to each other in the Cortes, and when the military uprising broke out in 1936, both sides initially hesitated and did not find either side very appealing. Ultimately, however, they ended up on the opposite sides of the frontline. The Carlists joined the military uprising, lulled in part by promises of broad regional autonomy, while the Basque nationalists decided to resist it. The PNV then went about forming a regional government in coalition with the Republican parties - including the socialists and communits. The government was dominated by the PNV and led by the President (Lehendakari) Jose Antonio Aguirre, who also served as minister of defence. Although the government did not formally declare its independence from Spain, in everything but formality it was a sovereign state - the first such Basque statehood in Spain's history. But as the civil war progressed, inherent contradictions in PNV's alliance with Madrid began to mount. While Madrid was willing to put up with some Basque autonomy especially for the duration of the war, it was completely and firmly against PNV's separatist agenda. Meanwhile the left-wing parties in the Cortes openly decried PNV as reactionary and even fascist due to its defense of Catholicism, private property, and traditional values. Eventually, the Basque government had to face the same ultimatum which was presented to Catalonia earlier. Madrid demanded submission and de-facto control in Bilbao. Absent that, there was a high risk of clashes between the pro-Republican parties and the PNV."
+	desc = "Since the defeat of the military uprising in the Basque region, much of the Basque country fell under de-facto control of the PNV - a Basque Nationalist party. PNV's alliance with the Republican government in Madrid was always somewhat of an odd coaltion - a conservative, Catholic, separatist party in alliance with a left-wing radical centralist government dominated by radical socialists and stalinists - it was always an alliance of pure convinience. On the surface, the PNV seemed to have much more in common with the Carlists. Indeed, not too long ago, the Carlists and Basque nationalists were allied to each other in the Cortes, and when the military uprising broke out in 1936, both of them initially hesitated and did not find either side very appealing. Ultimately, however, they ended up on the opposite sides of the frontline. The Carlists joined the military uprising, lulled in part by promises of broad regional autonomy, while the Basque nationalists decided to resist it. The PNV then went about forming a regional government in coalition with the Republican parties - including the socialists and communits. The government was dominated by the PNV and led by the President (Lehendakari) Jose Antonio Aguirre, who also served as minister of defence. Although the government did not formally declare its independence from Spain, in everything but formality it was a sovereign state - the first such Basque statehood in Spain's history. But as the civil war progressed, inherent contradictions in PNV's alliance with Madrid began to mount. While Madrid was willing to put up with some Basque autonomy especially for the duration of the war, it was completely and firmly against PNV's separatist agenda. Meanwhile the left-wing parties in the Cortes openly decried PNV as reactionary and even fascist due to its defense of Catholicism, private property, and traditional values. Eventually, the Basque government had to face the same ultimatum which was presented to Catalonia earlier. Madrid demanded submission and de-facto control in Bilbao. Absent that, there was a high risk of clashes between the pro-Republican parties and the PNV."
 	style = 2
 	
 	action = {
 		name = "Unity above all. Condemn the separatists and ractionaries (game over)"
-		ai_chance = 1
+		ai_chance = 10
 		command = { type = event which = 5152 where = SPR when = 1 }
 	}
 	action = {
 		name = "Basques will not surrender their hard-won independence!"
-		ai_chance = 99
+		ai_chance = 90
 		command = { type = end_puppet }
 		command = { type = leave_alliance when = 1 }
 		command = { type = event which = 2400530 where = EUS when = 0 } #independent state
@@ -1193,7 +1443,6 @@ event = {
 		command = { type = war which = SPA }
 		command = { type = dissent value = 5 }
 		command = { type = remove_division which = "4th PCE-JSU Mil. Div." 	value = EUS }
-		command = { type = add_division value = militia when = 4 }
 		command = { type = add_division value = militia when = 4 }
 		command = { type = add_division value = militia when = 4 }
 		command = { type = non_aggression which = SPR where = EUS when = 1 }
@@ -1285,9 +1534,12 @@ event = {
 		command = { type = war which = SPR }
 		command = { type = war which = SPA }
 		command = { type = dissent value = 10 }
-		command = { type = add_division value = militia when = 4 }
-		command = { type = add_division value = militia when = 4 }
-		command = { type = add_division value = militia when = 4 }
+		
+		command = { type = name where = U69 which = U69_SPA }
+		
+		#command = { type = add_division value = militia when = 4 }
+		#command = { type = add_division value = militia when = 4 }
+		#command = { type = add_division value = militia when = 4 }
 		command = { type = non_aggression which = SPA where = U69 when = 1 }
 	}
 }
@@ -1343,6 +1595,112 @@ event = {
 	}
 }
 
+#Basques surrendered
+event = { 
+	id = 5171
+	random = no
+	country = SPR
+	
+	trigger = {
+		war = { country = SPA }
+		NOT = { alliance = { country = EUS } }
+		NOT = { event = 5152 } #Basques incorporated
+	}
+	
+	name = "The Santona Agreement"
+	desc = "After the fall of Bilbao, almost all of Basque territory had fallen into Franco's hands. Juan de Ajuriaguerra, the president of the Biscay Regional Council of the PNV, negotiated a surrender agreement with the Italian army command. The PNV offered to surrender the Basque army in exchange of its prisoners being treated as prisoners-of-war under Italian command and PNV members being allowed to go to exile on British ships. The Basque nationalist units of the Republican army in the Basque territory, fighting under the direction of Basque President Jose Antonio Aguirre, met at Santona and surrendered to the Italian forces. When news of the agreement arrived to his headquarters, Franco cancelled the agreement and ordered the immediate jailing of the 22,000 captured soldiers in Santona's El Dueso Prison. Three months later, around half of them had been freed, and the other half remained in prison, and 510 were sentenced to death, a smaller proportion than registered in reprisals elsewhere. Ajuriaguerra, the highest ranked member of the PNV, was released from prison in 1943. While the surrender affected the Basque fighters loyal to the PNV, there were many Basques who rejected the agreement and chose to continue the fight. The included primarily the left-leaning Basques affiliated with the PCE, PSOE, or other left wing parties."
+	style = 2
+ 	picture = "news_paper"
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 10
+	deathdate = { year = 1948 month = january day = 3 }
+	
+	action = {
+		name = "Traitors!" 
+		command = { type = add_corps value = land where = 354 }
+		command = { type = activate_division which = 27600 value = 620 where = 354	when = 1 } #4th PCE-JSU Mil. Div.
+		command = { type = activate_division which = 27600 value = 621 where = 354	when = 1 } #7th PCE-JSU Mil. Div. (new)
+	}
+}
+
+event = { 
+	id = 5172
+	random = no
+	country = SPR
+	
+	trigger = {
+		war = { country = SPA }
+		control = { province = 3180 data = -2 }
+		control = { province = 1726 data = -2 }
+		NOT = { 
+			division_exists = { type = 27600 id = 600 }
+			division_exists = { type = 27600 id = 601 }
+		}
+	}
+	
+	name = "Defeat in the North"
+	desc = "After the surrender of main Basque forces and the fall of Santander, Eastern Asturias was the last piece of Republican-held territory in the north. As the Republican offensive on Zaragoza in failed to result in a meaningful breakthrough, the Nationalists decided to finish off the remaining Republican forces in the Asturias. The Nationalist force of 90,000 men, with support from the Condor Legion and the Corps of Volunteer Troops, attacked the Republican force of 45,000 men composed of Spanish Republican Army soldiers and allied CNT militias from two directions. The Republicans resisted the much larger Nationalist force until mid-September when their lines were broken and began to lose territory to further offensives. The Nationalist capture of Gijon in late October saw the end of Republican occupation in northern Spain and the end of the War in the North. Madrid ordered the evacuation of Asturias on October 17, but due to remoteness and Nationalist naval superiority only about 15,000–20,000 people were evacuated by sea from Asturias to France or other Republican areas before the final fall of the north."
+	style = 2
+ 	picture = "news_paper"
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 10
+	deathdate = { year = 1948 month = january day = 3 }
+	
+	action = {
+		name = "ACTION_NAME_DAMN" 
+		trigger = { exists = U52 }
+		command = { type = dissent value = 1 }
+		command = { type = add_corps value = land where = 354 }
+		command = { type = activate_division which = 27600 value = 610 where = 354	when = 1 } #63rd Division
+		command = { type = activate_division which = 27600 value = 611 where = 354	when = 1 } #5th PCE-JSU Mil. Div.
+	}
+	action = {
+		name = "ACTION_NAME_DAMN" 
+		trigger = { NOT = { exists = U52 } }
+		command = { type = dissent value = 1 }
+		command = { type = add_corps value = land where = 354 }
+		command = { type = activate_division which = 27600 value = 610 where = 354	when = 1 } #63rd Division
+		command = { type = activate_division which = 27600 value = 611 where = 354	when = 1 } #5th PCE-JSU Mil. Div.
+		command = { type = activate_division which = 27600 value = 612 where = 354	when = 1 } #9th CNT-FAI Mil. Div.
+		command = { type = activate_division which = 27600 value = 613 where = 354	when = 1 } #20th CNT-FAI Mil. Div.
+	}
+}
+
+event = { 
+	id = 5173
+	random = no
+	country = U52
+	
+	trigger = {
+		war = { country = SPA }
+		control = { province = 3180 data = -2 }
+		control = { province = 1726 data = -2 }
+		NOT = { 
+			division_exists = { type = 27600 id = 602 }
+			division_exists = { type = 27600 id = 603 }
+		}
+	}
+	
+	name = "Defeat in the North"
+	desc = "After the surrender of main Basque forces and the fall of Santander, Eastern Asturias was the last piece of Republican-held territory in the north. As the Republican offensive on Zaragoza in failed to result in a meaningful breakthrough, the Nationalists decided to finish off the remaining Republican forces in the Asturias. The Nationalist force of 90,000 men, with support from the Condor Legion and the Corps of Volunteer Troops, attacked the Republican force of 45,000 men composed of Spanish Republican Army soldiers and allied CNT militias from two directions. The Republicans resisted the much larger Nationalist force until mid-September when their lines were broken and began to lose territory to further offensives. The Nationalist capture of Gijon in late October saw the end of Republican occupation in northern Spain and the end of the War in the North. Madrid ordered the evacuation of Asturias on October 17, but due to remoteness and Nationalist naval superiority only about 15,000–20,000 people were evacuated by sea from Asturias to France or other Republican areas before the final fall of the north."
+	style = 2
+ 	picture = "news_paper"
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 10
+	deathdate = { year = 1948 month = january day = 3 }
+	
+	action = {
+		name = "ACTION_NAME_DAMN" 
+		command = { type = dissent value = 1 }
+		command = { type = add_corps value = land where = 357 }
+		command = { type = activate_division which = 27600 value = 612 where = 354	when = 1 } #9th CNT-FAI Mil. Div.
+		command = { type = activate_division which = 27600 value = 613 where = 354	when = 1 } #20th CNT-FAI Mil. Div.
+	}
+}
+
 
 #########################################################################
 # Spain - Intervention
@@ -1391,7 +1749,6 @@ event = {
 
 	decision_trigger = { 
 		NOT = { flag = SOV_to_SPR_delay }
-		event = 5104
 	}
 	
 	trigger = {
@@ -1401,43 +1758,47 @@ event = {
 		NOT = { flag = SOV_to_SPR_5 }
 		NOT = { flag = SPR_NonCommie } #Anti-communist coup happened in spain
 		NOT = { flag = SOV_to_SPR_delay }
-		event = 5104
+		
+		NOT = { #Soviets pulled support from spain shortly after the munich treaty, seeing the republican cause as doomed and not worth the price
+			AND = {
+				event = { id = 2003011 days = 90 } #Munich treaty
+				region = { country = SPA region = "Spain" data = 1 value = 45 }
+				OR = {
+					region = { country = SPA region = "Spain" data = 1 value = 55 }
+					NOT = { control = { province = 341 data = SPR } } #Madrid
+					NOT = { control = { province = 357 data = SPR } } #Barcelona
+				}
+			}
+		}
 		
 		#ai will do if:
 		NOT = { war = { country = GER } }
 		NOT = { war = { country = ENG } }
 		OR = {
-			NOT = { flag = SOV_to_SPR_1 }
-			NOT = { flag = SOV_to_SPR_2 }
 			AND = {
 				ic = 50
-				NOT = { flag = SOV_to_SPR_3 }
-				OR = { 
-					flag = GER_to_SPA_3
-					flag = ITA_to_SPA_3
-					flag = ENG_to_SPA_3
-					flag = FRA_to_SPA_3
-				}
+				NOT = { flag = SOV_to_SPR_1 }
+				flag = { which = AidSPA when = 1 value = 1 } #Someone else has to intervene first
 			}
 			AND = {
 				ic = 100
-				NOT = { flag = SOV_to_SPR_4 }
-				OR = { 
-					flag = GER_to_SPA_4
-					flag = ITA_to_SPA_4
-					flag = ENG_to_SPA_4
-					flag = FRA_to_SPA_4
-				}
+				NOT = { flag = SOV_to_SPR_2 }
+				flag = { which = AidSPA when = 1 value = 2 }
 			}
 			AND = {
 				ic = 150
+				NOT = { flag = SOV_to_SPR_3 }
+				flag = { which = AidSPA when = 1 value = 4 } #normal limit
+			}
+			AND = {
+				ic = 200
+				NOT = { flag = SOV_to_SPR_4 }
+				flag = { which = AidSPA when = 1 value = 6 }
+			}
+			AND = {
+				ic = 250
 				NOT = { flag = SOV_to_SPR_5 }
-				OR = { 
-					flag = GER_to_SPA_5
-					flag = ITA_to_SPA_5
-					flag = ENG_to_SPA_5
-					flag = FRA_to_SPA_5
-				}
+				flag = { which = AidSPA when = 1 value = 8 }
 			}
 		}
 	}
@@ -1454,6 +1815,7 @@ event = {
 	action = {
 		name = "Send materials and volunteers!"
 		trigger = { NOT = { flag = SOV_to_SPR_1 } }
+		command = {	type = setflag which = AidSPR when = 1 value = 1 }
 		command = { type = free_ic value = -1 }
 		#equivalent of 2 IC daily
 		command = { type = trade which = SOV where = SPR supplies = -10 money = 0.5 value = 1 }
@@ -1468,10 +1830,6 @@ event = {
 		command = { type = money value = -20 }
 		#International brigade 4
 		command = { type = money value = -20 }
-		#International brigade 5
-		command = { type = money value = -20 }
-		#International brigade 6
-		command = { type = money value = -20 }
 		#Light tank brigade 1
 		command = { type = money value = -50 }
 		#Light tank brigade 2
@@ -1481,10 +1839,6 @@ event = {
 		#art brigade 1
 		command = { type = money value = -60 }
 		#art brigade 2
-		command = { type = money value = -60 }
-		#art brigade 3
-		command = { type = money value = -60 }
-		#art brigade 4
 		command = { type = money value = -60 }
 		#art brigade 5 (full cost)
 		command = { type = money value = -133 }
@@ -1499,7 +1853,8 @@ event = {
 		
 		command = { type = belligerence value = 1.0 }
 		command = { type = setflag which = SOV_to_SPR_1 }
-		command = { type = event which = 5201 where = SPR when = 0 }
+		command = { type = event which = 5201 where = SPR when = 30 }
+		command = { type = access which = SPR }
 		command = { type = setflag which = SOV_to_SPR_delay }
 		
 		command = { trigger = { NOT = { local_flag = SCWExp } } type = event which = 5290 where = -1 when = 180 }
@@ -1508,38 +1863,23 @@ event = {
 		#command = { trigger = { NOT = { local_flag = SCWVolunteers } } type = event which = 5116200 where = -1 when = 180 }
 		#command = { trigger = { NOT = { local_flag = SCWVolunteers } } type = local_setflag which = SCWVolunteers }
 		
-		command = { type = add_corps value = land where = 341 }
-		command = { type = add_division which = "Soviet Advisers HQ" 				value = hq 		when = 2 where = armored_car }
-		command = { type = add_corps value = land where = 341 }
-		command = { type = add_division which = "11th German Thalmann IB" 			value = militia when = 4 where = medium_armor }
-		command = { type = add_corps value = land where = 341 }
-		command = { type = add_division which = "12th Italian Garibaldi IB" 		value = militia when = 4 where = artillery }
-		command = { type = add_corps value = land where = 341 }
-		command = { type = add_division which = "13th Polish Dabrowski IB" 			value = militia when = 4 where = light_armor_brigade }
-		command = { type = add_corps value = land where = 341 }
-		command = { type = add_division which = "14th French Marseillaise IB" 		value = militia when = 4 where = artillery }
-		command = { type = add_corps value = land where = 341 }
-		command = { type = add_division which = "15th American Lincoln IB" 			value = militia when = 4 where = artillery }
-		command = { type = add_corps value = land where = 341 }
-		command = { type = add_division which = "129th Forty Nations IB" 			value = militia when = 4 where = artillery }
-		
-		command = { type = add_corps value = air where = 341 }
-		command = { type = add_division which = "1st Soviet Interceptor Wing" 		value = interceptor when = 5 }
-		command = { type = add_corps value = air where = 341 }
-		command = { type = add_division which = "2nd Soviet Interceptor Wing" 		value = interceptor when = 5 }
-		command = { type = add_corps value = air where = 341 }
-		command = { type = add_division which = "3rd Soviet Interceptor Wing" 		value = interceptor when = 5 }
-		command = { type = add_corps value = air where = 341 }
-		command = { type = add_division which = "4th Soviet Bomber Wing" 			value = tactical_bomber when = 3 }
-		command = { type = add_corps value = air where = 341 }
-		command = { type = add_division which = "5th Soviet Attack Wing" 			value = cas when = 0 }
-		
 		command = { type = local_setflag which = AID_to_SPR }
 		command = { type = setflag which = SPR_SOVAssistFlag }
 	}
 	action = {
 		name = "Send more materials to Spain!"
 		trigger = { flag = SOV_to_SPR_1 }
+		command = {	type = setflag which = AidSPR when = 1 value = 1 }
+		
+		#International brigade 5
+		command = { trigger = { flag = SOV_to_SPR_2 NOT = { flag = SOV_to_SPR_3 } } type = money value = -20 }
+		#International brigade 6
+		command = { trigger = { flag = SOV_to_SPR_2 NOT = { flag = SOV_to_SPR_3 } } type = money value = -20 }
+		#art brigade 3
+		command = { trigger = { flag = SOV_to_SPR_2 NOT = { flag = SOV_to_SPR_3 } } type = money value = -60 }
+		#art brigade 4
+		command = { trigger = { flag = SOV_to_SPR_2 NOT = { flag = SOV_to_SPR_3 } } type = money value = -60 }
+		
 		command = { trigger = { flag = SOV_to_SPR_1 } type = dissent value = 0.5 }
 		command = { trigger = { flag = SOV_to_SPR_2 } type = dissent value = 0.5 }
 		command = { trigger = { flag = SOV_to_SPR_3 } type = dissent value = 0.5 }
@@ -1572,7 +1912,6 @@ event = {
 	action = {
 		name = "Great!"
 		trigger = { NOT = { flag = SOV_to_SPR_2 } }
-		command = { type = alliance which = SOV when = 1 }
 		command = { type = free_ic value = 1 }
 		command = { type = steal_tech which = SOV }
 		command = { type = steal_tech which = SOV }
@@ -1580,13 +1919,27 @@ event = {
 		command = { type = wakeleader which = 255008 }
 		command = { type = wakeleader which = 255051 }
 		
+		#command = { type = domestic which = political_left value = 1 }
+		command = { type = manpowerpool value = 100 } #enough manpower to reinforce all to full strength
+		command = { type = add_corps value = land where = 354 }
+		command = { type = add_division which = "Soviet Advisers HQ" 				value = hq 		when = 2 where = armored_car }
+		command = { type = add_division which = "11th German Thalmann IB" 			value = militia when = 4 where = medium_armor }
+		command = { type = add_division which = "12th Italian Garibaldi IB" 		value = militia when = 4 where = artillery }
+		command = { type = add_division which = "13th Polish Dabrowski IB" 			value = militia when = 4 where = light_armor_brigade }
+		command = { type = add_division which = "14th French Marseillaise IB" 		value = militia when = 4 where = artillery }
+		#command = { type = add_division which = "15th American Lincoln IB" 		value = militia when = 4 where = artillery }
+		#command = { type = add_division which = "129th Forty Nations IB" 			value = militia when = 4 where = artillery }
+		
+		command = { type = add_division which = "1st Soviet Interceptor Wing" 		value = interceptor when = 5 }
+		command = { type = add_division which = "2nd Soviet Interceptor Wing" 		value = interceptor when = 5 }
+		command = { type = add_division which = "3rd Soviet Interceptor Wing" 		value = interceptor when = 5 }
+		command = { type = add_division which = "4th Soviet Bomber Wing" 			value = tactical_bomber when = 3 }
+		command = { type = add_division which = "5th Soviet Attack Wing" 			value = cas when = 0 }
+		
 		command = { type = add_brigade value = artillery 	when = 4 }
 		
 		#have to do it separately because of the brigades. Also doesn't work if it's in the same event
-		command = { trigger = { alliance = { country = SPA country = ENG } } type = event which = 5222 where = ENG when = 1 }
-		command = { trigger = { alliance = { country = SPA country = ENG } } type = event which = 5222 where = VIC when = 1 }
-		command = { trigger = { alliance = { country = SPA country = GER } } type = event which = 5222 where = GER when = 1 }
-		command = { trigger = { alliance = { country = SPA country = ITA } } type = event which = 5222 where = ITA when = 1 }
+		command = { type = event which = 5202 where = SPR when = 0 }
 		
 		command = { type = clrflag which = SOV_to_SPR_delay }
 	}
@@ -1614,13 +1967,19 @@ event = {
 	
 	action = {
 		name = "Finally"
-		command = { type = peace which = ENG value = 1 }
-		command = { type = peace which = VIC value = 1 }
-		command = { type = peace which = GER value = 1 }
-		command = { type = peace which = ITA value = 1 }
-		command = { type = peace which = SPA value = 1 }
-		command = { type = peace which = U69 value = 1 }
-
+		command = { }
+		command = { type = damage_division which = "Soviet Advisers HQ" 			value = SPR where = 90 } #new
+		command = { type = damage_division which = "11th German Thalmann IB" 		value = SPR where = 90 } #new
+		command = { type = damage_division which = "12th Italian Garibaldi IB" 		value = SPR where = 90 } #new
+		command = { type = damage_division which = "13th Polish Dabrowski IB" 		value = SPR where = 90 } #new
+		command = { type = damage_division which = "14th French Marseillaise IB" 	value = SPR where = 90 } #new
+		#command = { type = damage_division which = "15th American Lincoln IB" 		value = SPR where = 90 } #new
+		#command = { type = damage_division which = "129th Forty Nations IB" 		value = SPR where = 90 } #new
+		#command = { type = damage_division which = "1st Soviet Interceptor Wing" 	value = SPR where = 0  } #existing
+		#command = { type = damage_division which = "2nd Soviet Interceptor Wing" 	value = SPR where = 0  } #existing
+		#command = { type = damage_division which = "3rd Soviet Interceptor Wing" 	value = SPR where = 0  } #existing
+		#command = { type = damage_division which = "4th Soviet Bomber Wing" 		value = SPR where = 0  } #existing
+		#command = { type = damage_division which = "5th Soviet Attack Wing" 		value = SPR where = 0  } #existing
 	}
 }
 
@@ -1643,8 +2002,17 @@ event = {
 		NOT = { flag = SOV_to_SPR_delay }
 		OR = {
 			NOT = { war = { country = SPR country = SPA } }
-			#war = { country = GER }
+			war = { country = GER }
 			flag = SPR_NonCommie #Anti-communist coup happened in spain
+			AND = { #Soviets pulled support from spain shortly after the munich treaty, seeing the republican cause as doomed and not worth the price
+				event = { id = 2003011 days = 90 } #Munich treaty
+				region = { country = SPA region = "Spain" data = 1 value = 45 }
+				OR = {
+					region = { country = SPA region = "Spain" data = 1 value = 55 }
+					NOT = { control = { province = 341 data = SPR } } #Madrid
+					NOT = { control = { province = 357 data = SPR } } #Barcelona
+				}
+			}
 		}
 	}
 	
@@ -1710,6 +2078,12 @@ event = {
 		#command = { type = remove_division which = "3rd Soviet Interceptor Wing" 	value = SPA }
 		#command = { type = remove_division which = "4th Soviet Bomber Wing" 		value = SPA }
 		#command = { type = remove_division which = "5th Soviet Attack Wing" 		value = SPA }
+		
+		command = { trigger = { flag = SOV_to_SPR_5 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = SOV_to_SPR_4 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = SOV_to_SPR_3 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = SOV_to_SPR_2 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = SOV_to_SPR_1 } type = setflag which = AidSPR when = 1 value = -1 }
 		
 		command = { trigger = { NOT = { exists = SPR } } type = clrflag which = SOV_to_SPR_5 }
 		command = { trigger = { NOT = { exists = SPR } } type = clrflag which = SOV_to_SPR_4 }
@@ -1820,7 +2194,6 @@ event = {
 
 	decision_trigger = { 
 		NOT = { flag = GER_to_SPA_delay }
-		event = 5104
 	}
 	
 	trigger = {
@@ -1830,41 +2203,36 @@ event = {
 		NOT = { flag = GER_to_SPA_5 }
 		NOT = { flag = SPA_NonFascist } #Anti-falangist coup happened in spain
 		NOT = { flag = GER_to_SPA_delay }
-		event = 5104
 		flag = ITA_to_SPA_1 #italy goes first
 		
 		#ai will do if:
 		NOT = { war = { country = SOV } }
 		NOT = { war = { country = VIC } }
 		OR = {
-			NOT = { flag = GER_to_SPA_1 }
-			NOT = { flag = GER_to_SPA_2 }
 			AND = {
 				ic = 50
-				NOT = { flag = GER_to_SPA_3 }
-				OR = { 
-					flag = SOV_to_SPR_3
-					flag = FRA_to_SPR_3
-					flag = ENG_to_SPR_3
-				}
+				NOT = { flag = GER_to_SPA_1 }
+				#Will make first move
 			}
 			AND = {
 				ic = 100
-				NOT = { flag = GER_to_SPA_4 }
-				OR = { 
-					flag = SOV_to_SPR_4
-					flag = FRA_to_SPR_4
-					flag = ENG_to_SPR_4
-				}
+				NOT = { flag = GER_to_SPA_2 }
+				flag = { which = AidSPR when = 1 value = 2 } #Normal limit
 			}
 			AND = {
 				ic = 150
+				NOT = { flag = GER_to_SPA_3 }
+				flag = { which = AidSPR when = 1 value = 4 }
+			}
+			AND = {
+				ic = 200
+				NOT = { flag = GER_to_SPA_4 }
+				flag = { which = AidSPR when = 1 value = 5 }
+			}
+			AND = {
+				ic = 250
 				NOT = { flag = GER_to_SPA_5 }
-				OR = { 
-					flag = SOV_to_SPR_5
-					flag = FRA_to_SPR_5
-					flag = ENG_to_SPR_5
-				}
+				flag = { which = AidSPR when = 1 value = 6 }
 			}
 		}
 	}
@@ -1881,6 +2249,7 @@ event = {
 	action = {
 		name = "Send materials and volunteers!"
 		trigger = { NOT = { flag = GER_to_SPA_1 } }
+		command = { type = setflag which = AidSPA when = 1 value = 1 }
 		command = { type = free_ic value = -1 }
 		#equivalent of 2 IC daily
 		command = { type = trade which = GER where = SPA supplies = -10 money = 0.5 value = 1 }
@@ -1921,9 +2290,9 @@ event = {
 	
 		command = { type = belligerence value = 1.0 }
 		command = { type = setflag which = GER_to_SPA_1 }
-		command = { type = event which = 5211 where = SPA when = 0 }
+		command = { type = event which = 5211 where = SPA when = 30 }
+		command = { type = access which = SPA }
 		command = { type = setflag which = GER_to_SPA_delay }
-		command = { type = alliance_leader which = ITA where = 1 }
 		
 		command = { trigger = { NOT = { local_flag = SCWExp } } type = event which = 5290 where = -1 when = 180 }
 		command = { trigger = { NOT = { local_flag = SCWExp } } type = local_setflag which = SCWExp }
@@ -1931,38 +2300,13 @@ event = {
 		#command = { trigger = { NOT = { local_flag = SCWVolunteers } } type = event which = 5116205 where = -1 when = 180 }
 		#command = { trigger = { NOT = { local_flag = SCWVolunteers } } type = local_setflag which = SCWVolunteers }
 		
-		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "German Advisers HQ" 				value = hq 				when = 2 where = armored_car  }
-		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "German Beekeeper Division"			value = infantry		when = 9 where = light_armor_brigade }
-		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "1st German-trained Militia"		value = militia			when = 5 where = artillery }
-		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "2nd German-trained Militia"		value = militia			when = 5 where = artillery }
-		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "3rd German-trained Militia"		value = militia			when = 5 where = artillery }
-		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "4th German-trained Militia"		value = militia			when = 5 where = artillery }
-		command = { type = add_corps value = air where = 333 }
-		command = { type = add_division which = "1st German Interceptor Wing" 		value = interceptor 	when = 7 }
-		command = { type = add_corps value = air where = 333 }
-		command = { type = add_division which = "2nd German Fighter Wing"	 		value = multi_role 		when = 4 }
-		command = { type = add_corps value = air where = 333 }
-		command = { type = add_division which = "3rd German Bomber Wing" 			value = tactical_bomber when = 5 }
-		command = { type = add_corps value = air where = 333 }
-		command = { type = add_division which = "4th German Attack Wing"	 		value = cas		 		when = 0 }
-		command = { type = add_corps value = naval where = 333 }
-		command = { type = add_division which = "1st German Submarine Fleet"		value = submarine 		when = 4 }
-		
-		#command = { type = domestic which = political_left value = -1 }
-		command = { type = manpowerpool value = 16 } #Most of the manpower is locally sourced, only about 16,000 german troops
-		
 		command = { type = local_setflag which = AID_to_SPA }
 		command = { type = setflag which = SPA_GERAssistFlag }
 	}
 	action = {
 		name = "Send more materials to Spain!"
 		trigger = { flag = GER_to_SPA_1 }
+		command = { type = setflag which = AidSPA when = 1 value = 1 }
 		command = { trigger = { flag = GER_to_SPA_1 } type = dissent value = 0.5 }
 		command = { trigger = { flag = GER_to_SPA_2 } type = dissent value = 0.5 }
 		command = { trigger = { flag = GER_to_SPA_3 } type = dissent value = 0.5 }
@@ -1995,7 +2339,6 @@ event = {
 	action = {
 		name = "Great!"
 		trigger = { NOT = { flag = GER_to_SPA_2 } }
-		command = { type = alliance which = GER when = 1 where = 1 }
 		command = { type = free_ic value = 1 }
 		command = { type = steal_tech which = GER }
 		command = { type = steal_tech which = GER }
@@ -2011,13 +2354,26 @@ event = {
        	command = { type = gain_tech which = 9040 } #Battlefield Destruction
        	command = { type = gain_tech which = 9090 } #Operational Destruction
 		
+		#command = { type = domestic which = political_left value = -1 }
+		command = { type = manpowerpool value = 16 } #Most of the manpower is locally sourced, only about 16,000 german troops
+		command = { type = add_corps value = land where = 334 }
+		command = { type = add_division which = "German Advisers HQ" 				value = hq 				when = 2 where = armored_car  }
+		command = { type = add_division which = "German Beekeeper Division"			value = infantry		when = 9 where = light_armor_brigade }
+		command = { type = add_division which = "1st German-trained Militia"		value = militia			when = 5 where = artillery }
+		command = { type = add_division which = "2nd German-trained Militia"		value = militia			when = 5 where = artillery }
+		command = { type = add_division which = "3rd German-trained Militia"		value = militia			when = 5 where = artillery }
+		command = { type = add_division which = "4th German-trained Militia"		value = militia			when = 5 where = artillery }
+		command = { type = add_division which = "1st German Interceptor Wing" 		value = interceptor 	when = 7 }
+		command = { type = add_division which = "2nd German Fighter Wing"	 		value = multi_role 		when = 4 }
+		command = { type = add_division which = "3rd German Bomber Wing" 			value = tactical_bomber when = 5 }
+		command = { type = add_division which = "4th German Attack Wing"	 		value = cas		 		when = 0 }
+		command = { type = add_division which = "1st German Submarine Fleet"		value = submarine 		when = 4 }
+		
 		command = { type = add_brigade value = artillery 	when = 4 }
 		command = { type = add_brigade value = artillery 	when = 4 }
 		command = { type = add_brigade value = artillery 	when = 4 }
 		
-		command = { trigger = { alliance = { country = SPR country = ENG } } type = event which = 5222 where = ENG when = 1 }
-		command = { trigger = { alliance = { country = SPR country = VIC } } type = event which = 5222 where = VIC when = 1 }
-		command = { trigger = { alliance = { country = SPR country = SOV } } type = event which = 5222 where = SOV when = 1 }
+		command = { type = event which = 5212 where = SPA when = 0 }
 		
 		command = { type = clrflag which = GER_to_SPA_delay }
 	}
@@ -2045,13 +2401,17 @@ event = {
 	
 	action = {
 		name = "Finally"
-		command = { type = alliance_leader which = GER where = 1 }
-		command = { type = peace which = ENG value = 1 }
-		command = { type = peace which = VIC value = 1 }
-		command = { type = peace which = SOV value = 1 }
-		command = { type = peace which = EUS value = 1 }
-		command = { type = peace which = U52 value = 1 }
-
+		command = { }
+		command = { type = damage_division which = "German Advisers HQ" 				value = SPA where = 90 } #new
+		#command = { type = damage_division which = "German Beekeeper Division" 		value = SPA where = 0  } #existing
+		command = { type = damage_division which = "1st German-trained Militia" 		value = SPA where = 90 } #new
+		command = { type = damage_division which = "2nd German-trained Militia" 		value = SPA where = 90 } #new
+		command = { type = damage_division which = "3rd German-trained Militia" 		value = SPA where = 90 } #new
+		command = { type = damage_division which = "4th German-trained Militia" 		value = SPA where = 90 } #new
+		#command = { type = damage_division which = "1st German Interceptor Wing" 		value = SPA where = 0  } #existing
+		#command = { type = damage_division which = "2nd German Fighter Wing" 			value = SPA where = 0  } #existing
+		#command = { type = damage_division which = "3rd German Bomber Wing" 			value = SPA where = 0  } #existing
+		#command = { type = damage_division which = "4th German Attack Wing" 			value = SPA where = 0  } #existing
 	}
 }
 
@@ -2074,7 +2434,7 @@ event = {
 		NOT = { flag = GER_to_SPA_delay }
 		OR = {
 			NOT = { war = { country = SPR country = SPA } }
-			#war = { country = SOV }
+			war = { country = SOV }
 			#war = { country = VIC }
 			flag = SPA_NonFascist #Anti-falangist coup happened in spain
 		}
@@ -2146,6 +2506,12 @@ event = {
 		command = { trigger = { exists = SPR }				type = add_division which = "Sturzkampfgeschwader 51"	value = cas				when = 0	where = -60 } #High losses
 		
 		command = { 										type = add_division	which = "1. Unterseebootsflottille"	value = submarine 		when = 4 }
+
+		command = { trigger = { flag = GER_to_SPA_5 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = GER_to_SPA_5 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = GER_to_SPA_5 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = GER_to_SPA_5 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = GER_to_SPA_5 } type = setflag which = AidSPA when = 1 value = -1 }
 
 		command = { trigger = { NOT = { exists = SPA } } type = clrflag which = GER_to_SPA_5 }
 		command = { trigger = { NOT = { exists = SPA } } type = clrflag which = GER_to_SPA_4 }
@@ -2256,7 +2622,6 @@ event = {
 
 	decision_trigger = { 
 		NOT = { flag = ITA_to_SPA_delay }
-		event = 5104
 	}
 	
 	trigger = {
@@ -2266,40 +2631,35 @@ event = {
 		NOT = { flag = ITA_to_SPA_5 }
 		NOT = { flag = SPA_NonFascist } #Anti-falangist coup happened in spain
 		NOT = { flag = ITA_to_SPA_delay }
-		event = 5104
 		
 		#ai will do if:
 		NOT = { war = { country = SOV } }
 		NOT = { war = { country = VIC } }
 		OR = {
-			NOT = { flag = ITA_to_SPA_1 }
-			NOT = { flag = ITA_to_SPA_2 }
 			AND = {
 				ic = 50
-				NOT = { flag = ITA_to_SPA_3 }
-				OR = { 
-					flag = SOV_to_SPR_3
-					flag = FRA_to_SPR_3
-					flag = ENG_to_SPR_3
-				}
+				NOT = { flag = ITA_to_SPA_1 }
+				#Will make first move
 			}
 			AND = {
 				ic = 100
-				NOT = { flag = ITA_to_SPA_4 }
-				OR = { 
-					flag = SOV_to_SPR_4
-					flag = FRA_to_SPR_4
-					flag = ENG_to_SPR_4
-				}
+				NOT = { flag = ITA_to_SPA_2 }
+				flag = { which = AidSPR when = 1 value = 2 } #normal limit
 			}
 			AND = {
 				ic = 150
+				NOT = { flag = ITA_to_SPA_3 }
+				flag = { which = AidSPR when = 1 value = 4 }
+			}
+			AND = {
+				ic = 200
+				NOT = { flag = ITA_to_SPA_4 }
+				flag = { which = AidSPR when = 1 value = 5 }
+			}
+			AND = {
+				ic = 250
 				NOT = { flag = ITA_to_SPA_5 }
-				OR = { 
-					flag = SOV_to_SPR_5
-					flag = FRA_to_SPR_5
-					flag = ENG_to_SPR_5
-				}
+				flag = { which = AidSPR when = 1 value = 6 }
 			}
 		}
 	}
@@ -2316,6 +2676,7 @@ event = {
 	action = {
 		name = "Send materials and volunteers!"
 		trigger = { NOT = { flag = ITA_to_SPA_1 } }
+		command = { type = setflag which = AidSPA when = 1 value = 1 }
 		command = { type = free_ic value = -1 }
 		#equivalent of 2 IC daily
 		command = { type = trade which = ITA where = SPA supplies = -10 money = 0.5 value = 1 }
@@ -2379,7 +2740,8 @@ event = {
 	
 		command = { type = belligerence value = 1.0 }
 		command = { type = setflag which = ITA_to_SPA_1 }
-		command = { type = event which = 5221 where = SPA when = 0 }
+		command = { type = event which = 5221 where = SPA when = 30 }
+		command = { type = access which = SPA }
 		command = { type = setflag which = ITA_to_SPA_delay }
 		
 		command = { trigger = { NOT = { local_flag = SCWExp } } type = event which = 5290 where = -1 when = 180 }
@@ -2388,56 +2750,13 @@ event = {
 		#command = { trigger = { NOT = { local_flag = SCWVolunteers } } type = event which = 5116206 where = -1 when = 90 }
 		#command = { trigger = { NOT = { local_flag = SCWVolunteers } } type = local_setflag which = SCWVolunteers }
 		
-		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "Italian Advisers HQ" 				value = hq 				when = 2 where = armored_car  }
-		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "4th Italian Littorio Division"		value = motorized		when = 0 where = medium_armor }
-		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "1st Italian Dio lo Vuole CCNN"		value = militia			when = 5 where = artillery }
-		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "2nd Italian Fiamme Nere CCNN"		value = militia			when = 5 where = artillery }
-		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "3rd Italian Penne Nere CCNN"		value = militia			when = 5 where = artillery }
-		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "5th Italian Marzo CCNN"			value = militia			when = 5 where = artillery }
-		command = { type = add_corps value = air where = 333 }
-		command = { type = add_division which = "1st Italian Interceptor Wing" 		value = interceptor 	when = 7 }
-		command = { type = add_corps value = air where = 333 }
-		command = { type = add_division which = "2nd Italian Fighter Wing"	 		value = multi_role 		when = 4 }
-		command = { type = add_corps value = air where = 333 }
-		command = { type = add_division which = "3rd Italian Attack Wing" 			value = cas				when = 0 }
-		command = { type = add_corps value = air where = 333 }
-		command = { type = add_division which = "4th Italian Bomber Wing" 			value = tactical_bomber when = 5 }
-		
-		command = { type = add_brigade value = artillery 	when = 4 }
-		command = { type = add_brigade value = artillery 	when = 4 }
-		command = { type = add_brigade value = artillery 	when = 4 }
-		command = { type = add_brigade value = artillery 	when = 4 }
-		command = { type = add_brigade value = artillery 	when = 4 }
-		command = { type = add_brigade value = artillery 	when = 4 }
-		command = { type = add_brigade value = artillery 	when = 4 }
-		command = { type = add_brigade value = artillery 	when = 4 }
-		
-		command = { type = add_division which = "Giovanni delle Bande Nere" 			value = light_cruiser when = 4 }
-		command = { type = add_division which = "Muzio Attendolo" 						value = light_cruiser when = 5 }
-		command = { type = add_division which = "IV Squadriglia Cacciatorpediniere"		value = destroyer when = 5 }
-		command = { type = add_division which = "LII Squadriglia Sottomarini"			value = submarine when = 2 }
-		command = { type = add_division which = "LXI Squadra Sommergibili"				value = submarine when = 2 }
-		command = { type = add_division which = "LXXXI Squadra Sommergibili"			value = submarine when = 2 }
-		command = { type = add_division which = "LXXXII Squadra Sommergibili"			value = submarine when = 2 }
-		command = { type = add_division which = "XI Squadriglia Sommergibili"			value = submarine when = 4 }
-		command = { type = add_division which = "XII Squadriglia Sommergibili"			value = submarine when = 4 }
-		command = { type = add_division which = "XIII Squadriglia Sommergibili"			value = submarine when = 4 }
-		command = { type = add_division which = "XIV Squadriglia Sommergibili"			value = submarine when = 4 }
-		command = { type = add_division which = "XV Squadriglia Sommergibili"			value = submarine when = 4 }
-		command = { type = add_division which = "XVII Squadriglia Sommergibili"			value = submarine when = 4 }
-		
 		command = { type = local_setflag which = AID_to_SPA }
 		command = { type = setflag which = SPA_ITAAssistFlag }
 	}
 	action = {
 		name = "Send more materials to Spain!"
 		trigger = { flag = ITA_to_SPA_1 }
+		command = { type = setflag which = AidSPA when = 1 value = 1 }
 		command = { trigger = { flag = ITA_to_SPA_1 } type = dissent value = 0.5 }
 		command = { trigger = { flag = ITA_to_SPA_2 } type = dissent value = 0.5 }
 		command = { trigger = { flag = ITA_to_SPA_3 } type = dissent value = 0.5 }
@@ -2470,7 +2789,6 @@ event = {
 	action = {
 		name = "Great!"
 		trigger = { NOT = { flag = ITA_to_SPA_2 } } 
-		command = { type = alliance which = ITA when = 1 }
 		command = { type = free_ic value = 1 }
 		command = { type = steal_tech which = ITA }
 		command = { type = steal_tech which = ITA }
@@ -2486,10 +2804,42 @@ event = {
 		#command = { type = domestic which = political_left value = -1 }
 		command = { type = manpowerpool value = 200 }
 		
+		command = { type = add_corps value = land where = 334 }
+		command = { type = add_division which = "Italian Advisers HQ" 				value = hq 				when = 2 where = armored_car  }
+		command = { type = add_division which = "4th Italian Littorio Division"		value = motorized		when = 0 where = medium_armor }
+		command = { type = add_division which = "1st Italian Dio lo Vuole CCNN"		value = militia			when = 5 where = artillery }
+		command = { type = add_division which = "2nd Italian Fiamme Nere CCNN"		value = militia			when = 5 where = artillery }
+		command = { type = add_division which = "3rd Italian Penne Nere CCNN"		value = militia			when = 5 where = artillery }
+		command = { type = add_division which = "5th Italian Marzo CCNN"			value = militia			when = 5 where = artillery }
+		command = { type = add_division which = "1st Italian Interceptor Wing" 		value = interceptor 	when = 7 }
+		command = { type = add_division which = "2nd Italian Fighter Wing"	 		value = multi_role 		when = 4 }
+		command = { type = add_division which = "3rd Italian Attack Wing" 			value = cas				when = 0 }
+		command = { type = add_division which = "4th Italian Bomber Wing" 			value = tactical_bomber when = 5 }
 		
-		command = { trigger = { alliance = { country = SPR country = ENG } } type = event which = 5222 where = ENG when = 1 }
-		command = { trigger = { alliance = { country = SPR country = VIC } } type = event which = 5222 where = VIC when = 1 }
-		command = { trigger = { alliance = { country = SPR country = SOV } } type = event which = 5222 where = SOV when = 1 }
+		command = { type = add_brigade value = artillery 	when = 4 }
+		command = { type = add_brigade value = artillery 	when = 4 }
+		command = { type = add_brigade value = artillery 	when = 4 }
+		command = { type = add_brigade value = artillery 	when = 4 }
+		command = { type = add_brigade value = artillery 	when = 4 }
+		command = { type = add_brigade value = artillery 	when = 4 }
+		command = { type = add_brigade value = artillery 	when = 4 }
+		command = { type = add_brigade value = artillery 	when = 4 }
+		
+		command = { type = add_division which = "Giovanni delle Bande Nere" 			value = light_cruiser when = 4 }
+		command = { type = add_division which = "Muzio Attendolo" 						value = light_cruiser when = 5 }
+		command = { type = add_division which = "IV Squadriglia Cacciatorpediniere"		value = destroyer when = 5 }
+		command = { type = add_division which = "LII Squadriglia Sottomarini"			value = submarine when = 2 }
+		command = { type = add_division which = "LXI Squadra Sommergibili"				value = submarine when = 2 }
+		command = { type = add_division which = "LXXXI Squadra Sommergibili"			value = submarine when = 2 }
+		command = { type = add_division which = "LXXXII Squadra Sommergibili"			value = submarine when = 2 }
+		command = { type = add_division which = "XI Squadriglia Sommergibili"			value = submarine when = 4 }
+		command = { type = add_division which = "XII Squadriglia Sommergibili"			value = submarine when = 4 }
+		command = { type = add_division which = "XIII Squadriglia Sommergibili"			value = submarine when = 4 }
+		command = { type = add_division which = "XIV Squadriglia Sommergibili"			value = submarine when = 4 }
+		command = { type = add_division which = "XV Squadriglia Sommergibili"			value = submarine when = 4 }
+		command = { type = add_division which = "XVII Squadriglia Sommergibili"			value = submarine when = 4 }
+		
+		command = { type = event which = 5222 where = SPA when = 0 }
 		
 		command = { type = clrflag which = ITA_to_SPA_delay }
 	}
@@ -2517,16 +2867,17 @@ event = {
 	
 	action = {
 		name = "Finally"
-		command = { type = peace which = ENG value = 1 }
-		command = { type = peace which = VIC value = 1 }
-		command = { type = peace which = GER value = 1 }
-		command = { type = peace which = ITA value = 1 }
-		command = { type = peace which = ALB value = 1 }
-		command = { type = peace which = SOV value = 1 }
-		command = { type = peace which = MON value = 1 }
-		command = { type = peace which = SIK value = 1 }
-		command = { type = peace which = TAN value = 1 }
-
+		command = { }
+		command = { type = damage_division which = "Italian Advisers HQ" 				value = SPA where = 90 } #new
+		command = { type = damage_division which = "4th Italian Littorio Division" 		value = SPA where = 40 } #existing with new armor brigade
+		command = { type = damage_division which = "1st Italian Dio lo Vuole CCNN" 		value = SPA where = 40 } #existing with new arty brigade
+		command = { type = damage_division which = "2nd Italian Fiamme Nere CCNN" 		value = SPA where = 40 } #existing with new arty brigade
+		command = { type = damage_division which = "3rd Italian Penne Nere CCNN" 		value = SPA where = 40 } #existing with new arty brigade
+		command = { type = damage_division which = "5th Italian Marzo CCNN" 			value = SPA where = 40 } #existing with new arty brigade
+		#command = { type = damage_division which = "1st Italian Interceptor Wing" 		value = SPA where = 0  } #existing
+		#command = { type = damage_division which = "2nd Italian Fighter Wing" 			value = SPA where = 0  } #existing
+		#command = { type = damage_division which = "3rd Italian Attack Wing" 			value = SPA where = 0  } #existing
+		#command = { type = damage_division which = "4th Italian Bomber Wing" 			value = SPA where = 0  } #existing
 	}
 }
 
@@ -2549,7 +2900,7 @@ event = {
 		NOT = { flag = ITA_to_SPA_delay }
 		OR = {
 			NOT = { war = { country = SPR country = SPA } }
-			#war = { country = SOV }
+			war = { country = SOV }
 			#war = { country = VIC }
 			flag = SPA_NonFascist #Anti-falangist coup happened in spain
 		}
@@ -2667,6 +3018,11 @@ event = {
 		command = { trigger = { NOT = { alliance = { country = ITA } } } type = military_control which = ITA where = SPA value = 0 }
 		command = { type = end_trades which = SPA where = ITA }
 
+		command = { trigger = { flag = ITA_to_SPA_5 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = ITA_to_SPA_4 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = ITA_to_SPA_3 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = ITA_to_SPA_2 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = ITA_to_SPA_1 } type = setflag which = AidSPA when = 1 value = -1 }
 		
 		command = { trigger = { NOT = { exists = SPA } } type = clrflag which = ITA_to_SPA_5 }
 		command = { trigger = { NOT = { exists = SPA } } type = clrflag which = ITA_to_SPA_4 }
@@ -2798,6 +3154,7 @@ event = {
 	action = {
 		name = "Send materials and volunteers to the Republic!"
 		trigger = { NOT = { flag = ENG_to_SPR_1 flag = ENG_to_SPA_1 } }
+		command = { type = setflag which = AidSPR when = 1 value = 1 }
 		command = { type = dissent value = 10 }
 		command = { type = free_ic value = -1 }
 		#equivalent of 2 IC daily
@@ -2850,6 +3207,7 @@ event = {
 	action = {
 		name = "Send materials and volunteers to the Rebels!"
 		trigger = { NOT = { flag = ENG_to_SPR_1 flag = ENG_to_SPA_1 } }
+		command = { type = setflag which = AidSPA when = 1 value = 1 }
 		command = { type = dissent value = 8  }
 		command = { type = free_ic value = -1 }
 		#equivalent of 2 IC daily
@@ -2902,6 +3260,7 @@ event = {
 	action = {
 		name = "Send more materials to the Republic!"
 		trigger = { flag = ENG_to_SPR_1 }
+		command = { type = setflag which = AidSPR when = 1 value = 1 }
 		command = { trigger = { flag = ENG_to_SPR_1 } type = dissent value = 4 }
 		command = { trigger = { flag = ENG_to_SPR_2 } type = dissent value = 4 }
 		command = { trigger = { flag = ENG_to_SPR_3 } type = dissent value = 4 }
@@ -2921,6 +3280,7 @@ event = {
 	action = {
 		name = "Send more materials to the Rebels!"
 		trigger = { flag = ENG_to_SPA_1 }
+		command = { type = setflag which = AidSPA when = 1 value = 1 }
 		command = { trigger = { flag = ENG_to_SPA_1 } type = dissent value = 2 }
 		command = { trigger = { flag = ENG_to_SPA_2 } type = dissent value = 2 }
 		command = { trigger = { flag = ENG_to_SPA_3 } type = dissent value = 2 }
@@ -3145,6 +3505,17 @@ event = {
 		#command = { trigger = { flag = ENG_to_SPA_1 exists = SPR } type = clrflag which = SPA_ENGAssistFlag }
 		#command = { trigger = { flag = ENG_to_SPR_1 exists = SPA } type = clrflag which = SPR_ENGAssistFlag }
 		
+		command = { trigger = { flag = ENG_to_SPR_5 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = ENG_to_SPR_4 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = ENG_to_SPR_3 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = ENG_to_SPR_2 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = ENG_to_SPR_1 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = ENG_to_SPA_5 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = ENG_to_SPA_4 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = ENG_to_SPA_3 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = ENG_to_SPA_2 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = ENG_to_SPA_1 } type = setflag which = AidSPA when = 1 value = -1 }
+		
 		command = { trigger = { NOT = { exists = SPR } } type = clrflag which = ENG_to_SPR_5 }
 		command = { trigger = { NOT = { exists = SPR } } type = clrflag which = ENG_to_SPR_4 }
 		command = { trigger = { NOT = { exists = SPR } } type = clrflag which = ENG_to_SPR_3 }
@@ -3294,6 +3665,7 @@ event = {
 	action = {
 		name = "Send materials and volunteers to the Republic!"
 		trigger = { NOT = { flag = FRA_to_SPR_1 flag = FRA_to_SPA_1 } }
+		command = { type = setflag which = AidSPR when = 1 value = 1 }
 		command = { type = dissent value = 8 }
 		command = { type = free_ic value = -1 }
 		#equivalent of 2 IC daily
@@ -3346,6 +3718,7 @@ event = {
 	action = {
 		name = "Send materials and volunteers to the Rebels!"
 		trigger = { NOT = { flag = FRA_to_SPR_1 flag = FRA_to_SPA_1 } }
+		command = { type = setflag which = AidSPA when = 1 value = 1 }
 		command = { type = dissent value = 10 }
 		command = { type = free_ic value = -1 }
 		#equivalent of 2 IC daily
@@ -3398,6 +3771,7 @@ event = {
 	action = {
 		name = "Send more materials to the Republic!"
 		trigger = { flag = FRA_to_SPR_1 }
+		command = { type = setflag which = AidSPR when = 1 value = 1 }
 		command = { trigger = { flag = FRA_to_SPR_1 } type = dissent value = 2 }
 		command = { trigger = { flag = FRA_to_SPR_2 } type = dissent value = 2 }
 		command = { trigger = { flag = FRA_to_SPR_3 } type = dissent value = 2 }
@@ -3417,6 +3791,7 @@ event = {
 	action = {
 		name = "Send more materials to the Rebels!"
 		trigger = { flag = FRA_to_SPA_1 }
+		command = { type = setflag which = AidSPA when = 1 value = 1 }
 		command = { trigger = { flag = FRA_to_SPA_1 } type = dissent value = 4 }
 		command = { trigger = { flag = FRA_to_SPA_2 } type = dissent value = 4 }
 		command = { trigger = { flag = FRA_to_SPA_3 } type = dissent value = 4 }
@@ -3644,6 +4019,17 @@ event = {
 		#command = { trigger = { flag = ENG_to_SPA_1 exists = SPR } type = clrflag which = SPA_FRAAssistFlag }
 		#command = { trigger = { flag = ENG_to_SPR_1 exists = SPA } type = clrflag which = SPR_FRAAssistFlag }
 		
+		command = { trigger = { flag = FRA_to_SPR_5 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = FRA_to_SPR_4 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = FRA_to_SPR_3 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = FRA_to_SPR_2 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = FRA_to_SPR_1 } type = setflag which = AidSPR when = 1 value = -1 }
+		command = { trigger = { flag = FRA_to_SPA_5 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = FRA_to_SPA_4 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = FRA_to_SPA_3 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = FRA_to_SPA_2 } type = setflag which = AidSPA when = 1 value = -1 }
+		command = { trigger = { flag = FRA_to_SPA_1 } type = setflag which = AidSPA when = 1 value = -1 }
+		
 		command = { trigger = { NOT = { exists = SPR } } type = clrflag which = FRA_to_SPR_5 }
 		command = { trigger = { NOT = { exists = SPR } } type = clrflag which = FRA_to_SPR_4 }
 		command = { trigger = { NOT = { exists = SPR } } type = clrflag which = FRA_to_SPR_3 }
@@ -3751,6 +4137,41 @@ event = {
 }
 
 ##############################################
+# New International Brigades
+##############################################
+
+event = {
+	id = 5250
+	random = no
+	country = SPR
+
+	trigger = {
+		war = { country = SPA }
+		flag = SOV_to_SPR_2
+		event = { id = 5100 days = 200 } #Early 1937
+	}
+
+	name = "Spanish Civil War - International Volunteers"
+	desc = "Organized by the Comintern and funded by the Soviet Union, international leftist volunteers began to arrive in Spain in serious numbers in the fall of 1936 and continued into early 1937. The Comintern then used these volunteers to form International Brigades, provide them with basic training and quickly sent them to the front lines. Despite the name, however, the percentage of the actual foreigners in each one of the Interbrigades was typically low, often less than 20 percent, the rest were locally conscripted Spanish. Another problem was low attritional endurance of the foreigners - they generally came expecting a short conflict, and when victory failed to quickly materialize, they became weary and demoralized, and the flow of new volunteers abruptly ended." 
+	style = 2
+	picture = "SCW_Soviet_Intervention"
+
+	date = { day = 1 month = june year = 1936 }
+	offset = 35
+	deathdate = { day = 29 month = december year = 1947 }
+
+	action = {
+		name = "Welcome to Spain!"
+		command = { type = add_corps value = land where = 354 }
+		command = { type = add_division which = "15th American Lincoln IB" 			value = militia when = 4 where = -80 }
+		command = { type = add_division which = "129th Forty Nations IB" 			value = militia when = 4 where = -80 }
+		
+		command = { type = add_brigade value = artillery 	when = 4 }
+		command = { type = add_brigade value = artillery 	when = 4 }
+	}
+}  
+
+##############################################
 # Portugese intervention
 ##############################################
 
@@ -3765,13 +4186,13 @@ event = {
 		NOT = {	war = { country = SPA } }
 	}
 	decision_trigger = {
-		event = { id = 5100 days = 200 } #Early 1937
+		event = { id = 5100 days = 140 }
 	}
 	trigger = {
 		exists = SPA
 		exists = SPR
 		NOT = {	war = { country = SPA } }
-		event = { id = 5100 days = 200 } #Early 1937
+		event = { id = 5100 days = 140 }
 	}
 
 
@@ -3789,11 +4210,13 @@ event = {
 		ai_chance = 100
 		command = { type = belligerence value = 1 }
 		command = { type = access which = SPA }
+		command = { type = access which = U69 }
         command = { type = relation which = SPA value = 10 }
+		command = { type = relation which = U69 value = 10 }
 		command = { type = trade which = POR where = SPA supplies = -4 value = 1 } 
 		
 		command = { type = demobilize which = infantry when = 0 where = 0 value = -1 }
-		command = { type = trigger which = 5261 }
+		command = { type = event which = 5261 where = SPA when = 60 }
 	}
 	action = {
 		name = "Send in the Army to help them overthrow the Republic!"
@@ -3863,11 +4286,13 @@ event = {
 	}
 	decision_trigger = {
 		event = { id = 5100 days = 400 } #Late 1937
+		flag = ITA_to_SPA_2
 	}
 	trigger = {
 		exists = SPA
 		exists = SPR
 		NOT = {	war = { country = SPA } }
+		flag = ITA_to_SPA_2
 		event = { id = 5100 days = 400 } #Late 1937
 	}
 
@@ -4137,6 +4562,7 @@ event = {
 		command = { type = remove_division which = "4th PCE-JSU Mil. Div." value = SPR }
 		command = { type = remove_division which = "5th PCE-JSU Mil. Div." value = SPR }
 		command = { type = remove_division which = "6th PCE-JSU Mil. Div." value = SPR }
+		command = { type = remove_division which = "7th PCE-JSU Mil. Div." value = SPR }
 		
 		command = { type = remove_division which = "3rd PCE-JSU (PSUC) Mil. Div." value = SPR }
 		
@@ -4166,6 +4592,7 @@ event = {
 		command = { type = event which = 2400151 where = -1 when = 1   } #initial confusion
 		command = { type = event which = 2400161 where = -1 when = 180 } #recovery in 6 months
 		
+		command = { trigger = { NOT = { alliance = { country = ENG } alliance = { country = VIC } } } type = non_aggression which = SPR where = SPA when = 15 } #brief ceasefire during negotiations
 		command = { trigger = { NOT = { alliance = { country = ENG } alliance = { country = VIC } } } type = event which = 5301 where = SPR when = 14 }
 	} 
 }
@@ -4196,7 +4623,7 @@ event = {
 		name = "There is still hope" 
 		trigger = { NOT = { alliance = { country = ENG } alliance = { country = VIC } } }
 		ai_chance = 1
-		command = { type = dissent value = 30 }
+		command = { type = dissent value = 20 }
 	} 
 }
 
@@ -4264,7 +4691,7 @@ event = {
 		command = { type = regime_falls }
 		
 		command = { type = dissent value = 15 }
-        command = { type = set_domestic which = political_left value = 3 }
+        command = { type = set_domestic which = political_left value = 4 }
 		
 		command = { type = headofstate 				which = 35185 } #Jose Calvo-Sotelo
 		command = { type = headofgovernment 		which = 35021 } #Gonzalo Queipo de Llano
@@ -4321,6 +4748,7 @@ event = {
 		command = { type = event which = 2400151 where = -1 when = 1   } #initial confusion
 		command = { type = event which = 2400161 where = -1 when = 180 } #recovery in 6 months
 		
+		command = { trigger = { NOT = { alliance = { country = GER } alliance = { country = ITA } } } type = non_aggression which = SPR where = SPA when = 15 } #brief ceasefire during negotiations
 		command = { trigger = { NOT = { alliance = { country = GER } alliance = { country = ITA } } } type = event which = 5306 where = SPA when = 14 }
 		
 		command = { trigger = { flag = ITA_to_SPA_1 } type = event which = 5420 where = ITA when = 0 } #Italy decides what to do with Mallorca
@@ -4351,7 +4779,7 @@ event = {
 		name = "There is still hope" 
 		trigger = { NOT = { alliance = { country = GER } alliance = { country = ITA } } }
 		ai_chance = 1
-		command = { type = dissent value = 30 }
+		command = { type = dissent value = 20 }
 	} 
 }
 
@@ -4691,6 +5119,7 @@ event = {
 		command = { type = remove_division which = "4th PCE-JSU Mil. Div."				value = SPA }
 		command = { type = remove_division which = "5th PCE-JSU Mil. Div."				value = SPA }
 		command = { type = remove_division which = "6th PCE-JSU Mil. Div."				value = SPA }
+		command = { type = remove_division which = "7th PCE-JSU Mil. Div."				value = SPA }
 		
 		command = { type = remove_division which = "1st UGT-PSOE Mil. Div."				value = SPA }
 		command = { type = remove_division which = "2nd UGT-PSOE Mil. Div."				value = SPA }
@@ -4791,6 +5220,7 @@ event = {
 		command = { type = remove_division which = "4th PCE-JSU Mil. Div."				value = GER }
 		command = { type = remove_division which = "5th PCE-JSU Mil. Div."				value = GER }
 		command = { type = remove_division which = "6th PCE-JSU Mil. Div."				value = GER }
+		command = { type = remove_division which = "7th PCE-JSU Mil. Div."				value = GER }
 		
 		command = { type = remove_division which = "1st UGT-PSOE Mil. Div."				value = GER }
 		command = { type = remove_division which = "2nd UGT-PSOE Mil. Div."				value = GER }

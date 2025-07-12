@@ -7,7 +7,7 @@ country =
   regular_id             = CHI
   puppet                 = CHI
   control				 = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   extra_tc               = 10
   dissent				 = 15
   # Resource Reserves
@@ -178,8 +178,8 @@ country =
      freedom           = 3 
      free_market       = 2
      professional_army = 5 
-     defense_lobby     = 1 
-     interventionism   = 7 
+     defense_lobby     = 4 
+     interventionism   = 5 
   }
 	######################
 	# Sichaun Task Force #
@@ -192,7 +192,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 65 } 
        name       = "146. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -200,7 +200,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 66 } 
        name       = "147. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -208,7 +208,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 67 } 
        name       = "162. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -221,7 +221,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 71 } 
        name       = "144. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -229,7 +229,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 72 } 
        name       = "148. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -242,7 +242,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 75 } 
        name       = "149. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -250,7 +250,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 76 } 
        name       = "150. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -258,7 +258,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 77 } 
        name       = "163. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -271,7 +271,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 79 } 
        name       = "145. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -279,7 +279,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 80 } 
        name       = "161. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -287,7 +287,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 81 } 
        name       = "164. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -308,7 +308,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 87 } 
        name       = "122. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
 	   extra1 = cavalry_brigade
@@ -318,7 +318,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 88 } 
        name       = "123. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
 	   extra1 = cavalry_brigade
@@ -328,7 +328,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 89 } 
        name       = "124. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
 	   extra1 = cavalry_brigade
@@ -343,7 +343,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 91 } 
        name       = "125. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -351,7 +351,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 92 } 
        name       = "126. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -359,7 +359,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 93 } 
        name       = "127. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -367,7 +367,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 94 } 
        name       = "128. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -393,7 +393,7 @@ country =
      {  experience = 30 
        id         = {  type = 22008 id = 100 } 
        name       = "11-17. Independent Brigades" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }

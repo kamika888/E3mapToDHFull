@@ -4,6 +4,7 @@
 
 country =
 { tag                    = POL
+  ai_settings			 = { flags = { ideology = 4 } }
   capital                = 485
 	manpower               = 124 
 	# Resource Reserves 
@@ -157,7 +158,7 @@ claimedprovinces = { 303 2647 267 161 507 506 502 1885 3274 3275 562 503 3395 11
      freedom           = 5 
      free_market       = 3
      professional_army = 4 
-     defense_lobby     = 4 
+     defense_lobby     = 3
      interventionism   = 4 
   }
 inventions = { 3000027 }
@@ -691,6 +692,7 @@ landdivision = { dormant = yes id = { type = 12700 id = 10103 }  name = "Powisle
 landdivision = { dormant = yes id = { type = 12700 id = 10104 }  name = "Zoliborz"  				type = militia  model = 6  strength = 60 }
 landdivision = { dormant = yes id = { type = 12700 id = 10105 }  name = "Kampinos Forest"  			type = militia  model = 6  strength = 60 }
 landdivision = { dormant = yes id = { type = 12700 id = 10106 }  name = "Kedyw Units"  				type = infantry model = 11 strength = 60 }
+landdivision = { dormant = yes id = { type = 12700 id = 10107 }  name = "Armia Ludowa" 				type = militia	model = 11 strength = 60 }
 
 landdivision = { dormant = yes id = { type = 12700 id = 10110 }  name = "Underground State"			type = garrison model = 4	locked = yes }
 

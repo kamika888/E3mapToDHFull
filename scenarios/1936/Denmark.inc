@@ -4,6 +4,7 @@
 
 country =
 { tag                    = DEN
+  ai_settings			 = { flags = { ideology = 6 } }
   capital                = 294
 	manpower               = 8 
 	# Resource Reserves 
@@ -163,7 +164,7 @@ country =
      freedom           = 10
      professional_army = 2 
      defense_lobby     = 1 
-     interventionism   = 3
+     interventionism   = 2
   }
    inventions = { 3000027 }
 

@@ -243,21 +243,23 @@ event = {
 	picture = "news_paper"
 
 	trigger = {
-		alliance = { country = ITA country = ENG }
+		OR = {
+			event = { id = 2006030 days = 360 } #badoglio proclamation
+			year = 1945
+		}
+		control = { province = 515 data = -3 }
+		alliance = { country = ENG }
 		NOT = { government = { type = fascist country = ENG } }
 		NOT = { participant = { country = ENG value = 2 } } #UK is not in Axis
-		OR = { 
-			NOT = { government = democratic }
-			event = 9005001 #ENG Return provinces to Italy
-		}
 	}
 
 	date = { day = 0 month = january year = 1944 }
 	offset = 30
 	deathdate = { day = 29 month = december year = 1947 }
 
-	action_a = {
+	action = {
 		name = "elec_IVA"
+		command = { type = flag_ext where = ITA which = _democratic }
 		command = { type = local_setflag which = sliderSet }
 		command = { type = set_domestic which = freedom		 	value = 7 }
 		command = { type = set_domestic which = interventionism	value = 5 }
@@ -272,7 +274,11 @@ event = {
 		command = { type = chiefofarmy which = 25113 }
 		command = { type = chiefofnavy which = 25121 }
 		command = { type = chiefofair which = 25129 }
-		}
+		
+		command = { type = secedeprovince which = -3 value = 515 when = 2 }
+		command = { type = capital which = 515 } # Rome
+		command = { type = dissent value = -1 }
+	}
 } 
 ################################################################
 # Italy Surrenders (Germany, England, USA, Soviet Union, France)
@@ -312,7 +318,6 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		ai_chance = 99
-		#command = { type = flag_ext where = ITA which = _democratic }
 		command = { type = dissent value = -5 } 
 		
 		command = { type = set_domestic which = political_left value = 3 }
@@ -327,6 +332,7 @@ event = {
 		command = { type = chiefofnavy which = 25121 } #Raffaele De Courten
 		command = { type = chiefofair which = 25129 } #Pietro Piacentini
 		
+		command = { type = local_setflag which = ControlDeny }
 		command = { type = military_control which = GER where = ITA value = 0 }
 		command = { trigger = { ai = yes } type = event which = 2400040 where = -1 when = 0 } #exp_0
 		
@@ -350,8 +356,8 @@ event = {
 		
 		command = { type = domestic which = political_left value = -1 }
 		
-		command = { type = event which = 2400151 where = RSI when = 1   } #initial confusion
-		command = { type = event which = 2400161 where = RSI when = 180 } #recovery in 6 months
+		command = { type = event which = 2400151 where = ITA when = 1   } #initial confusion
+		command = { type = event which = 2400161 where = ITA when = 180 } #recovery in 6 months
 	}
 }
 
@@ -478,6 +484,8 @@ event = {
 	action = {
 		name = "Sign the armistice"
 		ai_chance = 99
+		command = { type = local_setflag which = joinAlliance }
+		
 		command = { type = secederegion which = -1 value = "Italy" 			when = 1 } 
 		command = { type = secederegion which = -1 value = "Libya" 			when = 1 } 
 		command = { type = secederegion which = -1 value = "Tunisia" 		when = 1 } 
@@ -492,10 +500,10 @@ event = {
 		
 		command = { type = end_trades which = ITA where = GER } 
 		command = { type = end_trades which = ITA where = SCH } 
-		command = { type = military_control which = GER where = ITA value = 0 }
 		
-		command = { trigger = { ai = GER } 				type = event which = 2006030 where = ITA when = 1 } 
-		command = { trigger = { NOT = { ai = GER } }	type = event which = 2006030 where = ITA when = 15 } #exp forces and mil_control forces return home
+		command = { trigger = { OR = { ai = GER NOT = { military_control = { country = GER country = ITA } } } }	type = event which = 2006030 where = ITA when = 1 } 
+		command = { trigger = { NOT = { ai = GER } military_control = { country = GER country = ITA } }				type = event which = 2006030 where = ITA when = 15 } #exp forces and mil_control forces return home
+		command = { type = military_control which = GER where = ITA value = 0 }
 		
 		command = { type = set_domestic which = political_left value = 4 }
 		
@@ -574,6 +582,7 @@ event = {
 		
 		command = { type = military_control which = GER where = ITA value = 1 }
 		command = { type = ai which = "EXP_80.ai" }
+		command = { type = local_clrflag which = ControlDeny }
 		
 		command = { type = set_domestic which = political_left value = 3 }
 		
@@ -634,6 +643,10 @@ event = {
 		
 		command = { type = event which = 2006031 where = GER when = 0 }
 		command = { type = ai which = "EXP_80.ai" }
+		command = { type = local_clrflag which = ControlDeny }
+		
+		command = { type = secedeprovince which = ITA value = 523 	when = 2 }
+		command = { type = capital which = 523 } 
 		
 		command = { type = local_clrflag which = AllDefense }
 		command = { type = setflag which = ItaAllies }
@@ -652,16 +665,27 @@ event = {
 
 	action = {
 		name = "Their common sense prevailed!"
-		command = { type = add_claim_region which = "Italy" }
-		command = { type = add_claim_region which = "Libya" }
-		command = { type = add_claim_region which = "Tunisia" }
-		command = { type = add_claim_region which = "Egypt" }
-		command = { type = add_claim_region which = "Ethiopia" }
-		command = { type = add_claim_region which = "Horn of Africa" } 
+		#add for ENG even if USA is calling the event
+		command = { type = add_claim_region which = "Italy" 			where = ENG }
+		command = { type = add_claim_region which = "Libya" 			where = ENG }
+		command = { type = add_claim_region which = "Tunisia" 			where = ENG }
+		command = { type = add_claim_region which = "Egypt" 			where = ENG }
+		command = { type = add_claim_region which = "Ethiopia" 			where = ENG }
+		command = { type = add_claim_region which = "Horn of Africa" 	where = ENG } 
+		
+		command = { type = add_claim_region which = "Italy" 			}
+		command = { type = add_claim_region which = "Libya" 			}
+		command = { type = add_claim_region which = "Tunisia" 			}
+		command = { type = add_claim_region which = "Egypt" 			}
+		command = { type = add_claim_region which = "Ethiopia" 			}
+		command = { type = add_claim_region which = "Horn of Africa" 	} 
 		command = { type = make_puppet which = ITA }
 		command = { type = event which = 2400538 where = ITA when = 0 } #strong puppet
 		command = { trigger = { country = ENG ai = no } type = military_control which = ENG where = ITA value = 1 }
 		command = { trigger = { country = USA ai = no } type = military_control which = USA where = ITA value = 1 }
+		
+		command = { trigger = { alliance = { country = U01 } } type = secederegion which = U01 value = "Tunisia" when = 2 }
+		command = { trigger = { alliance = { country = VIC } } type = secederegion which = VIC value = "Tunisia" when = 2 }
 		
 		command = { type = event which = 2006019 where = -1  when = 90 } #return control of provinces
 		command = { type = event which = 2006020 where = ITA when = 0  }
@@ -805,6 +829,16 @@ event = {
 		command = { type = set_domestic which = defense_lobby 	value = 8  }
 		command = { type = set_domestic which = interventionism	value = 5  }
 		command = { type = event which = 2006016 where = GER when = 1 }
+		
+		command = { type = secedeprovince which = ITA value = 3225 	when = 1 }
+		command = { type = secedeprovince which = ITA value = 523 	when = 1 }
+		command = { type = secedeprovince which = ITA value = 2621 	when = 1 }
+		command = { type = secedeprovince which = ITA value = 3223 	when = 1 }
+		command = { type = secedeprovince which = ITA value = 3056 	when = 1 }
+		command = { type = secedeprovince which = ITA value = 3224 	when = 1 }
+		command = { type = secedeprovince which = ITA value = 524 	when = 1 }
+		command = { type = secedeprovince which = ITA value = 2622 	when = 1 }
+		command = { type = secedearea 	  which = ITA value = "Sicilian Gap" when = 1 }
 		
 		
 		#Germany just lost most of its allied Italian army, least that can be done to compensate is simulate Italian POWs building simple fortifications for free

@@ -564,6 +564,10 @@ event = {
 		#2: when preemptive annexation fires, territory occupied by japan will become owned by japan
 		#3: there are weird issues with making them join the alliance at the start
 		#4: warlords do not have meaningful leaders currently
+		
+		#warlord annexation has to happen immediately rather than in a phase matter because:
+		#1. territory loss before annexation will change province ownership during inherit, difficult to fix afterwards
+		#2. general mobilization will yield different results if territory is not completely controlled, also difficult to account for later
 		command = { trigger = { puppet = { country = CHC } } type = inherit which = CHC value = 1 } 
 		command = { trigger = { puppet = { country = SIK } } type = inherit which = SIK value = 1 }
 		command = { trigger = { puppet = { country = U58 } } type = inherit which = U58 value = 1 }
@@ -613,18 +617,488 @@ event = {
 		#command = { type = local_setflag which = inMajorWar	}
 		command = { type = ai  which = "nations\CHI_defense.ai" }
 		
-		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 1 } #General mobilization
 		
 		command = { trigger = { NOT = { ai = JAP } } type = military_control which = JAP where = MAN value = 1 }
 		command = { trigger = { NOT = { ai = JAP } } type = military_control which = JAP where = MEN value = 1 }
 		
 		command = { type = access which = CHC }
 		command = { type = access which = U58 }
+		
+		command = { type = event which = 2012124 where = REB when = 180 }
 	}
 	action = {
 		name = "Refuse"
 		ai_chance = 0
 		command = { type = dissent value = 15 }
+	}
+}
+
+#phased annexation, currently disabled
+event = {
+	id = 2012120
+	persistent = yes
+	country = REB
+	random = no
+
+	trigger = {
+		NOT = { local_flag = UF_END }
+		war = { country = CHI country = JAP }
+		event = 2012016
+		#random = 20
+		OR = {
+			AND = {
+				exists = CXB
+				NOT = { local_flag = UF_CXB }
+				OR = {
+					NOT = { ispuppet = CXB }
+					puppet = { country = CXB country = CHI }
+				}
+			}
+			AND = {
+				exists = CGX
+				NOT = { local_flag = UF_CGX }
+				OR = {
+					NOT = { ispuppet = CGX }
+					puppet = { country = CGX country = CHI }
+				}
+			}
+			AND = {
+				exists = CSX
+				NOT = { local_flag = UF_CSX }
+				OR = {
+					NOT = { ispuppet = CSX }
+					puppet = { country = CSX country = CHI }
+				}
+			}
+			AND = {
+				exists = CYN
+				NOT = { local_flag = UF_CYN }
+				OR = {
+					NOT = { ispuppet = CYN }
+					puppet = { country = CYN country = CHI }
+				}
+			}
+			AND = {
+				exists = U59
+				NOT = { local_flag = UF_U59 }
+				OR = {
+					NOT = { ispuppet = U59 }
+					puppet = { country = U59 country = CHI }
+				}
+			}
+			AND = {
+				exists = U60
+				NOT = { local_flag = UF_U60 }
+				OR = {
+					NOT = { ispuppet = U60 }
+					puppet = { country = U60 country = CHI }
+				}
+			}
+			AND = {
+				exists = U61
+				NOT = { local_flag = UF_U61 }
+				OR = {
+					NOT = { ispuppet = U61 }
+					puppet = { country = U61 country = CHI }
+				}
+			}
+			AND = {
+				exists = U62
+				NOT = { local_flag = UF_U62 }
+				OR = {
+					NOT = { ispuppet = U62 }
+					puppet = { country = U62 country = CHI }
+				}
+			}
+			AND = {
+				exists = U63
+				NOT = { local_flag = UF_U63 }
+				OR = {
+					NOT = { ispuppet = U63 }
+					puppet = { country = U63 country = CHI }
+				}
+			}
+			AND = {
+				exists = U64
+				NOT = { local_flag = UF_U64 }
+				OR = {
+					NOT = { ispuppet = U64 }
+					puppet = { country = U64 country = CHI }
+				}
+			}
+			AND = {
+				exists = U65
+				NOT = { local_flag = UF_U65 }
+				OR = {
+					NOT = { ispuppet = U65 }
+					puppet = { country = U65 country = CHI }
+				}
+			}
+			AND = {
+				exists = U00
+				NOT = { local_flag = UF_U00 }
+				OR = {
+					NOT = { ispuppet = U00 }
+					puppet = { country = U00 country = CHI }
+				}
+			}
+			AND = {
+				exists = U05
+				NOT = { local_flag = UF_U05 }
+				OR = {
+					NOT = { ispuppet = U05 }
+					puppet = { country = U05 country = CHI }
+				}
+			}
+			AND = {
+				exists = SIK
+				NOT = { local_flag = UF_SIK }
+				OR = {
+					NOT = { ispuppet = SIK }
+					puppet = { country = SIK country = CHI }
+				}
+			}
+			AND = {
+				exists = U58
+				NOT = { local_flag = UF_U58 }
+				OR = {
+					NOT = { ispuppet = U58 }
+					puppet = { country = U58 country = CHI }
+				}
+			}
+		}
+	}
+
+	name = AI_EVENT
+
+	#date = { day = 0 month = january year = 1933 }
+	#offset = 3
+	#deathdate = { day = 29 month = december year = 1942 }
+
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = CXB
+			NOT = { local_flag = UF_CXB }
+			OR = {
+				NOT = { ispuppet = CXB }
+				puppet = { country = CXB country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = CXB when = 2 }
+		command = { type = local_setflag which = UF_CXB	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = CGX
+			NOT = { local_flag = UF_CGX }
+			OR = {
+				NOT = { ispuppet = CGX }
+				puppet = { country = CGX country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = CGX when = 2 }
+		command = { type = local_setflag which = UF_CGX	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = CSX
+			NOT = { local_flag = UF_CSX }
+			OR = {
+				NOT = { ispuppet = CSX }
+				puppet = { country = CSX country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = CSX when = 2 }
+		command = { type = local_setflag which = UF_CSX	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = CYN
+			NOT = { local_flag = UF_CYN }
+			OR = {
+				NOT = { ispuppet = CYN }
+				puppet = { country = CYN country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = CYN when = 2 }
+		command = { type = local_setflag which = UF_CYN	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = U59
+			NOT = { local_flag = UF_U59 }
+			OR = {
+				NOT = { ispuppet = U59 }
+				puppet = { country = U59 country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = U59 when = 2 }
+		command = { type = local_setflag which = UF_U59	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = U60
+			NOT = { local_flag = UF_U60 }
+			OR = {
+				NOT = { ispuppet = U60 }
+				puppet = { country = U60 country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = U60 when = 2 }
+		command = { type = local_setflag which = UF_U60	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = U61
+			NOT = { local_flag = UF_U61 }
+			OR = {
+				NOT = { ispuppet = U61 }
+				puppet = { country = U61 country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = U61 when = 2 }
+		command = { type = local_setflag which = UF_U61	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = U62
+			NOT = { local_flag = UF_U62 }
+			OR = {
+				NOT = { ispuppet = U62 }
+				puppet = { country = U62 country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = U62 when = 2 }
+		command = { type = local_setflag which = UF_U62	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = U63
+			NOT = { local_flag = UF_U63 }
+			OR = {
+				NOT = { ispuppet = U63 }
+				puppet = { country = U63 country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = U63 when = 2 }
+		command = { type = local_setflag which = UF_U63	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = U64
+			NOT = { local_flag = UF_U64 }
+			OR = {
+				NOT = { ispuppet = U64 }
+				puppet = { country = U64 country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = U64 when = 2 }
+		command = { type = local_setflag which = UF_U64	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = U65
+			NOT = { local_flag = UF_U65 }
+			OR = {
+				NOT = { ispuppet = U65 }
+				puppet = { country = U65 country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = U65 when = 2 }
+		command = { type = local_setflag which = UF_U65	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = U00
+			NOT = { local_flag = UF_U00 }
+			OR = {
+				NOT = { ispuppet = U00 }
+				puppet = { country = U00 country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = U00 when = 2 }
+		command = { type = local_setflag which = UF_U00	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = U05
+			NOT = { local_flag = UF_U05 }
+			OR = {
+				NOT = { ispuppet = U05 }
+				puppet = { country = U05 country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = U05 when = 2 }
+		command = { type = local_setflag which = UF_U05	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = SIK
+			NOT = { local_flag = UF_SIK }
+			OR = {
+				NOT = { ispuppet = SIK }
+				puppet = { country = SIK country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = SIK when = 2 }
+		command = { type = local_setflag which = UF_SIK	}
+	}
+	action = {
+		ai_chance = 6
+		trigger = {
+			exists = U58
+			NOT = { local_flag = UF_U58 }
+			OR = {
+				NOT = { ispuppet = U58 }
+				puppet = { country = U58 country = CHI }
+			}
+		}
+		command = { type = event which = 2012121 where = U58 when = 2 }
+		command = { type = local_setflag which = UF_U58	}
+	}
+}
+
+event = {
+	id = 2012121
+	persistent = yes
+	random = no
+
+	name = EVT_91_NAME
+	desc = EVT_91_DESC
+	style = 2
+  	picture = "Marco_Polo_bridge"
+
+	action = {
+		name = "Unity above all"
+		ai_chance = 100
+		command = { type = addcore which = 2923 }
+		command = { type = event which = 2012122 where = CHI when = 0 }
+	}
+	action = {
+		name = "We bow to nobody"
+		trigger = { NOT = { puppet = { country = -1 country = CHI } } }
+		ai_chance = 0
+		command = { type = alliance which = CHI	}
+		command = { type = dissent value = 30 }
+		
+		command = { type = switch_allegiance which = -1 where = CHI }
+		command = { type = switch_allegiance which = -1 where = CHI }
+		command = { type = switch_allegiance which = -1 where = CHI }
+
+		command = { type = switch_allegiance which = -2 where = CHI }
+		
+		command = { type = switch_allegiance which = -3 where = CHI }
+	}
+	action = {
+		name = "Side with Japan"
+		trigger = { NOT = { puppet = { country = -1 country = CHI } alliance = { country = CHI } } }
+		ai_chance = 0
+		command = { type = addcore which = 7175 }
+		command = { trigger = { exists = U87 }				type = event which = 2012123 where = U87 when = 2 }
+		command = { trigger = { NOT = { exists = U87 } }	type = event which = 2012123 where = JAP when = 2 }
+		command = { type = dissent value = 60 }
+		
+		command = { type = switch_allegiance which = -1 where = CHI }
+		command = { type = switch_allegiance which = -1 where = CHI }
+		command = { type = switch_allegiance which = -1 where = CHI }
+		command = { type = switch_allegiance which = -1 where = CHI }
+		command = { type = switch_allegiance which = -1 where = CHI }
+		command = { type = switch_allegiance which = -1 where = CHI }
+		command = { type = switch_allegiance which = -1 where = CHI }
+		command = { type = switch_allegiance which = -1 where = CHI }
+		command = { type = switch_allegiance which = -1 where = CHI }
+		command = { type = switch_allegiance which = -1 where = CHI }
+
+		command = { type = switch_allegiance which = -2 where = CHI }
+		command = { type = switch_allegiance which = -2 where = CHI }
+		
+		command = { type = switch_allegiance which = -3 where = CHI }
+		command = { type = switch_allegiance which = -3 where = CHI }
+	}
+}
+
+event = {
+	id = 2012122
+	persistent = yes
+	random = no
+
+	name = "Warlord submits"
+	desc = "As part of United Front, we are unifying all armies, militias, and beuraucracies of the former warlord autonomies into one National Army."
+	style = 2
+  	picture = "Marco_Polo_bridge"
+
+	action = {
+		name = ACTION_NAME_EXCELLENT
+		command = { trigger = { core = { province = 2923 data = CXB } } type = inherit which = CXB value = 1 }
+		command = { trigger = { core = { province = 2923 data = CGX } } type = inherit which = CGX value = 1 }
+		command = { trigger = { core = { province = 2923 data = CSX } } type = inherit which = CSX value = 1 }
+		command = { trigger = { core = { province = 2923 data = CYN } } type = inherit which = CYN value = 1 }
+		command = { trigger = { core = { province = 2923 data = U59 } } type = inherit which = U59 value = 1 }
+		command = { trigger = { core = { province = 2923 data = U60 } } type = inherit which = U60 value = 1 }
+		command = { trigger = { core = { province = 2923 data = U61 } } type = inherit which = U61 value = 1 }
+		command = { trigger = { core = { province = 2923 data = U62 } } type = inherit which = U62 value = 1 }
+		command = { trigger = { core = { province = 2923 data = U63 } } type = inherit which = U63 value = 1 }
+		command = { trigger = { core = { province = 2923 data = U64 } } type = inherit which = U64 value = 1 }
+		command = { trigger = { core = { province = 2923 data = U65 } } type = inherit which = U65 value = 1 }
+		command = { trigger = { core = { province = 2923 data = U00 } } type = inherit which = U00 value = 1 }
+		command = { trigger = { core = { province = 2923 data = U05 } } type = inherit which = U05 value = 1 }
+	}
+}
+
+event = {
+	id = 2012123
+	persistent = yes
+	random = no
+
+	name = "Chinese warlord submits to us"
+	desc = "In spite of KMT's attempts to rally the warlords for a suicidal war against us, their overbearing attempts at control actually alienated some of the local leaders and caused them to seek our assistance!"
+	style = 2
+  	picture = "Marco_Polo_bridge"
+
+	action = {
+		name = ACTION_NAME_EXCELLENT
+		command = { type = dissent value = 1 } #with them comes the dissent
+		command = { trigger = { core = { province = 7175 data = CXB } } type = inherit which = CXB value = 1 }
+		command = { trigger = { core = { province = 7175 data = CGX } } type = inherit which = CGX value = 1 }
+		command = { trigger = { core = { province = 7175 data = CSX } } type = inherit which = CSX value = 1 }
+		command = { trigger = { core = { province = 7175 data = CYN } } type = inherit which = CYN value = 1 }
+		command = { trigger = { core = { province = 7175 data = U59 } } type = inherit which = U59 value = 1 }
+		command = { trigger = { core = { province = 7175 data = U60 } } type = inherit which = U60 value = 1 }
+		command = { trigger = { core = { province = 7175 data = U61 } } type = inherit which = U61 value = 1 }
+		command = { trigger = { core = { province = 7175 data = U62 } } type = inherit which = U62 value = 1 }
+		command = { trigger = { core = { province = 7175 data = U63 } } type = inherit which = U63 value = 1 }
+		command = { trigger = { core = { province = 7175 data = U64 } } type = inherit which = U64 value = 1 }
+		command = { trigger = { core = { province = 7175 data = U65 } } type = inherit which = U65 value = 1 }
+		command = { trigger = { core = { province = 7175 data = U00 } } type = inherit which = U00 value = 1 }
+		command = { trigger = { core = { province = 7175 data = U05 } } type = inherit which = U05 value = 1 }
+	}
+}
+
+event = {
+	id = 2012124
+	country = REB
+	persistent = no
+	random = no
+
+	name = AI_EVENT
+
+	action = {
+		command = { type = local_setflag which = UF_END	}
 	}
 }
 
@@ -2777,7 +3251,8 @@ event = {
 event = {
     id = 1330110150
     random = no
-    country = CHC
+	#invisible
+    #country = CHC
 	persistent = yes
 
 	name = "The Long March"
@@ -2785,6 +3260,7 @@ event = {
 	style = 2
 	
 	decision = {
+		country = CHC
 		war = { country = CHI }
 		NOT = { flag = longMarchCooldown }
 		local_flag = { which = longMarch_count when = -2 value = 10 }
@@ -2793,6 +3269,7 @@ event = {
 		#action triggers are enough
 	}
 	trigger = {
+		country = CHC
 		war = { country = CHI }
 		NOT = { flag = longMarchCooldown }
 		local_flag = { which = longMarch_count when = -2 value = 5  }
@@ -3963,11 +4440,11 @@ event = {
 event = {
     id = 1330110151
     random = no
-    country = CHC
+    #country = CHC
 	persistent = yes
 
 	name = "The Long March"
-	desc = "We managed to evade the enemy defenses and successfully arrived at our new destination"
+	desc = "After suffering considerable losses, we managed to break through the enemy defenses and successfully arrived at our new destination"
 	style = 2
 	
 	action = {

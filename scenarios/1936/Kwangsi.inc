@@ -7,7 +7,7 @@ country =
   regular_id             = CHI
   puppet                 = CHI
   control				 = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   intrinsic_gov_type     = paternal_autocrat
   extra_tc               = 10
   dissent				 = 15
@@ -240,8 +240,8 @@ blueprints = {
      freedom           = 3 
      free_market       = 2
      professional_army = 5 
-     defense_lobby     = 3 
-     interventionism   = 7 
+     defense_lobby     = 4 
+     interventionism   = 5 
   }
    headofstate            = {  type = 9 id = 585001  } 
    headofgovernment       = {  type = 9 id = 585002  } 
@@ -304,7 +304,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22400 id = 7  } 
        name       = "22. Division" 
-       type       = infantry 
+       type       = militia
        strength   = 33
        model      = 3
       }
@@ -312,7 +312,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22400 id = 8  } 
        name       = "23. Division" 
-       type       = infantry 
+       type       = militia
        strength   = 33
        model      = 3
       }
@@ -342,7 +342,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22400 id = 12  } 
        name       = "45. Division" 
-       type       = infantry 
+       type       = militia
        strength   = 40
        model      = 3
       }

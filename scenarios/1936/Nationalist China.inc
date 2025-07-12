@@ -5,7 +5,7 @@
 country =
 { tag                    = CHI
   capital                = 1235 # Nanjing
-  ai_settings			 = { flags = { do_not_demob = 1 } }
+  ai_settings			 = { flags = { do_not_demob = 1 ideology = 3 } }
 	# Resource Reserves 
 	energy                 = 30100
 	metal                  = 12050
@@ -304,7 +304,7 @@ inventions = { 3000027 }
      {  experience = 30 
        id         = {  type = 22002 id = 56 } 
        name       = "103. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -312,7 +312,7 @@ inventions = { 3000027 }
      {  experience = 30 
        id         = {  type = 22002 id = 57 } 
        name       = "102. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -320,7 +320,7 @@ inventions = { 3000027 }
      {  experience = 30 
        id         = {  type = 22002 id = 59 } 
        name       = "121. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -328,7 +328,7 @@ inventions = { 3000027 }
      {  experience = 30 
        id         = {  type = 22000 id = 58  } 
        name       = "New 8. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -336,7 +336,7 @@ inventions = { 3000027 }
      {  experience = 30 
        id         = {  type = 22000 id = 60  } 
        name       = "New 25. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -697,7 +697,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 137 } 
        name       = "1. Honor Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -705,7 +705,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 138 } 
        name       = "166. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -720,7 +720,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 140 } 
        name       = "2. Honor Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -746,7 +746,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 145 } 
        name       = "198. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -761,7 +761,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 149 } 
        name       = "91. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -775,7 +775,7 @@ inventions = { 3000027 }
      {  experience = 30 
        id         = {  type = 22002 id = 151 } 
        name       = "77. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -783,7 +783,7 @@ inventions = { 3000027 }
      {  experience = 30 
        id         = {  type = 22002 id = 152 } 
        name       = "193. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -797,7 +797,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 154 } 
        name       = "133. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -805,7 +805,7 @@ inventions = { 3000027 }
      {  experience = 30 
        id         = {  type = 22002 id = 155 } 
        name       = "134. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -818,7 +818,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 157 } 
        name       = "52. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -838,7 +838,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 159 } 
        name       = "192. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -852,7 +852,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 161 } 
        name       = "175. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -860,7 +860,7 @@ inventions = { 3000027 }
      {  experience = 30 
        id         = {  type = 22002 id = 162 } 
        name       = "188. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -874,7 +874,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 165 } 
        name       = "195. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -888,7 +888,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 167 } 
        name       = "95. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -896,7 +896,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 168 } 
        name       = "151. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -904,7 +904,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 169 } 
        name       = "157. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -918,7 +918,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 171 } 
        name       = "156. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -926,7 +926,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 172 } 
        name       = "159. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -940,7 +940,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 174 } 
        name       = "56. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -998,7 +998,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 185 } 
        name       = "190. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -1012,7 +1012,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 188 } 
        name       = "32. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -1027,7 +1027,7 @@ inventions = { 3000027 }
      {  experience = 30
        id         = {  type = 22002 id = 190 } 
        name       = "201. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }

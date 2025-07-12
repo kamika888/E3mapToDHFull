@@ -6,7 +6,7 @@ country =
 { tag                    = NZL
   puppet				 = ENG
   control				 = ENG
-  ai_settings	= { flags = { puppetLevel9 = 1 } }
+  ai_settings	= { flags = { puppetLevel9 = 1 ideology = 7 } }
 	# Resource Reserves 
 	energy                 = 420
 	metal                  = 210
@@ -135,7 +135,7 @@ country =
   policy =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
-     political_left    = 6 
+     political_left    = 7 
      freedom           = 10 
      free_market       = 6
      professional_army = 1 

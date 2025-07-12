@@ -4,6 +4,7 @@
 
 country =
 { tag                    = JAP
+  ai_settings			 = { flags = { ideology = 3 war_preparedness = 10 } }
   belligerence           = 3
   ai					 = "EXP_0_01.ai"
   capital                = 1184
@@ -17,6 +18,7 @@ country =
 	money                  = 100 
 	transports             = 600 
 	escorts                = 100 
+	extra_tc               = -75 #from japChi = 15
   diplomacy =
   { relation = { tag = BEL value = -25 }
     relation = { tag = CGX value = -75 }
@@ -1975,7 +1977,7 @@ landunit =
 	
 	airunit = {
 		location = 1184 
-		base     = 1552 
+		base     = 1184 
 		id       = {  type = 13016 id = 236  } 
 		name     = "Dai 1 Nihon Kokutai" 
 		division = {
@@ -1987,7 +1989,7 @@ landunit =
 	} 
 	airunit = {
 		location = 1184 
-		base     = 1552 
+		base     = 1184 
 		id       = {  type = 13016 id = 238  } 
 		name     = "Dai 2 Nihon Kokutai" 
 		division = {
@@ -2035,7 +2037,7 @@ landunit =
 	} 
 	airunit = {
 		location = 1184 
-		base     = 1552 
+		base     = 1184 
 		id       = {  type = 13016 id = 246  } 
 		name     = "Dai 4 Nihon Kokutai" 
 		division = {
@@ -2100,7 +2102,7 @@ landunit =
 		id       = {  type = 13016 id = 256  } 
 		name     = "Dai 4 Kyokuchi Hikodan" 
 		location = 1184 
-		base     = 1552 
+		base     = 1184 
 		division = {
 			id       = {  type = 13016 id = 257  } 
 			name     = "Dai 4 Kyokuchi Hikodan" 

@@ -5,7 +5,7 @@
 country =
 { tag                    = PAN
   puppet				 = USA
-  ai_settings			 = { flags = { puppetLevel8 = 1 } }
+  ai_settings			 = { flags = { puppetLevel8 = 1 ideology = 5 } }
 	# Resource Reserves 
 	energy                 = 240
 	metal                  = 120
@@ -23,8 +23,8 @@ country =
      freedom           = 5 
      free_market       = 3
      professional_army = 1 
-     defense_lobby     = 2 
-     interventionism   = 3
+     defense_lobby     = 1 
+     interventionism   = 1
   }
   nationalprovinces      = { 889 888 723 4286 4287 4288 4289 }
   ownedprovinces         = { 888 723 4286 4287 4288 4289 }

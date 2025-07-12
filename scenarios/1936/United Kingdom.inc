@@ -4,7 +4,7 @@
 
 country =
 { tag                    = ENG
-  ai_settings			 = { flags = { WARDebt = 17 } }
+  ai_settings			 = { flags = { WARDebt = 17 ideology = 5 } }
   capital                = 19
 	manpower               = 20 
 	dissent 			   = 10
@@ -718,7 +718,7 @@ landunit =
     } 
    landunit = 
    {  name     = "China Command" 
-     location = 19 
+     location = 1315 
      id       = {  type = 12700 id = 8  } 
      Division = 
      {  id       = {  type = 12700 id = 9  } 
@@ -726,11 +726,12 @@ landunit =
        type     = garrison 
 	   model    = 3
        strength = 75 
+	   locked = yes
       } 
     } 
    landunit = 
    {  name     = "Malaya Command" 
-     location = 19 
+     location = 1353 
      id       = {  type = 12700 id = 10  } 
      Division = 
      {  id       = {  type = 12700 id = 11  } 
@@ -738,6 +739,7 @@ landunit =
        type     = garrison
 	   model    = 3
        strength = 35 
+	   locked = yes
       } 
     } 
    landunit = 
@@ -754,19 +756,20 @@ landunit =
     } 
    landunit = 
    {  name     = "British Troops on Gibraltar" 
-     location = 19 
+     location = 348 
      id       = {  type = 12700 id = 12  } 
      Division = 
      {  id       = {  type = 12700 id = 13  } 
        name     = "Gibraltar Defence Force" 
        type     = garrison 
 	   model    = 3
-       strength = 25 
+       strength = 35 
       } 
+	  locked = yes
     } 
    landunit = 
    {  name     = "Ceylon Command" 
-     location = 19 
+     location = 1517 
      id       = {  type = 12700 id = 14  } 
      Division = 
      {  id       = {  type = 12700 id = 15  } 
@@ -774,18 +777,20 @@ landunit =
        type     = militia 
 	   model    = 3
        strength = 80
+	   location = yes
       } 
     } 
    landunit = 
    {  name     = "Malta Command" 
-     location = 19 
+     location = 31 
      id       = {  type = 12700 id = 16  } 
      Division = 
      {  id       = {  type = 12700 id = 17  } 
        name     = "Malta Defence Force" 
        type     = garrison 
 	   model    = 3
-       strength = 35 
+       strength = 55 
+	   locked = yes
       } 
     } 
    landunit = 
@@ -891,6 +896,18 @@ landunit =
        type     = militia 
 	   model    = 3
        strength = 70
+      } 
+    } 
+   landunit = 
+   {  name     = "Suez Canal Garrison" 
+     location = 900 
+     id       = {  type = 12700 id = 57  } 
+     Division = 
+     {  id       = {  type = 12700 id = 58  } 
+       name     = "Suez Defence Force" 
+       type     = garrison 
+	   model    = 3
+       strength = 30
       } 
     } 
    # ################# 

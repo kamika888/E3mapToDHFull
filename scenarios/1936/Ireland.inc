@@ -6,7 +6,7 @@ country =
 { tag                    = IRE
   name					 = IRE36
   puppet				 = ENG
-  ai_settings			 = { flags = { puppetLevel9 = 1 } }
+  ai_settings			 = { flags = { puppetLevel9 = 1 ideology = 6 } }
 	manpower               = 0 
 	# Resource Reserves 
 	energy                 = 600
@@ -166,7 +166,7 @@ country =
      freedom           = 7 
      free_market       = 4
      professional_army = 1 
-     defense_lobby     = 3 
+     defense_lobby     = 2 
      interventionism   = 2 
   }
 inventions = { 3000027 }

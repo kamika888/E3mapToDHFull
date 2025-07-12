@@ -4,6 +4,7 @@
 
 country =
 { tag                    = HOL
+  ai_settings			 = { flags = { ideology = 5 } }
   capital                = 47
 	manpower               = 4 
 	# Resource Reserves 

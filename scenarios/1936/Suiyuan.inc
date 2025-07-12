@@ -7,7 +7,7 @@ country =
   regular_id             = CHI
   puppet                 = CHI
   control                = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   extra_tc               = 10
   # Resource Reserves
   energy                 = 200
@@ -178,8 +178,8 @@ country =
      freedom           = 3 
      free_market       = 2
      professional_army = 5 
-     defense_lobby     = 5 
-     interventionism   = 2 
+     defense_lobby     = 4 
+     interventionism   = 5 
   }
    landunit = 
    {  location = 1207 # Hohhot 
@@ -188,7 +188,7 @@ country =
      Division = 
      {  id       = {  type = 22301 id = 14  } 
        name     = "70. Division" 
-       type     = infantry 
+       type     = militia
        strength  = 40 
        model    = 3
       } 
@@ -200,7 +200,7 @@ country =
      Division = 
      {  id       = {  type = 22301 id = 17  } 
        name     	= "211/218/205. Infantry Brigades" 
-       type     	= infantry 
+       type     	= militia
        strength  	= 90 
        model    	= 3
        extra         = artillery 
@@ -221,7 +221,7 @@ country =
      Division = 
      {  id       = {  type = 22301 id = 39  } 
        name     = "68. Division" 
-       type     = infantry 
+       type     = militia
        strength  = 80 
        model    = 3
        extra    = anti_air 

@@ -143,7 +143,7 @@ event = {
 	id = 2020004
 	random = no
 	country = BUL
-	persistent = yes
+	#persistent = yes
 
 	name = "Bulgaria and the Axis"
 	desc = "While Bulgaria joined the Anti-Comintern and the Tripartite pacts, it refused to lend any military assitance to Germany and did not declare war on the Soviet Union either. This passive neutrality eventually helped Bulgaria secure a relatively favorable post-war treatment and even to retain some of its territorial gains after the war ended."
@@ -458,7 +458,7 @@ event = {
 ########################################################################
 
 event = {
-	id = 2040
+	id = 2020020
 	random = no
 	country = BUL
 
@@ -494,7 +494,7 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		ai_chance = 100	
-		command = { type = event which = 2041 where = SOV when = 0 }
+		command = { type = event which = 2020021 where = SOV when = 0 }
 	}
 
 	action = {
@@ -511,7 +511,7 @@ event = {
 
 
 event = {
-	id = 2041
+	id = 2020021
 	random = no
 	country = SOV
 	
@@ -523,7 +523,7 @@ event = {
 	action = {
 		ai_chance = 100
 		name = ACTION_NAME_ACCEPT
-		command = { type = event which = 2042 where = BUL when = 10 }
+		command = { type = event which = 2020022 where = BUL when = 10 }
 	}
 	action = {
 		ai_chance = 0
@@ -535,12 +535,12 @@ event = {
 		command = { type = dissent value = 5 } #Western allies are not happy, some officials are not happy either
 		command = { type = setflag which = SOV_noLendLease } #Lend lease terminated
 		command = { type = local_setflag which = SanctionsEvt } #Sanctions imposed
-		command = { type = event which = 2045 where = BUL when = 0 }
+		command = { type = event which = 2020025 where = BUL when = 0 }
 	}
 }
 
 event = {
-	id = 2042
+	id = 2020022
 	random = no
 	country = BUL
 
@@ -565,10 +565,11 @@ event = {
 		command = { type = secedearea	which = SOV value = "Central Serbia"	when = 1 } 
 		command = { type = secedearea	which = SOV value = "Thrace" 			when = 1 } 
 		
-		command = { type = event which = 2043 where = SOV when = 1 }
+		command = { type = event which = 2020023 where = SOV when = 1 }
 	}
 	action = {
 		name = "Keep fighting"
+		trigger = { NOT = { flag = GerSovPeace3 } }
 		ai_chance = 0
 		command = { trigger = { OR =  { flag = BulgariaFullAxis flag = BulgariaUnderAttack } } type = dissent value = 15 } #communist uprising
 		command = { trigger = { NOT = { flag = BulgariaFullAxis flag = BulgariaUnderAttack } } type = event which = 2020010 where = BUL when = 0 }
@@ -580,7 +581,7 @@ event = {
 }
 
 event = {
-	id = 2043
+	id = 2020023
 	random = no
 	country = SOV
 
@@ -596,17 +597,17 @@ event = {
 		command = { type = add_claim_area which = "East Serbia" 	where = SOV } 
 		command = { type = add_claim_area which = "Central Serbia" 	where = SOV } 
 		command = { type = add_claim_area which = "Thrace"			where = SOV } 
-		command = { type = add_claim_region which = "Romania" where = SOV } 
+		command = { type = add_claim_region which = "Romania" 		where = SOV } 
 		command = { type = make_puppet which = BUL }
 		#command = { type = coup_nation which = BUL } #will be bugged if happens immediately, can also crash the game. will do later as part of post-war settlement
 		command = { type = alliance which = BUL when = 1 }
 		command = { type = event which = 2400537 where = BUL when = 0 } #medium puppet
-		command = { type = event which = 2044 where = BUL when = 0 }
+		command = { type = event which = 2020024 where = BUL when = 0 }
 	}
 }
 
 event = {
-	id = 2044
+	id = 2020024
 	random = no
 	tag = { BUL U29 }
 
@@ -623,6 +624,8 @@ event = {
 		command = { type = secedearea	which = SOV value = "East Serbia" 		when = 1 } 
 		command = { type = secedearea	which = SOV value = "Central Serbia"	when = 1 } 
 		command = { type = secedearea	which = SOV value = "Thrace" 			when = 1 } 
+		
+		command = { trigger = { NOT = { flag = BulgariaFullAxis } } type = secedeprovince which = BUL value = 423  when = 2 }
 		
 		command = { trigger = { flag = BulgariaFullAxis } type = secedeprovince which = SOV value = 423  when = 2 } #Dobrich
 		command = { trigger = { flag = BulgariaFullAxis } type = secedeprovince which = SOV value = 6506 when = 2 } #Vidin
@@ -650,7 +653,7 @@ event = {
 }
 
 event = {
-	id = 2045
+	id = 2020025
 	random = no
 	country = BUL
 

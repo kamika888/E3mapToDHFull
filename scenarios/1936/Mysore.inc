@@ -6,7 +6,7 @@
  {  tag                    = U40
     regular_id             = IND
 	puppet                 = U02
-	ai_settings			 = { flags = { puppetLevel6 = 1 } }
+	ai_settings			 = { flags = { puppetLevel6 = 1 ideology = 4 } }
     capital                = 775 
 
      # Resource Reserves 

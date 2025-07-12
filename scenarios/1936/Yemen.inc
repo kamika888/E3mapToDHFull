@@ -7,7 +7,7 @@ country =
 { tag                    = YEM
   puppet                 = ENG
   control				 = ENG
-  ai_settings			 = { flags = { puppetLevel6 = 1 } }
+  ai_settings			 = { flags = { puppetLevel6 = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 240
 	metal                  = 120
@@ -16,7 +16,7 @@ country =
 	oil                    = 200 
 	supplies               = 200 
 	money                  = 10 
-	manpower               = 1 
+	manpower               = 15 
   capital                = 1812
   policy =
   { date              = { year = 0 month = january day = 0 }
@@ -24,7 +24,7 @@ country =
      political_left    = 4 
      freedom           = 1 
      free_market       = 1
-     professional_army = 1 
+     professional_army = 2 
      defense_lobby     = 3 
      interventionism   = 3 
   }

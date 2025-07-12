@@ -8,7 +8,7 @@ country =
   puppet                 = JAP
   control                = JAP
   name					 = U8736
-  ai_settings			 = { flags = { puppetLevel3 = 1 garSpec = 1 war_preparedness = 5 } }
+  ai_settings			 = { flags = { puppetLevel3 = 1 war_preparedness = 5 war_preparedness = 5 ideology = 2 } }
   ai					 = "exp_0.ai"
   intrinsic_gov_type     = fascist
   dissent				 = 30
@@ -20,7 +20,7 @@ country =
 	oil                    = 100 
 	supplies               = 800 
 	money                  = 50 
-    manpower               = 100
+    manpower               = 268
    transports             = 200 
    escorts                = 5 
   diplomacy =
@@ -190,7 +190,7 @@ country =
      political_left    = 2 
      freedom           = 3 
      free_market       = 2
-     professional_army = 1 
+     professional_army = 3 
      defense_lobby     = 4 
      interventionism   = 5 
   }

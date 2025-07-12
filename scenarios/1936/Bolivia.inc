@@ -4,6 +4,7 @@
 
 country =
 { tag                    = BOL
+  ai_settings			 = { flags = { ideology = 6 } }
 	manpower               = 23 
 	# Resource Reserves 
 	energy                 = 360
@@ -20,7 +21,7 @@ country =
      free_market       = 3
      freedom           = 5 
      professional_army = 4 
-     defense_lobby     = 1 
+     defense_lobby     = 2 
      interventionism   = 2 
   }
   claimedprovinces 		 = { 3842 3841 2374 838 3857 7419 3851 7418 3858 3885 5449 5448 7428 7417 }

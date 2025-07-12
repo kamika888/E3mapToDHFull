@@ -8,7 +8,7 @@ country =
   regular_id             = CHI
   puppet				 = SOV
   #control				 = SOV
-  ai_settings			 = { flags = { puppetLevel6 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel6 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 8 } }
   ai					 = "nations\SIK.ai"
   # Resource Reserves
   energy                 = 20000
@@ -27,8 +27,8 @@ country =
      freedom           = 3 
      free_market       = 2
      professional_army = 5 
-     defense_lobby     = 2 
-     interventionism   = 7 
+     defense_lobby     = 7 
+     interventionism   = 5 
   }
   nationalprovinces      = {
 1275 1276 1277 1440 1441 1267 1268 1269 1270 1271

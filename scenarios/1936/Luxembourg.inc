@@ -5,6 +5,7 @@
 
 country =
 { tag                    = LUX
+  ai_settings			 = { flags = { ideology = 5 } }
 	# Resource Reserves 
 	energy                 = 300
 	metal                  = 150

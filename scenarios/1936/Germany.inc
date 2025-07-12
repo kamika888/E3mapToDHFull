@@ -7,11 +7,11 @@
 
 country =
 { tag                    = GER
-  ai_settings			 = { flags = { Depression = 6 WARDebt = 2 } }
+  ai_settings			 = { flags = { Depression = 6 WARDebt = 2 ideology = 1 } }
   dissent				 = 8
   belligerence			 = 4
   capital                = 300
-	manpower               = 794.5
+	manpower               = 694.5
 	transports             = 450 
 	escorts                = 23 
 

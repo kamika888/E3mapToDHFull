@@ -5,6 +5,7 @@
 
 country =
 { tag                    = TIB
+	ai_settings			 = { flags = { ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 300
 	metal                  = 150
@@ -12,7 +13,7 @@ country =
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 10 
-	manpower               = 0 
+	manpower               = 7 
   capital                = 1452
   policy =
   { date              = { year = 0 month = january day = 0 }
@@ -20,7 +21,7 @@ country =
      political_left    = 4 
      freedom           = 2 
      free_market       = 1
-     professional_army = 1 
+     professional_army = 2 
      defense_lobby     = 3 
      interventionism   = 3 
   }

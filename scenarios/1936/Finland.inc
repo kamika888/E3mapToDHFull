@@ -4,7 +4,7 @@
 
 country =
 { tag                    = FIN
-	ai_settings			  = { flags = { popularMobilization = 1 } }
+	ai_settings			  = { flags = { popularMobilization = 1 ideology = 5 } }
 	# Resource Reserves 
 	energy                 = 900
 	metal                  = 450
@@ -191,7 +191,7 @@ inventions = { 3000027 }
      free_market       = 4
      freedom           = 7 
      professional_army = 3 
-     defense_lobby     = 4 
+     defense_lobby     = 3 
      interventionism   = 4 
     } 
    headofstate            = {  type = 9 id = 145001  } 

@@ -5,6 +5,7 @@
 
 country =
 { tag                    = AFG
+  ai_settings			 = { flags = { ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 360
 	metal                  = 180
@@ -21,8 +22,8 @@ country =
      political_left    = 4 
      free_market       = 1
      freedom           = 1 
-     professional_army = 4 
-     defense_lobby     = 4 
+     professional_army = 2 
+     defense_lobby     = 2 
      interventionism   = 1
   }
   nationalprovinces      = { 1486 1493 1492 1484

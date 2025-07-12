@@ -5,7 +5,7 @@
 country =
 { tag                    = DOM
   puppet				 = USA
-  ai_settings			 = { flags = { puppetLevel7 = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 ideology = 4 } }
   # Resource Reserves
   energy                 = 1000
   metal                  = 1000

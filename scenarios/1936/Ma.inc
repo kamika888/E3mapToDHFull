@@ -7,7 +7,7 @@ country =
 { tag                    = CXB
   regular_id             = CHI
   control				 = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   intrinsic_gov_type     = paternal_autocrat
   extra_tc               = 2
   dissent				 = 15
@@ -29,8 +29,8 @@ country =
      freedom           = 3 
      free_market       = 2
      professional_army = 5 
-     defense_lobby     = 7 
-     interventionism   = 7 
+     defense_lobby     = 4 
+     interventionism   = 5 
   }
   nationalprovinces      = {
 1275 1276 1277 1440 1441 1267 1268 1269 1270 1271
@@ -354,7 +354,7 @@ blueprints = {
      {  experience = 40 
        id         = {  type = 22200 id = 13  } 
        name       = "10. Independent Brigade" 
-       type       = infantry
+       type       = militia
 	   strength  = 100
        model     = 3
 	   extra1 = cavalry_brigade

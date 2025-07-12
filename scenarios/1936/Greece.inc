@@ -4,6 +4,7 @@
 
 country =
 { tag                    = GRE
+  ai_settings			 = { flags = { ideology = 3 } }
 	manpower               = 20 
 	# Resource Reserves 
 	energy                 = 900

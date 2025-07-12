@@ -3,14 +3,15 @@
 #####################
 
 country =
-{ tag                    = HUN
-  capital                = 457
-	manpower               = 5 
+{   tag                    = HUN
+    ai_settings			   = { flags = { ideology = 3 } }
+    capital                = 457
+	manpower               = 131 
 	# Resource Reserves 
 	energy                 = 1740
 	metal                  = 870
 	rare_materials         = 435
-	transports = 100
+	transports             = 100
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 10 
@@ -127,7 +128,7 @@ country =
      political_left    = 3 
      free_market       = 3
      freedom           = 7 
-     professional_army = 1 
+     professional_army = 3 
      defense_lobby     = 3 
      interventionism   = 4
   }

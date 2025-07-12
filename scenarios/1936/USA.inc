@@ -4,7 +4,7 @@
 
 country =
 { tag                    = USA
-  ai_settings			 = { flags = { Depression = 6 WARDebt = 7 } }
+  ai_settings			 = { flags = { Depression = 6 WARDebt = 7 ideology = 6 } }
 	# Resource Reserves   
 	energy                 = 30060
 	metal                  = 15030

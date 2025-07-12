@@ -4,6 +4,7 @@
 
 country =
 { tag                    = ROM
+  ai_settings			 = { flags = { ideology = 6 } }
   capital                = 424
 	manpower               = 48 
 	# Resource Reserves 

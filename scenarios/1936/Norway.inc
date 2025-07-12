@@ -4,6 +4,7 @@
 
 country =
 { tag                    = NOR
+  ai_settings			 = { flags = { ideology = 7 } }
 	energy                 = 600
 	metal                  = 300
 	rare_materials         = 150

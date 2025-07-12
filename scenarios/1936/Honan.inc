@@ -7,7 +7,7 @@ country =
   regular_id             = CHI
   puppet                 = CHI
   control				 = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   extra_tc               = 10
   dissent				 = 15
   # Resource Reserves
@@ -178,8 +178,8 @@ country =
      freedom           = 3 
      free_market       = 2
      professional_army = 5 
-     defense_lobby     = 3 
-     interventionism   = 7 
+     defense_lobby     = 4 
+     interventionism   = 5 
   }
    landunit = 
    {  location = 1228 # Luoyang 
@@ -189,7 +189,7 @@ country =
      {
        id         = {  type = 22006 id = 2  } 
        name       = "27. Division (Guominjun)" 
-       type       = infantry 
+       type       = militia
 	   strength = 40
        model      = 3 
       } 
@@ -197,7 +197,7 @@ country =
      {
        id         = {  type = 22006 id = 3  } 
        name       = "30. Division (Guominjun)" 
-       type       = infantry 
+       type       = militia
 	   strength = 40
        model      = 3 
       } 
@@ -205,7 +205,7 @@ country =
      {
        id         = {  type = 22006 id = 4  } 
        name       = "31. Division (Guominjun)" 
-       type       = infantry 
+       type       = militia
 	   strength = 40
        model      = 3 
       } 
@@ -218,7 +218,7 @@ country =
      {
        id         = {  type = 22006 id = 6  } 
        name       = "85. Division" 
-       type       = infantry 
+       type       = militia
 	   strength = 40
        model      = 3 
       } 
@@ -234,7 +234,7 @@ country =
      {  experience = 0
        id         = {  type = 22006 id = 8 } 
        name       = "141. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -242,7 +242,7 @@ country =
      {  experience = 0
        id         = {  type = 22006 id = 9 } 
        name       = "142. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }

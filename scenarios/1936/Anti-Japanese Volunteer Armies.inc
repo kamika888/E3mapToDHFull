@@ -5,7 +5,7 @@
 country =
 { tag                    = U58
   regular_id             = CHI
-  ai_settings			 = { flags = { puppetLevel9 = 1 inMajorWar = 1 } }
+  ai_settings			 = { flags = { puppetLevel9 = 1 inMajorWar = 1 war_preparedness = 5 ideology = 8 } }
   ai					 = "nations\U58.ai"
   #puppet				 = CHC
   #Puppeting to CHC causes certain issues when retreating to Datong...

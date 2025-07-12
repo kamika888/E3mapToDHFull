@@ -5,7 +5,7 @@
 country =
 { tag                    = HAI
   puppet				 = USA
-  ai_settings			 = { flags = { puppetLevel7 = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 ideology = 4 } }
 	manpower               = 0 
 	# Resource Reserves 
 	energy                 = 240
@@ -23,7 +23,7 @@ country =
     free_market       = 1
     freedom           = 1
     professional_army = 1
-    defense_lobby     = 2
+    defense_lobby     = 1
     interventionism   = 2
   }
   nationalprovinces      = { 892 2673 4277 7172 }

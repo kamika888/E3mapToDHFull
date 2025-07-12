@@ -4,6 +4,7 @@
 
 country =
 { tag                    = TUR
+  ai_settings			 = { flags = { ideology = 3 } }
 	# Resource Reserves 
 	energy                 = 1320
 	metal                  = 660

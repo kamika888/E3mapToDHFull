@@ -4,6 +4,7 @@
 
 country =
 { tag                    = VEN
+  ai_settings			 = { flags = { ideology = 5 } }
 	# Resource Reserves 
 	energy                 = 480
 	metal                  = 240
@@ -22,7 +23,7 @@ country =
      free_market       = 6
      professional_army = 4 
      defense_lobby     = 2 
-     interventionism   = 3
+     interventionism   = 2
   }
   claimedprovinces 		 = { 2657 3871 5423 3866 3872 3873 2658 3875 3874 5424 5425 2737 3950 871 5421 5422 3887 }
   nationalprovinces      = { 804 802 810 811 869 870 3859 3860 3861 3862 3863 3864 3865 3867 3868 3869 3870 }

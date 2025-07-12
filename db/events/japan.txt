@@ -2467,6 +2467,7 @@ event = {
 		NOT = { event = 2011028 } #JAP Japanese surrender negotiations
 	}
 	decision_trigger = {
+		policy = { type = interventionism value = 9 }
 		garrison = { country = JAP province = 2562 type = naval size = 6 area = no } # Pearl Harbor Bay
 		carrier = { country = JAP value = 6 }
 	}
@@ -2481,6 +2482,7 @@ event = {
 				event = { id = 560 days = 120 } #Oil embargo
 				NOT = { event = 2011018 } #JAP The Fading Sun
 				NOT = { event = 2011028 } #JAP Japanese surrender negotiations	
+				policy = { type = interventionism value = 9 }
 				NOT = { lost_VP = { country = JAP value = 3 } }
 				NOT = { war = { country = SOV } }
 				OR = {
@@ -2526,12 +2528,12 @@ event = {
 	action = {
 		name = EVT_17_ACTA
 		ai_chance = 100
-		command = { trigger = { NOT = { alliance = { country = ENG country = GER } } } type = war which = ENG }
-		
 		command = { type = war which = USA }
-		command = { type = addclaim which = 1315 } #Hong Kong
 		command = { type = war which = PHI }
+		command = { trigger = { NOT = { alliance = { country = ENG country = GER } } } type = war which = ENG }
 		command = { trigger = { NOT = { alliance = { country = U36 country = GER } } } type = war which = U36 }
+		command = { trigger = { NOT = { alliance = { country = HOL country = GER } } } type = war which = HOL }
+		command = { type = addclaim which = 1315 } #Hong Kong
 		command = { type = local_setflag which = inMajorWar	}
 		command = { type = event which = 3130 where = -1 when = 1800 } #inMajorWar clear
 		command = { type = trigger which = 2049002 }
@@ -3398,11 +3400,15 @@ event = {
 
 	action = {
 		name = EVT_44_ACTA
-		command = { type = inherit which = MAN value = 0 }
-		command = { type = inherit which = MEN value = 0 }
-		command = { trigger = { NOT = { flag = JAP_USA_WAR } } type = inherit which = JAP }
+		command = { 											type = inherit 		which = MAN }
+		command = { 											type = inherit		which = MEN }
+		command = { 											type = belligerence value = -20 }
+		command = { trigger = { NOT = { flag = JAP_USA_WAR } }	type = inherit 		which = JAP }
+		command = { trigger = { NOT = { flag = JAP_USA_WAR } }	type = belligerence value = -50 }
 		command = { type = money value = 1000 }
 		command = { type = dissent value = -5 }
+		command = { type = remove_claim_area	which = "Pyongyang"	 }
+		command = { type = remove_claim_area	which = "Seoul"		 }
 		command = { type = independence which = PRK value = 1 } 
 		command = { type = make_puppet which = PRK }
 		command = { type = event which = 2400538 where = PRK when = 0 } #strong puppet	
@@ -3469,9 +3475,12 @@ event = {
 		name = EVT_45_ACTA
 		command = { trigger = { NOT = { exists = CHC } puppet = { country = CHI country = JAP } } 	type = inherit which = CHI value = 0 }
 		command = { trigger = { exists = U87 NOT = { exists = CHI exists = CHC } }					type = inherit which = U87 value = 0 }
-		command = { type = inherit which = JAP } 
+		command = { type = inherit 			which = JAP } 
+		command = { type = belligerence 	value = -50 }
 		command = { type = money value = 1000 }
 		command = { type = dissent value = -5 }
+		command = { type = remove_claim_area	which = "Pyongyang"	 }
+		command = { type = remove_claim_area	which = "Seoul"		 }
 		command = { type = independence which = KOR value = 1 } 
 		command = { type = make_puppet which = KOR } 
 		command = { type = event which = 2400538 where = KOR when = 0 } #strong puppet	

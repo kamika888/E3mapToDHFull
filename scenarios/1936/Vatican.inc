@@ -5,7 +5,7 @@
  country = 
  { tag                    = U56 
    capital                = 2300 
-   ai_settings			 = { flags = { demilitarized = 1 } }
+   ai_settings			 = { flags = { demilitarized = 1 ideology = 4 } }
    # Resource Reserves 
    energy                 = 100 
    metal                  = 100 
@@ -17,12 +17,16 @@
       
    transports             = 50 
    escorts                = 0 
+   
+   free = {
+		money = 1
+   }
 
    diplomacy = 
    {   
    relation = {  tag = GER value = 80 access = no  }  
    relation = {  tag = ITA value = 120 access = yes  }  
-    } 
+   } 
    SpyInfo                = {  country = "U06" NumberOfSpies = 3  } 
   
    headofstate            = {  type = 9 id = 1100001  } 

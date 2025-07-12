@@ -5,7 +5,7 @@
 country =
 { tag                    = SPR
   regular_id             = SPA
-  ai_settings			 = { flags = { WARDebt = 5 } }
+  ai_settings			 = { flags = { WARDebt = 5 ideology = 5 } }
   intrinsic_gov_type     = left_wing_radical
 	manpower               = 30 
 	# Resource Reserves 
@@ -56,6 +56,8 @@ country =
 4410 4414 7895 955 4416 7901 4390 2332 2339 4417 4412 4411 2331 4389 4415 7894 1034 4413 7892 1091 7893 971 6945 972 7896 967 4900
 3189 3188 536 7111 537 356 7110 7113 7112 355 2619 535 2620 358 2581 #catalan
 331 7127 326 #Basque
+#Morocco
+956 958 959 960 966 968 969 1121 2900 2901 2902 2903 4391 4392 4393 4394 4395 4396 4397 4398 4399 4400 4401 4402 4403 4404 4405 4406 4407 4408 
 }
   ownedprovinces         = { 334  332  333  339  338  341  343  346  347  349  350  351  352  353  354  342  355  340  330  331  356  329  357  535 
                              536  537  961  962  963  964    957  955  954  967  971  972  1091
@@ -175,7 +177,7 @@ country =
      free_market       = 4
      professional_army = 3 
      defense_lobby     = 2 
-     interventionism   = 2 
+     interventionism   = 3 
   }
 inventions = { 3000027 }
    headofstate            = {  type = 9 id = 255001  } 
@@ -678,5 +680,23 @@ inventions = { 3000027 }
 		id = { type = 27600 id = 502 }
 		date = { year = 1936 month = march day = 1 }
 	}
+
+	#asturias forces initial
+	landdivision = { dormant = yes id = { type = 27600 id = 600 }  name = "63rd Division"						type = infantry		model = 9 	strength = 70							} 
+	landdivision = { dormant = yes id = { type = 27600 id = 601 }  name = "5th PCE-JSU Mil. Div."				type = militia		model = 5 	strength = 50							} 
+	
+	landdivision = { dormant = yes id = { type = 27600 id = 602 }  name = "9th CNT-FAI Mil. Div."				type = militia		model = 5 	strength = 50							} 
+	landdivision = { dormant = yes id = { type = 27600 id = 603 }  name = "20th CNT-FAI Mil. Div."				type = militia		model = 5 	strength = 50							} 
+	
+	#asturias forces after evacuation
+	landdivision = { dormant = yes id = { type = 27600 id = 610 }  name = "63rd Division"						type = infantry		model = 9 	strength = 50	experience = 90			} 
+	landdivision = { dormant = yes id = { type = 27600 id = 611 }  name = "5th PCE-JSU Mil. Div."				type = militia		model = 5 	strength = 50	experience = 90			} 
+	
+	landdivision = { dormant = yes id = { type = 27600 id = 612 }  name = "9th CNT-FAI Mil. Div."				type = militia		model = 5 	strength = 50	experience = 90			} 
+	landdivision = { dormant = yes id = { type = 27600 id = 613 }  name = "20th CNT-FAI Mil. Div."				type = militia		model = 5 	strength = 50	experience = 90			} 
+	
+	#remaining basque troops
+	landdivision = { dormant = yes id = { type = 27600 id = 620 }  name = "4th PCE-JSU Mil. Div."				type = militia		model = 5 	strength = 50	experience = 90			} 
+	landdivision = { dormant = yes id = { type = 27600 id = 621 }  name = "7th PCE-JSU Mil. Div."				type = militia		model = 5 	strength = 50	experience = 90			} 
   } 
  

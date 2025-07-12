@@ -5,7 +5,7 @@
 country =
 { tag                    = HON
   puppet				 = USA
-  ai_settings			 = { flags = { puppetLevel7 = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 ideology = 4 } }
 	manpower               = 0 
 	# Resource Reserves 
 	energy                 = 240

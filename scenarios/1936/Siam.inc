@@ -4,6 +4,7 @@
 
 country =
 { tag                    = SIA
+	ai_settings			 = { flags = { ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 540
 	metal                  = 270

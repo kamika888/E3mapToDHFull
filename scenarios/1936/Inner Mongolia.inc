@@ -7,7 +7,7 @@ country =
   regular_id             = MON
   puppet                 = JAP
   #control                = JAP
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 7 ideology = 2 } }
   ai					 = "exp_0.ai"
   intrinsic_gov_type     = fascist
   capital                = 5629
@@ -128,7 +128,7 @@ country =
   policy =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 8 
-     political_left    = 3 
+     political_left    = 2 
      freedom           = 3 
      free_market       = 2
      professional_army = 5 

@@ -7,7 +7,7 @@ country =
   regular_id             = CHI
   puppet                 = CHI
   control				 = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   extra_tc               = 10
   dissent				 = 15
   # Resource Reserves
@@ -177,7 +177,7 @@ country =
      free_market       = 2
      professional_army = 5 
      defense_lobby     = 7 
-     interventionism   = 7 
+     interventionism   = 5 
   }
    # Xikang
    # http://forum.paradoxplaza.com/forum/showthread.php?687389-OOB-and-information-of-China-for-moders&p=15451250&viewfull=1#post15451250
@@ -190,7 +190,7 @@ country =
      {  experience = 30 
        id         = {  type = 22100 id = 21  } 
        name       = "136. Division" 
-       type     = infantry 
+       type     = militia
        strength   = 33
        model      = 3
 	   extra1 = police
@@ -200,7 +200,7 @@ country =
      {  experience = 30 
        id         = {  type = 22100 id = 22  } 
        name       = "137. Division" 
-       type     = infantry
+       type     = militia
        strength   = 33
        model      = 3
 	   extra1 = police
@@ -210,7 +210,7 @@ country =
      {  experience = 30 
        id         = {  type = 22100 id = 23  } 
        name       = "138. Division" 
-       type       = infantry
+       type       = militia
        strength   = 33
        model      = 3
 	   extra1 = police
@@ -220,7 +220,7 @@ country =
      {  experience = 30 
        id         = {  type = 22100 id = 24  } 
        name       = "30/33/34. Independent Brigades" 
-       type       = infantry
+       type       = militia
        strength   = 40
        model      = 3
       }

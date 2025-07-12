@@ -6,7 +6,7 @@ country =
 { tag                    = MON
   puppet                 = SOV
   control				 = SOV
-  ai_settings			 = { flags = { puppetLevel8 = 1 } }
+  ai_settings			 = { flags = { puppetLevel8 = 1 ideology = 9 } }
   ai                     = "exp_0.ai"
 	# Resource Reserves 
 	energy                 = 300
@@ -15,8 +15,8 @@ country =
 	oil                    = 200 
 	supplies               = 500 
 	money                  = 10 
-	manpower               = 10 
-  capital                = 1404
+	manpower               = 73 
+    capital                = 1404
   diplomacy =
   { relation = { tag = CHC value = 25 }
     relation = { tag = MON value = 150 }
@@ -90,7 +90,7 @@ country =
      political_left    = 9 
      freedom           = 3 
      free_market       = 2
-     professional_army = 1 
+     professional_army = 4 
      defense_lobby     = 4 
      interventionism   = 4
   }

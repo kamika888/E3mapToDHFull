@@ -5,7 +5,7 @@
 country =
 { tag                    = GUA
   puppet				 = USA
-  ai_settings			 = { flags = { puppetLevel7 = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 ideology = 3 } }
 	manpower               = 0 
 	# Resource Reserves 
 	energy                 = 600

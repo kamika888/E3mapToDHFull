@@ -7,12 +7,12 @@ country =
   puppet				 = ENG
   control				 = ENG
   dissent = 5
-  ai_settings			 = { flags = { puppetLevel8 = 1 } }
+  ai_settings			 = { flags = { puppetLevel8 = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 720
 	metal                  = 360
 	rare_materials         = 180
-	transports = 100
+	transports 			   = 100
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 10 
@@ -151,7 +151,7 @@ country =
   policy =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
-     political_left    = 3 
+     political_left    = 4 
      freedom           = 6 
      free_market       = 4
      professional_army = 2 

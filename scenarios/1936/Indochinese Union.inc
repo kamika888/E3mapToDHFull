@@ -7,7 +7,7 @@
  { tag                    = U03 
    capital                = 1333 
    puppet                 = VIC 
-   ai_settings			 = { flags = { puppetLevel9 = 1 } }
+   ai_settings			 = { flags = { puppetLevel9 = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 420
 	metal                  = 210
@@ -88,7 +88,7 @@
      political_left    = 4 
      free_market       = 2
      freedom           = 3
-     professional_army = 1 
+     professional_army = 2 
      defense_lobby     = 3 
      interventionism   = 4
     } 

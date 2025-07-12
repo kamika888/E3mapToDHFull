@@ -4,6 +4,7 @@
 
 country =
 { tag                    = BEL
+  ai_settings			 = { flags = { ideology = 5 } }
   capital                = 51
 	manpower               = 7 
 	# Resource Reserves 

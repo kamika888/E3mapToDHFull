@@ -5,7 +5,7 @@
 
 country =
 { tag                    = ETH
-    ai_settings			   = { flags = { war_preparedness = 3 } }
+    ai_settings			   = { flags = { war_preparedness = 3 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 1060
 	metal                  = 1180
@@ -13,16 +13,16 @@ country =
 	oil                    = 100 
 	supplies               = 1000 
 	money                  = 500 
-	manpower               = 178 
-  capital                = 1046
+	manpower               = 490 
+	capital                = 1046
   policy =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 5
      political_left    = 4 
      free_market       = 1
      freedom           = 2 
-     professional_army = 5 
-     defense_lobby     = 5 
+     professional_army = 6 
+     defense_lobby     = 6 
      interventionism   = 3
   }
   claimedprovinces      = { 

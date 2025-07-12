@@ -8,7 +8,7 @@
    puppet				  = ENG
    name					  = MOR36
    flag_ext			      = _TIZ
-   ai_settings			  = { flags = { puppetLevel7 = 1 demilitarized = 1 } }
+   ai_settings			  = { flags = { puppetLevel7 = 1 demilitarized = 1 ideology = 5 } }
 
    # Resource Reserves 
    energy                 = 100 

@@ -4,6 +4,7 @@
 
 country =
 { tag                    = PER
+  ai_settings			 = { flags = { ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 540
 	metal                  = 270
@@ -21,7 +22,7 @@ country =
      freedom           = 3 
      free_market       = 4
      professional_army = 4 
-     defense_lobby     = 2 
+     defense_lobby     = 3 
      interventionism   = 2
   }
   nationalprovinces      = { 1859 1787 1503 1502 1789 1825 1498 1497 1499 1826 1501 1500 1496 1495

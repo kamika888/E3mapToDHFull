@@ -4,6 +4,7 @@
 
 country =
 { tag                    = ECU
+  ai_settings			 = { flags = { ideology = 6 } }
 	# Resource Reserves 
 	energy                 = 360
 	metal                  = 180
@@ -21,8 +22,8 @@ country =
      free_market       = 3
      freedom           = 5 
      professional_army = 3 
-     defense_lobby     = 1 
-     interventionism   = 2 
+     defense_lobby     = 2 
+     interventionism   = 3 
   }
   claimedprovinces 		 = { 817 818 551 908 1835 3785 3786 3787 3824 3823 3820 2930 3822 3821 2738 3788 3789 3790 7430 7435 7434 }
   nationalprovinces      = { 3782 3783 814 7429 7433 3784 3781 815 7431 }

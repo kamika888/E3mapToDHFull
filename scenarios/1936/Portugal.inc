@@ -4,6 +4,7 @@
 
 country =
 { tag                    = POR
+  ai_settings			 = { flags = { ideology = 3 } }
 	# Resource Reserves 
 	energy                 = 1020
 	metal                  = 510
@@ -187,7 +188,7 @@ country =
      democratic        = 1 
      political_left    = 3 
      freedom           = 5 
-     free_market       = 2
+     free_market       = 3
      professional_army = 3 
      defense_lobby     = 2 
      interventionism   = 3 

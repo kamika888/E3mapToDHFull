@@ -3,7 +3,7 @@ country = {
     
     puppet = HOL
     control = HOL
-	ai_settings	= { flags = { puppetLevel8 = 1 } }
+	ai_settings	= { flags = { puppetLevel8 = 1 ideology = 5 } }
 		
 	capital = 1613
 	manpower = 20

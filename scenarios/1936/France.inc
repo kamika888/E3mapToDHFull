@@ -4,7 +4,7 @@
 
 country =
 { tag                    = VIC
-  ai_settings			 = { flags = { WARDebt = 16 garSpec = 1 } }
+  ai_settings			 = { flags = { WARDebt = 16 ideology = 6 } }
   capital                = 56
 	# Resource Reserves 
 	energy                 = 44400
@@ -333,7 +333,7 @@ country =
      free_market       = 6
      freedom           = 9 
      professional_army = 4 #France had 2-year conscription in 1936
-     defense_lobby     = 1 
+     defense_lobby     = 2 
      interventionism   = 3
   }
 inventions = { 3000027 }

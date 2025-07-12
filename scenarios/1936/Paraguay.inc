@@ -4,6 +4,7 @@
 
 country =
 { tag                    = PAR
+  ai_settings			 = { flags = { ideology = 5 } }
 	# Resource Reserves 
 	energy                 = 360
 	metal                  = 180
@@ -21,7 +22,7 @@ country =
      free_market       = 5
      professional_army = 4 
      defense_lobby     = 4 
-     interventionism   = 7
+     interventionism   = 6
   }
   nationalprovinces      = { 837 846 2991 2554 2931 3809 3810 3811 3812 3813 3814 3815 3816 3817 3818 3819
   3854 3855 3924 

@@ -7,7 +7,7 @@
     regular_id             = IND
 	puppet                 = U02
     capital                = 1514 
-	ai_settings			   = { flags = { puppetLevel6 = 1 } }
+	ai_settings			   = { flags = { puppetLevel6 = 1 ideology = 4 } }
 
      # Resource Reserves 
    energy                 = 100 

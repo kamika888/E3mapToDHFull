@@ -4,6 +4,7 @@
 
 country =
 { tag                    = ARG
+  ai_settings			 = { flags = { ideology = 4 } }
 	manpower               = 28 
 	# Resource Reserves 
 	energy                 = 3620
@@ -21,7 +22,7 @@ country =
      free_market       = 6
      freedom           = 8 
      professional_army = 3 
-     defense_lobby     = 1 
+     defense_lobby     = 2 
      interventionism   = 3 
   }
   claimedprovinces 		 = { 2959 3934 5448 5449 3902 3903 }

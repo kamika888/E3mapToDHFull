@@ -8,7 +8,7 @@ country =
   puppet				 = SOV
   control				 = SOV
   ai                     = "exp_0.ai"
-  ai_settings			 = { flags = { puppetLevel8 = 1 } }
+  ai_settings			 = { flags = { puppetLevel8 = 1 ideology = 9 } }
 	# Resource Reserves 
 	energy                 = 300
 	metal                  = 150
@@ -16,7 +16,7 @@ country =
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 10 
-	manpower               = 0 
+	manpower               = 21 
   capital                = 1418
   policy =
   { date              = { year = 0 month = january day = 0 }
@@ -24,8 +24,8 @@ country =
      political_left    = 9 
      freedom           = 3 
      free_market       = 2
-     professional_army = 1 
-     defense_lobby     = 2 
+     professional_army = 4 
+     defense_lobby     = 3 
      interventionism   = 3
   }
   nationalprovinces      = { 1418 3594 3595 3761 

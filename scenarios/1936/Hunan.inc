@@ -7,7 +7,7 @@ country =
   regular_id             = CHI
   puppet                 = CHI
   control				 = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   extra_tc               = 10
   dissent				 = 15
   # Resource Reserves
@@ -176,8 +176,8 @@ country =
      freedom           = 3 
      free_market       = 2
      professional_army = 5 
-     defense_lobby     = 3 
-     interventionism   = 7 
+     defense_lobby     = 4 
+     interventionism   = 5 
   }
 	####################
 	# Hunan Task Force #
@@ -190,7 +190,7 @@ country =
      {  experience = 30 
        id         = {  type = 22002 id = 38 } 
        name       = "15. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -198,7 +198,7 @@ country =
      {  experience = 30 
        id         = {  type = 22002 id = 39  } 
        name       = "16. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -206,7 +206,7 @@ country =
      {  experience = 30 
        id         = {  type = 22002 id = 40  } 
        name       = "19. Division" # Different from the CGX
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -219,7 +219,7 @@ country =
      {  experience = 30 
        id         = {  type = 22002 id = 42 } 
        name       = "62. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -227,7 +227,7 @@ country =
      {  experience = 30 
        id         = {  type = 22002 id = 43  } 
        name       = "63. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -235,7 +235,7 @@ country =
      {  experience = 30 
        id         = {  type = 22002 id = 44  } 
        name       = "34. Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -243,7 +243,7 @@ country =
      {  experience = 30 
        id         = {  type = 22002 id = 45  } 
        name       = "4. Route Army Reserve Regiments" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }

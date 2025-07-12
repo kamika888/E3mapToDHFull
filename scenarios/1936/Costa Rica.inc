@@ -5,7 +5,7 @@
 country =
 { tag                    = COS
   puppet				 = USA
-  ai_settings			 = { flags = { puppetLevel8 = 1 demilitarized = 1 } }
+  ai_settings			 = { flags = { puppetLevel8 = 1 demilitarized = 1 ideology = 6 } }
 	manpower               = 0 
 	# Resource Reserves 
 	energy                 = 240

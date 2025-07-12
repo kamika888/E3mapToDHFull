@@ -7,7 +7,7 @@ country =
   regular_id             = CHI
   puppet                 = CHI
   control				 = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   intrinsic_gov_type     = paternal_autocrat
   extra_tc               = 20
   dissent				 = 15
@@ -28,8 +28,8 @@ country =
      freedom           = 3 
      free_market       = 2
      professional_army = 5  
-     defense_lobby     = 3 
-     interventionism   = 7 
+     defense_lobby     = 4 
+     interventionism   = 5 
   }
   # Shanxi
   nationalprovinces      = {
@@ -242,7 +242,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22300 id = 5  } 
        name       = "69. Division" 
-       type     = infantry 
+       type     = militia
        strength   = 60
        model      = 3
       }
@@ -250,7 +250,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22300 id = 6  } 
        name       = "71. Division" 
-       type     = infantry 
+       type     = militia
        strength   = 60
        model      = 3
       } 
@@ -264,7 +264,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22300 id = 8  } 
        name       = "66. Division" 
-       type     = infantry 
+       type     = militia
        strength   = 60
        model      = 3
       }
@@ -272,7 +272,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22300 id = 9  } 
        name       = "73. Division" 
-       type     = infantry 
+       type     = militia
        strength   = 60
        model      = 3
       } 
@@ -297,7 +297,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22300 id = 12  } 
        name       = "101. Division" 
-       type     = infantry 
+       type     = militia
        strength   = 60
        model      = 3
       } 
@@ -335,7 +335,7 @@ blueprints = {
      {  experience = 30 
        id         = {  type = 22300 id = 20  } 
        name       = "7/8/9. Independent Brigades" 
-       type     = infantry 
+       type     = militia
        strength   = 40
        model      = 3
       }

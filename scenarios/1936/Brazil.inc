@@ -4,16 +4,17 @@
 
 country =
 { tag                    = BRA
+  ai_settings			 = { flags = { ideology = 3 } }
 	# Resource Reserves 
 	energy                 = 2040
 	metal                  = 1020
 	rare_materials         = 510
-	transports = 100
+	transports             = 100
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 20 
 	manpower               = 46 
-  capital                = 885
+    capital                = 885
   policy =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 

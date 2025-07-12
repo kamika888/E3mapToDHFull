@@ -7,7 +7,7 @@ country =
   regular_id             = CHI
   puppet                 = CHI
   control				 = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   extra_tc               = 10
   dissent				 = 15
   # Resource Reserves
@@ -179,8 +179,8 @@ country =
      freedom           = 3 
      free_market       = 2
      professional_army = 5 
-     defense_lobby     = 1 
-     interventionism   = 7 
+     defense_lobby     = 4 
+     interventionism   = 5 
   }
 
 	
@@ -203,7 +203,7 @@ country =
      {  experience = 30 
        id         = {  type = 22007 id = 23  } 
        name       = "9. Cavalry Division" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -211,7 +211,7 @@ country =
      {  experience = 30 
        id         = {  type = 22007 id = 37  } 
        name       = "37. Division (Guominjun)" 
-       type       = infantry 
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -219,7 +219,7 @@ country =
      {  experience = 30 
        id         = {  type = 22007 id = 38  } 
        name       = "38. Division (Guominjun)" 
-       type       = infantry 
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -227,7 +227,7 @@ country =
      {  experience = 30 
        id         = {  type = 22007 id = 39  } 
        name       = "132. Division" 
-       type       = infantry 
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -235,7 +235,7 @@ country =
      {  experience = 30 
        id         = {  type = 22007 id = 40  } 
        name       = "143. Division" 
-       type       = infantry 
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -243,7 +243,7 @@ country =
      {  experience = 30 
        id         = {  type = 22007 id = 24  } 
        name       = "29/38/39. Independent Brigades" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -259,7 +259,7 @@ country =
      {  experience = 30 
        id         = {  type = 22007 id = 26  } 
        name       = "1/2. Independent Brigades" 
-       type       = infantry
+       type       = militia
 	   strength  = 40
        model     = 3
       }
@@ -271,14 +271,14 @@ country =
      Division = 
      {  id       = {  type = 22007 id = 33  } 
        name     = "7/8/25. Infantry Brigades" 
-       type     = infantry 
+       type     = militia
        strength  = 70 
        model    = 3
       } 
      Division = 
      {  id       = {  type = 22007 id = 32  } 
        name     = "72. Division" 
-       type     = infantry 
+       type     = militia
        strength  = 70 
        model    = 3
       } 

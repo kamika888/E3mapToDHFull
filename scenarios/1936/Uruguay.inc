@@ -4,6 +4,7 @@
 
 country =
 { tag                    = URU
+  ai_settings			 = { flags = { ideology = 5 } }
 	# Resource Reserves 
 	energy                 = 480
 	metal                  = 240
@@ -22,7 +23,7 @@ country =
      free_market       = 5
      professional_army = 1 
      defense_lobby     = 1 
-     interventionism   = 1 
+     interventionism   = 2 
   }
   nationalprovinces      = { 849 833 2960 3776 3777 3778 3779 3780 }
   ownedprovinces         = { 849 833 2960 3776 3777 3778 3779 3780 }

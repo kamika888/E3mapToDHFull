@@ -5,7 +5,7 @@
 country =
 { tag                    = NIC
   puppet				 = USA
-  ai_settings			 = { flags = { puppetLevel7 = 1 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 ideology = 5 } }
 	# Resource Reserves 
 	energy                 = 240
 	metal                  = 120
@@ -23,8 +23,8 @@ country =
      freedom           = 4 
      free_market       = 3
      professional_army = 1 
-     defense_lobby     = 2 
-     interventionism   = 3 
+     defense_lobby     = 1 
+     interventionism   = 2 
   }
   nationalprovinces      = { 539 2651 4291 4292 4293 4294 4295 6504 }
   ownedprovinces         = { 539 2651 4291 4292 4293 4294 4295 6504 }

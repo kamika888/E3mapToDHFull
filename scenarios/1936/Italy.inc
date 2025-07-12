@@ -4,19 +4,20 @@
 
 country =
 { tag                    = ITA
-  ai_settings			 = { flags = { WARDebt = 7 SanctionsEvt = 1 SanctionsDelay1 = 1 } }
-		manpower               = 714 #was 460
-		# Resource Reserves
-		energy                 = 26000 
-		metal                  = 18000 
-		rare_materials         = 8000 
-		oil                    = 4000 
-		supplies               = 2000
-		money                  = 500
-		belligerence           = 0
-		capital                = 515
-		transports             = 700
-		escorts                = 100
+	#Italy just barely misses normal requirements to stay mobilized after the end of Ethiopia (MIL5 instead of MIL6), so using do_not_demob flag.
+	ai_settings			 = { flags = { WARDebt = 7 SanctionsEvt = 1 SanctionsDelay1 = 1 ideology = 2 war_preparedness = 5 do_not_demob = 1 } }
+	manpower               = 714 #was 460
+	# Resource Reserves
+	energy                 = 26000 
+	metal                  = 18000 
+	rare_materials         = 8000 
+	oil                    = 4000 
+	supplies               = 2000
+	money                  = 500
+	belligerence           = 0
+	capital                = 515
+	transports             = 700
+	escorts                = 100
   # Illyrian Coast
   diplomacy =
   { relation = { tag = AFG value = 50 }
@@ -177,6 +178,8 @@ country =
 #527 3215 365 3134 528 2626 3135 #Extra France claims
 1893 6558 3366 388 2607 387 6536 3368 1891 3361 291 392 393 7316 2625
 2509 3137 3215
+#Tunisia
+934 935 936 937 938 939 940 941 2820 2821 4533 4534
 }
 
   # ITA 1936 techs
@@ -308,7 +311,7 @@ country =
          freedom           = 7
          free_market       = 5
          professional_army = 5
-         defense_lobby     = 5
+         defense_lobby     = 4
          interventionism   = 5
   }
 	inventions = { 3000027 }
