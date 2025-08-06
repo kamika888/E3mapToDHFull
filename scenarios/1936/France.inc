@@ -17,6 +17,7 @@ country =
 	transports             = 570 
 	escorts                = 60
 	dissent 			   = 13
+  SpyInfo                = { country = "VIC" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = AST value = 150 }
     relation = { tag = AUS value = -10 }
@@ -331,7 +332,7 @@ country =
      democratic        = 1 
      political_left    = 6 
      free_market       = 6
-     freedom           = 9 
+     freedom           = 8 
      professional_army = 4 #France had 2-year conscription in 1936
      defense_lobby     = 2 
      interventionism   = 3

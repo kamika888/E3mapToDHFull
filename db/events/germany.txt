@@ -187,7 +187,7 @@ event = {
 			}
 			AND = {
 				#much more likely to fire after historical date
-				month = 3
+				month = 2
 				year = 1938
 				random = 90
 			}
@@ -275,6 +275,7 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
+		ai_chance = 100
 		command = { type = set_domestic which = political_left value = 1 }
 		command = { type = headofstate which = 115013 }
 		command = { type = headofgovernment which = 115020 }
@@ -301,8 +302,28 @@ event = {
 		command = { trigger = { policy = { type = professional_army value = 8  } }			type = setflag which = ausmob when = 0 value = 8  }
 		command = { trigger = { policy = { type = professional_army value = 9  } }			type = setflag which = ausmob when = 0 value = 9  }
 		command = { trigger = { policy = { type = professional_army value = 10 } }			type = setflag which = ausmob when = 0 value = 10 }
-		}
 	}
+	action = {
+		name = "Proceed with the referendum"
+		ai_chance = 0
+		command = { type = set_domestic which = political_left value = 3 }
+		command = { type = dissent value = 20 }
+		command = { type = relation which = GER value = -100 }
+		
+		command = { type = event which = 2003003 where = GER when = 2 }
+		
+		command = { trigger = { policy = { type = professional_army value = 1  } }			type = setflag which = ausmob when = 0 value = 1  }
+		command = { trigger = { policy = { type = professional_army value = 2  } }			type = setflag which = ausmob when = 0 value = 2  }
+		command = { trigger = { policy = { type = professional_army value = 3  } }			type = setflag which = ausmob when = 0 value = 3  }
+		command = { trigger = { policy = { type = professional_army value = 4  } }			type = setflag which = ausmob when = 0 value = 4  }
+		command = { trigger = { policy = { type = professional_army value = 5  } }			type = setflag which = ausmob when = 0 value = 5  }
+		command = { trigger = { policy = { type = professional_army value = 6  } }			type = setflag which = ausmob when = 0 value = 6  }
+		command = { trigger = { policy = { type = professional_army value = 7  } }			type = setflag which = ausmob when = 0 value = 7  }
+		command = { trigger = { policy = { type = professional_army value = 8  } }			type = setflag which = ausmob when = 0 value = 8  }
+		command = { trigger = { policy = { type = professional_army value = 9  } }			type = setflag which = ausmob when = 0 value = 9  }
+		command = { trigger = { policy = { type = professional_army value = 10 } }			type = setflag which = ausmob when = 0 value = 10 }
+	}
+}
 	
 event = {
 	id = 2003009
@@ -319,6 +340,33 @@ event = {
 		command = { }
 		#command = { type = ai_prepare_war which = AUS }
 		command = { type = ai which = "nations\GER_AUS.ai" }
+	}
+}
+
+event = {
+	id = 2003003
+	random = no
+	country = GER
+
+	name = "Austria resists"
+	desc = "The Austrian chancellor Schuschnigg went back on the agreements he previously reached with Hitler at Berchtesgaden and instead decided to proceed with the referendum on 'affirming Austria's sovereignty' with the support of several anti-Nazi parties. This is an unacceptable challenge. Should the referendum proceed, it is doubtless that Schuschnigg will engineer the result he wants, and our dreams of Austro-German union will be shelved for a long time. We must act now."
+	style = 2
+	picture = "anschluss"
+
+	action = {
+		name = "We will implement the union by force"
+		#Will give net +2 dissent if there was a non-aggression pact. Otherwise, no dissent.
+		command = { trigger = { non_aggression = { country = GER country = AUS } } type = local_setflag which = GerAusNAP }
+		command = { trigger = { local_flag = GerAusNAP } type = end_non_aggression which = GER where = AUS } #will give 5 dissent
+		command = { trigger = { local_flag = GerAusNAP } type = dissent value = -3 }
+		command = { trigger = { local_flag = GerAusNAP } type = local_clrflag which = GerAusNAP }
+		
+		command = { type = war which = AUS }
+	}
+	action = {
+		name = "We have no interest in Austria"
+		command = { type = dissent value = 20 }
+		command = { type = relation which = AUS value = 100 }
 	}
 }
 	
@@ -376,11 +424,51 @@ event = {
 
 	action = { 
 		name = 2001b
+		command = { trigger = { exists = AUS } type = make_puppet which = AUS }
+		command = { trigger = { exists = AUS } type = event which = 2400539 where = AUS when = 0 }
+		command = { trigger = { exists = AUS } type = military_control which = GER where = AUS value = 1 }
+		command = { trigger = { exists = AUS } type = event which = 2003004 where = REB when = 0 }
+		
+		command = { type = belligerence which = GER value = 10 }
+		
+		command = { trigger = { NOT = { policy = { type = professional_army value = 4 } } } type = event which = 8300104 where = GER when = 0 } #Switch to 2-year conscription
+		
+		command = { type = event which = 2003013 where = -1 when = 15 } #referendum
+	}
+}
+
+event = {
+	id = 2003004
+	random = no
+	country = REB
+
+	name = "AI_EVENT"
+
+	action = {
+		command = { type = secederegion which = AUS value = "Austria" 	when = 2 }
+		command = { }
+	}
+}
+	
+
+event = {
+	id = 2003013
+	random = no
+	country = GER
+
+	name = "Anschluss referendum"
+	desc = "Many Germans from both Austria and Germany welcomed the Anschluss as they saw it as completing the complex and long overdue unification of all Germans into one state. Hitler had originally intended to leave Austria as a satellite state with Seyss-Inquart as head of a pro-Nazi government. However, the overwhelmingly positive apprarent reception during his tour of Austira caused him to change course and sanction absorbing Austria directly into the Reich. To this end, a plebiscite was held about a month after the German entry into Austria, resulting in 99.7 percent approval."
+	style = 2
+	picture = "anschluss"
+
+	action = {
+		name = "Annex Austria"
+		ai_chance = 100
 		#inherits manpower pool
 		command = { type = inherit which = AUS value = 1 }
 		
 		#fixed-MP volunteers
-		command = { type = manpowerpool value = 100 }
+		command = { type = manpowerpool value = 50 }
 		
 		#MP from difference in mobilization levels - upon annexation Austria adopts Germany's mobilization level
 		#Austria 7 base MP
@@ -394,13 +482,13 @@ event = {
 		
 		command = { type = clrflag which = ausmob }
 		
-		command = { type = belligerence which = GER value = 15 }
+		command = { type = belligerence which = GER value = 5 }
 
-		command = { type = wakeleader which = 36 } #Böhme
-		command = { type = wakeleader which = 44 } #de Angelis
-		command = { type = wakeleader which = 54 } #Eibl
-		command = { type = wakeleader which = 66 } #Fox
-		command = { type = wakeleader which = 67 } #Franek
+		command = { type = wakeleader which = 36  } #Böhme
+		command = { type = wakeleader which = 44  } #de Angelis
+		command = { type = wakeleader which = 54  } #Eibl
+		command = { type = wakeleader which = 66  } #Fox
+		command = { type = wakeleader which = 67  } #Franek
 		command = { type = wakeleader which = 223 } #Reinhardt
 		command = { type = wakeleader which = 226 } #Ringel
 		command = { type = wakeleader which = 352 } #von Wiktori
@@ -450,8 +538,21 @@ event = {
 		#command = { type = ai_prepare_war which = CZE }
 		command = { type = ai which = "nations\GER_CZE.ai" }
 		command = { trigger = { ai = yes } type = auto_trade which = oil when = stockpile value = 1 } #Start stockpiling oil for the war
-		command = { trigger = { NOT = { policy = { type = professional_army value = 4 } } } type = event which = 8300104 where = GER when = 0 } #Switch to 2-year conscription
 		command = { type = dissent value = -10 }
+	}
+	action = {
+		name = "Leave it as a puppet"
+		trigger = { exists = AUS }
+		ai_chance = 0
+		command = { type = clrflag which = ausmob }
+		
+		command = { type = belligerence which = GER value = -1 }
+		command = { type = dissent value = 3 }
+
+		command = { type = clrflag which = Anschluss }
+		command = { type = setflag which = Munich }
+		command = { type = ai which = "nations\GER_CZE.ai" }
+		command = { trigger = { ai = yes } type = auto_trade which = oil when = stockpile value = 1 } #Start stockpiling oil for the war
 	}
 }
 
@@ -616,7 +717,8 @@ event = {
 		command = { type = relation which = GER value =  20  }
 		command = { type = relation which = SOV value = -50  }
 		command = { type = relation which = CZE value = -100 }
-		command = { type = trigger which = 2001043 } # Notify of success
+		command = { type = trigger which = 2001043 } # Notify of success - shorter global version
+		command = { type = trigger which = 2001044 } # Notify of success - longer version for UK,France,and allies
 		command = { type = event which = 2025001 where = CZE when = 1 } # CZE decides
 	}
 	action = {
@@ -628,13 +730,37 @@ event = {
 		command = { type = relation which = GER value = -50 }
 		command = { type = relation which = SOV value = 50  }
 		command = { type = relation which = CZE value = 100 }
-		command = { type = trigger which = 2001042 } # Notify of failure
-		command = { type = event which = 2025015 where = GER when = 1 } # Goes straight to Germany, it's obvious that CZE will refuse
+		command = { type = trigger which = 2001042 } # Notify of failure - shorter global version
+		command = { type = trigger which = 2001046 } # Notify of failure - longer version for UK,France,and allies
+
+		command = { type = event which = 2025015 where = GER when = 3 } # Goes straight to Germany, it's obvious that CZE will refuse
 	}
 }
 
+#global version
 event = {
 	id = 2001042
+	random = no
+	all = yes
+	persistent = yes
+
+	name = "EVT_2033_NAME"
+	desc = "EVT_2033S_DESC"
+	style = 2
+	picture = "Munich"
+
+	action = {
+		name = "War is imminent..."
+		trigger = { NOT = { country = ENG alliance = { country = ENG } } }
+		command = { type = relation which = GER value = -5 }
+		command = { type = relation which = ENG value = -5 }
+		command = { }
+	}
+}
+
+#UK/France version
+event = {
+	id = 2001046
 	random = no
 	all = yes
 	persistent = yes
@@ -646,7 +772,13 @@ event = {
 
 	action = {
 		name = "We will fight Germany together"
-		trigger = { NOT = { country = ENG } OR = { alliance = { country = ENG } puppet = { country = -1 country = ENG } } }
+		trigger = { country = ENG }
+		ai_chance = 100
+		command = { }
+	}
+	action = {
+		name = "We will fight Germany together"
+		trigger = { NOT = { country = ENG } alliance = { country = ENG } OR = { ai = no country = VIC ispuppet = yes } }
 		ai_chance = 100
 		command = { type = belligerence value = 2 } 
 		command = { type = relation which = ENG value = 20 }
@@ -654,23 +786,39 @@ event = {
 	}
 	action = {
 		name = "We want nothing to do with this!"
-		trigger = { NOT = { country = ENG } alliance = { country = ENG } NOT = { puppet = { country = -1 country = ENG } } }
+		trigger = { NOT = { country = ENG } alliance = { country = ENG } OR = { ai = no NOT = { country = VIC ispuppet = yes } } }
 		ai_chance = 0
 		command = { type = leave_alliance when = 1 }
 		command = { type = relation which = ENG value = -50 }
 		command = { type = dissent value = 3 } #Betraying your ally - also unpopular
 	}
+}
+
+#global version
+event = {
+	id = 2001043
+	random = no
+	all = yes
+	persistent = yes
+
+	name = "EVT_2035_NAME"
+	desc = "EVT_2035S_DESC"
+	style = 2
+	picture = "Munich"
+
 	action = {
-		name = "War is on the horizon..."
+		name = "War is averted, thank God..."
 		ai_chance = 0
-		trigger = { NOT = { country = ENG country = GER alliance = { country = ENG } puppet = { country = -1 country = ENG } } }
-		command = { type = relation which = GER value = -5 }
-		command = { type = relation which = ENG value = -5 }
+		trigger = { NOT = { country = ENG alliance = { country = ENG } } }
+		command = { type = relation which = GER value = 5 }
+		command = { type = relation which = ENG value = 5 }
+		command = { }
 	}
 }
 
+#UK/France version
 event = {
-	id = 2001043
+	id = 2001044
 	random = no
 	all = yes
 	persistent = yes
@@ -682,10 +830,8 @@ event = {
 
 	action = {
 		name = "War is averted, thank God..."
-		ai_chance = 0
-		trigger = { NOT = { country = CZE country = GER } }
-		command = { type = relation which = GER value = 5 }
-		command = { type = relation which = ENG value = 5 }
+		trigger = { alliance = { country = ENG } }
+		command = { }
 	}
 }
 
@@ -704,7 +850,7 @@ event = {
 		ai_chance = 100
 		command = { type = war which = CZE }
 		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = CZE value = 1 }
-		#command = { type = dissent value = 2 } #Germany already gets +3 for partial mobilization.
+		command = { type = dissent value = -1 }
 		command = { type = belligerence which = GER value = 5 } #will get more belligerence for each province actually taken + annexation
 		command = { type = relation which = VIC value = -10 }
 		command = { type = relation which = ENG value = -10 }
@@ -893,7 +1039,7 @@ event = {
 		command = { type = belligerence which = POL value = 1 }
 		#command = { type = ai_prepare_war which = CZE }
 		command = { type = ai which = "nations\GER_CZE.ai" }
-		command = { type = manpowerpool value = 200 }
+		command = { type = manpowerpool value = 50 }
 		command = { type = songs which = HitlerSudetenland.txt } # Could be replaced with ChamberlainMunichConference
 	}
 }
@@ -1023,6 +1169,8 @@ event = {
 		command = { type = relation which = POL value = -10 }
 		command = { type = relation which = HUN value = 10 }
 		command = { type = relation which = USA value = -3 } # new for 1.3
+		
+		command = { type = trigger which = 2600014 } # ENG
 	}
 	action = {
 		trigger = { exists = HUN }
@@ -1036,6 +1184,8 @@ event = {
 		command = { type = relation which = HUN value = 20 }
 		command = { type = relation which = USA value = -4 } # new for 1.3
 		command = { type = trigger which = 2022007 } # HUN
+		
+		command = { type = trigger which = 2600014 } # ENG
 	}
 }
 
@@ -1350,11 +1500,18 @@ event = {
 		#atwar = no
 		#event = 2007018 # Mol-Rib pact
 		control = { province = 2606 data = LIT } # Klaipedia
-		NOT = {
-			ispuppet = LIT
-			ispuppet = GER			
-			alliance = { country = GER country = LIT }
+		OR = { 
+			event = 2003015 
+			event = 2003011 
 		}
+		OR = {
+			AND = { month = june year = 1939 } 		
+			event = { id = 2003015 days = 15 } 
+			event = { id = 2003011 days = 180 } 
+		}
+		NOT = { alliance = { country = GER country = LIT } }
+		NOT = { ispuppet = LIT }
+		NOT = { ispuppet = GER }
 		OR = { 
 			random = 6 
 			AND = { 
@@ -1362,11 +1519,7 @@ event = {
 				year = 1939 
 				random = 50 
 			} 
-		}
-		OR = { 
-			event = 2003015 
-			event = 2003011 
-		}		
+		}	
 	}
 
 	name = "EVT_2008_NAME"
@@ -2349,8 +2502,7 @@ event = {
 			AND = { 
 				year 	= 1939
 				month	= September
-				day		= 0
-				random	= 50
+				random	= 70
 			}
 		}
 		OR = {
@@ -2904,7 +3056,6 @@ event = {
 			alliance = { country = HOL }
 			war = { country = HOL }
 			war = { country = BEL }
-			control = { province = 485 data = -2 } # Warzaw
 			control = { province = 68 data = -1 } # Liege
 		}
 	}
@@ -2951,7 +3102,7 @@ event = {
 					AND = {
 						year 	= 1940
 						month 	= April
-						random 	= 4
+						random 	= 2
 					}
 					AND = { 
 						year	= 1940
@@ -2967,10 +3118,18 @@ event = {
 		}
 	 	#garrison = { country = -3 province = 66 type = land size = 12 area = 3 } # Aachen
         #garrison = { country = -3 province = 81 type = land size = 3 area = 3 } # Munster +	
+		
+		#no uprisings going on in poland
+		NOT = {
+			area = { area = "Krakow" 	country = REB data = 1 value = 1 }
+			area = { area = "Warsaw" 	country = REB data = 1 value = 1 }
+			garrison = { country = REB province = 485 type = land size = 1 area = 1 }
+			garrison = { country = REB province = 479 type = land size = 1 area = 1 }
+		}
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 3
+	offset = 4
 	deathdate = { day = 29 month = december year = 1963 }
 	
 	name = "evt_4700_name"
@@ -3058,11 +3217,15 @@ event = {
 		NOT = { month = October }
 		OR = {
 			random = 4
+			AND = {
+				NOT = { month = June }
+				random	= 20
+			}
 			AND = { 
 				year 	= 1941
 				month	= June
 				day		= 20
-				random	= 50
+				random	= 60
 			}
 			AND = { 
 				year 	= 1941
@@ -3128,8 +3291,8 @@ event = {
 		}
 		
 		NOT = { control = { province = 401 data = -2 } } # Athens
-		NOT = { area = { area = "Attica" country = -2 data = 1 value = 10 } }
-		NOT = { area = { area = "Thrace" country = -2 data = 1 value = 5 } }
+		NOT = { area = { area = "Attica" country = -2 data = 1 value = 15 } }
+		NOT = { area = { area = "Thrace" country = -2 data = 1 value = 10 } }
 		
 		OR = {
 			land_percentage = { country = SOV value = 0.4 }
@@ -3161,6 +3324,12 @@ event = {
 		
 		command = { type = end_trades which = GER where = SOV }
 		command = { type = war which = SOV } 
+		
+		command = { trigger = { ai = yes } type = ai which = "invasionYes.ai" }
+		command = { trigger = { ai = yes } type = ai which = "garrison30.ai" }
+		command = { trigger = { ai = yes } type = local_clrflag which = sovPrep 		}
+		command = { trigger = { ai = yes } type = local_clrflag which = garSpec 		}
+		command = { trigger = { ai = yes } type = local_setflag which = gar value = 30  }
 	}
 }
 ############################################
@@ -4182,7 +4351,7 @@ event = {
 		command = { type = addclaim which = 6560 }
 		
 		command = { type = war which = YUG }
-		#command = { type = non_aggression which = YUG where = ROM when = 15 } #Romania itself did not participate and germany attacked from it later
+		command = { type = non_aggression which = YUG where = ROM when = 5 } #Romania itself did not participate and germany attacked from it later
 		command = { type = belligerence which = GER value = 10 }
 	}
 	action = {
@@ -4502,7 +4671,7 @@ event = {
 		name = "Thanks!"
 		command = { trigger = { control = { province = 326 data = -3 } } type = add_corps which = "Spanish Expeditionary Force" value = land where = 326 }
 		command = { type = add_division which = "250. Infanterie Division 'Azul'" value = infantry when = 10 }
-		command = { type = manpowerpool value = 45 } #Enough to rebuild it from scratch three times (~45,000 men)
+		command = { type = manpowerpool value = 33 } #Enough to rebuild it from scratch three times (~45,000 men total - 12,000 full division)
     } 
 }
 
@@ -4589,7 +4758,7 @@ event = {
 	
 	action = {
 		name = ACTION_NAME_DAMN
-		command = { type = damage_division which = "250. Infanterie Division 'Azul'" value = GER where = 70 }
+		command = { type = damage_division which = "250. Infanterie Division 'Azul'" value = GER where = 80 }
 		command = { }
     }
 }
@@ -5035,12 +5204,10 @@ event = {
 				NOT = { war = { country = DEN } }
 				NOT = { alliance = { country = DEN } }
 			}
-		}
-		event = { id = 2003036 days = 30 } #Danzig or war                      
+		} 
 	}
 
 	decision_trigger = {
-		event = { id = 2003036 days = 120 }          
 	}
 
 	trigger = {
@@ -5069,7 +5236,7 @@ event = {
 			war = { country = NOR }
 			alliance = { country = NOR }
 		}
-		event = { id = 2003036 days = 120 }
+		event = { id = 2003036 days = 120 } # Danzig or war
 		owned = { province = 485 data = -3 } #Warsaw(+) owned by friendly nation
 		war = { country = ENG }		
 		OR = {
@@ -5128,15 +5295,12 @@ event = {
 		exists = SWE
 		NOT = { war = { country = SWE } }
 		NOT = { alliance = { country = SWE } }
-		event = { id = 2003036 days = 30 } #Danzig or war                      
 	}
-
 	decision_trigger = {
-		event = { id = 2003036 days = 120 }     
 	}
 	trigger = {
 		#ai = no #disabled
-		war = { country = ENG }
+			war = { country = ENG }
 		exists = SWE
 		NOT = { war = { country = SWE } }
 		NOT = { alliance = { country = SWE } }
@@ -5204,8 +5368,8 @@ event = {
 			flag = BaltiqueSOV
 			month = 11 
 			AND = { 
-				month = 1 
-				NOT = { month = 4 } 
+				month = 0 
+				NOT = { month = 3 } 
 			} 
 		} # november, december, january, february, march (frozen Baltic sea) or Soviet fleet controls Baltic sea
 	}
@@ -5216,8 +5380,7 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK 
-		command = { type = dissent value = 2 }
-		command = { type = supplies value = -50 }
+		#command = { type = dissent value = 0.5 }
 		command = { type = setflag which = NarvikNO }
 		command = { type = trigger which = 2009001 } # Embargo
 		# Let the Allies know
@@ -5250,8 +5413,8 @@ event = {
 					flag = BaltiqueSOV
 					month = 11 
 					AND = { 
-						month = 1 
-						NOT = { month = 4 } 
+						month = 0 
+						NOT = { month = 3 } 
 					} 
 				} # november, december, january, february, march (frozen Baltic sea) or Soviet fleet controls Baltic sea
 			}
@@ -5264,8 +5427,7 @@ event = {
 
 	action_a = {
 		name = ACTION_NAME_OK 
-		command = { type = dissent value = -2 }
-		command = { type = supplies value = 50 }
+		#command = { type = dissent value = -0.5 }
 		command = { type = clrflag which = NarvikNO }
 		command = { type = trigger which = 2009002 } # End embargo
 		# Let the Allies know
@@ -5601,6 +5763,7 @@ event = {
 		name = "We will endure the occupation"
 		ai_chance = 99
 		command = { trigger = { ai = yes } type = event which = 2400040 where = DEN when = 0 } #Exp_0
+		command = { trigger = { ai = yes } type = event which = 2400020 where = DEN when = 0 } #Gar_100/ControlDeny
 		command = { type = demobilize which = land 		when = 1 where = 0 value = 3 } #Army demobilized
 		#command = { type = demobilize which = naval 	when = 1 where = 0 value = 1 } #Navy demobilized
 		#command = { type = demobilize which = air 		when = 1 where = 0 value = 1 } #Air demobilized
@@ -5796,13 +5959,17 @@ event = {
 		command = { type = war which = ENG }
 		command = { type = dissent value = 10 }
 		command = { type = strength which = all when = 1 where = 0 value = -0.5 }
+		command = { type = sleepevent which = 2003079 } #danish crisis
+		
 		
 		command = { trigger = { ai = yes } type = event which = 2400047 where = DEN when = 0 } #Exp_7
+		command = { trigger = { ai = yes } type = event which = 2400012 where = DEN when = 0 } #Gar20
 	}
 	action = {
 		name = "Issue a strongly-worded protest"
 		ai_chance = 99
 		command = { type = leave_alliance when = 1 }
+		command = { type = remove_units	which = land where = -2 when = 1 value = "Greenland" }
 		#command = { type = peace which = ENG value = 1 }
 		#command = { type = peace which = VIC value = 1 }
 		#command = { type = peace which = POL value = 1 }
@@ -5863,9 +6030,13 @@ event = {
 		command = { type = dissent value = 2 }
 		command = { type = belligerence value = -2 } 
 		command = { type = end_mastery which = DEN }
+		command = { type = event which = 2400530 where = DEN when = 0 } #legit indie (Otherwise there will be war)
 		command = { type = remove_claim_region which = "Denmark" 	where = GER }
 		command = { type = secederegion which = DEN value = "Denmark"  when = 2 }
 		command = { type = unlock_division which = 14500 value = 11120 }
+		
+		command = { trigger = { ai = DEN } type = event which = 2400047 where = DEN when = 0 } #Exp70
+		command = { trigger = { ai = DEN } type = event which = 2400012 where = DEN when = 0 } #Gar20
 	}
 }
 
@@ -6270,8 +6441,8 @@ event = {
 				region = { region = "Russia" country = -3 data = 1 value = 50 } 
 			}
 			AND = { 
-				war = { country = SOV }
 				event = 20070260 #Finnish winter war
+				region = { region = "France" country = -3 data = 1 value = 90 } 
 			}
 			war = { country = FIN country = SOV }
 		}
@@ -6312,8 +6483,8 @@ event = {
 				region = { region = "Russia" country = -3 data = 1 value = 50 } 
 			}
 			AND = { 
-				war = { country = SOV }
 				event = 20070260 #Finnish winter war
+				region = { region = "France" country = -3 data = 1 value = 90 } 
 			}
 			war = { country = FIN country = SOV }
 		}
@@ -6340,6 +6511,7 @@ event = {
 	action = {
 		name = ACTION_NAME_OF_COURSE
 		ai_chance = 100
+		
 		command = { type = event which = 2003117 where = FIN when = 0 }
 		command = { trigger = { NOT = { ai = GER } } type = military_control which = GER where = FIN value = 1 }
 	}
@@ -6615,7 +6787,7 @@ event = {
 	}
 
 	name = "Align Iran"
-	desc = "The Iranian government was reluctant to be drawn into the war, despite its history of grievances with the British and the Soviets and desire to regain lost lands. But when the Iranians saw large German forces on their doorstep, the advisors were finally able to lean on the Shah and convince him to join the Axis"
+	desc = "The Iranian government was reluctant to be drawn into the war, despite its history of grievances with the British and the Soviets and desire to regain lost lands. But when the Iranians saw large German forces on their doorstep, the advisers were finally able to lean on the Shah and convince him to join the Axis"
   	style = 2
   	#picture = "iran_axis"
 	#decision_picture="decision_iran_axis"
@@ -6786,7 +6958,7 @@ event = {
 	persistent = yes
 
 	name = "Germany wants alliance"
-	desc = "The German Government wishes for us to sign the Tripartite-Pact and thereby become a member of the Axis. They are promising us assistance in wars against our mutual enemies. While normally we might think twice about getting involved in a risky global war which has little to do with our national interests, we are also afraid that it's an offer we simply cannot refuse."
+	desc = "The German Government wishes for us to sign the Anti-Comintern and Tripartite Pacts, and thereby become a member of the Axis. They are promising us assistance in wars against our mutual enemies. While normally we might think twice about getting involved in a risky global war which has little to do with our national interests, we are also afraid that it's an offer we simply cannot refuse."
   	style = 2
   	picture = "romania_axis"
 
@@ -6794,6 +6966,8 @@ event = {
 	action = {
 		name = 2003113a
 		ai_chance = 100
+		command = { type = end_access which = SOV when = 1 }
+		command = { type = end_access which = SOV when = 0 }
 		command = { type = alliance which = GER when = 1 }
 		command = { type = relation which = GER value = 100 }
 	}
@@ -6937,8 +7111,11 @@ event = {
 	}
 	
 	decision_trigger = { 
-		money = 5000 
-		incabinet = 88 # Goebbels as Minister of Security
+		money = 6400 
+		OR = {
+			incabinet = 88	# Goebbels as Minister of Security
+			incabinet = 275	# Goebbels as Head of Government
+		}
 		OR = { 
 			region = { region = Norway country = -3 value = 80 }
 			rocket_test = 2
@@ -6946,6 +7123,7 @@ event = {
 	}	
 	
 	trigger = {
+		money = 6400 #don't cause a financial crisis
 		war = { country = SOV } 
 		OR = { war = { country = USA } war = { country = ENG } }
 		OR = {
@@ -6960,8 +7138,9 @@ event = {
 
 	action = {
 		trigger = { OR = { ai = yes rocket_test = 2 } }
-		ai_chance = 50
+		ai_chance = 75
 		name = EVT_2003178_ACTIONA # Flying Bombs and Rockets
+		command = { type = dissent value = -2.0 }
 		command = { type = gain_tech which = 5560 } # Experimental Rocket Engine
 		command = { type = gain_tech which = 7550 } # Rocket Test and Research Facility
 		command = { type = gain_tech which = 7560 } # Practical Rocket Engine
@@ -6970,19 +7149,19 @@ event = {
 		command = { type = gain_tech which = 7590 } # Flying Rocket Development
 		command = { type = gain_tech which = 7100 } # Flying Bomb
 		command = { type = gain_tech which = 7110 } # Flying Rocket
-		command = { type = dissent value = -2 }
-		command = { trigger = { ai = no } type = money value = -5000 }
+		command = { type = money value = -6400 }
 	}
 	action = {
 		trigger = { OR = { ai = yes region = { region = Norway country = -3 } } }
-		ai_chance = 50
+		ai_chance = 25
 		name = EVT_2003178_ACTIONB # A Nazi Nuclear Bomb
+		command = { type = dissent value = -0.5 }
 		command = { type = gain_tech which = 5500 } # Isotope Separation Facility
 		command = { type = gain_tech which = 5510 } # Nuclear Fuel Analysis
 		command = { type = gain_tech which = 5520 } # Experimental Reactor
 		command = { type = gain_tech which = 5530 } # Nuclear Reactor Operability
 		command = { type = gain_tech which = 5540 } # Nuclear Power Production
-		command = { trigger = { ai = no } type = money value = -5000 }
+		command = { type = money value = -6400 }
 	}
 }
 ################################
@@ -7125,7 +7304,7 @@ event = {
 	}
 }
 
-# July 20, 1944 Plot
+# July Plot
 event = {
 	id = 2003181
 	random = no
@@ -7169,7 +7348,7 @@ event = {
 	action = {
 		ai_chance = 88
 		name = EVT_2003181_ACTIONA
-		command = { type = dissent value = 3 } #full-scale coup attempt
+		command = { type = dissent value = -1 } #failed coup -> decreased dissent
 		command = { type = manpowerpool value = -7 } # 7.000 arrested
 		command = { type = sleepminister which = 15 } # Ludwig Beck
 		command = { type = sleepminister which = 29 } # Carl Friedrich Goerdeler
@@ -7216,7 +7395,7 @@ event = {
 		command = { type = armamentminister which = 75 } #Paul Lejeune-Jung
 		command = { type = ministerofsecurity which = 103 } #Josef Wirmer
 		command = { type = ministerofintelligence which = 124 } #Georg Hansen
-		command = { type = dissent value = 25 } 
+		command = { type = dissent value = 20 } 
 		#more Nazi leaders that would be removed from power
 		command = { type = sleepminister which = 10 } # Hermann Göring
 		command = { type = sleepminister which = 86 } # Heinrich Himmler
@@ -7365,1262 +7544,4 @@ event = {
 	}
 }
 
-
-####################
-# Hitler Suicide
-event = {
-    id = 2003183
-    random = no
-    country = GER
-    
-    name = 2003183name
-    desc = 2003183desc
-    style = 2
-    picture = "Hitler_Death"
-
-    trigger = {
-		incabinet = 1 # Hitler
-        control = { province = 300 data = -2 } # W Berlin
-		control = { province = 7266 data = -2 } # E Berlin
-		OR = {
-			region = { region = Germany country = -2 value = 80 }
-			#Hitler is feeling more depressed than usual in late April around his birthday
-			AND = {
-				region = { region = Germany country = -2 value = 60 }
-				month = April
-				day = 20
-				NOT = { month = June }
-			}
-		}
-    }
-
-    date = { day = 0 month = january year = 1933 }
-    offset = 10
-    deathdate = { day = 29 month = december year = 1999 }
-
-    action = {
-        ai_chance = 1
-        name = 2003183a
-        command = { type = dissent value = 5 }
-        command = { type = headofstate which = 11 } # Göring
-		command = { type = headofgovernment which = 275 } # Göbbels
-        command = { type = sleepminister which = 1 } # Hitler
-    }
-    action = {
-        ai_chance = 3
-        name = 2003183b
-        command = { type = dissent value = 5 }
-        command = { type = headofstate which = 12 } # Göbbels
-		command = { type = headofgovernment which = 277 } # Himmler
-        command = { type = sleepminister which = 1 } # Hitler
-    }
-    action = {
-        ai_chance = 6
-        name = 2003183c
-        command = { type = dissent value = 10 }
-        command = { type = headofstate which = 276 } # Himmler
-		command = { type = headofgovernment which = 275 } # Göbbels
-        command = { type = sleepminister which = 1 } # Hitler
-    }
-    action = {
-        ai_chance = 90
-        name = 2003183d
-        command = { type = dissent value = 3 }
-        command = { type = headofstate which = 13 } # Dönitz
-		command = { type = headofgovernment which = 30 } #Krosigk
-		#command = { type = armamentminister which = 64 } #Speer is fine too
-        command = { type = sleepminister which = 1 } # Hitler
-		command = { type = sleepminister which = 275 } # Gobbels also dies
-    }
-}
-
-
-####################
-# German Surrender
-event = {
-    id = 2003200
-    random = no
-    country = GER
-    
-    name = "German Surrender"
-    desc = "After Hitler's death, the remaining Nazi leaders made several attempts to negotiate a partial surrender, or, failing that, surrender only to the Western Allies and in doing so provoke their conflict with Moscow. Ultimately none of those efforts bore fruit and the leadership decided on an unconditional surrender."
-    style = 2
-    picture = "Hitler_Death"
-
-    trigger = {
-		OR = {
-			event = 2003183
-			NOT = { incabinet = 1 }
-		}
-		OR = {
-			war = { country = ENG }
-			war = { country = USA }
-		}
-        control = { province = 300	data = -2 } # W Berlin
-		control = { province = 7266	data = -2 } # E Berlin
-        region = { region = Germany country = -2 value = 60 }
-    }
-
-    date = { day = 0 month = january year = 1933 }
-    offset = 10
-    deathdate = { day = 29 month = december year = 1999 }
-
-    action = {
-        name = "It's over"
-		ai_chance = 100
-		command = { type = event which = 2400151 where = -1 when = 0   } #morale collapses
-		
-		command = { trigger = { puppet = { country = AFG } } type = inherit which = AFG value = 1 }
-		command = { trigger = { puppet = { country = ALB } } type = inherit which = ALB value = 1 }
-		command = { trigger = { puppet = { country = ALG } } type = inherit which = ALG value = 1 }
-		command = { trigger = { puppet = { country = ANG } } type = inherit which = ANG value = 1 }
-		command = { trigger = { puppet = { country = ARA } } type = inherit which = ARA value = 1 }
-		command = { trigger = { puppet = { country = ARG } } type = inherit which = ARG value = 1 }
-		command = { trigger = { puppet = { country = ARM } } type = inherit which = ARM value = 1 }
-		command = { trigger = { puppet = { country = AST } } type = inherit which = AST value = 1 }
-		command = { trigger = { puppet = { country = AUS } } type = inherit which = AUS value = 1 }
-		command = { trigger = { puppet = { country = AZB } } type = inherit which = AZB value = 1 }
-		command = { trigger = { puppet = { country = BEL } } type = inherit which = BEL value = 1 }
-		command = { trigger = { puppet = { country = BEN } } type = inherit which = BEN value = 1 }
-		command = { trigger = { puppet = { country = BHU } } type = inherit which = BHU value = 1 }
-		command = { trigger = { puppet = { country = BLR } } type = inherit which = BLR value = 1 }
-		command = { trigger = { puppet = { country = BOL } } type = inherit which = BOL value = 1 }
-		command = { trigger = { puppet = { country = BOS } } type = inherit which = BOS value = 1 }
-		command = { trigger = { puppet = { country = BRA } } type = inherit which = BRA value = 1 }
-		command = { trigger = { puppet = { country = BRU } } type = inherit which = BRU value = 1 }
-		command = { trigger = { puppet = { country = BUL } } type = inherit which = BUL value = 1 }
-		command = { trigger = { puppet = { country = BUR } } type = inherit which = BUR value = 1 }
-		command = { trigger = { puppet = { country = CAL } } type = inherit which = CAL value = 1 }
-		command = { trigger = { puppet = { country = CAM } } type = inherit which = CAM value = 1 }
-		command = { trigger = { puppet = { country = CAN } } type = inherit which = CAN value = 1 }
-		command = { trigger = { puppet = { country = CGX } } type = inherit which = CGX value = 1 }
-		command = { trigger = { puppet = { country = CHC } } type = inherit which = CHC value = 1 }
-		command = { trigger = { puppet = { country = CHI } } type = inherit which = CHI value = 1 }
-		command = { trigger = { puppet = { country = CHL } } type = inherit which = CHL value = 1 }
-		command = { trigger = { puppet = { country = CMB } } type = inherit which = CMB value = 1 }
-		command = { trigger = { puppet = { country = COL } } type = inherit which = COL value = 1 }
-		command = { trigger = { puppet = { country = CON } } type = inherit which = CON value = 1 }
-		command = { trigger = { puppet = { country = COS } } type = inherit which = COS value = 1 }
-		command = { trigger = { puppet = { country = CRO } } type = inherit which = CRO value = 1 }
-		command = { trigger = { puppet = { country = CSA } } type = inherit which = CSA value = 1 }
-		command = { trigger = { puppet = { country = CSX } } type = inherit which = CSX value = 1 }
-		command = { trigger = { puppet = { country = CUB } } type = inherit which = CUB value = 1 }
-		command = { trigger = { puppet = { country = CXB } } type = inherit which = CXB value = 1 }
-		command = { trigger = { puppet = { country = CYN } } type = inherit which = CYN value = 1 }
-		command = { trigger = { puppet = { country = CYP } } type = inherit which = CYP value = 1 }
-		command = { trigger = { puppet = { country = CZE } } type = inherit which = CZE value = 1 }
-		command = { trigger = { puppet = { country = DDR } } type = inherit which = DDR value = 1 }
-		command = { trigger = { puppet = { country = DEN } } type = inherit which = DEN value = 1 }
-		command = { trigger = { puppet = { country = DFR } } type = inherit which = DFR value = 1 }
-		command = { trigger = { puppet = { country = DOM } } type = inherit which = DOM value = 1 }
-		command = { trigger = { puppet = { country = EAF } } type = inherit which = EAF value = 1 }
-		command = { trigger = { puppet = { country = ECU } } type = inherit which = ECU value = 1 }
-		command = { trigger = { puppet = { country = EGY } } type = inherit which = EGY value = 1 }
-		command = { trigger = { puppet = { country = ENG } } type = inherit which = ENG value = 1 }
-		command = { trigger = { puppet = { country = EQA } } type = inherit which = EQA value = 1 }
-		command = { trigger = { puppet = { country = EST } } type = inherit which = EST value = 1 }
-		command = { trigger = { puppet = { country = ETH } } type = inherit which = ETH value = 1 }
-		command = { trigger = { puppet = { country = EUS } } type = inherit which = EUS value = 1 }
-		command = { trigger = { puppet = { country = FIN } } type = inherit which = FIN value = 1 }
-		command = { trigger = { puppet = { country = FLA } } type = inherit which = FLA value = 1 }
-		command = { trigger = { puppet = { country = VIC } } type = inherit which = VIC value = 1 }
-		command = { trigger = { puppet = { country = GAB } } type = inherit which = GAB value = 1 }
-		command = { trigger = { puppet = { country = GEO } } type = inherit which = GEO value = 1 }
-		command = { trigger = { puppet = { country = GER } } type = inherit which = GER value = 1 }
-		command = { trigger = { puppet = { country = GLD } } type = inherit which = GLD value = 1 }
-		command = { trigger = { puppet = { country = GRE } } type = inherit which = GRE value = 1 }
-		command = { trigger = { puppet = { country = GUA } } type = inherit which = GUA value = 1 }
-		command = { trigger = { puppet = { country = GUI } } type = inherit which = GUI value = 1 }
-		command = { trigger = { puppet = { country = GUY } } type = inherit which = GUY value = 1 }
-		command = { trigger = { puppet = { country = HAI } } type = inherit which = HAI value = 1 }
-		command = { trigger = { puppet = { country = HOL } } type = inherit which = HOL value = 1 }
-		command = { trigger = { puppet = { country = HON } } type = inherit which = HON value = 1 }
-		command = { trigger = { puppet = { country = HUN } } type = inherit which = HUN value = 1 }
-		command = { trigger = { puppet = { country = ICL } } type = inherit which = ICL value = 1 }
-		command = { trigger = { puppet = { country = IDC } } type = inherit which = IDC value = 1 }
-		command = { trigger = { puppet = { country = IND } } type = inherit which = IND value = 1 }
-		command = { trigger = { puppet = { country = INO } } type = inherit which = INO value = 1 }
-		command = { trigger = { puppet = { country = IRE } } type = inherit which = IRE value = 1 }
-		command = { trigger = { puppet = { country = IRQ } } type = inherit which = IRQ value = 1 }
-		command = { trigger = { puppet = { country = ISR } } type = inherit which = ISR value = 1 }
-		command = { trigger = { puppet = { country = ITA } } type = inherit which = ITA value = 1 }
-		command = { trigger = { puppet = { country = JAP } } type = inherit which = JAP value = 1 }
-		command = { trigger = { puppet = { country = JOR } } type = inherit which = JOR value = 1 }
-		command = { trigger = { puppet = { country = KAZ } } type = inherit which = KAZ value = 1 }
-		command = { trigger = { puppet = { country = KOR } } type = inherit which = KOR value = 1 }
-		command = { trigger = { puppet = { country = KUR } } type = inherit which = KUR value = 1 }
-		command = { trigger = { puppet = { country = KYG } } type = inherit which = KYG value = 1 }
-		command = { trigger = { puppet = { country = LAO } } type = inherit which = LAO value = 1 }
-		command = { trigger = { puppet = { country = LAT } } type = inherit which = LAT value = 1 }
-		command = { trigger = { puppet = { country = LBY } } type = inherit which = LBY value = 1 }
-		command = { trigger = { puppet = { country = LEB } } type = inherit which = LEB value = 1 }
-		command = { trigger = { puppet = { country = LIB } } type = inherit which = LIB value = 1 }
-		command = { trigger = { puppet = { country = LIT } } type = inherit which = LIT value = 1 }
-		command = { trigger = { puppet = { country = LUX } } type = inherit which = LUX value = 1 }
-		command = { trigger = { puppet = { country = MAD } } type = inherit which = MAD value = 1 }
-		command = { trigger = { puppet = { country = MAL } } type = inherit which = MAL value = 1 }
-		command = { trigger = { puppet = { country = MAN } } type = inherit which = MAN value = 1 }
-		command = { trigger = { puppet = { country = MEN } } type = inherit which = MEN value = 1 }
-		command = { trigger = { puppet = { country = MEX } } type = inherit which = MEX value = 1 }
-		command = { trigger = { puppet = { country = MLY } } type = inherit which = MLY value = 1 }
-		command = { trigger = { puppet = { country = MON } } type = inherit which = MON value = 1 }
-		command = { trigger = { puppet = { country = MOR } } type = inherit which = MOR value = 1 }
-		command = { trigger = { puppet = { country = MOZ } } type = inherit which = MOZ value = 1 }
-		command = { trigger = { puppet = { country = MTN } } type = inherit which = MTN value = 1 }
-		command = { trigger = { puppet = { country = NAM } } type = inherit which = NAM value = 1 }
-		command = { trigger = { puppet = { country = NEP } } type = inherit which = NEP value = 1 }
-		command = { trigger = { puppet = { country = NIC } } type = inherit which = NIC value = 1 }
-		command = { trigger = { puppet = { country = NIG } } type = inherit which = NIG value = 1 }
-		command = { trigger = { puppet = { country = NOR } } type = inherit which = NOR value = 1 }
-		command = { trigger = { puppet = { country = NZL } } type = inherit which = NZL value = 1 }
-		command = { trigger = { puppet = { country = OMN } } type = inherit which = OMN value = 1 }
-		command = { trigger = { puppet = { country = OTT } } type = inherit which = OTT value = 1 }
-		command = { trigger = { puppet = { country = PAK } } type = inherit which = PAK value = 1 }
-		command = { trigger = { puppet = { country = PAL } } type = inherit which = PAL value = 1 }
-		command = { trigger = { puppet = { country = PAN } } type = inherit which = PAN value = 1 }
-		command = { trigger = { puppet = { country = PAR } } type = inherit which = PAR value = 1 }
-		command = { trigger = { puppet = { country = PER } } type = inherit which = PER value = 1 }
-		command = { trigger = { puppet = { country = PHI } } type = inherit which = PHI value = 1 }
-		command = { trigger = { puppet = { country = POL } } type = inherit which = POL value = 1 }
-		command = { trigger = { puppet = { country = POR } } type = inherit which = POR value = 1 }
-		command = { trigger = { puppet = { country = PRI } } type = inherit which = PRI value = 1 }
-		command = { trigger = { puppet = { country = PRK } } type = inherit which = PRK value = 1 }
-		command = { trigger = { puppet = { country = PRU } } type = inherit which = PRU value = 1 }
-		command = { trigger = { puppet = { country = QUE } } type = inherit which = QUE value = 1 }
-		command = { trigger = { puppet = { country = RHO } } type = inherit which = RHO value = 1 }
-		command = { trigger = { puppet = { country = ROM } } type = inherit which = ROM value = 1 }
-		command = { trigger = { puppet = { country = RSI } } type = inherit which = RSI value = 1 }
-		command = { trigger = { puppet = { country = RUS } } type = inherit which = RUS value = 1 }
-		command = { trigger = { puppet = { country = SAF } } type = inherit which = SAF value = 1 }
-		command = { trigger = { puppet = { country = SAL } } type = inherit which = SAL value = 1 }
-		command = { trigger = { puppet = { country = SAR } } type = inherit which = SAR value = 1 }
-		command = { trigger = { puppet = { country = SAU } } type = inherit which = SAU value = 1 }
-		command = { trigger = { puppet = { country = SCA } } type = inherit which = SCA value = 1 }
-		command = { trigger = { puppet = { country = SCH } } type = inherit which = SCH value = 1 }
-		command = { trigger = { puppet = { country = SCO } } type = inherit which = SCO value = 1 }
-		command = { trigger = { puppet = { country = SER } } type = inherit which = SER value = 1 }
-		command = { trigger = { puppet = { country = SIA } } type = inherit which = SIA value = 1 }
-		command = { trigger = { puppet = { country = SIB } } type = inherit which = SIB value = 1 }
-		command = { trigger = { puppet = { country = SIE } } type = inherit which = SIE value = 1 }
-		command = { trigger = { puppet = { country = SIK } } type = inherit which = SIK value = 1 }
-		command = { trigger = { puppet = { country = SLO } } type = inherit which = SLO value = 1 }
-		command = { trigger = { puppet = { country = SLV } } type = inherit which = SLV value = 1 }
-		command = { trigger = { puppet = { country = SOM } } type = inherit which = SOM value = 1 }
-		command = { trigger = { puppet = { country = SOV } } type = inherit which = SOV value = 1 }
-		command = { trigger = { puppet = { country = SPA } } type = inherit which = SPA value = 1 }
-		command = { trigger = { puppet = { country = SPR } } type = inherit which = SPR value = 1 }
-		command = { trigger = { puppet = { country = SUD } } type = inherit which = SUD value = 1 }
-		command = { trigger = { puppet = { country = SWE } } type = inherit which = SWE value = 1 }
-		command = { trigger = { puppet = { country = SYR } } type = inherit which = SYR value = 1 }
-		command = { trigger = { puppet = { country = TAJ } } type = inherit which = TAJ value = 1 }
-		command = { trigger = { puppet = { country = TAN } } type = inherit which = TAN value = 1 }
-		command = { trigger = { puppet = { country = TEX } } type = inherit which = TEX value = 1 }
-		command = { trigger = { puppet = { country = TIB } } type = inherit which = TIB value = 1 }
-		command = { trigger = { puppet = { country = TRA } } type = inherit which = TRA value = 1 }
-		command = { trigger = { puppet = { country = TRK } } type = inherit which = TRK value = 1 }
-		command = { trigger = { puppet = { country = TUN } } type = inherit which = TUN value = 1 }
-		command = { trigger = { puppet = { country = TUR } } type = inherit which = TUR value = 1 }
-		command = { trigger = { puppet = { country = UKR } } type = inherit which = UKR value = 1 }
-		command = { trigger = { puppet = { country = URU } } type = inherit which = URU value = 1 }
-		command = { trigger = { puppet = { country = USA } } type = inherit which = USA value = 1 }
-		command = { trigger = { puppet = { country = UZB } } type = inherit which = UZB value = 1 }
-		command = { trigger = { puppet = { country = VEN } } type = inherit which = VEN value = 1 }
-		command = { trigger = { puppet = { country = VIE } } type = inherit which = VIE value = 1 }
-		command = { trigger = { puppet = { country = WLL } } type = inherit which = WLL value = 1 }
-		command = { trigger = { puppet = { country = YEM } } type = inherit which = YEM value = 1 }
-		command = { trigger = { puppet = { country = YUG } } type = inherit which = YUG value = 1 }
-		
-		command = { trigger = { puppet = { country = U01 } } type = inherit which = U01 value = 1 }
-		command = { trigger = { puppet = { country = U02 } } type = inherit which = U02 value = 1 }
-		command = { trigger = { puppet = { country = U03 } } type = inherit which = U03 value = 1 }
-		command = { trigger = { puppet = { country = U04 } } type = inherit which = U04 value = 1 }
-		command = { trigger = { puppet = { country = U05 } } type = inherit which = U05 value = 1 }
-		command = { trigger = { puppet = { country = U06 } } type = inherit which = U06 value = 1 }
-		command = { trigger = { puppet = { country = U08 } } type = inherit which = U08 value = 1 }
-		command = { trigger = { puppet = { country = U09 } } type = inherit which = U09 value = 1 }
-		command = { trigger = { puppet = { country = U10 } } type = inherit which = U10 value = 1 }
-		command = { trigger = { puppet = { country = U11 } } type = inherit which = U11 value = 1 }
-		command = { trigger = { puppet = { country = U12 } } type = inherit which = U12 value = 1 }
-		command = { trigger = { puppet = { country = U13 } } type = inherit which = U13 value = 1 }
-		command = { trigger = { puppet = { country = U14 } } type = inherit which = U14 value = 1 }
-		command = { trigger = { puppet = { country = U15 } } type = inherit which = U15 value = 1 }
-		command = { trigger = { puppet = { country = U16 } } type = inherit which = U16 value = 1 }
-		command = { trigger = { puppet = { country = U17 } } type = inherit which = U17 value = 1 }
-		command = { trigger = { puppet = { country = U18 } } type = inherit which = U18 value = 1 }
-		command = { trigger = { puppet = { country = U19 } } type = inherit which = U19 value = 1 }
-		command = { trigger = { puppet = { country = U20 } } type = inherit which = U20 value = 1 }
-		command = { trigger = { puppet = { country = U21 } } type = inherit which = U21 value = 1 }
-		command = { trigger = { puppet = { country = U22 } } type = inherit which = U22 value = 1 }
-		command = { trigger = { puppet = { country = U23 } } type = inherit which = U23 value = 1 }
-		command = { trigger = { puppet = { country = U24 } } type = inherit which = U24 value = 1 }
-		command = { trigger = { puppet = { country = U25 } } type = inherit which = U25 value = 1 }
-		command = { trigger = { puppet = { country = U26 } } type = inherit which = U26 value = 1 }
-		command = { trigger = { puppet = { country = U27 } } type = inherit which = U27 value = 1 }
-		command = { trigger = { puppet = { country = U28 } } type = inherit which = U28 value = 1 }
-		command = { trigger = { puppet = { country = U29 } } type = inherit which = U29 value = 1 }
-		command = { trigger = { puppet = { country = U30 } } type = inherit which = U30 value = 1 }
-		command = { trigger = { puppet = { country = U31 } } type = inherit which = U31 value = 1 }
-		command = { trigger = { puppet = { country = U32 } } type = inherit which = U32 value = 1 }
-		command = { trigger = { puppet = { country = U33 } } type = inherit which = U33 value = 1 }
-		command = { trigger = { puppet = { country = U34 } } type = inherit which = U34 value = 1 }
-		command = { trigger = { puppet = { country = U35 } } type = inherit which = U35 value = 1 }
-		command = { trigger = { puppet = { country = U36 } } type = inherit which = U36 value = 1 }
-		command = { trigger = { puppet = { country = U37 } } type = inherit which = U37 value = 1 }
-		command = { trigger = { puppet = { country = U39 } } type = inherit which = U39 value = 1 }
-		command = { trigger = { puppet = { country = U40 } } type = inherit which = U40 value = 1 }
-		command = { trigger = { puppet = { country = U41 } } type = inherit which = U41 value = 1 }
-		command = { trigger = { puppet = { country = U42 } } type = inherit which = U42 value = 1 }
-		command = { trigger = { puppet = { country = U43 } } type = inherit which = U43 value = 1 }
-		command = { trigger = { puppet = { country = U44 } } type = inherit which = U44 value = 1 }
-		command = { trigger = { puppet = { country = U45 } } type = inherit which = U45 value = 1 }
-		command = { trigger = { puppet = { country = U46 } } type = inherit which = U46 value = 1 }
-		command = { trigger = { puppet = { country = U47 } } type = inherit which = U47 value = 1 }
-		command = { trigger = { puppet = { country = U48 } } type = inherit which = U48 value = 1 }
-		command = { trigger = { puppet = { country = U49 } } type = inherit which = U49 value = 1 }
-		command = { trigger = { puppet = { country = U50 } } type = inherit which = U50 value = 1 }
-		command = { trigger = { puppet = { country = U51 } } type = inherit which = U51 value = 1 }
-		command = { trigger = { puppet = { country = U52 } } type = inherit which = U52 value = 1 }
-		command = { trigger = { puppet = { country = U53 } } type = inherit which = U53 value = 1 }
-		command = { trigger = { puppet = { country = U54 } } type = inherit which = U54 value = 1 }
-		command = { trigger = { puppet = { country = U55 } } type = inherit which = U55 value = 1 }
-		command = { trigger = { puppet = { country = U56 } } type = inherit which = U56 value = 1 }
-		command = { trigger = { puppet = { country = U57 } } type = inherit which = U57 value = 1 }
-		command = { trigger = { puppet = { country = U58 } } type = inherit which = U58 value = 1 }
-		command = { trigger = { puppet = { country = U59 } } type = inherit which = U59 value = 1 }
-		command = { trigger = { puppet = { country = U60 } } type = inherit which = U60 value = 1 }
-		command = { trigger = { puppet = { country = U61 } } type = inherit which = U61 value = 1 }
-		command = { trigger = { puppet = { country = U62 } } type = inherit which = U62 value = 1 }
-		command = { trigger = { puppet = { country = U65 } } type = inherit which = U65 value = 1 }
-		command = { trigger = { puppet = { country = U67 } } type = inherit which = U67 value = 1 }
-		command = { trigger = { puppet = { country = U68 } } type = inherit which = U68 value = 1 }
-		command = { trigger = { puppet = { country = U69 } } type = inherit which = U69 value = 1 }
-		command = { trigger = { puppet = { country = U70 } } type = inherit which = U70 value = 1 }
-		command = { trigger = { puppet = { country = U71 } } type = inherit which = U71 value = 1 }
-		command = { trigger = { puppet = { country = U72 } } type = inherit which = U72 value = 1 }
-		command = { trigger = { puppet = { country = U73 } } type = inherit which = U73 value = 1 }
-		command = { trigger = { puppet = { country = U74 } } type = inherit which = U74 value = 1 }
-		command = { trigger = { puppet = { country = U75 } } type = inherit which = U75 value = 1 }
-		command = { trigger = { puppet = { country = U76 } } type = inherit which = U76 value = 1 }
-		command = { trigger = { puppet = { country = U77 } } type = inherit which = U77 value = 1 }
-		command = { trigger = { puppet = { country = U78 } } type = inherit which = U78 value = 1 }
-		command = { trigger = { puppet = { country = U79 } } type = inherit which = U79 value = 1 }
-		command = { trigger = { puppet = { country = U80 } } type = inherit which = U80 value = 1 }
-		command = { trigger = { puppet = { country = U81 } } type = inherit which = U81 value = 1 }
-		command = { trigger = { puppet = { country = U82 } } type = inherit which = U82 value = 1 }
-		command = { trigger = { puppet = { country = U83 } } type = inherit which = U83 value = 1 }
-		command = { trigger = { puppet = { country = U84 } } type = inherit which = U84 value = 1 }
-		command = { trigger = { puppet = { country = U85 } } type = inherit which = U85 value = 1 }
-		command = { trigger = { puppet = { country = U86 } } type = inherit which = U86 value = 1 }
-		command = { trigger = { puppet = { country = U87 } } type = inherit which = U87 value = 1 }
-		command = { trigger = { puppet = { country = U88 } } type = inherit which = U88 value = 1 }
-		command = { trigger = { puppet = { country = U89 } } type = inherit which = U89 value = 1 }
-		command = { trigger = { puppet = { country = U90 } } type = inherit which = U90 value = 1 }
-		command = { trigger = { puppet = { country = U91 } } type = inherit which = U91 value = 1 }
-		command = { trigger = { puppet = { country = U92 } } type = inherit which = U92 value = 1 }
-		command = { trigger = { puppet = { country = U93 } } type = inherit which = U93 value = 1 }
-		command = { trigger = { puppet = { country = U94 } } type = inherit which = U94 value = 1 }
-		command = { trigger = { puppet = { country = U95 } } type = inherit which = U95 value = 1 }
-		command = { trigger = { puppet = { country = U96 } } type = inherit which = U96 value = 1 }
-		command = { trigger = { puppet = { country = U97 } } type = inherit which = U97 value = 1 }
-		command = { trigger = { puppet = { country = U98 } } type = inherit which = U98 value = 1 }
-		command = { trigger = { puppet = { country = U99 } } type = inherit which = U99 value = 1 }
-		
-		command = { trigger = { puppet = { country = USN } } type = inherit which = USN value = 1 }
-		command = { trigger = { puppet = { country = UIC } } type = inherit which = UIC value = 1 }
-		command = { trigger = { puppet = { country = UTL } } type = inherit which = UTL value = 1 }
-		command = { trigger = { puppet = { country = UAU } } type = inherit which = UAU value = 1 }
-		command = { trigger = { puppet = { country = UPS } } type = inherit which = UPS value = 1 }
-		command = { trigger = { puppet = { country = UCH } } type = inherit which = UCH value = 1 }
-		command = { trigger = { puppet = { country = UBO } } type = inherit which = UBO value = 1 }
-		command = { trigger = { puppet = { country = UCS } } type = inherit which = UCS value = 1 }
-		command = { trigger = { puppet = { country = URO } } type = inherit which = URO value = 1 }
-		command = { trigger = { puppet = { country = UER } } type = inherit which = UER value = 1 }
-		command = { trigger = { puppet = { country = UGS } } type = inherit which = UGS value = 1 }
-		command = { trigger = { puppet = { country = UPE } } type = inherit which = UPE value = 1 }
-		command = { trigger = { puppet = { country = UTC } } type = inherit which = UTC value = 1 }
-		
-		command = { type = event which = 2003201 where = USA when = 5 } #from may 5 to may 11
-		
-		command = { type = secederegion which = -1 value = "Germany"		when = 1 }
-		command = { type = secederegion which = -1 value = "Austria"		when = 1 }
-		command = { type = secederegion which = -1 value = "Finland"		when = 1 }
-		command = { type = secederegion which = -1 value = "Norway"			when = 1 }
-		command = { type = secederegion which = -1 value = "Denmark"		when = 1 }
-		command = { type = secederegion which = -1 value = "Benelux" 		when = 1 }
-		command = { type = secederegion which = -1 value = "France"			when = 1 }
-		command = { type = secederegion which = -1 value = "Poland"			when = 1 }
-		command = { type = secederegion which = -1 value = "Italy"			when = 1 }
-		command = { type = secederegion which = -1 value = "Hungary"		when = 1 }
-		command = { type = secederegion which = -1 value = "Romania"		when = 1 }
-		command = { type = secederegion which = -1 value = "Balkan"			when = 1 }
-		command = { type = secederegion which = -1 value = "Belarus"		when = 1 }
-		command = { type = secederegion which = -1 value = "Ukraine"		when = 1 }
-		command = { type = secederegion which = -1 value = "Baltic States"	when = 1 }
-		
-		#command = { type = leave_alliance when = 1 }
-		command = { type = peace which = ENG value = 1 }
-		#command = { type = peace which = SOV value = 1 } #resistance continued against the Soviets
-		
-		command = { type = event which = 3140 where = -1 when = 0 }
-		
-    }
-    action = {
-        name = "It's not over"
-		ai_chance = 0
-		command = { type = dissent value = 10 }
-	}
-}
-
-event = {
-    id = 2003201
-    random = no
-    tag = { ENG USA }
-    
-    name = "German Surrender"
-    desc = "After Hitler's death, the remaining Nazi leaders made several attempts to negotiate a partial surrender, or, failing that, surrender only to the Western Allies and in doing so provoke their conflict with Moscow. Ultimately none of those efforts bore fruit and the leadership decided on an unconditional surrender."
-    style = 2
-    picture = "Hitler_Death"
-
-    action = {
-        name = "VICTORY!"
-		command = { type = inherit which = GER value = 0 }
-	}
-}
-
-
-event = {
-    id = 2003202
-    random = no
-    tag = { USA }
-    
-    name = "Potsdam Conference"
-    desc = "The Potsdam Conference was a meeting of the Big Three Allied leaders to decide the future of post-World War II Europe. The key participants were Joseph Stalin, Winston Churchill (later replaced by Clement Attlee), and Harry S. Truman. The conference addressed the administration of defeated Germany, establishing the postwar order, resolving issues related to peace treaties, and planning the continued war against Japan. Notably, France was not represented at the conference, which became a long standing point of tension in relations with Paris."
-    style = 2
-    picture = "Hitler_Death"
-	
-    trigger = {
-		NOT = { exists = GER }
-		alliance = { country = ENG }
-		OR = {
-			control = { province = 300	data = -3  }
-			control = { province = 300	data = SOV }
-		}
-    }
-
-    date = { day = 0 month = january year = 1933 }
-    offset = 10
-    deathdate = { day = 29 month = december year = 1999 }
-
-    action = {
-        name = "VICTORY!"
-		command = { type = add_claim_region 	which = "Germany"			where = ENG }
-		command = { type = add_claim_region 	which = "Austria"			where = ENG }
-		command = { type = add_claim_region 	which = "Germany"			where = VIC }
-		command = { type = add_claim_region 	which = "Austria"			where = VIC }
-		command = { type = add_claim_region 	which = "Germany"			where = U01 }
-		command = { type = add_claim_region 	which = "Austria"			where = U01 }
-		command = { type = add_claim_region 	which = "Germany"			where = USA }
-		command = { type = add_claim_region 	which = "Austria"			where = USA }
-		
-		command = { type = remove_claim_region	which = "Finland"			where = ENG }
-		command = { type = remove_claim_region	which = "Norway"			where = ENG }
-		command = { type = remove_claim_region	which = "Denmark"			where = ENG }
-		command = { type = remove_claim_region	which = "Benelux"			where = ENG }
-		command = { type = remove_claim_region	which = "Poland"			where = ENG }
-		command = { type = remove_claim_region	which = "Italy"				where = ENG }
-		command = { type = remove_claim_region	which = "Spain"				where = ENG }
-		command = { type = remove_claim_region	which = "Hungary"			where = ENG }
-		command = { type = remove_claim_region	which = "Romania"			where = ENG }
-		command = { type = remove_claim_region	which = "Balkan"			where = ENG }
-		command = { type = remove_claim_region	which = "Belarus"			where = ENG }
-		command = { type = remove_claim_region	which = "Ukraine"			where = ENG }
-		command = { type = remove_claim_region	which = "Baltic States"		where = ENG }
-		command = { type = remove_claim_region	which = "Czechoslovakia"	where = ENG }
-		
-		command = { type = remove_claim_region	which = "Finland"			where = USA }
-		command = { type = remove_claim_region	which = "Norway"			where = USA }
-		command = { type = remove_claim_region	which = "Denmark"			where = USA }
-		command = { type = remove_claim_region	which = "Benelux"			where = USA }
-		command = { type = remove_claim_region	which = "Poland"			where = USA }
-		command = { type = remove_claim_region	which = "Italy"				where = USA }
-		command = { type = remove_claim_region	which = "Spain"				where = USA }
-		command = { type = remove_claim_region	which = "Hungary"			where = USA }
-		command = { type = remove_claim_region	which = "Romania"			where = USA }
-		command = { type = remove_claim_region	which = "Balkan"			where = USA }
-		command = { type = remove_claim_region	which = "Belarus"			where = USA }
-		command = { type = remove_claim_region	which = "Ukraine"			where = USA }
-		command = { type = remove_claim_region	which = "Baltic States"		where = USA }
-		command = { type = remove_claim_region	which = "Czechoslovakia"	where = USA }
-		
-		command = { type = addclaim				which = 31					where = ENG } #Malta
-		
-		command = { trigger = { OR = { NOT = { exists = NOR } AND = { ispuppet = NOR NOT = { puppet = { country = NOR } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = NOR } }	type = secedeprovince	which = -3	value = 107 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = NOR value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = NOR }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = NOR which = 2400538 when = 0 } #strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = SWE } AND = { ispuppet = SWE NOT = { puppet = { country = SWE } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = SWE } }	type = secedeprovince 	which = -3	value = 101 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = SWE value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = SWE }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = SWE which = 2400538 when = 0 } #strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = DEN } AND = { ispuppet = DEN NOT = { puppet = { country = DEN } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = DEN } }	type = secedeprovince 	which = -3	value = 294 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = DEN value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = DEN }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = DEN which = 2400538 when = 0 } #strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = HOL } AND = { ispuppet = HOL NOT = { puppet = { country = HOL } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = HOL } }	type = secedeprovince 	which = -3	value = 47 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = HOL value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = HOL }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = HOL which = 2400538 when = 0 } #strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = BEL } AND = { ispuppet = BEL NOT = { puppet = { country = BEL } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = BEL } }	type = secedeprovince 	which = -3	value = 51 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = BEL value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = BEL }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = BEL which = 2400538 when = 0 } #strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = LUX } AND = { ispuppet = LUX NOT = { puppet = { country = LUX } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = LUX } }	type = secedeprovince 	which = -3	value = 71 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = LUX value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = LUX }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = LUX which = 2400538 when = 0 } #strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = VIC exists = U01 } AND = { ispuppet = VIC NOT = { puppet = { country = VIC } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = VIC } }	type = secedeprovince 	which = -3	value = 56 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = VIC value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = VIC }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = VIC which = 2400538 when = 0 } #strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = ITA } AND = { ispuppet = ITA NOT = { puppet = { country = ITA } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = ITA } }	type = secedeprovince 	which = -3	value = 515 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = ITA value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = ITA }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = ITA which = 2400538 when = 0 } #strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = SPA } AND = { ispuppet = SPA NOT = { puppet = { country = SPA } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = SPA } }	type = secedeprovince 	which = -3	value = 341 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = SPA value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = SPA }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = SPA which = 2400538 when = 0 } #strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = POR } AND = { ispuppet = POR NOT = { puppet = { country = POR } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = POR } }	type = secedeprovince 	which = -3	value = 336 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = POR value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = POR }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = POR which = 2400538 when = 0 } #strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { control = { province = 401 data = -3 } OR = { NOT = { exists = GRE } AND = { ispuppet = GRE NOT = { puppet = { country = GRE } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = GRE } }	type = secedeprovince 	which = -3	value = 401 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = GRE value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = GRE }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = GRE which = 2400538 when = 0 } #strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { type = secederegion		which = NOR value = "Norway"		when = 2 }
-		command = { type = secederegion		which = SWE value = "Sweden" 		when = 2 }
-		command = { type = secederegion		which = DEN value = "Denmark" 		when = 2 }
-		command = { type = secedearea		which = HOL value = "Netherlands"	when = 2 }
-		command = { type = secedearea		which = BEL value = "Flanders"		when = 2 }
-		#command = { type = secedearea		which = BEL value = "Wallonia"		when = 2 }
-		command = { type = secedeprovince	which = BEL value = 52	 			when = 2 }
-		command = { type = secedeprovince	which = BEL value = 65	 			when = 2 }
-		command = { type = secedeprovince	which = BEL value = 68	 			when = 2 }
-		command = { type = secedeprovince	which = BEL value = 70	 			when = 2 }
-		command = { type = secedeprovince	which = BEL value = 7044 			when = 2 }
-		command = { type = secedeprovince	which = BEL value = 2292 			when = 2 }
-		command = { type = secederegion		which = VIC value = "France" 		when = 2 }
-		command = { type = secederegion		which = U01 value = "France" 		when = 2 }
-		command = { type = secederegion		which = ITA value = "Italy" 		when = 1 }
-		command = { type = secedeprovince	which = ITA value = 2871 			when = 2 }
-		command = { type = secederegion		which = SPA value = "Spain" 		when = 1 }
-		command = { type = secedeprovince	which = ENG value = 348 			when = 2 }
-		command = { type = secederegion		which = POR value = "Portugal" 		when = 1 }
-		command = { type = secedearea		which = GRE value = "Thrace" 		when = 1 }
-		command = { type = secedearea		which = GRE value = "Attica" 		when = 1 }
-		command = { type = secedearea		which = GRE value = "Greek Island"	when = 1 }
-		
-		command = { type = secedeprovince	which = ITA value = 3058 			when = 2 }
-		command = { type = secedeprovince	which = ITA value = 3057 			when = 2 }
-		
-		
-		command = { type = secederegion which = FIN value = "Finland"			when = 1 }
-		command = { type = secederegion which = HUN value = "Hungary"			when = 1 }
-		command = { type = secederegion which = ROM value = "Romania"			when = 1 }
-		command = { type = secederegion which = CZE value = "Czechoslovakia"	when = 1 }
-		
-		command = { type = secederegion which = SOV value = "Finland"			when = 1 }
-		command = { type = secederegion which = SOV value = "Hungary"			when = 1 }
-		command = { type = secederegion which = SOV value = "Romania"			when = 1 }
-		command = { type = secederegion which = SOV value = "Czechoslovakia"	when = 1 }
-		command = { type = secederegion which = SOV value = "Balkan"			when = 1 }
-		command = { type = secederegion which = SOV value = "Belarus"			when = 1 }
-		command = { type = secederegion which = SOV value = "Ukraine"			when = 1 }
-		command = { type = secederegion which = SOV value = "Baltic States"		when = 1 }
-		
-		#Mirror Soviet Access
-		command = { type = access which = SOV }
-		command = { type = access which = POL }
-		command = { type = access which = U32 }
-		command = { type = access which = CZE }
-		command = { type = access which = ROM }
-		command = { type = access which = HUN }
-		command = { type = access which = U27 }
-		command = { type = access which = U28 }
-		command = { type = access which = U33 }
-		
-		
-		command = { type = demobilize which = garrison			when = 1 where = 1	value = -2  }
-		command = { type = secedeprovince	which = USA 		when = 2			value = 300 }
-		command = { type = add_corps 		which = "Berlin Garrison" value = land	where = 300 }
-		command = { type = add_division 	value = garrison when = 6 }
-		command = { type = add_division 	value = garrison when = 6 }
-		
-		command = { type = belligerence 	value = -50  }
-		
-		
-		command = { type = event which = 2003203 where = SOV when = 1 }
-    }
-}
-
-event = {
-    id = 2003203
-    random = no
-    country = SOV
-    
-    name = "Potsdam Conference"
-    desc = "The Potsdam Conference was a meeting of the Big Three Allied leaders to decide the future of post-World War II Europe. The key participants were Joseph Stalin, Winston Churchill (later replaced by Clement Attlee), and Harry S. Truman. The conference addressed the administration of defeated Germany, establishing the postwar order, resolving issues related to peace treaties, and planning the continued war against Japan. Notably, France was not represented at the conference, which became a long standing point of tension in relations with Paris."
-    style = 2
-    picture = "Hitler_Death"
-
-    action = {
-        name = "VICTORY!"
-		command = { type = add_claim_region 	which = "Germany"			where = SOV }
-		command = { type = add_claim_region 	which = "Austria"			where = SOV }
-		
-		command = { type = remove_claim_region	which = "Finland"			where = SOV }
-		command = { type = remove_claim_region	which = "Norway"			where = SOV }
-		command = { type = remove_claim_region	which = "Denmark"			where = SOV }
-		command = { type = remove_claim_region	which = "Benelux"			where = SOV }
-		command = { type = remove_claim_region	which = "Poland"			where = SOV }
-		command = { type = remove_claim_region	which = "Italy"				where = SOV }
-		command = { type = remove_claim_region	which = "Spain"				where = SOV }
-		command = { type = remove_claim_region	which = "Hungary"			where = SOV }
-		command = { type = remove_claim_region	which = "Romania"			where = SOV }
-		command = { type = remove_claim_region	which = "Balkan"			where = SOV }
-		command = { type = remove_claim_region	which = "Czechoslovakia"	where = SOV }
-		
-		#Germany
-		command = { type = secedearea		which = ENG value = "Holstein_Mecklemburg" 	when = 2 }
-		command = { type = secedearea		which = ENG value = "Hannover_Magdeburg" 	when = 2 }
-		command = { type = secedearea		which = ENG value = "Westphalen" 			when = 2 }
-		command = { type = secedearea		which = ENG value = "Hessen" 				when = 2 }
-		command = { type = secedearea		which = ENG value = "Bavaria"	 			when = 2 }
-		command = { type = secedearea		which = ENG value = "Memel" 				when = 2 }
-		command = { type = secedearea		which = ENG value = "Baden_Wurttemberg" 	when = 2 }
-		
-		command = { type = secedearea		which = ENG value = "Holstein_Mecklemburg" 	when = 2 }
-		command = { type = secedearea		which = ENG value = "Hannover_Magdeburg" 	when = 2 }
-		command = { type = secedearea		which = ENG value = "Westphalen" 			when = 2 }
-		command = { type = secedearea		which = USA value = "Hessen" 				when = 2 }
-		command = { type = secedearea		which = USA value = "Bavaria"	 			when = 2 }
-		command = { type = secedearea		which = U01 value = "Memel" 				when = 2 }
-		command = { type = secedearea		which = U01 value = "Baden_Wurttemberg" 	when = 2 }
-		command = { type = secedearea		which = VIC value = "Memel" 				when = 2 }
-		command = { type = secedearea		which = VIC value = "Baden_Wurttemberg" 	when = 2 }
-		command = { type = secedeprovince	which = USA value = 3251 					when = 2 }
-		command = { type = secedeprovince	which = USA value = 314 					when = 2 }
-		command = { type = secedeprovince	which = USA value = 1014 					when = 2 }
-		command = { type = secedeprovince	which = USA value = 87	 					when = 2 }
-		command = { type = secedeprovince	which = U01 value = 1904 					when = 2 }
-		command = { type = secedeprovince	which = VIC value = 1904 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 66	 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 75	 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 6521 					when = 2 }
-		
-		command = { type = secedeprovince	which = SOV value = 296	 					when = 2 }
-		command = { type = secedeprovince	which = SOV value = 3244 					when = 2 }
-		command = { type = secedeprovince	which = SOV value = 3245 					when = 2 }
-		command = { type = secedearea		which = SOV value = "Sachsen"	 			when = 2 }
-		command = { type = secedearea		which = SOV value = "Brandenburg"	 		when = 2 }
-		command = { type = secedearea		which = SOV value = "Central Africa Desert"	when = 2 }
-		command = { type = secedearea		which = SOV value = "East Prussia"			when = 2 }
-		
-		command = { type = secedeprovince	which = USA value = 300	 					when = 2 }
-		
-		#Austria
-		command = { type = secedeprovince	which = ENG value = 373 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 377 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 7040 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 2327 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 462 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 461 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 460 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 3375					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 3376 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 3217 					when = 2 }
-
-		command = { type = secedeprovince	which = U01 value = 373 					when = 2 }
-		command = { type = secedeprovince	which = U01 value = 377 					when = 2 }
-		command = { type = secedeprovince	which = U01 value = 7040 					when = 2 }
-		command = { type = secedeprovince	which = VIC value = 373 					when = 2 }
-		command = { type = secedeprovince	which = VIC value = 377 					when = 2 }
-		command = { type = secedeprovince	which = VIC value = 7040 					when = 2 }
-		command = { type = secedeprovince	which = USA value = 2327 					when = 2 }
-		command = { type = secedeprovince	which = USA value = 462 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 461 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 460 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 3375					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 3376 					when = 2 }
-		command = { type = secedeprovince	which = ENG value = 3217 					when = 2 }
-		
-		command = { type = secedeprovince	which = SOV value = 463 					when = 2 }
-		command = { type = secedeprovince	which = SOV value = 464 					when = 2 }
-		command = { type = secedeprovince	which = SOV value = 465 					when = 2 }
-		command = { type = secedeprovince	which = SOV value = 2328 					when = 2 }
-		command = { type = secedeprovince	which = SOV value = 2329 					when = 2 }
-		
-		command = { trigger = { control = { province = 485 data = -3 } OR = { NOT = { exists = U32 } AND = { ispuppet = U32 NOT = { puppet = { country = U32 } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = U32 } }	type = secedeprovince 	which = SOV value = 485 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = U32 value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = U32 }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = U32 which = 2400537 when = 0 } #medium-strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = ROM exists = U30 } AND = { ispuppet = ROM NOT = { puppet = { country = ROM } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = ROM } }	type = secedeprovince 	which = SOV value = 424 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = ROM value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = ROM }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = ROM which = 2400537 when = 0 } #medium-strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = HUN exists = U13 } AND = { ispuppet = HUN NOT = { puppet = { country = HUN } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = HUN } }	type = secedeprovince 	which = SOV value = 457 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = HUN value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = HUN }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = HUN which = 2400537 when = 0 } #medium-strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = BUL exists = U29 } AND = { ispuppet = BUL NOT = { puppet = { country = BUL } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = BUL } }	type = secedeprovince 	which = SOV value = 417 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = BUL value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = BUL }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = BUL which = 2400537 when = 0 } #medium-strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = YUG exists = U27 } AND = { ispuppet = U27 NOT = { puppet = { country = U27 } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = U27 } }	type = secedeprovince 	which = SOV value = 453 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = U27 value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = U27 }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = U27 which = 2400537 when = 0 } #medium-strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = ALB exists = U28 } AND = { ispuppet = U28 NOT = { puppet = { country = U28 } puppet = { country = U28 country = U27 } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = U28 } }	type = secedeprovince 	which = SOV value = 390 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = U28 value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = U28 }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = U28 which = 2400537 when = 0 } #medium-strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { control = { province = 401 data = -3 } OR = { NOT = { exists = U33 } AND = { ispuppet = U33 NOT = { puppet = { country = U33 } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = U33 } }	type = secedeprovince 	which = SOV value = 401 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = U33 value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = U33 }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = U33 which = 2400537 when = 0 } #medium-strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = CZE exists = U31 } AND = { ispuppet = CZE NOT = { puppet = { country = CZE } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = CZE } }	type = secedeprovince 	which = SOV value = 469 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = CZE value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = CZE }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = CZE which = 2400537 when = 0 } #medium-strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-		
-		command = { trigger = { OR = { NOT = { exists = FIN exists = U20 } AND = { ispuppet = FIN NOT = { puppet = { country = FIN } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = FIN } }	type = secedeprovince 	which = SOV value = 142 when = 2 }
-		command = { trigger = { local_flag = makePuppet }							type = independence		which = FIN value = 1 }
-		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = FIN }
-		command = { trigger = { local_flag = makePuppet }							type = event			where = FIN which = 2400537 when = 0 } #medium-strong puppet
-		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
-
-		command = { type = secedearea		which = U32 value = "Warsaw"		when = 1 }
-		command = { type = secedearea		which = U32 value = "Poznan"		when = 2 }
-		command = { type = secedearea		which = U32 value = "Krakow"		when = 2 }
-		command = { type = secedearea		which = U32 value = "Grodno"		when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 504				when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 3270			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 308				when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 473				when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 482				when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 1400			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 1595			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 1623			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 1779			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 1810			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 3238			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 3258			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 3259			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 6519			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 7046			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 7047			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 7177			when = 2 }	
-		command = { type = secedeprovince 	which = U32 value = 303				when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 304				when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 1811			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 2647			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 3260			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 3261			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 7978			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 1884			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 2628			when = 2 }
-		command = { type = secedeprovince 	which = U32 value = 486				when = 2 }
-		
-		command = { type = secederegion	which = CZE value = "Czechoslovakia"	when = 2 }
-		
-		command = { type = secedearea		which = ROM value = "Transylvania"	when = 2 }
-		command = { type = secedearea		which = ROM value = "South Romania"	when = 2 }
-		command = { type = secedearea		which = ROM value = "North Romania"	when = 2 }
-		
-		command = { type = secedeprovince 	which = BUL value = 423				when = 2 }
-		command = { type = secedearea		which = BUL value = "Bulgaria"		when = 2 }
-		
-		command = { type = secedearea		which = U33 value = "Thrace" 		when = 1 }
-		command = { type = secedearea		which = U33 value = "Attica" 		when = 1 }
-		command = { type = secedearea		which = U33 value = "Greek Island"	when = 1 }
-		
-		command = { type = secedearea		which = U27 value = "Croatia"		when = 2 }
-		command = { type = secedearea		which = U27 value = "Bosnia"		when = 2 }
-		command = { type = secedearea		which = U27 value = "Central Serbia" when = 2 }
-		command = { type = secedearea		which = U27 value = "East Serbia"	when = 2 }
-		command = { type = secedeprovince 	which = U27 value = 7124			when = 2 }
-		command = { type = secedeprovince 	which = U27 value = 3357			when = 2 }
-		command = { type = secedeprovince 	which = U27 value = 2325			when = 2 }
-		command = { type = secedeprovince 	which = U27 value = 2326			when = 2 }
-		command = { type = secedeprovince 	which = U27 value = 7125			when = 2 }
-		
-		command = { type = secedearea 		which = U28 value = "Albania"		when = 2 }
-		
-		command = { type = secederegion 	which = -2	value = "Finland"		when = 2 }
-		
-		command = { type = secedeprovince 	which = SOV value = 1173			when = 2 }
-		command = { type = secedeprovince	which = SOV value = 2606 			when = 2 }
-		command = { type = secedeprovince	which = SOV value = 223 			when = 2 }
-		command = { type = secedeprovince	which = SOV value = 510 			when = 2 }
-		command = { type = secedeprovince	which = SOV value = 102 			when = 2 }
-		command = { type = secedeprovince	which = SOV value = 209 			when = 2 }
-		command = { type = secedeprovince	which = SOV value = 3233 			when = 2 }
-		command = { type = secedeprovince	which = SOV value = 499 			when = 2 }
-		command = { type = secedeprovince	which = SOV value = 2302 			when = 2 }
-		
-		command = { type = addclaim 		which = 229		where = SOV }
-		command = { type = addclaim 		which = 3273 	where = SOV }
-		command = { type = addclaim 		which = 3396 	where = SOV }
-		command = { type = addclaim 		which = 7979 	where = SOV }
-		command = { type = addclaim 		which = 501 	where = SOV }
-		command = { type = addclaim 		which = 500 	where = SOV }
-		command = { type = addclaim 		which = 507 	where = SOV }
-		command = { type = addclaim 		which = 7984 	where = SOV }
-		command = { type = addclaim 		which = 499 	where = SOV }
-		command = { type = addclaim 		which = 3233 	where = SOV }
-		command = { type = addclaim 		which = 2302 	where = SOV }
-		
-		command = { type = secederegion		which = NOR value = "Norway"		when = 1 }
-		command = { type = secederegion		which = SWE value = "Sweden" 		when = 1 }
-		command = { type = secederegion		which = DEN value = "Denmark" 		when = 1 }
-		command = { type = secedearea		which = HOL value = "Netherlands"	when = 1 }
-		command = { type = secedearea		which = BEL value = "Wallonia"		when = 1 }
-		command = { type = secedearea		which = BEL value = "Flanders"		when = 1 }
-		command = { type = secederegion		which = U01 value = "France" 		when = 1 }
-		command = { type = secederegion		which = VIC value = "France" 		when = 1 }
-		command = { type = secederegion		which = ITA value = "Italy" 		when = 1 }
-		command = { type = secederegion		which = SPA value = "Spain" 		when = 1 }
-		command = { type = secedearea		which = GRE value = "Thrace" 		when = 1 }
-		command = { type = secedearea		which = GRE value = "Attica" 		when = 1 }
-		command = { type = secedearea		which = GRE value = "Greek Island"	when = 1 }
-		
-		command = { type = secederegion		which = ENG value = "Norway"		when = 1 }
-		command = { type = secederegion		which = ENG value = "Sweden" 		when = 1 }
-		command = { type = secederegion		which = ENG value = "Denmark" 		when = 1 }
-		command = { type = secedearea		which = ENG value = "Netherlands"	when = 1 }
-		command = { type = secedearea		which = ENG value = "Wallonia"		when = 1 }
-		command = { type = secedearea		which = ENG value = "Flanders"		when = 1 }
-		command = { type = secederegion		which = ENG value = "France" 		when = 1 }
-		command = { type = secederegion		which = ENG value = "Italy" 		when = 1 }
-		command = { type = secederegion		which = ENG value = "Spain" 		when = 1 }
-		command = { type = secedearea		which = ENG value = "Thrace" 		when = 1 }
-		command = { type = secedearea		which = ENG value = "Attica" 		when = 1 }
-		command = { type = secedearea		which = ENG value = "Greek Island"	when = 1 }
-		
-		#Access to West Berlin
-		command = { type = access which = USA }
-		command = { type = access which = ENG }
-		command = { type = access which = VIC }
-		command = { type = access which = U01 }
-		
-		command = { trigger = { ai = yes } type = ai which = "nations\SOV_JAP.ai" }
-		command = { trigger = { ai = yes } type = local_setflag which = do_not_demob }
-		
-		command = { type = local_clrflag	which = inMajorWar	}
-		
-		command = { type = belligerence 	value = -50  }
-		
-		
-		command = { type = event which = 2003215 where = SOV when = 90  } #War on Japan
-		command = { type = event which = 2003216 where = ENG when = 120 } #Bizone
-    }
-}
-
-event = { 
-	id = 2003215 
-	random = no 
-	country = SOV
-
-	name = "Declare war on Japan"
-	desc = "At the Yalta Conference held earlier, Stalin pledged that the Soviet Union would enter the Pacific War within three months after the defeat of Germany. In return, the Soviets wanted the return of South Sakhalin, which had been taken from Russia by Japan in the Russo-Japanese War in 1905, and the cession of Kuril Islands by Japan, both of which were approved by the other Allies. In addition, the Allies recognized independence of the Mongolian People's Republic from China, the Soviet interests in Manchuria, and discussed the possible future of Korea, with Roosevelt bringing up the idea of putting Korea into a trusteeship divided among the Soviets, the Americans, and the Chinese for a period of 20 to 30 years."
-  	style = 2
-	
-	action = {
-		name = "ACTION_NAME_OK"
-		trigger = { 
-			OR = { 
-				war = { country = USA country = JAP } 
-				war = { country = ENG country = JAP }
-			} 
-			NOT = { 
-				war = { country = JAP } 
-				war = { country = ENG } 
-				war = { country = USA } 
-			}
-		}
-		
-		command = { type = clrflag which = JAP_SOV_NAP }
-		
-		#Will give net +1 dissent if there was a non-aggression pact. Otherwise, no dissent.
-		command = { trigger = { non_aggression = { country = JAP country = SOV } } type = local_setflag which = JapSovNAP }
-		command = { trigger = { local_flag = JapSovNAP } type = end_non_aggression which = SOV where = JAP } #will give 5 dissent
-		command = { trigger = { local_flag = JapSovNAP } type = dissent value = -4 }
-		command = { trigger = { local_flag = JapSovNAP } type = local_clrflag which = JapSovNAP }
-		
-		command = { trigger = { non_aggression = { country = MAN country = SOV } } type = local_setflag which = JapSovNAP }
-		command = { trigger = { local_flag = JapSovNAP } type = end_non_aggression which = SOV where = MAN } #will give 5 dissent
-		command = { trigger = { local_flag = JapSovNAP } type = dissent value = -5 }
-		command = { trigger = { local_flag = JapSovNAP } type = local_clrflag which = JapSovNAP }
-		
-		command = { trigger = { non_aggression = { country = MEN country = SOV } } type = local_setflag which = JapSovNAP }
-		command = { trigger = { local_flag = JapSovNAP } type = end_non_aggression which = SOV where = MEN } #will give 5 dissent
-		command = { trigger = { local_flag = JapSovNAP } type = dissent value = -5 }
-		command = { trigger = { local_flag = JapSovNAP } type = local_clrflag which = JapSovNAP }
-		
-		command = { type = end_trades which = SOV where = JAP }
-		command = { type = war which = JAP } 
-		
-		command = { type = add_claim_area	which = "Jilin"				where = SOV }
-		command = { type = add_claim_area	which = "Heilongjiang"		where = SOV }
-		command = { type = add_claim_area	which = "Liaoning"			where = SOV }
-		command = { type = add_claim_area	which = "Rehe"				where = SOV }
-		command = { type = add_claim_area	which = "Chahar"			where = SOV }
-		command = { type = add_claim_area	which = "Suiyuan_Ningxia"	where = SOV }
-		command = { type = add_claim_area	which = "Rehe"				where = SOV }
-		command = { type = add_claim_area	which = "Pyongyang"			where = SOV }
-		command = { type = add_claim_area	which = "Seoul"				where = SOV }
-		
-		command = { trigger = { ai = yes } type = local_clrflag which = do_not_demob }
-	}
-}
-
-event = { 
-	id = 2003216
-	random = no 
-	country = ENG
-
-	name = "Bizone"
-	desc = "Bizonia, also referred to as the Bizone, was established on January 1, 1947, during the Allied occupation of Germany following World War II. This entity was formed by the economic merger of the American and British occupation zones in Germany. The goal behind the Bizone's creation was to stimulate economic recovery and establish a stable political order in the western parts of Germany, which included the states of Schleswig-Holstein, Hamburg, Lower Saxony, Bremen, North Rhine-Westphalia, Hesse, Bavaria, and the northern portion of Baden-Wurttemberg. The Bizone's creation represented a crucial step in the post-war reconstruction of Germany and marked the initial stage in the country's division into two separate states, East and West Germany. It laid the foundation for the eventual creation of the Federal Republic of Germany (West Germany)."
-  	style = 2
-	
-	action = {
-		name = "ACTION_NAME_ACCEPT"
-		ai_chance = 100
-		command = { type = belligerence value = -5  }
-		command = { type = money 		value = 900 }
-		command = { type = relation 	which = USA value = 15 }
-		command = { type = secederegion	which = USA value = "Germany"	when = 1 }
-		command = { type = secederegion	which = USA value = "Austria"	when = 1 }
-		command = { type = remove_claim_region 		which = "Germany"			 }
-		command = { type = remove_claim_region 		which = "Austria"			 }
-		command = { type = event which = 2003217 where = U01 when = 120 } #Trizone
-		command = { type = event which = 2003217 where = VIC when = 120 } #Trizone
-	}
-	action = {
-		name = "ACTION_NAME_DECLINE"
-		ai_chance = 0
-		command = { type = leave_alliance when = 1 }
-		command = { type = dissent		value = 2  }
-		command = { type = belligerence value = 2  }
-		command = { type = relation which = USA value = -30 }
-	}
-}
-
-event = { 
-	id = 2003217
-	random = no 
-	tag = { VIC U01 }
-
-	name = "Trizone"
-	desc = "Bizonia, also referred to as the Bizone, was established on January 1, 1947, during the Allied occupation of Germany following World War II. This entity was formed by the economic merger of the American and British occupation zones in Germany. On August 1, 1948, the French occupation zone joined the Bizone, transforming it into the Trizone, or Trizonia. This unification further consolidated the Western Allied zones and paved the way for West Germany's establishment. The Trizone officially became the Federal Republic of Germany on May 23, 1949. France, however, made sure to exclude the Saar region from the Trizone."
-  	style = 2
-	
-	action = {
-		name = "ACTION_NAME_ACCEPT"
-		ai_chance = 5
-		command = { type = dissent		value = 1   }
-		command = { type = belligerence value = -5  }
-		command = { type = money 		value = 900 }
-		command = { type = relation 	which = USA value = 15 }
-		command = { type = secederegion	which = USA value = "Germany"	when = 1 }
-		command = { type = secederegion	which = USA value = "Austria"	when = 1 }
-		command = { type = remove_claim_region 		which = "Germany"			 }
-		command = { type = remove_claim_region 		which = "Austria"			 }
-	}
-	action = {
-		name = "Accept, but keep Saarland separate"
-		ai_chance = 95
-		command = { type = belligerence value = -2  }
-		command = { type = secederegion	which = USA value = "Germany"	when = 1 }
-		command = { type = secederegion	which = USA value = "Austria"	when = 1 }
-		command = { type = remove_claim_region 		which = "Germany"			 }
-		command = { type = remove_claim_region 		which = "Austria"			 }
-		command = { type = secedeprovince	which = -3	value = 74		when = 2 }
-		command = { type = addclaim 					which = 74				 }
-	}
-	action = {
-		name = "ACTION_NAME_DECLINE"
-		ai_chance = 0
-		command = { type = leave_alliance when = 1 }
-		command = { type = dissent		value = 2  }
-		command = { type = belligerence value = 2  }
-		command = { type = relation which = USA value = -30 }
-	}
-}
-
-
-event = { 
-	id = 2003220
-	random = no 
-	country = ENG
-
-	trigger = {
-		event = 2002100
-		NOT = { 
-			war = { country = GER }
-			war = { country = ITA }
-		}
-		puppet = { country = U32 country = SOV }
-		control = { province = 485 data = POL }
-	}
-
-	date = { day = 0 month = january year = 1937 }
-	offset = 30
-	deathdate = { day = 29 month = september year = 1999 }	
-	
-	name = "The fate of Poland"
-	desc = "With the end of WW2 in Europe, the Soviets were faced with a dilemma - while most of Poland was occupied by the Red Army and the pro-Soviet Polish Committee of National Liberation (PKWN), Warsaw was still held by the forces loyal to the Polish government-in-exile (i.e., the Armia Krajowa, or Home Army, and the London-based Polish authorities). Clashes soon broke out between the two sides, and Stalin demanded from the Allies that they respect prior agreements and withdraw support from the anti-Soviet government, like the USSR effectively refused to support the Greek Communist governments. Nobody in the West was in any mood to go to war with the USSR over Poland at this time, and ultimately the forces loyal to the London government were left on their own."
-  	style = 2
-	
-	action = {
-		name = "We will not start WW3 over Poland"
-		ai_chance = 95
-		command = { type = dissent		value = 1  }
-		command = { type = belligerence value = 10 }
-		command = { type = end_mastery which = POL }
-		command = { type = event which = 2003221 where = POL when = 0 }
-		#withdraw subsidies?
-	}
-	action = {
-		name = "We will start WW3 over Poland"
-		ai_chance = 5
-		command = { type = dissent		value = 10 }
-		command = { type = belligerence value = -2 }
-		command = { type = event which = 2003223 where = SOV when = 7 }
-	}
-}
-
-event = { 
-	id = 2003221
-	random = no 
-	country = POL
-	
-	name = "The fate of Poland"
-	desc = "With the end of WW2 in Europe, the Soviets were faced with a dilemma - while most of Poland was occupied by the Red Army and the pro-Soviet Polish Committee of National Liberation (PKWN), Warsaw was still held by the forces loyal to the Polish government-in-exile (i.e., the Armia Krajowa, or Home Army, and the London-based Polish authorities). Clashes soon broke out between the two sides, and Stalin demanded from the Allies that they respect prior agreements and withdraw support from the anti-Soviet government, like the USSR effectively refused to support the Greek Communist governments. Nobody in the West was in any mood to go to war with the USSR over Poland at this time, and ultimately the forces loyal to the London government were left on their own."
-  	style = 2
-	
-	action = {
-		name = "Traitors!"
-		command = { type = local_clrflag which = puppetOf }
-		command = { type = domestic which = political_left value = -5 }
-		command = { type = event which = 2400530 where = POL when = 0 } #legit indie
-		command = { type = event which = 2400602 where = POL when = 0 }
-		
-		command = { type = event which = 2003222 where = SOV when = 7 }
-	}
-}
-
-event = { 
-	id = 2003222
-	random = no 
-	country = SOV
-	
-	name = "The fate of Poland"
-	desc = "With the end of WW2 in Europe, the Soviets were faced with a dilemma - while most of Poland was occupied by the Red Army and the pro-Soviet Polish Committee of National Liberation (PKWN), Warsaw was still held by the forces loyal to the Polish government-in-exile (i.e., the Armia Krajowa, or Home Army, and the London-based Polish authorities). Clashes soon broke out between the two sides, and Stalin demanded from the Allies that they respect prior agreements and withdraw support from the anti-Soviet government, like the USSR effectively refused to support the Greek Communist governments. Nobody in the West was in any mood to go to war with the USSR over Poland at this time, and ultimately the forces loyal to the London government were left on their own."
-  	style = 2
-	
-	action = {
-		name = "Crush the Polish fascists"
-		command = { type = war which = POL }
-		command = { type = non_aggression which = U32 where = POL when = 7 } 
-		command = { }
-	}
-}
-
-event = { 
-	id = 2003223
-	random = no 
-	country = SOV
-	
-	name = "The fate of Poland"
-	desc = "With the end of WW2 in Europe, the Soviets were faced with a dilemma - while most of Poland was occupied by the Red Army and the pro-Soviet Polish Committee of National Liberation (PKWN), Warsaw was still held by the forces loyal to the Polish government-in-exile (i.e., the Armia Krajowa, or Home Army, and the London-based Polish authorities). Clashes soon broke out between the two sides, and Stalin demanded from the Allies that they respect prior agreements and withdraw support from the anti-Soviet government, like the USSR effectively refused to support the Greek Communist governments. Despite the ultimatum from Moscow, the Allies decided to stick to their guns and risk WW3 over Poland. Their lack of any respect for our interests and accomplishments and their willingness to risk WW3 to contest a country like Poland means they are ready to use force to destroy us. We cannot decline this challenge"
-  	style = 2
-	
-	action = {
-		name = "Crush the Polish fascists"
-		command = { type = war which = POL }
-		command = { type = non_aggression which = U32 where = POL when = 7 } 
-		command = { }
-	}
-}
-
-
-
-event = { 
-	id = 2003225 
-	random = no 
-	country = ENG
-
-	trigger = {
-		event = 2002100
-		NOT = { 
-			war = { country = GER }
-			war = { country = ITA }
-			war = { country = SOV }
-		}
-		OR = {
-			puppet = { country = POL country = ENG }
-			war = { country = SOV country = POL }
-		}
-		NOT = { control = { province = 485 data = POL } }
-	}
-
-	date = { day = 0 month = january year = 1937 }
-	offset = 30
-	deathdate = { day = 29 month = september year = 1999 }	
-	
-	name = "End of the Polish Government in Exile"
-	desc = "With the end of WW2 in Europe, the British and Western Allies had to face the reality on the ground which was the Soviet control over Poland. In light of that, London reluctantly recognized the Soviet-backed Provisional Government of National Unity and withdrew all remaining support for the Polish government in exile."
-  	style = 2
-	
-	action = {
-		name = "ACTION_NAME_OK"
-		command = { type = dissent	value = 1 }
-		command = { type = free_ic	value = 5 }
-		command = { type = inherit which = POL value = 1 }
-		#just in case
-		command = { type = secederegion which = U32 value = "Poland"	when = 1 }
-		command = { type = secederegion which = SOV value = "Poland"	when = 1 }
-	}
-}
-
-event = { 
-	id = 2003230 
-	random = no 
-	country = USA
-
-	trigger = {
-		event = 2003202 #Potsdam
-		NOT = {
-			exists = GRE
-		}
-		NOT = { 
-			war = { country = GER }
-			war = { country = ITA }
-			war = { country = SOV }
-		}
-		control = { province = 401 data = -3 }
-		area = { area = "Attica" country = -3 data = 1 value = 50 }
-	}
-
-	date = { day = 0 month = january year = 1937 }
-	offset = 20
-	deathdate = { day = 29 month = september year = 1999 }	
-	
-	name = "The Greek Government in Exile"
-	desc = "With the end of WW2 in Europe, the Greek Government in Exile returns to Athens, much to the chagrin of EAM and the local Communists. However, thanks to prior agreements with Stalin at Yalta and Potsdam, we can be assured that any Soviet assitance to the Greek Communists would be largely of symbolic nature."
-  	style = 2
-	
-	action = {
-		name = "ACTION_NAME_GREAT"
-		command = { type = secedeprovince 	which = -3	value = 401 when = 2 }
-		command = { type = independence		which = GRE value = 1 }
-		command = { type = make_puppet		which = GRE }
-		command = { type = event			where = GRE which = 2400538 when = 0 } #strong puppet
-		
-		command = { trigger = { control = { province = 392 data = -3 } }	type = secedeprovince 	which = GRE	value = 392 when = 2 }
-		command = { trigger = { control = { province = 393 data = -3 } }	type = secedeprovince 	which = GRE	value = 393 when = 2 }
-		command = { trigger = { control = { province = 394 data = -3 } }	type = secedeprovince 	which = GRE	value = 394 when = 2 }
-		command = { trigger = { control = { province = 395 data = -3 } }	type = secedeprovince 	which = GRE	value = 395 when = 2 }
-		command = { trigger = { control = { province = 396 data = -3 } }	type = secedeprovince 	which = GRE	value = 396 when = 2 }
-		command = { trigger = { control = { province = 398 data = -3 } }	type = secedeprovince 	which = GRE	value = 398 when = 2 }
-		command = { trigger = { control = { province = 399 data = -3 } }	type = secedeprovince 	which = GRE	value = 399 when = 2 }
-		command = { trigger = { control = { province = 400 data = -3 } }	type = secedeprovince 	which = GRE	value = 400 when = 2 }
-		command = { trigger = { control = { province = 401 data = -3 } }	type = secedeprovince 	which = GRE	value = 401 when = 2 }
-		command = { trigger = { control = { province = 402 data = -3 } }	type = secedeprovince 	which = GRE	value = 402 when = 2 }
-		command = { trigger = { control = { province = 403 data = -3 } }	type = secedeprovince 	which = GRE	value = 403 when = 2 }
-		command = { trigger = { control = { province = 405 data = -3 } }	type = secedeprovince 	which = GRE	value = 405 when = 2 }
-		command = { trigger = { control = { province = 410 data = -3 } }	type = secedeprovince 	which = GRE	value = 410 when = 2 }
-		command = { trigger = { control = { province = 411 data = -3 } }	type = secedeprovince 	which = GRE	value = 411 when = 2 }
-		command = { trigger = { control = { province = 412 data = -3 } }	type = secedeprovince 	which = GRE	value = 412 when = 2 }
-		command = { trigger = { control = { province = 563 data = -3 } }	type = secedeprovince 	which = GRE	value = 563 when = 2 }
-		command = { trigger = { control = { province = 653 data = -3 } }	type = secedeprovince 	which = GRE	value = 653 when = 2 }
-		command = { trigger = { control = { province = 2319 data = -3 } }	type = secedeprovince 	which = GRE	value = 2319 when = 2 }
-		command = { trigger = { control = { province = 2321 data = -3 } }	type = secedeprovince 	which = GRE	value = 2321 when = 2 }
-		command = { trigger = { control = { province = 2610 data = -3 } }	type = secedeprovince 	which = GRE	value = 2610 when = 2 }
-		command = { trigger = { control = { province = 2625 data = -3 } }	type = secedeprovince 	which = GRE	value = 2625 when = 2 }
-		command = { trigger = { control = { province = 2872 data = -3 } }	type = secedeprovince 	which = GRE	value = 2872 when = 2 }
-		command = { trigger = { control = { province = 3355 data = -3 } }	type = secedeprovince 	which = GRE	value = 3355 when = 2 }
-		command = { trigger = { control = { province = 3392 data = -3 } }	type = secedeprovince 	which = GRE	value = 3392 when = 2 }
-		command = { trigger = { control = { province = 6508 data = -3 } }	type = secedeprovince 	which = GRE	value = 6508 when = 2 }
-		command = { trigger = { control = { province = 6509 data = -3 } }	type = secedeprovince 	which = GRE	value = 6509 when = 2 }
-		command = { trigger = { control = { province = 6918 data = -3 } }	type = secedeprovince 	which = GRE	value = 6918 when = 2 }
-		command = { trigger = { control = { province = 7055 data = -3 } }	type = secedeprovince 	which = GRE	value = 7055 when = 2 }
-		command = { trigger = { control = { province = 7316 data = -3 } }	type = secedeprovince 	which = GRE	value = 7316 when = 2 }
-		command = { trigger = { control = { province = 7317 data = -3 } }	type = secedeprovince 	which = GRE	value = 7317 when = 2 }
-		command = { trigger = { control = { province = 7318 data = -3 } }	type = secedeprovince 	which = GRE	value = 7318 when = 2 }
-		command = { trigger = { control = { province = 7319 data = -3 } }	type = secedeprovince 	which = GRE	value = 7319 when = 2 }
-		command = { trigger = { control = { province = 7320 data = -3 } }	type = secedeprovince 	which = GRE	value = 7320 when = 2 }
-		command = { trigger = { control = { province = 7352 data = -3 } }	type = secedeprovince 	which = GRE	value = 7352 when = 2 }
-		command = { trigger = { control = { province = 7914 data = -3 } }	type = secedeprovince 	which = GRE	value = 7914 when = 2 }
-	}
-}
 

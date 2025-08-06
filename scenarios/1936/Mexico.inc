@@ -19,12 +19,13 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 7 
-     freedom           = 5 
+     freedom           = 4 
      free_market       = 4
      professional_army = 1 
      defense_lobby     = 2 
      interventionism   = 3 
   }
+  SpyInfo                = { country = "MEX" NumberOfSpies = 5 }
   nationalprovinces      = { 
 756 755 754 753 752 751 750 747 749 745 742 741 744 743 740 739 737 738
 2693 2694 2695 2696 2697 2698 2699 2700 2701 2702 2703 2704 2705 2706 2707

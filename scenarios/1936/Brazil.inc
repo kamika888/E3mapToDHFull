@@ -20,11 +20,12 @@ country =
      democratic        = 1 
      political_left    = 3 
      free_market       = 4
-     freedom           = 4 
+     freedom           = 3 
      professional_army = 2 
      defense_lobby     = 2 
      interventionism   = 3 
   }
+  SpyInfo                = { country = "BRA" NumberOfSpies = 5 }
   claimedprovinces 		 = { 5422 5424 5425 3957 
 849 833 2960 3776 3777 3778 3779 3780
 

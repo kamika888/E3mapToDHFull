@@ -26,6 +26,7 @@ country =
      defense_lobby     = 1 
      interventionism   = 1
   }
+  SpyInfo                = { country = "PAN" NumberOfSpies = 5 }
   nationalprovinces      = { 889 888 723 4286 4287 4288 4289 }
   ownedprovinces         = { 888 723 4286 4287 4288 4289 }
   controlledprovinces    = { 888 723 4286 4287 4288 4289 }

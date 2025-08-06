@@ -15,6 +15,7 @@ country =
 	money                  = 10 
 	manpower               = 167 
   capital                = 830
+  SpyInfo                = { country = "PRU" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = ARG value = 20 }
     relation = { tag = BOL value = 30 }
@@ -88,7 +89,7 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 4 
-     freedom           = 6 
+     freedom           = 5 
      free_market       = 4
      professional_army = 4 
      defense_lobby     = 3 

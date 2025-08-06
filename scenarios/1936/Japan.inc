@@ -8,7 +8,7 @@ country =
   belligerence           = 3
   ai					 = "EXP_0_01.ai"
   capital                = 1184
-	manpower               = 886
+	manpower               = 3171
 	# Resource Reserves 
 	energy                 = 46000 
 	metal                  = 28000 
@@ -18,7 +18,11 @@ country =
 	money                  = 100 
 	transports             = 600 
 	escorts                = 100 
-	extra_tc               = -75 #from japChi = 15
+	extra_tc               = -45 #from japChi = 15 (global flag)
+	free = {
+		supplies = -20			 #from japChi = 15 (global flag)
+	}
+  SpyInfo                = { country = "JAP" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = BEL value = -25 }
     relation = { tag = CGX value = -75 }
@@ -224,10 +228,10 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 5 
      political_left    = 3 
-     freedom           = 7
+     freedom           = 6
      free_market       = 5
-     professional_army = 4  
-     defense_lobby     = 5 
+     professional_army = 5  
+     defense_lobby     = 6 
      interventionism   = 10 
   }
 	blueprints = { 81730 81740 } 
@@ -266,13 +270,13 @@ landunit =
        type     = garrison 
        model    = 4
       } 
-     Division = 
-     {  id       = {  type = 13016 id = 310 } 
-       name     = "Dai 3 Manchuko Kiheishidan" 
-       strength = 70 
-       type     = cavalry 
-       model    = 8 
-      }
+     #Division = 
+     #{  id       = {  type = 13016 id = 310 } 
+     #  name     = "Dai 3 Manchuko Kiheishidan" 
+     #  strength = 70 
+     #  type     = cavalry 
+     #  model    = 8 
+     # }
 }
 landunit = 
    {  id       = {  type = 13016 id = 384  }
@@ -386,12 +390,12 @@ landunit =
 }
 landunit = 
    {  id       = {  type = 13016 id = 398  }
-     name     = "Taiwan 1 Gun"
-     location = 1923
-	 mission = { type = anti_partisan_duty target = 1923 night = yes } 
+     name     = "Chôsen 5 Gun"
+     location = 3101
+	 mission = { type = anti_partisan_duty target = 1197 night = yes } 
      Division = 
      {  id       = {  type = 13016 id = 399  } 
-       name     = "Dai 1 Taiwan Shubitai"
+       name     = "Dai 8 Shubitai" 
        strength  = 60 
        type     = garrison 
        model    = 4
@@ -402,12 +406,12 @@ landunit =
 }
 landunit = 
    {  id       = {  type = 13016 id = 400  }
-     name     = "Taiwan 2 Gun"
-     location = 1322
-	 mission = { type = anti_partisan_duty target = 1322 night = yes } 
+     name     = "Taiwan 1 Gun"
+     location = 1923
+	 mission = { type = anti_partisan_duty target = 1923 night = yes } 
      Division = 
-     {  id       = {  type = 13016 id = 401 } 
-       name     = "Dai 2 Taiwan Shubitai" 
+     {  id       = {  type = 13016 id = 401  } 
+       name     = "Dai 1 Taiwan Shubitai"
        strength  = 60 
        type     = garrison 
        model    = 4
@@ -418,11 +422,27 @@ landunit =
 }
 landunit = 
    {  id       = {  type = 13016 id = 402  }
+     name     = "Taiwan 2 Gun"
+     location = 1322
+	 mission = { type = anti_partisan_duty target = 1322 night = yes } 
+     Division = 
+     {  id       = {  type = 13016 id = 403 } 
+       name     = "Dai 2 Taiwan Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+	   extra    = police 
+	   brigade_model = 1
+	   locked   = yes
+      } 
+}
+landunit = 
+   {  id       = {  type = 13016 id = 404  }
      name     = "Taiwan 3 Gun"
      location = 1323
 	 mission = { type = anti_partisan_duty target = 1323 night = yes } 
      Division = 
-     {  id       = {  type = 13016 id = 403  } 
+     {  id       = {  type = 13016 id = 405  } 
        name     = "Dai 3 Taiwan Shubitai" 
        strength  = 60 
        type     = garrison 
@@ -433,12 +453,12 @@ landunit =
       } 
 }
 landunit = 
-   {  id       = {  type = 13016 id = 404  }
+   {  id       = {  type = 13016 id = 406  }
 	 name     = "Shanghai Gun"
      location = 1237
 	 mission = { type = anti_partisan_duty target = 1237 night = yes } 
      Division = 
-     {  id       = {  type = 13016 id = 405  } 
+     {  id       = {  type = 13016 id = 407  } 
        name     = "Shanghai 8 Shubitai" 
        strength  = 60 
        type     = garrison 
@@ -449,12 +469,12 @@ landunit =
       } 
 }
 landunit = {
-	id       = {  type = 13016 id = 406  }
+	id       = {  type = 13016 id = 408  }
 	name     = "Ryojun Kaigunku"
 	location = 1193 
 	mission = { type = anti_partisan_duty target = 1193 night = yes } 
 	division = {
-		id       = { type = 13016 id = 407 }
+		id       = { type = 13016 id = 409 }
 		name     = "Ryojun Rikusentai"
 		strength = 15
 		type     = garrison
@@ -496,7 +516,7 @@ landunit =
 
 	landunit = {
 		id       = {  type = 13016 id = 3050  } 
-		name     = "Shina chutongun" 
+		name     = "North China Army" 
 		location = 1397 
 		division = {
 			id       = {  type = 13016 id = 3003  } 
@@ -606,15 +626,31 @@ landunit =
 			extra    = engineer
 			brigade_model = 3
 		} 
+		division = 
+		 {  
+			id       = {  type = 13016 id = 1223  } 
+			name     = "Dai 33 Hoheishidan"
+			strength = 60 
+			type     = infantry 
+			model    = 8 
+		  }
+		division = 
+		 {  
+			id       = {  type = 13016 id = 45  } 
+			name     = "Dai 14 Dokuritsu konsei ryodan" # Independent Mixed Brigade
+			strength = 60 
+			type     = infantry 
+			model    = 7 
+		  }
 	}
 	
 	landunit = {
 		id       = {  type = 13016 id = 3000  } 
-		name     = "Kanto-gun" 
+		name     = "Kwantung Army" 
 		location = 2241 
 		division = {
 			id       = {  type = 13016 id = 3001  } 
-			name     = "Kanto-gun saiko shireibu" 
+			name     = "Kwantung Army HQ" 
 			strength = 40 
 			type     = hq 
 			model    = 2 
@@ -624,7 +660,7 @@ landunit =
 			name     = "Dai 2 Hoheishidan" 
 			strength = 100 
 			type     = infantry 
-			model    = 7
+			model    = 8
 			extra1   = cavalry_brigade
 			brigade_model1 = 5
  			extra2   = engineer
@@ -646,7 +682,7 @@ landunit =
 			name     = "Dai 8 Hoheishidan" 
 			strength = 100
 			type     = infantry 
-			model    = 7 
+			model    = 8 
 			extra    = engineer 
 			brigade_model = 3
 		} 
@@ -655,7 +691,7 @@ landunit =
 			name     = "Dai 9 Hoheishidan" 
 			strength = 100
 			type     = infantry 
-			model    = 7 
+			model    = 8 
 			extra1   = cavalry_brigade
 			brigade_model1 = 5
 			extra2   = engineer 
@@ -666,7 +702,7 @@ landunit =
 			name     = "Dai 10 Hoheishidan" 
 			strength = 100
 			type     = infantry 
-			model    = 7 
+			model    = 8 
 			extra1   = cavalry_brigade
 			brigade_model1 = 5
 			extra2   = engineer 
@@ -677,7 +713,7 @@ landunit =
 			name     = "Dai 19 Hoheishidan" 
 			strength = 100
 			type     = infantry 
-			model    = 7 
+			model    = 8 
 			extra1   = cavalry_brigade
 			brigade_model1 = 5
 			extra2   = anti_air
@@ -688,7 +724,7 @@ landunit =
 			name     = "Dai 24 Hoheishidan" 
 			strength = 50
 			type     = infantry 
-			model    = 6
+			model    = 7
 			extra    = engineer
 			brigade_model = 3
 		} 
@@ -697,7 +733,7 @@ landunit =
 			name     = "Dai 25 Hoheishidan" 
 			strength = 50
 			type     = infantry 
-			model    = 7 
+			model    = 8 
 			extra1   = cavalry_brigade
 			brigade_model1 = 5
 			extra2   = engineer 
@@ -708,7 +744,7 @@ landunit =
 			name     = "Dai 26 Hoheishidan" 
 			strength = 50
 			type     = infantry 
-			model    = 6
+			model    = 7
 			extra    = engineer
 			brigade_model = 3
 		} 
@@ -717,7 +753,7 @@ landunit =
 			name     = "Dai 28 Hoheishidan" 
 			strength = 50
 			type     = infantry 
-			model    = 7 
+			model    = 8 
 			extra1   = cavalry_brigade
 			brigade_model1 = 5
 			extra2   = engineer 
@@ -728,12 +764,26 @@ landunit =
 			name     = "Dai 29 Hoheishidan" 
 			strength = 50
 			type     = infantry 
-			model    = 7 
+			model    = 8
 			extra    = light_armor_brigade
 			brigade_model = 2
 		} 
+		division = {
+			id       = {  type = 13016 id = 1221  } 
+			name     = "Dai 30 Hoheishidan" 
+			strength = 50
+			type     = infantry 
+			model    = 7
+		} 
+		division = {
+			id       = {  type = 13016 id = 3023  } 
+			name     = "Dai 31 Hoheishidan" 
+			strength = 50
+			type     = infantry 
+			model    = 8
+		} 
 		 Division = 
-		 {  id       = {  type = 13016 id = 3023  } 
+		 {  id       = {  type = 13016 id = 3024  } 
 		   name     = "Kantô Bôbitai" # Kwantung Defence Command 
 		   strength  = 70 
 		   type     = garrison 
@@ -742,11 +792,11 @@ landunit =
 		   brigade_model = 1
 		  } 
 		division = {
-			id       = {  type = 13016 id = 3024  } 
+			id       = {  type = 13016 id = 3025  } 
 			name     = "IJA Kihei Shudan" 
 			strength = 50
 			type     = cavalry 
-			model    = 8
+			model    = 9
 		}
 	} 
 	
@@ -757,6 +807,13 @@ landunit =
 		division = {
 			id       = {  type = 13016 id = 11  } 
 			name     = "Dai 1 Kihei ryodan" 
+			strength = 70
+			type     = cavalry 
+			model    = 9 
+		} 
+		division = {
+			id       = {  type = 13016 id = 1220 } 
+			name     = "Dai 3 Kihei ryodan" 
 			strength = 70
 			type     = cavalry 
 			model    = 9 
@@ -861,7 +918,7 @@ landunit =
 		name     = "Tobu gun" 
 		location = 1184 
 		division = {
-			id       = {  type = 13016 id = 45  } 
+			id       = {  type = 13016 id = 1036  } 
 			name     = "Dai 3 Hoheishidan"  
 			strength = 100 
 			type     = infantry 
@@ -907,7 +964,7 @@ landunit =
 	} 
 	landunit = {
 		id       = {  type = 13016 id = 24  } 
-		name     = "Tokyo keibi shireibu"  
+		name     = "Tokyo Defense HQ"  
 		location = 1184 
 		division = {
 			id       = {  type = 13016 id = 17  } 
@@ -1018,6 +1075,13 @@ landunit =
  			extra2   = engineer
 			brigade_model2 = 3
 		} 
+		division = {
+			id       = {  type = 13016 id = 3028  } 
+			name     = "Dai 17 Hoheishidan" 
+			strength = 100
+			type     = infantry 
+			model    = 7 
+		}  
 	}
 	landunit = {
 		id       = {  type = 13016 id = 42  } 
@@ -1995,8 +2059,8 @@ landunit =
 		division = {
 			id    = {  type = 13016 id = 239  } 
 			name  = "Dai 2 Keibakugeki Hikodan" 
-			type  = tactical_bomber 
-			model = 4
+			type  = cas 
+			model = 0
 		} 
 	} 
 	airunit = {
@@ -2007,18 +2071,6 @@ landunit =
 		division = {
 			id    = {  type = 13016 id = 241  } 
 			name  = "Dai 3 Keibakugeki Hikodan" 
-			type  = tactical_bomber 
-			model = 4
-		} 
-	} 
-	airunit = {
-		location = 1184 
-		base     = 1219 
-		id       = {  type = 13016 id = 242  } 
-		name     = "Dai 3 Nihon Kokutai" 
-		division = {
-			id    = {  type = 13016 id = 243  } 
-			name  = "Dai 4 Keibakugeki Hikodan" 
 			type  = tactical_bomber 
 			model = 4
 		} 
@@ -2058,6 +2110,13 @@ landunit =
 			type  = naval_bomber 
 			model = 2
 		} 
+	  Division = 
+     {  id           = {  type = 13016 id = 2030 } 
+       name         = "Transport Squadron" 
+       type         = transport_plane
+       model        = 0
+       strength     = 20
+      }
 	} 
 	#airunit = {
 	#	id       = {  type = 13016 id = 250  } 
@@ -2302,63 +2361,6 @@ landunit =
 		type = transports 
 		date  = {  year = 1964 } 
 		} 
-
-	landdivision = { dormant = yes id = { type = 13016 id = 2000 } name = "1 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2001 } name = "22 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2002 } name = "2 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2003 } name = "3 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2004 } name = "4 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2005 } name = "5 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2006 } name = "6 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2007 } name = "7 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2008 } name = "8 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2009 } name = "9 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2010 } name = "10 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2011 } name = "11 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2012 } name = "12 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2013 } name = "13 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2014 } name = "14 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2015 } name = "15 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2016 } name = "16 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2017 } name = "17 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2018 } name = "18 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2019 } name = "19 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2020 } name = "20 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2021 } name = "21 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
-	
-	landdivision = { dormant = yes id = { type = 13016 id = 2031 } name = "Dai 1 Indoshina Shubitai" type = garrison model = 5 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2032 } name = "Dai 2 Indoshina Shubitai" type = garrison model = 5 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2033 } name = "Dai 3 Indoshina Shubitai" type = garrison model = 5 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2034 } name = "Dai 4 Indoshina Shubitai" type = garrison model = 5 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2035 } name = "Dai 5 Indoshina Shubitai" type = infantry model = 10 }
-	landdivision = { dormant = yes id = { type = 13016 id = 2036 } name = "Dai 6 Indoshina Shubitai" type = infantry model = 10 }
-	landdivision = { dormant = yes id = { type = 13016 id = 2037 } name = "Dai 7 Indoshina Shubitai" type = garrison model = 5 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2038 } name = "Dai 8 Indoshina Shubitai" type = infantry model = 10 }
-	landdivision = { dormant = yes id = { type = 13016 id = 2039 } name = "Dai 9 Indoshina Shubitai" type = infantry model = 10 }
-	landdivision = { dormant = yes id = { type = 13016 id = 2040 } name = "Dai 10 Indoshina Shubitai" type = garrison model = 5 locked = yes }
-
-	
-	landdivision = { dormant = yes id = { type = 13016 id = 2060 }  name = "Free Indian Army"	type = garrison model = 4	locked = yes }
-	
-	landdivision = { dormant = yes id = { type = 13016 id = 2070 } name = "Kanto-gun saiko shireibu" strength = 40 type = hq model  = 2 } 
-	landdivision = { dormant = yes id = { type = 13016 id = 2071 } name = "Kantô Bôbitai"      strength = 100 type = garrison model = 4 extra  = police 			brigade_model = 1  										 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2072 } name = "IJA Kihei Shudan"   strength = 100 type = cavalry  model = 8 																					 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2073 } name = "Dai 1 Hoheishidan"  strength = 100 type = infantry model = 7	extra  = light_armor_brigade	brigade_model = 2									 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2074 } name = "Dai 2 Hoheishidan"  strength = 100 type = infantry model = 7	extra1 = cavalry_brigade	brigade_model1 = 5 	extra2 = engineer brigade_model2 = 3 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2075 } name = "Dai 3 Hoheishidan"  strength = 100 type = infantry 																								 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2076 } name = "Dai 4 Hoheishidan"  strength = 100 type = infantry 																								 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2077 } name = "Dai 7 Hoheishidan"  strength = 100 type = infantry model = 8 extra1 = cavalry_brigade	brigade_model1 = 5	extra2 = engineer brigade_model2 = 3 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2078 } name = "Dai 8 Hoheishidan"  strength = 100 type = infantry model = 7 extra  = engineer 			brigade_model  = 3 										 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2079 } name = "Dai 9 Hoheishidan"  strength = 100 type = infantry model = 7 extra1 = cavalry_brigade	brigade_model1 = 5	extra2 = engineer brigade_model2 = 3 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2080 } name = "Dai 10 Hoheishidan" strength = 100 type = infantry model = 7 extra1 = cavalry_brigade	brigade_model1 = 5	extra2 = engineer brigade_model2 = 3 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2081 } name = "Dai 12 Hoheishidan" strength = 100 type = infantry model = 7																						 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2082 } name = "Dai 19 Hoheishidan" strength = 100 type = infantry model = 7 extra1 = cavalry_brigade	brigade_model1 = 5	extra2 = anti_air brigade_model2 = 1 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2083 } name = "Dai 24 Hoheishidan" strength = 100 type = infantry model = 6	extra  = engineer			brigade_model  = 3	locked = yes 						 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2084 } name = "Dai 25 Hoheishidan" strength = 100 type = infantry model = 7 extra1 = cavalry_brigade	brigade_model1 = 5	extra2 = engineer brigade_model2 = 3 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2085 } name = "Dai 26 Hoheishidan" strength = 100 type = infantry model = 6	extra  = engineer			brigade_model = 3 										 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2086 } name = "Dai 28 Hoheishidan" strength = 100 type = infantry model = 7 extra1 = cavalry_brigade	brigade_model1 = 5	extra2 = engineer brigade_model2 = 3 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2087 } name = "Dai 29 Hoheishidan" strength = 100 type = infantry model = 7 extra  = light_armor_brigade	brigade_model = 2 									 locked = yes }
-	
 	
 	landunit = 
 	{  
@@ -2377,7 +2379,7 @@ landunit =
      Division = 
      {  
 	   id       = {  type = 13016 id = 1502  } 
-       name     = "1st Infantry Reserve Regiment" 
+       name     = "1st Infantry Reserve" 
        strength = 30 
        type     = infantry 
        model    = 7
@@ -2460,7 +2462,466 @@ landunit =
 	   experience = 20
      } 
     } 
-} 
- 
 
- 
+
+   landunit = 
+   {  id       = {  type = 13016 id = 1077  } 
+     name     = "Tokubetsuna tasukufôsu"
+     location = 1184 
+     Division = 
+     {  id       = {  type = 13016 id = 1078  } 
+       name     = "Dai 110 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+      } 
+    }  
+
+   landunit = 
+   {  id       = {  type = 13016 id = 1045  } 
+     name     = "Dai 13 Gun" 
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1046  } 
+       name     = "Dai 12 Dokuritsu konsei ryodan" # Independent Mixed Brigade
+       strength  = 60 
+       type     = infantry 
+       model    = 7 
+      }
+     Division = 
+     {  id       = {  type = 13016 id = 1048  } 
+       name     = "Dai 116 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+      }
+    }
+	
+   landunit = 
+   {  id       = {  type = 13016 id = 1059  } 
+     name     = "Dai 23 Gun" 
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1060  } 
+       name     = "Dai 104 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+      }
+    }
+	
+   landunit = 
+   {  id       = {  type = 13016 id = 1067  } 
+     name     = "Dai 25 Gun" 
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1085  } 
+       name     = "Dai 56 Hoheiryodan" 
+       strength = 80 
+       type     = infantry 
+       model    = 7 
+       extra    = anti_air 
+	   brigade_model = 1
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 1086  } 
+       name     = "Dai 1 Konoe Shidan" # Imperial Guards 
+       strength  = 90 
+       type     = infantry 
+       model    = 7 
+       extra    = artillery 
+	   brigade_model = 6
+      }
+    }
+
+   landunit = 
+   {  id       = {  type = 13016 id = 1064  } 
+     name     = "Dai 15 Gun" 
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1087  } 
+       name     = "Dai 2 'Sendai' Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+       extra    = engineer 
+	   brigade_model = 3
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 1088  } 
+       name     = "Dai 55 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+      }
+    }
+
+   landunit = 
+   {  id       = {  type = 13016 id = 1090  } 
+     name     = "Chûô Hômengun" # Central Japan Army 
+     location = 1184 
+     Division = 
+     {  id       = {  type = 13016 id = 1091  } 
+       name     = "Dai 53 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 9 
+       extra    = anti_air 
+	   brigade_model = 1
+      } 
+    } 
+	
+   landunit = 
+   {  id       = {  type = 13016 id = 1092  } 
+     name     = "Tôbu Hômengun" # East Japan Army 
+     location = 1184 
+     Division = 
+     {  id       = {  type = 13016 id = 1093  } 
+       name     = "Dai 52 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 9 
+       extra    = anti_air 
+	   brigade_model = 1
+      } 
+    } 
+
+   landunit = 
+   {  id       = {  type = 13016 id = 1065  } 
+     name     = "Dai 14 Gun" 
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1066  } 
+       name     = "Dai 48 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+       extra    = artillery 
+	   brigade_model = 7
+      } 
+    }
+   landunit = 
+   {  id       = {  type = 13016 id = 1017  } 
+     name     = "Dai 1 Gun" 
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1019  } 
+       name     = "Dai 36 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+      }
+     Division = 
+     {  id       = {  type = 13016 id = 1018  } 
+       name     = "Dai 41 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+      }
+    }
+
+   landunit = 
+   {  id       = {  type = 13016 id = 1040  } 
+     name     = "Dai 11 Gun" 
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1041  } 
+       name     = "Dai 39 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+      }
+     Division = 
+     {  id       = {  type = 13016 id = 1042  } 
+       name     = "Dai 40 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+      }
+    }
+
+   landunit = 
+   {  id       = {  type = 13016 id = 1061  } 
+     name     = "Dai 23 Gun" 
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1062  } 
+       name     = "Dai 38 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+      } 
+    }
+
+   landunit = 
+   {  id       = {  type = 13016 id = 1010  } 
+     name     = "Dai 1 Gun"
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1011  } 
+       name     = "Dai 37 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+       extra    = artillery 
+	   brigade_model = 6
+      }
+     Division = 
+     {  id       = {  type = 13016 id = 1012  } 
+       name     = "Dai 3 Dokuritsu konsei ryodan" # Independent Mixed Brigade
+       strength  = 60 
+       type     = infantry 
+       model    = 7 
+      }
+    }
+	
+   landunit = 
+   {  id       = {  type = 13016 id = 1005  } 
+     name     = "Kita Shina Hômengun" 
+     location = 1184 
+     Division = 
+     {  id       = {  type = 13016 id = 1006  } 
+       name     = "Dai 35 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+      }
+    }
+	
+   landunit = 
+   {  id       = {  type = 13016 id = 1037  } 
+     name     = "Dai 11 Gun" 
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1038  } 
+       name     = "Dai 34 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+      }
+     Division = 
+     {  id       = {  type = 13016 id = 1039  } 
+       name     = "Dai 18 Dokuritsu konsei ryodan" # Independent Mixed Brigade
+       strength  = 60 
+       type     = infantry 
+       model    = 7 
+      }
+    }
+	
+  landunit = 
+   {  id       = {  type = 13016 id = 1119  } 
+     name     = "Dai 1 Gun" 
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1120  } 
+       name     = "Dai 4 Dokuritsu konsei ryodan" # Independent Mixed Brigade
+       strength  = 60 
+       type     = infantry 
+       model    = 7 
+      }
+     Division = 
+     {  id       = {  type = 13016 id = 1121  } 
+       name     = "Dai 9 Dokuritsu konsei ryodan" # Independent Mixed Brigade
+       strength  = 60 
+       type     = infantry 
+       model    = 7 
+      }
+     Division = 
+     {  id       = {  type = 13016 id = 1122  } 
+       name     = "Dai 16 Dokuritsu konsei ryodan" # Independent Mixed Brigade
+       strength  = 60 
+       type     = infantry 
+       model    = 7 
+      }
+    }
+   landunit = 
+   {  id       = {  type = 13016 id = 1023  } 
+     name     = "Dai 12 Gun" # 12th Army
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1024  } 
+       name     = "Dai 32 Hoheishidan" 
+       strength  = 80 
+       type     = infantry 
+       model    = 7 
+      }
+     Division = 
+     {  id       = {  type = 13016 id = 1025  } 
+       name     = "Dai 10 Dokuritsu konsei ryodan" # Independent Mixed Brigade
+       strength  = 60 
+       type     = infantry 
+       model    = 7 
+      }
+    }
+   landunit = 
+   {  id       = {  type = 13016 id = 1026  } 
+     name     = "Dai 12 Gun" 
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1027  } 
+       name     = "Dai 5 Dokuritsu konsei ryodan" # Independent Mixed Brigade
+       strength  = 60 
+       type     = infantry 
+       model    = 7 
+      }
+     Division = 
+     {  id       = {  type = 13016 id = 1028  } 
+       name     = "Dai 6 Dokuritsu konsei ryodan" # Independent Mixed Brigade
+       strength  = 60 
+       type     = infantry 
+       model    = 7 
+      }
+    }
+	
+   landunit = 
+   {  id       = {  type = 13016 id = 1056  } 
+     name     = "Dai 23 Gun" 
+     location = 1184
+     Division = 
+     {  id       = {  type = 13016 id = 1058  } 
+       name     = "Dai 19 Dokuritsu konsei ryodan" # Independent Mixed Brigade
+       strength  = 60 
+       type     = infantry 
+       model    = 7 
+      }
+    }
+
+
+	landdivision = { dormant = yes id = { type = 13016 id = 2000 } name = "1 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2001 } name = "22 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2002 } name = "2 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2003 } name = "3 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2004 } name = "4 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2005 } name = "5 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2006 } name = "6 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2007 } name = "7 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2008 } name = "8 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2009 } name = "9 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2010 } name = "10 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2011 } name = "11 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2012 } name = "12 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2013 } name = "13 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2014 } name = "14 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2015 } name = "15 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2016 } name = "16 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2017 } name = "17 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2018 } name = "18 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2019 } name = "19 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2020 } name = "20 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2021 } name = "21 Hendan" type = garrison model = 5 extra = artillery brigade_model = 9 locked = yes }
+	
+	landdivision = { dormant = yes id = { type = 13016 id = 2031 } name = "Dai 1 Indoshina Shubitai" type = garrison model = 5 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2032 } name = "Dai 2 Indoshina Shubitai" type = garrison model = 5 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2033 } name = "Dai 3 Indoshina Shubitai" type = garrison model = 5 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2034 } name = "Dai 4 Indoshina Shubitai" type = garrison model = 5 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2035 } name = "Dai 5 Indoshina Shubitai" type = infantry model = 10 }
+	landdivision = { dormant = yes id = { type = 13016 id = 2036 } name = "Dai 6 Indoshina Shubitai" type = infantry model = 10 }
+	landdivision = { dormant = yes id = { type = 13016 id = 2037 } name = "Dai 7 Indoshina Shubitai" type = garrison model = 5 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2038 } name = "Dai 8 Indoshina Shubitai" type = infantry model = 10 }
+	landdivision = { dormant = yes id = { type = 13016 id = 2039 } name = "Dai 9 Indoshina Shubitai" type = infantry model = 10 }
+	landdivision = { dormant = yes id = { type = 13016 id = 2040 } name = "Dai 10 Indoshina Shubitai" type = garrison model = 5 locked = yes }
+
+	
+	landdivision = { dormant = yes id = { type = 13016 id = 2060 }  name = "Free Indian Army"	type = garrison model = 4	locked = yes }
+	
+	landdivision = { dormant = yes id = { type = 13016 id = 2070 } name = "Kwantung Army HQ"   strength = 40 type = hq model  = 3 } 
+	landdivision = { dormant = yes id = { type = 13016 id = 2071 } name = "Kantô Bôbitai"      strength = 100 type = garrison model = 4 extra  = police 			brigade_model = 1  										 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2072 } name = "IJA Kihei Shudan"   strength = 100 type = cavalry  model = 9 																					 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2073 } name = "Dai 1 Hoheishidan"  strength = 100 type = infantry model = 9	extra  = light_armor_brigade	brigade_model = 4									 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2074 } name = "Dai 2 Hoheishidan"  strength = 100 type = infantry model = 9	extra1 = cavalry_brigade	brigade_model1 = 7 	extra2 = engineer brigade_model2 = 3 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2075 } name = "Dai 3 Hoheishidan"  strength = 100 type = infantry 																								 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2076 } name = "Dai 4 Hoheishidan"  strength = 100 type = infantry 																								 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2077 } name = "Dai 7 Hoheishidan"  strength = 100 type = infantry model = 9 extra1 = cavalry_brigade	brigade_model1 = 7	extra2 = engineer brigade_model2 = 3 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2078 } name = "Dai 8 Hoheishidan"  strength = 100 type = infantry model = 9 extra  = engineer 			brigade_model  = 3 										 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2079 } name = "Dai 9 Hoheishidan"  strength = 100 type = infantry model = 9 extra1 = cavalry_brigade	brigade_model1 = 7	extra2 = engineer brigade_model2 = 3 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2080 } name = "Dai 10 Hoheishidan" strength = 100 type = infantry model = 9 extra1 = cavalry_brigade	brigade_model1 = 7	extra2 = engineer brigade_model2 = 3 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2081 } name = "Dai 12 Hoheishidan" strength = 100 type = infantry model = 9																						 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2082 } name = "Dai 19 Hoheishidan" strength = 100 type = infantry model = 9 extra1 = cavalry_brigade	brigade_model1 = 7	extra2 = anti_air brigade_model2 = 1 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2083 } name = "Dai 24 Hoheishidan" strength = 100 type = infantry model = 9	extra  = engineer			brigade_model  = 3	locked = yes 						 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2084 } name = "Dai 25 Hoheishidan" strength = 100 type = infantry model = 9 extra1 = cavalry_brigade	brigade_model1 = 7	extra2 = engineer brigade_model2 = 3 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2085 } name = "Dai 26 Hoheishidan" strength = 100 type = infantry model = 9	extra  = engineer			brigade_model = 3 										 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2086 } name = "Dai 28 Hoheishidan" strength = 100 type = infantry model = 9 extra1 = cavalry_brigade	brigade_model1 = 7	extra2 = engineer brigade_model2 = 3 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2087 } name = "Dai 29 Hoheishidan" strength = 100 type = infantry model = 9 extra  = light_armor_brigade	brigade_model = 4 									 locked = yes }
+	
+	landdivision = { dormant = yes id = { type = 13016 id = 4001 } name = "1 IMB Beijing"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4002 } name = "2 IMB Tianjin"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4003 } name = "3 IMB Jinan"			type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4004 } name = "4 IMB Nanjing"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4005 } name = "5 IMB Hangzhou"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4006 } name = "6 IMB Wuhan"			type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4007 } name = "7 IMB Ningbo"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4008 } name = "8 IMB Nanchang"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4009 } name = "9 IMB Fuzhou"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4010 } name = "10 IMB Guangzhou"	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4011 } name = "11 IMB Yiyang"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4012 } name = "12 IMB Qinzhou"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4013 } name = "13 IMB Qiongshan"	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4014 } name = "14 IMB Guilin"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4015 } name = "15 IMB Xian"			type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	
+	
+	#Philippines
+	landdivision = { dormant = yes id = { type = 13016 id = 5001 } name = "14th Army" 				strength = 100 type = hq 			model  = 3														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5002 } name = "16th Division" 			strength = 100 type = infantry 		model  = 10	extra  = artillery				brigade_model = 9	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5003 } name = "65th IMB" 				strength = 100 type = militia 		model  = 5														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5004 } name = "4th Division"			strength = 100 type = infantry 		model  = 10	extra  = engineer				brigade_model =	4	}
+	landdivision = { dormant = yes id = { type = 13016 id = 5005 } name = "100th Division" 			strength = 100 type = infantry 		model  = 10	extra  = armored_car			brigade_model =	4	}
+	landdivision = { dormant = yes id = { type = 13016 id = 5006 } name = "8th Division" 			strength = 100 type = infantry 		model  = 10														}
+	landdivision = { dormant = yes id = { type = 13016 id = 5007 } name = "21st Division" 			strength = 100 type = infantry 		model  = 10	extra  = artillery				brigade_model = 9	}
+	landdivision = { dormant = yes id = { type = 13016 id = 5008 } name = "48th Division" 			strength = 100 type = infantry 		model  = 10	extra  = engineer				brigade_model =	4	}
+	landdivision = { dormant = yes id = { type = 13016 id = 5009 } name = "2nd Tank Division"		strength = 100 type = armor 		model  = 0														}
+	landdivision = { dormant = yes id = { type = 13016 id = 5010 } name = "56th Division" 			strength = 100 type = infantry 		model  = 10	extra  = light_armor_brigade	brigade_model = 7	}
+	landdivision = { dormant = yes id = { type = 13016 id = 5011 } name = "102nd Division" 			strength = 100 type = infantry 		model  = 10														}
+	landdivision = { dormant = yes id = { type = 13016 id = 5012 } name = "54th IMB" 				strength = 100 type = militia 		model  = 5	extra  = artillery				brigade_model = 9	}
+	landdivision = { dormant = yes id = { type = 13016 id = 5013 } name = "30th Division" 			strength = 100 type = infantry 		model  = 10	extra  = light_armor_brigade	brigade_model = 7	}
+	landdivision = { dormant = yes id = { type = 13016 id = 5014 } name = "65th IMB" 				strength = 100 type = militia 		model  = 5														}
+	
+	#Thailand/Burma/Malaya
+	landdivision = { dormant = yes id = { type = 13016 id = 5015 } name = "25th Army" 				strength = 100 type = hq 			model  = 3	extra = anti_air				brigade_model = 3	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5016 } name = "18th Division" 			strength = 100 type = infantry 		model  = 10	extra = cavalry_brigade			brigade_model = 11	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5017 } name = "22nd Division" 			strength = 100 type = infantry 		model  = 10	extra  = artillery				brigade_model = 9	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5018 } name = "10th Division" 			strength = 100 type = infantry 		model  = 10														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5019 } name = "Yokosuka SNLF" 			strength = 100 type = marine 		model  = 4	extra  = artillery				brigade_model = 9	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5020 } name = "15th Army" 				strength = 100 type = hq 			model  = 3														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5021 } name = "21st IMB" 				strength = 100 type = militia 		model  = 5														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5022 } name = "I.G. Division" 			strength = 100 type = motorized		model  = 1	extra  = sp_artillery			brigade_model = 1	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5023 } name = "33rd Division" 			strength = 100 type = infantry 		model  = 10	extra  = armored_car			brigade_model = 9	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5024 } name = "24th IMB" 				strength = 100 type = militia 		model  = 5														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5025 } name = "3rd Tank Division" 		strength = 100 type = armor 		model  = 0														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5026 } name = "49th Division" 			strength = 100 type = infantry 		model  = 10	extra  = engineer				brigade_model =	4	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5027 } name = "29th IMB" 				strength = 100 type = militia 		model  = 5														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5028 } name = "1st Division" 			strength = 100 type = infantry 		model  = 10	extra  = armored_car			brigade_model = 9	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5029 } name = "55th Division" 			strength = 100 type = infantry 		model  = 10	extra  = engineer				brigade_model =	4	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5030 } name = "35th Division" 			strength = 100 type = infantry 		model  = 10														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5031 } name = "15th Division" 			strength = 100 type = infantry 		model  = 10														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5032 } name = "5th Division" 			strength = 100 type = motorized		model  = 1														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5033 } name = "31st Division" 			strength = 100 type = infantry 		model  = 10	extra  = light_armor_brigade	brigade_model = 7	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5034 } name = "94th Division" 			strength = 100 type = infantry 		model  = 10														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5035 } name = "53rd Division" 			strength = 100 type = infantry 		model  = 10	extra  = artillery				brigade_model = 9	} 
+	
+	#Guam
+	landdivision = { dormant = yes id = { type = 13016 id = 5036 } name = "54th Division" 			strength = 100 type = infantry 		model  = 10	extra  = light_armor_brigade	brigade_model = 7	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5037 } name = "144th Division" 			strength = 100 type = infantry 		model  = 10														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5038 } name = "Maizuru SNLF" 			strength = 100 type = marine 		model  = 4	extra  = artillery				brigade_model = 9	} 
+	
+	#Hong Kong
+	landdivision = { dormant = yes id = { type = 13016 id = 5039 } name = "38th Division" 			strength = 100 type = infantry 		model  = 10	extra  = artillery				brigade_model = 9	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5040 } name = "Hong Kong D.F." 			strength = 100 type = infantry 		model  = 10														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5041 } name = "26th Division" 			strength = 100 type = infantry 		model  = 10	extra  = engineer				brigade_model =	4	} 
+	
+	#Dutch East Indies
+	landdivision = { dormant = yes id = { type = 13016 id = 5042 } name = "16th Army" 				strength = 100 type = hq 			model  = 3	extra = anti_air				brigade_model = 3	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5043 } name = "2nd Division" 			strength = 100 type = infantry 		model  = 10	extra  = super_heavy_artillery	brigade_model =	3	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5044 } name = "27th IMB" 				strength = 100 type = militia 		model  = 5														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5060 } name = "38th Division" 			strength = 100 type = infantry 		model  = 10	extra  = artillery				brigade_model = 9	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5045 } name = "128th IMB" 				strength = 100 type = militia 		model  = 5														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5061 } name = "48th Division" 			strength = 100 type = infantry 		model  = 10	extra  = engineer				brigade_model =	4	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5046 } name = "Sasebo SNLF" 			strength = 100 type = marine 		model  = 4														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5047 } name = "28th IMB" 				strength = 100 type = militia 		model  = 5	extra  = armored_car			brigade_model = 9	}
+	landdivision = { dormant = yes id = { type = 13016 id = 5062 } name = "54th Division" 			strength = 100 type = infantry 		model  = 10	extra  = light_armor_brigade	brigade_model = 7	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5048 } name = "1st Airborne Division"	strength = 100 type = paratrooper	model  = 2	extra  = glider_artillery		brigade_model = 0	}
+	landdivision = { dormant = yes id = { type = 13016 id = 5049 } name = "Kure SNLF" 				strength = 100 type = marine 		model  = 4														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5050 } name = "Yokosuka Par SNLF" 		strength = 100 type = paratrooper	model  = 2	extra  = glider_artillery		brigade_model = 0	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5063 } name = "56th Division" 			strength = 100 type = infantry 		model  = 10														} 
+
+} 

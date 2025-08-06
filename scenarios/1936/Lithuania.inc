@@ -15,6 +15,7 @@ country =
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 10  
+  SpyInfo                = { country = "LIT" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = ENG value = 65 }
     relation =

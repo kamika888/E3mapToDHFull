@@ -26,6 +26,7 @@ country =
      defense_lobby     = 3 
      interventionism   = 5 
   }
+  SpyInfo                = { country = "GRE" NumberOfSpies = 5 }
   nationalprovinces      = { 392 393 394 395 396 400 401 402 403 405 412 398 399 444
 							2319 653 563
 							2625 2872 418

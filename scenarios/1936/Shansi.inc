@@ -25,13 +25,14 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 3 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5  
      defense_lobby     = 4 
      interventionism   = 5 
   }
   # Shanxi
+  SpyInfo                = { country = "CSX" NumberOfSpies = 5 }
   nationalprovinces      = {
 1275 1276 1277 1440 1441 1267 1268 1269 1270 1271
 1222 1223 1224 1227 1228 1229 1230 1273 1274 1439
@@ -244,7 +245,7 @@ blueprints = {
        name       = "69. Division" 
        type     = militia
        strength   = 60
-       model      = 3
+       model      = 2
       }
       Division = 
      {  experience = 30 
@@ -252,7 +253,7 @@ blueprints = {
        name       = "71. Division" 
        type     = militia
        strength   = 60
-       model      = 3
+       model      = 2
       } 
     }
    landunit = 
@@ -266,7 +267,7 @@ blueprints = {
        name       = "66. Division" 
        type     = militia
        strength   = 60
-       model      = 3
+       model      = 2
       }
       Division = 
      {  experience = 30 
@@ -274,7 +275,7 @@ blueprints = {
        name       = "73. Division" 
        type     = militia
        strength   = 60
-       model      = 3
+       model      = 2
       } 
 	 Division = 
      {  experience = 30 
@@ -282,11 +283,11 @@ blueprints = {
        name       = "67. Division (German)" 
        type       = infantry
 	   strength  = 40
-       model     = 6
+       model     = 5
 	   extra1 = engineer
-	   brigade_model1 = 2
+	   brigade_model1 = 1
 	   extra2 = artillery
-	   brigade_model2 = 4
+	   brigade_model2 = 3
       }
     }
 	   landunit = 
@@ -299,7 +300,7 @@ blueprints = {
        name       = "101. Division" 
        type     = militia
        strength   = 60
-       model      = 3
+       model      = 2
       } 
     }
 		landunit = 
@@ -313,7 +314,7 @@ blueprints = {
        name       = "New 2. Division" 
        type     = infantry 
        strength   = 60
-       model      = 4
+       model      = 3
       }
       Division = 
      {  experience = 30 
@@ -321,7 +322,7 @@ blueprints = {
        name       = "7. Cavalry Division" 
        type     = cavalry
        strength   = 33
-       model      = 3
+       model      = 2
       } 
 	  Division = 
      {  experience = 30 
@@ -329,7 +330,7 @@ blueprints = {
        name       = "1/2/3. Independent Brigades" 
        type     = infantry 
        strength   = 40
-       model      = 2
+       model      = 1
       }
 	  Division = 
      {  experience = 30 
@@ -337,7 +338,7 @@ blueprints = {
        name       = "7/8/9. Independent Brigades" 
        type     = militia
        strength   = 40
-       model      = 3
+       model      = 2
       }
 	  Division = 
      {  experience = 30 
@@ -345,7 +346,7 @@ blueprints = {
        name       = "1. Shanxi Provincial Militia" 
        type     = militia
        strength   = 33
-       model      = 2
+       model      = 1
       }
 	  Division = 
      {  experience = 30 
@@ -353,7 +354,7 @@ blueprints = {
        name       = "2. Shanxi Provincial Militia" 
        type     = militia
        strength   = 33
-       model      = 2
+       model      = 1
       }
     }
   } 

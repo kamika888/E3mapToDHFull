@@ -195,7 +195,7 @@ inventions = { 3000027 }
    foreignminister        = {  type = 9 id = 3  } 
    armamentminister       = {  type = 9 id = 56 } 
    ministerofsecurity     = {  type = 9 id = 5  } 
-   ministerofintelligence = {  type = 9 id = 6  } 
+   #ministerofintelligence = {  type = 9 id = 6  } 
    chiefofstaff           = {  type = 9 id = 7  } 
    chiefofarmy            = {  type = 9 id = 8  } 
    chiefofnavy            = {  type = 9 id = 9  } 

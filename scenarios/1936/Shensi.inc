@@ -22,6 +22,7 @@ country =
   
   headofstate            = {  type = 9 id = 55500  } 
   
+  SpyInfo                = { country = "U62" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }
@@ -175,8 +176,8 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 7 
      political_left    = 3 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5 
      defense_lobby     = 4 
      interventionism   = 5 
@@ -196,7 +197,7 @@ country =
        name       = "New 1. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	 Division = 
      {  experience = 30 
@@ -204,7 +205,7 @@ country =
        name       = "1. Shaanxi Provincial Militia" 
        type       = militia 
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
 	 Division = 
      {  experience = 30 
@@ -212,9 +213,9 @@ country =
        name       = "1. 2. 3. Special Regiments" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
 	   extra1 = cavalry_brigade
-	   brigade_model1 = 6
+	   brigade_model1 = 5
       }
 	  Division = 
      {  experience = 30 
@@ -222,7 +223,7 @@ country =
        name       = "2. Shaanxi Provincial Militia" 
        type       = militia 
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
     }
 	landunit = 
@@ -245,9 +246,9 @@ country =
        name       = "New 7. Division (Guominjun)" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
 	   extra1 = cavalry_brigade
-	   brigade_model1 = 3
+	   brigade_model1 = 2
 	   locked	 = yes
       }
      Division = 
@@ -256,9 +257,9 @@ country =
        name       = "42. Division (Guominjun)" 
        type       = infantry
 	   strength  = 40
-       model     = 4
+       model     = 3
 	   extra1 = cavalry_brigade
-	   brigade_model1 = 5
+	   brigade_model1 = 4
 	   locked	 = yes
       }
 	 Division = 
@@ -267,7 +268,7 @@ country =
        name       	= "7. Cavalry Division (Guominjun)" 
        type  		= cavalry 
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
 	 Division = 
@@ -276,7 +277,7 @@ country =
        name       	= "10. Cavalry Division (Guominjun)" 
        type  		= cavalry 
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
 	  Division = 
@@ -285,7 +286,7 @@ country =
        name       = "49/51/52. Independent Brigades (Guominjun)" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
 	   locked	 = yes
       }
     }
@@ -301,7 +302,7 @@ country =
        name       	= "105. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
      Division = 
@@ -310,7 +311,7 @@ country =
        name       	= "106. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
 	 Division = 
@@ -319,7 +320,7 @@ country =
        name       	= "107. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
 	 Division = 
@@ -328,7 +329,7 @@ country =
        name       	= "108. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
      Division = 
@@ -337,7 +338,7 @@ country =
        name       	= "109. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
 	 Division = 
@@ -346,7 +347,7 @@ country =
        name       	= "110. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
 	 Division = 
@@ -355,7 +356,7 @@ country =
        name       	= "111. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
 	 Division = 
@@ -364,7 +365,7 @@ country =
        name       	= "112. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
      Division = 
@@ -373,7 +374,7 @@ country =
        name       	= "113. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
 	 Division = 
@@ -382,7 +383,7 @@ country =
        name       	= "114. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
      Division = 
@@ -391,7 +392,7 @@ country =
        name       	= "115. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
      Division = 
@@ -400,7 +401,7 @@ country =
        name       	= "116. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       }
      Division = 
@@ -409,7 +410,7 @@ country =
        name       	= "118. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
      Division = 
@@ -418,7 +419,7 @@ country =
        name       	= "117. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
      Division = 
@@ -427,7 +428,7 @@ country =
        name       	= "120. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
      Division = 
@@ -436,7 +437,7 @@ country =
        name       	= "130. Division" 
        type  		= militia
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
 	 Division = 
@@ -445,7 +446,7 @@ country =
        name       	= "3. Cavalry Division" 
        type  		= cavalry 
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
 	 Division = 
@@ -454,7 +455,7 @@ country =
        name       	= "4. Cavalry Division" 
        type  		= cavalry 
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
      Division = 
@@ -463,7 +464,7 @@ country =
        name       	= "6. Cavalry Division" 
        type  		= cavalry 
 	   strength  	= 40
-       model		= 3 
+       model		= 2 
 	   locked		= yes
       } 
 	 Division = 

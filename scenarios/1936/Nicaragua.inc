@@ -20,12 +20,13 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 5 
-     freedom           = 4 
+     freedom           = 3 
      free_market       = 3
      professional_army = 1 
      defense_lobby     = 1 
      interventionism   = 2 
   }
+  SpyInfo                = { country = "NIC" NumberOfSpies = 5 }
   nationalprovinces      = { 539 2651 4291 4292 4293 4294 4295 6504 }
   ownedprovinces         = { 539 2651 4291 4292 4293 4294 4295 6504 }
   controlledprovinces    = { 539 2651 4291 4292 4293 4294 4295 6504 }

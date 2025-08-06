@@ -17,6 +17,7 @@ country =
    # Norwegian merchant marine is INSANE! 
    transports             = 200 
    escorts                = 5 
+  SpyInfo                = { country = "NOR" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = BEL value = 100 }
     relation = { tag = DEN value = 150 }

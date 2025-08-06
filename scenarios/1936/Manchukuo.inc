@@ -20,6 +20,7 @@ country =
 	dissent				   = 30
     capital                = 2241
     #free                   = { energy = 14 metal = 7 rare_materials = 4 }
+  SpyInfo                = { country = "MAN" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = CHC value = -100 }
     relation = { tag = CHI value = -100 }
@@ -198,7 +199,7 @@ country =
      free_market       = 2
      professional_army = 5 
      defense_lobby     = 7 
-     interventionism   = 7 
+     interventionism   = 4 
   }
  inventions = { 3000027 }
    SpyInfo                = {  country = "MAN" NumberOfSpies = 5  } 
@@ -253,13 +254,13 @@ country =
 		model = 4   
        strength = 50 
       } 
-     #Division = 
-     #{  id       = {  type = 28500 id = 7  } 
-     #  name     = "6 Man'chu Lü" 
-     #  type     = militia
-	 #  model = 4   
-     #  strength = 50 
-     # } 
+     Division = 
+     {  id       = {  type = 28500 id = 7  } 
+       name     = "6 Man'chu Lü" 
+       type     = militia
+		model = 4   
+       strength = 50 
+      } 
     } 
    landunit = 
    {  location = 2241 
@@ -286,13 +287,13 @@ country =
 	   model = 4
        strength = 50 
       } 
-     #Division = 
-     #{  id       = {  type = 28500 id = 12  } 
-     #  name     = "10 Man'chu Lü" 
-     #  type     = militia 
-	 #  model = 4
-     #  strength = 50 
-     # } 
+     Division = 
+     {  id       = {  type = 28500 id = 12  } 
+       name     = "10 Man'chu Lü" 
+       type     = militia 
+	   model = 4
+       strength = 50 
+      } 
      Division = 
      {  id       = {  type = 28500 id = 13  } 
        name     = "1 Man'chu Qi'Bing" 
@@ -303,6 +304,13 @@ country =
      Division = 
      {  id       = {  type = 28500 id = 14  } 
        name     = "2 Man'chu Qi'Bing" 
+       type     = cavalry 
+	   model = 7
+       strength = 15 
+      } 
+     Division = 
+     {  id       = {  type = 28500 id = 15  } 
+       name     = "3 Man'chu Qi'Bing" 
        type     = cavalry 
 	   model = 7
        strength = 15 
@@ -340,13 +348,13 @@ country =
 	   model = 4
        strength = 50 
       } 
-     #Division = 
-     #{  id       = {  type = 28500 id = 21  } 
-     #  name     = "15 Man'chu Lü" 
-     #  type     = militia 
-	 #  model = 4
-     #  strength = 50 
-     # } 
+     Division = 
+     {  id       = {  type = 28500 id = 21  } 
+       name     = "15 Man'chu Lü" 
+       type     = militia 
+	   model = 4
+       strength = 50 
+      } 
      Division = 
      {  id       = {  type = 28500 id = 22  } 
        name     = "4 Man'chu Qi'Bing" 
@@ -387,13 +395,34 @@ country =
 	   model = 4
        strength = 50 
       } 
-     #Division = 
-     #{  id       = {  type = 28500 id = 28  } 
-     #  name     = "20 Man'chu Lü" 
-     #  type     = militia 
-	 #  model = 4
-     #  strength = 50 
-     # } 
+     Division = 
+     {  id       = {  type = 28500 id = 28  } 
+       name     = "20 Man'chu Lü" 
+       type     = militia 
+	   model = 4
+       strength = 50 
+      } 
+     Division = 
+     {  id       = {  type = 28500 id = 29  } 
+       name     = "21 Man'chu Lü" 
+       type     = militia 
+	   model = 4
+       strength = 50 
+      } 
+     Division = 
+     {  id       = {  type = 28500 id = 30  } 
+       name     = "22 Man'chu Lü" 
+       type     = militia 
+	   model = 4
+       strength = 50 
+      } 
+     Division = 
+     {  id       = {  type = 28500 id = 31  } 
+       name     = "23 Man'chu Lü" 
+       type     = militia 
+	   model = 4
+       strength = 50 
+      } 
      Division = 
      {  id       = {  type = 28500 id = 32  } 
        name     = "5 Man'chu Qi'Bing" 
@@ -406,13 +435,6 @@ country =
    {  location = 2241 
      id       = {  type = 28500 id = 33  } 
      name     = "Di'5 Chengde Jüntuan" 
-     Division = 
-     {  id       = {  type = 28500 id = 29  } 
-       name     = "21 Man'chu Lü" 
-       type     = militia 
-	   model = 4
-       strength = 50 
-      } 
      Division = 
      {  id       = {  type = 28500 id = 34  } 
        name     = "24 Man'chu Lü" 
@@ -443,4 +465,3 @@ country =
       } 
     } 
   } 
- 

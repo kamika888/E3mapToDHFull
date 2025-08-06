@@ -641,7 +641,7 @@ event = {
 		command = { trigger = { control = { province = 156 } } type = construct which = ic where = 156 value = -1 } #from 1
 		command = { trigger = { control = { province = 169 } } type = construct which = ic where = 169 value = -1 } #from 1
 		command = { trigger = { control = { province = 174 } } type = construct which = ic where = 174 value = -1 } #from 2
-		command = { trigger = { control = { province = 176 } } type = construct which = ic where = 176 value = -1 } #from 1
+		command = { trigger = { control = { province = 110 } } type = construct which = ic where = 176 value = -1 } #from 1
 		command = { trigger = { control = { province = 180 } } type = construct which = ic where = 180 value = -1 } #from 1
 		command = { trigger = { control = { province = 181 } } type = construct which = ic where = 181 value = -1 } #from 1
 		command = { trigger = { control = { province = 186 } } type = construct which = ic where = 186 value = -1 } #from 1
@@ -730,7 +730,7 @@ event = {
 		command = { trigger = { control = { province = 156 } } type = setflag which = SOV_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 169 } } type = setflag which = SOV_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 174 } } type = setflag which = SOV_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 176 } } type = setflag which = SOV_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 110 } } type = setflag which = SOV_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 180 } } type = setflag which = SOV_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 181 } } type = setflag which = SOV_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 186 } } type = setflag which = SOV_ICbuild_count when = 1 value = 1 }
@@ -1359,23 +1359,26 @@ event = {
 
 #####################################################################################
 #CHINA
+#cut down compared to the original, china needs to remain weak, and it was not really able to evacuate all that much
 #####################################################################################
 
 #####################################################################################
-# Industry relocation to the interior. Both phase 1 and 2 are same area
-# Phase 1 - 35 IC
-# Phase 2 - 26 IC
-# Phase 1: 30  days (30 days started immediately)
-# Phase 2: 60  days (30 days, started after phase 1 is done)
-# Each factory costs 5 TC to transport
+# Industry relocation to the interior. Both 1 and 2 cover the same area
+# Big Cities 1 - 22 IC
+# Big Cities 2 - 22 IC
+# Small cities - 20 IC
+# BC1 : 45  days (45 days started immediately)
+# SC  : 90  days (45 days, started after BC1 is done)
+# BC2 : 135 days (45 days, started after phase 3 is done. AI will start only if Japan has made little progress)
+# Each factory costs 8 TC to transport
 # Most likely border provinces like Beijing will not get evacuated at all
 #
 #####################################################################################
-# Phase 1: 35 IC
+# Big Cities 1: 22 IC
 #####################################################################################
 
 event = { 
-	id = 2012007
+	id = 2012210
 	random = no
 	country = CHI
 
@@ -1388,43 +1391,34 @@ event = {
 			#war = { country = VIC }
 			#war = { country = USA }
 		}
+		NOT = {
+			event = { id = 1330110081 days = 360 }
+		}
 	}
 				
 	decision_trigger = {
-
 		OR = {
 			control = { province = 559  }
+			control = { province = 1204 }
 			control = { province = 1205 }
-			control = { province = 1214 }
 			control = { province = 1221 }
 			control = { province = 1225 }
 			control = { province = 1228 }
 			control = { province = 1232 }
-			control = { province = 1234 }
 			control = { province = 1235 }
+			control = { province = 1236 }
+			#control = { province = 1237 }
+			control = { province = 1238 }
 			control = { province = 1244 }
-			control = { province = 1247 }
-			control = { province = 1248 }
 			control = { province = 1251 }
 			control = { province = 1255 }
-			control = { province = 1258 }
 			control = { province = 1260 }
 			control = { province = 1313 }
-			control = { province = 1314 }
-			control = { province = 1319 }
-			control = { province = 1921 }
-			control = { province = 2513 }
+			control = { province = 1315 }
+			control = { province = 1316 }
 			control = { province = 2529 }
 			control = { province = 2533 }
 			control = { province = 2569 }
-			control = { province = 568 }
-			control = { province = 1211 }
-			control = { province = 1212 }
-			control = { province = 1238 }
-			control = { province = 1240 }
-			control = { province = 5640 }
-			control = { province = 5642 }
-			control = { province = 5646 }
 		}
 	}
 						
@@ -1437,46 +1431,39 @@ event = {
 			#war = { country = VIC }
 			#war = { country = USA }
 		}
+		NOT = {
+			event = { id = 1330110081 days = 360 }
+		}
 		NOT = { local_flag = CHIEvac2 }
+		NOT = { local_flag = CHIEvac3 }
 
 		OR = {
 			control = { province = 559  }
+			control = { province = 1204 }
 			control = { province = 1205 }
-			control = { province = 1214 }
 			control = { province = 1221 }
 			control = { province = 1225 }
 			control = { province = 1228 }
 			control = { province = 1232 }
-			control = { province = 1234 }
 			control = { province = 1235 }
+			control = { province = 1236 }
+			#control = { province = 1237 }
+			control = { province = 1238 }
 			control = { province = 1244 }
-			control = { province = 1247 }
-			control = { province = 1248 }
 			control = { province = 1251 }
 			control = { province = 1255 }
-			control = { province = 1258 }
 			control = { province = 1260 }
 			control = { province = 1313 }
-			control = { province = 1314 }
-			control = { province = 1319 }
-			control = { province = 1921 }
-			control = { province = 2513 }
+			control = { province = 1315 }
+			control = { province = 1316 }
 			control = { province = 2529 }
 			control = { province = 2533 }
 			control = { province = 2569 }
-			control = { province = 568 }
-			control = { province = 1211 }
-			control = { province = 1212 }
-			control = { province = 1238 }
-			control = { province = 1240 }
-			control = { province = 5640 }
-			control = { province = 5642 }
-			control = { province = 5646 }
 		}
 	}
 
-	name = "Industry evacuation: Phase 1"
-	desc = "Phase 1 of the industry relocation programme takes from the main populated areas of the north, the coast, and river valleys which are at risk of enemy attack or occupation. You have to defend these provinces for at least a month in order to complete the relocation. Beware of ordering too many relocations at the same time! If industry relocation does not happen in a phased and orderly fashion, it can cause a collapse of our transportation network and our fighting capacity with it."
+	name = "Industry evacuation: Big Cities 1"
+	desc = "The first part of the Big Cities industry relocation programme takes from the main populated areas of the north, the coast, and river valleys which are at risk of enemy attack or occupation, with the focus on industrial centers (more than 2 IC). You have to defend these provinces for at least 45 days in order to complete the relocation. Beware of ordering too many relocations at the same time! If industry relocation does not happen in a phased and orderly fashion, it can cause a collapse of our transportation network and our fighting capacity with it."
 	style = 2
 
 	date = { day = 0 month = january year = 1936 }
@@ -1485,105 +1472,85 @@ event = {
 
 	action = {
 		name = "Let's move our factories to the interior" 
-		command = { type = extra_tc 		value = -175 }
-		#command = { type = free_supplies 	value = -18  }
+		command = { type = extra_tc 		value = -110 }
+		#command = { type = free_supplies 	value = -11  }
 		
-		command = { type = event which = 2012008 where = -1 when = 30 } # relocation finished
+		command = { type = event which = 2012211 where = -1 when = 45 } # relocation finished
 		command = { type = local_setflag which = CHIEvac1 }
 	}
 }
 
 event = { 
-	id = 2012008
+	id = 2012211
 	random = no
 	country = CHI
 
-	name = "Industry evacuation: Phase 1 - finished"
-	desc = "Phase 1 of our industry evacuation has been finished! It will, however, take a few more months to re-establish the factories at the new locations."
+	name = "Industry evacuation: Big Cities 1 - finished"
+	desc = "The first part of the Big Cities industry evacuation has been finished! It will, however, take a few more months to re-establish the factories at the new locations."
 	style = 2
 
 	action_a = {
 		name = ACTION_NAME_EXCELLENT
-		command = { type = extra_tc 		value = 175 }
-		#command = { type = free_supplies 	value = 18  }
+		command = { type = extra_tc 		value = 110 }
+		#command = { type = free_supplies 	value = 11  }
 		
-		command = { type = sleepevent which = 2012009 } # relocation failed completely
+		command = { type = sleepevent which = 2012212 } # relocation failed completely
 		
 		command = { trigger = { control = { province = 559  } } type = construct which = ic where = 559  value = -1 } #from 3
+		command = { trigger = { control = { province = 1204 } } type = construct which = ic where = 1204 value = -1 } #from 3
 		command = { trigger = { control = { province = 1205 } } type = construct which = ic where = 1205 value = -1 } #from 4
-		command = { trigger = { control = { province = 1211 } } type = construct which = ic where = 1211 value = -1 } #from 2
-		command = { trigger = { control = { province = 1212 } } type = construct which = ic where = 1212 value = -1 } #from 2
-		command = { trigger = { control = { province = 1214 } } type = construct which = ic where = 1214 value = -1 } #from 2
 		command = { trigger = { control = { province = 1221 } } type = construct which = ic where = 1221 value = -1 } #from 3
 		command = { trigger = { control = { province = 1225 } } type = construct which = ic where = 1225 value = -1 } #from 3
 		command = { trigger = { control = { province = 1228 } } type = construct which = ic where = 1228 value = -1 } #from 3
 		command = { trigger = { control = { province = 1232 } } type = construct which = ic where = 1232 value = -1 } #from 4
-		command = { trigger = { control = { province = 1234 } } type = construct which = ic where = 1234 value = -1 } #from 2
 		command = { trigger = { control = { province = 1235 } local_flag = 1330110083 } type = construct which = ic where = 1235 value = -2 } #from 6
+		command = { trigger = { control = { province = 1236 } } type = construct which = ic where = 1236 value = -1 } #from 3
+		#command = { trigger = { control = { province = 1237 } } type = construct which = ic where = 1237 value = -1 } #from 5
 		command = { trigger = { control = { province = 1238 } } type = construct which = ic where = 1238 value = -1 } #from 3
-		command = { trigger = { control = { province = 1240 } } type = construct which = ic where = 1240 value = -1 } #from 2
 		command = { trigger = { control = { province = 1244 } } type = construct which = ic where = 1244 value = -1 } #from 3
-		command = { trigger = { control = { province = 1247 } } type = construct which = ic where = 1247 value = -1 } #from 2
-		command = { trigger = { control = { province = 1248 } } type = construct which = ic where = 1248 value = -1 } #from 2
 		command = { trigger = { control = { province = 1251 } } type = construct which = ic where = 1251 value = -1 } #from 3
 		command = { trigger = { control = { province = 1255 } } type = construct which = ic where = 1255 value = -1 } #from 3
-		command = { trigger = { control = { province = 1258 } } type = construct which = ic where = 1258 value = -1 } #from 2
 		command = { trigger = { control = { province = 1260 } } type = construct which = ic where = 1260 value = -1 } #from 3
 		command = { trigger = { control = { province = 1313 } } type = construct which = ic where = 1313 value = -2 } #from 5
-		command = { trigger = { control = { province = 1314 } } type = construct which = ic where = 1314 value = -1 } #from 2
-		command = { trigger = { control = { province = 1319 } } type = construct which = ic where = 1319 value = -1 } #from 2
-		command = { trigger = { control = { province = 1921 } } type = construct which = ic where = 1921 value = -1 } #from 2
-		command = { trigger = { control = { province = 2513 } } type = construct which = ic where = 2513 value = -1 } #from 2
+		command = { trigger = { control = { province = 1315 } } type = construct which = ic where = 1315 value = -1 } #from 3
+		command = { trigger = { control = { province = 1316 } } type = construct which = ic where = 1316 value = -1 } #from 3
 		command = { trigger = { control = { province = 2529 } } type = construct which = ic where = 2529 value = -1 } #from 3
 		command = { trigger = { control = { province = 2533 } } type = construct which = ic where = 2533 value = -1 } #from 3
 		command = { trigger = { control = { province = 2569 } } type = construct which = ic where = 2569 value = -1 } #from 3
-		command = { trigger = { control = { province = 5640 } } type = construct which = ic where = 5640 value = -1 } #from 2
-		command = { trigger = { control = { province = 5642 } } type = construct which = ic where = 5642 value = -1 } #from 2
-		command = { trigger = { control = { province = 5646 } } type = construct which = ic where = 5646 value = -1 } #from 2
 		
 		command = { trigger = { control = { province = 559  } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1204 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1205 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1211 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1212 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1214 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1221 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1225 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1228 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1232 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1234 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1235 } local_flag = 1330110083 } type = setflag which = CHI_ICbuild_count when = 1 value = 2 }
+		command = { trigger = { control = { province = 1236 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		#command = { trigger = { control = { province = 1237 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1238 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1240 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1244 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1247 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1248 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1251 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1255 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1258 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1260 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1313 } } type = setflag which = CHI_ICbuild_count when = 1 value = 2 }
-		command = { trigger = { control = { province = 1314 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1319 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1921 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 2513 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1315 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1316 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 2529 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 2533 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 2569 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 5640 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 5642 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 5646 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		
 		command = { type = local_clrflag which = CHIEvac1 }
 	}
 }
 
 event = { 
-	id = 2012009
+	id = 2012212
 	random = no
 	country = CHI
 
 	trigger= { 
-		event = 2012007
+		event = 2012210
 		OR = {
 			#war = { country = SOV }
 			#war = { country = GER }
@@ -1595,42 +1562,31 @@ event = {
 
 		NOT = {
 			control = { province = 559  }
+			control = { province = 1204 }
 			control = { province = 1205 }
-			control = { province = 1214 }
 			control = { province = 1221 }
 			control = { province = 1225 }
 			control = { province = 1228 }
 			control = { province = 1232 }
-			control = { province = 1234 }
 			control = { province = 1235 }
+			control = { province = 1236 }
+			#control = { province = 1237 }
+			control = { province = 1238 }
 			control = { province = 1244 }
-			control = { province = 1247 }
-			control = { province = 1248 }
 			control = { province = 1251 }
 			control = { province = 1255 }
-			control = { province = 1258 }
 			control = { province = 1260 }
 			control = { province = 1313 }
-			control = { province = 1314 }
-			control = { province = 1319 }
-			control = { province = 1921 }
-			control = { province = 2513 }
+			control = { province = 1315 }
+			control = { province = 1316 }
 			control = { province = 2529 }
 			control = { province = 2533 }
 			control = { province = 2569 }
-			control = { province = 568 }
-			control = { province = 1211 }
-			control = { province = 1212 }
-			control = { province = 1238 }
-			control = { province = 1240 }
-			control = { province = 5640 }
-			control = { province = 5642 }
-			control = { province = 5646 }
 		}
-		NOT = { event = 2012008 }
+		NOT = { event = 2012211 }
 	}
 
-	name = "Industry evacuation: Phase 1 - failed"
+	name = "Industry evacuation: Big Cities 1 - failed"
 	desc = "We weren't able to complete the industry relocation from our main industrial centers. All factories are now under enemy control!"
 	style = 2
 
@@ -1640,12 +1596,12 @@ event = {
 
 	action = {
 		name = ACTION_NAME_DAMN
-		command = { type = extra_tc 		value = 175 }
-		#command = { type = free_supplies 	value = 18  }
+		command = { type = extra_tc 		value = 110 }
+		#command = { type = free_supplies 	value = 11  }
 		
 		command = { type = dissent value = 3 }
 		
-		command = { type = sleepevent which = 2012008 }
+		command = { type = sleepevent which = 2012211 }
 		
 		command = { type = local_clrflag which = CHIEvac1 }
 	}
@@ -1653,11 +1609,11 @@ event = {
 
 
 #####################################################################################
-# Phase 2: 26 IC
+# Big Cities 2: 22 IC
 #####################################################################################
 
 event = { 
-	id = 2012010
+	id = 2012220
 	random = no
 	country = CHI
 
@@ -1670,36 +1626,34 @@ event = {
 			#war = { country = VIC }
 			#war = { country = USA }
 		}
+		NOT = {
+			event = { id = 1330110081 days = 360 }
+		}
 	}
 				
 	decision_trigger = {
 		OR = {
 			control = { province = 559  }
+			control = { province = 1204 }
 			control = { province = 1205 }
 			control = { province = 1221 }
-			control = { province = 1222 }
 			control = { province = 1225 }
 			control = { province = 1228 }
 			control = { province = 1232 }
 			control = { province = 1235 }
+			control = { province = 1236 }
+			#control = { province = 1237 }
+			control = { province = 1238 }
 			control = { province = 1244 }
 			control = { province = 1251 }
 			control = { province = 1255 }
 			control = { province = 1260 }
 			control = { province = 1313 }
-			control = { province = 2513 }
-			control = { province = 2515 }
+			control = { province = 1315 }
+			control = { province = 1316 }
 			control = { province = 2529 }
 			control = { province = 2533 }
 			control = { province = 2569 }
-			control = { province = 568 }
-			control = { province = 1215 }
-			control = { province = 1216 }
-			control = { province = 1220 }
-			control = { province = 1233 }
-			control = { province = 1238 }
-			control = { province = 2522 }
-			control = { province = 5637 }
 		}
 	}
 						
@@ -1712,41 +1666,42 @@ event = {
 			#war = { country = VIC }
 			#war = { country = USA }
 		}
-		event = 2012007
+		NOT = {
+			event = { id = 1330110081 days = 360 }
+		}
+		event = 2012210
+		event = 2012230
 		NOT = { local_flag = CHIEvac1 }
+		NOT = { local_flag = CHIEvac3 }
 
 		OR = {
 			control = { province = 559  }
+			control = { province = 1204 }
 			control = { province = 1205 }
 			control = { province = 1221 }
-			control = { province = 1222 }
 			control = { province = 1225 }
 			control = { province = 1228 }
 			control = { province = 1232 }
 			control = { province = 1235 }
+			control = { province = 1236 }
+			#control = { province = 1237 }
+			control = { province = 1238 }
 			control = { province = 1244 }
 			control = { province = 1251 }
 			control = { province = 1255 }
 			control = { province = 1260 }
 			control = { province = 1313 }
-			control = { province = 2513 }
-			control = { province = 2515 }
+			control = { province = 1315 }
+			control = { province = 1316 }
 			control = { province = 2529 }
 			control = { province = 2533 }
 			control = { province = 2569 }
-			control = { province = 568 }
-			control = { province = 1215 }
-			control = { province = 1216 }
-			control = { province = 1220 }
-			control = { province = 1233 }
-			control = { province = 1238 }
-			control = { province = 2522 }
-			control = { province = 5637 }
 		}
+		NOT = { flag = { which = japChi when = 1  value = 25 } }
 	}
 
-	name = "Industry evacuation: Phase 2"
-	desc = "Phase 2 of the industry relocation programme takes from the main populated areas of the north, the coast, and river valleys which are at risk of enemy attack or occupation. You have to defend these provinces for at least a month in order to complete the relocation. Beware of ordering too many relocations at the same time! If industry relocation does not happen in a phased and orderly fashion, it can cause a collapse of our transportation network and our fighting capacity with it."
+	name = "Industry evacuation: Big Cities 2"
+	desc = "The second part of the Big Cities industry relocation programme takes from the main populated areas of the north, the coast, and river valleys which are at risk of enemy attack or occupation, with the focus on industrial centers (more than 2 IC). You have to defend these provinces for at least 45 days in order to complete the relocation. Beware of ordering too many relocations at the same time! If industry relocation does not happen in a phased and orderly fashion, it can cause a collapse of our transportation network and our fighting capacity with it."
 	style = 2
 
 	date = { day = 0 month = january year = 1936 }
@@ -1755,96 +1710,85 @@ event = {
 
 	action = {
 		name = "Let's move our factories to the interior" 
-		command = { type = extra_tc 		value = -130 }
-		#command = { type = free_supplies 	value = -13  }
+		command = { type = extra_tc 		value = -110 }
+		#command = { type = free_supplies 	value = -11  }
 		
-		command = { type = event which = 2012011 where = -1 when = 30 } # relocation finished
+		command = { type = event which = 2012221 where = -1 when = 45 } # relocation finished
 		command = { type = local_setflag which = CHIEvac2 }
 	}
 }
 
 event = { 
-	id = 2012011
+	id = 2012221
 	random = no
 	country = CHI
 
-	name = "Industry evacuation: Phase 2 - finished"
-	desc = "Phase 2 of our industry evacuation has been finished! It will, however, take a few more months to re-establish the factories at the new locations."
+	name = "Industry evacuation: Big Cities 2 - finished"
+	desc = "The second part of the Big Cities industry evacuation has been finished! It will, however, take a few more months to re-establish the factories at the new locations."
 	style = 2
 
 	action_a = {
 		name = ACTION_NAME_EXCELLENT
-		command = { type = extra_tc 		value = 130 }
-		command = { type = free_supplies 	value = 13  }
+		command = { type = extra_tc 		value = 110 }
+		#command = { type = free_supplies 	value = 11  }
 		
-		command = { type = sleepevent which = 2012012 } # relocation failed completely
+		command = { type = sleepevent which = 2012222 } # relocation failed completely
 		
-		command = { trigger = { control = { province = 559  } } type = construct which = ic where = 559 value  = -1 } #from 3
-		command = { trigger = { control = { province = 568  } } type = construct which = ic where = 568 value  = -1 } #from 1
+		command = { trigger = { control = { province = 559  } } type = construct which = ic where = 559  value = -1 } #from 3
+		command = { trigger = { control = { province = 1204 } } type = construct which = ic where = 1204 value = -1 } #from 3
 		command = { trigger = { control = { province = 1205 } } type = construct which = ic where = 1205 value = -1 } #from 4
-		command = { trigger = { control = { province = 1215 } } type = construct which = ic where = 1215 value = -1 } #from 2
-		command = { trigger = { control = { province = 1216 } } type = construct which = ic where = 1216 value = -1 } #from 2
-		command = { trigger = { control = { province = 1220 } } type = construct which = ic where = 1220 value = -1 } #from 2
 		command = { trigger = { control = { province = 1221 } } type = construct which = ic where = 1221 value = -1 } #from 3
-		command = { trigger = { control = { province = 1222 } } type = construct which = ic where = 1222 value = -1 } #from 1
 		command = { trigger = { control = { province = 1225 } } type = construct which = ic where = 1225 value = -1 } #from 3
-		command = { trigger = { control = { province = 1228 } } type = construct which = ic where = 1228 value = -2 } #from 3
+		command = { trigger = { control = { province = 1228 } } type = construct which = ic where = 1228 value = -1 } #from 3
 		command = { trigger = { control = { province = 1232 } } type = construct which = ic where = 1232 value = -1 } #from 4
-		command = { trigger = { control = { province = 1233 } } type = construct which = ic where = 1233 value = -1 } #from 3
 		command = { trigger = { control = { province = 1235 } local_flag = 1330110083 } type = construct which = ic where = 1235 value = -2 } #from 6
-		command = { trigger = { control = { province = 1238 } } type = construct which = ic where = 1238 value = -1 } #from 2
+		command = { trigger = { control = { province = 1236 } } type = construct which = ic where = 1236 value = -1 } #from 3
+		#command = { trigger = { control = { province = 1237 } } type = construct which = ic where = 1237 value = -1 } #from 5
+		command = { trigger = { control = { province = 1238 } } type = construct which = ic where = 1238 value = -1 } #from 3
 		command = { trigger = { control = { province = 1244 } } type = construct which = ic where = 1244 value = -1 } #from 3
 		command = { trigger = { control = { province = 1251 } } type = construct which = ic where = 1251 value = -1 } #from 3
 		command = { trigger = { control = { province = 1255 } } type = construct which = ic where = 1255 value = -1 } #from 3
 		command = { trigger = { control = { province = 1260 } } type = construct which = ic where = 1260 value = -1 } #from 3
-		command = { trigger = { control = { province = 1313 } } type = construct which = ic where = 1313 value = -1 } #from 5
-		command = { trigger = { control = { province = 2513 } } type = construct which = ic where = 2513 value = -1 } #from 2
-		command = { trigger = { control = { province = 2515 } } type = construct which = ic where = 2515 value = -1 } #from 1
-		command = { trigger = { control = { province = 2522 } } type = construct which = ic where = 2522 value = -1 } #from 3
+		command = { trigger = { control = { province = 1313 } } type = construct which = ic where = 1313 value = -2 } #from 5
+		command = { trigger = { control = { province = 1315 } } type = construct which = ic where = 1315 value = -1 } #from 3
+		command = { trigger = { control = { province = 1316 } } type = construct which = ic where = 1316 value = -1 } #from 3
 		command = { trigger = { control = { province = 2529 } } type = construct which = ic where = 2529 value = -1 } #from 3
 		command = { trigger = { control = { province = 2533 } } type = construct which = ic where = 2533 value = -1 } #from 3
 		command = { trigger = { control = { province = 2569 } } type = construct which = ic where = 2569 value = -1 } #from 3
-		command = { trigger = { control = { province = 5637 } } type = construct which = ic where = 5637 value = -1 } #from 2
 		
-
 		command = { trigger = { control = { province = 559  } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 568  } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1204 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1205 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1215 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1216 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1220 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1221 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1222 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1225 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1228 } } type = setflag which = CHI_ICbuild_count when = 1 value = 2 }
+		command = { trigger = { control = { province = 1228 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1232 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1233 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1235 } local_flag = 1330110083 } type = setflag which = CHI_ICbuild_count when = 1 value = 2 }
+		command = { trigger = { control = { province = 1236 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		#command = { trigger = { control = { province = 1237 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1238 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1244 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1251 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1255 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 1260 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 1313 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 2513 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 2515 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 2522 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1313 } } type = setflag which = CHI_ICbuild_count when = 1 value = 2 }
+		command = { trigger = { control = { province = 1315 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1316 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 2529 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 2533 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		command = { trigger = { control = { province = 2569 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
-		command = { trigger = { control = { province = 5637 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
 		
 		command = { type = local_clrflag which = CHIEvac2 }
 	}
 }
 
 event = { 
-	id = 2012012
+	id = 2012222
 	random = no
 	country = CHI
 
 	trigger= { 
-		event = 2012010
+		event = 2012220
 		OR = {
 			#war = { country = SOV }
 			#war = { country = GER }
@@ -1856,37 +1800,31 @@ event = {
 
 		NOT = {
 			control = { province = 559  }
+			control = { province = 1204 }
 			control = { province = 1205 }
 			control = { province = 1221 }
-			control = { province = 1222 }
 			control = { province = 1225 }
 			control = { province = 1228 }
 			control = { province = 1232 }
 			control = { province = 1235 }
+			control = { province = 1236 }
+			#control = { province = 1237 }
+			control = { province = 1238 }
 			control = { province = 1244 }
 			control = { province = 1251 }
 			control = { province = 1255 }
 			control = { province = 1260 }
 			control = { province = 1313 }
-			control = { province = 2513 }
-			control = { province = 2515 }
+			control = { province = 1315 }
+			control = { province = 1316 }
 			control = { province = 2529 }
 			control = { province = 2533 }
 			control = { province = 2569 }
-			control = { province = 568 }
-			control = { province = 1215 }
-			control = { province = 1216 }
-			control = { province = 1220 }
-			control = { province = 1233 }
-			control = { province = 1238 }
-			control = { province = 2522 }
-			control = { province = 5637 }
-
 		}
-		NOT = { event = 2012011 }
+		NOT = { event = 2012221 }
 	}
 
-	name = "Industry evacuation: Phase 2 - failed"
+	name = "Industry evacuation: Big Cities 2 - failed"
 	desc = "We weren't able to complete the industry relocation from our main industrial centers. All factories are now under enemy control!"
 	style = 2
 
@@ -1896,17 +1834,247 @@ event = {
 
 	action = {
 		name = ACTION_NAME_DAMN
-		command = { type = extra_tc 		value = 130 }
-		#command = { type = free_supplies 	value = 13  }
+		command = { type = extra_tc 		value = 110 }
+		#command = { type = free_supplies 	value = 11  }
 		
 		command = { type = dissent value = 3 }
 		
-		command = { type = sleepevent which = 2012011 }
+		command = { type = sleepevent which = 2012221 }
 		
 		command = { type = local_clrflag which = CHIEvac2 }
 	}
 }
 
+
+#####################################################################################
+# Small Cities: 20 IC
+#####################################################################################
+
+event = { 
+	id = 2012230
+	random = no
+	country = CHI
+
+	decision = { 
+		OR = {
+			#war = { country = SOV }
+			#war = { country = GER }
+			war = { country = JAP }
+			#war = { country = ENG }
+			#war = { country = VIC }
+			#war = { country = USA }
+		}
+		NOT = {
+			event = { id = 1330110081 days = 360 }
+		}
+	}
+				
+	decision_trigger = {
+		OR = {
+			control = { province = 1211 }
+			control = { province = 1212 }
+			control = { province = 1214 }
+			control = { province = 1215 }
+			control = { province = 1216 }
+			control = { province = 1220 }
+			control = { province = 1234 }
+			control = { province = 1240 }
+			control = { province = 1247 }
+			control = { province = 1248 }
+			control = { province = 1258 }
+			control = { province = 1314 }
+			control = { province = 1319 }
+			control = { province = 1921 }
+			control = { province = 2513 }
+			control = { province = 2522 }
+			control = { province = 5637 }
+			control = { province = 5642 }
+			control = { province = 5646 }
+			control = { province = 6916 }
+		}
+	}
+						
+	trigger = { 
+		OR = {
+			#war = { country = SOV }
+			#war = { country = GER }
+			war = { country = JAP }
+			#war = { country = ENG }
+			#war = { country = VIC }
+			#war = { country = USA }
+		}
+		NOT = {
+			event = { id = 1330110081 days = 360 }
+		}
+		event = 2012210
+		NOT = { local_flag = CHIEvac1 }
+		NOT = { local_flag = CHIEvac2 }
+
+		OR = {
+			control = { province = 1211 }
+			control = { province = 1212 }
+			control = { province = 1214 }
+			control = { province = 1215 }
+			control = { province = 1216 }
+			control = { province = 1220 }
+			control = { province = 1234 }
+			control = { province = 1240 }
+			control = { province = 1247 }
+			control = { province = 1248 }
+			control = { province = 1258 }
+			control = { province = 1314 }
+			control = { province = 1319 }
+			control = { province = 1921 }
+			control = { province = 2513 }
+			control = { province = 2522 }
+			control = { province = 5637 }
+			control = { province = 5642 }
+			control = { province = 5646 }
+			control = { province = 6916 }
+		}
+	}
+
+	name = "Industry evacuation: Small Cities"
+	desc = "The small cities part of the industry relocation programme takes from the secondary populated areas and provincial capitals of the north, the coast, and river valleys which are at risk of enemy attack or occupation, with the focus on mid-sized industrial centers (2 IC). You have to defend these provinces for at least 45 days in order to complete the relocation. Beware of ordering too many relocations at the same time! If industry relocation does not happen in a phased and orderly fashion, it can cause a collapse of our transportation network and our fighting capacity with it."
+	style = 2
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 1
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Let's move our factories to the interior" 
+		command = { type = extra_tc 		value = -100 }
+		#command = { type = free_supplies 	value = -10  }
+		
+		command = { type = event which = 2012231 where = -1 when = 45 } # relocation finished
+		command = { type = local_setflag which = CHIEvac3 }
+	}
+}
+
+event = { 
+	id = 2012231
+	random = no
+	country = CHI
+
+	name = "Industry evacuation: Small Cities - finished"
+	desc = "Small Cities industry evacuation has been finished! It will, however, take a few more months to re-establish the factories at the new locations."
+	style = 2
+
+	action_a = {
+		name = ACTION_NAME_EXCELLENT
+		command = { type = extra_tc 		value = 100 }
+		#command = { type = free_supplies 	value = 10  }
+		
+		command = { type = sleepevent which = 2012232 } # relocation failed completely
+		
+		command = { trigger = { control = { province = 1211 } } type = construct which = ic where = 1211 value = -1 } #from 2
+		command = { trigger = { control = { province = 1212 } } type = construct which = ic where = 1212 value = -1 } #from 2
+		command = { trigger = { control = { province = 1214 } } type = construct which = ic where = 1214 value = -1 } #from 2
+		command = { trigger = { control = { province = 1215 } } type = construct which = ic where = 1215 value = -1 } #from 2
+		command = { trigger = { control = { province = 1216 } } type = construct which = ic where = 1216 value = -1 } #from 2
+		command = { trigger = { control = { province = 1220 } } type = construct which = ic where = 1220 value = -1 } #from 2
+		command = { trigger = { control = { province = 1234 } } type = construct which = ic where = 1234 value = -1 } #from 2
+		command = { trigger = { control = { province = 1240 } } type = construct which = ic where = 1240 value = -1 } #from 2
+		command = { trigger = { control = { province = 1247 } } type = construct which = ic where = 1247 value = -1 } #from 2
+		command = { trigger = { control = { province = 1248 } } type = construct which = ic where = 1248 value = -1 } #from 2
+		command = { trigger = { control = { province = 1258 } } type = construct which = ic where = 1258 value = -1 } #from 2
+		command = { trigger = { control = { province = 1314 } } type = construct which = ic where = 1314 value = -1 } #from 2
+		command = { trigger = { control = { province = 1319 } } type = construct which = ic where = 1319 value = -1 } #from 2
+		command = { trigger = { control = { province = 1921 } } type = construct which = ic where = 1921 value = -1 } #from 2
+		command = { trigger = { control = { province = 2513 } } type = construct which = ic where = 2513 value = -1 } #from 2
+		command = { trigger = { control = { province = 2522 } } type = construct which = ic where = 2522 value = -1 } #from 2
+		command = { trigger = { control = { province = 5637 } } type = construct which = ic where = 5637 value = -1 } #from 2
+		command = { trigger = { control = { province = 5642 } } type = construct which = ic where = 5642 value = -1 } #from 2
+		command = { trigger = { control = { province = 5646 } } type = construct which = ic where = 5646 value = -1 } #from 2
+		command = { trigger = { control = { province = 6916 } } type = construct which = ic where = 6916 value = -1 } #from 2
+		
+		command = { trigger = { control = { province = 1211 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1212 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1214 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1215 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1216 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1220 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1234 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1240 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1247 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1248 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1258 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1314 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1319 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 1921 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 2513 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 2522 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 5637 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 5642 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 5646 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		command = { trigger = { control = { province = 6916 } } type = setflag which = CHI_ICbuild_count when = 1 value = 1 }
+		
+		command = { type = local_clrflag which = CHIEvac3 }
+	}
+}
+
+event = { 
+	id = 2012232
+	random = no
+	country = CHI
+
+	trigger= { 
+		event = 2012230
+		OR = {
+			#war = { country = SOV }
+			#war = { country = GER }
+			war = { country = JAP }
+			#war = { country = ENG }
+			#war = { country = VIC }
+			#war = { country = USA }
+		}
+
+		NOT = {
+			control = { province = 1211 }
+			control = { province = 1212 }
+			control = { province = 1214 }
+			control = { province = 1215 }
+			control = { province = 1216 }
+			control = { province = 1220 }
+			control = { province = 1234 }
+			control = { province = 1240 }
+			control = { province = 1247 }
+			control = { province = 1248 }
+			control = { province = 1258 }
+			control = { province = 1314 }
+			control = { province = 1319 }
+			control = { province = 1921 }
+			control = { province = 2513 }
+			control = { province = 2522 }
+			control = { province = 5637 }
+			control = { province = 5642 }
+			control = { province = 5646 }
+			control = { province = 6916 }
+		}
+		NOT = { event = 2012231 }
+	}
+
+	name = "Industry evacuation: Small Cities - failed"
+	desc = "We weren't able to complete the industry relocation from our provincial capitals. All factories are now under enemy control!"
+	style = 2
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 1
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_DAMN
+		command = { type = extra_tc 		value = 100 }
+		#command = { type = free_supplies 	value = 10  }
+		
+		command = { type = dissent value = 3 }
+		
+		command = { type = sleepevent which = 2012231 }
+		
+		command = { type = local_clrflag which = CHIEvac3 }
+	}
+}
 
 
 #####################################################################################
@@ -1924,9 +2092,9 @@ event = {
 		flag = { which = SOV_ICbuild_count when = 1 value = 1 }
 	}
 
-	#name = "Factory built"
-	#desc = "Factory built" 
-	name = "AI_EVENT"
+	name = "Factory built"
+	desc = "Factory built" 
+	#name = "AI_EVENT"
 	style = 2
 
 	date = { day = 1 month = january year = 1936 }
@@ -2445,9 +2613,9 @@ event = {
 		flag = { which = SOV_ICbuild_count when = 1 value = 1 }
 	}
 
-	#name = "Factory built"
-	#desc = "Factory built" 
-	name = "AI_EVENT"
+	name = "Factory built"
+	desc = "Factory built" 
+	#name = "AI_EVENT"
 	style = 2
 
 	date = { day = 1 month = january year = 1936 }
@@ -2957,9 +3125,9 @@ event = {
 		flag = { which = CHI_ICbuild_count when = 1 value = 1 }
 	}
 
-	#name = "Factory built"
-	#desc = "Factory built" 
-	name = "AI_EVENT"
+	name = "Factory built"
+	desc = "Factory built" 
+	#name = "AI_EVENT"
 	style = 2
 
 	date = { day = 1 month = january year = 1936 }

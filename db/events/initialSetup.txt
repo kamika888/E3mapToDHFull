@@ -30,7 +30,7 @@ event = {
 		command = { type = free_ic 			value = 2 }
 		command = { type = free_manpower 	value = 0.005 } #1 free MP per 200 days
 		command = { type = extra_tc 		value = 5 }
-		command = { type = free_transport 	value = 0.2 }
+		command = { type = free_transport 	value = 0.15 }
 		command = { type = oilpool 			value = 200  }
 		command = { type = supplies 		value = 1000 }
 		command = { type = metalpool 		value = 1000 }
@@ -40,16 +40,16 @@ event = {
 		#doesn't seem to work properly for the player. But works fine for AI
 		command = { trigger = { ai = yes } type = transport_pool which = -1 value = 50 }
 		
-		command = { type = soft_attack		which = tactical_bomber 		value = 1 }
+		command = { type = soft_attack		which = tactical_bomber 		value = 3 }
 		command = { type = strategic_attack which = strategic_bomber 		value = 1 }
 		command = { type = naval_attack		which = naval_bomber	 		value = 1 }
-		command = { type = soft_attack		which = cas 					value = 1 }
+		command = { type = soft_attack		which = cas 					value = 3 }
 		command = { type = strategic_attack which = tactical_bomber 		value = 2 }
 		command = { type = naval_attack 	which = tactical_bomber 		value = 2 }
-		command = { type = soft_attack 		which = strategic_bomber 		value = 2 }
+		command = { type = soft_attack 		which = strategic_bomber 		value = 3 }
 		command = { type = naval_attack 	which = strategic_bomber 		value = 2 }
 		command = { type = strategic_attack which = naval_bomber 			value = 2 }
-		command = { type = soft_attack 		which = naval_bomber	 		value = 2 }
+		command = { type = soft_attack 		which = naval_bomber	 		value = 3 }
 		command = { type = naval_attack 	which = cas				 		value = 3 }
 		command = { type = strategic_attack	which = cas 					value = 1 }
 		command = { type = task_efficiency 	which = strategic_bombardment 	value = 1 }
@@ -149,6 +149,7 @@ event = {
 			type = local_setflag which = legitIndie
 		}
 		
+
 		#Defense buffs
 		command = { type = defensiveness 		which = land value = -7  }
 		
@@ -240,8 +241,17 @@ event = {
 		command = { type = jungle_defense 		which = mechanized	value = -40 }
 		command = { type = swamp_defense 		which = mechanized	value = -40 }
 
-	
+		#Counter-balance MIL_level giving additional buffs
+		command = { type = defensiveness 		which = land 		value = 3     }
+		command = { type = toughness 			which = land 		value = 3     }
+		command = { type = ground_def_eff 		when = 1			value = -0.05 }
 		
+		#Counter-balance DEV_level giving additional buffs
+		command = { type = ground_def_eff 		when = 1			value = -0.10 }
+
+		#hqs are especially ridiculously tenacious late game
+		command = { type = defensiveness 		which = hq 			value = 3   } 
+		command = { type = toughness 			which = hq 			value = 3   }
 
 		
 		#Reduced defense buffs
@@ -266,33 +276,49 @@ event = {
 		#command = { type = swamp_attack 		which = land value = -5 }
 		
 		#Lower military consumption - higher civilian consumption
-		command = { type = fuel_consumption which = motorized 			value = -2.50 }
-		command = { type = fuel_consumption which = mechanized 			value = -3.50 }
+		command = { type = fuel_consumption which = motorized 			value = -3.25 }
+		command = { type = fuel_consumption which = mechanized 			value = -4.00 }
 		command = { type = fuel_consumption which = infantry 			value = -0.50 }
 		command = { type = fuel_consumption which = cavalry 			value = -0.50 }
-		command = { type = fuel_consumption which = light_armor			value = -5.00 }
-		command = { type = fuel_consumption which = armor				value = -5.00 }
-		command = { type = fuel_consumption which = interceptor			value = -0.20 }
-		command = { type = fuel_consumption which = multi_role			value = -0.20 }
-		command = { type = fuel_consumption which = tactical_bomber		value = -0.20 }
-		command = { type = fuel_consumption which = strategic_bomber	value = -0.20 }
-		command = { type = fuel_consumption which = naval_bomber		value = -0.20 }
-		command = { type = fuel_consumption which = rocket_interceptor	value = -0.20 }
-		command = { type = fuel_consumption which = transport_plane		value = -0.20 }
+		command = { type = fuel_consumption which = light_armor			value = -6.00 }
+		command = { type = fuel_consumption which = armor				value = -6.00 }
+		command = { type = fuel_consumption which = interceptor			value = -0.30 }
+		command = { type = fuel_consumption which = multi_role			value = -0.30 }
+		command = { type = fuel_consumption which = tactical_bomber		value = -0.30 }
+		command = { type = fuel_consumption which = strategic_bomber	value = -0.30 }
+		command = { type = fuel_consumption which = naval_bomber		value = -0.30 }
+		command = { type = fuel_consumption which = rocket_interceptor	value = -0.30 }
+		command = { type = fuel_consumption which = transport_plane		value = -0.30 }
 		
-		command = { type = fuel_consumption which = naval				value =  1.00 }
+		command = { type = fuel_consumption which = naval				value =  0.50 }
 		
-		command = { type = range	 		which = submarine			value = -6000  }
-		command = { type = range	 		which = nuclear_submarine	value = -10000 }
-		command = { type = range	 		which = destroyer			value = -4000  }
-		command = { type = range	 		which = light_cruiser		value = -3000  }
-		command = { type = range	 		which = heavy_cruiser		value = -3000  }
-		command = { type = range	 		which = battlecruiser		value = -3000  }
-		command = { type = range	 		which = battleship			value = -6000  }
-		command = { type = range	 		which = escort_carrier		value = -3000  }
-		command = { type = range	 		which = light_carrier		value = -6000  }
-		command = { type = range	 		which = carrier				value = -6000  }
-		command = { type = range	 		which = transport			value = -1500  }
+		#-33%/-50% armor
+		command = { type = fuel_consumption which = sp_artillery		value = -0.40 }
+		command = { type = fuel_consumption which = tank_destroyer		value = -0.47 }
+		command = { type = fuel_consumption which = light_armor_brigade	value = -1.25 }
+		command = { type = fuel_consumption which = heavy_armor			value = -1.50 }
+		command = { type = fuel_consumption which = super_heavy_armor	value = -1.50 }
+		command = { type = fuel_consumption which = armored_car			value = -0.07 }
+		command = { type = fuel_consumption which = sp_anti_air			value = -0.37 }
+		command = { type = fuel_consumption which = medium_armor		value = -0.40 }
+		command = { type = fuel_consumption which = amph_armor			value = -1.00 }
+		command = { type = fuel_consumption which = glider_armor		value = -1.00 }
+		command = { type = fuel_consumption which = cag					value = -0.33 }
+		command = { type = fuel_consumption which = escort				value = -0.33 }
+
+
+		
+		#command = { type = range	 		which = submarine			value = -6000  }
+		#command = { type = range	 		which = nuclear_submarine	value = -10000 }
+		#command = { type = range	 		which = destroyer			value = -4000  }
+		#command = { type = range	 		which = light_cruiser		value = -3000  }
+		#command = { type = range	 		which = heavy_cruiser		value = -3000  }
+		#command = { type = range	 		which = battlecruiser		value = -3000  }
+		#command = { type = range	 		which = battleship			value = -6000  }
+		#command = { type = range	 		which = escort_carrier		value = -3000  }
+		#command = { type = range	 		which = light_carrier		value = -6000  }
+		#command = { type = range	 		which = carrier				value = -6000  }
+		#command = { type = range	 		which = transport			value = -1500  }
 		
 		command = { type = visibility 		which = submarine			value = 2.75  }
 		command = { type = visibility 		which = nuclear_submarine	value = 0.25  }
@@ -321,9 +347,9 @@ event = {
 		command = { type = sub_attack		which = submarine			value = 2	  }
 		
 		
-		command = { type = suppression which = militia	value = 3 } #3
+		command = { type = suppression 		which = militia				value = 3	  } #3
 		
-		command = { trigger = { country = U58 } type = ground_def_eff	when  = 0 		value = 1.50 }
+		command = { trigger = { country = U58 } type = ground_def_eff	when  = 0 		value = 1.45 }
 		command = { trigger = { country = U58 } type = max_organization which = land	value = 10 }
 		command = { trigger = { country = U58 } type = morale 			which = land 	value = 20 }
 		command = { trigger = { country = CHC } type = ground_def_eff	when  = 1 		value = 0.10 }
@@ -408,6 +434,7 @@ event = {
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 2 } } type = task_efficiency 				which = Installation_strike 	value = 0.02 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 2 } } type = task_efficiency 				which = Runway_cratering 		value = 0.02 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 2 } } type = suppression 					which = land 					value = 0.50 }
+		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 2 } } type = ground_def_eff 				when  = 1						value = 0.02 }
 		
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 3 } } type = intelligence		 			which = them 					value = -4   }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 3 } } type = army_detection				which = them 					value = -4   }
@@ -430,6 +457,7 @@ event = {
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 3 } } type = task_efficiency 				which = Installation_strike 	value = 0.04 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 3 } } type = task_efficiency 				which = Runway_cratering 		value = 0.04 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 3 } } type = suppression 					which = land 					value = 1.00 }
+		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 3 } } type = ground_def_eff 				when  = 1						value = 0.04 }
 		
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 4 } } type = intelligence		 			which = them 					value = -6   }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 4 } } type = army_detection				which = them 					value = -6   }
@@ -452,6 +480,7 @@ event = {
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 4 } } type = task_efficiency 				which = Installation_strike 	value = 0.06 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 4 } } type = task_efficiency 				which = Runway_cratering 		value = 0.06 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 4 } } type = suppression 					which = land 					value = 1.50 }
+		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 4 } } type = ground_def_eff 				when  = 1						value = 0.06 }
 		
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 5 } } type = intelligence		 			which = them 					value = -8   }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 5 } } type = army_detection				which = them 					value = -8   }
@@ -474,6 +503,7 @@ event = {
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 5 } } type = task_efficiency 				which = Installation_strike 	value = 0.08 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 5 } } type = task_efficiency 				which = Runway_cratering 		value = 0.08 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 5 } } type = suppression 					which = land 					value = 2.00 }
+		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 5 } } type = ground_def_eff 				when  = 1						value = 0.08 }
 		
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 6 } } type = intelligence		 			which = them 					value = -10  }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 6 } } type = army_detection				which = them 					value = -10  }
@@ -496,6 +526,7 @@ event = {
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 6 } } type = task_efficiency 				which = Installation_strike 	value = 0.10 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 6 } } type = task_efficiency 				which = Runway_cratering 		value = 0.10 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 6 } } type = suppression 					which = land 					value = 2.50 }
+		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 6 } } type = ground_def_eff 				when  = 1						value = 0.10 }
 		
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 7 } } type = intelligence		 			which = them 					value = -12  }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 7 } } type = army_detection				which = them 					value = -12  }
@@ -518,6 +549,7 @@ event = {
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 7 } } type = task_efficiency 				which = Installation_strike 	value = 0.12 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 7 } } type = task_efficiency 				which = Runway_cratering 		value = 0.12 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 7 } } type = suppression 					which = land 					value = 3.00 }
+		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 7 } } type = ground_def_eff 				when  = 1						value = 0.12 }
 		
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 8 } } type = intelligence		 			which = them 					value = -14  }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 8 } } type = army_detection				which = them 					value = -14  }
@@ -540,6 +572,7 @@ event = {
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 8 } } type = task_efficiency 				which = Installation_strike 	value = 0.14 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 8 } } type = task_efficiency 				which = Runway_cratering 		value = 0.14 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 8 } } type = suppression 					which = land 					value = 3.50 }
+		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 8 } } type = ground_def_eff 				when  = 1						value = 0.14 }
 		
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 9 } } type = intelligence		 			which = them 					value = -16  }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 9 } } type = army_detection				which = them 					value = -16  }
@@ -562,6 +595,7 @@ event = {
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 9 } } type = task_efficiency 				which = Installation_strike 	value = 0.16 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 9 } } type = task_efficiency 				which = Runway_cratering 		value = 0.16 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 9 } } type = suppression 					which = land 					value = 4.00 }
+		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 9 } } type = ground_def_eff 				when  = 1						value = 0.16 }
 		
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 10 } } type = intelligence		 		which = them 					value = -18  }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 10 } } type = army_detection				which = them 					value = -18  }
@@ -584,6 +618,7 @@ event = {
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 10 } } type = task_efficiency 			which = Installation_strike 	value = 0.18 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 10 } } type = task_efficiency 			which = Runway_cratering 		value = 0.18 }
 		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 10 } } type = suppression 				which = land 					value = 4.50 }
+		command = { trigger = { local_flag = { which = MIL_level when = 0 value = 10 } } type = ground_def_eff 				when  = 1						value = 0.18 }
 
 
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = build_cost which = infantry 			when = now where = relative value = -58 }
@@ -603,7 +638,23 @@ event = {
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = morale	  which = land											value = -9  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = morale	  which = naval											value = -9  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = morale	  which = air											value = -9  }
-		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = ground_def_eff 						when = 1					value = 0.00 }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = plain_attack						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = desert_attack						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = mountain_attack						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = urban_attack						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = hill_attack							which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = forest_attack						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = jungle_attack						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = swamp_attack						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = plain_defense						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = desert_defense						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = mountain_defense					which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = urban_defense						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = hill_defense						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = forest_defense						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = jungle_defense						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = swamp_defense						which = land 				value = 0   }
+		#command = { trigger = { local_flag = { which = DEV_level when = 0 value = 1 } } type = ground_def_eff 						when = 1					value =  0.00 }
 		
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = build_cost which = infantry 			when = now where = relative value = -52 }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = build_cost which = militia 			when = now where = relative value = -52 }
@@ -622,7 +673,23 @@ event = {
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = morale	  which = land											value = -8  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = morale	  which = naval											value = -8  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = morale	  which = air											value = -8  }
-		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = ground_def_eff 						when = 1					value = 0.05 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = plain_attack							which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = desert_attack						which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = mountain_attack						which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = urban_attack							which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = hill_attack							which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = forest_attack						which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = jungle_attack						which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = swamp_attack							which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = plain_defense						which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = desert_defense						which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = mountain_defense						which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = urban_defense						which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = hill_defense							which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = forest_defense						which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = jungle_defense						which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = swamp_defense						which = land 				value =  2  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 2 } } type = ground_def_eff 						when = 1					value =  0.05 }
 		
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = build_cost which = infantry 			when = now where = relative value = -46 }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = build_cost which = militia 			when = now where = relative value = -46 }
@@ -641,7 +708,23 @@ event = {
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = morale	  which = land											value = -7  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = morale	  which = naval											value = -7  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = morale	  which = air											value = -7  }
-		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = ground_def_eff 						when = 1					value = 0.10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = plain_attack							which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = desert_attack						which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = mountain_attack						which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = urban_attack							which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = hill_attack							which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = forest_attack						which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = jungle_attack						which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = swamp_attack							which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = plain_defense						which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = desert_defense						which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = mountain_defense						which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = urban_defense						which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = hill_defense							which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = forest_defense						which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = jungle_defense						which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = swamp_defense						which = land 				value =  4  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 3 } } type = ground_def_eff 						when = 1					value =  0.10 }
 		
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = build_cost which = infantry 			when = now where = relative value = -39 }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = build_cost which = militia 			when = now where = relative value = -39 }
@@ -660,7 +743,23 @@ event = {
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = morale	  which = land											value = -6  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = morale	  which = naval											value = -6  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = morale	  which = air											value = -6  }
-		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = ground_def_eff 						when = 1					value = 0.15 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = plain_attack							which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = desert_attack						which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = mountain_attack						which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = urban_attack							which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = hill_attack							which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = forest_attack						which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = jungle_attack						which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = swamp_attack							which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = plain_defense						which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = desert_defense						which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = mountain_defense						which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = urban_defense						which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = hill_defense							which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = forest_defense						which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = jungle_defense						which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = swamp_defense						which = land 				value =  6  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 4 } } type = ground_def_eff 						when = 1					value =  0.15 }
 		
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = build_cost which = infantry 			when = now where = relative value = -31 }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = build_cost which = militia 			when = now where = relative value = -31 }
@@ -679,7 +778,23 @@ event = {
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = morale	  which = land											value = -5  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = morale	  which = naval											value = -5  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = morale	  which = air											value = -5  }
-		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = ground_def_eff 						when = 1					value = 0.20 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = plain_attack							which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = desert_attack						which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = mountain_attack						which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = urban_attack							which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = hill_attack							which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = forest_attack						which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = jungle_attack						which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = swamp_attack							which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = plain_defense						which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = desert_defense						which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = mountain_defense						which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = urban_defense						which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = hill_defense							which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = forest_defense						which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = jungle_defense						which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = swamp_defense						which = land 				value =  8  }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 5 } } type = ground_def_eff 						when = 1					value =  0.20 }
 		
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = build_cost which = infantry 			when = now where = relative value = -23 }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = build_cost which = militia 			when = now where = relative value = -23 }
@@ -698,7 +813,23 @@ event = {
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = morale	  which = land											value = -4  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = morale	  which = naval											value = -4  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = morale	  which = air											value = -4  }
-		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = ground_def_eff 						when = 1					value = 0.25 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = plain_attack							which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = desert_attack						which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = mountain_attack						which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = urban_attack							which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = hill_attack							which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = forest_attack						which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = jungle_attack						which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = swamp_attack							which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = plain_defense						which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = desert_defense						which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = mountain_defense						which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = urban_defense						which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = hill_defense							which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = forest_defense						which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = jungle_defense						which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = swamp_defense						which = land 				value =  10 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 6 } } type = ground_def_eff 						when = 1					value =  0.25 }
 		
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = build_cost which = infantry 			when = now where = relative value = -15 }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = build_cost which = militia 			when = now where = relative value = -15 }
@@ -717,7 +848,23 @@ event = {
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = morale	  which = land											value = -3  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = morale	  which = naval											value = -3  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = morale	  which = air											value = -3  }
-		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = ground_def_eff 						when = 1					value = 0.30 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = plain_attack							which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = desert_attack						which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = mountain_attack						which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = urban_attack							which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = hill_attack							which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = forest_attack						which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = jungle_attack						which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = swamp_attack							which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = plain_defense						which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = desert_defense						which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = mountain_defense						which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = urban_defense						which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = hill_defense							which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = forest_defense						which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = jungle_defense						which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = swamp_defense						which = land 				value =  12 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 7 } } type = ground_def_eff 						when = 1					value =  0.30 }
 		
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = build_cost which = infantry 			when = now where = relative value = -8  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = build_cost which = militia 			when = now where = relative value = -8  }
@@ -736,7 +883,23 @@ event = {
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = morale	  which = land											value = -2  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = morale	  which = naval											value = -2  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = morale	  which = air											value = -2  }
-		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = ground_def_eff 						when = 1					value = 0.35 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = plain_attack							which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = desert_attack						which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = mountain_attack						which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = urban_attack							which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = hill_attack							which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = forest_attack						which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = jungle_attack						which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = swamp_attack							which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = plain_defense						which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = desert_defense						which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = mountain_defense						which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = urban_defense						which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = hill_defense							which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = forest_defense						which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = jungle_defense						which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = swamp_defense						which = land 				value =  14 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 8 } } type = ground_def_eff 						when = 1					value =  0.35 }
 		
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = build_cost which = infantry 			when = now where = relative value = -3  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = build_cost which = militia 			when = now where = relative value = -3  }
@@ -755,25 +918,109 @@ event = {
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = morale	  which = land											value = -1  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = morale	  which = naval											value = -1  }
 		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = morale	  which = air											value = -1  }
-		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = ground_def_eff 						when = 1					value = 0.40 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = plain_attack							which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = desert_attack						which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = mountain_attack						which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = urban_attack							which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = hill_attack							which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = forest_attack						which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = jungle_attack						which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = swamp_attack							which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = plain_defense						which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = desert_defense						which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = mountain_defense						which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = urban_defense						which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = hill_defense							which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = forest_defense						which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = jungle_defense						which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = swamp_defense						which = land 				value =  16 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 9 } } type = ground_def_eff 						when = 1					value =  0.40 }
 		
-		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = ground_def_eff 						when = 1					value = 0.45 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = plain_attack						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = desert_attack						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = mountain_attack						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = urban_attack						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = hill_attack							which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = forest_attack						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = jungle_attack						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = swamp_attack						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = plain_defense						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = desert_defense						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = mountain_defense					which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = urban_defense						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = hill_defense						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = forest_defense						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = jungle_defense						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = swamp_defense						which = land 				value =  18 }
+		command = { trigger = { local_flag = { which = DEV_level when = 0 value = 10 } } type = ground_def_eff 						when = 1					value =  0.45 }
 
-		command = { trigger = { country = ENG country = VIC country = U87 } type = local_setflag which = GarSpec }
+		#Extra penalty for China. Already tried everything else, but they are still too strong compared to what they should be
+		
+		command = { trigger = { OR = {
+									country = CHI
+									country = CHC
+									country = CXB
+									country = SIK
+									country = CGX
+									country = CSX
+									country = CYN
+									country = U58
+									country = U59
+									country = U60
+									country = U61
+									country = U62
+									country = U63
+									country = U64
+									country = U65
+									country = U00
+									country = U05
+									country = U87
+									country = MON
+									country = MEN
+								}
+					}
+					type = local_setflag which = ChinaPenalty }
+		
+		command = { trigger = { local_flag = ChinaPenalty }								type = plain_attack							which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = desert_attack						which = land 				value = -5  }
+		command = { trigger = { local_flag = ChinaPenalty }								type = mountain_attack						which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = urban_attack							which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = hill_attack							which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = forest_attack						which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = jungle_attack						which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = swamp_attack							which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = plain_defense						which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = desert_defense						which = land 				value = -5  }
+		command = { trigger = { local_flag = ChinaPenalty }								type = mountain_defense						which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = urban_defense						which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = hill_defense							which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = forest_defense						which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = jungle_defense						which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = swamp_defense						which = land 				value = -10 }
+		command = { trigger = { local_flag = ChinaPenalty NOT = { country = U58 } }		type = ground_def_eff 						when  = 1	 				value = -0.10 }
+		command = { trigger = { local_flag = ChinaPenalty }								type = max_organization 					which = naval 				value = -5  }
+		command = { trigger = { local_flag = ChinaPenalty }								type = max_organization 					which = air 				value = -5  }
+
+		command = { trigger = { OR = { country = ENG country = VIC country = ITA country = U87 country = SOV country = CHC } } type = local_setflag which = GarSpec }
 		
 		command = { trigger = { ai = yes } type = ai which = "default.ai" }
 		command = { trigger = { country = GER } type = ai which = "nations\GER.ai" }
 		command = { trigger = { country = ITA } type = ai which = "nations\ITA.ai" }
 		command = { trigger = { country = ENG } type = ai which = "nations\ENG.ai" }
 		command = { trigger = { country = VIC } type = ai which = "nations\FRA.ai" }
+		command = { trigger = { country = USA } type = ai which = "nations\USA.ai" }
 		command = { trigger = { country = JAP } type = ai which = "nations\JAP.ai" }
 		command = { trigger = { country = SOV } type = ai which = "nations\SOV.ai" }
 		command = { trigger = { country = POL } type = ai which = "nations\POL.ai" }
 		command = { trigger = { country = FIN } type = ai which = "nations\FIN.ai" }
+		command = { trigger = { country = HUN } type = ai which = "nations\HUN.ai" }
 		command = { trigger = { country = CHC } type = ai which = "nations\CHC.ai" }
 		command = { trigger = { country = CHI } type = ai which = "nations\CHI.ai" }
 		command = { trigger = { country = BEL } type = ai which = "nations\BEL.ai" }
 		command = { trigger = { country = HOL } type = ai which = "nations\HOL.ai" }
+		command = { trigger = { country = AST } type = ai which = "nations\AST.ai" }
+		command = { trigger = { country = CZE } type = ai which = "nations\CZE.ai" }
+		command = { trigger = { country = U02 } type = ai which = "nations\U02.ai" }
 		command = { trigger = { country = U36 } type = ai which = "nations\U36.ai" }
 		command = { trigger = { country = U58 } type = ai which = "nations\U58.ai" }
 		command = { trigger = { country = U65 } type = ai which = "nations\U65.ai" }
@@ -789,20 +1036,28 @@ event = {
 		command = { trigger = { country = SPA } type = ai which = "nations\SPA.ai" }
 		command = { trigger = { country = U69 } type = ai which = "nations\SPA.ai" }
 		
-		command = { trigger = { country = USA } type = ai which = "home_01.ai" }
-		command = { trigger = { country = U02 } type = ai which = "home_01.ai" }
-		command = { trigger = { country = CAN } type = ai which = "home_01.ai" }
-		command = { trigger = { country = AST } type = ai which = "home_01.ai" }
-		command = { trigger = { country = NZL } type = ai which = "home_01.ai" }
+		command = { trigger = { country = U02 } type = ai which = "home_01.ai" } # 204*0.1=~20
+		command = { trigger = { country = CAN } type = ai which = "home_01.ai" } # 294*0.1=~29
+		command = { trigger = { country = AST } type = ai which = "home_01.ai" } # 212*0.1=~21
+		command = { trigger = { country = NZL } type = ai which = "home_05.ai" } #  21*0.5=~10
+		
+		command = { trigger = { country = DEN } type = ai which = "home_10.ai" }
 		
 		command = { trigger = { ai = yes
 								NOT = {
 									#country = RSI
 									country = U69
+									country = U52
+									country = EUS
+									country = USA
+									country = CAN
+									country = U02
 									country = CGX
 									country = CSX
 									country = CYN
 									country = U05
+									country = AST
+									country = NZL
 									country = ENG
 									country = ITA
 									country = CXB
@@ -811,6 +1066,7 @@ event = {
 									country = SER
 									country = HUN
 									country = ROM
+									country = GRE
 									#country = MON
 									country = U03
 									country = U04
@@ -830,10 +1086,9 @@ event = {
 									country = SIK
 									country = U63
 									country = MEN
-									country = MON
 									country = TAN
-									country = MAN
 									country = VIC
+									country = U41
 									country = SOV
 									country = JAP
 								}
@@ -841,25 +1096,31 @@ event = {
 		
 		#command = { trigger = { country = RSI ai = yes } type = event which = 2400049 where = -1 when = 0 }
 		command = { trigger = { country = U69 ai = yes } type = event which = 2400049 where = -1 when = 0 }
-		command = { trigger = { country = U52 ai = yes } type = event which = 2400049 where = -1 when = 0 }
 		command = { trigger = { country = EUS ai = yes } type = event which = 2400049 where = -1 when = 0 }
+		command = { trigger = { country = U52 ai = yes } type = event which = 2400046 where = -1 when = 0 } #need to garrison beaches
+		command = { trigger = { country = USA ai = yes } type = event which = 2400045 where = -1 when = 0 }
+		command = { trigger = { country = CAN ai = yes } type = event which = 2400045 where = -1 when = 0 }
+		command = { trigger = { country = U02 ai = yes } type = event which = 2400045 where = -1 when = 0 }
 		command = { trigger = { country = CGX ai = yes } type = event which = 2400045 where = -1 when = 0 }
 		command = { trigger = { country = CSX ai = yes } type = event which = 2400044 where = -1 when = 0 }
 		command = { trigger = { country = CYN ai = yes } type = event which = 2400044 where = -1 when = 0 }
 		command = { trigger = { country = U05 ai = yes } type = event which = 2400044 where = -1 when = 0 }
-		command = { trigger = { country = ENG ai = yes } type = event which = 2400042 where = -1 when = 0 }
-		command = { trigger = { country = ITA ai = yes } type = event which = 2400042 where = -1 when = 0 }
+		command = { trigger = { country = AST ai = yes } type = event which = 2400043 where = -1 when = 0 }
+		command = { trigger = { country = NZL ai = yes } type = event which = 2400043 where = -1 when = 0 }
 		command = { trigger = { country = CXB ai = yes } type = event which = 2400042 where = -1 when = 0 }
 		command = { trigger = { country = U59 ai = yes } type = event which = 2400042 where = -1 when = 0 }
 		command = { trigger = { country = CRO ai = yes } type = event which = 2400042 where = -1 when = 0 } #Croatia sent very very few forces to fight abroad
 		command = { trigger = { country = SER ai = yes } type = event which = 2400042 where = -1 when = 0 }
 		command = { trigger = { country = HUN ai = yes } type = event which = 2400042 where = -1 when = 0 }
 		command = { trigger = { country = ROM ai = yes } type = event which = 2400042 where = -1 when = 0 }
+		command = { trigger = { country = GRE ai = yes } type = event which = 2400042 where = -1 when = 0 }
 		#command = { trigger = { country = MON ai = yes } type = event which = 2400042 where = -1 when = 0 }
 		command = { trigger = { country = U03 ai = yes } type = event which = 2400042 where = -1 when = 0 }
 		command = { trigger = { country = U04 ai = yes } type = event which = 2400042 where = -1 when = 0 }
+		command = { trigger = { country = ITA ai = yes } type = event which = 2400054 where = -1 when = 0 } #Exp15
 		#command = { trigger = { country = MAN ai = yes } type = event which = 2400043 where = -1 when = 0 }
 		command = { trigger = { country = FIN ai = yes } type = event which = 2400041 where = -1 when = 0 }
+		command = { trigger = { country = ENG ai = yes } type = event which = 2400041 where = -1 when = 0 }
 		#command = { trigger = { country = U65 ai = yes } type = event which = 2400040 where = -1 when = 0 }
 		command = { trigger = { country = U36 ai = yes } type = event which = 2400040 where = -1 when = 0 }
 		command = { trigger = { country = U58 ai = yes } type = event which = 2400040 where = -1 when = 0 }
@@ -873,29 +1134,46 @@ event = {
 		command = { trigger = { country = BHU ai = yes } type = event which = 2400040 where = -1 when = 0 }
 		command = { trigger = { country = SIK ai = yes } type = event which = 2400040 where = -1 when = 0 }
 		command = { trigger = { country = U63 ai = yes } type = event which = 2400040 where = -1 when = 0 }
-		command = { trigger = { country = MEN ai = yes } type = event which = 2400040 where = -1 when = 0 }
 		command = { trigger = { country = MON ai = yes } type = event which = 2400040 where = -1 when = 0 }
 		command = { trigger = { country = TAN ai = yes } type = event which = 2400040 where = -1 when = 0 }
+		command = { trigger = { country = MEN ai = yes } type = event which = 2400040 where = -1 when = 0 }
 		command = { trigger = { country = MAN ai = yes } type = event which = 2400040 where = -1 when = 0 }
+		command = { trigger = { country = U41 ai = yes } type = event which = 2400040 where = -1 when = 0 }
 		command = { trigger = { country = VIC ai = yes } type = event which = 2400051 where = -1 when = 0 }
-		command = { trigger = { country = SOV ai = yes } type = event which = 2400051 where = -1 when = 0 }
-		command = { trigger = { country = JAP ai = yes } type = event which = 2400051 where = -1 when = 0 }
+		#command = { trigger = { country = SOV ai = yes } type = event which = 2400052 where = -1 when = 0 }
+		#command = { trigger = { country = JAP ai = yes } type = event which = 2400052 where = -1 when = 0 }
 		
-		command = { trigger = { lost_national = { value = 100 } } type = ai which = "desperationDisable.ai" }
+		command = { trigger = { lost_national = { value = 100 } } type = ai 			which = "desperationDisable.ai"	}
+		command = { trigger = { lost_national = { value = 100 } } type = local_setflag 	which = buildDespDisable 		}
 		
-		#command = { type = belligerence value = -100 } #first, reset
+		
 		command = { type = trigger which = 101 } #The belligerence assignment command is not stable if given directly inside the triggerable event, have to separate it into its own event
 		
 		command = { trigger = { country = JAP ai = yes } type = event which = 2401309 where = JAP when = 0 } #lock garrisons/shanghai
 		
-		
-		command = { trigger = { OR = { NOT = { ic = 50 } ispuppet = yes } }	type = ai which = "specNoneMinor.ai" }
+		command = { trigger = { 
+						ic = 100
+						local_flag = { which = DEV_level when = 1 value = 5 }
+						NOT = { ispuppet = yes }
+					}
+					type = ai which = "specNone.ai"	     }
+		command = { 
+					trigger = { 
+						NOT = {
+							AND = {
+								ic = 100
+								local_flag = { which = DEV_level when = 1 value = 5 }
+								NOT = { ispuppet = yes }
+							}
+						}
+					}
+					type = ai which = "specNoneMinor.ai" }
 		
 		command = { trigger = { 
 						NOT = { local_flag = UnionBonds } 
 						OR = { 
 							country = YUG country = DEN country = SPA country = SPR country = ETH country = CHI country = CHC country = CGX country = CSX country = CYN country = CXB country = SIK
-							country = U58 country = U59 country = U60 country = U61 country = U62 country = U63 country = U64 country = U65 country = U00 country = U05 country = U87
+							country = U58 country = U59 country = U60 country = U61 country = U62 country = U63 country = U64 country = U65 country = U00 country = U05 country = U87 country = SIA
 						}
 					} 
 					type = local_setflag which = UnionBonds when = 0 value = 1	} #Limited union
@@ -2962,23 +3240,38 @@ event = {
 		
 		#slight reduction to combat effectiveness in other areas
 		command = { type = plain_move which = land 			value = -3  }
-		command = { type = plain_attack which = land 		value = -10 }
+		command = { type = plain_attack which = land 		value = -5  }
 		command = { type = plain_defense which = land 		value = -10 }
 		
 		command = { type = hill_move which = land 			value = -5  }
-		command = { type = hill_attack which = land 		value = -20 }
+		command = { type = hill_attack which = land 		value = -10 }
 		command = { type = hill_defense which = land 		value = -20 }
 		
 		command = { type = desert_move which = land 		value = -5  }
-		command = { type = desert_attack which = land 		value = -20 }
+		command = { type = desert_attack which = land 		value = -10 }
 		command = { type = desert_defense which = land 		value = -20 }
 		
 		command = { type = jungle_move which = land 		value = -5  }
-		command = { type = jungle_attack which = land 		value = -20 }
+		command = { type = jungle_attack which = land 		value = -10 }
 		command = { type = jungle_defense which = land 		value = -20 }
 		
-		command = { trigger = { ic = 50 NOT = { ispuppet = yes } }			type = ai which = "specWinter.ai" }
-		command = { trigger = { OR = { NOT = { ic = 50 } ispuppet = yes } }	type = ai which = "specWinterMinor.ai" }
+		command = { trigger = { 
+						ic = 100
+						local_flag = { which = DEV_level when = 1 value = 5 }
+						NOT = { ispuppet = yes }
+					}
+					type = ai which = "specWinter.ai"	   }
+		command = { 
+					trigger = { 
+						NOT = {
+							AND = {
+								ic = 100
+								local_flag = { which = DEV_level when = 1 value = 5 }
+								NOT = { ispuppet = yes }
+							}
+						}
+					}
+					type = ai which = "specWinterMinor.ai" }
 	}
 	action = {
 		name = "We excel at mountain warfare"
@@ -2987,7 +3280,7 @@ event = {
 							country = TAJ country = KYG country = ARM country = GEO	country = AUS country = BOS country = PRK 
 							country = CHI country = CGX country = CSX country = CYN country = CXB country = U59 country = U60
 							country = U61 country = U62 country = U63 country = U64 country = U65 country = U00 country = U05
-							country = CHC country = U58 country = TIB country = MEN } }
+							country = CHC country = U58 country = TIB country = MEN country = MAN country = U87 } }
 		
 		command = { type = local_setflag which = AllDefenseSpec }
 		
@@ -3012,19 +3305,34 @@ event = {
 		
 		#slight reduction to combat effectiveness in other areas
 		command = { type = plain_move which = land 			value = -3  }
-		command = { type = plain_attack which = land 		value = -10 }
+		command = { type = plain_attack which = land 		value = -5  }
 		command = { type = plain_defense which = land 		value = -10 }
 		
 		command = { type = desert_move which = land 		value = -5  }
-		command = { type = desert_attack which = land 		value = -20 }
+		command = { type = desert_attack which = land 		value = -10 }
 		command = { type = desert_defense which = land 		value = -20 }
 		
 		command = { type = swamp_move which = land 			value = -5  }
-		command = { type = swamp_attack which = land 		value = -20 }
+		command = { type = swamp_attack which = land 		value = -10 }
 		command = { type = swamp_defense which = land 		value = -20 }
 		
-		command = { trigger = { ic = 50 NOT = { ispuppet = yes } }			type = ai which = "specMountain.ai" }
-		command = { trigger = { OR = { NOT = { ic = 50 } ispuppet = yes } }	type = ai which = "specMountainMinor.ai" }
+		command = { trigger = { 
+						ic = 100
+						local_flag = { which = DEV_level when = 1 value = 5 }
+						NOT = { ispuppet = yes }
+					}
+					type = ai which = "specMountain.ai"	   }
+		command = { 
+					trigger = { 
+						NOT = {
+							AND = {
+								ic = 100
+								local_flag = { which = DEV_level when = 1 value = 5 }
+								NOT = { ispuppet = yes }
+							}
+						}
+					}
+					type = ai which = "specMountainMinor.ai" }
 	}
 	action = {
 		name = "We excel at jungle warfare"
@@ -3054,21 +3362,36 @@ event = {
 		
 		#slight reduction to combat effectiveness in other areas
 		command = { type = plain_move which = land 			value = -3  }
-		command = { type = plain_attack which = land 		value = -10 }
+		command = { type = plain_attack which = land 		value = -5  }
 		command = { type = plain_defense which = land 		value = -10 }
 		
 		#only affects att eff
 		command = { type = snow_move which = land 			value = -5  }
-		command = { type = snow_attack which = land 		value = -40 }
+		command = { type = snow_attack which = land 		value = -20 }
 		command = { type = snow_defense which = land 		value = -40 }
 		
 		#only affects att eff
 		command = { type = frozen_move which = land 		value = -5  }
-		command = { type = frozen_attack which = land 		value = -40 }
+		command = { type = frozen_attack which = land 		value = -20 }
 		command = { type = frozen_defense which = land 		value = -40 }
 		
-		command = { trigger = { ic = 50 NOT = { ispuppet = yes } }			type = ai which = "specJungle.ai" }
-		command = { trigger = { OR = { NOT = { ic = 50 } ispuppet = yes } }	type = ai which = "specJungleMinor.ai" }
+		command = { trigger = { 
+						ic = 100
+						local_flag = { which = DEV_level when = 1 value = 5 }
+						NOT = { ispuppet = yes }
+					}
+					type = ai which = "specJungle.ai"	   }
+		command = { 
+					trigger = { 
+						NOT = {
+							AND = {
+								ic = 100
+								local_flag = { which = DEV_level when = 1 value = 5 }
+								NOT = { ispuppet = yes }
+							}
+						}
+					}
+					type = ai which = "specJungleMinor.ai" }
 	}
 	action = {
 		name = "We excel at desert warfare"
@@ -3097,24 +3420,39 @@ event = {
 		#slight reduction to combat effectiveness in other areas
 		#only affects att eff
 		command = { type = snow_move which = land 			value = -5  }
-		command = { type = snow_attack which = land 		value = -40 }
+		command = { type = snow_attack which = land 		value = -20 }
 		command = { type = snow_defense which = land 		value = -40 }
 		
 		#only affects att eff
 		command = { type = frozen_move which = land 		value = -5  }
-		command = { type = frozen_attack which = land 		value = -40 }
+		command = { type = frozen_attack which = land 		value = -20 }
 		command = { type = frozen_defense which = land 		value = -40 }
 		
 		command = { type = jungle_move which = land 		value = -5 }
-		command = { type = jungle_attack which = land 		value = -20 }
+		command = { type = jungle_attack which = land 		value = -10 }
 		command = { type = jungle_defense which = land 		value = -20 }
 		
 		command = { type = forest_move which = land 		value = -5  }
-		command = { type = forest_attack which = land 		value = -20 }
+		command = { type = forest_attack which = land 		value = -10 }
 		command = { type = forest_defense which = land 		value = -20 }
 		
-		command = { trigger = { ic = 50 NOT = { ispuppet = yes } }			type = ai which = "specDesert.ai" }
-		command = { trigger = { OR = { NOT = { ic = 50 } ispuppet = yes } }	type = ai which = "specDesertMinor.ai" }
+		command = { trigger = { 
+						ic = 100
+						local_flag = { which = DEV_level when = 1 value = 5 }
+						NOT = { ispuppet = yes }
+					}
+					type = ai which = "specDesert.ai"	   }
+		command = { 
+					trigger = { 
+						NOT = {
+							AND = {
+								ic = 100
+								local_flag = { which = DEV_level when = 1 value = 5 }
+								NOT = { ispuppet = yes }
+							}
+						}
+					}
+					type = ai which = "specDesertMinor.ai" }
 	}
 }
 
@@ -3239,5 +3577,198 @@ event = {
 		command = { type = belligerence value = -100 } #first, reset
 		command = { type = belligerence value = 3 } #3 extra as buffer, to make sure the event doesn't fire every 15 days
 		command = { type = trigger which = 101 } #The belligerence assignment command is not stable if given directly inside the triggerable event, have to separate it into its own event :(
+	}
+}
+
+
+#Generic setup events for development to help with new country creation where doing it individually is too much pain in the ass
+
+event = {
+	id = 111
+	random = no
+	persistent = yes
+	
+	name = "Generic 1 Dev"
+	desc = "Setting starting sliders"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom			value = 1  }
+		command = { type = set_domestic which = free_market		value = 1  }
+		command = { type = set_domestic which = interventionism	value = 3  }
+	}
+}
+
+event = {
+	id = 112
+	random = no
+	persistent = yes
+	
+	name = "Generic 2 Dev"
+	desc = "Setting starting sliders"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom			value = 2  }
+		command = { type = set_domestic which = free_market		value = 1  }
+		command = { type = set_domestic which = interventionism	value = 3  }
+	}
+}
+
+event = {
+	id = 113
+	random = no
+	persistent = yes
+	
+	name = "Generic 3 Dev"
+	desc = "Setting starting sliders"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom			value = 3  }
+		command = { type = set_domestic which = free_market		value = 2  }
+		command = { type = set_domestic which = interventionism	value = 3  }
+	}
+}
+
+event = {
+	id = 114
+	random = no
+	persistent = yes
+	
+	name = "Generic 4 Dev"
+	desc = "Setting starting sliders"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom			value = 4  }
+		command = { type = set_domestic which = free_market		value = 3  }
+		command = { type = set_domestic which = interventionism	value = 3  }
+	}
+}
+
+event = {
+	id = 115
+	random = no
+	persistent = yes
+	
+	name = "Generic 5 Dev"
+	desc = "Setting starting sliders"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom			value = 5  }
+		command = { type = set_domestic which = free_market		value = 3  }
+		command = { type = set_domestic which = interventionism	value = 3  }
+	}
+}
+
+event = {
+	id = 116
+	random = no
+	persistent = yes
+	
+	name = "Generic 6 Dev"
+	desc = "Setting starting sliders"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom			value = 6  }
+		command = { type = set_domestic which = free_market		value = 4  }
+		command = { type = set_domestic which = interventionism	value = 3  }
+	}
+}
+
+event = {
+	id = 117
+	random = no
+	persistent = yes
+	
+	name = "Generic 7 Dev"
+	desc = "Setting starting sliders"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom			value = 7  }
+		command = { type = set_domestic which = free_market		value = 5  }
+		command = { type = set_domestic which = interventionism	value = 3  }
+	}
+}
+
+event = {
+	id = 118
+	random = no
+	persistent = yes
+	
+	name = "Generic 8 Dev"
+	desc = "Setting starting sliders"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom			value = 8  }
+		command = { type = set_domestic which = free_market		value = 5  }
+		command = { type = set_domestic which = interventionism	value = 3  }
+	}
+}
+
+event = {
+	id = 119
+	random = no
+	persistent = yes
+	
+	name = "Generic 9 Dev"
+	desc = "Setting starting sliders"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom			value = 9  }
+		command = { type = set_domestic which = free_market		value = 6  }
+		command = { type = set_domestic which = interventionism	value = 3  }
+	}
+}
+
+event = {
+	id = 120
+	random = no
+	persistent = yes
+	
+	name = "Generic 10 Dev"
+	desc = "Setting starting sliders"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = freedom			value = 10 }
+		command = { type = set_domestic which = free_market		value = 7  }
+		command = { type = set_domestic which = interventionism	value = 3  }
 	}
 }

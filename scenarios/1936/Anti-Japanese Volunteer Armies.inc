@@ -36,6 +36,7 @@ country =
    chiefofnavy            = {  type = 9 id = 1105009  } 
    chiefofair             = {  type = 9 id = 1105010  } 
   
+  SpyInfo                = { country = "U58" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = CHC value = 200 access = yes }
     relation = { tag = CHI value = 100 access = yes }
@@ -193,7 +194,7 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 5 
      political_left    = 8 
-     freedom           = 3 
+     freedom           = 2 
      free_market       = 1
      professional_army = 9 
      defense_lobby     = 9 

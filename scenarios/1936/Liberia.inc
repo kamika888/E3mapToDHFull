@@ -21,12 +21,13 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 4 
-     freedom           = 1 
+     freedom           = 2 
      free_market       = 1
      professional_army = 2 
      defense_lobby     = 2 
      interventionism   = 1 
   }
+  SpyInfo                = { country = "LIB" NumberOfSpies = 5 }
   nationalprovinces      = { 992
 2762
 4476 4477 4478

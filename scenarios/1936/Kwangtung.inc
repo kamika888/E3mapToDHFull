@@ -22,6 +22,7 @@ country =
   
   headofstate            = {  type = 9 id = 55500  } 
     
+  SpyInfo                = { country = "U59" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }
@@ -176,8 +177,8 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 3 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5 
      defense_lobby     = 5 
      interventionism   = 6 #Military Academy 
@@ -196,7 +197,7 @@ country =
        name       = "1. Division" 
        type     = infantry 
        strength   = 60 
-       model      = 5
+       model      = 4
       } 
 	  Division = 
      {  experience = 30 
@@ -204,11 +205,11 @@ country =
        name       = "3. Division (German)" 
        type       = infantry 
        strength   = 80
-       model      = 8
+       model      = 7
 	   extra1    = engineer
-	   brigade_model1 = 2
+	   brigade_model1 = 1
 	   extra2 = artillery
-	   brigade_model2 = 6
+	   brigade_model2 = 5
       }
     }
     landunit = 
@@ -222,11 +223,11 @@ country =
        name       = "4. Division (German)" 
        type     = infantry 
        strength   = 60
-       model      = 6
+       model      = 5
 	   extra1    = engineer
-	   brigade_model1 = 2
+	   brigade_model1 = 1
 	   extra2 = artillery
-	   brigade_model2 = 4
+	   brigade_model2 = 3
       } 
      Division = 
      {  experience = 30 
@@ -234,7 +235,7 @@ country =
        name       = "5. Division" 
        type       = militia
        strength   = 60
-       model      = 3
+       model      = 2
       }
 	  Division = 
      {  experience = 30 
@@ -242,11 +243,11 @@ country =
        name       = "6. Division (German)" 
        type       = infantry 
        strength   = 80
-       model      = 8
+       model      = 7
 	   extra1    = engineer
-	   brigade_model1 = 2
+	   brigade_model1 = 1
 	   extra2 = artillery
-	   brigade_model2 = 6
+	   brigade_model2 = 5
       }
     }
     landunit = 
@@ -260,7 +261,7 @@ country =
        name       = "8. Division" 
        type       = militia
        strength   = 60
-       model      = 3
+       model      = 2
       }
 	  Division = 
      {  experience = 30 
@@ -268,11 +269,11 @@ country =
        name       = "9. Division (German)" 
        type       = infantry 
        strength   = 80
-       model      = 8
+       model      = 7
 	   extra1    = engineer
-	   brigade_model1 = 2
+	   brigade_model1 = 1
 	   extra2 = artillery
-	   brigade_model2 = 6
+	   brigade_model2 = 5
       }
     }
 	  landunit = 
@@ -286,7 +287,7 @@ country =
        name       = "1. Guandong Provincial Militia" 
        type       = militia 
        strength   = 40
-       model      = 2
+       model      = 1
       }
 	  Division = 
      {  
@@ -294,7 +295,7 @@ country =
        name       = "2. Guandong Provincial Militia" 
        type       = militia 
        strength   = 40
-       model      = 2
+       model      = 1
       }
 	  Division = 
      {  
@@ -302,7 +303,7 @@ country =
        name       = "3. Guandong Provincial Militia" 
        type       = militia 
        strength   = 40
-       model      = 2
+       model      = 1
       }
 	  Division =
 	  	  {  
@@ -315,6 +316,7 @@ country =
 	   brigade_model1 = 1
       }
     }
+	
    # ##### NAVY OOB ###### 
    # http://forum.paradoxplaza.com/forum/showthread.php?687389-OOB-and-information-of-China-for-moders&p=15450671&viewfull=1#post15450671
    navalunit = 
@@ -394,6 +396,7 @@ country =
        model = 0  
       } 
     } 
+
    # ##### AIR FORCE OOB ###### 
    # http://forum.paradoxplaza.com/forum/showthread.php?687389-OOB-and-information-of-China-for-moders&p=15445629&viewfull=1#post15445629
    airunit = 
@@ -426,12 +429,12 @@ country =
 	division_development = {
 		name  = "2. Division (German)" 
 		type  = infantry
-		model = 6
+		model = 5
 		new_model = no
 		extra1 = engineer
-		brigade_model1 = 2
+		brigade_model1 = 1
 		extra2 = artillery
-		brigade_model2 = 4
+		brigade_model2 = 3
 		cost  = 6
 		id    = {  type = 22400 id = 28  } 
 		date  = {  year = 1936 month = march day = 1  } 
@@ -439,7 +442,7 @@ country =
 	division_development = {
 		name  = "7. Division" 
 		type  = infantry
-		model = 5
+		model = 4
 		new_model = no
 		cost  = 4
 		id    = {  type = 22400 id = 35  } 

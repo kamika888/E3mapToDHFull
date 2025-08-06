@@ -26,12 +26,13 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1
      political_left    = 3 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5 
      defense_lobby     = 4 
      interventionism   = 5 
   }
+  SpyInfo                = { country = "CYN" NumberOfSpies = 5 }
   nationalprovinces      = {
 1275 1276 1277 1440 1441 1267 1268 1269 1270 1271
 1222 1223 1224 1227 1228 1229 1230 1273 1274 1439
@@ -253,7 +254,7 @@ blueprints = {
        name       = "182. Division" 
        type     = militia
        strength   = 40
-       model      = 3
+       model      = 2
       }
       Division = 
      {  experience = 30 
@@ -261,7 +262,7 @@ blueprints = {
        name       = "183. Division" 
        type     = militia
        strength   = 40
-       model      = 3
+       model      = 2
       } 
      Division = 
      {  experience = 30 
@@ -269,7 +270,7 @@ blueprints = {
        name       = "184. Division"
        type       = militia
        strength   = 40
-       model      = 3
+       model      = 2
       }
 	  Division = 
      {  experience = 30 
@@ -277,7 +278,7 @@ blueprints = {
        name       = "5/7/9. Independent Brigades" 
        type       = militia
        strength   = 40
-       model      = 3
+       model      = 2
       }
 	  Division = 
      {  experience = 30 
@@ -285,7 +286,7 @@ blueprints = {
        name       = "21/24/28. Independent Brigades" 
        type       = militia
        strength   = 40
-       model      = 3
+       model      = 2
       }
 	  Division = 
      {  experience = 30 
@@ -301,7 +302,7 @@ blueprints = {
        name       = "1. Yunnan Provincial Militia" 
        type       = militia
        strength   = 40
-       model      = 2
+       model      = 1
       }
     }
   }  

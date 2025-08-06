@@ -15,6 +15,7 @@ country =
 	money                  = 15 
 	manpower 			  = 46
   capital                = 453
+  SpyInfo                = { country = "YUG" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = BUL value = 25 }
     relation = { tag = CZE value = 50 }
@@ -139,7 +140,7 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 3 
-     freedom           = 4
+     freedom           = 3
      free_market       = 2
      professional_army = 4 
      defense_lobby     = 3 

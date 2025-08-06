@@ -17,6 +17,7 @@ country =
 	escorts                = 7 
   capital                = 336
   # Azores
+  SpyInfo                = { country = "POR" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = BEL value = -20 }
     relation = { tag = BRA value = 75 }
@@ -187,7 +188,7 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 3 
-     freedom           = 5 
+     freedom           = 4 
      free_market       = 3
      professional_army = 3 
      defense_lobby     = 2 

@@ -2807,13 +2807,18 @@ event = {
 
 	trigger = {
 		OR = {
-			area 	= { area = "Albania" 					country = -3 data = 1 value = 70 }
+			area 	= { area = "Albania" 					country = -3 data = 1 value = 80 }
 			area 	= { area = "Thrace" 					country = -3 data = 1 value = 10 }
 			area 	= { area = "Attica" 					country = -3 data = 1 value = 10 }
 			area 	= { area = "Greek Island"				country = -3 data = 1 value = 10 }
 		}
 		OR = {
-			random = 4
+			random = 2
+			AND = {
+				area 	= { area = "Thrace" 				country = -3 data = 1 value = 10 }
+				area 	= { area = "Attica" 				country = -3 data = 1 value = 10 }
+				random = 4
+			}
 			AND = {
 				area 	= { area = "Thrace" 				country = -3 data = 1 value = 20 }
 				area 	= { area = "Attica" 				country = -3 data = 1 value = 20 }
@@ -2856,19 +2861,19 @@ event = {
 			}
 			AND = {
 				dissent = 5
-				random = 6
+				random = 4
 			}
 			AND = {
 				dissent = 10
-				random = 8
+				random = 6
 			}
 			AND = {
 				dissent = 15
-				random = 10
+				random = 8
 			}
 			AND = {
 				dissent = 20
-				random = 11
+				random = 10
 			}
 			AND = {
 				lost_national = { value = 5 }
@@ -2893,8 +2898,8 @@ event = {
 	offset = 10
 	deathdate = { day = 29 month = september year = 1999 }	
 
-	name = "Partisans in Greece!"
-	desc = "Partisans in Greece!"
+	name = "Partisans in Greece/Albania!"
+	desc = "Partisans in Greece/Albania!"
 	
 	action = {
 		name = "Revolt in Tirana!"
@@ -4937,10 +4942,14 @@ event = {
 	trigger = {
 		NOT = { local_flag = YugRevolt }
 		war = { country = GER country = SOV }
-		NOT = { exists = U27 }
 		OR = {
 			NOT = { exists = YUG }
 			ispuppet = YUG
+		}
+		OR = {
+			NOT = { exists = U27 }
+			lost_VP = { country = U27 value = 100 } #the exploiting bastard refuses to annex
+			NOT = { region = { region = "Balkan" country = U27 data = 1 value = 2 } }
 		}
 		OR = {
 			area = { area = "Croatia" 				data = 1 value = 50 }
@@ -4973,6 +4982,8 @@ event = {
 	
 	action = {
 		command = { type = local_setflag which = YugRevolt }
+		
+		command = { trigger = { exists = U27 } type = inherit which = U27 value = 1 } #keeping any units if remaining
 		
 		#Partisan peak strength in 1944 is ~650,000. Most rebel divisions start very understrength
 		
@@ -5174,7 +5185,7 @@ event = {
 	country = U27
 	persistent = yes
 
-	name = "Formation of Yugoslavia"
+	name = "Liberation of Yugoslavia"
 	desc = "The Federal People's Republic of Yugoslavia is born today!"
 	
 	action = {
@@ -5314,9 +5325,9 @@ event = {
 		#temp GDE boost
 		command = { type = ground_def_eff	when  = 1 		value = 0.60  }
 		command = { type = morale 			which = land 	value = 30	  }		
-		command = { type = event which = 4550 where = U27 when = 30 } #GDE reset 1
-		command = { type = event which = 4550 where = U27 when = 60 } #GDE reset 2
-		command = { type = event which = 4550 where = U27 when = 90 } #GDE reset 3
+		command = { type = event which = 5000 where = U27 when = 30 } #GDE reset 1
+		command = { type = event which = 5000 where = U27 when = 60 } #GDE reset 2
+		command = { type = event which = 5000 where = U27 when = 90 } #GDE reset 3
 		
 		#Impossible to tell the German ai to voluntarily withdraw from the Balkans and regroup, so have to resort to a cheat
 		command = { trigger = { ai = GER } type = event which = 4504 where = GER when = 0 } 
@@ -5390,10 +5401,14 @@ event = {
 	trigger = {
 		NOT = { local_flag = ALBRevolt }
 		war = { country = GER country = SOV }
-		NOT = { exists = U28 }
 		OR = {
 			NOT = { exists = ALB }
 			ispuppet = ALB
+		}
+		OR = {
+			NOT = { exists = U28 }
+			lost_VP = { country = U28 value = 100 } #the exploiting bastard refuses to annex
+			#NOT = { region = { region = "Balkan" country = U28 data = 1 value = 1 } }
 		}
 		OR = {
 			area = { area = "Albania" 				data = 1 value = 50 }
@@ -5471,7 +5486,7 @@ event = {
 	country = U28
 	persistent = yes
 
-	name = "Formation of Albania"
+	name = "Liberation of Albania"
 	desc = "The People's Republic of Albania is born today!"
 	
 	action = {
@@ -5550,12 +5565,12 @@ event = {
 		#temp GDE boost
 		command = { type = ground_def_eff	when  = 1 		value = 0.60  }
 		command = { type = morale 			which = land 	value = 30	  }		
-		command = { type = event which = 4550 where = U28 when = 30 } #GDE reset 1
-		command = { type = event which = 4550 where = U28 when = 60 } #GDE reset 2
-		command = { type = event which = 4550 where = U28 when = 90 } #GDE reset 3
+		command = { type = event which = 5000 where = U28 when = 30 } #GDE reset 1
+		command = { type = event which = 5000 where = U28 when = 60 } #GDE reset 2
+		command = { type = event which = 5000 where = U28 when = 90 } #GDE reset 3
 		
 		command = { type = remove_claim_area which = "Albania"  where = U27 } 
-		command = { type = event which = 4514 where = U27 when = 0 } #if U27 exists
+		command = { type = event which = 4514 where = U27 when = 30 } #if U27 exists
 	}
 }
 
@@ -5591,7 +5606,7 @@ event = {
 	persistent = yes
 	
 	name = "Albanian-Yugoslav Brotherhood"
-	desc = "In the early years after its liberation, Albania was effectively a Yugoslav satellite state, its government staffed with pro-Yugoslav cadres and advisors and fully reliant on Yugoslav economic and military aid. The two countries were joined in a common pricing system and customs union. So close was the Yugoslav-Albanian relationship that Serbo-Croatian became a required subject in Albanian high schools. Negotiations were ongoing to absorb Albania into a union under Yugoslavia, or possibly into an even greater union including both Yugoslavia and Bulgaria, but the talks ultimately fell through especially once Tito's relationship with Moscow deteriorated after 1948."
+	desc = "In the early years after its liberation, Albania was effectively a Yugoslav satellite state, its government staffed with pro-Yugoslav cadres and advisers and fully reliant on Yugoslav economic and military aid. The two countries were joined in a common pricing system and customs union. So close was the Yugoslav-Albanian relationship that Serbo-Croatian became a required subject in Albanian high schools. Negotiations were ongoing to absorb Albania into a union under Yugoslavia, or possibly into an even greater union including both Yugoslavia and Bulgaria, but the talks ultimately fell through especially once Tito's relationship with Moscow deteriorated after 1948."
 	
 	action = {
 		name = "ACTION_NAME_HURRAH" 
@@ -5609,7 +5624,7 @@ event = {
 	persistent = yes
 	
 	name = "Albanian-Yugoslav Brotherhood"
-	desc = "In the early years after its liberation, Albania was effectively a Yugoslav satellite state, its government staffed with pro-Yugoslav cadres and advisors and fully reliant on Yugoslav economic and military aid. The two countries were joined in a common pricing system and customs union. So close was the Yugoslav-Albanian relationship that Serbo-Croatian became a required subject in Albanian high schools. Negotiations were ongoing to absorb Albania into a union under Yugoslavia, or possibly into an even greater union including both Yugoslavia and Bulgaria, but the talks ultimately fell through especially once Tito's relationship with Moscow deteriorated after 1948."
+	desc = "In the early years after its liberation, Albania was effectively a Yugoslav satellite state, its government staffed with pro-Yugoslav cadres and advisers and fully reliant on Yugoslav economic and military aid. The two countries were joined in a common pricing system and customs union. So close was the Yugoslav-Albanian relationship that Serbo-Croatian became a required subject in Albanian high schools. Negotiations were ongoing to absorb Albania into a union under Yugoslavia, or possibly into an even greater union including both Yugoslavia and Bulgaria, but the talks ultimately fell through especially once Tito's relationship with Moscow deteriorated after 1948."
 	
 	action = {
 		name = "ACTION_NAME_HURRAH" 
@@ -5637,10 +5652,14 @@ event = {
 	trigger = {
 		NOT = { local_flag = GRERevolt }
 		war = { country = GER country = SOV }
-		NOT = { exists = U33 }
 		OR = {
 			NOT = { exists = GRE }
 			ispuppet = GRE
+		}
+		OR = {
+			NOT = { exists = U33 }
+			lost_VP = { country = U33 value = 100 } #the exploiting bastard refuses to annex
+			NOT = { region = { region = "Balkan" country = U33 data = 1 value = 2 } }
 		}
 		OR = {
 			area = { area = "Thrace" 				data = 1 value = 50 }
@@ -5760,7 +5779,7 @@ event = {
 	country = U33
 	persistent = yes
 
-	name = "Formation of Greece"
+	name = "Liberation of Greece"
 	desc = "The People's Republic of Greece is born today!"
 	
 	action = {
@@ -5880,9 +5899,9 @@ event = {
 		#temp GDE boost
 		command = { type = ground_def_eff	when  = 1 		value = 0.60  }
 		command = { type = morale 			which = land 	value = 30	  }		
-		command = { type = event which = 4550 where = U33 when = 30 } #GDE reset 1
-		command = { type = event which = 4550 where = U33 when = 60 } #GDE reset 2
-		command = { type = event which = 4550 where = U33 when = 90 } #GDE reset 3
+		command = { type = event which = 5000 where = U33 when = 30 } #GDE reset 1
+		command = { type = event which = 5000 where = U33 when = 60 } #GDE reset 2
+		command = { type = event which = 5000 where = U33 when = 90 } #GDE reset 3
 	}
 }
 
@@ -5971,7 +5990,7 @@ event = {
 }
 
 event = {
-    id = 4530
+    id = 4526
     random = no
 	country = U32
 	persistent = yes
@@ -6000,7 +6019,7 @@ event = {
 
 
 event = {
-    id = 4550
+    id = 5000
     random = no
 	persistent = yes
 
@@ -6010,5 +6029,433 @@ event = {
 		name = "ACTION_NAME_DAMN" 
 		command = { type = ground_def_eff	when  = 1 		value = -0.20 }
 		command = { type = morale 			which = land 	value = -10	  }
+	}
+}
+
+
+#Ethiopia
+event = {
+    id = 4530
+    random = no
+	country = REB
+	persistent = yes
+
+	trigger = {
+		NOT = { local_flag = ETHRevolt }
+		OR = {
+			NOT = { exists = ETH }
+			ispuppet = ETH
+			lost_VP = { country = ETH value = 100 } #the exploiting bastard refuses to annex
+		}
+		region = { region = "Ethiopia" 	country = ITA	data = 2 value = 50 }
+		OR = {
+			region = { region = "Ethiopia" 	country = REB	data = 1 	value = 20 }
+			garrison = { province = 1046	country = REB	type = land size = 30 area = 2 } #30 rebel divisions in region
+		}
+		#random = 20
+	}
+
+	date = { day = 0 month = january year = 1936 }		 
+	offset = 10
+	deathdate = { day = 29 month = september year = 1999 }	
+
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = local_setflag which = ETHRevolt }
+		
+		command = { type = revolt which = 1046	when = 1 }
+		command = { type = revolt which = 1043	when = 1 }
+		command = { type = revolt which = 1048	when = 1 }
+		
+		command = { type = event which = 4531 where = REB when = 8 }
+	}
+}
+
+event = {
+    id = 4531
+    random = no
+	country = REB
+	persistent = yes
+
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = local_clrflag which = ETHRevolt }
+		command = { trigger = { garrison = { country = REB province = 1033  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1033 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1038  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1038 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1039  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1039 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1042  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1042 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1043  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1043 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1044  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1044 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1045  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1045 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1046  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1046 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1047  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1047 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1048  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1048 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1049  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1049 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1050  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1050 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1051  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1051 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1052  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1052 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1053  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1053 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 1054  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 1054 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 2342  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 2342 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4658  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4658 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4659  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4659 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4660  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4660 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4661  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4661 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4662  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4662 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4663  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4663 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4664  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4664 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4665  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4665 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4666  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4666 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4667  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4667 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4668  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4668 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4669  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4669 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4670  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4670 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4671  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4671 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4672  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4672 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4673  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4673 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4674  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4674 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4675  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4675 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4676  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4676 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4677  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4677 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4678  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4678 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4679  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4679 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4680  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4680 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 4682  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 4682 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 6539  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 6539 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 6540  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 6540 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 6541  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 6541 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 6542  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 6542 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 7346  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 7346 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 7445  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 7445 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 7446  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 7446 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 7447  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 7447 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 7448  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 7448 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 7449  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 7449 	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 7935  type = land size = 1 area = 0 } } type = secedeprovince 	which = REB value = 7935 	when = 2 }
+		
+		
+		command = { type = independence which = ETH value = 0 when = 1 } #units change allegiance
+		command = { type = event which = 4532 where = ETH when = 0 }
+	}
+}
+
+event = {
+    id = 4532
+    random = no
+	country = ETH
+	persistent = yes
+
+	name = "Liberation of Ethiopia"
+	desc = "The Empire of Ethiopia is reborn today!"
+	
+	action = {
+		name = "ACTION_NAME_HURRAH" 
+		command = { type = capital which = 1043 }
+		command = { type = capital which = 1046 } #if controlled
+		
+		command = { trigger = { war = { country = ITA country = ENG } } type = alliance which = ENG when = 1 }
+		command = { trigger = { NOT = { war = { country = ITA } } } type = war which = ITA }
+		command = { trigger = { puppet = { country = U41 country = ITA } } type = war which = U41 } 
+		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = ETH value = 1 }
+		
+ 		command = { type = set_domestic which = political_left 		value = 4 }
+		command = { type = set_domestic which = interventionism 	value = 6 }
+		command = { type = set_domestic which = freedom 			value = 2 }
+		command = { type = set_domestic which = free_market 		value = 1 }
+		command = { type = set_domestic which = defense_lobby		value = 7 }
+		command = { type = set_domestic which = democratic			value = 7 }
+		command = { type = set_domestic which = professional_army	value = 4 }
+
+		command = { type = belligerence value = 16 }
+
+		command = { type = local_setflag which = MOB_level when = 0 value = 4 }
+		command = { type = local_setflag which = MSB_level when = 0 value = 4 }
+		command = { type = local_setflag which = WAR_level when = 0 value = 7 }
+		
+		command = { type = manpowerpool 		value = 50   }
+		command = { type = supplies 			value = 500  }
+		command = { type = oilpool 				value = 50   }
+		command = { type = energypool 			value = 200  }
+		command = { type = metalpool 			value = 100  }
+		command = { type = rarematerialspool 	value = 50   }
+		command = { type = money 				value = 50	 }
+		
+		command = { type = headofstate 				which = 245001 }
+		command = { type = headofgovernment 		which = 245002 }
+		command = { type = foreignminister 			which = 245003 }
+		command = { type = armamentminister			which = 245004 }
+		command = { type = ministerofsecurity		which = 245005 }
+		command = { type = ministerofintelligence	which = 245006 }
+		command = { type = chiefofstaff				which = 245007 }
+		command = { type = chiefofarmy				which = 245008 }
+		command = { type = chiefofnavy				which = 245009 }
+		command = { type = chiefofair				which = 245010 }
+		
+		
+		command = { type = remove_units which = all where = REB when = 1 value = "Ethiopia" 			}
+		
+		command = { type = local_setflag which = legitIndie }
+		command = { type = local_setflag which = sliderSet  }
+		command = { type = local_setflag which = AllDefense } #No additional militias/National Guard
+		command = { trigger = { local_flag = war_preparedness } 			type = event which = 3061					  when = 0 where = -1 } #No war preparedness debuff
+		command = { trigger = { NOT = { local_flag = war_preparedness } }	type = local_setflag which = war_preparedness when = 0 value = 5  } #No war preparedness debuff		
+		
+		command = { type = disorg_division   which = -1 where = -100 }
+		command = { type = disorg_division   which = -1 where = -100 }
+		command = { type = disorg_division   which = -1 where = -100 }
+		command = { type = disorg_division   which = -1 where = -100 }
+		command = { type = disorg_division   which = -1 where = -100 }
+		command = { type = disorg_division   which = -1 where = -100 }
+		command = { type = disorg_division   which = -1 where = -100 }
+		command = { type = disorg_division   which = -1 where = -100 }
+		command = { type = disorg_division   which = -1 where = -100 }
+		command = { type = disorg_division   which = -1 where = -100 }
+		
+		#temp GDE boost
+		command = { type = ground_def_eff	when  = 1 		value = 0.60  }
+		command = { type = morale 			which = land 	value = 30	  }		
+		command = { type = event which = 5000 where = ETH when = 30 } #GDE reset 1
+		command = { type = event which = 5000 where = ETH when = 60 } #GDE reset 2
+		command = { type = event which = 5000 where = ETH when = 90 } #GDE reset 3
+	}
+}
+
+event = {
+    id = 4533
+    random = no
+	country = ETH
+	persistent = yes
+	
+	trigger = {
+		control = { province = 1046 data = -3 }
+		NOT = { capital = { province = 1046 } }
+		
+		control = { province = 1044 data = -3 }
+		control = { province = 4676 data = -3 }
+		control = { province = 4666 data = -3 }
+		control = { province = 4667 data = -3 }
+		control = { province = 1042 data = -3 }
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 30
+	deathdate = { day = 29 month = september year = 1999 }	
+
+	name = "Liberation of Addis Ababa"
+	desc = "Our Capital city of Addis Ababa is liberated by the forces loyal to the Empire of Ethiopia!"
+	
+	action = {
+		name = "ACTION_NAME_HURRAH" 
+		command = { type = secedeprovince which = ETH value = 1046 	when = 2 }
+		command = { type = capital which = 1046 }
+		
+		command = { trigger = { control = { province = 7035 } } type = secedeprovince which = ENG value = 7035 when = 2 }
+		command = { type = removecore 	which = 7035 } 
+	}
+}
+
+
+
+
+
+
+
+##
+# Major revolts if too many troops are withdrawn
+##
+
+#Manchuria
+
+event = {
+	id = 5500
+	random = no
+	country = MAN
+	persistent = yes
+
+	name = "Major revolt in Manchuria"
+	desc = "As the Japanese withdrew the bulk of their forces from Manchuria to confront threats in other parts of the world, the Chinese partisans used this opportunity to reorganize in the countryside and launch a new major insurgency against the government of Manchukuo. The Japanese and Manchurian Armies both need to keep at least 15 divisions in Manchuria at all times (30 divisions total) to contain major revolts."
+	style = 2
+
+	trigger = {
+		NOT = { ai = JAP }
+		NOT = { flag = ManRevoltCooldown }
+		OR = {
+			area = { area = "Jilin" 		country = -3 data = 1 value = 20 }
+			area = { area = "Heilongjiang" 	country = -3 data = 1 value = 20 }
+			area = { area = "Liaoning" 		country = -3 data = 1 value = 20 }
+			area = { area = "Rehe" 			country = -3 data = 1 value = 20 }
+		}
+		OR = {
+			NOT = { garrison = { country = MAN province = 2241 type = land size = 15 area = yes } }
+			NOT = { garrison = { country = JAP province = 2241 type = land size = 15 area = yes } }
+		}
+	}
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 20 month = november year = 1945 }
+
+	action = {
+		name = "ACTION_NAME_DAMN"
+		command = { type = dissent 		 value = 0.5  }
+		command = { type = manpowerpool  value = -5   }
+		command = { type = supplies 	 value = -500 }
+		
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		command = { type = revolt which = -3 when = 1 }
+		
+		command = { type = setflag which = ManRevoltCooldown }
+		command = { type = event which = 5501 where = REB when = 20 } #at least 20 days in between revolts
+		command = { type = event which = 5502 where = JAP when = 0  }
+	}
+}
+
+event = {
+	id = 5501
+	random = no
+	country = REB
+	persistent = yes
+
+	name = "AI_EVENT"
+
+	action = {
+		command = { type = clrflag which = ManRevoltCooldown }
+		command = { }
+	}
+}
+
+event = {
+	id = 5502
+	random = no
+	country = JAP
+	persistent = yes
+
+	name = "Major revolt in Manchuria"
+	desc = "As the Japanese withdrew the bulk of their forces from Manchuria to confront threats in other parts of the world, the Chinese partisans used this opportunity to reorganize in the countryside and launch a new major insurgency against the government of Manchukuo. The Japanese and Manchurian Armies both need to keep at least 15 divisions in Manchuria at all times (30 divisions total) to contain major revolts."
+	style = 2
+
+	action = {
+		name = "ACTION_NAME_DAMN"
+		command = { type = dissent value = 0.1  }
+		command = { }
+	}
+}
+
+#Italian East Africa
+
+event = {
+	id = 5510
+	random = no
+	country = ITA
+	one_action = yes
+	persistent = yes
+
+	name = "Major revolt in East Africa"
+	desc = "As the Italians withdrew the bulk of their forces from East Africa to confront threats in other parts of the world, the Ethiopian partisans used this opportunity to reorganize in the countryside and launch a new major insurgency against the Italian colonial government. We need to keep at least 10 Italian divisions in East Africa at all times to contain major revolts."
+	style = 2
+
+	trigger = {
+		NOT = { ai = ITA }
+		NOT = { war = { country = ETH } }
+		NOT = { flag = IEARevoltCooldown }
+		region = { region = "Ethiopia" 	country = -3 data = 1 value = 50 }
+		NOT = { garrison = { country = ITA province = 1048 type = land size = 10 area = yes } }
+		NOT = { garrison = { country = ITA province = 1033 type = land size = 10 area = yes } }
+		NOT = { garrison = { country = ITA province = 1056 type = land size = 10 area = yes } }
+	}
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 20 month = november year = 1945 }
+
+	action = {
+		name = "ACTION_NAME_DAMN"
+		ai_chance = 50
+		command = { type = dissent		value = 0.5  }
+		command = { type = manpowerpool	value = -5   }
+		command = { type = supplies		value = -500 }
+		
+		command = { type = revolt which = 4680 when = 1 }
+		#command = { type = revolt which = 7446 when = 1 }
+		command = { type = revolt which = 4679 when = 1 }
+		#command = { type = revolt which = 1048 when = 1 }
+		command = { type = revolt which = 1048 when = 1 }
+		#command = { type = revolt which = 1043 when = 1 }
+		command = { type = revolt which = 1043 when = 1 }
+		#command = { type = revolt which = 4674 when = 1 }
+		command = { type = revolt which = 4673 when = 1 }
+		#command = { type = revolt which = 1044 when = 1 }
+		command = { type = revolt which = 1042 when = 1 }
+		#command = { type = revolt which = 4672 when = 1 }
+		command = { type = revolt which = 4676 when = 1 }
+		#command = { type = revolt which = 1046 when = 1 }
+		command = { type = revolt which = 1046 when = 1 }
+		#command = { type = revolt which = 4667 when = 1 }
+		command = { type = revolt which = 7445 when = 1 }
+		#command = { type = revolt which = 4666 when = 1 }
+		command = { type = revolt which = 4670 when = 1 }
+		#command = { type = revolt which = 1045 when = 1 }
+		
+		command = { type = revolt which = 1039 when = 1 }
+		
+		command = { type = setflag which = IEARevoltCooldown }
+		command = { type = event which = 5511 where = REB when = 20 } #at least 20 days in between revolts
+	}
+	action = {
+		name = "ACTION_NAME_DAMN"
+		ai_chance = 50
+		command = { type = dissent		value = 0.5  }
+		command = { type = manpowerpool	value = -5   }
+		command = { type = supplies		value = -500 }
+		
+		#command = { type = revolt which = 4680 when = 1 }
+		command = { type = revolt which = 7446 when = 1 }
+		#command = { type = revolt which = 4679 when = 1 }
+		command = { type = revolt which = 1048 when = 1 }
+		#command = { type = revolt which = 1048 when = 1 }
+		command = { type = revolt which = 1043 when = 1 }
+		#command = { type = revolt which = 1043 when = 1 }
+		command = { type = revolt which = 4674 when = 1 }
+		#command = { type = revolt which = 4673 when = 1 }
+		command = { type = revolt which = 1044 when = 1 }
+		#command = { type = revolt which = 1042 when = 1 }
+		command = { type = revolt which = 4672 when = 1 }
+		#command = { type = revolt which = 4676 when = 1 }
+		command = { type = revolt which = 1046 when = 1 }
+		#command = { type = revolt which = 1046 when = 1 }
+		command = { type = revolt which = 4667 when = 1 }
+		#command = { type = revolt which = 7445 when = 1 }
+		command = { type = revolt which = 4666 when = 1 }
+		#command = { type = revolt which = 4670 when = 1 }
+		command = { type = revolt which = 1045 when = 1 }
+		
+		#command = { type = revolt which = 1039 when = 1 }
+		
+		command = { type = setflag which = IEARevoltCooldown }
+		command = { type = event which = 5511 where = REB when = 20 } #at least 20 days in between revolts
+	}
+}
+
+event = {
+	id = 5511
+	random = no
+	country = REB
+	persistent = yes
+
+	name = "AI_EVENT"
+
+	action = {
+		command = { type = clrflag which = IEARevoltCooldown }
+		command = { }
 	}
 }

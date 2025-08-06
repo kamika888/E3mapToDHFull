@@ -22,6 +22,7 @@ country =
   
   headofstate            = {  type = 9 id = 55500  } 
   
+  SpyInfo                = { country = "U61" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }
@@ -176,8 +177,8 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 3 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5 
      defense_lobby     = 4 
      interventionism   = 5 
@@ -205,7 +206,7 @@ country =
        name       = "9. Cavalry Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	 Division = 
      {  experience = 30 
@@ -213,7 +214,7 @@ country =
        name       = "37. Division (Guominjun)" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	 Division = 
      {  experience = 30 
@@ -221,7 +222,7 @@ country =
        name       = "38. Division (Guominjun)" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	 Division = 
      {  experience = 30 
@@ -229,7 +230,7 @@ country =
        name       = "132. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	 Division = 
      {  experience = 30 
@@ -237,7 +238,7 @@ country =
        name       = "143. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	 Division = 
      {  experience = 30 
@@ -245,7 +246,7 @@ country =
        name       = "29/38/39. Independent Brigades" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	 Division = 
      {  experience = 30 
@@ -253,7 +254,7 @@ country =
        name       = "13/15. Cavalry Brigades" 
        type       = cavalry
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	 Division = 
      {  experience = 30 
@@ -261,7 +262,7 @@ country =
        name       = "1/2. Independent Brigades" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
     }
    landunit = 
@@ -273,14 +274,14 @@ country =
        name     = "7/8/25. Infantry Brigades" 
        type     = militia
        strength  = 70 
-       model    = 3
+       model    = 2
       } 
      Division = 
      {  id       = {  type = 22007 id = 32  } 
        name     = "72. Division" 
        type     = militia
        strength  = 70 
-       model    = 3
+       model    = 2
       } 
     } 
 	landunit = 
@@ -293,7 +294,7 @@ country =
        name       = "1. Hebei Provincial Militia" 
        type       = militia
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
 	  Division = 
      {  experience = 30 
@@ -301,7 +302,7 @@ country =
        name       = "2. Hebei Provincial Militia" 
        type       = militia
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
     }
   } 

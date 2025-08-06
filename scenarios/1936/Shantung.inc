@@ -22,6 +22,7 @@ country =
   
   headofstate            = {  type = 9 id = 55500  } 
   
+  SpyInfo                = { country = "U63" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }
@@ -175,8 +176,8 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 3 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5 
      defense_lobby     = 4 
      interventionism   = 5 
@@ -197,7 +198,7 @@ country =
        name       = "22. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	 Division = 
      {  experience = 30 
@@ -205,9 +206,9 @@ country =
        name       = "29. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
 	   extra1 = artillery
-	   brigade_model1 = 4
+	   brigade_model1 = 3
       }
 	 Division = 
      {  experience = 30 
@@ -215,7 +216,7 @@ country =
        name       = "74. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
     }
 	landunit = 
@@ -228,7 +229,7 @@ country =
        name       = "20. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	 Division = 
      {  experience = 30 
@@ -236,9 +237,9 @@ country =
        name       = "81. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
 	   extra1 = artillery
-	   brigade_model1 = 4
+	   brigade_model1 = 3
       }
     }
     landunit = 
@@ -259,9 +260,9 @@ country =
        name       = "1. 2. Independent Artillery Regiments" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
 	   extra1 = artillery
-	   brigade_model1 = 5
+	   brigade_model1 = 4
       }
     }
     landunit = 
@@ -274,7 +275,7 @@ country =
        name       = "1. Shantung Provincial Militia" 
        type       = militia
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
 	 Division = 
      {  experience = 30 
@@ -282,7 +283,7 @@ country =
        name       = "2. Shantung Provincial Militia" 
        type       = militia
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
 	 Division = 
      {  experience = 30 
@@ -290,7 +291,7 @@ country =
        name       = "3. Shantung Provincial Militia" 
        type       = militia
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
 	  Division = 
      {  experience = 30 
@@ -298,7 +299,7 @@ country =
        name       = "4. Shantung Provincial Militia" 
        type       = militia
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
     }
   } 

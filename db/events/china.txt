@@ -48,6 +48,7 @@ event = {
 			control = { province = 1215 data = -2 } #Tengxian +
 			control = { province = 5642 data = -2 } #Taixing +
 			control = { province = 1235 data = -2 } #Nanjing +
+			flag = { which = japChiAI when = 1 value = 25  }
 		}
 	}
 
@@ -57,17 +58,10 @@ event = {
 
 	action = {
 		name = EVT_87_ACTA
-		command = { type = dissent value = 1 }
 		command = { type = money value = -50 }
 		command = { type = supplies value = -500 }
 		command = { type = manpowerpool value = -200 }
-		command = { type = construct which = ic where = 1221 value = -1 } # Heifei
-		command = { type = construct which = infrastructure where = 1228 value = -19 }
-		command = { type = construct which = infrastructure where = 5562 value = -19 }
-		command = { type = construct which = infrastructure where = 2515 value = -19 }
-		command = { type = construct which = infrastructure where = 2508 value = -19 }
-		command = { type = construct which = infrastructure where = 1222 value = -39 }
-		command = { type = construct which = infrastructure where = 1218 value = -39 }
+		
 		
 		command = { type = construct which = land_fort where = 5560 value = 8 }
 		command = { type = construct which = land_fort where = 5559 value = 8 }
@@ -92,6 +86,30 @@ event = {
 		command = { type = construct which = land_fort where = 1267 value = 2 }
 		command = { type = construct which = land_fort where = 5573 value = 2 }
 		command = { type = construct which = land_fort where = 5619 value = 2 }
+		
+		command = { type = construct which = ic where = 1221 value = -1 }
+		command = { type = construct which = ic where = 1222 value = -1 }
+		command = { type = construct which = ic where = 1223 value = -1 }
+		command = { type = construct which = ic where = 1227 value = -1 }
+		command = { type = construct which = ic where = 1228 value = -1 }
+		command = { type = construct which = ic where = 2513 value = -1 }
+		command = { type = construct which = ic where = 2515 value = -1 }
+		command = { type = construct which = ic where = 5562 value = -1 }
+		
+		command = { type = construct which = infrastructure where = 1228 value = -19 }
+		command = { type = construct which = infrastructure where = 5562 value = -19 }
+		command = { type = construct which = infrastructure where = 2515 value = -19 }
+		command = { type = construct which = infrastructure where = 2508 value = -19 }
+		command = { type = construct which = infrastructure where = 1222 value = -39 }
+		command = { type = construct which = infrastructure where = 1218 value = -39 }
+		
+		#related scorched earth - the destruction of changsha
+		
+		command = { type = construct which = ic 			where = 1921 value = -2  }
+		command = { type = construct which = infrastructure where = 1921 value = -10 }
+		command = { type = construct which = land_fort 		where = 1921 value = 4   }
+		command = { type = construct which = land_fort 		where = 5617 value = 4   }
+
 	}
 }
 
@@ -180,7 +198,13 @@ event = {
 	trigger = {
 		war = { country = CHC }
 		NOT = {	war = { country = JAP }	}
-		event = { id = 1330110191 days = 270 } # 9 months from Eastern Expedition
+		OR = {
+			event = { id = 1330110191 days = 270 } # 9 months from Eastern Expedition
+			event = 2141006 #defeat in Suiyuan
+			control = { province = 3752 data = -2 }
+			control = { province = 1207 data = -2 }
+			year = 1937
+		}
 		dissent = 5
 		random = 50
 	}
@@ -284,7 +308,7 @@ event = {
 	action = {
 		name = EVT_90_ACTA
 		ai_chance = 100
-		command = { type = dissent value = -10 }
+		command = { type = dissent value = -5 }
 		#command = { type = secederegion which = -1 value = "China" when = 2 }
 
 		#will also automatically make peace with U58 but not SIK
@@ -487,15 +511,6 @@ event = {
 			#war = { country = CGX country = SOV }
 			#war = { country = CYN country = SOV }
 			#war = { country = CXB country = SOV }
-			control = { province = 2520 data = JAP }
-			control = { province = 2520 data = U87 }
-			control = { province = 2520 data = MEN }
-			control = { province = 1271 data = JAP }
-			control = { province = 1271 data = U87 }
-			control = { province = 1271 data = MEN }
-			control = { province = 3751 data = JAP }
-			control = { province = 3751 data = U87 }
-			control = { province = 3751 data = MEN }
 		}
 	}
 
@@ -559,6 +574,8 @@ event = {
 		command = { trigger = { NOT = { alliance = { country = U00 country = JAP } alliance = { country = U00 country = SOV } } } type = peace which = U00 value = 0 }
 		command = { trigger = { NOT = { alliance = { country = U05 country = JAP } alliance = { country = U05 country = SOV } } } type = peace which = U05 value = 0 }
 		
+		command = { type = transport_pool which = CHI value = -1200 }
+		
 		#If warlords are not annexed, then:
 		#1: all triggers which rely on the amount of territory controlled by CHI will malfunction
 		#2: when preemptive annexation fires, territory occupied by japan will become owned by japan
@@ -614,7 +631,7 @@ event = {
 		command = { type = unlock_division which = 22003 value = 55 }
 		command = { type = unlock_division which = 22003 value = 56 }
 		
-		#command = { type = local_setflag which = inMajorWar	}
+		command = { type = local_setflag which = inMajorWar	}
 		command = { type = ai  which = "nations\CHI_defense.ai" }
 		
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 1 } #General mobilization
@@ -1220,9 +1237,9 @@ event = {
 		name = ACTION_NAME_OK
 		command = { type = inherit which = U59 value = 1 }
 		command = { type = belligerence which = CHI value = 1 }
-		command = { trigger = { dissent = 30 } type = dissent value = 1 }
-		command = { trigger = { dissent = 20 NOT = { dissent = 30 } } type = dissent value = 3 }
-		command = { trigger = { NOT = { dissent = 20 } } type = dissent value = 5 }
+		command = { trigger = { dissent = 20 } type = dissent value = 1 }
+		command = { trigger = { dissent = 15 NOT = { dissent = 20 } } type = dissent value = 3 }
+		command = { trigger = { NOT = { dissent = 15 } } type = dissent value = 5 }
 	}
 }
 
@@ -1280,7 +1297,7 @@ event = {
 	action = {
 		name = "Try to bribe them"
 		ai_chance = 100
-		command = { type = dissent	value = 3 }
+		command = { type = dissent value = 2 }
 		command = { type = money	value = -1000 }
 		command = { type = trigger	which = 2012030 }
 	}
@@ -1350,7 +1367,6 @@ event = {
 		name = "The traitors must leave Guandong"
 		ai_chance = 95
 		trigger = { flag = U59Revolt }
-		command = { type = dissent value = 2 }
 		command = { type = setflag which = U59Subdue }
 		command = { type = trigger which = 2012032 }
 	}
@@ -1629,7 +1645,7 @@ event = {
 		name = "We have been defeated"
 		command = { type = dissent value = -10 }
 		command = { type = regime_falls }
-		command = { type = domestic which = political_left value = 2 } #From reactionary to market liberal
+		command = { type = domestic which = political_left value = 2 } #From nationalist to market liberal
 		
 		command = { type = headofstate 		which = 55114 } #Yan Xishan
 		command = { type = headofgovernment which = 55113 } #Chen Jitang
@@ -1779,7 +1795,6 @@ event = {
 		command = { trigger = { NOT = { war = { country = U65 country = SOV } } alliance = { country = U65 country = CHI } } type = event which = 2012073 where = U65 }
 		command = { trigger = { NOT = { war = { country = U00 country = SOV } } alliance = { country = U00 country = CHI } } type = event which = 2012073 where = U00 }
 		command = { trigger = { NOT = { war = { country = U05 country = SOV } } alliance = { country = U05 country = CHI } } type = event which = 2012073 where = U05 }
-		command = { type = dissent value = -15 }
 	}
 	action = {
 		name = "We have more pressing matters..."
@@ -1854,6 +1869,59 @@ event = {
 		name = "ACTION_NAME_GREAT"
 		command = { type = dissent	value = -1  }
 		command = { type = supplies	value = 500 } 
+	}
+}
+
+event = { 
+	id = 2141010
+	random = no
+	country = JAP
+
+	name = "Suiyuan campaign - major escalation"
+	desc = "Our interference in the conflict in Inner Mongolia had become too heavy-handed and increasingly obvious, and we could no longer pretend to have little involvement in the matter when every other soldier fighting for the Mongolian army was clearly of Japanese origin. The Chinese wasted no opportunity to present ample evidence of Japanese involvement, which in turn led to major embarassment for the government in Tokyo and popular mobilization in China. War now looks inevitable between our governments, and while we are mostly prepared for such a war, this is not quite how we would have liked to start it... This event means we either sent too many troops to Mongolia as expeditionary forces, or otherwise aided them so much that their control started to expand deeper into China proper."
+	style = 2
+ 	picture = "news_paper"
+	
+	trigger = {
+		ai = no
+		NOT = { war = { country = CHI } }
+		OR = {
+			control = { province = 2520 data = -3 }
+			control = { province = 1271 data = -3 }
+			control = { province = 3751 data = -3 }
+			control = { province = 1272 data = -3 }
+			control = { province = 1273 data = -3 }
+			control = { province = 5624 data = -3 }
+			control = { province = 2518 data = -3 }
+			flag 	= { which = japChi when = 1  value = 20 }
+			AND = {
+						army	= { size = 20	type = 0 when = 0 where = 0 which = 0 country = MEN }
+				NOT = {	army	= { size = 20	type = 0 when = 0 where = 1 which = 0 country = MEN } } 
+			}
+			air		= { size = 6	type = 0 when = 0 where = 0 which = 0 country = MEN }
+			AND = {
+						army	= { size = 12	type = 0 when = 0 where = 0 which = 0 country = MEN }
+				NOT = {	army	= { size = 12	type = 0 when = 0 where = 1 which = 0 country = MEN } } 
+				NOT = { event = 2141008 } #defeat event. If defeated, allow bigger deployment to stabilize the front
+			}
+			AND = {
+						army	= { size = 15	type = 0 when = 0 where = 0 which = 0 country = U87 }
+				NOT = {	army	= { size = 15	type = 0 when = 0 where = 1 which = 0 country = U87 } }
+			}
+			air		= { size = 4	type = 0 when = 0 where = 0 which = 0 country = U87 }
+		}
+	}
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 5
+	deathdate = { year = 1938 month = january day = 3 }
+	
+	action = {
+		name = "ACTION_NAME_DAMN"
+		command = { type = dissent 		value = 2 }
+		command = { type = belligerence value = 5 } 
+		command = { type = war 			which = CHI }
+		#command = { type = event 	which = 2012016 where = CHI when = 2 } #give a couple of days to prepare
 	}
 }
 
@@ -2041,7 +2109,7 @@ event = {
 		command = { type = event 	which = 2012072 where = CHI when = 0 }
 		
 		command = { trigger = { ai = SIK } 	type = event 	which = 2400009 where = SIK when = 0 } #front leader no
-		command = { trigger = { ai = SIK } 	type = event 	which = 2400040 where = SIK when = 0 } #0 exp
+		command = { trigger = { ai = SIK } 	type = event 	which = 2400045 where = SIK when = 0 } #50 exp
 		command = { trigger = { ai = SOV } 	type = event 	which = 2400047 where = SOV when = 0 } #70 exp
 		command = { trigger = { ai = TAN } 	type = event 	which = 2400047 where = TAN when = 0 } #70 exp
 		command = { trigger = { ai = MON } 	type = event 	which = 2400042 where = MON when = 0 } #20 exp
@@ -2053,7 +2121,7 @@ event = {
 		command = { type = end_mastery which = SIK }
 		command = { type = military_control which = SOV where = SIK value = 0 }
 		command = { type = event which = 203113 where = SIK when = 0 }
-		command = { type = remove_division which = 25600 value = 43 } #soviet advisors
+		command = { type = remove_division which = 25600 value = 43 } #soviet advisers
 		command = { type = remove_division which = 25600 value = 44 } #soviet-supplied cavalry brigade
 		command = { type = remove_division which = 25600 value = 40 } #Asanov brigade
 		command = { type = remove_division which = 25600 value = 41 } #Bekteev brigade
@@ -2158,6 +2226,66 @@ event = {
 	}
 }
 
+event = { 
+	id = 2012077
+	random = no
+	country = SOV
+
+	name = "Xinjiang campaign - major escalation"
+	desc = "Our interference in the conflict in Xinjiang had become too heavy-handed and increasingly obvious, and we could no longer pretend to have little involvement in the matter when every other soldier fighting for the Xinjiang army was clearly of Soviet origin. The Chinese wasted no opportunity to present ample evidence of Soviet involvement, which in turn led to major embarassment for the government in Moscow and popular mobilization in China. War now looks inevitable between our governments, and while we are mostly prepared for such a war, this is not quite how we would have liked to start it... This event means we either sent too many troops to Xinjiang as expeditionary forces, or otherwise aided them so much that their control started to expand deeper into China proper."
+	style = 2
+ 	picture = "news_paper"
+	
+	trigger = {
+		ai = no
+		NOT = { war = { country = CHI } }
+		OR = {
+			control = { province = 3750 data = -3 }
+			control = { province = 1441 data = -3 }
+			control = { province = 5542 data = -3 }
+			control = { province = 5543 data = -3 }
+			control = { province = 5529 data = -3 }
+			control = { province = 1442 data = -3 }
+			control = { province = 5540 data = -3 }
+			region = { region = "China" country = -3 value = 20 } #Sinkiang+Mongolia+Tuva together are about 15, with starting volunteer armies ~17%
+			AND = {
+						army	= { size = 25	type = 0 when = 0 where = 0 which = 0 country = SIK }
+				NOT = {	army	= { size = 25	type = 0 when = 0 where = 1 which = 0 country = SIK } } 
+			}
+			air		= { size = 6	type = 0 when = 0 where = 0 which = 0 country = SIK }
+			AND = {
+						army	= { size = 40	type = 0 when = 0 where = 0 which = 0 country = SIK }
+				NOT = {	army	= { size = 40	type = 0 when = 0 where = 1 which = 0 country = SIK } } 
+				NOT = { event = 2401065 } #ai defeat event. If defeated, allow bigger deployment to stabilize the front
+			}
+			#AND = {
+			#			army	= { size = 20	type = 0 when = 0 where = 0 which = 0 country = U58 }
+			#	NOT = {	army	= { size = 20	type = 0 when = 0 where = 1 which = 0 country = U58 } }
+			#}
+			#air		= { size = 4	type = 0 when = 0 where = 0 which = 0 country = U58 }
+		}
+	}
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 5
+	deathdate = { year = 1938 month = january day = 3 }
+	
+	action = {
+		name = "ACTION_NAME_DAMN"
+		command = { type = dissent 		value = 2 }
+		command = { type = belligerence value = 5 } 
+		command = { type = war 			which = CHI }
+		command = { trigger = { ai = SIK } 	type = event 	which = 2400009 where = SIK when = 0 } #front leader no
+		command = { trigger = { ai = SIK } 	type = event 	which = 2400045 where = SIK when = 0 } #50 exp
+		command = { trigger = { ai = SOV } 	type = event 	which = 2400047 where = SOV when = 0 } #70 exp
+		command = { trigger = { ai = TAN } 	type = event 	which = 2400047 where = TAN when = 0 } #70 exp
+		command = { trigger = { ai = MON } 	type = event 	which = 2400042 where = MON when = 0 } #20 exp
+		command = { trigger = { puppet = { country = SIK country = SOV } }	type = military_control which = SOV where = SIK value = 1 }
+		
+		#command = { type = event 	which = 2012016 where = CHI when = 2 } #give a couple of days to prepare
+	}
+}
+
 
 
 event = { 
@@ -2175,16 +2303,16 @@ event = {
 		#	war = { country = SIK }
 		#}
 		OR = {
-			lost_national	= { value = 5 }
-			lost_vp 		= { value = 5 } 
-			event = { id = 2012016 days = 60 }
+			lost_national	= { value = 8 }
+			lost_vp 		= { value = 8 } 
+			event = { id = 2012016 days = 60 } #united front
 		}
 	}
 	
 	name = "Sino-Soviet Non-Aggression Pact"
-	desc = "With the outbreak of full-scale Japanese aggression against China, Chiang appealed to the world for help - but found few potential allies, except Stalin. Nanjing therefore faced with little choice but to rapidly normalize its relations with Moscow the hope of receiving Soviet aid. Of course, dependence on Moscow would come with strings attached. For one, Chiang would have to tolerate the Communists, and even distribute some of the Soviet aid to them. Likewise, Xinjiang would have to be abandoned to the Soviets, although it would nominally remain a part of China."
+	desc = "With the outbreak of full-scale Japanese aggression against China, Chiang appealed to the world for help - but found few potential allies, except Stalin. Nanjing was therefore faced with little choice but to rapidly normalize its relations with Moscow the hope of receiving Soviet aid. Of course, dependence on Moscow would come with some strings attached. For one, Chiang would have to tolerate the Communists, and even distribute some of the Soviet aid to them. Likewise, Xinjiang would have to be de-facto abandoned to the Soviets, although it would nominally remain a part of China."
 	style = 2
- 	picture = "news_paper"
+ 	picture = "ccip_peace"
 	
 	date = { year = 1936 month = january day = 1 }
 	offset = 10
@@ -2196,7 +2324,7 @@ event = {
 		#let em stay nationalist, looks cooler that way
 		command = { type = set_domestic which = political_left 		value = 3 } #Nationalist
 		#command = { type = set_domestic which = political_left 	value = 4 } #Conservative
-		command = { type = dissent 	value = -10 }
+		command = { type = dissent 	value = 1 }
 	}
 }
 
@@ -2206,9 +2334,9 @@ event = {
 	country = SOV
 	
 	name = "Sino-Soviet Non-Aggression Pact"
-	desc = "With the outbreak of full-scale Japanese aggression against China, Chiang appealed to the world for help - but found few potential allies, except Stalin. Nanjing therefore faced with little choice but to rapidly normalize its relations with Moscow the hope of receiving Soviet aid. Of course, dependence on Moscow would come with strings attached. For one, Chiang would have to tolerate the Communists, and even distribute some of the Soviet aid to them. Likewise, Xinjiang would have to be abandoned to the Soviets, although it would nominally remain a part of China."
+	desc = "With the outbreak of full-scale Japanese aggression against China, Chiang appealed to the world for help - but found few potential allies, except Stalin. Nanjing was therefore faced with little choice but to rapidly normalize its relations with Moscow the hope of receiving Soviet aid. Of course, dependence on Moscow would come with some strings attached. For one, Chiang would have to tolerate the Communists, and even distribute some of the Soviet aid to them. Likewise, Xinjiang would have to be de-facto abandoned to the Soviets, although it would nominally remain a part of China."
 	style = 2
- 	picture = "news_paper"
+ 	picture = "ccip_peace"
 	
 	action = {
 		name = "This pact will benefit our nations"
@@ -2801,7 +2929,7 @@ event = {
 	desc = EVT_91_DESC
 
     style = 2
-    picture = "Marco_Polo_bridge"
+    picture = "ccip_peace"
 
     action = {
         name = ACTION_NAME_AGREE
@@ -2846,7 +2974,7 @@ event = {
 	desc = EVT_91_DESC
 
     style = 2
-    picture = "Marco_Polo_bridge"
+    picture = "ccip_peace"
 
     action = {
         name = ACTION_NAME_AGREE
@@ -2866,7 +2994,7 @@ event = {
 	desc = EVT_91_DESC
 
     style = 2
-    picture = "Marco_Polo_bridge"
+    picture = "ccip_peace"
 
     action = {
         name = ACTION_NAME_AGREE
@@ -3019,7 +3147,8 @@ event = {
 		#3*4*3*10000=360,000 militia
 		#1*4*3*13000=156,000 infantry
 		#+516,000 men over 3 years
-		command = { trigger = { 				  NOT = { technology = 1110 } } type = add_division value = infantry 	when = 8  } #1931
+		command = { trigger = { 				  NOT = { technology = 1100 } } type = add_division value = infantry 	when = 7  } #1926
+		command = { trigger = { technology = 1100 NOT = { technology = 1110 } } type = add_division value = infantry 	when = 8  } #1931
 		command = { trigger = { technology = 1110 NOT = { technology = 1120 } } type = add_division value = infantry 	when = 9  } #1936
 		command = { trigger = { technology = 1120 NOT = { technology = 1130 } } type = add_division value = infantry 	when = 10 } #1939
 		command = { trigger = { technology = 1130 NOT = { technology = 1140 } } type = add_division value = infantry 	when = 11 } #1942
@@ -3194,27 +3323,36 @@ event = {
 		command = { type = supplies 	 value = -200 }
 		
 		command = { trigger = { 		 }	type = revolt which = -3 when = 1 }
-		command = { trigger = { IC = 5	 }	type = revolt which = -3 when = 1 }
+		#command = { trigger = { IC = 5	 }	type = revolt which = -3 when = 1 }
 		command = { trigger = { IC = 10  }	type = revolt which = -3 when = 1 }
-		command = { trigger = { IC = 15  }	type = revolt which = -3 when = 1 }
+		#command = { trigger = { IC = 15  }	type = revolt which = -3 when = 1 }
 		command = { trigger = { IC = 20  }	type = revolt which = -3 when = 1 }
-		command = { trigger = { IC = 25  }	type = revolt which = -3 when = 1 }
+		#command = { trigger = { IC = 25  }	type = revolt which = -3 when = 1 }
 		command = { trigger = { IC = 30  }	type = revolt which = -3 when = 1 }
-		command = { trigger = { IC = 35  }	type = revolt which = -3 when = 1 }
+		#command = { trigger = { IC = 35  }	type = revolt which = -3 when = 1 }
 		command = { trigger = { IC = 40  }	type = revolt which = -3 when = 1 }
-		command = { trigger = { IC = 45  }	type = revolt which = -3 when = 1 }
+		#command = { trigger = { IC = 45  }	type = revolt which = -3 when = 1 }
 		command = { trigger = { IC = 50  }	type = revolt which = -3 when = 1 }
-		command = { trigger = { IC = 55  }	type = revolt which = -3 when = 1 }
+		#command = { trigger = { IC = 55  }	type = revolt which = -3 when = 1 }
 		command = { trigger = { IC = 60  }	type = revolt which = -3 when = 1 }
-		command = { trigger = { IC = 65  }	type = revolt which = -3 when = 1 }
+		#command = { trigger = { IC = 65  }	type = revolt which = -3 when = 1 }
 		command = { trigger = { IC = 70  }	type = revolt which = -3 when = 1 }
-		command = { trigger = { IC = 75  }	type = revolt which = -3 when = 1 }
+		#command = { trigger = { IC = 75  }	type = revolt which = -3 when = 1 }
 		command = { trigger = { IC = 80  }	type = revolt which = -3 when = 1 }
-		command = { trigger = { IC = 85  }	type = revolt which = -3 when = 1 }
+		#command = { trigger = { IC = 85  }	type = revolt which = -3 when = 1 }
 		command = { trigger = { IC = 90  }	type = revolt which = -3 when = 1 }
-		command = { trigger = { IC = 95  }	type = revolt which = -3 when = 1 }
+		#command = { trigger = { IC = 95  }	type = revolt which = -3 when = 1 }
 		command = { trigger = { IC = 100 }	type = revolt which = -3 when = 1 }
-		command = { trigger = { IC = 100 }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 105 }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 110 }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 115 }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 120 }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 125 }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 130 }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 135 }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 140 }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 145 }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 150 }	type = revolt which = -3 when = 1 }
 	}
 }
 
@@ -3234,11 +3372,11 @@ event = {
 		command = { type = manpowerpool  value = -2   }
 		command = { type = supplies 	 value = -200 }
 		
-		command = { trigger = { NOT = { region = { region = "China" country = -3 data = 1 value = 10  } } }	type = revolt which = -3 when = 1 }
-		command = { trigger = { NOT = { region = { region = "China" country = -3 data = 1 value = 15  } } }	type = revolt which = -3 when = 1 }
-		command = { trigger = { NOT = { region = { region = "China" country = -3 data = 1 value = 20  } } }	type = revolt which = -3 when = 1 }
-		command = { trigger = { NOT = { region = { region = "China" country = -3 data = 1 value = 25  } } }	type = revolt which = -3 when = 1 }
-		command = { trigger = { NOT = { region = { region = "China" country = -3 data = 1 value = 30  } } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { NOT = { flag = { which = japChi when = 1 value = 15  } } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { NOT = { flag = { which = japChi when = 1 value = 20  } } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { NOT = { flag = { which = japChi when = 1 value = 25  } } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { NOT = { flag = { which = japChi when = 1 value = 30  } } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { NOT = { flag = { which = japChi when = 1 value = 35  } } }	type = revolt which = -3 when = 1 }
 	}
 }
 
@@ -3485,6 +3623,10 @@ event = {
 		command = { type = setflag which = longMarchCooldown }
 		command = { type = event which = 1330110151 where = CHC when = 0 }
 		command = { type = event which = 1330110152 where = REB when = 20 }
+		command = { type = event which = 1330110153 where = CHI when = 0 }
+		command = { type = event which = 1330110153 where = CXB when = 0 }
+		command = { type = event which = 1330110153 where = U05 when = 0 }
+		command = { type = event which = 1330110153 where = U64 when = 0 }
 	}
 	action = {
         name = "Go north"
@@ -3654,6 +3796,10 @@ event = {
 		command = { type = setflag which = longMarchCooldown }
 		command = { type = event which = 1330110151 where = CHC when = 0 }
 		command = { type = event which = 1330110152 where = REB when = 20 }
+		command = { type = event which = 1330110153 where = CHI when = 0 }
+		command = { type = event which = 1330110153 where = CXB when = 0 }
+		command = { type = event which = 1330110153 where = U05 when = 0 }
+		command = { type = event which = 1330110153 where = U64 when = 0 }
 	}
 	action = {
         name = "Go north"
@@ -3892,6 +4038,10 @@ event = {
 		command = { type = setflag which = longMarchCooldown }
 		command = { type = event which = 1330110151 where = CHC when = 0 }
 		command = { type = event which = 1330110152 where = REB when = 20 }
+		command = { type = event which = 1330110153 where = CHI when = 0 }
+		command = { type = event which = 1330110153 where = CXB when = 0 }
+		command = { type = event which = 1330110153 where = U05 when = 0 }
+		command = { type = event which = 1330110153 where = U64 when = 0 }
 	}
 	action = {
         name = "Go east"
@@ -4152,6 +4302,10 @@ event = {
 		command = { type = setflag which = longMarchCooldown }
 		command = { type = event which = 1330110151 where = CHC when = 0 }
 		command = { type = event which = 1330110152 where = REB when = 20 }
+		command = { type = event which = 1330110153 where = CHI when = 0 }
+		command = { type = event which = 1330110153 where = CXB when = 0 }
+		command = { type = event which = 1330110153 where = U05 when = 0 }
+		command = { type = event which = 1330110153 where = U64 when = 0 }
 	}
 	action = {
         name = "Go west"
@@ -4434,6 +4588,10 @@ event = {
 		command = { type = setflag which = longMarchCooldown }
 		command = { type = event which = 1330110151 where = CHC when = 0 }
 		command = { type = event which = 1330110152 where = REB when = 20 }
+		command = { type = event which = 1330110153 where = CHI when = 0 }
+		command = { type = event which = 1330110153 where = CXB when = 0 }
+		command = { type = event which = 1330110153 where = U05 when = 0 }
+		command = { type = event which = 1330110153 where = U64 when = 0 }
 	}
 }
 
@@ -4479,6 +4637,194 @@ event = {
 	
 	action = {
 		command = { type = clrflag which = longMarchCooldown }
+	}
+}
+
+event = {
+    id = 1330110153
+    random = no
+    #country = CHI
+	persistent = yes
+
+	name = "The Long March"
+	desc = "Despite suffering considerable losses, the wretched Communists managed to break through our defenses and successfully escaped yet another encirclement"
+	style = 2
+	
+	action = {
+        name = ACTION_NAME_DAMN
+		command = { type = dissent value = 0.05 } 
+		command = { trigger = { garrison = { country = CHC province = 1263 type = land size = 3 area = 0 } } type = control which = CHC value = 1263 }
+		command = { trigger = { garrison = { country = CHC province = 1265 type = land size = 3 area = 0 } } type = control which = CHC value = 1265 }
+		command = { trigger = { garrison = { country = CHC province = 1274 type = land size = 3 area = 0 } } type = control which = CHC value = 1274 }
+		command = { trigger = { garrison = { country = CHC province = 1276 type = land size = 3 area = 0 } } type = control which = CHC value = 1276 }
+		command = { trigger = { garrison = { country = CHC province = 1277 type = land size = 3 area = 0 } } type = control which = CHC value = 1277 }
+		command = { trigger = { garrison = { country = CHC province = 1279 type = land size = 3 area = 0 } } type = control which = CHC value = 1279 }
+		command = { trigger = { garrison = { country = CHC province = 1280 type = land size = 3 area = 0 } } type = control which = CHC value = 1280 }
+		command = { trigger = { garrison = { country = CHC province = 1281 type = land size = 3 area = 0 } } type = control which = CHC value = 1281 }
+		command = { trigger = { garrison = { country = CHC province = 1283 type = land size = 3 area = 0 } } type = control which = CHC value = 1283 }
+		command = { trigger = { garrison = { country = CHC province = 1360 type = land size = 3 area = 0 } } type = control which = CHC value = 1360 }
+		command = { trigger = { garrison = { country = CHC province = 1361 type = land size = 3 area = 0 } } type = control which = CHC value = 1361 }
+		command = { trigger = { garrison = { country = CHC province = 1406 type = land size = 3 area = 0 } } type = control which = CHC value = 1406 }
+		command = { trigger = { garrison = { country = CHC province = 1439 type = land size = 3 area = 0 } } type = control which = CHC value = 1439 }
+		command = { trigger = { garrison = { country = CHC province = 1440 type = land size = 3 area = 0 } } type = control which = CHC value = 1440 }
+		command = { trigger = { garrison = { country = CHC province = 1441 type = land size = 3 area = 0 } } type = control which = CHC value = 1441 }
+		command = { trigger = { garrison = { country = CHC province = 1442 type = land size = 3 area = 0 } } type = control which = CHC value = 1442 }
+		command = { trigger = { garrison = { country = CHC province = 1443 type = land size = 3 area = 0 } } type = control which = CHC value = 1443 }
+		command = { trigger = { garrison = { country = CHC province = 1444 type = land size = 3 area = 0 } } type = control which = CHC value = 1444 }
+		command = { trigger = { garrison = { country = CHC province = 1453 type = land size = 3 area = 0 } } type = control which = CHC value = 1453 }
+		command = { trigger = { garrison = { country = CHC province = 1903 type = land size = 3 area = 0 } } type = control which = CHC value = 1903 }
+		command = { trigger = { garrison = { country = CHC province = 2503 type = land size = 3 area = 0 } } type = control which = CHC value = 2503 }
+		command = { trigger = { garrison = { country = CHC province = 2504 type = land size = 3 area = 0 } } type = control which = CHC value = 2504 }
+		command = { trigger = { garrison = { country = CHC province = 2550 type = land size = 3 area = 0 } } type = control which = CHC value = 2550 }
+		command = { trigger = { garrison = { country = CHC province = 2551 type = land size = 3 area = 0 } } type = control which = CHC value = 2551 }
+		command = { trigger = { garrison = { country = CHC province = 2559 type = land size = 3 area = 0 } } type = control which = CHC value = 2559 }
+		command = { trigger = { garrison = { country = CHC province = 2560 type = land size = 3 area = 0 } } type = control which = CHC value = 2560 }
+		command = { trigger = { garrison = { country = CHC province = 2561 type = land size = 3 area = 0 } } type = control which = CHC value = 2561 }
+		command = { trigger = { garrison = { country = CHC province = 3750 type = land size = 3 area = 0 } } type = control which = CHC value = 3750 }
+		command = { trigger = { garrison = { country = CHC province = 5520 type = land size = 3 area = 0 } } type = control which = CHC value = 5520 }
+		command = { trigger = { garrison = { country = CHC province = 5521 type = land size = 3 area = 0 } } type = control which = CHC value = 5521 }
+		command = { trigger = { garrison = { country = CHC province = 5522 type = land size = 3 area = 0 } } type = control which = CHC value = 5522 }
+		command = { trigger = { garrison = { country = CHC province = 5523 type = land size = 3 area = 0 } } type = control which = CHC value = 5523 }
+		command = { trigger = { garrison = { country = CHC province = 5524 type = land size = 3 area = 0 } } type = control which = CHC value = 5524 }
+		command = { trigger = { garrison = { country = CHC province = 5525 type = land size = 3 area = 0 } } type = control which = CHC value = 5525 }
+		command = { trigger = { garrison = { country = CHC province = 5526 type = land size = 3 area = 0 } } type = control which = CHC value = 5526 }
+		command = { trigger = { garrison = { country = CHC province = 5527 type = land size = 3 area = 0 } } type = control which = CHC value = 5527 }
+		command = { trigger = { garrison = { country = CHC province = 5528 type = land size = 3 area = 0 } } type = control which = CHC value = 5528 }
+		command = { trigger = { garrison = { country = CHC province = 5529 type = land size = 3 area = 0 } } type = control which = CHC value = 5529 }
+		command = { trigger = { garrison = { country = CHC province = 5530 type = land size = 3 area = 0 } } type = control which = CHC value = 5530 }
+		command = { trigger = { garrison = { country = CHC province = 5531 type = land size = 3 area = 0 } } type = control which = CHC value = 5531 }
+		command = { trigger = { garrison = { country = CHC province = 5532 type = land size = 3 area = 0 } } type = control which = CHC value = 5532 }
+		command = { trigger = { garrison = { country = CHC province = 5533 type = land size = 3 area = 0 } } type = control which = CHC value = 5533 }
+		command = { trigger = { garrison = { country = CHC province = 5534 type = land size = 3 area = 0 } } type = control which = CHC value = 5534 }
+		command = { trigger = { garrison = { country = CHC province = 5535 type = land size = 3 area = 0 } } type = control which = CHC value = 5535 }
+		command = { trigger = { garrison = { country = CHC province = 5536 type = land size = 3 area = 0 } } type = control which = CHC value = 5536 }
+		command = { trigger = { garrison = { country = CHC province = 5537 type = land size = 3 area = 0 } } type = control which = CHC value = 5537 }
+		command = { trigger = { garrison = { country = CHC province = 5538 type = land size = 3 area = 0 } } type = control which = CHC value = 5538 }
+		command = { trigger = { garrison = { country = CHC province = 5539 type = land size = 3 area = 0 } } type = control which = CHC value = 5539 }
+		command = { trigger = { garrison = { country = CHC province = 5540 type = land size = 3 area = 0 } } type = control which = CHC value = 5540 }
+		command = { trigger = { garrison = { country = CHC province = 5541 type = land size = 3 area = 0 } } type = control which = CHC value = 5541 }
+		command = { trigger = { garrison = { country = CHC province = 5542 type = land size = 3 area = 0 } } type = control which = CHC value = 5542 }
+		command = { trigger = { garrison = { country = CHC province = 5543 type = land size = 3 area = 0 } } type = control which = CHC value = 5543 }
+		command = { trigger = { garrison = { country = CHC province = 5544 type = land size = 3 area = 0 } } type = control which = CHC value = 5544 }
+		command = { trigger = { garrison = { country = CHC province = 5545 type = land size = 3 area = 0 } } type = control which = CHC value = 5545 }
+		command = { trigger = { garrison = { country = CHC province = 5546 type = land size = 3 area = 0 } } type = control which = CHC value = 5546 }
+		command = { trigger = { garrison = { country = CHC province = 5547 type = land size = 3 area = 0 } } type = control which = CHC value = 5547 }
+		command = { trigger = { garrison = { country = CHC province = 5548 type = land size = 3 area = 0 } } type = control which = CHC value = 5548 }
+		command = { trigger = { garrison = { country = CHC province = 5549 type = land size = 3 area = 0 } } type = control which = CHC value = 5549 }
+		command = { trigger = { garrison = { country = CHC province = 5550 type = land size = 3 area = 0 } } type = control which = CHC value = 5550 }
+		command = { trigger = { garrison = { country = CHC province = 5551 type = land size = 3 area = 0 } } type = control which = CHC value = 5551 }
+		command = { trigger = { garrison = { country = CHC province = 5552 type = land size = 3 area = 0 } } type = control which = CHC value = 5552 }
+		command = { trigger = { garrison = { country = CHC province = 5553 type = land size = 3 area = 0 } } type = control which = CHC value = 5553 }
+		command = { trigger = { garrison = { country = CHC province = 5555 type = land size = 3 area = 0 } } type = control which = CHC value = 5555 }
+		command = { trigger = { garrison = { country = CHC province = 5556 type = land size = 3 area = 0 } } type = control which = CHC value = 5556 }
+		command = { trigger = { garrison = { country = CHC province = 5557 type = land size = 3 area = 0 } } type = control which = CHC value = 5557 }
+		command = { trigger = { garrison = { country = CHC province = 5558 type = land size = 3 area = 0 } } type = control which = CHC value = 5558 }
+		command = { trigger = { garrison = { country = CHC province = 5576 type = land size = 3 area = 0 } } type = control which = CHC value = 5576 }
+		command = { trigger = { garrison = { country = CHC province = 5578 type = land size = 3 area = 0 } } type = control which = CHC value = 5578 }
+		command = { trigger = { garrison = { country = CHC province = 5579 type = land size = 3 area = 0 } } type = control which = CHC value = 5579 }
+		command = { trigger = { garrison = { country = CHC province = 5580 type = land size = 3 area = 0 } } type = control which = CHC value = 5580 }
+		command = { trigger = { garrison = { country = CHC province = 5581 type = land size = 3 area = 0 } } type = control which = CHC value = 5581 }
+		command = { trigger = { garrison = { country = CHC province = 5582 type = land size = 3 area = 0 } } type = control which = CHC value = 5582 }
+		command = { trigger = { garrison = { country = CHC province = 5583 type = land size = 3 area = 0 } } type = control which = CHC value = 5583 }
+		command = { trigger = { garrison = { country = CHC province = 5584 type = land size = 3 area = 0 } } type = control which = CHC value = 5584 }
+		command = { trigger = { garrison = { country = CHC province = 5585 type = land size = 3 area = 0 } } type = control which = CHC value = 5585 }
+		command = { trigger = { garrison = { country = CHC province = 5586 type = land size = 3 area = 0 } } type = control which = CHC value = 5586 }
+		command = { trigger = { garrison = { country = CHC province = 5587 type = land size = 3 area = 0 } } type = control which = CHC value = 5587 }
+		command = { trigger = { garrison = { country = CHC province = 5588 type = land size = 3 area = 0 } } type = control which = CHC value = 5588 }
+		command = { trigger = { garrison = { country = CHC province = 5589 type = land size = 3 area = 0 } } type = control which = CHC value = 5589 }
+		command = { trigger = { garrison = { country = CHC province = 5590 type = land size = 3 area = 0 } } type = control which = CHC value = 5590 }
+		command = { trigger = { garrison = { country = CHC province = 5591 type = land size = 3 area = 0 } } type = control which = CHC value = 5591 }
+		command = { trigger = { garrison = { country = CHC province = 5592 type = land size = 3 area = 0 } } type = control which = CHC value = 5592 }
+		command = { trigger = { garrison = { country = CHC province = 5593 type = land size = 3 area = 0 } } type = control which = CHC value = 5593 }
+		command = { trigger = { garrison = { country = CHC province = 5594 type = land size = 3 area = 0 } } type = control which = CHC value = 5594 }
+		command = { trigger = { garrison = { country = CHC province = 5622 type = land size = 3 area = 0 } } type = control which = CHC value = 5622 }
+		
+		command = { trigger = { garrison = { country = CHC province = 1263 type = land size = 3 area = 0 } owned = { province = 1263 } } type = supplies value = 200 where = 1263 }
+		command = { trigger = { garrison = { country = CHC province = 1265 type = land size = 3 area = 0 } owned = { province = 1265 } } type = supplies value = 200 where = 1265 }
+		command = { trigger = { garrison = { country = CHC province = 1274 type = land size = 3 area = 0 } owned = { province = 1274 } } type = supplies value = 200 where = 1274 }
+		command = { trigger = { garrison = { country = CHC province = 1276 type = land size = 3 area = 0 } owned = { province = 1276 } } type = supplies value = 200 where = 1276 }
+		command = { trigger = { garrison = { country = CHC province = 1277 type = land size = 3 area = 0 } owned = { province = 1277 } } type = supplies value = 200 where = 1277 }
+		command = { trigger = { garrison = { country = CHC province = 1279 type = land size = 3 area = 0 } owned = { province = 1279 } } type = supplies value = 200 where = 1279 }
+		command = { trigger = { garrison = { country = CHC province = 1280 type = land size = 3 area = 0 } owned = { province = 1280 } } type = supplies value = 200 where = 1280 }
+		command = { trigger = { garrison = { country = CHC province = 1281 type = land size = 3 area = 0 } owned = { province = 1281 } } type = supplies value = 200 where = 1281 }
+		command = { trigger = { garrison = { country = CHC province = 1283 type = land size = 3 area = 0 } owned = { province = 1283 } } type = supplies value = 200 where = 1283 }
+		command = { trigger = { garrison = { country = CHC province = 1360 type = land size = 3 area = 0 } owned = { province = 1360 } } type = supplies value = 200 where = 1360 }
+		command = { trigger = { garrison = { country = CHC province = 1361 type = land size = 3 area = 0 } owned = { province = 1361 } } type = supplies value = 200 where = 1361 }
+		command = { trigger = { garrison = { country = CHC province = 1406 type = land size = 3 area = 0 } owned = { province = 1406 } } type = supplies value = 200 where = 1406 }
+		command = { trigger = { garrison = { country = CHC province = 1439 type = land size = 3 area = 0 } owned = { province = 1439 } } type = supplies value = 200 where = 1439 }
+		command = { trigger = { garrison = { country = CHC province = 1440 type = land size = 3 area = 0 } owned = { province = 1440 } } type = supplies value = 200 where = 1440 }
+		command = { trigger = { garrison = { country = CHC province = 1441 type = land size = 3 area = 0 } owned = { province = 1441 } } type = supplies value = 200 where = 1441 }
+		command = { trigger = { garrison = { country = CHC province = 1442 type = land size = 3 area = 0 } owned = { province = 1442 } } type = supplies value = 200 where = 1442 }
+		command = { trigger = { garrison = { country = CHC province = 1443 type = land size = 3 area = 0 } owned = { province = 1443 } } type = supplies value = 200 where = 1443 }
+		command = { trigger = { garrison = { country = CHC province = 1444 type = land size = 3 area = 0 } owned = { province = 1444 } } type = supplies value = 200 where = 1444 }
+		command = { trigger = { garrison = { country = CHC province = 1453 type = land size = 3 area = 0 } owned = { province = 1453 } } type = supplies value = 200 where = 1453 }
+		command = { trigger = { garrison = { country = CHC province = 1903 type = land size = 3 area = 0 } owned = { province = 1903 } } type = supplies value = 200 where = 1903 }
+		command = { trigger = { garrison = { country = CHC province = 2503 type = land size = 3 area = 0 } owned = { province = 2503 } } type = supplies value = 200 where = 2503 }
+		command = { trigger = { garrison = { country = CHC province = 2504 type = land size = 3 area = 0 } owned = { province = 2504 } } type = supplies value = 200 where = 2504 }
+		command = { trigger = { garrison = { country = CHC province = 2550 type = land size = 3 area = 0 } owned = { province = 2550 } } type = supplies value = 200 where = 2550 }
+		command = { trigger = { garrison = { country = CHC province = 2551 type = land size = 3 area = 0 } owned = { province = 2551 } } type = supplies value = 200 where = 2551 }
+		command = { trigger = { garrison = { country = CHC province = 2559 type = land size = 3 area = 0 } owned = { province = 2559 } } type = supplies value = 200 where = 2559 }
+		command = { trigger = { garrison = { country = CHC province = 2560 type = land size = 3 area = 0 } owned = { province = 2560 } } type = supplies value = 200 where = 2560 }
+		command = { trigger = { garrison = { country = CHC province = 2561 type = land size = 3 area = 0 } owned = { province = 2561 } } type = supplies value = 200 where = 2561 }
+		command = { trigger = { garrison = { country = CHC province = 3750 type = land size = 3 area = 0 } owned = { province = 3750 } } type = supplies value = 200 where = 3750 }
+		command = { trigger = { garrison = { country = CHC province = 5520 type = land size = 3 area = 0 } owned = { province = 5520 } } type = supplies value = 200 where = 5520 }
+		command = { trigger = { garrison = { country = CHC province = 5521 type = land size = 3 area = 0 } owned = { province = 5521 } } type = supplies value = 200 where = 5521 }
+		command = { trigger = { garrison = { country = CHC province = 5522 type = land size = 3 area = 0 } owned = { province = 5522 } } type = supplies value = 200 where = 5522 }
+		command = { trigger = { garrison = { country = CHC province = 5523 type = land size = 3 area = 0 } owned = { province = 5523 } } type = supplies value = 200 where = 5523 }
+		command = { trigger = { garrison = { country = CHC province = 5524 type = land size = 3 area = 0 } owned = { province = 5524 } } type = supplies value = 200 where = 5524 }
+		command = { trigger = { garrison = { country = CHC province = 5525 type = land size = 3 area = 0 } owned = { province = 5525 } } type = supplies value = 200 where = 5525 }
+		command = { trigger = { garrison = { country = CHC province = 5526 type = land size = 3 area = 0 } owned = { province = 5526 } } type = supplies value = 200 where = 5526 }
+		command = { trigger = { garrison = { country = CHC province = 5527 type = land size = 3 area = 0 } owned = { province = 5527 } } type = supplies value = 200 where = 5527 }
+		command = { trigger = { garrison = { country = CHC province = 5528 type = land size = 3 area = 0 } owned = { province = 5528 } } type = supplies value = 200 where = 5528 }
+		command = { trigger = { garrison = { country = CHC province = 5529 type = land size = 3 area = 0 } owned = { province = 5529 } } type = supplies value = 200 where = 5529 }
+		command = { trigger = { garrison = { country = CHC province = 5530 type = land size = 3 area = 0 } owned = { province = 5530 } } type = supplies value = 200 where = 5530 }
+		command = { trigger = { garrison = { country = CHC province = 5531 type = land size = 3 area = 0 } owned = { province = 5531 } } type = supplies value = 200 where = 5531 }
+		command = { trigger = { garrison = { country = CHC province = 5532 type = land size = 3 area = 0 } owned = { province = 5532 } } type = supplies value = 200 where = 5532 }
+		command = { trigger = { garrison = { country = CHC province = 5533 type = land size = 3 area = 0 } owned = { province = 5533 } } type = supplies value = 200 where = 5533 }
+		command = { trigger = { garrison = { country = CHC province = 5534 type = land size = 3 area = 0 } owned = { province = 5534 } } type = supplies value = 200 where = 5534 }
+		command = { trigger = { garrison = { country = CHC province = 5535 type = land size = 3 area = 0 } owned = { province = 5535 } } type = supplies value = 200 where = 5535 }
+		command = { trigger = { garrison = { country = CHC province = 5536 type = land size = 3 area = 0 } owned = { province = 5536 } } type = supplies value = 200 where = 5536 }
+		command = { trigger = { garrison = { country = CHC province = 5537 type = land size = 3 area = 0 } owned = { province = 5537 } } type = supplies value = 200 where = 5537 }
+		command = { trigger = { garrison = { country = CHC province = 5538 type = land size = 3 area = 0 } owned = { province = 5538 } } type = supplies value = 200 where = 5538 }
+		command = { trigger = { garrison = { country = CHC province = 5539 type = land size = 3 area = 0 } owned = { province = 5539 } } type = supplies value = 200 where = 5539 }
+		command = { trigger = { garrison = { country = CHC province = 5540 type = land size = 3 area = 0 } owned = { province = 5540 } } type = supplies value = 200 where = 5540 }
+		command = { trigger = { garrison = { country = CHC province = 5541 type = land size = 3 area = 0 } owned = { province = 5541 } } type = supplies value = 200 where = 5541 }
+		command = { trigger = { garrison = { country = CHC province = 5542 type = land size = 3 area = 0 } owned = { province = 5542 } } type = supplies value = 200 where = 5542 }
+		command = { trigger = { garrison = { country = CHC province = 5543 type = land size = 3 area = 0 } owned = { province = 5543 } } type = supplies value = 200 where = 5543 }
+		command = { trigger = { garrison = { country = CHC province = 5544 type = land size = 3 area = 0 } owned = { province = 5544 } } type = supplies value = 200 where = 5544 }
+		command = { trigger = { garrison = { country = CHC province = 5545 type = land size = 3 area = 0 } owned = { province = 5545 } } type = supplies value = 200 where = 5545 }
+		command = { trigger = { garrison = { country = CHC province = 5546 type = land size = 3 area = 0 } owned = { province = 5546 } } type = supplies value = 200 where = 5546 }
+		command = { trigger = { garrison = { country = CHC province = 5547 type = land size = 3 area = 0 } owned = { province = 5547 } } type = supplies value = 200 where = 5547 }
+		command = { trigger = { garrison = { country = CHC province = 5548 type = land size = 3 area = 0 } owned = { province = 5548 } } type = supplies value = 200 where = 5548 }
+		command = { trigger = { garrison = { country = CHC province = 5549 type = land size = 3 area = 0 } owned = { province = 5549 } } type = supplies value = 200 where = 5549 }
+		command = { trigger = { garrison = { country = CHC province = 5550 type = land size = 3 area = 0 } owned = { province = 5550 } } type = supplies value = 200 where = 5550 }
+		command = { trigger = { garrison = { country = CHC province = 5551 type = land size = 3 area = 0 } owned = { province = 5551 } } type = supplies value = 200 where = 5551 }
+		command = { trigger = { garrison = { country = CHC province = 5552 type = land size = 3 area = 0 } owned = { province = 5552 } } type = supplies value = 200 where = 5552 }
+		command = { trigger = { garrison = { country = CHC province = 5553 type = land size = 3 area = 0 } owned = { province = 5553 } } type = supplies value = 200 where = 5553 }
+		command = { trigger = { garrison = { country = CHC province = 5555 type = land size = 3 area = 0 } owned = { province = 5555 } } type = supplies value = 200 where = 5555 }
+		command = { trigger = { garrison = { country = CHC province = 5556 type = land size = 3 area = 0 } owned = { province = 5556 } } type = supplies value = 200 where = 5556 }
+		command = { trigger = { garrison = { country = CHC province = 5557 type = land size = 3 area = 0 } owned = { province = 5557 } } type = supplies value = 200 where = 5557 }
+		command = { trigger = { garrison = { country = CHC province = 5558 type = land size = 3 area = 0 } owned = { province = 5558 } } type = supplies value = 200 where = 5558 }
+		command = { trigger = { garrison = { country = CHC province = 5576 type = land size = 3 area = 0 } owned = { province = 5576 } } type = supplies value = 200 where = 5576 }
+		command = { trigger = { garrison = { country = CHC province = 5578 type = land size = 3 area = 0 } owned = { province = 5578 } } type = supplies value = 200 where = 5578 }
+		command = { trigger = { garrison = { country = CHC province = 5579 type = land size = 3 area = 0 } owned = { province = 5579 } } type = supplies value = 200 where = 5579 }
+		command = { trigger = { garrison = { country = CHC province = 5580 type = land size = 3 area = 0 } owned = { province = 5580 } } type = supplies value = 200 where = 5580 }
+		command = { trigger = { garrison = { country = CHC province = 5581 type = land size = 3 area = 0 } owned = { province = 5581 } } type = supplies value = 200 where = 5581 }
+		command = { trigger = { garrison = { country = CHC province = 5582 type = land size = 3 area = 0 } owned = { province = 5582 } } type = supplies value = 200 where = 5582 }
+		command = { trigger = { garrison = { country = CHC province = 5583 type = land size = 3 area = 0 } owned = { province = 5583 } } type = supplies value = 200 where = 5583 }
+		command = { trigger = { garrison = { country = CHC province = 5584 type = land size = 3 area = 0 } owned = { province = 5584 } } type = supplies value = 200 where = 5584 }
+		command = { trigger = { garrison = { country = CHC province = 5585 type = land size = 3 area = 0 } owned = { province = 5585 } } type = supplies value = 200 where = 5585 }
+		command = { trigger = { garrison = { country = CHC province = 5586 type = land size = 3 area = 0 } owned = { province = 5586 } } type = supplies value = 200 where = 5586 }
+		command = { trigger = { garrison = { country = CHC province = 5587 type = land size = 3 area = 0 } owned = { province = 5587 } } type = supplies value = 200 where = 5587 }
+		command = { trigger = { garrison = { country = CHC province = 5588 type = land size = 3 area = 0 } owned = { province = 5588 } } type = supplies value = 200 where = 5588 }
+		command = { trigger = { garrison = { country = CHC province = 5589 type = land size = 3 area = 0 } owned = { province = 5589 } } type = supplies value = 200 where = 5589 }
+		command = { trigger = { garrison = { country = CHC province = 5590 type = land size = 3 area = 0 } owned = { province = 5590 } } type = supplies value = 200 where = 5590 }
+		command = { trigger = { garrison = { country = CHC province = 5591 type = land size = 3 area = 0 } owned = { province = 5591 } } type = supplies value = 200 where = 5591 }
+		command = { trigger = { garrison = { country = CHC province = 5592 type = land size = 3 area = 0 } owned = { province = 5592 } } type = supplies value = 200 where = 5592 }
+		command = { trigger = { garrison = { country = CHC province = 5593 type = land size = 3 area = 0 } owned = { province = 5593 } } type = supplies value = 200 where = 5593 }
+		command = { trigger = { garrison = { country = CHC province = 5594 type = land size = 3 area = 0 } owned = { province = 5594 } } type = supplies value = 200 where = 5594 }
+		command = { trigger = { garrison = { country = CHC province = 5622 type = land size = 3 area = 0 } owned = { province = 5622 } } type = supplies value = 200 where = 5622 }
+		command = { }
 	}
 }
 
@@ -4537,7 +4883,7 @@ event = {
 	
 	action = {
         name = ACTION_NAME_DAMN
-		command = { type = dissent value = 5 }
+		command = { type = dissent value = 3 }
 		command = { type = manpowerpool value = -50 }
 		command = { type = morale which = land value = -1 }
 	}
@@ -5201,7 +5547,7 @@ event = {
 event = {
 	id = 1330110192
 	random = no
-	tag = { CHI CHC CGX CSX CYN CXB U59 U60 U61 U62 U63 U64 U65 U00 U05 }
+	#tag = { CHI CHC CGX CSX CYN CXB U59 U60 U61 U62 U63 U64 U65 U00 U05 }
 	persistent = yes
 
 	name = "Eastern Expedition"
@@ -5237,7 +5583,7 @@ event = {
 event = {
 	id = 1330110193
 	random = no
-	tag = { CHI CHC CGX CSX CYN CXB U59 U60 U61 U62 U63 U64 U65 U00 U05 }
+	#tag = { CHI CHC CGX CSX CYN CXB U59 U60 U61 U62 U63 U64 U65 U00 U05 }
 	persistent = yes
 
 	name = "Eastern Expedition"
@@ -5959,6 +6305,7 @@ event = {
 	
 	trigger = {
 		random = 30
+		event = { id = 1330110081 days = 360 } #JAP Bloody Saturday
 		war = { country = U58 }
 		NOT = { non_aggression = { country = MAN country = U58 } }
 		NOT = { non_aggression = { country = JAP country = U58 } }
@@ -6234,7 +6581,6 @@ event = {
 		command = { type = secedeprovince which = CHC value = 5626 when = 1 }
 		command = { type = secedeprovince which = CHI value = 1206 when = 1 }
 		command = { type = secedeprovince which = CHI value = 5626 when = 1 }
-		
 	}
 }
 
@@ -6302,5 +6648,82 @@ event = {
 		command = { type = leave_alliance when = 1 }
 		command = { type = war which = CHC }
 		command = { type = dissent value = 10 } # torn by civil war
+	}
+}
+
+#coastal islands to japan - no need after changes to adj-defs
+
+event = {
+	id = 1330110300
+	random = no
+	country = CHI
+
+	name = "Losing control of the coast"
+	desc = "With Japan taking control of the our coastal regions, we can no longer hold on to the islands off the coast"
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		war = { country = JAP }
+		control = { province = 5647 data = -3 }
+		OR = {
+			area = { area = "Zhejiang" 	country = -2 data = 1 value = 80 }
+			area = { area = "Jiangsu" 	country = -2 data = 1 value = 80 }
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 35
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "We will recover them"
+		command = { type = remove_units which = all where = -2 when = 0 value = 5647 }
+		#command = { type = control which = JAP value = 5647 }
+		command = { type = secedeprovince which = JAP value = 5647	when = 2 }
+		
+		command = { type = addclaim which = 5647 where = JAP }
+	}
+}
+
+event = {
+	id = 1330110301
+	random = no
+	country = CHI
+
+	name = "Losing control of the coast"
+	desc = "With Japan taking control of the our coastal regions, we can no longer hold on to the islands off the coast"
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		war = { country = JAP }
+		area = { area = "Fujian" 	country = -2 data = 1 value = 60 }
+		OR = {
+			control = { province = 5649 data = -3 }
+			control = { province = 5650 data = -3 }
+			control = { province = 5651 data = -3 }
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 35
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "We will recover them"
+		command = { trigger = { control = { province = 5649 data = -3 } } type = remove_units which = all where = -2 when = 0 value = 5649 }
+		command = { trigger = { control = { province = 5650 data = -3 } } type = remove_units which = all where = -2 when = 0 value = 5650 }
+		command = { trigger = { control = { province = 5651 data = -3 } } type = remove_units which = all where = -2 when = 0 value = 5651 }
+		#command = { type = control which = JAP value = 5649 }
+		#command = { type = control which = JAP value = 5650 }
+		#command = { type = control which = JAP value = 5651 }
+		command = { type = secedeprovince which = JAP value = 5649	when = 2 }
+		command = { type = secedeprovince which = JAP value = 5650	when = 2 }
+		command = { type = secedeprovince which = JAP value = 5651	when = 2 }
+		
+		command = { type = addclaim which = 5649 where = JAP }
+		command = { type = addclaim which = 5650 where = JAP }
+		command = { type = addclaim which = 5651 where = JAP }
 	}
 }

@@ -15,6 +15,7 @@ country =
 	money                  = 10 
 	manpower               = 0 
   capital                = 194
+  SpyInfo                = { country = "EST" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = ENG value = 65 }
     relation = { tag = FIN value = 120 }

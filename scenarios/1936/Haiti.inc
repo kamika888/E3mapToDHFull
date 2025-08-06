@@ -26,6 +26,7 @@ country =
     defense_lobby     = 1
     interventionism   = 2
   }
+  SpyInfo                = { country = "HAI" NumberOfSpies = 5 }
   nationalprovinces      = { 892 2673 4277 7172 }
   ownedprovinces         = { 892 2673 4277 7172 }
   controlledprovinces    = { 892 2673 4277 7172 }

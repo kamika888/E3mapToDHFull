@@ -16,6 +16,7 @@ country =
 	transports             = 100 
 	escorts                = 2 
   capital                = 142
+  SpyInfo                = { country = "FIN" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = AST value = 65 }
     relation = { tag = AUS value = 55 }
@@ -189,7 +190,7 @@ inventions = { 3000027 }
      democratic        = 1 
      political_left    = 5 
      free_market       = 4
-     freedom           = 7 
+     freedom           = 8 
      professional_army = 3 
      defense_lobby     = 3 
      interventionism   = 4 

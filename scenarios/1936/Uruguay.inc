@@ -25,6 +25,7 @@ country =
      defense_lobby     = 1 
      interventionism   = 2 
   }
+  SpyInfo                = { country = "URU" NumberOfSpies = 5 }
   nationalprovinces      = { 849 833 2960 3776 3777 3778 3779 3780 }
   ownedprovinces         = { 849 833 2960 3776 3777 3778 3779 3780 }
   controlledprovinces    = { 849 833 2960 3776 3777 3778 3779 3780 }

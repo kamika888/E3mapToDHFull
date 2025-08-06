@@ -17,6 +17,7 @@ country =
 	money                  = 10 
 	manpower               = 73 
     capital                = 1404
+  SpyInfo                = { country = "MON" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = CHC value = 25 }
     relation = { tag = MON value = 150 }
@@ -108,34 +109,48 @@ country =
 
    landunit = 
    {  location = 1404 
-     name     = "Armija Mongol Nayramdakh" 
-     id       = {  type = 30500 id = 1  } 
+     name    = "Armija Mongol Nayramdakh" 
+     id      = {  type = 30500 id = 1  } 
      Division = 
      {  id   = {  type = 30500 id = 2  } 
-       name = "1. Nayramdakh Pekhotnaya Div." 
-	   strength     = 50
-       type = infantry 
+       name 	= "1. Nayramdakh Pekhotnaya Div." 
+	   strength = 50
+       type 	= infantry 
 	   model    = 6
       } 
      Division = 
      {  id   = {  type = 30500 id = 3  } 
-       name = "2. Nayramdakh Kavaleriyskaya Div." 
-	   strength     = 10
-       type = cavalry 
+       name 	= "2. Nayramdakh Kavaleriyskaya Div." 
+	   strength = 20
+       type 	= cavalry 
 	   model    = 7
       } 
      Division = 
      {  id   = {  type = 30500 id = 4  } 
-       name = "3. Nayramdakh Opolcheniya Div." 
-	   strength     = 10
-       type = militia 
-	   model    = 3
+       name 	= "3. Nayramdakh Kavaleriyskaya Div." 
+	   strength = 20
+       type 	= cavalry 
+	   model    = 7
       } 
      Division = 
      {  id   = {  type = 30500 id = 5  } 
-       name = "4. Nayramdakh Opolcheniya Div." 
-	   strength     = 10
-       type = militia 
+       name 	= "4. Nayramdakh Kavaleriyskaya Div." 
+	   strength = 20
+       type 	= cavalry 
+	   model    = 7
+      } 
+     Division = 
+     {  id   = {  type = 30500 id = 6  } 
+       name 	= "5. Nayramdakh Opolcheniya Div." 
+	   strength = 20
+       type 	= militia 
+	   model    = 3
+      } 
+     Division = 
+     {  id   = {  type = 30500 id = 7  } 
+       name 	= "6. Nayramdakh Opolcheniya Div." 
+	   strength = 20
+       type 	= militia 
 	   model    = 3
       } 
     } 

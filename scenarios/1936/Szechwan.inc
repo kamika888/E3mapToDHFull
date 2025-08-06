@@ -22,6 +22,7 @@ country =
   
   headofstate            = {  type = 9 id = 55500  } 
   
+  SpyInfo                = { country = "U64" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }
@@ -175,8 +176,8 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 7 
      political_left    = 3 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5 
      defense_lobby     = 4 
      interventionism   = 5 
@@ -194,7 +195,7 @@ country =
        name       = "146. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	 Division = 
      {  experience = 30 
@@ -202,7 +203,7 @@ country =
        name       = "147. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	  Division = 
      {  experience = 30 
@@ -210,7 +211,7 @@ country =
        name       = "162. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
     }
 	landunit = 
@@ -223,7 +224,7 @@ country =
        name       = "144. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	  Division = 
      {  experience = 30 
@@ -231,7 +232,7 @@ country =
        name       = "148. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
     }
 	landunit = 
@@ -244,7 +245,7 @@ country =
        name       = "149. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	  Division = 
      {  experience = 30 
@@ -252,7 +253,7 @@ country =
        name       = "150. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	  Division = 
      {  experience = 30 
@@ -260,7 +261,7 @@ country =
        name       = "163. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
     }
 	landunit = 
@@ -273,7 +274,7 @@ country =
        name       = "145. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	  Division = 
      {  experience = 30 
@@ -281,7 +282,7 @@ country =
        name       = "161. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	  Division = 
      {  experience = 30 
@@ -289,7 +290,7 @@ country =
        name       = "164. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	  Division = 
      {  experience = 30 
@@ -310,9 +311,9 @@ country =
        name       = "122. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
 	   extra1 = cavalry_brigade
-	   brigade_model1 = 5
+	   brigade_model1 = 4
       }
 	  Division = 
      {  experience = 30 
@@ -320,9 +321,9 @@ country =
        name       = "123. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
 	   extra1 = cavalry_brigade
-	   brigade_model1 = 5
+	   brigade_model1 = 4
       }
 	  Division = 
      {  experience = 30 
@@ -330,9 +331,9 @@ country =
        name       = "124. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
 	   extra1 = cavalry_brigade
-	   brigade_model1 = 5
+	   brigade_model1 = 4
       }
     }
 	landunit = 
@@ -345,7 +346,7 @@ country =
        name       = "125. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	  Division = 
      {  experience = 30 
@@ -353,7 +354,7 @@ country =
        name       = "126. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	  Division = 
      {  experience = 30 
@@ -361,7 +362,7 @@ country =
        name       = "127. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	  Division = 
      {  experience = 30 
@@ -369,7 +370,7 @@ country =
        name       = "128. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
     }
 	landunit = 
@@ -382,7 +383,7 @@ country =
        name       = "104. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
     }
 	landunit = 
@@ -395,7 +396,7 @@ country =
        name       = "11-17. Independent Brigades" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	  Division = 
      {  experience = 30 
@@ -416,7 +417,7 @@ country =
        name       = "1/2/3/4/5/6. Szechwan Provincial Militia" 
        type       = militia
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
 	  Division = 
      {  experience = 30 
@@ -424,7 +425,7 @@ country =
        name       = "7/8/9/10/11/12. Szechwan Provincial Militia" 
        type       = militia
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
 	  Division = 
      {  experience = 30 
@@ -432,7 +433,7 @@ country =
        name       = "13/14/15/16/17/18. Szechwan Provincial Militia"
        type       = militia
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
 	  Division = 
      {  experience = 30 
@@ -440,7 +441,7 @@ country =
        name       = "20/21/22/23/24. Szechwan Provincial Militia" 
        type       = militia
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
     }
 	# Sichuan
@@ -453,14 +454,14 @@ country =
      {  id           = {  type = 22008 id = 192 } 
        name         = "33. Squadron" 
        type         = multi_role 
-       model        = 3
+       model        = 1
        strength     = 9
       } 
     }
 	division_development = {
 		name  = "131. Division" 
 		type  = infantry
-		model = 5
+		model = 4
 		new_model = no
 		cost  = 4
 		id    = {  type = 22008 id = 95  } 

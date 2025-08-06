@@ -30,6 +30,7 @@ country =
   # }
   transports             = 10
   escorts                = 4
+  SpyInfo                = { country = "BUL" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = ENG value = 20 }
     relation = { tag = FIN value = 35 }
@@ -150,10 +151,10 @@ country =
      democratic        = 1 
      political_left    = 4 
      free_market       = 3
-     freedom           = 5 
+     freedom           = 4 
      professional_army = 3 
-     defense_lobby     = 4 
-     interventionism   = 6
+     defense_lobby     = 3 
+     interventionism   = 5
   }
    headofstate            = {  type = 9 id = 95001  } 
    headofgovernment       = {  type = 9 id = 95002  } 

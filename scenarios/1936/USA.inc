@@ -18,6 +18,7 @@ country =
 	dissent                = 10
   capital                  = 606
   industrial_modifier 	   = 0.74 # depression - effective 0.80
+  SpyInfo                = { country = "USA" NumberOfSpies = 5 }
   diplomacy =
   { relation =
     { tag        = ARG
@@ -395,7 +396,7 @@ inventions = { 3000027 }
        }  
       Division =  
       {  id   = {  type = 14800 id = 615  }  
-        name = "31st Infantry Division"
+        name = "34th Infantry Division"
 		strength = 10		
         type = infantry  
 		model    = 6
@@ -569,7 +570,7 @@ inventions = { 3000027 }
 		}  
 	}
     landunit =  
-    {  location = 606  
+    {  location = 663  
       name     = "Hawaiian Department"  
       id       = {  type = 14800 id = 643  }  
       Division =  
@@ -583,29 +584,31 @@ inventions = { 3000027 }
        }  
      }  
     landunit =  
-    {  location = 606  
+    {  location = 1737
       name     = "Philippine Department"  
       id       = {  type = 14800 id = 645  }  
       Division =  
       {  id     = {  type = 14800 id = 646  }  
-        name   = "Philippine Division"  
+        name   = "31st Infantry Division"  
         type   = infantry  
 		model    = 7
         strength = 100 
-	extra = engineer
+		extra = engineer
 		brigade_model = 3
+	    locked = yes
        }  
      }  
     landunit =  
     {  id       = {  type = 14800 id = 647  }  
       name     = "Panama Canal Department"  
-      location = 606  
+      location = 889
       Division =  
       {  id     = {  type = 14800 id = 648  }  
         name   = "Panama Canal Garrison"  
 		strength = 100
         type   = garrison  
         model  = 3  
+	    locked = yes
        }  
      }  
 	 
@@ -1729,7 +1732,7 @@ inventions = { 3000027 }
 		type  = carrier  
 		model = 2  
 		new_model = no
-		cost  = 0.5  
+		cost  = 2  
 		id    = {  type = 14800 id = 500  }  
 		date  = {  year = 1937 month = september day = 30  }  
 		extra = cag  
@@ -1740,7 +1743,7 @@ inventions = { 3000027 }
 		type  = carrier  
 		model = 2  
 		new_model = no
-		cost  = 0.5  
+		cost  = 2  
 		id    = {  type = 14800 id = 501  }  
 		date  = {  year = 1938 month = may day = 12  }  
 		extra = cag  
@@ -1751,7 +1754,7 @@ inventions = { 3000027 }
 		type  = heavy_cruiser  
 		model = 4  
 		new_model = no
-		cost  = 0.3  
+		cost  = 1  
 		id    = {  type = 14800 id = 502  }  
 		date  = {  year = 1936 month = june day = 9  } 
 		extra1 = floatplane
@@ -1762,7 +1765,7 @@ inventions = { 3000027 }
 		type  = heavy_cruiser  
 		model = 4  
 		new_model = no
-		cost  = 0.3  
+		cost  = 1  
 		id    = {  type = 14800 id = 592  }  
 		date  = {  year = 1937 month = february day = 24  } 
 		extra1 = floatplane
@@ -1775,7 +1778,7 @@ inventions = { 3000027 }
 		new_model = no
 		extra1 = floatplane
 		brigade_model1 = 4
-		cost  = 0.3  
+		cost  = 1.3  
 		id    = {  type = 14800 id = 503  }  
 		date  = {  year = 1939 month = february day = 16  }  
 	}
@@ -1784,7 +1787,7 @@ inventions = { 3000027 }
 		type  = light_cruiser  
 		model = 5  
 		new_model = no
-		cost  = 0.3  
+		cost  = 0.8  
 		id    = {  type = 14800 id = 504  }  
 		date  = {  year = 1937 month = september day = 30  }  
 	}
@@ -1793,7 +1796,7 @@ inventions = { 3000027 }
 		type  = light_cruiser  
 		model = 5  
 		new_model = no
-		cost  = 0.3  
+		cost  = 0.8  
 		id    = {  type = 14800 id = 505  }  
 		date  = {  year = 1937 month = september day = 23  }  
 	}
@@ -1802,7 +1805,7 @@ inventions = { 3000027 }
 		type  = light_cruiser  
 		model = 5  
 		new_model = no
-		cost  = 0.3  
+		cost  = 0.8 
 		id    = {  type = 14800 id = 506  }  
 		date  = {  year = 1938 month = march day = 10  }  
 	}
@@ -1811,7 +1814,7 @@ inventions = { 3000027 }
 		type  = light_cruiser  
 		model = 5  
 		new_model = no
-		cost  = 0.3  
+		cost  = 0.8  
 		id    = {  type = 14800 id = 507  }  
 		date  = {  year = 1938 month = june day = 6  }  
 	}
@@ -1820,7 +1823,7 @@ inventions = { 3000027 }
 		type  = light_cruiser  
 		model = 5  
 		new_model = no
-		cost  = 0.3  
+		cost  = 0.8  
 		id    = {  type = 14800 id = 508  }  
 		date  = {  year = 1938 month = october day = 3  }  
 	}
@@ -1829,7 +1832,7 @@ inventions = { 3000027 }
 		type  = light_cruiser  
 		model = 5  
 		new_model = no
-		cost  = 0.3  
+		cost  = 0.8  
 		id    = {  type = 14800 id = 509  }  
 		date  = {  year = 1938 month = august day = 12  }  
 	}
@@ -1838,7 +1841,7 @@ inventions = { 3000027 }
 		type  = light_cruiser  
 		model = 5  
 		new_model = no
-		cost  = 0.3  
+		cost  = 0.8  
 		id    = {  type = 14800 id = 510  }  
 		date  = {  year = 1938 month = june day = 15  }  
 	}
@@ -1846,7 +1849,7 @@ inventions = { 3000027 }
 		name  = "Destroyer Division 48"  
 		type  = destroyer  
 		model = 5  
-		cost  = 0.1  
+		cost  = 0.7  
 		id    = {  type = 14800 id = 511  }  
 		date  = {  year = 1936 month = february day = 1  }  
 	}
@@ -1854,7 +1857,7 @@ inventions = { 3000027 }
 		name  = "Destroyer Division 49"  
 		type  = destroyer  
 		model = 5  
-		cost  = 0.1  
+		cost  = 0.7  
 		id    = {  type = 14800 id = 512  }  
 		date  = {  year = 1936 month = march day = 1  }  
 	}
@@ -1862,7 +1865,7 @@ inventions = { 3000027 }
 		name  = "Submarine Division 19"  
 		type  = submarine  
 		model = 4  
-		cost  = 0.1  
+		cost  = 0.8  
 		id    = {  type = 14800 id = 513  }  
 		date  = {  year = 1936 month = may day = 1  }  
 	}
@@ -1870,7 +1873,7 @@ inventions = { 3000027 }
 		name  = "Submarine Division 20"  
 		type  = submarine  
 		model = 4  
-		cost  = 0.1  
+		cost  = 0.8  
 		id    = {  type = 14800 id = 514  }  
 		date  = {  year = 1936 month = june day = 1  }  
 	}

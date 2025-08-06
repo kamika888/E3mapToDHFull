@@ -3,8 +3,8 @@
 ### 8300104 --- Two Year Conscription
 ### 8300105 --- Partial Mobilization
 ### 8300106 --- General Mobilization Group A
-### 8300106 --- General Mobilization Group B
-### 8300106 --- General Mobilization Group C
+### 8300107 --- General Mobilization Group B
+### 8300108 --- General Mobilization Group C
 ### 8300109 --- Extended Mobilization
 ### 8300110 --- Total Mobilization
 ### 1350002 --- Activate the reserve units 
@@ -331,7 +331,7 @@ event = {
 		command = { trigger = { ai = yes } type = local_setflag which = MOB_delay } #to ensure AI doesn't demob immediately after mobilization, before threats are recalculated
 		command = { trigger = { ai = yes } type = event which = 13500054 where = -1 when = 360 }
 		
-		command = { type = event which = 2007100 where = SOV when = 0 } #special SOV event to keep track of occupied territory
+		command = { trigger = { country = SOV } type = event which = 2007100 where = SOV when = 0 } #special SOV event to keep track of occupied territory
 		
 		#Warning events
 		command = { trigger = { country = GER } type = trigger which = 13500101 }
@@ -394,7 +394,7 @@ event = {
 		command = { type = local_setflag which = MOB_level when = 0 value = 7 }
 		command = { type = local_setflag which = MSB_level when = 0 value = 7 }
 		
-		command = { type = event which = 2007100 where = SOV when = 0 } #special SOV event to keep track of occupied territory
+		command = { trigger = { country = SOV } type = event which = 2007100 where = SOV when = 0 } #special SOV event to keep track of occupied territory
 	}	
 	action = { #Cancel
 		name = "ACTION_NAME_DECLINE"
@@ -450,7 +450,7 @@ event = {
 		command = { type = local_setflag which = MOB_level when = 0 value = 8 }
 		command = { type = local_setflag which = MSB_level when = 0 value = 8 }
 		
-		command = { type = event which = 2007100 where = SOV when = 0 } #special SOV event to keep track of occupied territory
+		command = { trigger = { country = SOV } type = event which = 2007100 where = SOV when = 0 } #special SOV event to keep track of occupied territory
 	}	
 	action = { #Cancel
 		name = "ACTION_NAME_DECLINE"
@@ -504,14 +504,14 @@ event = {
 		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 8 } } } type = belligerence	value = 8  }
 		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 9 } } } type = belligerence	value = 6  }
 
-		command = { 															type = dissent value = 2 }
+		command = { 															type = dissent value = 1 }
 		command = { trigger = { NOT = { local_flag = popularMobilization } }	type = dissent value = 3 }
 		#command = { trigger = { NOT = { lost_national = 3 } } 					type = dissent value = 2 } #Additional dissent if not losing territory (disabled)
 		
 		command = { type = local_setflag which = MOB_level when = 0 value = 9 }
 		command = { type = local_setflag which = MSB_level when = 0 value = 9 }
 		
-		command = { type = event which = 2007100 where = SOV when = 0 } #special SOV event to keep track of occupied territory
+		command = { trigger = { country = SOV } type = event which = 2007100 where = SOV when = 0 } #special SOV event to keep track of occupied territory
 		
 		#Warning events
 		command = { trigger = { country = GER } type = trigger which = 13500102 }
@@ -577,8 +577,8 @@ event = {
 		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 9 } } } type = belligerence	value = 6  }
 		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 10 } } } type = belligerence	value = 4  }
 
-		command = { 															type = dissent value = 3 }
-		command = { trigger = { NOT = { local_flag = popularMobilization } }	type = dissent value = 4 }
+		command = { 															type = dissent value = 2 }
+		command = { trigger = { NOT = { local_flag = popularMobilization } }	type = dissent value = 3 }
 		#command = { trigger = { NOT = { lost_national = 3 } } 					type = dissent value = 3 } #Additional dissent if not losing territory (disabled)
 		
 		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 10 } } } type = build_time 		which = militia when = on_upgrade where = relative value = -15 } 
@@ -591,7 +591,7 @@ event = {
 		command = { type = local_setflag which = MOB_level when = 0 value = 10 }
 		command = { type = local_setflag which = MSB_level when = 0 value = 10 }
 		
-		command = { type = event which = 2007100 where = SOV when = 0 } #special SOV event to keep track of occupied territory
+		command = { trigger = { country = SOV } type = event which = 2007100 where = SOV when = 0 } #special SOV event to keep track of occupied territory
 		
 		#Warning events
 		command = { trigger = { country = GER } type = trigger which = 13500103 }
@@ -702,15 +702,16 @@ event = { #Friendly Warning
 		NOT = { local_flag = demob }
 		local_flag = { which = MOB_level when = 1 value = 5 }
 		OR = {
+			ai = no
+			AND = {
+				ai = yes
+				NOT = { local_flag = MOB_delay }
+				NOT = { local_flag = do_not_demob }
+			}
+		}
+		OR = {
 			local_flag = { which = MOB_level when = 1 value = 6 }
 			NOT = {
-				AND = {
-					ai = yes
-					OR = {
-						local_flag = do_not_demob
-						local_flag = MOB_delay
-					}
-				}
 				policy = { type = defense_lobby value = 5 } #min for 2-year cons
 			}
 		}

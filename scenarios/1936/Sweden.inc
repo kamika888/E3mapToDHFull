@@ -15,6 +15,7 @@ country =
 	money                  = 20 
 	manpower               = 11 
   capital                = 101
+  SpyInfo                = { country = "SWE" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = BEL value = 100 }
     relation = { tag = DEN value = 75 }

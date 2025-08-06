@@ -19,6 +19,7 @@ country =
     escorts                = 10
 	dissent				   = 5
   capital                = 588
+  SpyInfo                = { country = "CAN" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = AST value = 200 } # was access = yes
     relation = { tag = BEL value = 150 }

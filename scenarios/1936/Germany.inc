@@ -11,7 +11,7 @@ country =
   dissent				 = 8
   belligerence			 = 4
   capital                = 300
-	manpower               = 694.5
+	manpower               = 594.5 
 	transports             = 450 
 	escorts                = 23 
 
@@ -22,6 +22,7 @@ country =
 	oil                    = 4000  
 	supplies               = 500 
 	money                  = 70 
+  SpyInfo                = { country = "GER" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = ARG value = 75 }
     relation = { tag = AST value = 1 }
@@ -298,7 +299,7 @@ blueprints = { 6240 6260 6270 7560 } # Elastic Defense, Combined Arms Off. and K
      democratic        = 1 
      political_left    = 1 
      free_market       = 3
-     freedom           = 9 
+     freedom           = 8 
      professional_army = 3 
      defense_lobby     = 5 
      interventionism   = 8
@@ -1572,6 +1573,7 @@ division_development = {
 		date  = {  year = 1964 } 
 		} 
 		
+#Weserubung
 landdivision = { dormant = yes id = { type = 14500 id = 11100 }  name = "2. Gebirgs-Division"   	 type = bergsjaeger		model = 10 	extra = artillery			brigade_model = 9 }
 landdivision = { dormant = yes id = { type = 14500 id = 11101 }  name = "3. Gebirgs-Division"   	 type = bergsjaeger		model = 10 	extra = artillery			brigade_model = 9 }
 landdivision = { dormant = yes id = { type = 14500 id = 11102 }  name = "181. Infanterie-Division"   type = infantry		model = 10 }
@@ -1585,6 +1587,7 @@ landdivision = { dormant = yes id = { type = 14500 id = 11109 }  name = "7. Flie
 
 landdivision = { dormant = yes id = { type = 14500 id = 11120 }  name = "107. Infanterie-Division"   type = garrison		model = 5 locked = yes }
 
+#SilverFox
 landdivision = { dormant = yes id = { type = 14500 id = 11130 }  name = "AOK Lappland"               type = hq				model = 3	extra = anti_air			brigade_model = 3 }
 landdivision = { dormant = yes id = { type = 14500 id = 11131 }  name = "169. Infanterie-Division"   type = infantry		model = 10	extra = light_armor_brigade	brigade_model = 7 }
 landdivision = { dormant = yes id = { type = 14500 id = 11132 }  name = "163. Infanterie-Division"   type = infantry		model = 10	extra = artillery			brigade_model = 9 }	
@@ -1594,7 +1597,7 @@ landdivision = { dormant = yes id = { type = 14500 id = 11135 }  name = "6. Gebi
 landdivision = { dormant = yes id = { type = 14500 id = 11136 }  name = "7. Gebirgs-Division"        type = bergsjaeger		model = 10 	extra = artillery			brigade_model = 9 }
 landdivision = { dormant = yes id = { type = 14500 id = 11137 }  name = "6. SS-Gebirgs-Division 'Nord'" type = bergsjaeger	model = 10	extra = artillery			brigade_model = 9 }
 
-
+#SeaLion
 landdivision = { dormant = yes id = { type = 14500 id = 11140 }  name = "16. Armee"               	type = hq				model = 3	extra = anti_air			brigade_model = 3 }
 landdivision = { dormant = yes id = { type = 14500 id = 11141 }  name = "17. Infanterie-Division"   type = infantry			model = 10												  }
 landdivision = { dormant = yes id = { type = 14500 id = 11142 }  name = "35. Infanterie-Division"   type = infantry			model = 10												  }	
@@ -1613,5 +1616,11 @@ landdivision = { dormant = yes id = { type = 14500 id = 11154 }  name = "7. Flie
 landdivision = { dormant = yes id = { type = 14500 id = 11155 }  name = "22. Luftlande-Division"	type = paratrooper		model = 1	extra = glider_armor		brigade_model = 0 }
 landdivision = { dormant = yes id = { type = 14500 id = 11156 }  name = "8. Panzer-Division"		type = light_armor		model = 2												  }
 landdivision = { dormant = yes id = { type = 14500 id = 11157 }  name = "4. Panzer-Division"		type = light_armor		model = 2												  }
+
+#Mercury
+landdivision = { dormant = yes id = { type = 14500 id = 11160 }  name = "7. Flieger-Division"	 	type = paratrooper		model = 1	extra = glider_artillery	brigade_model = 0 }
+landdivision = { dormant = yes id = { type = 14500 id = 11161 }  name = "6. Gebirgs-Division" 		type = bergsjaeger		model = 10	extra = artillery			brigade_model = 9 }
+landdivision = { dormant = yes id = { type = 14500 id = 11162 }  name = "8. Panzer-Division"		type = light_armor		model = 2												  }
+landdivision = { dormant = yes id = { type = 14500 id = 11163 }  name = "5. Gebirgs-Division" 		type = bergsjaeger		model = 10												  }
 
 } 

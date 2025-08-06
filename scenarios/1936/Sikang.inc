@@ -22,6 +22,7 @@ country =
   
   headofstate            = {  type = 9 id = 55500  } 
   
+  SpyInfo                = { country = "U05" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }
@@ -173,8 +174,8 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 7 
      political_left    = 3 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5 
      defense_lobby     = 7 
      interventionism   = 5 
@@ -192,7 +193,7 @@ country =
        name       = "136. Division" 
        type     = militia
        strength   = 33
-       model      = 3
+       model      = 2
 	   extra1 = police
 	   brigade_model1 = 1
       }
@@ -202,7 +203,7 @@ country =
        name       = "137. Division" 
        type     = militia
        strength   = 33
-       model      = 3
+       model      = 2
 	   extra1 = police
 	   brigade_model1 = 1
       } 
@@ -212,7 +213,7 @@ country =
        name       = "138. Division" 
        type       = militia
        strength   = 33
-       model      = 3
+       model      = 2
 	   extra1 = police
 	   brigade_model1 = 1
       }
@@ -222,7 +223,7 @@ country =
        name       = "30/33/34. Independent Brigades" 
        type       = militia
        strength   = 40
-       model      = 3
+       model      = 2
       }
 	  Division = 
      {  experience = 30 
@@ -230,7 +231,7 @@ country =
        name       = "1. Sikang Provincial Militia" 
        type       = militia
        strength   = 40
-       model      = 2
+       model      = 1
       }
     }
   } 

@@ -207,10 +207,16 @@ event = {
 	action = {
 		name = 3604a
 		ai_chance = 100
+		command = { trigger = { ai = yes } type = ai which = "nations\ENG_war.ai" }
+		command = { trigger = { ai = yes ai = VIC } type = secedeprovince which = VIC value = 1720 when = 2 }
+		command = { trigger = { ai = yes ai = VIC } type = secedeprovince which = VIC value = 7131 when = 2 }
+		command = { trigger = { ai = yes ai = VIC } type = event which = 2002024 where = REB when = 7 }
+		
 		command = { type = alliance which = POL when = 1 }
 		command = { type = secedeprovince which = POL value = 8000 when = 2 } # Polish Underground State
 		command = { type = addcore which = 8000 where = POL }
 		command = { type = songs which = ChamberlainDeclaresWar.txt }
+
 	}
 	action = {
 		name = "Stand down"
@@ -2484,6 +2490,11 @@ event = {
 			war = { country = MEX country = ENG }
 			ispuppet = MEX
 		}
+		OR = {
+			control = { province = 56 data = -3 } # Paris
+			lost_national = { country = GER value = 5 }
+			event = { id = 2001059 days = 120 } #4 months
+		}
 	}
 
 	date = { day = 0 month = january year = 1940 }		 
@@ -2592,6 +2603,11 @@ event = {
 			war = { country = BRA country = ENG }
 			ispuppet = BRA
 		}
+		OR = {
+			control = { province = 56 data = -3 } # Paris
+			lost_national = { country = GER value = 5 }
+			event = { id = 2001059 days = 240 } #8 months
+		}
 	}
 
 	date = { day = 0 month = january year = 1940 }		 
@@ -2645,6 +2661,7 @@ event = {
 			AND = {
 				continent = "South America"
 				alliance = { country = BRA country = ENG }
+				event = { id = 2001059 days = 600 } #20 months #mid 1943?
 			}
 			AND = {
 				continent = "North America"
@@ -2666,7 +2683,7 @@ event = {
 	trigger = {
 		atwar = no
 		OR = {
-			random = 5
+			random = 2
 			AND = {
 				lost_national = { country = GER value = 10 }
 				random = 40
@@ -2680,6 +2697,7 @@ event = {
 			AND = {
 				continent = "South America"
 				alliance = { country = BRA country = ENG }
+				event = { id = 2001059 days = 600 } #20 months #mid 1943?
 			}
 			AND = {
 				continent = "North America"
@@ -3110,7 +3128,7 @@ event = {
 		name = 472a
 		ai_chance = 97
 		#command = { type = regime_falls }
-		command = { type = set_domestic which = political_left value = -1 }
+		command = { type = set_domestic which = political_left value = 2 }
 		command = { type = leave_alliance when = 1 }
 		command = { type = end_puppet }
 		command = { type = access which = ENG }
@@ -3134,10 +3152,6 @@ event = {
 	}
 }
 
-#########################################################################
-#  Egypt switches sides - ITA
-#########################################################################
-
 event = {
 	id = 2003085
 	random = no
@@ -3155,6 +3169,58 @@ event = {
 		command = { type = make_puppet which = EGY }
 		command = { type = event which = 2400536 where = EGY when = 0 } #Medium puppet
 		command = { type = dissent value = -1 }
+	}
+}
+
+#########################################################################
+#  Ireland joins the Axis
+#########################################################################
+
+event = {
+	id = 2001025
+	random = no
+	country = IRE
+	style = 2
+	
+	decision = {
+		flag = ENG_invaded
+		NOT = { 
+			war = { country = ENG }
+			alliance = { country = ENG }
+			puppet = { country = IRE country = ENG }
+		}
+	}
+	decision_trigger = {
+		NOT = { region = { region = "England"	country = ENG data = 1 value = 20	} }
+	}
+	trigger = {
+		flag = ENG_invaded
+		NOT = { 
+			war = { country = ENG }
+			alliance = { country = ENG }
+			puppet = { country = IRE country = ENG }
+		}
+		NOT = { region = { region = "England"	country = ENG data = 1 value = 50	} }
+		NOT = { control = { province = 19   	data = ENG } }
+		NOT = { garrison = { country = ENG province = 28 type = land size = 5 area = 1 } } # North Ireland is not heavily defended
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 0 month = january year = 2000 }
+
+	name = "Ireland and the Axis"
+	desc = "With the view of the British government clearly on the verge of collapse due to the successful German invasion, we now have a historic opportunity to make a deal with the Axis and reunite the Island. In the context of the imminent German victory and domination of the European continent - including military domination of the Britain Isle and naval dominance of the seas around Ireland, an agreement with the Axis should be regarded as high priority in general. It is best to be on good terms with them lest we may become the next target."
+
+	action = {
+		name = "Liberate the North!"
+		command = { type = dissent value = 5 }
+		command = { type = set_domestic which = political_left value = 3 } #Nationalist
+		command = { type = war 		which = ENG }
+		command = { type = alliance which = GER when = 1 }
+		
+		command = { type = add_corps value = land where = 7128 }
+		command = { type = add_division which = "Irish Republican Army" value = militia when = 6 where = -30 }
 	}
 }
 
@@ -3716,71 +3782,6 @@ event = {
 		command = { type = add_division which = "Polish People's Army" value = hq when = 3 where = -30 }
 		command = { type = add_division value = garrison when = 5 where = -30 }
 		
-		command = { type = addcore which = 485 }
-		command = { type = addcore which = 2628 }
-		command = { type = addcore which = 486 }
-		command = { type = addcore which = 1595 }
-		command = { type = addcore which = 482 }
-		command = { type = addcore which = 473 }
-		command = { type = addcore which = 1623 }
-		command = { type = addcore which = 1400 }
-		command = { type = addcore which = 3238 }
-		command = { type = addcore which = 308 }
-		command = { type = addcore which = 3258 }
-		command = { type = addcore which = 302 }
-		command = { type = addcore which = 1810 }
-		command = { type = addcore which = 3259 }
-		command = { type = addcore which = 1779 }
-		command = { type = addcore which = 303 }
-		command = { type = addcore which = 306 }
-		command = { type = addcore which = 3265 }
-		command = { type = addcore which = 307 }
-		command = { type = addcore which = 208 }
-		command = { type = addcore which = 3264 }
-		command = { type = addcore which = 483 }
-		command = { type = addcore which = 3263 }
-		command = { type = addcore which = 2647 }
-		command = { type = addcore which = 304 }
-		command = { type = addcore which = 3260 }
-		command = { type = addcore which = 1811 }
-		command = { type = addcore which = 3261 }
-		command = { type = addcore which = 509 }
-		command = { type = addcore which = 505 }
-		command = { type = addcore which = 1875 }
-		command = { type = addcore which = 3272 }
-		command = { type = addcore which = 508 }
-		command = { type = addcore which = 1876 }
-		command = { type = addcore which = 305 }
-		command = { type = addcore which = 222 }
-		command = { type = addcore which = 211 }
-		command = { type = addcore which = 481 }
-		command = { type = addcore which = 3266 }
-		command = { type = addcore which = 504 }
-		command = { type = addcore which = 3270 }
-		command = { type = addcore which = 1884 }
-		command = { type = addcore which = 487 }
-		command = { type = addcore which = 484 }
-		command = { type = addcore which = 3268 }
-		command = { type = addcore which = 480 }
-		command = { type = addcore which = 3267 }
-		command = { type = addcore which = 3269 }
-		command = { type = addcore which = 479 }
-		command = { type = addcore which = 488 }
-		command = { type = addcore which = 3271 }
-		command = { type = addcore which = 489 }
-		command = { type = addcore which = 6515 }
-		command = { type = addcore which = 6516 }
-		command = { type = addcore which = 6519 }
-		command = { type = addcore which = 7046 }
-		command = { type = addcore which = 7177 }
-		command = { type = addcore which = 7047 }
-		command = { type = addcore which = 7262 }
-		command = { type = addcore which = 7049 }
-		command = { type = addcore which = 7050 }
-		command = { type = addcore which = 7048 }
-		command = { type = addcore which = 7335 }
-		command = { type = addcore which = 7979 }
-		
 		command = { type = capital which = 485 }
 		
 		command = { type = free_ic  value = 5 }
@@ -3840,7 +3841,7 @@ event = {
 	persistent = yes
 	
 	name = "The Polish People's Army"
-	desc = "After Anders' Army left Soviet controlled territory, the relations between Moscow and the Polish government in exile deteriorated, and the Soviets decided to assume much greater control over the remaining Polish military potential in the USSR. A few months later, the Union of Polish Patriots (ZPP) was founded in Moscow. The ZPP was a mass-membership, communist-led organization for Polish citizens. It conducted political activities and organized large-scale social welfare and relief programs for Polish communities in the Soviet Union. The ZPP was led by the pro-Soviet Polish communist Wanda Wasilewska. At the same time, due to the efforts of Wasilewska and Zygmunt Berling, a new army was established—the Polish People's Army (Ludowe Wojsko Polskie). This army, together with partisan 'Armia Ludowa' operating in Polish territory behind German lines, would ultimately serve as the foundation of the new pro-Soviet Polish state."
+	desc = "After Anders' Army left Soviet controlled territory, the relations between Moscow and the Polish government in exile deteriorated, and the Soviets decided to assume much greater control over the remaining Polish military potential in the USSR. A few months later, the Union of Polish Patriots (ZPP) was founded in Moscow. The ZPP was a mass-membership, communist-led organization for Polish citizens. It conducted political activities and organized large-scale social welfare and relief programs for Polish communities in the Soviet Union. The ZPP was led by the pro-Soviet Polish communist Wanda Wasilewska. At the same time, due to the efforts of Wasilewska and Zygmunt Berling, a new army was established called the Polish People's Army (Ludowe Wojsko Polskie). This army, together with partisan 'Armia Ludowa' operating in Polish territory behind German lines, would ultimately serve as the foundation of the new pro-Soviet Polish state."
   	style = 2
 	
 	action = {
@@ -3864,13 +3865,261 @@ event = {
 	}
 }
 
+######################################
+# Naval Treaty (from TRP)
+######################################
+
+#the original 1922/1930 treaties expired in December 1936 and were not renewed, so trying to implement their limitations in the game is not very practical
+#the 1936 london treaty did not contrain relative tonnage provisions so it is not relevant to the game
+#the only country which continued to be bound by relative tonnage requirements after 1936 was Germany which voluntarily signed up to the Anglo-German treaty for little obvious gain
 
 
+event = {
+	id = 2600003
+	random = no
+	country = GER
+	style = 2
+	persistent = yes
+	
+	decision = {
+	}	
+	decision_trigger = {
+		OR = {
+			naval_percentage = { country = ENG value = 0.16 }
+			naval_percentage = { country = ENG value = 0.18 }
+			naval_percentage = { country = ENG value = 0.20 }
+			naval_percentage = { country = ENG value = 0.22 }
+			naval_percentage = { country = ENG value = 0.24 }
+			naval_percentage = { country = ENG value = 0.26 }
+			naval_percentage = { country = ENG value = 0.28 }
+			naval_percentage = { country = ENG value = 0.30 }
+			naval_percentage = { country = ENG value = 0.32 }
+			naval_percentage = { country = ENG value = 0.34 }
+			naval_percentage = { country = ENG value = 0.35 }
+			naval_percentage = { country = ENG value = 0.36 }
+			ai = no
+		}
+	}
+	trigger = {
+		OR = {
+			war = { country = ENG }
+			event = 2001028 #England guarantees Poland
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 3 month = january year = 1999 }
+
+	name = "The Anglo - German naval treaty 1935"
+	desc = "In 1935 Germany and UK signed a naval treaty which limited the German navy to 35 per cent of the British navy. Your ship caps are 6 (Battleships + Battlecruisers), 8 Heavy Cruisers and 2 (normal + light) Carriers. You may substitute the (light) Carriers for Heavy Cruisers if you wish to, allowing you 10 of them in total. Please note that ships in the build queue are counted as well. Additionally, your total fleet size cannot be over 35 percent of the English fleet size. Only finished ships are counted for this purpose. You can hover over the conditions for this decision to check how close you currently are to matching 35 percent of UK's naval force. You can also see your intelligence briefing for a more detailed breakdown. This treaty will become politically easier to terminate if England guarantees Poland, or if there is a war between our countries."
+	decision_picture = "decision_naval_treaty"
+	picture = "event_naval_treaty"
+
+	action = {
+		name = "ACTION_NAME_OK"
+		trigger = { ai = no }
+		command = { }
+	}
+	action = {
+		name = "Withdraw from the treaty"
+		command = { trigger = { NOT = { war = { country = ENG } } }					type = belligerence	value =  2.0 }
+		command = { trigger = { NOT = { event = 2001028 } }							type = belligerence	value =  4.0 }
+		command = { trigger = { NOT = { war = { country = ENG } event = 2001028 } }	type = dissent		value =  1.0 }
+		command = { trigger = { war = { country = ENG } 						  }	type = dissent		value = -0.2 }
+		
+		command = { type = relation 	which = ENG value = -20 }
+		command = { type = relation 	which = VIC value = -10 }
+		command = { type = belligerence which = ENG value = -10 }
+		command = { type = belligerence which = VIC value = -2  }
+		command = { type = sleepevent 	which = 2600003 }
+		command = { type = sleepevent 	which = 2600004 }
+		
+		command = { type = trigger 		which = 2600010 } #ENG Alert treaty collapse
+	}
+}
+
+event = {
+	id = 2600004
+	random = no
+	country = GER
+	persistent = yes
+
+	trigger = {
+		ai = no
+		#atwar = no
+		OR = {
+			naval_percentage = { country = ENG value = 0.36 }
+			# more than 6 (BB + BC)
+			AND = { 
+					battleship = { country = GER value = 7 }
+					battlecruiser = { country = GER value = 0 }
+					}
+			AND = { 
+					battleship = { country = GER value = 6 } 
+					battlecruiser = { country = GER value = 1 }
+					}
+			AND = { 
+					battleship = { country = GER value = 5 } 
+					battlecruiser = { country = GER value = 2 }
+					}
+			AND = { 
+					battleship = { country = GER value = 4 } 
+					battlecruiser = { country = GER value = 3 }
+					}
+			AND = { 
+					battleship = { country = GER value = 3 } 
+					battlecruiser = { country = GER value = 4 }
+					}
+			AND = { 
+					battleship = { country = GER value = 2 } 
+					battlecruiser = { country = GER value = 5 }
+					}
+			AND = { 
+					battleship = { country = GER value = 1 } 
+					battlecruiser = { country = GER value = 6 }
+					}
+			AND = { 
+					battleship = { country = GER value = 0 } 
+					battlecruiser = { country = GER value = 7 }
+					}
+					
+			# more than 10 (CA + CV + CVL), but at most 2 CV or CVL allowed
+			AND = {
+					heavy_cruiser = { country = GER value = 11 }
+					carrier = { country = GER value = 0 }
+					light_carrier = { country = GER value = 0 }
+					}
+			AND = {
+					heavy_cruiser = { country = GER value = 10 }
+					carrier = { country = GER value = 1 }
+					light_carrier = { country = GER value = 0 }
+					}
+			AND = {
+					heavy_cruiser = { country = GER value = 10 }
+					carrier = { country = GER value = 0 }
+					light_carrier = { country = GER value = 1 }
+					}
+			AND = {
+					heavy_cruiser = { country = GER value = 9 }
+					carrier = { country = GER value = 1 }
+					light_carrier = { country = GER value = 1 }
+					}
+			AND = {
+					heavy_cruiser = { country = GER value = 9 }
+					carrier = { country = GER value = 2 }
+					light_carrier = { country = GER value = 0 }
+					}
+			AND = {
+					heavy_cruiser = { country = GER value = 9 }
+					carrier = { country = GER value = 0 }
+					light_carrier = { country = GER value = 2 }
+					}
+			AND = {
+					heavy_cruiser = { country = GER value = 8 }
+					carrier = { country = GER value = 3 }
+					light_carrier = { country = GER value = 0 }
+					}
+			AND = {
+					heavy_cruiser = { country = GER value = 8 }
+					carrier = { country = GER value = 0 }
+					light_carrier = { country = GER value = 3 }
+					}
+			AND = {
+					heavy_cruiser = { country = GER value = 8 }
+					carrier = { country = GER value = 2 }
+					light_carrier = { country = GER value = 1 }
+					}
+			AND = {
+					heavy_cruiser = { country = GER value = 8 }
+					carrier = { country = GER value = 1 }
+					light_carrier = { country = GER value = 2 }
+					}
+			# pure carrier check (max. 2 allowed)
+			AND = {
+					carrier = { country = GER value = 1 }
+					light_carrier = { country = GER value = 2 }
+					}
+			AND = {
+					carrier = { country = GER value = 2 }
+					light_carrier = { country = GER value = 1 }
+					}
+			AND = {
+					carrier = { country = GER value = 3 }
+					light_carrier = { country = GER value = 0 }
+					}
+			AND = {
+					carrier = { country = GER value = 0 }
+					light_carrier = { country = GER value = 3 }
+					}
+		}
+	}
+
+	date = { day = 6 month = january year = 1936 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1999 }
+
+	name = "Naval Treaty Violation"
+	desc = "You have exceeded your 1935 naval treaty caps which are 6 (Battleships + Battlecruisers), 8 Heavy Cruisers and 2 (normal + light) Carriers. You may substitute the (light) Carriers for Heavy Cruisers if you wish to, allowing you 10 of them in total. Please note that ships in the build queue are counted as well. Also, your maximum fleet size cannot be over 35 percent of the English fleet size. Only finished ships are counted for this purpose."
+	style = 2
+	picture = "event_naval_treaty"
+
+	action = {
+		name = "We are over the 35 percent force limit"
+		trigger = { naval_percentage = { country = ENG value = 0.36 } }
+		command = { type = belligerence		value = 1.0 } #recurring every two weeks or so
+		command = { type = dissent			value = 0.2 }
+		command = { type = relation 	which = ENG value = -2 }
+		command = { type = relation 	which = VIC value = -1 }
+		command = { type = belligerence which = ENG value = -2 }
+		command = { type = belligerence which = VIC value = -1 }
+	}
+	action = {
+		name = "We have too many capital ships in one of the categories"
+		trigger = { NOT = { naval_percentage = { country = ENG value = 0.36 } } }
+		command = { type = belligerence		value = 1.0 } #recurring every two weeks or so
+		command = { type = dissent			value = 0.2 }
+		command = { type = relation 	which = ENG value = -2 }
+		command = { type = relation 	which = VIC value = -1 }
+		command = { type = belligerence which = ENG value = -2 }
+		command = { type = belligerence which = VIC value = -1 }
+	}
+	action = {
+		name = "Withdraw from the treaty"
+		command = { trigger = { NOT = { war = { country = ENG } } }					type = belligerence	value = 2.0 }
+		command = { trigger = { NOT = { event = 2001028 } }							type = belligerence	value = 4.0 }
+		command = { trigger = { NOT = { war = { country = ENG } event = 2001028 } }	type = dissent		value = 1.0 }
+		
+		command = { type = relation 	which = ENG value = -20 }
+		command = { type = relation 	which = VIC value = -10 }
+		command = { type = belligerence which = ENG value = -10 }
+		command = { type = belligerence which = VIC value = -2  }
+		command = { type = sleepevent 	which = 2600003 }
+		command = { type = sleepevent 	which = 2600004 }
+		
+		command = { type = trigger 		which = 2600010 } #ENG Alert treaty collapse
+	}
+}
+
+event = {
+	id = 2600010
+	random = no
+	country = ENG
+
+	name = "Germany terminates the 1935 naval treaty"
+	desc = "Germany has officially terminated the 1935 naval treaty and will most certainly begin an extensive buildup soon. We have to react!"
+	style = 2
+	picture = "event_naval_treaty"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { }
+	}
+}
 
 
 
 ### some free ids
-### 2001025
 ### 2001031
 ### 2013003
 ### 2185003

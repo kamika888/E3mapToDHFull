@@ -6,7 +6,7 @@ country = {
 	ai_settings	= { flags = { puppetLevel8 = 1 ideology = 5 } }
 		
 	capital = 1613
-	manpower = 20
+	manpower = 0
 
 	# Resource Reserves
 	energy			= 1000   
@@ -23,7 +23,7 @@ country = {
      democratic        = 1 
      political_left    = 5 
      free_market       = 3
-     freedom           = 4 
+     freedom           = 3 
      professional_army = 3 
      defense_lobby     = 2 
      interventionism   = 2 
@@ -194,53 +194,53 @@ relation = { tag = USA value = 70 }
 } 
  inventions = { 3000027 }
 
-   landunit = 
-   {  id       = {  type = 10100 id = 1  } 
-     location = 1613 
-     name     = "Koninklijk Nederlands Indisch Leger" 
-     Division = 
-     {  id   = {  type = 10100 id = 2  } 
-       name = "Ie Divisie" 
-	   strength     = 90
-       type = infantry 
-	   model = 6 
-      } 
-     Division = 
-     {  id   = {  type = 10100 id = 3  } 
-       name = "IIe Divisie" 
-	   strength     = 90
-       type = infantry
-		model = 6 	   
-      } 
-     Division = 
-     {  id   = {  type = 10100 id = 4  } 
-       name = "IIIe Divisie" 
-	   strength     = 90
-       type = infantry 
-	   model = 6 
-      } 
-    } 
-   landunit = 
-   {  id       = {  type = 18500 id = 10  } 
-     location = 47 
-     name     = "IVe Legerkorps" 
-     Division = 
-     {  id    = {  type = 18500 id = 11  } 
-       name  = "4e Divisie" 
-	   strength     = 80
-       type  = infantry 
-	   model = 7 
-       extra = armored_car
-	   brigade_model = 2
-      } 
-     Division = 
-     {  id   = {  type = 18500 id = 12  } 
-       name = "8e Divisie" 
-	   strength     = 10
-       type = infantry 
-	   model = 6 
-      } 
-    } 
+#   landunit = 
+#   {  id       = {  type = 10100 id = 1  } 
+#     location = 1613 
+#     name     = "Koninklijk Nederlands Indisch Leger" 
+#     Division = 
+#     {  id   = {  type = 10100 id = 2  } 
+#       name = "Ie Divisie" 
+#	   strength     = 90
+#       type = infantry 
+#	   model = 6 
+#      } 
+#     Division = 
+#     {  id   = {  type = 10100 id = 3  } 
+#       name = "IIe Divisie" 
+#	   strength     = 90
+#       type = infantry
+#		model = 6 	   
+#      } 
+#     Division = 
+#     {  id   = {  type = 10100 id = 4  } 
+#       name = "IIIe Divisie" 
+#	   strength     = 90
+#       type = infantry 
+#	   model = 6 
+#      } 
+#    } 
+#   landunit = 
+#   {  id       = {  type = 18500 id = 10  } 
+#     location = 47 
+#     name     = "IVe Legerkorps" 
+#     Division = 
+#     {  id    = {  type = 18500 id = 11  } 
+#       name  = "4e Divisie" 
+#	   strength     = 80
+#       type  = infantry 
+#	   model = 6 
+#       extra = armored_car
+#	   brigade_model = 2
+#      } 
+#     Division = 
+#     {  id   = {  type = 18500 id = 12  } 
+#       name = "8e Divisie" 
+#	   strength     = 10
+#       type = infantry 
+#	   model = 6 
+#      } 
+#    } 
    navalunit = 
    {  id       = {  type = 10100 id = 5  } 
      location = 1628

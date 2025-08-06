@@ -27,6 +27,7 @@ country =
      defense_lobby     = 3 
      interventionism   = 3 
   }
+  SpyInfo                = { country = "NEP" NumberOfSpies = 5 }
   nationalprovinces      = { 1473 2953 5177 5178 5179 6923 7912 7913 7919 7920 7921 1456 5206 5197 5207 5210 5211 1472 6922 7193 5224 5223 5222 2043
   }
   ownedprovinces         = { 1473 2953 5177 5178 5179 6923 7912 7913 7919 7920 7921

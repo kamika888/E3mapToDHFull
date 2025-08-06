@@ -22,7 +22,8 @@
    SpyInfo                = {  country = "MOR" NumberOfSpies = 3  } 
   
     
-   nationalprovinces      = {  2331  } 
+   SpyInfo                = { country = "MOR" NumberOfSpies = 5 }
+  nationalprovinces      = {  2331  } 
    ownedprovinces         = {  2331  } 
    controlledprovinces    = {  2331  } 
    

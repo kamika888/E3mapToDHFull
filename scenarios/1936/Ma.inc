@@ -26,12 +26,13 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 7
      political_left    = 3 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5 
      defense_lobby     = 4 
      interventionism   = 5 
   }
+  SpyInfo                = { country = "CXB" NumberOfSpies = 5 }
   nationalprovinces      = {
 1275 1276 1277 1440 1441 1267 1268 1269 1270 1271
 1222 1223 1224 1227 1228 1229 1230 1273 1274 1439
@@ -248,11 +249,11 @@ blueprints = {
        name       = "New 9. Division" 
        type       = infantry
 	   strength  = 85
-       model     = 4
+       model     = 3
 	   extra1 = artillery
-	   brigade_model1 = 4
+	   brigade_model1 = 3
        extra2 = cavalry_brigade
-	   brigade_model2 = 6
+	   brigade_model2 = 5
       }
      Division = 
      {  experience = 40 
@@ -260,9 +261,9 @@ blueprints = {
        name       = "New 36. Division" 
        type       = infantry
 	   strength  = 80
-       model     = 5
+       model     = 4
        extra2 = cavalry_brigade
-	   brigade_model2 = 6
+	   brigade_model2 = 5
       }
     }
 	landunit = 
@@ -275,13 +276,13 @@ blueprints = {
        name       = "South Qinghai Cavalry" 
        type       = cavalry
 	   strength  = 50
-       model     = 3
+       model     = 2
       }
     }
 	division_development = {
 		name  = "35. Division" 
 		type  = infantry
-		model = 5
+		model = 4
 		new_model = no
 		cost  = 3
 		id    = {  type = 22200 id = 15  } 
@@ -292,7 +293,7 @@ blueprints = {
 	division_development = {
 		name  = "1st 2. Security Regiment" 
 		type  = cavalry
-		model = 4
+		model = 3
 		new_model = no
 		cost  = 0.1
 		id    = {  type = 22200 id = 5  } 
@@ -301,7 +302,7 @@ blueprints = {
 	division_development = {
 		name  = "National Guard Training Corps" 
 		type  = infantry
-		model = 5
+		model = 4
 		new_model = no
 		cost  = 0.1
 		id    = {  type = 22200 id = 6  } 
@@ -310,10 +311,10 @@ blueprints = {
 	division_development = {
 		name  = "Forest Police" 
 		type  = infantry
-		model = 4
+		model = 3
 		new_model = no
 		extra1 = cavalry_brigade
-		brigade_model1 = 5
+		brigade_model1 = 4
 		cost  = 0.1
 		id    = {  type = 22200 id = 7  } 
 		date  = {  year = 1937 month = january day = 1  } 
@@ -329,9 +330,9 @@ blueprints = {
        name       = "1. 2. Cavalry Brigade" 
        type       = cavalry
 	   strength  = 55
-       model     = 3
+       model     = 2
 	   extra1 = artillery
-	   brigade_model1 = 3
+	   brigade_model1 = 2
       }
 	  Division = 
      {  experience = 40 
@@ -339,9 +340,9 @@ blueprints = {
        name       = "3. Independent Cavalry Brigade" 
        type       = cavalry
 	   strength  = 55
-       model     = 3
+       model     = 2
 	   extra1 = artillery
-	   brigade_model1 = 3
+	   brigade_model1 = 2
       }
     }
 
@@ -356,9 +357,9 @@ blueprints = {
        name       = "10. Independent Brigade" 
        type       = militia
 	   strength  = 100
-       model     = 3
+       model     = 2
 	   extra1 = cavalry_brigade
-	   brigade_model1 = 3
+	   brigade_model1 = 2
       }
     }
 
@@ -372,9 +373,9 @@ blueprints = {
        name       = "1. Gansu Provincial Militia" 
        type       = militia
 	   strength  = 100
-       model     = 2
+       model     = 1
 	   extra1 = cavalry_brigade
-	   brigade_model1 = 3
+	   brigade_model1 = 2
       }
 	  Division = 
      {  experience = 40 
@@ -382,9 +383,9 @@ blueprints = {
        name       = "2. Ningxia Provincial Militia" 
        type       = militia
 	   strength  = 100
-       model     = 2
+       model     = 1
 	   extra1 = cavalry_brigade
-	   brigade_model1 = 3
+	   brigade_model1 = 2
       }
     }
   } 

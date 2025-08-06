@@ -22,6 +22,7 @@ country =
   
   headofstate            = {  type = 9 id = 55500  } 
   
+  SpyInfo                = { country = "U60" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }
@@ -175,8 +176,8 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 3 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5 
      defense_lobby     = 4 
      interventionism   = 5 
@@ -191,7 +192,7 @@ country =
        name       = "27. Division (Guominjun)" 
        type       = militia
 	   strength = 40
-       model      = 3 
+       model      = 2 
       } 
      Division = 
      {
@@ -199,7 +200,7 @@ country =
        name       = "30. Division (Guominjun)" 
        type       = militia
 	   strength = 40
-       model      = 3 
+       model      = 2 
       } 
      Division = 
      {
@@ -207,7 +208,7 @@ country =
        name       = "31. Division (Guominjun)" 
        type       = militia
 	   strength = 40
-       model      = 3 
+       model      = 2 
       } 
    }
    landunit = 
@@ -220,7 +221,7 @@ country =
        name       = "85. Division" 
        type       = militia
 	   strength = 40
-       model      = 3 
+       model      = 2 
       } 
 	 Division = 
      {  experience = 0
@@ -228,7 +229,7 @@ country =
        name       = "139. Division" 
        type       = infantry
 	   strength  = 40
-       model     = 2
+       model     = 1
       }
 	 Division = 
      {  experience = 0
@@ -236,7 +237,7 @@ country =
        name       = "141. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
 	 Division = 
      {  experience = 0
@@ -244,7 +245,7 @@ country =
        name       = "142. Division" 
        type       = militia
 	   strength  = 40
-       model     = 3
+       model     = 2
       }
     } 
    landunit = 
@@ -258,7 +259,7 @@ country =
        name       = "1. Henan Provincial Militia" 
        type       = militia 
 	   strength = 40
-       model      = 2
+       model      = 1
       } 
     }
   } 

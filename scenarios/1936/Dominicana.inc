@@ -25,6 +25,7 @@ country =
      defense_lobby     = 1
      interventionism   = 2
   }
+  SpyInfo                = { country = "DOM" NumberOfSpies = 5 }
   nationalprovinces      = { 893 2674 4274 4275 4276
   }
   ownedprovinces         = { 893 2674 4274 4275 4276

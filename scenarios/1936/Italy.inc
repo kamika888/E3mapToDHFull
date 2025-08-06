@@ -5,7 +5,7 @@
 country =
 { tag                    = ITA
 	#Italy just barely misses normal requirements to stay mobilized after the end of Ethiopia (MIL5 instead of MIL6), so using do_not_demob flag.
-	ai_settings			 = { flags = { WARDebt = 7 SanctionsEvt = 1 SanctionsDelay1 = 1 ideology = 2 war_preparedness = 5 do_not_demob = 1 } }
+	ai_settings			 = { flags = { WARDebt = 7 SanctionsEvt = 1 SanctionsDelay1 = 1 ideology = 2 war_preparedness = 5 do_not_demob = 1 ETH_dissent = 1 } }
 	manpower               = 714 #was 460
 	# Resource Reserves
 	energy                 = 26000 
@@ -19,6 +19,7 @@ country =
 	transports             = 700
 	escorts                = 100
   # Illyrian Coast
+  SpyInfo                = { country = "ITA" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = AFG value = 50 }
     relation =
@@ -135,7 +136,7 @@ country =
 6938 6939 6940 6941 6942
 7123 7124 7125 7126 
 7936
-7343 7344 7345 7346 7446 7447 7450 7935
+7343 7344 7345 7346 7446 7447 7935
                            }
 
   controlledprovinces    = { 525  526  524  523  522  521  520  519  518  517  516  515  513  514  512  379  369  368  531  370  371  378  534  398 
@@ -156,7 +157,8 @@ country =
 6938 6939 6940 6941 6942
 7123 7124 7125 7126 
 7936
-7343 7344 7345 7346 7446 7447 7450 7935
+7343 7344 7345 7346 7446 7447 7935
+4679 6542 4658
                            }
 	claimedprovinces 	= {
 							2583 3060 367 31 380 384 389 
@@ -812,7 +814,7 @@ landunit =
         }
        landunit =
        {  id       = {  type = 23500 id = 69  }
-         location = 1039
+         location = 7447
          name     = "Corpo d'Armata Eritreo"
          # Gen. Pirzio Biroli#
          Division =
@@ -850,7 +852,7 @@ landunit =
         }
        landunit =
        {  id       = {  type = 23500 id = 74  }
-         location = 1039
+         location = 7447
          name     = "Zone di pianura occidentale"
          Division =
          {  id       = {  type = 23500 id = 75  }
@@ -862,7 +864,7 @@ landunit =
         }
        landunit =
        {  id       = {  type = 23500 id = 76  }
-         location = 1039
+         location = 7447
          name     = "Zone di pianura orientale"
          Division =
          {  id       = {  type = 23500 id = 77  }
@@ -877,7 +879,7 @@ landunit =
 
        landunit =
        {  id       = {  type = 23500 id = 78  }
-         location = 1039
+         location = 7447
          name     = "Colonna Graziani"
          # Gen. Graziani#
         Division =
@@ -906,7 +908,7 @@ landunit =
 		} 
        landunit =
        {  id       = {  type = 23500 id = 82  }
-         location = 1039
+         location = 7447
          name     = "1o Gruppo RCTC"
          Division =
          {  id       = {  type = 23500 id = 83  }
@@ -918,7 +920,7 @@ landunit =
         }
        landunit =
        {  id       = {  type = 23500 id = 84  }
-         location = 1039
+         location = 7447
          name     = "2o Gruppo RCTC"
          # Guglielmo Nasi#
          Division =
@@ -926,6 +928,82 @@ landunit =
            name     = "2o Gruppo di Battaglioni Regio Corpo Truppe Coloniali"
            type     = militia
            model    = 3
+		   strength = 100
+          }
+        }
+		
+       landunit =
+       {  id       = {  type = 23500 id = 500  }
+         location = 515
+         name     = "XV Corpo d'Armata"
+         Division =
+         {  id       = {  type = 23500 id = 501  }
+           name     = "72a Divisione 'Piacenza'"
+           type     = garrison
+           model    = 4
+		   strength = 100
+          }
+		 Division =
+         {  id       = {  type = 23500 id = 502  }
+           name     = "73a Divisione 'Novara'"
+           type     = garrison
+           model    = 4
+		   strength = 100
+          }
+		 Division =
+         {  id       = {  type = 23500 id = 503  }
+           name     = "74a Divisione 'Legnano'"
+           type     = garrison
+           model    = 4
+		   strength = 100
+          }
+		 Division =
+         {  id       = {  type = 23500 id = 504  }
+           name     = "75a Divisione 'Verona'"
+           type     = garrison
+           model    = 4
+		   strength = 100
+          }
+		 Division =
+         {  id       = {  type = 23500 id = 505  }
+           name     = "76a Divisione 'Siena'"
+           type     = garrison
+           model    = 4
+		   strength = 100
+          }
+		 Division =
+         {  id       = {  type = 23500 id = 506  }
+           name     = "77a Divisione 'Gaeta'"
+           type     = garrison
+           model    = 4
+		   strength = 100
+          }
+		 Division =
+         {  id       = {  type = 23500 id = 507  }
+           name     = "78a Divisione 'Bari'"
+           type     = garrison
+           model    = 4
+		   strength = 100
+          }
+		 Division =
+         {  id       = {  type = 23500 id = 508  }
+           name     = "79a Divisione 'Palermo'"
+           type     = garrison
+           model    = 4
+		   strength = 100
+          }
+		 Division =
+         {  id       = {  type = 23500 id = 509  }
+           name     = "81a Divisione 'Africa'"
+           type     = garrison
+           model    = 4
+		   strength = 100
+          }
+		 Division =
+         {  id       = {  type = 23500 id = 510  }
+           name     = "201a Divisione 'Costiera'"
+           type     = garrison
+           model    = 4
 		   strength = 100
           }
         }
@@ -1655,5 +1733,8 @@ landunit =
 		type = transports 
 		date  = {  year = 1964 } 
 		} 
+		
+	landdivision = { dormant = yes id = { type = 23500 id = 1000 }  name = "52a Divisione" locked = yes	type = garrison			model = 5	}
 
+	landdivision = { dormant = yes id = { type = 23500 id = 11165 } name = "50a Divisione 'Regina'" 	type = infantry			model = 10	}
 }

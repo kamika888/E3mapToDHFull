@@ -27,6 +27,7 @@ country =
      defense_lobby     = 2 
      interventionism   = 1 
   }
+  SpyInfo                = { country = "BHU" NumberOfSpies = 5 }
   nationalprovinces      = { 1455 5180 7304 }
   ownedprovinces         = { 1455 5180 7304 }
   controlledprovinces    = { 1455 5180 7304 }

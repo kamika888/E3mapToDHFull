@@ -21,12 +21,13 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 3
-     freedom           = 5 
+     freedom           = 4 
      free_market       = 3
      professional_army = 4 
      defense_lobby     = 3 
      interventionism   = 4
   }
+  SpyInfo                = { country = "TUR" NumberOfSpies = 5 }
   nationalprovinces      = { 
 409 408 437 438 439 441 442 443 448 440 449 447 446 445 450 1852 1853 1855 2322
 1158 1159 418 2611 2613 2873 2874 2875 2877 2879 2880 2881 2882 3398 3430

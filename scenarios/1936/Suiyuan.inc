@@ -21,6 +21,7 @@ country =
   
   headofstate            = {  type = 9 id = 55500  } 
   
+  SpyInfo                = { country = "U65" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }
@@ -175,8 +176,8 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 7 
      political_left    = 3 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5 
      defense_lobby     = 4 
      interventionism   = 5 
@@ -190,7 +191,7 @@ country =
        name     = "70. Division" 
        type     = militia
        strength  = 40 
-       model    = 3
+       model    = 2
       } 
     } 
    landunit = 
@@ -202,16 +203,16 @@ country =
        name     	= "211/218/205. Infantry Brigades" 
        type     	= militia
        strength  	= 90 
-       model    	= 3
+       model    	= 2
        extra         = artillery 
-       brigade_model = 2
+       brigade_model = 1
       } 
 	 Division = 
      {  id       = {  type = 22301 id = 18  } 
        name     	= "1. Suiyuan Provincial Militia" 
        type     	= militia 
        strength  	= 90 
-       model    	= 2
+       model    	= 1
       } 
     } 
    landunit = 
@@ -223,9 +224,9 @@ country =
        name     = "68. Division" 
        type     = militia
        strength  = 80 
-       model    = 3
+       model    = 2
        extra    = anti_air 
-	   brigade_model = 2
+	   brigade_model = 1
       } 
     } 
    landunit = 
@@ -237,7 +238,7 @@ country =
        name  = "1. Cavalry Division" 
        type     = cavalry 
 	   strength  = 50 
-       model = 3
+       model = 2
       } 
 	Division = 
      {
@@ -245,7 +246,7 @@ country =
        name       = "2. Cavalry Division" 
        type     = cavalry
        strength   = 33
-       model      = 3
+       model      = 2
      }
     }
   } 

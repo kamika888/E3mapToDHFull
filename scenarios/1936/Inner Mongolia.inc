@@ -8,7 +8,7 @@ country =
   puppet                 = JAP
   #control                = JAP
   ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 7 ideology = 2 } }
-  ai					 = "exp_0.ai"
+  ai					 = "nations\MEN.ai"
   intrinsic_gov_type     = fascist
   capital                = 5629
 	# Resource Reserves 
@@ -19,6 +19,7 @@ country =
 	supplies               = 800 
 	money                  = 50 
     manpower               = 120
+  SpyInfo                = { country = "MEN" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = CHC value = -100 }
     relation = { tag = CHI value = -100 }
@@ -129,11 +130,11 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 8 
      political_left    = 2 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5 
      defense_lobby     = 5 
-     interventionism   = 7 
+     interventionism   = 4 
   }
    headofstate            = {  type = 9 id = 700001 } 
    headofgovernment       = {  type = 9 id = 700002 } 
@@ -177,14 +178,32 @@ country =
 	division = { id = { type = 11855 id = 16 } name = "Dai 1 Kyokuchi Hikodan" 		type = interceptor model = 7 strength = 85 } 
 	division = { id = { type = 11855 id = 17 } name = "Dai 2 Kyokuchi Hikodan" 		type = interceptor model = 7 strength = 85 } 
 }
+
+airunit = {
+	id       = {  type = 11855 id = 18  } 
+	name     = "Dai 3 Nihon Kokutai" 
+	location = 5628 
+	base     = 5628 
+	control  = "JAP"
+	division = { id = { type = 11855 id = 19 }	name = "Dai 4 Keibakugeki Hikodan"	type = cas 		model = 4 } 
+} 
+
 landunit = {
 	id       = {  type = 11855 id = 20  } 
-	name     = "Moko Hakengun shireibu" 
-	location = 1397 
+	name     = "North China HQ" 
+	location = 5628 
 	control  = "JAP"
-	division = { id = { type = 11855 id = 21 }   name = "Shina Hakengun shireibu" 	type = hq 		model = 2 strength  = 100 }  
-	#division = { id = { type = 13016 id = 3005 } name = "Dai 3 Manchuko Kiheishidan" type = cavalry model = 9 strength = 55   } 
+	division = { id = { type = 11855 id = 21 }	name = "North China HQ" 			type = hq 		model = 2 strength = 100 }  
 }
+
+landunit = {
+	id       = {  type = 11855 id = 22  } 
+	name     = "Dai 3 Manchuko Kiheishidan" 
+	location = 5628 
+	control  = "JAP"
+	division = { id = { type = 11855 id = 23 }	name = "Dai 3 Manchuko Kiheishidan" type = cavalry	model = 9 strength = 55  } 
+}
+
 }  
  
  

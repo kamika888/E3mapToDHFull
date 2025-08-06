@@ -16,6 +16,7 @@ country =
 	money                  = 20 
 	transports             = 100 
 	escorts                = 20 
+  SpyInfo                = { country = "BEL" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = AST value = 75 }
     relation = { tag = CAN value = 150 }

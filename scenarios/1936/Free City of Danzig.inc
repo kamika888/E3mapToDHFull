@@ -19,7 +19,8 @@
    transports             = 50 
    escorts                = 0 
  
-   diplomacy = 
+   SpyInfo                = { country = "U06" NumberOfSpies = 5 }
+  diplomacy = 
    {   
    relation = {  tag = GER value = 80 access = no  }  
     } 

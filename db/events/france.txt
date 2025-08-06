@@ -189,6 +189,9 @@ event = {
 
 	action = { trigger = { flag = Rethondes1 }
 		name = ACTION_NAME_OK
+		command = { type = dissent value = -10 }
+		command = { type = dissent value = 2   }
+		
 		#possible problem: A puppet will ALWAYS agree to grant military access, if requested. In reality, Vichy was very iffy about letting Germans use their territory except in special cases.
 		#possible solution: auto-cancel military access? Also, you can apparently buy blueprints from puppets, but they will demand cash
 		command = { type = remove_claim_region which = "France" }
@@ -227,6 +230,8 @@ event = {
 
 	action = { trigger = { flag = Rethondes2 }
 		name = ACTION_NAME_OK
+		command = { type = dissent value = -10 }
+		
 		#possible problem: A puppet will ALWAYS agree to grant military access, if requested. In reality, Vichy was very iffy about letting Germans use their territory except in special cases.
 		#possible solution: auto-cancel military access? Also, you can apparently buy blueprints from puppets, but they will demand cash
 		command = { type = remove_claim_region which = "France" }
@@ -301,13 +306,13 @@ event = {
 		name = "Evacuate the islands"
 		ai_chance = 100
 		trigger = {
-			exists = SCH
-			NOT = { war = { country = ENG country = SCH } }
-			NOT = { war = { country = GER country = SCH } }
+			exists = U56
+			NOT = { war = { country = ENG country = U56 } }
+			NOT = { war = { country = GER country = U56 } }
 		}
 		command = { type = dissent value = 0.1 }
-		command = { trigger = { control = { province = 7131 data = -3 } } type = secedeprovince which = SCH value = 7131 				when = 2 } 
-		command = { trigger = { control = { province = 1720 data = -3 } } type = secedeprovince which = SCH value = 1720 				when = 2 } 
+		command = { trigger = { control = { province = 7131 data = -3 } } type = secedeprovince which = U56 value = 7131 				when = 2 } 
+		command = { trigger = { control = { province = 1720 data = -3 } } type = secedeprovince which = U56 value = 1720 				when = 2 } 
 		
 		command = { type = event which = 2002022 where = GER when = 1 }
     } 
@@ -359,6 +364,89 @@ event = {
 		command = { type = dissent value = 2 }
     } 
 }
+
+event = {
+	id = 2002024
+	random = no
+	country = REB
+	style = 2
+
+	name = "AI_EVENT"
+
+	action = {
+		command = { }
+		command = { type = secedeprovince which = ENG value = 1720 when = 2 }
+		command = { type = secedeprovince which = ENG value = 7131 when = 2 }
+    } 
+}
+
+
+
+event = {
+	id = 2002035
+	random = no
+	country = VIC
+	style = 2
+
+	name = "Fate of Paris"
+	desc = "As the German forces rapidly advanced towards Paris, the French government needed to decide on the fate of the city. Paris held immense cultural, historical, and symbolic value, and its ruin would have been a catastrophic loss for France. Prime Minister Paul Reynaud recognized that defending Paris would lead to heavy bombing, street fighting, and severe civilian casualties, and given the state of the French Army and disarray in the Allied camp, the military leadership was deeply unconvinced that Paris could be held in the end. As such, Reynaud made the decision to declare Paris an open city and withdraw forces southward to avoid encirclement."
+	picture = "Petain"
+
+	trigger = { 
+		war = { country = GER }
+		alliance = { country = ENG }
+		NOT = { event = 2002008 }
+		OR = {
+			control = { province = 7088	data = -2 }
+			control = { province = 42	data = -2 }
+			control = { province = 3176	data = -2 }
+			control = { province = 55	data = -2 }
+			control = { province = 63	data = -2 }
+			control = { province = 3175	data = -2 }
+			control = { province = 7089	data = -2 }
+			control = { province = 54	data = -2 }
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 3
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = { 
+		name = "Paris - open city"
+        ai_chance = 99
+		command = { type = dissent value = 1 }
+		command = { type = urban_attack 		which = land value = -70  }
+		command = { type = urban_defense 		which = land value = -110 }
+		command = { type = event which = 2002036 where = VIC when = 60 }
+    } 
+	action = {
+        ai_chance = 1
+		name = "We will fight for Paris"
+		command = { type = dissent value = 5 }
+		command = { type = money 										value = -2000 }
+		command = { type = construct which = ic 			where = 56	value = -2    }
+		command = { type = construct which = infrastructure where = 56	value = -20   }
+    } 
+}
+
+event = {
+	id = 2002036
+	random = no
+	style = 2
+
+	name = "Fate of Paris"
+	desc = "The Open City declaration for Paris was set to last for 60 days. Today, that time window lapsed."
+	picture = "Petain"
+
+	action = { 
+		name = "ACTION_NAME_OK"
+		command = { type = urban_attack 		which = land value = 70  }
+		command = { type = urban_defense 		which = land value = 110 }
+    } 
+}
+
+
 
 ##########################
 # L'Etat Français
@@ -433,11 +521,14 @@ event = {
 		command = { type = end_trades which = VIC where = CAN }
 		command = { type = end_trades which = VIC where = AST }
 		command = { type = end_trades which = VIC where = U02 }
-		command = { type = embargo which = VIC where = U02 value = 3 }
-		command = { type = embargo which = VIC where = ENG value = 3 }
-		command = { type = embargo which = VIC where = USA value = 3 }
-		command = { type = embargo which = VIC where = CAN value = 3 }
-		command = { type = embargo which = VIC where = AST value = 3 }
+		command = { type = embargo which = U02 where = VIC value = 3 }
+		command = { type = embargo which = ENG where = VIC value = 3 }
+		command = { type = embargo which = USA where = VIC value = 3 }
+		command = { type = embargo which = CAN where = VIC value = 3 }
+		command = { type = embargo which = AST where = VIC value = 3 }
+		
+		command = { trigger = { flag = USA_Lend_Lease_to_FRA0 } type = clrflag 		which = USA_Lend_Lease_to_FRA0 }
+		
 		command = { type = trade which = GER where = VIC  supplies = 50 when = 1800 value = 1 } #For 5 years
 		command = { type = trade which = GER where = VIC  money = 2 when = 1800 value = 1 } #For 5 years	
 		command = { type = add_claim_region which = "France" where = GER }
@@ -453,7 +544,8 @@ event = {
 		command = { type = set_relation which = USA value = -50 }
 		command = { type = set_relation which = ITA value = 50 }
 		command = { type = set_relation which = SPA value = 30 }
-      	command = { type = dissent		value = -20 }
+      	command = { type = dissent		value = -50 }
+		command = { type = dissent		value =   5 }
 		command = { type = belligerence	value = -20 } 
 		#command = { type = flag_ext where = VIC which = "_Vic" } 
 		
@@ -844,7 +936,7 @@ event = {
 	picture = "Petain"
 
 	action = { name = ACTION_NAME_OK
-		command = { type = dissent value = 5 }
+		command = { type = dissent value = 3 }
 		#techteam
 		command = { type = sleepteam which = 5018 } #1942
 		command = { type = sleepteam which = 5020 } #1942
@@ -930,21 +1022,26 @@ event = {
 	action = {
 		name = "4060a"
 		command = { type = relation which = VIC value = -100 }
+		
+		command = { type = remove_units	which = all where = -2 when = 1 value = "Engels" }
+		
         command = { type = secedeprovince which = ENG value = 1075 when = 2 } # Brazzaville - Central Africa +
         command = { type = secedeprovince which = ENG value = 2750 when = 2 } # Pointe-Noire - Central Africa +
 		command = { type = secedeprovince which = ENG value = 4890 when = 2 }
 		command = { type = secedeprovince which = ENG value = 4889 when = 2 }
 		command = { type = secedeprovince which = ENG value = 7339 when = 2 }
 		command = { type = secedeprovince which = ENG value = 4891 when = 2 }
+		
 		command = { type = independence which = U01 value = 1 }
         #command = { type = alliance which = U01 when = 1 }
 		command = { type = make_puppet which = U01 }
 		command = { type = free_ic  value = -5 }
-		command = { type = event which = 2400539 where = U01 when = 0 } #strong puppet 
-        command = { type = event which = 2002009 where = VIC when = 3 }
+		command = { type = event which = 2400539 where = U01 when = 0  } #strong puppet 
+        command = { type = event which = 2002009 where = VIC when = 5  }
 		command = { type = event which = 2001004 where = ENG when = 15 } #attack on Mers-el-Kebir
     } 
 }
+
 ##################################
 # Central African Colonies Defect to Free France
 ##################################
@@ -971,6 +1068,7 @@ event = {
 		command = { type = dissent value = 2 }
 		
 		command = { type = event which = 2002012 where = U01 when = 0 }
+		command = { type = event which = 2001007 where = GER when = 1 }
     } 
 }
 
@@ -980,7 +1078,6 @@ event = {
 	country = U01
 	style = 2
 	picture = "news_paper"
-    one_action = yes
 
 	name = "EVT_970_NAME"
 	desc = "EVT_970_DESC"
@@ -1018,6 +1115,25 @@ event = {
     } 
 }
 
+event = {
+	id = 2001007
+	random = no
+	country = GER
+	style = 2
+	picture = "news_paper"
+
+	name = "EVT_970_NAME"
+	desc = "EVT_970_DESC"
+
+	action = {
+		name = "4061c"
+		command = { type = secederegion which = U01 value = "Central Africa" 		when = 1 }
+		command = { type = secederegion which = U01 value = "South Solomon Islands" when = 1 }
+		command = { type = secederegion which = U01 value = "American Pacific" 		when = 1 }
+		command = { type = secederegion which = U01 value = "India"			 		when = 1 }
+    } 
+}
+
 
 event = {
 	id = 2002000
@@ -1044,7 +1160,13 @@ event = {
 			}
 			AND = {
 				event = { id = 2002008 days = 180 }
-				NOT = { garrison = { country = VIC province = 4453 type = land size = 6 area = 2 } } #West Africa area
+				OR = {
+					AND = {
+						ai = no
+						NOT = { garrison = { country = VIC province = 4453 type = land size = 6 area = 2 } } #West Africa area
+					}
+					NOT = { garrison = { country = VIC province = 4453 type = land size = 3 area = 2 } }
+				}
 				random = 15
 			}
 			local_flag = VichyCoupFailed
@@ -1452,7 +1574,7 @@ event = {
 
 		command = { type = trigger which = 2011002 }
 
-		command = { type = ai which = "EXP_80.ai" }
+		#command = { type = ai which = "EXP_80.ai" }
 	}
 }
 
@@ -1478,6 +1600,9 @@ event = {
 		
 		command = { type = addclaim which = 2949 } 
 		command = { type = addclaim which = 7027 } 
+		
+		command = { type = construct which = land_fort where = 2949 value = 3 } # Hai Phong 2949
+		command = { type = construct which = land_fort where = 7027 value = 3 } # Ha Long 7027
 		
 		command = { type = add_corps which = "Tai Chuton Gun" value = land where = 1333 } # Hanoi 1333 +
 		command = { type = activate_division which = 13016 value = 2033 where = 1333 when = 0 }
@@ -1556,6 +1681,8 @@ event = {
 		command = { type = relation which = USA value = -10 }
 		command = { type = relation which = ENG value = -10 }
 		command = { type = trigger which = 2002041 }
+		command = { type = ai which = "invasionNo.ai" }
+		command = { type = local_setflag which = do_not_demob }
 	}
 }
 
@@ -1576,6 +1703,8 @@ event = {
 		command = { type = unlock_division which = 13500 value = 2020 }
 		command = { type = unlock_division which = 13500 value = 2023 }
 		command = { type = unlock_division which = 13500 value = 2037 }
+
+		command = { trigger = { OR = { ai = SIA ai = VIC } } type = non_aggression which = U03 where = SIA when = 7 } 
 	}
 }
 
@@ -1597,7 +1726,7 @@ event = {
 		}
 	}
 	trigger = {
-		event = { id = 2002041 days = 60 } #The two sides will not agree to cease hostilities immediately
+		event = { id = 2002041 days = 70 } #The two sides will not agree to cease hostilities immediately
 		
 		war = { country = VIC country = SIA }
 		NOT = {
@@ -1658,6 +1787,7 @@ event = {
 		command = { type = relation which = JAP value = 50 }
 		command = { type = dissent value = -10 } 
 		command = { type = money value = -600 }
+		command = { type = ai which = "nations\SIA_axis.ai" }
 		command = { type = trigger which = 2002044 }
 	}
 	action = {
@@ -1764,6 +1894,7 @@ event = {
 		#command = { type = event which = 2002050 where = JAP when = 60 }
 		command = { type = access which = VIC }
 		command = { type = access which = U03 }
+		command = { type = ai which = "nations\SIA_axis.ai" }
 		#they should stay as exp forces
 		#command = { type = lock_division which = 13500 value = 2023 }
 		#command = { type = lock_division which = 13500 value = 2037 }
@@ -1805,10 +1936,11 @@ event = {
 		NOT = { war = { country = SOV } }
 		flag = JAP_SOV_NAP #April 1941
 		war = { country = SOV country = GER } 
+		flag = { which = japChi when = 1  value = 20 } #Not losing horribly in China
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 15
+	offset = 10
 	deathdate = { day = 29 month = december year = 1963 }
 	
 	name = "Occupation of Southern Indochina"
@@ -1851,6 +1983,14 @@ event = {
 		command = { type = unlock_division which = 13500 value = 2035 }
 		command = { type = unlock_division which = 13500 value = 2036 }
 		command = { type = unlock_division which = 13500 value = 2037 }
+		
+		command = { type = unlock_division which = 13016 value = 2035 }
+		command = { type = unlock_division which = 13016 value = 2036 }
+		command = { type = unlock_division which = 13016 value = 2037 }
+
+		command = { type = unlock_division which = 13016 value = 2038 }
+		command = { type = unlock_division which = 13016 value = 2039 }
+		command = { type = unlock_division which = 13016 value = 2040 }
 	}
 }
 
@@ -1867,21 +2007,36 @@ event = {
 	action = {
 		name = "ACTION_NAME_GREAT" # Great! 
 		command = { type = dissent value = -1 } 
+		
+		command = { type = removeclaim which = 2949 } 
+		command = { type = removeclaim which = 7027 } 
+
+		command = { type = secedeprovince which = U03 value = 2949 when = 2 }
+		command = { type = secedeprovince which = U03 value = 7027 when = 2 }
 
 		command = { type = make_puppet which = U03 } #this will bring their dissent to 100
 		#command = { type = event which = 2400537 where = U03 when = 0 } #one down below 8
 
-		command = { type = construct which = land_fort where = 2949 value = 3 } # Hai Phong 2949
-		command = { type = construct which = land_fort where = 7027 value = 3 } # Ha Long 7027
 		command = { type = construct which = land_fort where = 7989 value = 3 } # Tuyen Quang
 		command = { type = construct which = land_fort where = 7990 value = 3 } # Veit Tri
 
 		command = { type = add_corps which = "Saigon Boeitai" value = land where = 1337 } # Saigon 1337 +
 		command = { type = activate_division which = 13016 value = 2031 where = 1337 when = 0 }
 		command = { type = activate_division which = 13016 value = 2032 where = 1337 when = 0 }
+		
+		#command = { trigger = { ai = JAP } type = secedeprovince which = JAP value = 7906 when = 2 }
+		#command = { trigger = { ai = JAP } type = addclaim which = 7906 where = JAP } 
 
 		command = { type = military_control which = JAP where = U03 value = 1 }
+		
+		command = { type = unlock_division which = 13016 value = 2035 }
+		command = { type = unlock_division which = 13016 value = 2036 }
+		command = { type = unlock_division which = 13016 value = 2037 }
 
+		command = { type = unlock_division which = 13016 value = 2038 }
+		command = { type = unlock_division which = 13016 value = 2039 }
+		command = { type = unlock_division which = 13016 value = 2040 }
+		
 		command = { type = belligerence value = 10 } 
 
 		command = { type = trigger which = 2002054 } # U03
@@ -1950,7 +2105,10 @@ event = {
 		command = { type = dissent value = 10 }
 		command = { type = access which = JAP }
 		command = { type = access which = VIC }
-		command = { type = non_aggression which = U03 where = CHI when = 15 } 
+	
+		#Keeping a NAP for too long is an issue. China can trade through U03 if there is a NAP
+		command = { trigger = { NOT = { ai = CHI } NOT = { ai = JAP } } type = non_aggression which = U03 where = CHI when = 30  } 
+		command = { trigger = { OR = { ai = CHI ai = JAP } }			type = non_aggression which = U03 where = CHI when = 90  }
 	}
 }
 
@@ -2006,7 +2164,7 @@ event = {
 		command = { type = remove_division which = 13500 value = 139 } # Destroyer
 		command = { type = demobilize which = destroyer when = 1 where = 1 value = -3 } #removes three destroyers
 		command = { type = demobilize which = battleship when = 1 where = 1 value = -1 } #removes one battleship
-		command = { type = dissent value = 13 }
+		command = { type = dissent value = 11 }
 		command = { type = relation which = GER value = 100 } 
 		command = { type = manpowerpool value = -20 }
 		command = { type = trigger which = 2001005 }
@@ -2027,7 +2185,7 @@ event = {
 		command = { type = remove_division which = 13500 value = 138 } # Destroyer
 		command = { type = remove_division which = 13500 value = 139 } # Destroyer
 		command = { type = demobilize which = destroyer when = 1 where = 1 value = -2 } #removes two destroyers
-		command = { type = dissent value = 11 }
+		command = { type = dissent value = 9 }
 		command = { type = relation which = GER value = 80 } 
 		command = { type = manpowerpool value = -15 }
 		command = { type = trigger which = 2001005 }
@@ -2048,7 +2206,7 @@ event = {
 		command = { type = remove_division which = 13500 value = 139 } # Destroyer
 		#command = { type = damage_division which = 13500 value = 300 where = 50 } # Dunkerque
 		command = { type = relation which = GER value = 60 } 
-		command = { type = dissent value = 9 }
+		command = { type = dissent value = 7 }
 		command = { type = trigger which = 2001005 }
 		command = { type = war which = ENG }
 		#this could potentially lead to Germany deploying troops to North America and elsewhere
@@ -2064,7 +2222,7 @@ event = {
 		command = { type = alliance which = U04 }
 		command = { type = damage_division which = 13500 value = 142 where = 71 } # Bretagne
 		command = { type = damage_division which = 13500 value = 138 where = 50 } 
-		command = { type = dissent value = 7 }
+		command = { type = dissent value = 5 }
 		command = { type = relation which = GER value = 40 }
 		command = { type = trigger which = 2001006 }
 		#this could potentially lead to Germany deploying troops to North America and elsewhere
@@ -2078,7 +2236,7 @@ event = {
 		command = { type = war which = ENG }
 		command = { type = alliance which = U03 }
 		command = { type = alliance which = U04 }
-		command = { type = dissent value = 5 }
+		command = { type = dissent value = 3 }
 		command = { type = relation which = GER value = 20 }
 		command = { type = trigger which = 2001006 }
 		#this could potentially lead to Germany deploying troops to North America and elsewhere
@@ -4985,6 +5143,10 @@ event = {
 		name = "EVT1914_2002550_TEXT" #Vive la France!
 		command = { type = local_clrflag which = Vichy }
 		
+		command = { type = embargo which = USA where = VIC value = -2 }
+		command = { type = embargo which = ENG where = VIC value = -2 }
+		command = { type = embargo which = SOV where = VIC value = -2 }
+		
 		command = { trigger = { control = { province = 56 } } 																		type = capital which = 56  } # Paris
 		command = { trigger = { NOT = { control = { province = 56 } } control = { province = 360 } } 								type = capital which = 360 } # Vichy
 		command = { trigger = { NOT = { control = { province = 56 } control = { province = 360 } } control = { province = 949 } } 	type = capital which = 949 } # Algiers
@@ -5307,7 +5469,9 @@ event = {
 		#command = { type = chiefofnavy which = 5141 } #Etienne Schlumberger
 		#command = { type = chiefofair which = 5150 } #Martial Valín	
 
-		command = { type = event which = 2400048 where = VIC when = 0 } #Exp_80		
+		command = { trigger = { ai = yes } type = ai which = "nations\U01.ai" }
+		command = { trigger = { ai = yes } type = event which = 2400044 where = VIC when = 0 } #Exp_40 (lots of areas to garrison)
+		#command = { trigger = { ai = yes } type = event which = 2400048 where = VIC when = 0 } #Exp_80		
 	}
 }
 
@@ -5404,7 +5568,7 @@ event = {
 ##################################
 
 event = { 
-	id = 993
+	id = 2002080
 	random = no
 	country = GER
 
@@ -5450,12 +5614,12 @@ event = {
 		name = "Demand access to Syria"
 		command = { type = money value = -100 }
 		command = { type = supplies value = -1000 }
-		command = { type = event which = 994 where = VIC when = 1 }
+		command = { type = event which = 2002081 where = VIC when = 1 }
 	}
 }
 
 event = {
-	id = 994
+	id = 2002081
 	random = no
 	country = VIC
 
@@ -5472,7 +5636,7 @@ event = {
 		command = { type = money value = 100 }
 		command = { type = supplies value = 1000 }
 		
-		command = { type = event which = 995 where = U04 when = 0 }
+		command = { type = event which = 2002082 where = U04 when = 0 }
 	}
 	action = {
 		name = "ACTION_NAME_REFUSE" # Refuse
@@ -5483,7 +5647,7 @@ event = {
 }
 
 event = {
-	id = 995
+	id = 2002082
 	random = no
 	persistent = yes
 
@@ -5502,7 +5666,7 @@ event = {
 }
 
 event = { 
-	id = 996
+	id = 2002083
 	random = no
 	country = ENG
 
@@ -5563,13 +5727,13 @@ event = {
 		command = { type = end_non_aggression which = U04 where = YEM }
 		command = { type = end_non_aggression which = U04 where = U02 }
 		
-		command = { type = event which = 997 where = U04 when = 0 }
-		command = { type = event which = 998 where = U01 when = 0 }
+		command = { type = event which = 2002084 where = U04 when = 0 }
+		command = { type = event which = 2002085 where = U01 when = 0 }
 	}
 }
 
 event = {
-	id = 997
+	id = 2002084
 	random = no
 	persistent = yes
 
@@ -5593,13 +5757,13 @@ event = {
 		
 		command = { type = event which = 2400047 where = U04 when = 0 } #Exp_7
 		
-		#command = { type = event which = 999 where = VIC when = 1 }
-		#command = { type = event which = 999 where = U03 when = 1 }
+		#command = { type = event which = 2002086 where = VIC when = 1 }
+		#command = { type = event which = 2002086 where = U03 when = 1 }
 	}
 }
 
 event = {
-	id = 998
+	id = 2002085
 	random = no
 	country = U01
 
@@ -5616,7 +5780,7 @@ event = {
 }
 
 event = {
-	id = 999
+	id = 2002086
 	random = no
 	persistent = yes
 
@@ -5632,7 +5796,7 @@ event = {
 }
 
 event = { 
-	id = 977
+	id = 2002087
 	random = no
 	country = GER
 	
@@ -5643,7 +5807,7 @@ event = {
 	
 	decision = {
 		war = { country = U04 country = ENG }
-		event = 996
+		event = 2002083
 	}
 	decision_trigger = {
 	}
@@ -5676,7 +5840,7 @@ event = {
 }
 
 event = { 
-	id = 978
+	id = 2002088
 	random = no
 	country = VIC
 	
@@ -5697,14 +5861,14 @@ event = {
 	action = {
 		name = "We will return!"
 		command = { type = dissent value = 1 }
-		command = { type = event which = 979 where = ENG when = 0 }
+		command = { type = event which = 2002089 where = ENG when = 0 }
 	}
 }
 
 event = { 
-	id = 979
+	id = 2002089
 	random = no
-	country = VIC
+	country = ENG
 	
 	name = "The Levant Campaign - victory"
 	desc = "On 10 July, as the Australian 21st Brigade was on the verge of entering Beirut, Henri Dentz sought an armistice. By the terms of the Armistice of Saint Jean d'Acre, Syria and Lebanon were handed over to the British, who in turn placed it under the authority of the Free French General Georges Catroux. The Vichy forces were given the option to join the Free French or repatriate to France. The majority chose to return to France, with 37,563 military and civilian personnel leaving to France in eight convoys from 7 August to 27 September."
@@ -5715,6 +5879,57 @@ event = {
 		name = ACTION_NAME_GREAT
 		command = { type = relation which = VIC value = -30 }
 		command = { type = inherit 	which = U04 value = 0   }
+	}
+}
+
+event = { 
+	id = 2002090
+	random = no
+	country = ENG
+	
+	name = "Levant back to France"
+	desc = "After securing control of the Levant, the control was shortly transferred back to the Free French government to maintain legitimacy."
+	picture = "Appel_de_Gaulle"
+	style = 2
+	
+	trigger = {
+		OR = {
+			alliance = { country = U01 }
+			alliance = { country = VIC }
+		}
+		area = { area = "Lebanon_Syria" 	country = -1 data = 1 value = 1   }
+		area = { area = "Lebanon_Syria" 	country = -3 data = 1 value = 100 }
+		
+		OR = {
+			AND = {
+				alliance = { country = U01 }
+				army = { size = 25 type = 0 when = 0 where = 0 which = 1 country = U01 }
+			}
+			AND = {
+				alliance = { country = VIC }
+				army = { size = 25 type = 0 when = 0 where = 0 which = 1 country = VIC }
+			}
+		}
+		NOT = { area = { area = "Iraq"		 			country = -2 value = 1 } }
+		NOT = { area = { area = "Palestine" 			country = -2 value = 1 } }
+		NOT = { area = { area = "Suez Channel Area"		country = -2 value = 1 } }
+		NOT = { area = { area = "Anatolian South Coast"	country = -2 value = 1 } }
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 20
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	action = {
+		name = ACTION_NAME_GREAT
+		command = { trigger = { alliance = { country = U01 } }			type = secedearea value = "Lebanon_Syria" which = U01 when = 2 }
+		command = { trigger = { alliance = { country = VIC } }			type = secedearea value = "Lebanon_Syria" which = VIC when = 2 }
+		command = { trigger = { alliance = { country = U01 } ai = U01 }	type = event which = 2400044 where = U01 when = 0 } #exp_70 -> exp_40
+		command = { trigger = { alliance = { country = VIC } ai = VIC }	type = event which = 2400044 where = VIC when = 0 } #exp_70 -> exp_40
+		
+		#Prevents transfer to Turkey
+		command = { type = add_claim_area 		which = "Lebanon_Syria"			where = U01 }
+		command = { type = add_claim_area 		which = "Lebanon_Syria"			where = VIC }
 	}
 }
 
@@ -5912,7 +6127,7 @@ event = {
 		command = { type = relation which = ENG value = -50 }
 		command = { type = relation which = GER value = 100 }
 		command = { type = relation which = SOV value = 50 }
-		command = { type = domestic which = political_left value = -1 } #reactionary
+		command = { type = domestic which = political_left value = -1 } #fascist
 		command = { type = setflag which = TurkeyUpsetAtAllies } 
 		command = { trigger = { ai = yes } type = ai which = "neutrality30.ai" }
 	}
@@ -5925,7 +6140,7 @@ event = {
 		command = { type = relation which = ENG value = -50 }
 		command = { type = relation which = GER value = 100 }
 		command = { type = relation which = SOV value = 50 }
-		command = { type = domestic which = political_left value = -1 } #reactionary
+		command = { type = domestic which = political_left value = -1 } #fascist
 		command = { trigger = { ai = yes } type = ai which = "neutrality30.ai" }
 	}
 	action = {

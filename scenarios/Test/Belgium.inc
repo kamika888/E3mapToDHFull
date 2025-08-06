@@ -5,6 +5,7 @@
 province = { id = 49 terrain = "clear"  air_base = { size = 10 current_size = 10 } naval_base = { size = 10 current_size = 10 } anti_air = 3 }
 province = { id = 50 terrain = "clear"  air_base = { size = 10 current_size = 10 } naval_base = { size = 10 current_size = 10 } anti_air = 3 }
 province = { id = 21 terrain = "clear"  air_base = { size = 10 current_size = 10 } naval_base = { size = 10 current_size = 10 } anti_air = 3 }
+province = { id = 1907 terrain = "clear"  air_base = { size = 10 current_size = 10 } naval_base = { size = 10 current_size = 10 } anti_air = 3 }
 
 country =
 { tag                    = BEL
@@ -20,6 +21,9 @@ control = ENG
 	money                  = 20 
 	transports             = 100 
 	escorts                = 20 
+	
+	SpyInfo                = { country = "BEL" NumberOfSpies = 10 }
+	SpyInfo                = { country = "HOL" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = AST value = 75 }
     relation = { tag = CAN value = 150 }
@@ -202,7 +206,7 @@ inventions = { 3000027 }
    foreignminister        = {  type = 9 id = 3  } 
    armamentminister       = {  type = 9 id = 56 } 
    ministerofsecurity     = {  type = 9 id = 5  } 
-   ministerofintelligence = {  type = 9 id = 6  } 
+   #ministerofintelligence = {  type = 9 id = 6  } 
    chiefofstaff           = {  type = 9 id = 7  } 
    chiefofarmy            = {  type = 9 id = 8  } 
    chiefofnavy            = {  type = 9 id = 9  } 

@@ -16,6 +16,7 @@ country =
 	money                  = 40 
 	transports             = 250 
 	escorts                = 21 
+  SpyInfo                = { country = "HOL" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = BEL value = 150 }
     relation = { tag = CAN value = 80 }
@@ -225,6 +226,46 @@ inventions = { 3000027 }
 	   strength     = 10
        type = infantry 
 	   model = 6 
+      } 
+    } 
+	
+   landunit = 
+   {  id       = {  type = 18500 id = 10  } 
+     location = 1613 
+     name     = "Koninklijk Nederlands-Indisch Leger 1" 
+     Division = 
+     {  id    = {  type = 18500 id = 11  } 
+       name  = "1e KNIL Divisie" 
+	   strength     = 80
+       type  = infantry 
+	   model = 7
+	   locked = yes
+      } 
+    } 
+   landunit = 
+   {  id       = {  type = 18500 id = 12  } 
+     location = 1358 
+     name     = "Koninklijk Nederlands-Indisch Leger 2" 
+     Division = 
+     {  id    = {  type = 18500 id = 13  } 
+       name  = "2e KNIL Divisie" 
+	   strength     = 80
+       type  = infantry 
+	   model = 7
+	   locked = yes
+      } 
+    } 
+   landunit = 
+   {  id       = {  type = 18500 id = 14  } 
+     location = 1640 
+     name     = "Koninklijk Nederlands-Indisch Leger 3" 
+     Division = 
+     {  id    = {  type = 18500 id = 15  } 
+       name  = "3e KNIL Divisie" 
+	   strength     = 80
+       type  = infantry 
+	   model = 7
+	   locked = yes
       } 
     } 
    navalunit = 

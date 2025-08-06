@@ -17,6 +17,7 @@ country =
 	supplies               = 500 
 	money                  = 10 
     capital                = 30
+  SpyInfo                = { country = "IRE" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = ARG value = 20 }
     relation = { tag = AST value = 75 }

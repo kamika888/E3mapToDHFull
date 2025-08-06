@@ -24,12 +24,13 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 8 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5 
      defense_lobby     = 7 
      interventionism   = 5 
   }
+  SpyInfo                = { country = "SIK" NumberOfSpies = 5 }
   nationalprovinces      = {
 1275 1276 1277 1440 1441 1267 1268 1269 1270 1271
 1222 1223 1224 1227 1228 1229 1230 1273 1274 1439
@@ -229,14 +230,14 @@ blueprints = {
        name = "Guard Regiment" 
        type = infantry 
 	   strength = 15
-	   model    = 4
+	   model    = 3
       } 
      Division = 
      {  id   = {  type = 25600 id = 23  } 
        name = "Training Regiment" 
        type = militia
 	   strength = 10
-	   model    = 3
+	   model    = 2
       } 
     }
    landunit = 
@@ -249,7 +250,7 @@ blueprints = {
        name = "Yili-Tacheng Garrisons" 
        type = garrison 
 	   strength = 5
-	   model    = 3
+	   model    = 2
       } 
     }
    landunit = 
@@ -262,7 +263,7 @@ blueprints = {
        name = "Ashan Garrison" 
        type = garrison 
 	   strength = 5
-	   model    = 3
+	   model    = 2
       } 
     }
 	landunit = 
@@ -275,7 +276,7 @@ blueprints = {
        name = "Qitai Garrison" 
        type = garrison 
 	   strength = 8
-	   model    = 3
+	   model    = 2
       } 
     }
 	landunit = 
@@ -288,7 +289,7 @@ blueprints = {
        name = "Hami Garrison" 
        type = garrison 
 	   strength = 4
-	   model    = 3
+	   model    = 2
       } 
     }
 	landunit = 
@@ -300,16 +301,16 @@ blueprints = {
        name = "7/8/12. Infantry" 
        type = infantry 
 	   strength = 43
-	   model    = 5
+	   model    = 4
       }
      Division = 
      {  id   = {  type = 25600 id = 44  } 
        name = "6. Cavalry Brigade" 
        type = cavalry 
 	   strength = 30
-	   model    = 6
+	   model    = 5
 	   extra1    = artillery
-	   brigade_model1 = 4
+	   brigade_model1 = 3
       } 
     }
     landunit = 
@@ -322,7 +323,7 @@ blueprints = {
        name = "4/5/7/9. Cavalry Regiments" 
        type = cavalry 
 	   strength = 20
-	   model    = 6
+	   model    = 5
       } 
     }
     landunit = 
@@ -335,7 +336,7 @@ blueprints = {
        name = "Yanqi Garrison" 
        type = garrison 
 	   strength = 4
-	   model    = 3
+	   model    = 2
       } 
     }
     landunit = 
@@ -348,18 +349,18 @@ blueprints = {
        name = "Asanov&Bekteev Brigades" 
        type = cavalry
 	   strength = 41
-	   model    = 8
+	   model    = 7
       }
     }
 	
 	landunit = 
    {  
-      location = 1433 #Hotan
-     name     = "Soviet NKVD Advisors" 
+      location = 1431 #Hotan
+     name     = "Soviet NKVD Advisers" 
      id       = {  type = 25600 id = 42 } 
      Division = 
      {  id   = {  type = 25600 id = 43  } 
-       name = "NKVD Advisor HQ" 
+       name = "NKVD Adviser HQ" 
        type = hq
 	   strength = 50
 	   model    = 2
@@ -371,7 +372,7 @@ blueprints = {
    landunit = 
    {  id       = {  type = 25600 id = 50 } 
      name     = "Soviet Expeditionary Force - Xinjiang" 
-     location =  1433
+     location =  1431
 	 control = "SOV" 
         Division = 
      {  id       = {  type = 25600 id = 51  } 

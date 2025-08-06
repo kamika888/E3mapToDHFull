@@ -28,18 +28,19 @@ country =
      defense_lobby     = 3 
      interventionism   = 3 
   }
+  SpyInfo                = { country = "YEM" NumberOfSpies = 5 }
   nationalprovinces      = { 1812 1813 1814
 2855 1815 2857 4185 4186 4235
 4174 4187 4188 4189 6566 6567 6568 6569 6570 6571
-6924 6925 6565 7450 7274 7275
+6924 6925 6565 7450 7274 7275 2856 6927
   }
   ownedprovinces         = { 1812
 2855 4185 4186 4235
-6924 6925
+6924 6925 7450
   }
   controlledprovinces    = { 1812
 2855 4185 4186 4235
-6924 6925
+6924 6925 7450
   }
   # ROTW Minor Tech '36
   # Group E 1936 techs

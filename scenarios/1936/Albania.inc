@@ -21,15 +21,16 @@ country =
      democratic        = 1 
      political_left    = 4
      free_market       = 1
-     freedom           = 2 
+     freedom           = 3 
      professional_army = 4 
      defense_lobby     = 3 
      interventionism   = 3
   }
-  nationalprovinces      = { 390 391 415 665 664 1169 3372 2609 3393 5465 5466 6562 413 7163 7961 7315 7936 }
+  SpyInfo                = { country = "ALB" NumberOfSpies = 5 }
+  nationalprovinces      = { 390 391 415 665 664 1169 3372 3393 5465 5466 6562 413 7163 7961 7315 7936 }
   ownedprovinces         = { 390 391 665 664 5465 5466 7163 7961 }
   controlledprovinces    = { 390 391 665 664 5465 5466 7163 7961 }
-  claimedprovinces 		 = { 392 393 7269 7270 7316 }
+  claimedprovinces 		 = { 392 393 7269 7270 7316 7271 2609 }
   
   # Eastern Minor Tech '36
   # Group D 1936 techs

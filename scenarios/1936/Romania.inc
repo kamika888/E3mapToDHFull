@@ -15,6 +15,7 @@ country =
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 15 
+  SpyInfo                = { country = "ROM" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = BUL value = 25 }
     relation = { tag = CZE value = 20 }
@@ -155,7 +156,7 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 6 
-     freedom           = 4 
+     freedom           = 3 
      free_market       = 4
      professional_army = 4 
      defense_lobby     = 3 

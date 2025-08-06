@@ -21,11 +21,12 @@ country =
      democratic        = 1 
      political_left    = 6 
      free_market       = 3
-     freedom           = 5 
+     freedom           = 4 
      professional_army = 1
      defense_lobby     = 1 
      interventionism   = 1
   }
+  SpyInfo                = { country = "COS" NumberOfSpies = 5 }
   nationalprovinces      = { 540 2652 4290 }
   ownedprovinces         = { 540 2652 4290 }
   controlledprovinces    = { 540 2652 4290 }

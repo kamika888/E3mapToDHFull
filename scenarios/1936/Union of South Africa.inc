@@ -18,6 +18,7 @@ country =
 	money                  = 10 
 	manpower               = 51 
   capital                = 1120
+  SpyInfo                = { country = "SAF" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = AST value = 200 } # was access = yes
     relation = { tag = BEL value = 35 }
@@ -152,7 +153,7 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 4 
-     freedom           = 6 
+     freedom           = 5 
      free_market       = 4
      professional_army = 2 
      defense_lobby     = 2 

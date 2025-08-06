@@ -21,6 +21,7 @@ country =
   capital                = 559 # Guilin
   manpower               = 400
 
+  SpyInfo                = { country = "CGX" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }
@@ -237,8 +238,8 @@ blueprints = {
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 3 
-     freedom           = 3 
-     free_market       = 2
+     freedom           = 2 
+     free_market       = 1
      professional_army = 5 
      defense_lobby     = 4 
      interventionism   = 5 
@@ -268,7 +269,7 @@ blueprints = {
        name       = "19. Division" 
        type     = infantry 
        strength   = 33
-       model      = 5
+       model      = 4
       }
       Division = 
      {  experience = 30 
@@ -276,7 +277,7 @@ blueprints = {
        name       = "21. Division" 
        type     = infantry 
        strength   = 33
-       model      = 5
+       model      = 4
       } 
      Division = 
      {  experience = 30 
@@ -284,7 +285,7 @@ blueprints = {
        name       = "24. Division" 
        type       = infantry 
        strength   = 33
-       model      = 5
+       model      = 4
       }
     }
 	landunit = 
@@ -298,7 +299,7 @@ blueprints = {
        name       = "20. Division" 
        type     = infantry 
        strength   = 33 
-       model      = 5
+       model      = 4
       } 
      Division = 
      {  experience = 30 
@@ -306,7 +307,7 @@ blueprints = {
        name       = "22. Division" 
        type       = militia
        strength   = 33
-       model      = 3
+       model      = 2
       }
 	  Division = 
      {  experience = 30 
@@ -314,7 +315,7 @@ blueprints = {
        name       = "23. Division" 
        type       = militia
        strength   = 33
-       model      = 3
+       model      = 2
       }
     }
 	landunit = 
@@ -328,7 +329,7 @@ blueprints = {
        name       = "43. Division" 
        type     = infantry 
        strength   = 40 
-       model      = 5
+       model      = 4
       } 
      Division = 
      {  experience = 30 
@@ -336,7 +337,7 @@ blueprints = {
        name       = "44. Division" 
        type       = infantry 
        strength   = 40
-       model      = 5
+       model      = 4
       }
 	  Division = 
      {  experience = 30 
@@ -344,7 +345,7 @@ blueprints = {
        name       = "45. Division" 
        type       = militia
        strength   = 40
-       model      = 3
+       model      = 2
       }
     }
 	landunit = 
@@ -357,7 +358,7 @@ blueprints = {
        name       = "1. Guangxi Provincial Militia" 
        type     = militia 
        strength   = 50 
-       model      = 2
+       model      = 1
       }
  	  Division = 
      {  
@@ -365,7 +366,7 @@ blueprints = {
        name       = "2. Guangxi Provincial Militia" 
        type     = militia 
        strength   = 50 
-       model      = 2
+       model      = 1
       } 
   	  Division = 
      {  
@@ -373,7 +374,7 @@ blueprints = {
        name       = "3. Guangxi Provincial Militia" 
        type     = militia 
        strength   = 50 
-       model      = 2
+       model      = 1
       }   	  
     }
 	airunit = 
@@ -385,14 +386,14 @@ blueprints = {
      {  id           = {  type = 22400 id = 65  } 
        name         = "7/8/34. Squadrons" 
        type         = interceptor 
-       model        = 5
+       model        = 4
        strength     = 25
       } 
  	  Division = 
      {  id           = {  type = 22400 id = 66 } 
        name         = "32. Squadron" 
        type         = tactical_bomber
-       model        = 2
+       model        = 1
        strength     = 9 
       } 
     } 
@@ -400,12 +401,12 @@ blueprints = {
 	division_development = {
 		name  = "25. Division" 
 		type  = infantry
-		model = 6
+		model = 5
 		new_model = no
 		extra1 = engineer
-		brigade_model1 = 2
+		brigade_model1 = 1
 		extra2 = artillery
-		brigade_model2 = 4
+		brigade_model2 = 3
 		cost  = 7
 		id    = {  type = 22400 id = 14  } 
 		date  = {  year = 1936 month = april day = 1  } 

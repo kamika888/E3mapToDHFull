@@ -20,7 +20,8 @@
    transports             = 50 
    escorts                = 0 
 
-   diplomacy = 
+   SpyInfo                = { country = "ICL" NumberOfSpies = 5 }
+  diplomacy = 
    {   
    relation = {  tag = DEN value = 120 access = yes  }  
     } 
@@ -32,7 +33,7 @@
      democratic        = 1 
      political_left    = 6 
      free_market       = 5
-     freedom           = 10
+     freedom           = 7
      professional_army = 1 
      defense_lobby     = 1 
      interventionism   = 1
