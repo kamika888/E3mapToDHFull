@@ -18,7 +18,7 @@ country =
 	escorts                = 15 
 	manpower               = 5 
   capital                = 1871
-  SpyInfo                = { country = "NZL" NumberOfSpies = 5 }
+  SpyInfo                = { country = "NZL" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = AST value = 200 } # was access = yes
     relation = { tag = BEL value = 20 }
@@ -38,10 +38,6 @@ country =
     relation = { tag = USA value = 125 }
     relation = { tag = YEM value = 150 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 3 }
-  SpyInfo                = { country = "AST" NumberOfSpies = 4 }
-  SpyInfo                = { country = "JAP" NumberOfSpies = 1 }
-  SpyInfo                = { country = "PHI" NumberOfSpies = 2 }
   
   nationalprovinces      = { 1868 1869 1870 1871 1872 1873
   6057 6058 6059 6060 6061 6062 6063 6064 6065 6066 6067 6068 6069 6070

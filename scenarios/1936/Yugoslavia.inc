@@ -15,7 +15,7 @@ country =
 	money                  = 15 
 	manpower 			  = 46
   capital                = 453
-  SpyInfo                = { country = "YUG" NumberOfSpies = 5 }
+  SpyInfo                = { country = "YUG" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = BUL value = 25 }
     relation = { tag = CZE value = 50 }
@@ -37,18 +37,6 @@ country =
       value      = 100
     }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CZE" NumberOfSpies = 2 }
-  SpyInfo                = { country = "AUS" NumberOfSpies = 2 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 1 }
-  SpyInfo                = { country = "HUN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "BUL" NumberOfSpies = 2 }
-  SpyInfo                = { country = "ALB" NumberOfSpies = 2 }
-  SpyInfo                = { country = "GRE" NumberOfSpies = 3 }
-  SpyInfo                = { country = "ROM" NumberOfSpies = 4 }
-  SpyInfo                = { country = "ITA" NumberOfSpies = 3 }
   nationalprovinces      = { 
 7268 6563 1057 3373 453 3361 6564 3368 452 3367 5464 3370 493 3371 1893 6505 1895 7315 385 3362 2607 1894 6537 2609 3397 494 383 2608 413 1892 6535 414 6557 7269 7271 1168 6538 1896 3393 389 3374 451 1897
 7319 411 

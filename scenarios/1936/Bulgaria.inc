@@ -30,7 +30,7 @@ country =
   # }
   transports             = 10
   escorts                = 4
-  SpyInfo                = { country = "BUL" NumberOfSpies = 5 }
+  SpyInfo                = { country = "BUL" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = ENG value = 20 }
     relation = { tag = FIN value = 35 }
@@ -43,17 +43,6 @@ country =
     relation = { tag = TUR value = 75 }
     relation = { tag = YUG value = 25 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CZE" NumberOfSpies = 1 }
-  SpyInfo                = { country = "AUS" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 1 }
-  SpyInfo                = { country = "HUN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ALB" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GRE" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ROM" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ITA" NumberOfSpies = 1 }
   nationalprovinces      = { 
 417 419 420 422 421 416 413 414 410 423 2323 2324 1911 
 2612 2610 3374 3397 3352 3353 3354 435 6564 6563 6505 7337 6506 6507 6510 2449

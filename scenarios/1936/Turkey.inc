@@ -27,7 +27,7 @@ country =
      defense_lobby     = 3 
      interventionism   = 4
   }
-  SpyInfo                = { country = "TUR" NumberOfSpies = 5 }
+  SpyInfo                = { country = "TUR" NumberOfSpies = 1 }
   nationalprovinces      = { 
 409 408 437 438 439 441 442 443 448 440 449 447 446 445 450 1852 1853 1855 2322
 1158 1159 418 2611 2613 2873 2874 2875 2877 2879 2880 2881 2882 3398 3430
@@ -168,7 +168,6 @@ inventions = { 3000027 }
        value      = 100 
       } 
     } 
-   SpyInfo                = {  country = "TUR" NumberOfSpies = 7  } 
    headofstate            = {  type = 9 id = 45001  } 
    headofgovernment       = {  type = 9 id = 45002  } 
    foreignminister        = {  type = 9 id = 45003  } 

@@ -15,7 +15,7 @@ country =
 	money                  = 10 
 	manpower               = 0 
   capital                = 71
-  SpyInfo                = { country = "LUX" NumberOfSpies = 5 }
+  SpyInfo                = { country = "LUX" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = BEL value = 200 }
     relation = { tag = DEN value = 100 }
@@ -27,11 +27,6 @@ country =
     relation = { tag = NOR value = 100 }
     relation = { tag = SWE value = 100 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "HOL" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 1 }
-  SpyInfo                = { country = "BEL" NumberOfSpies = 1 }
   nationalprovinces      = { 71 70 3172 }
   ownedprovinces         = { 71 }
   controlledprovinces    = { 71 }

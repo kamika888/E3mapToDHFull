@@ -30,7 +30,7 @@
 	escorts                = 20 
   
    
-   SpyInfo                = { country = "U02" NumberOfSpies = 5 }
+   SpyInfo                = { country = "U02" NumberOfSpies = 1 }
   diplomacy = 
    {   
   relation = {  tag = ENG value = 50 access = yes  }  
@@ -139,7 +139,6 @@
 7193 7305 7307 7924 7925 7926
  } 
   
-   SpyInfo                = {  country = "U02" NumberOfSpies = 3  } 
   
    techapps               = {  
 #Great War Infantry Division  

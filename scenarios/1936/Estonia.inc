@@ -15,7 +15,7 @@ country =
 	money                  = 10 
 	manpower               = 0 
   capital                = 194
-  SpyInfo                = { country = "EST" NumberOfSpies = 5 }
+  SpyInfo                = { country = "EST" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = ENG value = 65 }
     relation = { tag = FIN value = 120 }
@@ -32,16 +32,6 @@ country =
     relation = { tag = POL value = 75 }
     relation = { tag = SOV value = -30 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 2 }
-  SpyInfo                = { country = "LIT" NumberOfSpies = 2 }
-  SpyInfo                = { country = "NOR" NumberOfSpies = 1 }
-  SpyInfo                = { country = "LAT" NumberOfSpies = 2 }
-  SpyInfo                = { country = "POL" NumberOfSpies = 3 }
-  SpyInfo                = { country = "FIN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "SWE" NumberOfSpies = 2 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 1 }
   nationalprovinces      = { 194 193 195 196 199 1886 3286 3287 3288 3394
 
 

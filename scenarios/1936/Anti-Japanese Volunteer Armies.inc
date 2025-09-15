@@ -36,7 +36,7 @@ country =
    chiefofnavy            = {  type = 9 id = 1105009  } 
    chiefofair             = {  type = 9 id = 1105010  } 
   
-  SpyInfo                = { country = "U58" NumberOfSpies = 5 }
+  SpyInfo                = { country = "U58" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = 200 access = yes }
     relation = { tag = CHI value = 100 access = yes }

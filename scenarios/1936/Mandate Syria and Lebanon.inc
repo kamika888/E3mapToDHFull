@@ -9,8 +9,9 @@
 
  country = 
  {  tag                    = U04 
-    capital                = 1792
+    capital                = 1794 #if capital is Damascus, for some reason the puppet auto-convoy system doesn't work. But it works if the capital is Beirut.
     puppet                 = VIC 
+	#control				  = VIC
 	ai_settings			   = { flags = { puppetLevel9 = 1 ideology = 5 } }
 	# Resource Reserves 
 	energy                 = 60
@@ -23,12 +24,11 @@
 	transports             = 100 
 	escorts                = 10 
       
-   SpyInfo                = { country = "U04" NumberOfSpies = 5 }
+   SpyInfo                = { country = "U04" NumberOfSpies = 1 }
   diplomacy = 
    {   
    relation = {  tag = VIC value = 50 access = yes  }  
     } 
-   SpyInfo                = {  country = "U04" NumberOfSpies = 3  } 
   
    claimedprovinces 	  = { 4146 1855 4125
 							  1792 1795 2883 1863 2884 1862 2885 1861 2019 1793 1794 4152 4151 4150 1159 2876 7276 7277 7278 7279 7280 7281 7353 7354 7355 7356 7357 7358 7359 7360
@@ -147,5 +147,32 @@
 	   model    = 4
       } 
     } 
+	
+	#It will unfortunately be wiped out by event during the French surrender. Not sure if there is a way to prevent that. Plus there are just a whole host of potential problems.
+	#airunit = {
+	#	id = { type = 13501 id = 5000 }
+	#	name = "Armee de l'Air 1"
+	#	control  = "VIC"
+	#	location = 1794
+	#	base = 1794 
+	#	division = { id = { type = 13501 id = 5002 } name = "Gr. de Chasse I/7"						type = interceptor 		model = 8 strength = 60 }	#1937 Morane-Saulnier MS.406	
+	#	division = { id = { type = 13501 id = 5003 } name = "Es. de Chasse 6" 						type = multi_role 		model = 5 strength = 60 }	#1940 Dewoitine D.520
+	#}
+	#airunit = {
+	#	id = { type = 13501 id = 5001 }
+	#	name = "Armee de l'Air 2"
+	#	control  = "VIC"
+	#	location = 1794
+	#	base = 1794 
+	#	division = { id = { type = 13501 id = 5004 } name = "Gr. de Bombardement I/39" 				type = tactical_bomber  model = 8 strength = 60 } 	#1938 Martin 167F
+	#	division = { id = { type = 13501 id = 5005 } name = "Es. de Bombardement dAssaut 4/595" 	type = cas				model = 2 strength = 60 } 	#1940 Breguet 693/Potez 63-11
+	#	division = { id = { type = 13501 id = 5006 } name = "Es. 4S" 								type = naval_bomber		model = 2 strength = 60 } 	#1938 Loire-Nieuport LN.411
+	#}
+	
+	airdivision = { dormant = yes id = { type = 13501 id = 5002 } name = "Gr. de Chasse I/7"					type = interceptor 		model = 8 strength = 60 }	#1937 Morane-Saulnier MS.406	
+	airdivision = { dormant = yes id = { type = 13501 id = 5003 } name = "Es. de Chasse 6" 						type = multi_role 		model = 5 strength = 60 }	#1940 Dewoitine D.520
+	airdivision = { dormant = yes id = { type = 13501 id = 5004 } name = "Gr. de Bombardement I/39" 			type = tactical_bomber  model = 8 strength = 60 } 	#1938 Martin 167F
+	airdivision = { dormant = yes id = { type = 13501 id = 5005 } name = "Es. de Bombardement dAssaut 4/595" 	type = cas				model = 2 strength = 60 } 	#1940 Breguet 693/Potez 63-11
+	airdivision = { dormant = yes id = { type = 13501 id = 5006 } name = "Es. 4S" 								type = naval_bomber		model = 2 strength = 60 } 	#1938 Loire-Nieuport LN.411
 
 }

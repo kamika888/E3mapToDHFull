@@ -110,7 +110,6 @@ relation = { tag = NOR value = 100 }
 relation = { tag = SWE value = 100 }
 relation = { tag = USA value = 70 }
 }
-  SpyInfo                = { country = "U05" NumberOfSpies = 4 }
 
 
    techapps               = { 

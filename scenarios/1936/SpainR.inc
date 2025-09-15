@@ -21,7 +21,7 @@ country =
 	escorts                = 27 
   capital                = 341
   # Gibralter claim
-  SpyInfo                = { country = "SPR" NumberOfSpies = 5 }
+  SpyInfo                = { country = "SPR" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = ENG value = -10 }
     relation = { tag = FIN value = 35 }
@@ -32,19 +32,6 @@ country =
     relation = { tag = POR value = -50 }
     relation = { tag = SOV value = -10 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 3 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 2 }
-  SpyInfo                = { country = "AUS" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ARG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "MEX" NumberOfSpies = 1 }
-  SpyInfo                = { country = "USA" NumberOfSpies = 2 }
-  SpyInfo                = { country = "ECU" NumberOfSpies = 1 }
-  SpyInfo                = { country = "VEN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "BRA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "COL" NumberOfSpies = 2 }
-  SpyInfo                = { country = "POR" NumberOfSpies = 4 }
-  SpyInfo                = { country = "ITA" NumberOfSpies = 4 }
 
   nationalprovinces      = { 
 333 339 338 341 343 346 347 349 350 351 352 353 354 342 340 330 329 357 961 962 963 964 348 2243 1532 1531 1162 1161 1157 1714

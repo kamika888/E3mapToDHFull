@@ -19,10 +19,9 @@
    money                  = 50 
    manpower               = 0
 
-   SpyInfo                = {  country = "MOR" NumberOfSpies = 3  } 
   
     
-   SpyInfo                = { country = "MOR" NumberOfSpies = 5 }
+   SpyInfo                = { country = "MOR" NumberOfSpies = 1 }
   nationalprovinces      = {  2331  } 
    ownedprovinces         = {  2331  } 
    controlledprovinces    = {  2331  } 

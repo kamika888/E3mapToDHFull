@@ -26,7 +26,7 @@ country =
      defense_lobby     = 1 
      interventionism   = 2
   }
-  SpyInfo                = { country = "CUB" NumberOfSpies = 5 }
+  SpyInfo                = { country = "CUB" NumberOfSpies = 1 }
   nationalprovinces      = { 654 655 656 657 4278 4279 4280 4281 4282 4283 4284 894 }
   ownedprovinces         = { 654 655 656 657 4278 4279 4280 4281 4282 4283 4284 }
   controlledprovinces    = { 654 655 656 657 4278 4279 4280 4281 4282 4283 4284 }
@@ -81,7 +81,6 @@ country =
      relation = {  tag = HAI value = 30  } 
      relation = {  tag = USA value = 200  } 
     } 
-   SpyInfo                = {  country = "CUB" NumberOfSpies = 2  } 
   
    headofstate            = {  type = 9 id = 85001  } 
    headofgovernment       = {  type = 9 id = 85002  } 

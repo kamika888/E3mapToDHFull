@@ -4,7 +4,7 @@
 
 country =
 { tag                    = ENG
-  ai_settings			 = { flags = { WARDebt = 17 ideology = 5 } }
+  ai_settings			 = { flags = { WARDebt = 20 ideology = 5 } }
   capital                = 19
 	manpower               = 20 
 	dissent 			   = 10
@@ -120,43 +120,7 @@ country =
       access     = yes
     }
   }
-  SpyInfo                = { country = "GER" NumberOfSpies = 3 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 4 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 2 }
-  SpyInfo                = { country = "CZE" NumberOfSpies = 2 }
-  SpyInfo                = { country = "AUS" NumberOfSpies = 1 }
-  SpyInfo                = { country = "SPR" NumberOfSpies = 2 }
-  SpyInfo                = { country = "POL" NumberOfSpies = 3 }
-  SpyInfo                = { country = "SWE" NumberOfSpies = 1 }
-  SpyInfo                = { country = "NOR" NumberOfSpies = 5 }
-  SpyInfo                = { country = "FIN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "YUG" NumberOfSpies = 3 }
-  SpyInfo                = { country = "HUN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "BUL" NumberOfSpies = 2 }
-  SpyInfo                = { country = "BEL" NumberOfSpies = 3 }
-  SpyInfo                = { country = "DEN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "HOL" NumberOfSpies = 3 }
-  SpyInfo                = { country = "USA" NumberOfSpies = 4 }
-  SpyInfo                = { country = "ALB" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GRE" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ARG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "BRA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "JAP" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ROM" NumberOfSpies = 2 }
-  SpyInfo                = { country = "LIT" NumberOfSpies = 2 }
-  SpyInfo                = { country = "LUX" NumberOfSpies = 1 }
-  SpyInfo                = { country = "POR" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ITA" NumberOfSpies = 2 }
-  SpyInfo                = { country = "CHI" NumberOfSpies = 4 }
-  SpyInfo                = { country = "MEX" NumberOfSpies = 1 }
-  SpyInfo                = { country = "AST" NumberOfSpies = 2 }
-  SpyInfo                = { country = "NZL" NumberOfSpies = 2 }
-  SpyInfo                = { country = "CAN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "IRE" NumberOfSpies = 4 }
-  SpyInfo                = { country = "IRQ" NumberOfSpies = 3 }
-  SpyInfo                = { country = "BHU" NumberOfSpies = 1 }
-  SpyInfo                = { country = "YEM" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ETH" NumberOfSpies = 1 }
+  SpyInfo                = { country = "NOR" NumberOfSpies = 1 }
   # GREAT BRITAIN
   nationalprovinces      = { 19 3 6 7 1166 8 9 28 29 10 2245 11 13 12 1164 14 17 16 22 20 21 23 1160 15 1409 1720 2279
 3030 3031 3032 3033 3034 3035 3036 3037 3038 3039 3040 3041 3042 3043 3044 3045 3046 3047 3054 2634 348 6944
@@ -2347,5 +2311,29 @@ landunit =
 	landdivision = { dormant = yes id = { type = 14800 id = 914 }  name = "3/4 Greek Mountain Brigades"			type = bergsjaeger	model = 8 strength = 50								} 
 	landdivision = { dormant = yes id = { type = 14800 id = 915 }  name = "Greek Security Battalions"			type = militia		model = 5 strength = 70								} 
 	landdivision = { dormant = yes id = { type = 14800 id = 916 }  name = "4th Indian Division"					type = infantry		model = 11 strength = 80							} 
+	
+	#2405080 Lustre
+	landdivision = { dormant = yes id = { type = 14800 id = 920 }  name = "2nd Armoured Division"				type = armor		model = 1   strength = 70							} #ENG
+	landdivision = { dormant = yes id = { type = 14800 id = 921 }  name = "2nd Division"						type = infantry		model = 10 	extra = engineer  brigade_model = 4 	} #NZL
+	landdivision = { dormant = yes id = { type = 14800 id = 922 }  name = "6th Division"						type = infantry		model = 10 	extra = anti_air  brigade_model = 3		} #AST
+	landdivision = { dormant = yes id = { type = 14800 id = 923 }  name = "7th Division"						type = infantry		model = 10 											} #AST 
+	landdivision = { dormant = yes id = { type = 14800 id = 924 }  name = "3rd Carpathian Division"				type = infantry		model = 10 	extra = anti_air  brigade_model = 3		} #POL
+	landdivision = { dormant = yes id = { type = 14800 id = 925 }  name = "4th Division"						type = infantry		model = 9 											} #U02
+	landdivision = { dormant = yes id = { type = 14800 id = 926 }  name = "1st Division"						type = infantry		model = 10 											} #SAF
+	landdivision = { dormant = yes id = { type = 14800 id = 927 }  name = "70th Division"						type = infantry		model = 10 	extra = medium_armor brigade_model = 5 	} #ENG
+	landdivision = { dormant = yes id = { type = 14800 id = 928 }  name = "9th Division"						type = infantry		model = 10 											} #AST
+	landdivision = { dormant = yes id = { type = 14800 id = 929 }  name = "5th Division"						type = infantry		model = 9 											} #U02
+	
+	#2405090 Demon
+	landdivision = { dormant = yes id = { type = 14800 id = 930 }  name = "2nd Armoured Division"				type = armor		model = 1   strength = 30										} #ENG
+	landdivision = { dormant = yes id = { type = 14800 id = 931 }  name = "2nd Division"						type = infantry		model = 10 	strength = 40 extra = engineer  brigade_model = 4 	} #NZL
+	landdivision = { dormant = yes id = { type = 14800 id = 932 }  name = "6th Division"						type = infantry		model = 10 	strength = 40 extra = anti_air  brigade_model = 3	} #AST
+	landdivision = { dormant = yes id = { type = 14800 id = 933 }  name = "7th Division"						type = infantry		model = 10 	strength = 40 										} #AST 
+	landdivision = { dormant = yes id = { type = 14800 id = 934 }  name = "3rd Carpathian Division"				type = infantry		model = 10 	strength = 40 extra = anti_air  brigade_model = 3	} #POL
+	landdivision = { dormant = yes id = { type = 14800 id = 935 }  name = "4th Division"						type = infantry		model = 9 	strength = 40 										} #U02
+	landdivision = { dormant = yes id = { type = 14800 id = 936 }  name = "1st Division"						type = infantry		model = 10 	strength = 40 										} #SAF
+	landdivision = { dormant = yes id = { type = 14800 id = 937 }  name = "70th Division"						type = infantry		model = 10 	strength = 40 extra = medium_armor brigade_model = 5 	} #ENG
+	landdivision = { dormant = yes id = { type = 14800 id = 938 }  name = "9th Division"						type = infantry		model = 10 	strength = 40 										} #AST
+	landdivision = { dormant = yes id = { type = 14800 id = 939 }  name = "5th Division"						type = infantry		model = 9 	strength = 40 										} #U02
   } 
  

@@ -26,7 +26,7 @@ country =
      defense_lobby     = 1
      interventionism   = 2
   }
-  SpyInfo                = { country = "SAL" NumberOfSpies = 5 }
+  SpyInfo                = { country = "SAL" NumberOfSpies = 1 }
   nationalprovinces      = { 759 4301 }
   ownedprovinces         = { 759 4301 }
   controlledprovinces    = { 759 4301 }
@@ -76,13 +76,6 @@ country =
    {  relation = {  tag = HON value = 100  } 
      relation = {  tag = USA value = 100  } 
     } 
-   SpyInfo                = {  country = "SAL" NumberOfSpies = 2  } 
-   #SpyInfo                = {  country = "MEX" NumberOfSpies = 3  } 
-   #SpyInfo                = {  country = "USA" NumberOfSpies = 3  } 
-   #SpyInfo                = {  country = "PAN" NumberOfSpies = 3  } 
-   #SpyInfo                = {  country = "DOM" NumberOfSpies = 3  } 
-   #SpyInfo                = {  country = "CUB" NumberOfSpies = 3  } 
-   #SpyInfo                = {  country = "HON" NumberOfSpies = 3  } 
    headofstate            = {  type = 9 id = 345001  } 
    headofgovernment       = {  type = 9 id = 345002  } 
    foreignminister        = {  type = 9 id = 345003  } 

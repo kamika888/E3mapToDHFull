@@ -15,7 +15,7 @@ country =
 	money                  = 20 
 	manpower               = 11 
   capital                = 101
-  SpyInfo                = { country = "SWE" NumberOfSpies = 5 }
+  SpyInfo                = { country = "SWE" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = BEL value = 100 }
     relation = { tag = DEN value = 75 }
@@ -28,17 +28,6 @@ country =
     relation = { tag = PER value = 50 }
     relation = { tag = USA value = 75 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 3 }
-  SpyInfo                = { country = "EST" NumberOfSpies = 1 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 2 }
-  SpyInfo                = { country = "POL" NumberOfSpies = 2 }
-  SpyInfo                = { country = "NOR" NumberOfSpies = 4 }
-  SpyInfo                = { country = "FIN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "DEN" NumberOfSpies = 3 }
-  SpyInfo                = { country = "LAT" NumberOfSpies = 1 }
-  SpyInfo                = { country = "LIT" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 2 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 3 }
   claimedprovinces = { 103 141 142 140 143 138 139 137 131 130 136 148 147 144 145 146 149 123 2305 2630 2631 3323 3324 3325 3326 3327 3328 3329 3330 3331 3332 3333 3334 3335 3336 3337 3338 3339 3340 3344 7148 7149 7150 7151 7152 7153 7154 7155 301 }
   nationalprovinces      = { 126 127 121 119 115 113  106 105 101 100 99 98 97 93  96 103 2629 3300 3301 3302 3303 3304 3305 3306 3307 3308 3309 3311 3312 3313 3314 3315 3316 3317 3318 3319 3320 3321 3322 6528 6529 6530 6531 6532 7168 7169 7451 7452 7453 7454 138 141 3329 140 }
   ownedprovinces         = {  126 127   121  119 115 113  106 105   101 100 99 98 97 93  96

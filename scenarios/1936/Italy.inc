@@ -5,7 +5,7 @@
 country =
 { tag                    = ITA
 	#Italy just barely misses normal requirements to stay mobilized after the end of Ethiopia (MIL5 instead of MIL6), so using do_not_demob flag.
-	ai_settings			 = { flags = { WARDebt = 7 SanctionsEvt = 1 SanctionsDelay1 = 1 ideology = 2 war_preparedness = 5 do_not_demob = 1 ETH_dissent = 1 } }
+	ai_settings			 = { flags = { WARDebt = 9 SanctionsEvt = 1 ideology = 2 war_preparedness = 5 do_not_demob = 1 ETH_dissent = 1 } }
 	manpower               = 714 #was 460
 	# Resource Reserves
 	energy                 = 26000 
@@ -18,6 +18,9 @@ country =
 	capital                = 515
 	transports             = 700
 	escorts                = 100
+	free = {
+		ic = -8 #SanctionsEvt, will be lifted when Italy defeats Ethiopia
+	}
   # Illyrian Coast
   SpyInfo                = { country = "ITA" NumberOfSpies = 5 }
   diplomacy =
@@ -78,32 +81,6 @@ country =
     relation = { tag = YEM value = 50 }
     relation = { tag = YUG value = 75 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 3 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 4 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 2 }
-  SpyInfo                = { country = "CZE" NumberOfSpies = 2 }
-  SpyInfo                = { country = "AUS" NumberOfSpies = 3 }
-  SpyInfo                = { country = "SPR" NumberOfSpies = 3 }
-  SpyInfo                = { country = "POL" NumberOfSpies = 2 }
-  SpyInfo                = { country = "SWE" NumberOfSpies = 1 }
-  SpyInfo                = { country = "NOR" NumberOfSpies = 1 }
-  SpyInfo                = { country = "FIN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "YUG" NumberOfSpies = 4 }
-  SpyInfo                = { country = "HUN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "BUL" NumberOfSpies = 2 }
-  SpyInfo                = { country = "BEL" NumberOfSpies = 1 }
-  SpyInfo                = { country = "DEN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "HOL" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ARG" NumberOfSpies = 3 }
-  SpyInfo                = { country = "USA" NumberOfSpies = 3 }
-  SpyInfo                = { country = "ALB" NumberOfSpies = 2 }
-  SpyInfo                = { country = "GRE" NumberOfSpies = 3 }
-  SpyInfo                = { country = "GRE" NumberOfSpies = 1 }
-  SpyInfo                = { country = "JAP" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ROM" NumberOfSpies = 1 }
-  SpyInfo                = { country = "TUR" NumberOfSpies = 4 }
-  SpyInfo                = { country = "POR" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 3 }
 
   nationalprovinces      = { 525 526 524 523 522 521 520 519 518 517 516 515 513 514 512 379 369 368 531 370 371 378 534
 							2326 2325

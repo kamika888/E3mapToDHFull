@@ -32,7 +32,7 @@ country =
      defense_lobby     = 4 
      interventionism   = 5 
   }
-  SpyInfo                = { country = "CXB" NumberOfSpies = 5 }
+  SpyInfo                = { country = "CXB" NumberOfSpies = 1 }
   nationalprovinces      = {
 1275 1276 1277 1440 1441 1267 1268 1269 1270 1271
 1222 1223 1224 1227 1228 1229 1230 1273 1274 1439
@@ -222,7 +222,6 @@ blueprints = {
      relation = {  tag = MAN value = -75  } 
      relation = {  tag = CHC value = -100  } 
     } 
-   SpyInfo                = {  country = "CXB" NumberOfSpies = 2  } 
    headofstate            = {  type = 9 id = 610001  } 
    headofgovernment       = {  type = 9 id = 610002  } 
    foreignminister        = {  type = 9 id = 610003  } 

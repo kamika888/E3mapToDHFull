@@ -358,7 +358,8 @@ event = {
 		#Will give net +2 dissent if there was a non-aggression pact. Otherwise, no dissent.
 		command = { trigger = { non_aggression = { country = GER country = AUS } } type = local_setflag which = GerAusNAP }
 		command = { trigger = { local_flag = GerAusNAP } type = end_non_aggression which = GER where = AUS } #will give 5 dissent
-		command = { trigger = { local_flag = GerAusNAP } type = dissent value = -3 }
+		command = { trigger = { local_flag = GerAusNAP } type = dissent 		value = -3 }
+		command = { trigger = { local_flag = GerAusNAP } type = belligerence 	value = 5  }
 		command = { trigger = { local_flag = GerAusNAP } type = local_clrflag which = GerAusNAP }
 		
 		command = { type = war which = AUS }
@@ -433,7 +434,7 @@ event = {
 		
 		command = { trigger = { NOT = { policy = { type = professional_army value = 4 } } } type = event which = 8300104 where = GER when = 0 } #Switch to 2-year conscription
 		
-		command = { type = event which = 2003013 where = -1 when = 15 } #referendum
+		command = { type = event which = 2003013 where = -1 when = 10 } #referendum
 	}
 }
 
@@ -695,7 +696,7 @@ event = {
 	action = {
 		name = "Take immediate measures to prepare for war"
 		trigger = { NOT = { policy = { type = professional_army value = 5 } } }
-		#command = { trigger = { ai = yes } type = local_setflag which = do_not_demob } #not necessary?
+		command = { type = local_setflag which = do_not_demob } #just in case. sometimes they end up demobing otherwise
 		command = { type = event which = 8300105 where = -1 when = 0 }
 	}
 }
@@ -2016,8 +2017,6 @@ event = {
 		name = "ACTIONNAME2018A"
 		ai_chance = 100
 		command = { type = trigger which = 2007042 }
-		command = { type = end_access which = SOV when = 1 }
-		command = { type = end_access which = SOV when = 0 }
 	}
 	
 	action = {
@@ -2027,7 +2026,8 @@ event = {
 		command = { type = end_access which = SOV when = 1 }
 		command = { type = end_access which = SOV when = 0 }
 		command = { type = setflag which = Pact_Broken }
-		command = { type = belligerence value = 5 }
+		command = { type = belligerence which = SOV	value = -10 }
+		command = { type = belligerence which = GER	value = 10  }
 		
 		#10 dissent total
 		command = { type = end_non_aggression which = GER where = SOV } #Will give 5 dissent
@@ -2055,7 +2055,7 @@ event = {
 	picture = "Mol_Rib"
 
 	action_a = {
-		name = "ACTIONNAME2018A"
+		name = "Sign the treaty"
 		ai_chance = 100
 		command = { type = relation which = GER value = 10 }
 		command = { type = dissent value = -5 }
@@ -2066,45 +2066,37 @@ event = {
 		#Note - don't want to keep Polish territory as "occupied" because this might cause issues later when the USSR comes in 1944/1945
 		#The misc config says that if two nations are not at war - any occupied territory should be given back within 30 days
 		
-		command = { type = removeclaim which = 508 }
-		command = { type = removeclaim which = 7048 }
-		command = { type = removeclaim which = 1876 }
-		command = { type = removeclaim which = 487 }
-		command = { type = removeclaim which = 504 }
-		command = { type = removeclaim which = 3270 }
-		command = { type = add_claim_area which = "Lithuania" where = SOV }
-		
 		command = { trigger = { event = 2003021 } type = removeclaim which = 2606 } #Klaipeda
 		
 		command = { type = relation which = GER value = 10 }
-		command = { type = secedearea which = SOV value = "Grodno" when = 2 }
-		command = { type = secedearea which = SOV value = "Polotsk" when = 2 }
-		command = { type = secedearea which = SOV value = "Brest Litovsk" when = 2 }
-		command = { type = secedearea which = SOV value = "Lvov" when = 2 }
+		command = { type = secedearea which = SOV value = "Grodno" 			when = 2 }
+		command = { type = secedearea which = SOV value = "Polotsk" 		when = 2 }
+		command = { type = secedearea which = SOV value = "Brest Litovsk" 	when = 2 }
+		command = { type = secedearea which = SOV value = "Lvov" 			when = 2 }
 		
-		command = { type = secedeprovince which = SOV value = 3279 	when = 2 }
-		command = { type = secedeprovince which = SOV value = 214 	when = 2 }
-		command = { type = secedeprovince which = SOV value = 7263 	when = 2 }
-		command = { type = secedeprovince which = SOV value = 7980 	when = 2 }
+		command = { type = secedeprovince which = SOV value = 3279 			when = 2 }
+		command = { type = secedeprovince which = SOV value = 214 			when = 2 }
+		command = { type = secedeprovince which = SOV value = 7263 			when = 2 }
+		command = { type = secedeprovince which = SOV value = 7980 			when = 2 }
 		
 		command = { trigger = { OR = { control = { province = 2296 data = SOV } control = { province = 2296 data = GER } } } type = secedeprovince which = GER value = 2296 when = 2 }
 		
-		command = { type = secedeprovince which = GER value = 2628 	when = 2 }
-		command = { type = secedeprovince which = GER value = 486	when = 2 }
-		command = { type = secedearea which = GER value = "Krakow" 	when = 2 }
-		command = { type = secedearea which = GER value = "Poznan" 	when = 2 }
-		command = { type = secedearea which = GER value = "Warsaw" 	when = 2 } #Poland might still exist
-		command = { type = secedearea which = GER value = "East Prussia" } #just to be sure
-		command = { type = secedearea which = GER value = "Brandenburg" } #just to be sure
-		command = { type = secedearea which = GER value = "Silesia" } #just to be sure
-		command = { type = secedearea which = SLO value = "Slovakia" } #just to be sure
-		command = { type = secedearea which = HUN value = "Slovakia" } #just to be sure
-		command = { type = secedearea which = GER value = "Slovakia" } #just to be sure
+		command = { type = secedeprovince which = GER value = 2628 			when = 2 }
+		command = { type = secedeprovince which = GER value = 486			when = 2 }
+		command = { type = secedearea which = GER value = "Krakow" 			when = 2 }
+		command = { type = secedearea which = GER value = "Poznan" 			when = 2 }
+		command = { type = secedearea which = GER value = "Warsaw" 			when = 2 } #Poland might still exist
+		command = { type = secedearea which = GER value = "East Prussia" 			 } #just to be sure
+		command = { type = secedearea which = GER value = "Brandenburg" 			 } #just to be sure
+		command = { type = secedearea which = GER value = "Silesia" 				 } #just to be sure
+		command = { type = secedearea which = SLO value = "Slovakia" 				 } #just to be sure
+		command = { type = secedearea which = HUN value = "Slovakia" 				 } #just to be sure
+		command = { type = secedearea which = GER value = "Slovakia" 				 } #just to be sure
 		
-		command = { type = secedeprovince which = GER value = 504  when = 2 } #Chelm
-		command = { type = secedeprovince which = GER value = 3270 when = 2 } #Chelm
+		command = { type = secedeprovince which = GER value = 504  			when = 2 } #Chelm
+		command = { type = secedeprovince which = GER value = 3270 			when = 2 } #Chelm
 		
-		command = { type = secedeprovince which = GER value = 509 when = 2 }
+		command = { type = secedeprovince which = GER value = 509 			when = 2 }
 		
 		command = { type = province_revoltrisk which = 1884 value = 5  }
 		command = { type = province_revoltrisk which = 7979 value = 5  }
@@ -2134,14 +2126,15 @@ event = {
 		
 		#command = { type = ai_prepare_war which = FIN }
 		command = { type = ai which = "nations\SOV_FIN.ai" }
-		command = { type = trigger which = 2003030 }
+		command = { type = event which = 2003030 where = GER when = 14 } #Give some time to withdraw troops
 	}
 	action = {
 		name = "EVT_2018_ACTB"
 		ai_chance = 0
 		command = { type = relation which = GER value = -30 }
 		command = { type = setflag which = Pact_Broken }
-		command = { type = belligerence value = 10 }
+		command = { type = belligerence which = SOV	value = 10  }
+		command = { type = belligerence which = GER	value = -10 }
 		
 		#10 dissent total
 		command = { type = end_non_aggression which = SOV where = GER } #Will give 5 dissent to USSR
@@ -2165,12 +2158,20 @@ event = {
 		command = { type = relation which = SOV value = 20 }
 		command = { type = belligerence value = -5 }
 		
-		command = { type = addclaim which = 508 }
-		command = { type = addclaim which = 7048 }
-		command = { type = addclaim which = 1876 }
-		command = { type = addclaim which = 487 }
-		command = { type = addclaim which = 504 }
-		command = { type = addclaim which = 3270 }
+		command = { type = removeclaim which = 508				where = SOV }
+		command = { type = removeclaim which = 7048 			where = SOV }
+		command = { type = removeclaim which = 1876				where = SOV }
+		command = { type = removeclaim which = 487				where = SOV }
+		command = { type = removeclaim which = 504				where = SOV }
+		command = { type = removeclaim which = 3270				where = SOV }
+		command = { type = add_claim_area which = "Lithuania" 	where = SOV }
+		
+		command = { type = addclaim which = 508					where = GER }
+		command = { type = addclaim which = 7048				where = GER }
+		command = { type = addclaim which = 1876				where = GER }
+		command = { type = addclaim which = 487					where = GER }
+		command = { type = addclaim which = 504					where = GER }
+		command = { type = addclaim which = 3270				where = GER }
 		command = { type = remove_claim_area which = "Lithuania" where = GER }
 
 		command = { type = oilpool value = 2000 }
@@ -2215,6 +2216,9 @@ event = {
 		command = { type = province_revoltrisk which = 7049	value = 5  }
 		command = { type = province_revoltrisk which = 7050	value = 5  }
 		command = { type = province_revoltrisk which = 7262	value = 5  }
+		
+		command = { type = end_access which = SOV when = 1 }
+		command = { type = end_access which = SOV when = 0 }
 	}
 }
 
@@ -2244,7 +2248,7 @@ event = {
 	}
 	decision_trigger = {
 		control = { province = 485 data = -3 } # Warzaw
-		control = { province = 56 data = -3 } # Paris
+		control = { province = 56  data = -3 } # Paris
 		control = { province = 300 data = -3 } # Berlin
 		non_aggression = { country = GER country = SOV } 
 	}
@@ -2261,7 +2265,7 @@ event = {
 			} 
 		}
 		control = { province = 485 data = -3 } # Warzaw
-		control = { province = 56 data = -3 } # Paris
+		control = { province = 56  data = -3 } # Paris
 		control = { province = 300 data = -3 } # Berlin
 		non_aggression = { country = GER country = SOV } 
 		NOT = {
@@ -2321,7 +2325,8 @@ event = {
 		command = { type = relation which = GER value = -50 }
 		command = { type = embargo which = SOV where = GER value = 1 }
 		command = { type = dissent value = 1 }
-		command = { type = end_non_aggression which = SOV where = GER } #Will give dissent!
+		command = { type = belligerence which = SOV	value = 1  }
+		command = { type = belligerence which = GER	value = -2 }
 	}
 }
 
@@ -2458,12 +2463,12 @@ event = {
 		exists = POL
 		#atwar = no
 		government = fascist		
+		region = { region = Austria country = -3 }
 		OR = {
-			event = { id = 2003025 days = 15  } 
+			event = 2003025
 			event = 2003026 #pact rejected
 			control = { province = 56 data = -3 } #Paris
 		}
-		region = { region = Austria country = -3 }
 		OR = {
 			event = 2003011 # Germany demands Sudetenland
 			control = { province = 469 data = -3 } #Prague in friendly hands
@@ -2480,6 +2485,11 @@ event = {
 	}
 	
 	decision_trigger = {
+		OR = {
+			event = { id = 2003025 days = 15  } 
+			event = 2003026 #pact rejected
+			control = { province = 56 data = -3 } #Paris
+		}
 		NOT = { owned = { province = 181 data = GER } } # Danzig
 		NOT = { alliance = { country = GER country = POL } }
 		NOT = { war = { country = GER country = POL } }
@@ -2538,7 +2548,8 @@ event = {
 		name = "ACTIONNAME2027A" # Final Ultimatum - Danzig or War
 		command = { type = relation which = ENG value = -30 }
 		command = { type = relation which = VIC value = -30 }   
-		command = { type = belligerence which = GER value = 1 }
+		command = { type = belligerence which = GER value = 3  }
+		command = { type = belligerence which = POL	value = -3 }
 		command = { type = end_non_aggression which = POL where = GER }        
 		command = { type = trigger which = 2013002 } # POL
 	}
@@ -2570,9 +2581,9 @@ event = {
 		#command = { type = sleepevent which = 2001032 }
 		command = { type = dissent value = -5 }
 		command = { type = songs which = ChamberlainDeclaresWar.txt }
-		#command = { trigger = { ai = yes } type = local_setflag which = do_not_demob } #not necessary?
+		command = { trigger = { ai = yes } type = local_setflag which = do_not_demob } #not necessary?
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = trigger which = 8300105 }
-		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = event which = 13500053 where = POL when = 360 } #allow AI demob
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = event which = 13500053 where = POL when = 720 } #allow AI demob
 	}
 	action = { 
 		name = "ACTIONNAME3601B" # Fold
@@ -2719,9 +2730,9 @@ event = {
 		#command = { type = sleepevent which = 2001032 }
 		command = { type = dissent value = -5 }
 		command = { type = songs which = ChamberlainDeclaresWar.txt }
-		#command = { trigger = { ai = yes } type = local_setflag which = do_not_demob } #not necessary?
+		command = { trigger = { ai = yes } type = local_setflag which = do_not_demob } #not necessary?
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = trigger which = 8300105 }
-		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = event which = 13500053 where = POL when = 360 } #allow AI demob
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = event which = 13500053 where = POL when = 720 } #allow AI demob
 	}
 	action = { 
 		name = "ACTIONNAME3601B" # Fold
@@ -2814,7 +2825,7 @@ event = {
 	}
 	name = "Independent Norway"
 	desc = "The National Government, otherwise known as the Quisling regime, was a fascist collaboration government led by Vidkun Quisling in German-occupied Norway during the Second World War. The government had little authority as the actual executive power was retained by the Reichskommissariat Norwegen, headed by Josef Terboven."
-	style = 0
+	style = 2
 	picture = "Croatia"
 
 	date = { day = 1 month = january year = 1936 }
@@ -2831,9 +2842,6 @@ event = {
 	}
 }
 
-#########################################################################
-#  Independent Norway
-#########################################################################
 event = { 
 	id = 203203
 	random = no
@@ -2844,7 +2852,7 @@ event = {
 	name = "Independent Norway"
 	desc = "The National Government, otherwise known as the Quisling regime, was a fascist collaboration government led by Vidkun Quisling in German-occupied Norway during the Second World War. The government had little authority as the actual executive power was retained by the Reichskommissariat Norwegen, headed by Josef Terboven."
     picture = "independent_croatia"
-	style = 0
+	style = 2
 
 	action = {
 		name = "ACTIONNAME2032A"
@@ -2858,6 +2866,59 @@ event = {
 		
 		#command = { type = add_corps which = "Norwegian Army" value = land where = 483 }
 		#command = { type = add_division which = "1st Norwegian Division" value = infantry when = 10 }
+	}
+}
+
+
+event = {
+	id = 203104
+	random = no
+	country = GER
+	style = 2
+
+	trigger = {
+		region = { region = "Norway" country = -3 value = 95 }
+	}
+
+	name = "Norway secured"
+	desc = "The Norwegian campaign ended in decisive German victory and saw the escape of King Haakon VII and Crown Prince Olav to the United Kingdom. A British, French and Polish expeditionary force of 38,000 troops was not able to make a difference and had to make a rapid strategic retreat after the Battle of France began. The Norwegian government then went into exile in London. The campaign ended with the occupation of the entirety of Norway by Germany but small elements of the Norwegian military escaped and fought on overseas."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = dissent value = -0.5 } 
+		command = { type = province_revoltrisk which = 104   	value = -15  }
+		command = { type = province_revoltrisk which = 107   	value = -17  }
+		command = { type = province_revoltrisk which = 108   	value = -15  }
+		command = { type = province_revoltrisk which = 109   	value = -15  }
+		command = { type = province_revoltrisk which = 110   	value = -15  }
+		command = { type = province_revoltrisk which = 111   	value = -15  }
+		command = { type = province_revoltrisk which = 112   	value = -15  }
+		command = { type = province_revoltrisk which = 114   	value = -15  }
+		command = { type = province_revoltrisk which = 116   	value = -15  }
+		command = { type = province_revoltrisk which = 117   	value = -15  }
+		command = { type = province_revoltrisk which = 118   	value = -15  }
+		command = { type = province_revoltrisk which = 124   	value = -15  }
+		command = { type = province_revoltrisk which = 125   	value = -15  }
+		command = { type = province_revoltrisk which = 128   	value = -15  }
+		command = { type = province_revoltrisk which = 129   	value = -15  }
+		command = { type = province_revoltrisk which = 2276   	value = -15  }
+		command = { type = province_revoltrisk which = 3290   	value = -15  }
+		command = { type = province_revoltrisk which = 3291   	value = -15  }
+		command = { type = province_revoltrisk which = 3292   	value = -15  }
+		command = { type = province_revoltrisk which = 3293   	value = -15  }
+		command = { type = province_revoltrisk which = 3294   	value = -15  }
+		command = { type = province_revoltrisk which = 3295   	value = -15  }
+		command = { type = province_revoltrisk which = 3296   	value = -15  }
+		command = { type = province_revoltrisk which = 3297   	value = -15  }
+		command = { type = province_revoltrisk which = 3298   	value = -15  }
+		command = { type = province_revoltrisk which = 3299   	value = -15  }
+		command = { type = province_revoltrisk which = 7170   	value = -15  }
+		command = { type = province_revoltrisk which = 7171   	value = -15  }
 	}
 }
 
@@ -3041,7 +3102,6 @@ event = {
 	
 	decision = {
 		exists = BEL
-		exists = HOL
 		OR = {
 			war = { country = VIC }
 			control = { province = 485 data = -3 } # Warzaw
@@ -3070,7 +3130,6 @@ event = {
 	
 	trigger = {
 		exists = BEL
-		exists = HOL
 		control = { province = 485 data = -3 } # Warzaw
 		NOT = { control = { province = 68 data = -1 } } #Liege
 		OR = { 
@@ -3083,7 +3142,6 @@ event = {
 			war = { country = HOL }
 			war = { country = BEL }
 			war = { country = SOV }
-			region = { region = "Poland" country = -2 data = 1 value = 1 }
 		}
 		OR = {
 			event = { id = 2007042 days = 60 } #Eastern Poland to USSR
@@ -3251,31 +3309,24 @@ event = {
 			}
 			NOT = { war = { country = ENG } } #finished war in the west, or England never guaranteed Poland
 		}
-		#local_flag = GERInvadeRussia
 		OR = {
-			NOT = {
-				area 	= { area 	= "North England"	country = -2 value = 1 }
-				area 	= { area 	= "West England"	country = -2 value = 1 }
-				area 	= { area 	= "East England"	country = -2 value = 1 }
-			}
-			NOT = {
-				region 	= { region 	= "Scotland"		country = GER value = 1 } #Sealion
-				area 	= { area 	= "North England"	country = GER value = 1 } #Sealion
-				area 	= { area 	= "West England"	country = GER value = 1 } #Sealion
-				area 	= { area 	= "East England"	country = GER value = 1 } #Sealion
-			}
+			NOT = { flag = ENG_invaded }
+			NOT = { region = { region = "England" country = -2 value = 10 } }
 		}
 		NOT = { lost_national = { country = GER value = 2 } }
 		NOT = { war = { country = SPA } }
 		NOT = { war = { country = SPR } }
 		NOT = { war = { country = YUG } }
-		NOT = { 
-			AND = {
-				exists = YUG
-				event = 2003056
-				NOT = { local_flag = ignore_YUG }
-				NOT = { alliance = { country = YUG } }
-			}
+		OR = {
+			NOT = { event = 2003056 }
+			alliance = { country = YUG }
+			local_flag = ignore_YUG
+			event = { id = 203120 days = 25 } #after defeat of YUG
+		}
+		OR = { 
+			NOT = { event = 14000020 }
+			alliance = { country = GRE }
+			event = { id = 2022023 days = 25 } #after defeat of GRE
 		}
 		
 		NOT = { war = { country = ENG country = SOV } } #do even if UK and USSR are at war?
@@ -3319,7 +3370,9 @@ event = {
 		#Will give net +2 dissent if there was a non-aggression pact. Otherwise, no dissent.
 		command = { trigger = { non_aggression = { country = GER country = SOV } } type = local_setflag which = GerSovNAP }
 		command = { trigger = { local_flag = GerSovNAP } type = end_non_aggression which = GER where = SOV } #will give 5 dissent
-		command = { trigger = { local_flag = GerSovNAP } type = dissent value = -3 }
+		command = { trigger = { local_flag = GerSovNAP } type = dissent 					value = -3  }
+		command = { trigger = { local_flag = GerSovNAP } type = belligerence which = GER	value = 10  }
+		command = { trigger = { local_flag = GerSovNAP } type = belligerence which = SOV	value = -10 }
 		command = { trigger = { local_flag = GerSovNAP } type = local_clrflag which = GerSovNAP }
 		
 		command = { type = end_trades which = GER where = SOV }
@@ -3330,6 +3383,12 @@ event = {
 		command = { trigger = { ai = yes } type = local_clrflag which = sovPrep 		}
 		command = { trigger = { ai = yes } type = local_clrflag which = garSpec 		}
 		command = { trigger = { ai = yes } type = local_setflag which = gar value = 30  }
+		
+		command = { trigger = { war = { country = U42 country = SOV } } type = war which = U42 } 
+		command = { trigger = { war = { country = EST country = SOV } NOT = { alliance = { country = EST country = ENG } } } type = alliance which = EST }
+		command = { trigger = { war = { country = LAT country = SOV } NOT = { alliance = { country = LAT country = ENG } } } type = alliance which = LAT }
+		command = { trigger = { war = { country = LIT country = SOV } NOT = { alliance = { country = LIT country = ENG } } } type = alliance which = LIT }
+		command = { trigger = { war = { country = FIN country = SOV } NOT = { alliance = { country = FIN country = ENG } } } type = alliance which = FIN }
 	}
 }
 ############################################
@@ -3403,8 +3462,10 @@ event = {
 	decision_trigger = {
 		flag = SPA_GERAssistFlag # GER intervention in SCW
 		NOT = { flag = SPA_ENGAssistFlag }
-		garrison = { country = GER province = 326 type = land size = 9 area = 1 } #Spanish border
-		relation = { which = SPA value = 100 }
+		OR = {
+			garrison = { country = GER province = 326 type = land size = 9 area = 1 } #Spanish border
+			relation = { which = SPA value = 100 }
+		}
 		control = { province = 56 data = -3 } # Paris
 		NOT = { alliance = { country = VIC } }
 		event = { id = 2002004 days = 60 } #at least 2 months after the defeat of France
@@ -3632,29 +3693,25 @@ event = {
 		command = { type = relation which = SPA value =   50 }
 		command = { type = relation which = VIC value = -100 }
 		command = { type = sleepevent which = 2003048 } # Montoire
-		command = { type = dissent value = 2 }
+		command = { type = dissent value = 1 }
 		#Investment into Spain. Will pay off after a year
 		command = { type = money value = -500 } #effort involved in investment/factory relocation
 		command = { type = construct which = ic where = -4 value = -1 }
 		command = { type = construct which = ic where = -4 value = -1 }
 		
-		#Germany takes on some Spanish debt. Due to the size difference between the German and Spanish economies, -3 wardebt/warruin for spain is treated as +1 wardebt for Germany
-		#Spain's approximate debt/ruin by the end of SCW:
-		#WARDebt = 15 
-		#WARRuin = 30 
-		command = { type = local_setflag which = WARDebt when = 1 value = 3 }
+		#command = { type = local_setflag when = 1	which = RepPay1	value = 2 }
 		
 		command = { type = event which = 2025009 where = SPA when = 360 }
 		
 		command = { type = trade which = GER where = SPA oil = -5 supplies = -20 value = 1 when = 1800 } #5 years
-		command = { type = secederegion which = SPA value = "Morocco" when = 1 }
-		command = { type = secederegion which = SPA value = "Cameroon" when = 1 }
-		command = { type = secedeprovince which = SPA value = 950 when = 1 }
-		command = { type = secedeprovince which = SPA value = 2911 when = 1 }
-		command = { type = secedeprovince which = SPA value = 953 when = 1 }
-		command = { type = secedeprovince which = SPA value = 4530 when = 1 }
-		command = { type = secedeprovince which = SPA value = 2781 when = 1 }
-		command = { type = secedeprovince which = SPA value = 4418 when = 1 }
+		command = { type = secederegion which = SPA value = "Morocco" 	when = 1 }
+		command = { type = secederegion which = SPA value = "Cameroon" 	when = 1 }
+		command = { type = secedeprovince which = SPA value = 950		when = 1 }
+		command = { type = secedeprovince which = SPA value = 2911 		when = 1 }
+		command = { type = secedeprovince which = SPA value = 953 		when = 1 }
+		command = { type = secedeprovince which = SPA value = 4530 		when = 1 }
+		command = { type = secedeprovince which = SPA value = 2781 		when = 1 }
+		command = { type = secedeprovince which = SPA value = 4418 		when = 1 }
 		command = { type = trigger which = 2008002 } # Spain joins the Axis!
 	}
 	action = {
@@ -3682,12 +3739,7 @@ event = {
 
 		command = { type = dissent value = 10 } # Not a puppet, but high initial dissent
 		
-		#Germany takes on some Spanish debt. Due to the size difference between the German and Spanish economies, -3 wardebt/warruin for spain is treated as +1 wardebt for Germany
-		#Spain's approximate debt/ruin by the end of SCW:
-		#WARDebt = 15 
-		#WARRuin = 30 
-		command = { type = local_setflag which = WARDebt when = 1 value = -3 }
-		command = { type = local_setflag which = WARRuin when = 1 value = -6 }
+		#command = { type = local_setflag when = 1	which = RepRec3	value = 2 }
 		
 		command = { type = alliance which = GER when = 1 }
 		command = { type = relation which = GER value = 100 }
@@ -3715,8 +3767,8 @@ event = {
 	action = {
 		name = "ACTION_NAME_GREAT" #Great
 		command = { type = dissent value = -1 }
-		command = { type = construct which = ic where = -1 value = 1 }
-		command = { type = construct which = ic where = -1 value = 1 }
+		command = { type = construct which = ic where = 341 value = 1 } #Madrid
+		command = { type = construct which = ic where = 357 value = 1 } #Barcelona
 	}
 }
 
@@ -3741,9 +3793,11 @@ event = {
 		NOT = { event = 2008002 } #Agreed to Spanish terms at Hendaya
 		event = 2003047 # German 1940 diplomatic offensive
 		control = { province = 56 data = -3 } # Paris
-		relation = { which = VIC value = 100 }
-		garrison = { country = GER province = 3168 type = land size = 9 area = 1 } #Vichy border
-		garrison = { country = GER province = 61 type = land size = 9 area = 1 } #Vichy border
+		OR = {
+			relation = { which = VIC value = 100 }
+			garrison = { country = GER province = 3168 type = land size = 9 area = 1 } #Vichy border
+			garrison = { country = GER province = 61 type = land size = 9 area = 1 } #Vichy border
+		}
 		NOT = { war = { country = USA } }
 		NOT = { 
 			event = 2003200
@@ -4124,13 +4178,10 @@ event = {
 		event = { id = 2003047 days = 150 } #5 months minimum
 		alliance = { country = HUN }
 		alliance = { country = ROM }
-		OR = { 
-			alliance = { country = GRE }
-			war = { country = GRE }
-			war = { country = ALB }
+		OR = {
+			relation = { which = YUG value = 100 }
+			garrison = { country = -1 province = 3217 type = land size = 9 area = 1 }  # Graz, Austria Area
 		}
-		relation = { which = YUG value = 100 }
-		garrison = { country = -1 province = 3217 type = land size = 9 area = 1 }  # Graz, Austria Area
 		NOT = { 
 			event = 2003200
 			lost_national = { value = 20 }
@@ -4152,7 +4203,8 @@ event = {
 		}
 		OR = {
 			AND = { year = 1941 month = february } 
-			event = { id = 2003047 days = 120 } #4 months minimum
+			event = { id = 2003047 	days = 210 } #7 months minimum
+			event = { id = 14000022 days = 60  } #Italy and Greece have been fighting for two months
 		}
 		alliance = { country = HUN }
 		#alliance = { country = ROM }
@@ -4292,7 +4344,7 @@ event = {
 
 	action = {
 		name = EVT_6_ACTA
-		ai_chance = 90
+		ai_chance = 97
 		command = { type = end_access which = GER }
 		command = { type = dissent value = -15 } #Some dissent removed, but deep divisions remain
 		command = { type = leave_alliance when = 1 }
@@ -4324,7 +4376,7 @@ event = {
 	}
 	action = {
 		name = ACTION_NAME_THE_COUP_HAS_FAILED
-		ai_chance = 10
+		ai_chance = 3
 		command = { type = dissent value = 5 }
 		command = { trigger = { NOT = { alliance = { country = GER } } } type = alliance which = GER when = 1 }
 		command = { trigger = { NOT = { event = 2003056 } } type = sleepevent which = 2003056 }
@@ -4382,7 +4434,7 @@ event = {
 		NOT = { alliance = { country = SOV country = TUR } }
 		NOT = { alliance = { country = ENG country = TUR } }
 		control = { province = 300 data = -3 } # Berlin
-		control = { province = 56 data = -3 }  # Paris
+		control = { province = 56  data = -3 }  # Paris
 	}
 	
 	decision_trigger = {
@@ -4390,19 +4442,26 @@ event = {
 		control = { province = 238 data = -3 } # Kiev
 		control = { province = 424 data = -3 } # Bucharest
 		control = { province = 417 data = -3 } # Sofia
-		control = { province = 401 data = -3 } # Athenes
-		control = { province = 253 data = -3 } # Sebastopol
+		control = { province = 401 data = -3 } # Athens
+		control = { province = 253 data = -3 } # Sevastopol
 		OR = {
-			control = { province = 163 data = -3 } # Stalingrad
 			flag = TurkeyUpsetAtAllies
+			AND = {
+				control = { province = 163  data = -3 } # Stalingrad
+				OR = {
+					control = { province = 903  data = -3 } # Cairo
+					control = { province = 1907 data = -3 } # Baku
+				}
+			}
+			AND = {
+				NOT = {	ai = SOV }
+				NOT = { garrison = { province = 1848 country = SOV type = land size = 8 area = 1 } } #at least 8 divisions in Georgia area
+			}
 		}
 		OR = {
-			control = { province = 903 data = -3 } # Cairo
-			control = { province = 1907 data = -3 } # Baku
-			flag = TurkeyUpsetAtAllies
+			relation = { which = TUR value = 100 }
+			garrison = { country = -1 province = 417 type = land size = 9 area = 3 }  # Sofia area + 
 		}
-		relation = { which = TUR value = 100 }
-		garrison = { country = -1 province = 417 type = land size = 9 area = 3 }  # Sofia area + 
 		NOT = { 
 			event = 2003200
 			lost_national = { value = 20 }
@@ -4418,18 +4477,18 @@ event = {
 		NOT = { alliance = { country = SOV country = TUR } }
 		NOT = { alliance = { country = ENG country = TUR } }
 		control = { province = 300 data = -3 } # Berlin
-		control = { province = 56 data = -3 }  # Paris
+		control = { province = 56  data = -3 } # Paris
 		control = { province = 238 data = -3 } # Kiev
 		control = { province = 424 data = -3 } # Bucharest
 		control = { province = 417 data = -3 } # Sofia
 		control = { province = 401 data = -3 } # Athens
-		control = { province = 253 data = -3 } # Sebastopol
+		control = { province = 253 data = -3 } # Sevastopol
 		OR = {
-			control = { province = 163 data = -3 } # Stalingrad
+			control = { province = 163  data = -3 } # Stalingrad
 			flag = TurkeyUpsetAtAllies
 		}
 		OR = {
-			control = { province = 903 data = -3 } # Cairo
+			control = { province = 903  data = -3 } # Cairo
 			control = { province = 1907 data = -3 } # Baku
 			flag = TurkeyUpsetAtAllies
 		}
@@ -5300,7 +5359,7 @@ event = {
 	}
 	trigger = {
 		#ai = no #disabled
-			war = { country = ENG }
+		war = { country = ENG }
 		exists = SWE
 		NOT = { war = { country = SWE } }
 		NOT = { alliance = { country = SWE } }
@@ -5333,7 +5392,8 @@ event = {
 
 	action = {
 		name = "Germany goes north" 
-		command = { type = belligerence value = 2 }
+		command = { type = dissent 		value = 1  }
+		command = { type = belligerence value = 10 }
 		command = { trigger = { puppet = { country = DEN country = GER } } type = alliance which = DEN }
 		command = { type = end_access which = SWE when = 0 }
 		command = { type = end_access which = SWE when = 1 }
@@ -5341,6 +5401,92 @@ event = {
 		command = { type = relation which = USA value = -20 }
 		command = { type = relation which = SOV value = -20 }
 		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = SWE value = 1 }
+	}
+}
+
+#Spain invasion
+event = {
+	id = 2001017
+	random = no
+	country = GER
+	
+	name = "Invasion of Spain"
+	desc = "After the fall of France, Germany turned its attention back to the unfinished business in Spain, aiming to secure once and for all the western entrance to the Mediterranean sea."
+	style = 2
+	picture = "SCW_German_Intervention"
+
+	decision = {
+		war = { country = ENG }
+		OR = {
+			exists = SPR
+			exists = SPA
+			exists = U69
+			exists = U52
+		}
+		NOT = { 
+			war = { country = SPR }
+			war = { country = SPA }
+			war = { country = U69 }
+			war = { country = U52 }
+		}
+		NOT = { 
+			alliance = { country = SPR }
+			alliance = { country = SPA }
+			alliance = { country = U69 }
+			alliance = { country = U52 }
+		}
+	}
+	decision_trigger = {
+	}
+	trigger = {
+		ai = no #disabled
+		war = { country = ENG }
+		OR = {
+			exists = SPR
+			exists = SPA
+			exists = U69
+			exists = U52
+		}
+		NOT = { 
+			war = { country = SPR }
+			war = { country = SPA }
+			war = { country = U69 }
+			war = { country = U52 }
+		}
+		NOT = { 
+			alliance = { country = SPR }
+			alliance = { country = SPA }
+			alliance = { country = U69 }
+			alliance = { country = U52 }
+		}
+		event = { id = 2003036 days = 120 } #Danzig or war 
+		NOT = { control = { province = 348 data = -3 } }
+		NOT = { war = { country = SOV } }
+		NOT = { alliance = { country = SOV country = SPR } }
+		control = { province = 56 data = -3 } #Paris
+		NOT = { region = { region = "France" country = -2 data = 1 value = 10 } }
+	}
+
+	date = { day = 2 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1970 }
+
+	action = {
+		name = "Germany goes west" 
+		command = { type = dissent 		value = 1  }
+		command = { type = belligerence value = 10 }
+		command = { type = end_access which = SPA when = 0 }
+		command = { type = end_access which = SPA when = 1 }
+		command = { type = war which = SPR }
+		command = { type = war which = SPA }
+		command = { type = war which = U69 }
+		command = { type = war which = U52 }
+		command = { type = war which = EUS }
+		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = SPR value = 1 }
+		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = SPA value = 1 }
+		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = U69 value = 1 }
+		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = U52 value = 1 }
+		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = EUS value = 1 }
 	}
 }
 
@@ -6078,8 +6224,8 @@ event = {
 		OR = {
 			garrison = { country = -1 province = 2329 type = land size = 9 area = 3 }  # Eisenstadt, Austria Area
 			garrison = { country = -1 province = 476 type = land size = 9 area = 3 }  # Bratislava, Slovakia Area
+			relation = { which = HUN value = 100 }
 		}
-		relation = { which = HUN value = 100 }
 		NOT = { 
 			event = 2003200
 			lost_national = { value = 20 }
@@ -6168,8 +6314,10 @@ event = {
 			war = { country = BUL country = SOV }
 			region = { region = "Balkan" country = -3 data = 1 value = 60 } 
 		}
-		garrison = { country = -1 province = 426 type = land size = 9 area = 3 }  # Craiova area + 
-		relation = { which = BUL value = 100 }
+		OR = {
+			garrison = { country = -1 province = 426 type = land size = 9 area = 3 }  # Craiova area + 
+			relation = { which = BUL value = 100 }
+		}
 		NOT = { 
 			event = 2003200
 			lost_national = { value = 20 }
@@ -6252,8 +6400,8 @@ event = {
 		OR = {
 			garrison = { country = -1 province = 497 type = land size = 9 area = 3 }  # Debrecen area + 
 			war = { country = ROM country = SOV }
+			relation = { which = ROM value = 100 }
 		}
-		relation = { which = ROM value = 100 }
 		NOT = { 
 			event = 2003200
 			lost_national = { value = 20 }
@@ -6358,8 +6506,10 @@ event = {
 	decision_trigger = {
 		region = { region = "Balkan" country = -3 data = 1 value = 50 } 
 		region = { region = "Anatolia" country = -3 data = 1 value = 50 }
-		garrison = { country = -1 province = 417 type = land size = 9 area = 3 }  # Sofia area + 
-		relation = { which = GRE value = 100 }
+		OR = {
+			garrison = { country = -1 province = 417 type = land size = 9 area = 3 }  # Sofia area + 
+			relation = { which = GRE value = 100 }
+		}
 		NOT = { 
 			event = 2003200
 			lost_national = { value = 20 }
@@ -6553,8 +6703,8 @@ event = {
 			garrison = { country = -1 province = 125 type = land size = 9 area = 3 }  # Norway region + (Sweden must know that it won't fight alone)
 			garrison = { country = -1 province = 142 type = land size = 9 area = 3 }  # Finland region + 
 			war = { country = SWE country = SOV }
+			relation = { which = SWE value = 100 }
 		}
-		relation = { which = SWE value = 100 }
 		NOT = { 
 			event = 2003200
 			lost_national = { value = 20 }
@@ -6630,8 +6780,10 @@ event = {
 		under_attack = GER #Only if Germany was attacked
 		NOT = { war = { country = USA } }
 		alliance = { country = SPA } #Only if Germany and Spain are allied
-		garrison = { country = -1 province = 341 type = land size = 12 area = 3 }  # Spain region (Portugal must know that it won't fight alone)
-		relation = { which = POR value = 100 }
+		OR = {
+			garrison = { country = -1 province = 341 type = land size = 12 area = 3 }  # Spain region (Portugal must know that it won't fight alone)
+			relation = { which = POR value = 100 }
+		}
 		NOT = { 
 			event = 2003200
 			lost_national = { value = 20 }
@@ -6891,7 +7043,12 @@ event = {
 		OR = {
 			NOT = { war = { country = GER country = VIC } }
 			control = { province = 56 data = GER } # Paris
-			NOT = { country = POR country = SPA } #Spain/Portugal will only join if France falls
+			NOT = { 
+				country = POR
+				country = SPA
+				country = TUR
+				country = GRE
+			} #Will only join if France falls
 		}
 		OR = {
 			ideology = nazi

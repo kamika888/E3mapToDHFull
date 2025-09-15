@@ -325,7 +325,7 @@ event = {
 		war = { country = GER } 
 		OR = {
 			flag = WesternBetrayal #Allies failed to deploy sufficient troops
-			NOT = { region = { region = "Benelux" country = -3 data = 1 value = 1 } }
+			#NOT = { region = { region = "Benelux" country = -3 data = 1 value = 1 } }
 			AND = {
 				area = { area = "Netherlands" country = -2 data = 1 value = 50 }
 				control = { province = 77   data = -2 }
@@ -344,7 +344,7 @@ event = {
 	picture = "news_paper"
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 2
+	offset = 1
 	deathdate = { day = 0 month = december year = 1946 }
 
 	action_a = {
@@ -388,6 +388,8 @@ event = {
 		command = { trigger = { technology = 3830 NOT = { technology = 3840 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 2 }
 		command = { trigger = { technology = 3840 NOT = { technology = 3850 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 3 }
 		command = { trigger = { technology = 3850 NOT = { technology = 3860 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 4 }
+		
+		command = { type = belligerence value = -1 }
 	}
 }
 
@@ -408,6 +410,18 @@ event = {
 		command = { trigger = { technology = 3830 NOT = { technology = 3840 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 2 }
 		command = { trigger = { technology = 3840 NOT = { technology = 3850 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 3 }
 		command = { trigger = { technology = 3850 NOT = { technology = 3860 } } type = add_division which = "Dutch Transports Fleet" value = transport when = 4 }
+		
+		command = { type = province_revoltrisk which = 46   	value = 5  }
+		command = { type = province_revoltrisk which = 47   	value = 5  }
+		command = { type = province_revoltrisk which = 48   	value = 2  }
+		command = { type = province_revoltrisk which = 49   	value = 2  }
+		command = { type = province_revoltrisk which = 77   	value = 2  }
+		command = { type = province_revoltrisk which = 78   	value = 2  }
+		command = { type = province_revoltrisk which = 79   	value = 2  }
+		command = { type = province_revoltrisk which = 1019  	value = 2  }
+		command = { type = province_revoltrisk which = 1082  	value = 2  }
+		command = { type = province_revoltrisk which = 7043  	value = 2  }
+		command = { type = province_revoltrisk which = 7191  	value = 2  }
 	}
 }
 
@@ -489,6 +503,8 @@ event = {
 		command = { trigger = { technology = 3830 NOT = { technology = 3840 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 2 }
 		command = { trigger = { technology = 3840 NOT = { technology = 3850 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 3 }
 		command = { trigger = { technology = 3850 NOT = { technology = 3860 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 4 }
+		
+		command = { type = belligerence value = -1 }
 	}
 }
 
@@ -510,6 +526,18 @@ event = {
 		command = { trigger = { technology = 3830 NOT = { technology = 3840 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 2 }
 		command = { trigger = { technology = 3840 NOT = { technology = 3850 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 3 }
 		command = { trigger = { technology = 3850 NOT = { technology = 3860 } } type = add_division which = "Belgian Transports Fleet" value = transport when = 4 }
+		
+		command = { type = province_revoltrisk which = 45   	value = 2  }
+		command = { type = province_revoltrisk which = 50   	value = 5  }
+		command = { type = province_revoltrisk which = 51   	value = 5  }
+		command = { type = province_revoltrisk which = 52   	value = 2  }
+		command = { type = province_revoltrisk which = 65   	value = 2  }
+		command = { type = province_revoltrisk which = 68   	value = 2  }
+		command = { type = province_revoltrisk which = 69   	value = 2  }
+		command = { type = province_revoltrisk which = 70   	value = 2  }
+		command = { type = province_revoltrisk which = 71   	value = 2  }
+		command = { type = province_revoltrisk which = 2292  	value = 2  }
+		command = { type = province_revoltrisk which = 7044  	value = 2  }
 	}
 }
 
@@ -2406,9 +2434,10 @@ event = {
 	action = {
 		name = "Destroy the Fascists!"
 		command = { trigger = { non_aggression = { country = GER country = SOV } } type = local_setflag which = GerSovNAP }
-		command = { trigger = { local_flag = GerSovNAP } type = end_non_aggression which = GER where = SOV } #Will give 5 dissent to GERMANY
-		command = { trigger = { local_flag = GerSovNAP } type = event which = 2003064 where = GER when = 0 } #Undoing German dissent
-		command = { trigger = { local_flag = GerSovNAP } type = dissent value = 2 }
+		command = { trigger = { local_flag = GerSovNAP } type = end_non_aggression which = SOV where = GER } #Will give 5 dissent
+		command = { trigger = { local_flag = GerSovNAP } type = dissent 					value = -3 }
+		command = { trigger = { local_flag = GerSovNAP } type = belligerence which = SOV	value = 5  }
+		command = { trigger = { local_flag = GerSovNAP } type = belligerence which = GER	value = -5 }
 		command = { trigger = { local_flag = GerSovNAP } type = local_clrflag which = GerSovNAP }
 		
 		command = { type = war which = GER }
@@ -2947,6 +2976,7 @@ event = {
 		ai_chance = 1
 		command = { type = end_puppet }
 		command = { type = leave_alliance when = 1 }
+		command = { type = event which = 2400530 where = EGY when = 0 } #legit indie
 		command = { type = war which = ENG }
 		command = { type = add_division value = militia when = 4 }
 		command = { type = add_division value = militia when = 4 }
@@ -3064,9 +3094,10 @@ event = {
 	
 	trigger = {
 		OR = {
-			NOT = { ai = ENG }
+			#NOT = { ai = ENG }
 			war = { country = IRQ country = ENG } 
-			alliance = { country = IRQ country = ENG } 
+			event = 2074001
+			#alliance = { country = IRQ country = ENG } 
 		}
 	}
 
@@ -3117,7 +3148,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 10
+	offset = 5
 	deathdate = { day = 0 month = january year = 2000 }
 
 	name = 472name
@@ -3131,6 +3162,7 @@ event = {
 		command = { type = set_domestic which = political_left value = 2 }
 		command = { type = leave_alliance when = 1 }
 		command = { type = end_puppet }
+		command = { type = event which = 2400530 where = EGY when = 0 } #legit indie
 		command = { type = access which = ENG }
 		command = { type = access which = GER }
 		command = { type = access which = ITA }
@@ -3155,7 +3187,7 @@ event = {
 event = {
 	id = 2003085
 	random = no
-	country = ITA
+	#country = ITA
 	style = 2
 
 	name = 473name
@@ -3168,6 +3200,11 @@ event = {
 		command = { type = add_claim_area	which = "Suez Channel Area" }
 		command = { type = make_puppet which = EGY }
 		command = { type = event which = 2400536 where = EGY when = 0 } #Medium puppet
+		
+		command = { trigger = { ai = EGY } type = event which = 2400013 where = EGY when = 0 } #Gar30+remove controlDeny
+		
+		command = { trigger = { country = ITA } type = military_control which = ITA where = EGY value = 1 }
+		command = { trigger = { country = GER } type = military_control which = GER where = EGY value = 1 }
 		command = { type = dissent value = -1 }
 	}
 }
@@ -3214,7 +3251,7 @@ event = {
 
 	action = {
 		name = "Liberate the North!"
-		command = { type = dissent value = 5 }
+		#command = { type = dissent value = 5 }
 		command = { type = set_domestic which = political_left value = 3 } #Nationalist
 		command = { type = war 		which = ENG }
 		command = { type = alliance which = GER when = 1 }
@@ -3732,8 +3769,7 @@ event = {
 	
 	action = {
 		name = "We will have a true friend in Poland!"
-		command = { type = activate_division which = 10848 value = 8600 where = 8001 when = 0 }
-		command = { type = independence which = U32 value = 0 } #garrison switches sides
+		command = { type = independence which = U32 value = 1 }
 		command = { type = make_puppet which = U32 }
 		command = { type = event which = 2400537 where = U32 when = 0 } #medium puppet
 		command = { type = relation which = POL value = -100 }
@@ -3776,11 +3812,13 @@ event = {
 		
 		command = { type = manpowerpool value = 200  }
 		command = { type = manpowerpool value = 500  }
+		
+		command = { type = add_corps value = land where = 8001 }
+		command = { type = activate_division which = 10848 value = 8600 where = 8001 when = 0 }
 
 		command = { trigger = { control = { province = 269 data = -3 } } 			type = add_corps value = land where = 3668 when = 975010 } #Buzuluk (Berling)
 		command = { trigger = { NOT = { control = { province = 269 data = -3 } } }	type = add_corps value = land where = 1427 when = 975010 } #Tashkent (Berling)
 		command = { type = add_division which = "Polish People's Army" value = hq when = 3 where = -30 }
-		command = { type = add_division value = garrison when = 5 where = -30 }
 		
 		command = { type = capital which = 485 }
 		
@@ -3935,7 +3973,7 @@ event = {
 		command = { type = sleepevent 	which = 2600003 }
 		command = { type = sleepevent 	which = 2600004 }
 		
-		command = { type = trigger 		which = 2600010 } #ENG Alert treaty collapse
+		command = { type = trigger 		which = 2600005 } #ENG Alert treaty collapse
 	}
 }
 
@@ -4097,12 +4135,12 @@ event = {
 		command = { type = sleepevent 	which = 2600003 }
 		command = { type = sleepevent 	which = 2600004 }
 		
-		command = { type = trigger 		which = 2600010 } #ENG Alert treaty collapse
+		command = { type = trigger 		which = 2600005 } #ENG Alert treaty collapse
 	}
 }
 
 event = {
-	id = 2600010
+	id = 2600005
 	random = no
 	country = ENG
 
@@ -4118,8 +4156,209 @@ event = {
 }
 
 
+#Operation Lustre - force England to assist Greece
 
-### some free ids
-### 2001031
-### 2013003
-### 2185003
+event = {
+	id = 2600010
+	random = no
+	country = ENG
+
+	trigger = {
+		OR = {
+			war = { country = ITA }
+			war = { country = GER }
+		}
+		alliance = { country = GRE }
+		NOT = { lost_VP = { country = GRE value = 20 } }
+		OR = {
+			event = { id = 14000022 days = 120 } 	#4 months from the Greco-Italian war
+			alliance = { country = YUG } 			#germany invading Yugoslavia
+			war = { country = YUG } 				#germany allied with Yugoslavia
+		}
+	}
+
+	date = { day = 6 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = december year = 1999 }
+
+	name = "Operation Lustre"
+	desc = "Following Italy's entry into World War II in June 1940, Italian forces invaded Greece and Egypt from their colonies in Albania and Libya. By the Spring of 1941 both these invasions had been defeated, but the threat of intervention by Germany persuaded Winston Churchill to commit British forces to the defence of the Greek mainland. Churchill thought it politically unacceptable not to support Britain's only effective ally in Europe under threat, especially after the Allies had already failed to come to the defense of Poland a year prior. In addition, the use of Greek airfields could put the Romanian oilfields at Ploiesti, vital to Germany's war effort, within reach of Allied bombers. Should we choose to assist Greece, we will be expected to deliver at least 6 British or Commonwealth divisions in mainland Greece within the next month. Note: Only troops from the UK, Canada, South Africa, India proper, Australia, New Zealand, as well as Poland are counted for this purpose."
+	style = 2
+
+	action = {
+		name = "We will support our ally"
+		ai_chance = 100
+		command = { type = setflag which = LustreENG }
+		
+		#AI will always deliver troops by event, and they will go as exp_forces to Greece, which will make it very difficult to count them
+		command = { trigger = { ai = no  } type = event which = 2600011 where = REB when = 30 }
+		command = { trigger = { ai = yes } type = ai which = "nations\ENG_GRE.ai" }
+	}
+	action = {
+		name = "We have enough problems of our own"
+		ai_chance = 0
+		command = { type = belligerence which = ENG value =   4 }
+		command = { type = belligerence which = GER value = -10 }
+		command = { type = relation 	which = GRE value = -50 }
+		command = { type = relation 	which = USA value = -10 }
+		command = { type = relation 	which = SOV value = -10 }
+		command = { type = dissent					value = 2.0 }
+	}
+}
+
+event = {
+	id = 2600011
+	random = no
+
+	name = "Operation Lustre"
+	style = 2
+
+	action = {
+		command = { trigger = { garrison = { country = ENG province = 3355 type = land size = 1 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 3355 type = land size = 2 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 3355 type = land size = 3 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 3355 type = land size = 4 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 3355 type = land size = 5 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 3355 type = land size = 6 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		
+		command = { trigger = { garrison = { country = CAN province = 3355 type = land size = 1 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = CAN province = 3355 type = land size = 2 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = CAN province = 3355 type = land size = 3 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = CAN province = 3355 type = land size = 4 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = CAN province = 3355 type = land size = 5 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = CAN province = 3355 type = land size = 6 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		
+		command = { trigger = { garrison = { country = AST province = 3355 type = land size = 1 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = AST province = 3355 type = land size = 2 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = AST province = 3355 type = land size = 3 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = AST province = 3355 type = land size = 4 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = AST province = 3355 type = land size = 5 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = AST province = 3355 type = land size = 6 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		
+		command = { trigger = { garrison = { country = NZL province = 3355 type = land size = 1 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = NZL province = 3355 type = land size = 2 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = NZL province = 3355 type = land size = 3 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = NZL province = 3355 type = land size = 4 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = NZL province = 3355 type = land size = 5 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = NZL province = 3355 type = land size = 6 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		
+		command = { trigger = { garrison = { country = SAF province = 3355 type = land size = 1 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = SAF province = 3355 type = land size = 2 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = SAF province = 3355 type = land size = 3 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = SAF province = 3355 type = land size = 4 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = SAF province = 3355 type = land size = 5 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = SAF province = 3355 type = land size = 6 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		
+		command = { trigger = { garrison = { country = U02 province = 3355 type = land size = 1 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = U02 province = 3355 type = land size = 2 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = U02 province = 3355 type = land size = 3 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = U02 province = 3355 type = land size = 4 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = U02 province = 3355 type = land size = 5 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = U02 province = 3355 type = land size = 6 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		
+		command = { trigger = { NOT = { local_flag = { which = GRELustre when = 1 value = 6 } } } type = event which = 2600012 where = ENG when = 0 }
+	}
+}
+
+event = {
+	id = 2600012
+	random = no
+	country = ENG
+
+	name = "Operation Lustre - Failure"
+	desc = "We were unable or unwilling to deliver on our promise to transport at least 6 divisions to mainland Greece. This will upset not only Greece but everyone else who may be thinking of allying with us."
+	style = 2
+
+	action = {
+		name = "We had enough problems of our own"
+		command = { type = belligerence which = ENG value =   6 } #more belligerence because made false promises
+		command = { type = belligerence which = GER value = -10 }
+		command = { type = relation 	which = GRE value = -50 }
+		command = { type = relation 	which = USA value = -10 }
+		command = { type = relation 	which = SOV value = -10 }
+		command = { type = dissent					value = 2.0 }
+	}
+}
+
+
+
+
+
+#Canada reduce tensions
+
+event = { 
+	id = 2001031 
+	random = no 
+	country = CAN
+	
+	trigger = {
+		atwar = GER
+	}
+
+	date = { day = 0 month = october year = 1938 }
+	offset = 30
+	deathdate = { day = 29 month = december year = 1945 }	
+	
+	name = "Maurice Duplessis ousted as Quebec PM"
+	desc = "Maurice Duplessis, the leader of the Union Nationale, embodied a conservative, Catholic nationalism that fiercely defended Quebec's autonomy against perceived Anglo-Canadian encroachment. His political rise in the 1930s capitalized on economic discontent and French-Canadian fears of assimilation, blending traditionalist values with inflammatory anti-establishment rhetoric. Duplessis was ousted in the 1939 election amid backlash over his handling of wartime preparations and accusations of corruption. For a while, his ouster significantly reduced apparent tensions between French and Anglo-Canadians, although he continued to exercise significant influence as the leader of the opposition and disagreements continued to simmer beneath the surface, so much so that the government was unable to enact overseas conscription all the way until 1944. The same year Duplessis returned to power, beginning his long-lasting and polarizing 'Great Darkness' regime, marked by even stronger nationalist policies and resistance to federal authority."
+  	style = 2
+	
+	action = {
+		name = "Good riddance!"
+		command = { type = dissent			value = -1 }
+		#it will slowly rise again afterwards
+		command = { type = province_revoltrisk which = 564   	value = -5  }
+		command = { type = province_revoltrisk which = 574   	value = -5  }
+		command = { type = province_revoltrisk which = 585   	value = -5  }
+		command = { type = province_revoltrisk which = 1909   	value = -5  }
+		command = { type = province_revoltrisk which = 2732   	value = -5  }
+		command = { type = province_revoltrisk which = 2733   	value = -5  }
+		command = { type = province_revoltrisk which = 2734   	value = -5  }
+		command = { type = province_revoltrisk which = 2735   	value = -5  }
+		command = { type = province_revoltrisk which = 2736   	value = -5  }
+		command = { type = province_revoltrisk which = 6605   	value = -5  }
+		command = { type = province_revoltrisk which = 6606   	value = -5  }
+		command = { type = province_revoltrisk which = 6607   	value = -5  }
+		command = { type = province_revoltrisk which = 6608   	value = -5  }
+		command = { type = province_revoltrisk which = 6609   	value = -5  }
+		command = { type = province_revoltrisk which = 6610   	value = -5  }
+		command = { type = province_revoltrisk which = 6611   	value = -5  }
+		command = { type = province_revoltrisk which = 6612   	value = -5  }
+		command = { type = province_revoltrisk which = 6613   	value = -5  }
+		command = { type = province_revoltrisk which = 6614   	value = -5  }
+		command = { type = province_revoltrisk which = 6615   	value = -5  }
+		command = { type = province_revoltrisk which = 6616   	value = -5  }
+		command = { type = province_revoltrisk which = 6617   	value = -5  }
+		command = { type = province_revoltrisk which = 6618   	value = -5  }
+		command = { type = province_revoltrisk which = 6619   	value = -5  }
+		command = { type = province_revoltrisk which = 6620   	value = -5  }
+		command = { type = province_revoltrisk which = 6621   	value = -5  }
+		command = { type = province_revoltrisk which = 6622   	value = -5  }
+		command = { type = province_revoltrisk which = 6623   	value = -5  }
+		command = { type = province_revoltrisk which = 6624   	value = -5  }
+		command = { type = province_revoltrisk which = 6625   	value = -5  }
+		command = { type = province_revoltrisk which = 6626   	value = -5  }
+		command = { type = province_revoltrisk which = 6627   	value = -5  }
+		command = { type = province_revoltrisk which = 6628   	value = -5  }
+		command = { type = province_revoltrisk which = 6629   	value = -5  }
+		command = { type = province_revoltrisk which = 6630   	value = -5  }
+		command = { type = province_revoltrisk which = 6631   	value = -5  }
+		command = { type = province_revoltrisk which = 6632   	value = -5  }
+		command = { type = province_revoltrisk which = 6633   	value = -5  }
+		command = { type = province_revoltrisk which = 6634   	value = -5  }
+		command = { type = province_revoltrisk which = 6635   	value = -5  }
+		command = { type = province_revoltrisk which = 6636   	value = -5  }
+		command = { type = province_revoltrisk which = 6637   	value = -5  }
+		command = { type = province_revoltrisk which = 6638   	value = -5  }
+		command = { type = province_revoltrisk which = 6639   	value = -5  }
+		command = { type = province_revoltrisk which = 6640   	value = -5  }
+		command = { type = province_revoltrisk which = 6641   	value = -5  }
+		command = { type = province_revoltrisk which = 6642   	value = -5  }
+		command = { type = province_revoltrisk which = 6643   	value = -5  }
+		command = { type = province_revoltrisk which = 6644   	value = -5  }
+		command = { type = province_revoltrisk which = 6645   	value = -5  }
+		command = { type = province_revoltrisk which = 6646   	value = -5  }
+		command = { type = province_revoltrisk which = 6655   	value = -5  }
+	}
+}
+

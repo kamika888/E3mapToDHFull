@@ -74,7 +74,6 @@ country =
    {  relation = {  tag = ITA value = 50  } 
      relation = {  tag = ETH value = 5  } 
     } 
-   SpyInfo                = {  country = "U41" NumberOfSpies = 2  } 
 
   landunit =
   {

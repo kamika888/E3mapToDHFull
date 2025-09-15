@@ -17,16 +17,12 @@ country =
 	money                  = 10 
 	manpower               = 73 
     capital                = 1404
-  SpyInfo                = { country = "MON" NumberOfSpies = 5 }
+  SpyInfo                = { country = "MON" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = 25 }
     relation = { tag = MON value = 150 }
     relation = { tag = TAN value = 200 }
   }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 2 }
-  SpyInfo                = { country = "CHI" NumberOfSpies = 1 }
-  SpyInfo                = { country = "MAN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CHI" NumberOfSpies = 1 }
   nationalprovinces      = { 1404 1420 1419 1434 1438 1385 1208 1386 1439 1273 1272 2246 1382
 3762 3763 3764 3765 3766 3767 3768 3769 3770 3771 3772 3773
 3756 3757 3758 3595 3761 3750 3751 3752 3753 3754

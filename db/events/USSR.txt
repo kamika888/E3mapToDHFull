@@ -371,10 +371,12 @@ event = {
 		}
 	}
 	decision_trigger = {
+		belligerence = { country = GER value = 80 }
 	}
 	trigger = { 
 		NOT = { 
 			war = { country = GER }
+			war = { country = JAP }
 			war = { country = ENG }
 			war = { country = FIN }
 			war = { country = SWE }
@@ -385,6 +387,9 @@ event = {
 			control = { province = 485 data = GER }
 			alliance = { country = GER country = POL }
 		}
+		belligerence = { country = GER value = 80 }
+		
+		control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
 	
 		war = { country = GER country = ENG } #Germany distracted
 		region = { region = "England" country = ENG value = 30 } #England fighting
@@ -396,13 +401,16 @@ event = {
 			}
 		}
 		OR = {
-			lost_national = { country = GER value = 10 } #Germany is invaded by the Allies
+			#Germany is invaded by the Allies
+			lost_national = { country = GER value = 10 }
+			#Germany is invading England
 			AND = {
 				flag = ENG_invaded
-				random = 30
+				#random = 30
 			}
+			# Finished reogranization of the Red Army (Nov 1942) and ready to strike
 			AND = {
-				event = { id = 2007030 days = 30 } # Finished reogranization of the Red Army (Nov 1942)
+				event = { id = 2007030 days = 30 } 
 				OR = {
 					NOT = { event = 2003025 } #M-R pact
 					event = { id = 2003025 days = 730 } # 2 years
@@ -411,7 +419,22 @@ event = {
 				NOT = { month = 9 }	
 				random = 40
 			}
+			#Germany is attacking France but has almost no defenses on the border. Unfortunately, cannot count allied troops, counting only Germans
+			AND = {
+				NOT = { ai = GER }
+				NOT = { garrison = { country = GER province = 485 type = land size = 20 area = 2 } }
+				NOT = { garrison = { country = GER province = 510 type = land size = 10 area = 1 } }
+				war = { country = GER country = VIC }
+				OR = {
+					war = { country = GER country = BEL }
+					alliance = { country = GER country = BEL }
+					control = { province = 51 data = GER }
+				}
+			}
 		}
+		#USSR has plenty of troops on the border
+		garrison = { country = SOV province = 503 type = land size = 50 area = 2 }
+		
 		#Under normal circumstances, USSR will attack in early 1943
 		#Will also attack if Germany does sealion, but will wait for the US to join first.
 	}
@@ -422,19 +445,109 @@ event = {
 
 	action = {
 		name = "evt_4700a"
-		#Leaving net +2 dissent if there was a non-aggression pact. Otherwise, no dissent.
+		#Leaving net +3 dissent if there was a non-aggression pact. Otherwise, no dissent.
 		command = { trigger = { non_aggression = { country = SOV country = GER } } type = local_setflag which = NAPDissent }
 		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = SOV where = GER } #will give 5 dissent
-		command = { trigger = { local_flag = NAPDissent } type = dissent value = -3 }
+		command = { trigger = { local_flag = NAPDissent } type = dissent value = -2 }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = SOV	value = 20  }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = GER	value = -20 }
 		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
 		
 		#finland may also have NAP, removing it in full
 		command = { trigger = { non_aggression = { country = SOV country = FIN } } type = local_setflag which = NAPDissent }
 		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = SOV where = FIN } #will give 5 dissent
 		command = { trigger = { local_flag = NAPDissent } type = dissent value = -5 }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = SOV	value = 5  }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = FIN	value = -5 }
 		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
 		
 		command = { type = war which = GER } 
+	}
+}
+
+
+
+#########################################################################
+#  Manchurian Operation
+#########################################################################
+event = {
+	id = 3183025
+	random = no
+	country = SOV
+	
+	name = "Manchurian Operation" 
+	desc = "With Japan distracted and preoccupied with threats elsewhere, now is a good time to invade Manchuria and crush the Japanese threat once and for all."
+	style = 2
+	picture = "Marco_Polo_bridge"
+	
+	decision = {
+		NOT = { war = { country = JAP }	}
+		OR = {
+			control = { province = 2241 data = -3  } # Warzaw
+			control = { province = 2241 data = JAP }
+			alliance = { country = JAP country = MAN }
+		}
+	}
+	decision_trigger = {
+		belligerence = { country = JAP value = 80 }
+	}
+	trigger = { 
+		NOT = { 
+			#war = { country = GER }
+			war = { country = JAP }
+			war = { country = ENG }
+			#war = { country = FIN }
+			#war = { country = SWE }
+			#war = { country = ROM }
+		}
+		OR = {
+			control = { province = 2241 data = -3  } # Warzaw
+			control = { province = 2241 data = JAP }
+			alliance = { country = JAP country = MAN }
+		}
+		belligerence = { country = JAP value = 80 }
+		#control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
+	
+		NOT = { lost_VP = { country = SOV value = 10 } }
+		OR = {
+			NOT = { war = { country = GER } }
+			# Finished reogranization of the Red Army (Nov 1942) and ready to strike
+			event = { id = 2007030 days = 30 } 
+		}
+		#Japan has almost no defenses on the border. Unfortunately, cannot count allied troops, counting only Japanese
+		NOT = { ai = JAP }
+		NOT = { garrison = { country = JAP province = 1379 type = land size = 12 area = 3 } } #Manchuria
+		NOT = { garrison = { country = JAP province = 1199 type = land size = 10 area = 2 } } #Korea
+		war = { country = JAP country = ENG } #Japan distracted
+		war = { country = JAP country = USA }
+		war = { country = JAP country = CHI }
+		#USSR has plenty of troops on the border
+		garrison = { country = SOV province = 1525 type = land size = 15 area = 2 }
+	}
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 10
+	deathdate = { day = 28 month = january year = 1943 }
+
+	action = {
+		name = "evt_4700a"
+		#Leaving net +3 dissent if there was a non-aggression pact. Otherwise, no dissent.
+		command = { trigger = { non_aggression = { country = SOV country = JAP } } type = local_setflag which = NAPDissent }
+		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = SOV where = JAP } #will give 5 dissent
+		command = { trigger = { local_flag = NAPDissent } type = dissent value = -3 }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = SOV	value = 20  }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = JAP	value = -20 }
+		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
+		
+		#manchuria may also have NAP, removing it in full
+		command = { trigger = { non_aggression = { country = SOV country = MAN } } type = local_setflag which = NAPDissent }
+		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = SOV where = MAN } #will give 5 dissent
+		command = { trigger = { local_flag = NAPDissent } type = dissent value = -5 }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = SOV	value = 5  }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = MAN	value = -5 }
+		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
+		
+		command = { type = war which = JAP } 
 	}
 }
 
@@ -455,7 +568,7 @@ event = {
 		}
 	}
 	decision_trigger = {
-		event = 2007042 # Poland's partition
+		event = 2003030 # Poland's partition
 		non_aggression = { country = GER country = SOV }
 	}
 	trigger = {
@@ -464,7 +577,7 @@ event = {
 			exists = LAT
 			exists = LIT
 		}
-		event = 2007042 # Poland's partition
+		event = 2003030 # Poland's partition
 		non_aggression = { country = GER country = SOV }
 		NOT = { 
 			war = { country = FIN }
@@ -768,7 +881,7 @@ event = {
 		event = 3183005
 	}
 	trigger = {
-		event = { id = 3183005 days = 180 } #at least 6 months after signing
+		event = { id = 3183005 days = 90 } #at least 3 months after signing
 		OR = {
 			exists = LIT
 			exists = LAT
@@ -778,6 +891,7 @@ event = {
 			control = { province = 56 data = GER } # Paris is in German hands
 			alliance = { country = VIC country = GER }
 			event = { id = 2003025 days = 360 } # Baltic recognized as Soviet territory by Germany in Mol-Rib Pact
+			war = { country = SOV country = GER }
 		} 
 		control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
 		NOT = { war = { country = FIN } }
@@ -1218,12 +1332,12 @@ event = {
 		ai_chance = 0
 		command = { type = relation which = GER value = -30 }
 		command = { type = setflag which = Pact_Broken }
-		command = { type = belligerence value = 5 }
+		command = { type = belligerence which = SOV	value = 5  }
+		command = { type = belligerence which = GER	value = -5 }
 		
 		#10 dissent total
 		command = { type = end_non_aggression which = SOV where = GER } #Will give 5 dissent
-		
-		command = { type = dissent value = 5 }
+
 		command = { type = war which = GER }
 	}
 }
@@ -1380,9 +1494,9 @@ event = {
 		command = { type = relation which = SWE value = 5 }
 		command = { type = relation which = NOR value = 5 }
 		
-		#command = { trigger = { ai = yes } type = local_setflag which = do_not_demob } #not necessary?
+		command = { trigger = { ai = yes } type = local_setflag which = do_not_demob } #not necessary?
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = trigger which = 8300105 }  #partial Mobilization
-		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = event which = 13500053 where = FIN when = 360 } #allow AI demob
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = event which = 13500053 where = FIN when = 720 } #allow AI demob
 		
 		command = { type = headofgovernment 		which = 145028 } #Ryti
 		command = { type = foreignminister 			which = 145038 }
@@ -2277,12 +2391,12 @@ event = {
 		ai_chance = 0
 		command = { type = relation which = GER value = -30 }
 		command = { type = setflag which = Pact_Broken }
-		command = { type = belligerence value = 5 }
+		command = { type = belligerence which = SOV	value = 5  }
+		command = { type = belligerence which = GER	value = -5 }
 		
 		#10 dissent total
 		command = { type = end_non_aggression which = SOV where = GER } #Will give 5 dissent
 		
-		command = { type = dissent value = 5 }
 		command = { type = war which = GER }
 		command = { type = war which = ENG }
 		
@@ -3721,6 +3835,8 @@ event = {
 		name = "ACTIONNAME2633A" # Let's move our industrial base to Sibiria
 		command = { type = armamentminister which = 30076 } #Stalin replaces Tymoshenko as Minister of Defense
 		command = { type = local_setflag which = inMajorWar	}
+		
+		command = { trigger = { ai = yes } type = embargo which = -1 where = JAP value = 1  } #stop selling oil to japan damnit
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
 		
 		#Gearing up 8
@@ -4351,16 +4467,21 @@ event = {
 		war = { country = GER country = SOV }
 		war = { country = FIN country = SOV }
 		OR = {
-			event = { id = 2007041 days = 360 } # A year since the war started
-			lost_national = { country = FIN value = 50 }
+			event = { id = 2007041 days = 720 } # Two years since the war started
+			lost_VP = { country = FIN value = 50 }
 		}
 		OR = {
 			control = { province = 145 data = SOV } #Viipuri
 			control = { province = 137 data = SOV } #Oulu
 			control = { province = 141 data = SOV } #Turku
 			control = { province = 142 data = SOV } #Helsingfors
-			lost_national = { country = FIN value = 10 }
-			area = { area = "Estonia" country = -2 value = 70 } #Most of Estonia lost
+			lost_national = { country = FIN value = 15 }
+		}
+		OR = {
+			policy = { type = professional_army value = 9 } #Extended mob, running out of MP
+			dissent = 25
+			region = { region = "Baltic States" country = -2 value = 60 } #Most of Baltic is lost
+			lost_VP = { country = FIN value = 50 }
 		}
 	}
 
@@ -4371,7 +4492,7 @@ event = {
 	action = {
 		name = "Inquire about their conditions"
 		ai_chance = 100
-		command = { type = trigger which = 2030026 }
+		command = { type = event which = 2030026 where = SOV when = 10 }
 	}
 	action = {
 		name = "Keep fighting"
@@ -4574,7 +4695,8 @@ event = {
 		#command = { type = setflag 		when = 0	which = RepPec	value = 6 }
 		#command = { type = event 			when = 0	which = 3021	where = SOV }
 		
-		command = { type = event which = 2030023 where = FIN when = 12 }
+		#command = { type = event which = 2030023 where = FIN when = 12 }
+		command = { type = event which = 2030023 where = FIN when = 20 }
 	}
 	action = {
 		name = "Keep fighting"
@@ -4603,14 +4725,17 @@ event = {
 		#command = { type = alliance which = SOV when = 1 }
 		command = { type = war which = GER }
 		command = { type = local_setflag which = joinAlliance }
+		command = { type = control which = GER value = 137  }
+		command = { type = control which = GER value = 136  }
+		command = { type = control which = GER value = 3336 }
 		command = { type = control which = GER value = 3339 }
 		command = { type = control which = GER value = 3340 }
 		command = { type = control which = GER value = 3338 }
 		command = { type = control which = GER value = 7152 }
 		command = { type = control which = GER value = 7153 }
-		command = { type = control which = GER value = 130 }
+		command = { type = control which = GER value = 130  }
 		command = { type = control which = GER value = 2631 }
-		command = { type = control which = GER value = 131 }
+		command = { type = control which = GER value = 131  }
 		command = { type = control which = GER value = 7154 }
 		command = { type = control which = GER value = 7155 }
 		command = { type = control which = GER value = 3337 }
@@ -4703,7 +4828,7 @@ event = {
 
 	action = {
 		name = "We can't afford to slow down our growth"
-		trigger = { NOT = { lost_national = { value = 3 } } }
+		trigger = { OR = { ai = no NOT = { lost_VP = { value = 3 } } } }
 		ai_chance = 100
 		command = { type = local_setflag which = SOVAmbition }
 		command = { type = local_setflag which = SOVAmbition_count when = 1	value = 1 }
@@ -4743,6 +4868,7 @@ event = {
 	}
 	action = {
 		name = "We can't afford to be too ambitious"
+		trigger = { OR = { ai = no lost_VP = { value = 3 } } }
 		ai_chance = 0
 		command = { type = local_clrflag which = SOVAmbition }
 		
@@ -4854,7 +4980,15 @@ event = {
 
 	trigger = {
 		government = communist
-		atwar = no
+		NOT = {
+			war = { country = GER } 
+			war = { country = JAP } 
+			war = { country = ENG } 
+			war = { country = ITA } 
+			war = { country = ENG } 
+			war = { country = USA } 
+			war = { country = VIC } 
+		}
 	}
 
 	name = EVT_2007020_NAME
@@ -5210,7 +5344,7 @@ event = {
 		command = { type = chiefofnavy 				which = 30048 } #Viktorov
 		command = { type = chiefofair 				which = 30053 } #Smushkevich
 		
-		#Normally casualties should be near-zero at this point, but you never know
+		#Going from tier 4 to tier 5, SOV will use a different scale for losses measurement. Normally casualties should be near-zero at this point, but you never know
 		command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = { which = mpLossesCount when = 1 value = 100	} } type = local_setflag which = mpLossesCount value = 100	when = 1 }
 		command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = { which = mpLossesCount when = 1 value = 300	} } type = local_setflag which = mpLossesCount value = 100	when = 1 }
 		command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = { which = mpLossesCount when = 1 value = 500	} } type = local_setflag which = mpLossesCount value = 100	when = 1 }
@@ -7513,3 +7647,4 @@ event = {
 		command = { type = dissent value = -2 }
 	}
 }
+

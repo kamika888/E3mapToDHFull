@@ -10,56 +10,293 @@ event = {
 	
 	decision = {
 		atwar = yes
-		OR = {
-			major = yes
-			country = VIC
-		}
-		#(GER SOV ITA USA JAP VIC ENG)
 		NOT = { local_flag = grand_offensive }
 	}
 
-	decision_trigger = { supplies = 10000 }
+	decision_trigger = {
+	}
 
 	trigger = {
 		atwar = yes
-		OR = {
-			major = yes
-			country = VIC
-		}
 		NOT = { local_flag = grand_offensive }
+		
+		#majors should not waste it on non-majors
 		OR = {
-			ai = yes
-			supplies = 10000
+			major = no
+			war = { country = ENG }
+			war = { country = VIC }
+			war = { country = FRA }
+			war = { country = GER }
+			war = { country = JAP }
+			war = { country = USA }
+			war = { country = ITA }
+			war = { country = SOV }
 		}
 		OR = {
-			#Should cover SOV, USA
-			lost_national = { value = 18 }
 			AND = {
-				country = VIC
-				war = { country = GER }
-				alliance = { country = BEL }
+				#Every winter on the anniversary of the revolution :X, until the motherland is freed
+				country = SOV
+				supplies = 5000
+				lost_VP = { value = 5 }
+				month = November
+				day = 5 #+5 offset around the right date
 			}
 			AND = {
 				country = GER
+				supplies = 5000
 				OR = {
-					war = { country = SOV }
+					#Once at Fall gelb
 					AND = {
 						war = { country = VIC }
 						war = { country = BEL }
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
+					}
+					#Landed in England
+					AND = {
+						flag = ENG_invaded
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
+					}
+					#Every summer while at war with the Soviets
+					AND = {
+						war = { country = SOV }
+						month = May
+						NOT = { month = October }
+						random = 20
+					}
+					#Germany invaded, need to expel the enemy ASAP
+					AND = {	
+						lost_national = { value = 5 }
+						random = 20
+					}
+				}
+			}
+			AND = {
+				country = VIC
+				supplies = 3000
+				OR = {
+					#Fall gelb (regardless of when Germany chose to start it) and every summer afterwards until the motherland is freed
+					AND = {
+						war = { country = GER }
+						alliance = { country = BEL }
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
+					}
+					AND = {	
+						lost_national = { value = 5 }
+						month = May
+						NOT = { month = October }
+						random = 20
+					}
+				}
+			}
+			AND = {
+				country = ITA
+				supplies = 3000
+				OR = {
+					#Once at war entry, once at operation sunflower, and every summer if invaded
+					AND = {
+						alliance = { country = GER }
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
+					}
+					AND = {	
+						alliance = { country = GER }
+						event = 2405100 #afrika korps
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
+						random = 20
+					}
+					AND = {	
+						lost_national = { value = 5 }
+						month = May
+						NOT = { month = October }
+						random = 20
+					}
+				}
+			}
+			AND = {
+				country = ENG
+				supplies = 3000
+				OR = {
+					#Once for husky and once (twice if no husky) for operation overlord/dragoon
+					AND = {	
+						event = 2405060
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
+					}
+					AND = {	
+						OR = {
+							event = 2405040
+							event = 2405050
+						}
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
+					}
+					#Also once if enemy landed, and every summer afterwards until the motherland is freed
+					AND = {
+						flag = ENG_invaded
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
+					}
+					AND = {	
+						flag = ENG_invaded
+						month = May
+						NOT = { month = October }
+						random = 20
+					}
+				}
+			}
+			AND = {
+				country = USA
+				supplies = 3000
+				OR = {
+					#Once for husky and once (twice if no husky) for operation overlord/dragoon
+					AND = {	
+						event = 2405060
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
+					}
+					AND = {	
+						OR = {
+							event = 2405040
+							event = 2405050
+						}
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
+					}
+					#Also once if enemy landed, and every summer afterwards until the motherland is freed
+					AND = {
+						lost_national = { value = 5 }
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
+					}
+					AND = {	
+						lost_national = { value = 5 }
+						month = May
+						NOT = { month = October }
+						random = 20
 					}
 				}
 			}
 			AND = {
 				country = JAP
-				war = { country = ENG }
+				supplies = 3000
+				OR = {
+					#Once after Marco Polo, once at the start of the Pacific War/Soviet War, and every summer if invaded
+					AND = {
+						war = { country = CHI }
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
+					}
+					AND = {
+						OR = {
+							war = { country = USA }
+							war = { country = ENG }
+						}
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
+					}
+					AND = {
+						war = { country = SOV }
+						NOT = { non_aggression = { country = SOV } }
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
+					}
+					AND = {	
+						lost_national = { value = 5 }
+						month = May
+						NOT = { month = October }
+						random = 20
+					}
+				}
 			}
 			AND = {
-				country = ITA
-				war = { country = ENG }
+				country = CHI
+				supplies = 1500
+				OR = {
+					#Once after Marco Polo, and every summer if not at AsiaPassive until the motherland is freed
+					AND = {
+						war = { country = JAP }
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
+					}
+					AND = {	
+						NOT = { local_flag = asiaPassive }
+						lost_national = { value = 5 }
+						month = May
+						NOT = { month = October }
+						random = 20
+					}
+				}
 			}
 			AND = {
-				country = ENG
-				lost_national = { value = 5 } #Enemy landed on home islands
+				country = CHC
+				supplies = 500
+				OR = {
+					#Once at long march, once at 100 regiments offensive, and every summer if not at AsiaPassive until the motherland is freed
+					AND = {
+						war = { country = CHI }
+						local_flag = { which = longMarch_count when = 1 value = 1 }
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
+					}
+					AND = {
+						war = { country = JAP }
+						event = 1330110170
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
+					}
+					AND = {	
+						NOT = { local_flag = asiaPassive }
+						lost_national = { value = 5 }
+						month = May
+						NOT = { month = October }
+						random = 20
+					}
+				}
+			}
+			AND = {
+				country = SPA
+				supplies = 500
+				OR = {
+					AND = {
+						war = { country = SPR }
+						event = 2401602 #Treaty of munich
+						#repeatable, until SPR is destroyed
+					}
+					AND = {	
+						lost_national = { value = 25 }
+						month = May
+						NOT = { month = October }
+						random = 20
+					}
+				}
+			}
+			AND = {
+				country = SPR
+				supplies = 500
+				OR = {
+					AND = {	
+						lost_national = { value = 25 }
+						month = May
+						NOT = { month = October }
+						random = 20
+					}
+				}
+			}
+			AND = {
+				#all other countries
+				NOT = {
+					ispuppet = yes
+					major = yes
+					country = CHI
+					country = CHC
+					country = VIC
+					country = SPR
+					country = SPA
+				}
+				supplies = 500
+				OR = {
+					#Immediately if invaded or under attack, and then every summer until the motherland is freed
+					AND = {	
+						OR = {
+							lost_national = { value = 5 }
+							#under_attack = -1
+						}
+						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
+					}
+					AND = {	
+						lost_national = { value = 5 }
+						month = May
+						NOT = { month = October }
+						random = 20
+					}
+				}
 			}
 		}
 	}
@@ -71,30 +308,77 @@ event = {
 	decision_picture = "decision_grand_offensive"
 
 	date = { day = 1 month = january year = 1914 }
-	offset = 10
+	offset = 5
 	deathdate = { day = 30 month = december year = 1999 }
 
 	action = {
 		name = "GrandOffensiveText"
-		command = { type = local_setflag 	which = grand_offensive }
-		command = { type = task_efficiency 	which = attack 			value = 0.3 }
-		command = { type = task_efficiency	which = support_attack 	value = 0.3 }
-		command = { type = max_organization which = land 	value = 10 }
-		command = { type = morale 			which = land 	value = 10 }
-		command = { type = morale 			which = naval 	value = 10 }
-		command = { type = morale 			which = air 	value = 10 }
-		command = { type = speed 			which = land 	value = 2 }
-		command = { type = counterattack 					value = 2 }
-		command = { type = assault 							value = 2 }
-		command = { type = ambush 							value = 2 }
-		command = { type = breakthrough 					value = 2 }
-		command = { type = encirclement 					value = 2 }
-		command = { type = hq_supply_eff 					value = 2 }
-		command = { type = sce_frequency 					value = 0.3 }
-		command = { type = attrition_mod 					value = 2 }
-		command = { type = trickleback_mod 					value = 5 }
-		command = { type = supplies 						value = -10000 }
-		command = { type = event which = 1300003 where = -1 when = 30 }
+		command = { type = local_setflag 						which = grand_offensive }
+		command = { type = local_setflag when = 1				which = grand_offensiveCount value = 1 }
+
+		
+		command = { type = tc_mod 											value = 10	}
+		command = { type = supply_dist_mod 									value = 10	}
+		
+		#the cost is relative to military size.
+		command = { type = supply_consumption 	which = land 				value = 1	}
+		command = { type = supply_consumption 	which = air 				value = 1	}
+		command = { type = supply_consumption 	which = naval				value = 0.5	}
+		command = { type = fuel_consumption		which = land 				value = 0.2	}
+		command = { type = fuel_consumption 	which = air 				value = 0.2	}
+		command = { type = fuel_consumption 	which = naval				value = 0.2	}
+		
+		command = { type = task_efficiency 	which = attack 					value = 0.2	}
+		command = { type = task_efficiency	which = support_attack 			value = 0.2	}
+		command = { type = task_efficiency	which = support_defense			value = 0.1	}
+		command = { type = task_efficiency	which = planned_defense			value = 0.1	}
+		command = { type = task_efficiency	which = reserves				value = 0.1	}
+		command = { type = task_efficiency 	which = airborne_assault 		value = 0.1 }
+		command = { type = task_efficiency 	which = amphibious_assault 		value = 0.1 }
+		
+		command = { type = task_efficiency 	which = Air_superiority 		value = 0.1 }
+		command = { type = task_efficiency 	which = Air_scramble 			value = 0.1 }
+		command = { type = task_efficiency 	which = Ground_attack 			value = 0.1 }
+		command = { type = task_efficiency 	which = interdiction 			value = 0.1 }
+		command = { type = task_efficiency 	which = convoy_air_raiding 		value = 0.1 }
+		command = { type = task_efficiency 	which = Naval_strike 			value = 0.1 }
+		command = { type = task_efficiency 	which = Strategic_bombardment 	value = 0.1 }
+		command = { type = task_efficiency 	which = Logistical_strike 		value = 0.1 }
+		command = { type = task_efficiency 	which = Air_supply 				value = 0.1 }
+		command = { type = task_efficiency 	which = Port_strike 			value = 0.1 }
+		command = { type = task_efficiency 	which = Installation_strike 	value = 0.1 }
+		command = { type = task_efficiency 	which = Runway_cratering 		value = 0.1 }
+		
+		command = { type = task_efficiency 	which = convoy_raiding 			value = 0.1 }
+		command = { type = task_efficiency 	which = asw 					value = 0.1 }
+		command = { type = task_efficiency 	which = naval_interdiction 		value = 0.1 }
+		command = { type = task_efficiency 	which = shore_bombardment 		value = 0.1 }
+		command = { type = task_efficiency 	which = sea_transport 			value = 0.1 }
+		command = { type = task_efficiency 	which = naval_combat_patrol 	value = 0.1 }
+		command = { type = task_efficiency 	which = sneak_move 				value = 0.1 }
+		command = { type = task_efficiency 	which = naval_scramble 			value = 0.1 }
+		
+		command = { type = ground_def_eff 	when  = 1						value = 0.05 }
+		
+		command = { type = morale 			which = land 					value = 10	}
+		command = { type = morale 			which = naval 					value = 10	}
+		command = { type = morale 			which = air 					value = 10	}
+		
+		command = { type = speed 			which = land 					value = 2	}
+		command = { type = counterattack 									value = 2	}
+		command = { type = assault 											value = 2	}
+		command = { type = ambush 											value = 2	}
+		command = { type = breakthrough 									value = 2	}
+		command = { type = encirclement 									value = 2	}
+		command = { type = hq_supply_eff 									value = 2	}
+		command = { type = sce_frequency 									value = 0.3	}
+		command = { type = attrition_mod 									value = 2	}
+		command = { type = trickleback_mod 									value = 5	}
+		
+		command = { type = ai 						 which = "offensiveSupplyEnable.ai" }
+		
+		command = { type = event which = 1300003 where = -1 				when = 30   }
+		command = { type = event which = 1300004 where = -1 				when = 180	} #6 months
 	}
 }
 
@@ -112,24 +396,66 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
-		command = { type = task_efficiency 	which = attack 			value = -0.3 }
-		command = { type = task_efficiency	which = support_attack 	value = -0.3 }
-		command = { type = max_organization which = land 	value = -10 }
-		command = { type = morale 			which = land 	value = -10 }
-		command = { type = morale 			which = naval 	value = -10 }
-		command = { type = morale 			which = air 	value = -10 }
-		command = { type = speed 			which = land 	value = -2 }
-		command = { type = counterattack 					value = -2 }
-		command = { type = assault 							value = -2 }
-		command = { type = ambush 							value = -2 }
-		command = { type = breakthrough 					value = -2 }
-		command = { type = encirclement 					value = -2 }
-		command = { type = hq_supply_eff 					value = -2 }
-		command = { type = sce_frequency 					value = -0.3 }
-		command = { type = attrition_mod 					value = -2 }
-		command = { type = trickleback_mod 					value = -5 }
+
+		#the cost is relative to military size.
+		command = { type = supply_consumption 	which = land 				value = -1	 }
+		command = { type = supply_consumption 	which = air 				value = -1	 }
+		command = { type = supply_consumption 	which = naval				value = -0.5 }
+		command = { type = fuel_consumption		which = land 				value = -0.2 }
+		command = { type = fuel_consumption 	which = air 				value = -0.2 }
+		command = { type = fuel_consumption 	which = naval				value = -0.2 }
+
+		command = { type = tc_mod 											value = -10	 }
+		command = { type = supply_dist_mod 									value = -10	 }
 		
-		command = { type = event which = 1300004 where = -1 when = 1440 } #4 years
+		command = { type = task_efficiency 	which = attack 					value = -0.2 }
+		command = { type = task_efficiency	which = support_attack 			value = -0.2 }
+		command = { type = task_efficiency	which = support_defense			value = -0.1 }
+		command = { type = task_efficiency	which = planned_defense			value = -0.1 }
+		command = { type = task_efficiency	which = reserves				value = -0.1 }
+		command = { type = task_efficiency 	which = airborne_assault 		value = -0.1 }
+		command = { type = task_efficiency 	which = amphibious_assault 		value = -0.1 }
+		
+		command = { type = task_efficiency 	which = Air_superiority 		value = -0.1 }
+		command = { type = task_efficiency 	which = Air_scramble 			value = -0.1 }
+		command = { type = task_efficiency 	which = Ground_attack 			value = -0.1 }
+		command = { type = task_efficiency 	which = interdiction 			value = -0.1 }
+		command = { type = task_efficiency 	which = convoy_air_raiding 		value = -0.1 }
+		command = { type = task_efficiency 	which = Naval_strike 			value = -0.1 }
+		command = { type = task_efficiency 	which = Strategic_bombardment 	value = -0.1 }
+		command = { type = task_efficiency 	which = Logistical_strike 		value = -0.1 }
+		command = { type = task_efficiency 	which = Air_supply 				value = -0.1 }
+		command = { type = task_efficiency 	which = Port_strike 			value = -0.1 }
+		command = { type = task_efficiency 	which = Installation_strike 	value = -0.1 }
+		command = { type = task_efficiency 	which = Runway_cratering 		value = -0.1 }
+		
+		command = { type = task_efficiency 	which = convoy_raiding 			value = -0.1 }
+		command = { type = task_efficiency 	which = asw 					value = -0.1 }
+		command = { type = task_efficiency 	which = naval_interdiction 		value = -0.1 }
+		command = { type = task_efficiency 	which = shore_bombardment 		value = -0.1 }
+		command = { type = task_efficiency 	which = sea_transport 			value = -0.1 }
+		command = { type = task_efficiency 	which = naval_combat_patrol 	value = -0.1 }
+		command = { type = task_efficiency 	which = sneak_move 				value = -0.1 }
+		command = { type = task_efficiency 	which = naval_scramble 			value = -0.1 }
+		
+		command = { type = ground_def_eff 	when  = 1						value = -0.05 }
+		
+		command = { type = morale 			which = land 					value = -10	 }
+		command = { type = morale 			which = naval 					value = -10	 }
+		command = { type = morale 			which = air 					value = -10	 }
+		
+		command = { type = speed 			which = land 					value = -2	 }
+		command = { type = counterattack 									value = -2	 }
+		command = { type = assault 											value = -2	 }
+		command = { type = ambush 											value = -2	 }
+		command = { type = breakthrough 									value = -2	 }
+		command = { type = encirclement 									value = -2	 }
+		command = { type = hq_supply_eff 									value = -2	 }
+		command = { type = sce_frequency 									value = -0.3 }
+		command = { type = attrition_mod 									value = -2	 }
+		command = { type = trickleback_mod 									value = -5	 }
+		
+		command = { type = ai 						 which = "offensiveSupplyDisable.ai" }
 	}
 }
 
@@ -147,7 +473,8 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		trigger = { local_flag = grand_offensive }
-		command = { type = local_clrflag 	which = grand_offensive }
+		
+		command = { type = local_clrflag 						which = grand_offensive }
 	}
 }
 
@@ -1259,11 +1586,7 @@ event = {
 						}
 					}
 					NOT = {
-						AND = {
-							#NOT = { manpower = 300 }									#running low on manpower reserves
-							local_flag = { which = mpLossesCount when = 1 value = 2 }	#at least 1 million dead/wounded
-							policy = { type = professional_army value = 6 }				#at general mobilization or above
-						}
+						policy = { type = professional_army value = 8 }	#at general mobilization C or above - means taken heavy losses
 						technology = 6570 #manpower focus
 					}
 				}
@@ -1280,6 +1603,43 @@ event = {
 		command = { type = local_setflag which = invest_medicine }
 		command = { type = local_setflag which = invest_medicine_count when = 1 value = 1 }
 		command = { type = event which = 9000047 where = -1 when = 180 }
+	}
+	action = {
+		name = "Pay off foreign debt"
+		trigger = { 
+			local_flag = { which = WARDebt when = 1 value = 4 }
+			OR = {
+				ai = no
+				NOT = { 
+					AND = {
+						dissent = 5
+						local_flag = legitIndie
+					}
+					AND = {
+						dissent = 20
+						OR = {
+							local_flag = puppetLevel7
+							local_flag = puppetLevel8
+							local_flag = puppetLevel9
+						}
+					}
+					atwar = yes
+				}
+			}
+		}
+		ai_chance = 5
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		
+		command = {	type = local_setflag which = WARDebt when = 1 value = -4 }
+		#Each WARDebt is equivalent to 0.5 GDP, so 4 WARDebt is 2 GDP. Effectively this is almost same as "invest in growth", except this will:
+		#Take effect in December rather than in a month
+		#Reduce possible interest payments that would normally happen in December, in this sense it may be a better long term option compared to "invest in growth"
 	}
 #	Should not have a need for this, since supplies can typically be traded for money on the market, assuming no problems with shipping lanes
 #	action = {
@@ -2923,15 +3283,15 @@ event = {
 				policy = { type = professional_army value = 9 }
 				NOT = { year = 1925 }
 			}
-			AND = {
-				policy = { type = professional_army value = 5 }
-				NOT = {
-					local_flag = puppetLevel7
-					local_flag = puppetLevel8
-					local_flag = puppetLevel9
-					local_flag = legitIndie
-				}
-			}
+			#AND = {
+			#	policy = { type = professional_army value = 5 }
+			#	NOT = {
+			#		local_flag = puppetLevel7
+			#		local_flag = puppetLevel8
+			#		local_flag = puppetLevel9
+			#		local_flag = legitIndie
+			#	}
+			#}
 		}
 	}
 

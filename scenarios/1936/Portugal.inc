@@ -17,7 +17,7 @@ country =
 	escorts                = 7 
   capital                = 336
   # Azores
-  SpyInfo                = { country = "POR" NumberOfSpies = 5 }
+  SpyInfo                = { country = "POR" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = BEL value = -20 }
     relation = { tag = BRA value = 75 }
@@ -29,13 +29,6 @@ country =
     relation = { tag = SAF value = 125 access = yes }
     relation = { tag = SPR value = -50 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 3 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 2 }
-  SpyInfo                = { country = "SPR" NumberOfSpies = 4 }
-  SpyInfo                = { country = "ARG" NumberOfSpies = 3 }
-  SpyInfo                = { country = "ITA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "BRA" NumberOfSpies = 4 }
-  SpyInfo                = { country = "MEX" NumberOfSpies = 1 }
   # Cabinda
   nationalprovinces      = { 335 336 337 344 345 1867 1563 1163 965 3206 3207 3208 3209 3210 3211 3212 1036 6492
 7166 7167 7257 7258 7981 3178 3179 7121 1537 7119 7120 334 }

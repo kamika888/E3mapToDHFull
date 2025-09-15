@@ -26,7 +26,7 @@ country =
      defense_lobby     = 1 
      interventionism   = 2 
   }
-  SpyInfo                = { country = "NIC" NumberOfSpies = 5 }
+  SpyInfo                = { country = "NIC" NumberOfSpies = 1 }
   nationalprovinces      = { 539 2651 4291 4292 4293 4294 4295 6504 }
   ownedprovinces         = { 539 2651 4291 4292 4293 4294 4295 6504 }
   controlledprovinces    = { 539 2651 4291 4292 4293 4294 4295 6504 }
@@ -71,7 +71,6 @@ inventions = { 3000027 }
    {  relation = {  tag = HON value = 100  } 
      relation = {  tag = USA value = 100  } 
     } 
-   SpyInfo                = {  country = "NIC" NumberOfSpies = 2  } 
    headofstate            = {  type = 9 id = 315001  } 
    headofgovernment       = {  type = 9 id = 315002  } 
    foreignminister        = {  type = 9 id = 315003  } 

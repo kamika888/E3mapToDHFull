@@ -17,7 +17,7 @@ country =
 	dissent                = 15
 	transports             = 50 
 	escorts                = 2 
-  SpyInfo                = { country = "CHI" NumberOfSpies = 5 }
+  SpyInfo                = { country = "CHI" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CGX value = 200 }
@@ -29,16 +29,6 @@ country =
     relation = { tag = JAP value = -100 }
     relation = { tag = MAN value = -100 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 3 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CBX" NumberOfSpies = 2 }
-  SpyInfo                = { country = "CHC" NumberOfSpies = 5 }
-  SpyInfo                = { country = "JAP" NumberOfSpies = 3 }
-  SpyInfo                = { country = "CYN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "CSX" NumberOfSpies = 2 }
-  SpyInfo                = { country = "CXB" NumberOfSpies = 1 }
   # Fujian		
   nationalprovinces      = {
 1275 1276 1277 1440 1441 1267 1268 1269 1270 1271

@@ -7,7 +7,7 @@ country =
   regular_id             = MON
   puppet                 = JAP
   #control                = JAP
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 7 ideology = 2 } }
+  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 7 ideology = 2 AI1936_land = 2 } }
   ai					 = "nations\MEN.ai"
   intrinsic_gov_type     = fascist
   capital                = 5629
@@ -19,7 +19,7 @@ country =
 	supplies               = 800 
 	money                  = 50 
     manpower               = 120
-  SpyInfo                = { country = "MEN" NumberOfSpies = 5 }
+  SpyInfo                = { country = "MEN" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = -100 }
     relation = { tag = CHI value = -100 }
@@ -34,15 +34,6 @@ country =
     relation = { tag = SIA value = 75 }
     relation = { tag = USA value = 1 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 2 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CHI" NumberOfSpies = 3 }
-  SpyInfo                = { country = "JAP" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CYN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CSX" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CXB" NumberOfSpies = 1 }
   nationalprovinces      = { 1404 1420 1419 1434 1438 1385 1208 1386 1439 1273 1272 2246 1382
 3762 3763 3764 3765 3766 3767 3768 3769 3770 3771 3772 3773
 3756 3757 3758 3595 3761 3750 3751 3752 3753 3754

@@ -1179,6 +1179,8 @@ event = {
 		command = { type = non_aggression which = U59 where = CHI when = 34 }
 		command = { type = event which = 2012028 where = U59 when = 35 }
 		
+		command = { type = ai_prepare_war which = CHI }
+		
 		command = { trigger = { war = { country = CSX country = CHC } } type = non_aggression 	which = CSX where = CHC } #Yan uses the opportunity to conclude a secret pact with CCP
 		command = { trigger = { war = { country = CSX country = CHC } } type = secedearea 		which = CSX value = "Shanxi" when = 2 }
 	}
@@ -1989,6 +1991,7 @@ event = {
 		command = { trigger = { NOT = { war = { country = U00 country = SOV } } alliance = { country = U00 country = CHI } } type = event which = 2012073 where = U00 }
 		command = { trigger = { NOT = { war = { country = U05 country = SOV } } alliance = { country = U05 country = CHI } } type = event which = 2012073 where = U05 }
 		command = { type = dissent value = -15 }
+		command = { type = belligerence value = 2 }
 		command = { type = sleepevent which = 2012071 }
 		command = { type = event 	which = 2012072 where = SOV when = 0 }
 		command = { type = event 	which = 2012074 where = SOV when = 1 }
@@ -2191,8 +2194,55 @@ event = {
  	picture = "news_paper"
 	
 	action = {
-		name = "ACTION_NAME_EXCELLENT"
+		name = "Demand their submission"
 		ai_chance = 100
+		command = { type = event which = 2012078 where = CHI when = 0 }
+	}
+	action = {
+		name = "Just secure what we already have"
+		ai_chance = 0
+		command = { type = dissent		value = 5 }
+		command = { type = peace	 	which = SOV value = 0 }
+		command = { type = make_puppet 	which = U87 }
+		command = { type = make_puppet 	which = MEN }
+	}
+}
+
+event = { 
+	id = 2012078
+	random = no
+	country = CHI
+
+	name = "Japan threatens war"
+	desc = "A major war had broken out between China and USSR, with the Soviets openly backing the Chinese Communists. Japan has taken this opportunity to escalate the pressure on us to accept a Japanese protectorate. Should we refuse, they threaten to take what they want by force."
+	style = 2
+ 	picture = "news_paper"
+	
+	action = {
+		name = "We have no choice"
+		ai_chance = 99
+		command = { type = event which = 2012079 where = JAP when = 0 }
+	}
+	action = {
+		name = "We will fight them both"
+		ai_chance = 1
+		command = { type = dissent		value = 5   }
+		command = { type = war	 		which = JAP }
+	}
+}
+
+event = { 
+	id = 2012079
+	random = no
+	country = JAP
+
+	name = "China submits"
+	desc = "Chiang Kai-Shek had finally saw the wisdom of joining us in the common struggle to free Asia from the European imperialism and unite it under Japan's leadership."
+	style = 2
+ 	picture = "news_paper"
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
 		command = { type = remove_claim_region	which = "China" 	where = JAP }
 		#command = { type = remove_core_area		which = "Suiyuan_Ningxia" 	where = U87 }
 		command = { type = make_puppet 	which = CHI }
@@ -2216,13 +2266,6 @@ event = {
 		command = { type = end_non_aggression which = U58 where = U87 }
 		
 		#command = { type = event which = 1330110075 where = U58 when = 0 } #remove dissent and rearrange divisions - questionable
-	}
-	action = {
-		name = "Just secure what we already have"
-		command = { type = dissent		value = 5 }
-		command = { type = peace	 	which = SOV value = 0 }
-		command = { type = make_puppet 	which = U87 }
-		command = { type = make_puppet 	which = MEN }
 	}
 }
 
@@ -5064,11 +5107,21 @@ event = {
 	desc = "The General Staff of the National Revolutionary Army received intelligence that Japan was planning a major offensive westward, with the aim of taking over sections of the Longhai railway which were instrumental in the delivery of Soviet supplies to the central regions of China. Chiang Kai-shek was growing tired of the CCP's apparent avoidance of frontline combat, and so as chairman of the Military Affairs Commission, he authorized the Communist-controlled 4th and 8th armies as well as partisan units behind the front to go on the offensive with the aim of disrupting the Japanese plans. The CCP leadership, having grown confident of their increased strength, wanted to put it to good use and show it off to the world, establishing themselves as a major anti-Japanese fighting force. The offensive was a qualified success. While many of its initial gains were eventually reversed, the Japanese were humiliated and their plans were disrupted. As a side effect, Chiang grew even more weary and frightened of the CCP's growing strength."
 	style = 2
 	
+	decision = {
+		war = { country = JAP }
+		war = { country = CHI country = JAP }
+		NOT = { area = { area = "Shanxi" country = CSX value = 90 data = 1 } }
+		area = { area = "Shanxi" country = -2 value = 90 data = 1 }
+	}
+	decision_trigger = {
+		flag = { which = CHC_partisan_count when = 1 value = 10 }
+	}
 	trigger = {
 		war = { country = JAP }
-		flag = { which = CHC_partisan_count when = 1 value = 10 }
+		war = { country = CHI country = JAP }
 		NOT = { area = { area = "Shanxi" country = CSX value = 90 data = 1 } }
 		area = { area = "Shanxi" country = -2 value = 90 data = 1 } 
+		flag = { which = CHC_partisan_count when = 1 value = 10 }
 		OR = {
 			area = { area = "Suiyuan_Ningxia" 	country = -2 value = 80 data = 1 } #8/10 provinces
 			area = { area = "Shaanxi" 			country = -2 value = 15 data = 1 } #2/14 provinces
@@ -5083,9 +5136,9 @@ event = {
 	action = {
         name = "Launch the offensive!"
 		ai_chance = 100
-		command = { type = dissent value = -2 }
-		command = { type = supplies value = -500 }
-		command = { type = manpowerpool value = 100 } #new recruites
+		command = { type = dissent 		value = -2   }
+		command = { type = supplies 	value = -500 }
+		command = { type = manpowerpool value = 100  } #new recruites
 		command = { type = damage_division which = -1 where = 20 } #-20%
 		command = { type = damage_division which = -1 where = 20 } #-20%
 		command = { type = damage_division which = -1 where = 20 } #-20%
@@ -5115,10 +5168,17 @@ event = {
 		command = { type = revolt which = 1210 when = 1 }
 		command = { type = revolt which = 2533 when = 1 }
 		command = { type = revolt which = 1215 when = 1 }
+		
+		
+		
+		command = { trigger = { ai = CHC } type = event which = 2401005 where = CHC when = 0  }
+		command = { trigger = { ai = CHI } type = event which = 2401005 where = CHI when = 0  }
+		command = { trigger = { ai = CHC } type = event which = 2401006 where = CHC when = 30 }
+		command = { trigger = { ai = CHI } type = event which = 2401006 where = CHI when = 30 }
 
 		
-		command = { type = event which = 1330110171 where = JAP when = 0 }
-		command = { type = event which = 1330110172 where = CHI when = 5 }
+		command = { type = event which = 1330110171 where = JAP when = 0  }
+		command = { type = event which = 1330110172 where = CHI when = 30 }
 		
 		command = { trigger = { 
 			war = { country = JAP } 
@@ -5130,12 +5190,6 @@ event = {
 		command = { trigger = { war = { country = CHI } } 		type = event which = 1330110105 where = CHI when = 0  } #Partisans
 		command = { trigger = { war = { country = U87 } } 		type = event which = 1330110106 where = U87 when = 0  } #Partisans
 		command = { trigger = { war = { country = MAN }	} 		type = event which = 1330110107 where = MAN when = 0  } #Partisans
-	}
-	action = {
-        name = "We should show more caution"
-		ai_chance = 0
-		command = { type = dissent value = 5 }
-		command = { type = manpowerpool value = -50 }
 	}
 }
 
@@ -5150,9 +5204,9 @@ event = {
 	
 	action = {
         name = "Damn Communists!"
-		command = { type = dissent value = 1 }
-		command = { type = supplies value = -1000 }
-		command = { type = manpowerpool value = -20 }
+		command = { type = dissent 		value = 1     }
+		command = { type = supplies 	value = -1000 }
+		command = { type = manpowerpool value = -20   }
 	}
 }
 
@@ -6657,6 +6711,7 @@ event = {
 	id = 1330110300
 	random = no
 	country = CHI
+	persistent = yes
 
 	name = "Losing control of the coast"
 	desc = "With Japan taking control of the our coastal regions, we can no longer hold on to the islands off the coast"
@@ -6665,7 +6720,10 @@ event = {
 
 	trigger = {
 		war = { country = JAP }
-		control = { province = 5647 data = -3 }
+		OR = {
+			control = { province = 5647 data = -3 }
+			control = { province = 3086 data = -3 }
+		}
 		OR = {
 			area = { area = "Zhejiang" 	country = -2 data = 1 value = 80 }
 			area = { area = "Jiangsu" 	country = -2 data = 1 value = 80 }
@@ -6673,14 +6731,15 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 35
+	offset = 15
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
 		name = "We will recover them"
-		command = { type = remove_units which = all where = -2 when = 0 value = 5647 }
-		#command = { type = control which = JAP value = 5647 }
-		command = { type = secedeprovince which = JAP value = 5647	when = 2 }
+		command = { trigger = { control = { province = 5647 data = -3 } } type = remove_units which = all where = -3 when = 0 value = 5647 }
+		command = { trigger = { control = { province = 3086 data = -3 } } type = remove_units which = all where = -3 when = 0 value = 3086 }
+		command = { trigger = { control = { province = 5647 data = -3 } } type = secedeprovince which = JAP value = 5647	when = 2 }
+		command = { trigger = { control = { province = 3086 data = -3 } } type = secedeprovince which = JAP value = 3086	when = 2 }
 		
 		command = { type = addclaim which = 5647 where = JAP }
 	}
@@ -6707,14 +6766,14 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 35
+	offset = 15
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
 		name = "We will recover them"
-		command = { trigger = { control = { province = 5649 data = -3 } } type = remove_units which = all where = -2 when = 0 value = 5649 }
-		command = { trigger = { control = { province = 5650 data = -3 } } type = remove_units which = all where = -2 when = 0 value = 5650 }
-		command = { trigger = { control = { province = 5651 data = -3 } } type = remove_units which = all where = -2 when = 0 value = 5651 }
+		command = { trigger = { control = { province = 5649 data = -3 } } type = remove_units which = all where = -3 when = 0 value = 5649 }
+		command = { trigger = { control = { province = 5650 data = -3 } } type = remove_units which = all where = -3 when = 0 value = 5650 }
+		command = { trigger = { control = { province = 5651 data = -3 } } type = remove_units which = all where = -3 when = 0 value = 5651 }
 		#command = { type = control which = JAP value = 5649 }
 		#command = { type = control which = JAP value = 5650 }
 		#command = { type = control which = JAP value = 5651 }

@@ -25,7 +25,7 @@ country =
      defense_lobby     = 2 
      interventionism   = 3 
   }
-  SpyInfo                = { country = "BRA" NumberOfSpies = 5 }
+  SpyInfo                = { country = "BRA" NumberOfSpies = 1 }
   claimedprovinces 		 = { 5422 5424 5425 3957 
 849 833 2960 3776 3777 3778 3779 3780
 
@@ -196,7 +196,7 @@ country =
     relation = { tag = USA value = 120 }
     relation = { tag = VEN value = 10 }
   }
-   SpyInfo                = {  country = "BRA" NumberOfSpies = 5  } 
+   SpyInfo                = {  country = "BRA" NumberOfSpies = 1  } 
    headofstate            = {  type = 9 id = 160001  } 
    headofgovernment       = {  type = 9 id = 160002  } 
    foreignminister        = {  type = 9 id = 160003  } 

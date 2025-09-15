@@ -24,7 +24,7 @@ country =
      defense_lobby     = 2 
      interventionism   = 2 
   }
-  SpyInfo                = { country = "BOL" NumberOfSpies = 5 }
+  SpyInfo                = { country = "BOL" NumberOfSpies = 1 }
   claimedprovinces 		 = { 3842 3841 2374 838 3857 7419 3851 7418 3858 3885 5449 5448 7428 7417 }
   nationalprovinces      = { 836 832 828 827 837 822 2375 3843 3844 3845 3846 3847 3848 3849 3850 3852 3853 3854 3855 3856 3967 840 3884 3812 3819 3818 3816 3815 3817 3814 5452 5453 5454 5455 5451 3983 5434 5433 7420 7422 3956 3961 3833 7427 2003 7421 7095 7096 7423 5447 }
   ownedprovinces         = { 836 838 832 828 827 2374 2375 3841 3842 3843 3844 3845 3846 3847 3848 3849 3850 3851 3852 3853 3854 3855 3856 3857 3858 3812 3819 3818 3816 5452 5453 5454 5455 7418 7419 7420 }
@@ -81,7 +81,6 @@ country =
     relation = { tag = USA value = 85 }
     relation = { tag = VEN value = -15 }
   }
-   SpyInfo                = {  country = "BOL" NumberOfSpies = 3  } 
    headofstate            = {  type = 9 id = 205001  } 
    headofgovernment       = {  type = 9 id = 205002  } 
    foreignminister        = {  type = 9 id = 205003  } 

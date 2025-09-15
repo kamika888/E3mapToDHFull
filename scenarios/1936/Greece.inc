@@ -26,7 +26,7 @@ country =
      defense_lobby     = 3 
      interventionism   = 5 
   }
-  SpyInfo                = { country = "GRE" NumberOfSpies = 5 }
+  SpyInfo                = { country = "GRE" NumberOfSpies = 1 }
   nationalprovinces      = { 392 393 394 395 396 400 401 402 403 405 412 398 399 444
 							2319 653 563
 							2625 2872 418
@@ -190,7 +190,6 @@ country =
     }
   }
 inventions = { 3000027 }
-	SpyInfo                = {  country = "GRE" NumberOfSpies = 6  }
 	
 	headofstate            = {  type = 9 id = 90014  } #Georgios II
 	headofgovernment       = {  type = 9 id = 90002  } #Constantinos Demertzis

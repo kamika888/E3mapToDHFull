@@ -15,7 +15,7 @@ country =
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 15 
-  SpyInfo                = { country = "ROM" NumberOfSpies = 5 }
+  SpyInfo                = { country = "ROM" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = BUL value = 25 }
     relation = { tag = CZE value = 20 }
@@ -40,17 +40,6 @@ country =
       value      = 100
     }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "YUG" NumberOfSpies = 2 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CZE" NumberOfSpies = 1 }
-  SpyInfo                = { country = "AUS" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 1 }
-  SpyInfo                = { country = "HUN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "ALB" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GRE" NumberOfSpies = 2 }
-  SpyInfo                = { country = "BUL" NumberOfSpies = 3 }
-  SpyInfo                = { country = "ITA" NumberOfSpies = 1 }
   nationalprovinces      = {  424 425 431 426 495 496 498 427 428 429 430 432 436 433  230 434
 							2603 2450 2449 2605 2604  1403 1449 1402   2602
 							1571 3055

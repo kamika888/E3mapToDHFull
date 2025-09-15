@@ -25,7 +25,7 @@ country =
      defense_lobby     = 2
      interventionism   = 4
   }
-  SpyInfo                = { country = "CHL" NumberOfSpies = 5 }
+  SpyInfo                = { country = "CHL" NumberOfSpies = 1 }
   claimedprovinces 		 = { 7094 3885 7101 7102 7103 7417 7428 }
   nationalprovinces      = { 864 861 860 856 840 839 842 865 2993 2994 2995 2054 1930 3876 3877 3878 3879 3880 3881 3882 3883 3884 3886 4097 3839 5446 7093 7095 7096 7097 7098 7099 7100 7104 }
   ownedprovinces         = { 864 861 860 856 840 839 842 865 2993 2994 2995 2054 1930 3876 3877 3878 3879 3880 3881 3882 3883 3884 3885 3886 4097 5446 7093 7094 7095 7096 7097 7098 7099 7100 7101 7102 7103 7104 7417 7428 }
@@ -106,7 +106,6 @@ country =
     relation = { tag = USA value = 100 }
     relation = { tag = VEN value = 20 }
   }
-   SpyInfo                = {  country = "CHL" NumberOfSpies = 3  } 
    headofstate            = {  type = 9 id = 210001  } 
    headofgovernment       = {  type = 9 id = 210002  } 
    foreignminister        = {  type = 9 id = 210003  } 

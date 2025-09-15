@@ -21,7 +21,7 @@ country =
   
   headofstate            = {  type = 9 id = 55500  } 
   
-  SpyInfo                = { country = "U65" NumberOfSpies = 5 }
+  SpyInfo                = { country = "U65" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }

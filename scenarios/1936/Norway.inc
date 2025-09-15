@@ -17,7 +17,7 @@ country =
    # Norwegian merchant marine is INSANE! 
    transports             = 200 
    escorts                = 5 
-  SpyInfo                = { country = "NOR" NumberOfSpies = 5 }
+  SpyInfo                = { country = "NOR" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = BEL value = 100 }
     relation = { tag = DEN value = 150 }
@@ -28,17 +28,6 @@ country =
     relation = { tag = SWE value = 150 }
     relation = { tag = USA value = 75 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 4 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 4 }
-  SpyInfo                = { country = "CZE" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 3 }
-  SpyInfo                = { country = "SPR" NumberOfSpies = 2 }
-  SpyInfo                = { country = "POL" NumberOfSpies = 2 }
-  SpyInfo                = { country = "SWE" NumberOfSpies = 3 }
-  SpyInfo                = { country = "FIN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "DEN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "HOL" NumberOfSpies = 1 }
   claimedprovinces       = { 7168 3315 3316 6530 7170 3340 132 3341 133 3342 134 3343 
   #1 7137 7138 7139 2632
  }

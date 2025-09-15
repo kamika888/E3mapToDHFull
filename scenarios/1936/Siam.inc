@@ -13,7 +13,7 @@ country =
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 10 
-	manpower               = 4 
+	manpower               = 44 
   capital                = 1343
   policy =
   { date              = { year = 0 month = january day = 0 }
@@ -25,7 +25,7 @@ country =
      defense_lobby     = 3 
      interventionism   = 4 
   }
-  SpyInfo                = { country = "SIA" NumberOfSpies = 5 }
+  SpyInfo                = { country = "SIA" NumberOfSpies = 1 }
   nationalprovinces      = { 1348 1347 1345 1343 1342 1331 1330 1344 1303 2951 3124 3125 3126 3127 3128 3130 3131
 7016 7017 7018 7019 7021 7023 7905 7915 7916 7022 3116 1305
 #laos
@@ -110,7 +110,7 @@ inventions = { 3000027 }
      relation = {  tag = JAP value = 75  } 
      relation = {  tag = MAN value = 75  } 
     } 
-   SpyInfo                = {  country = "SIA" NumberOfSpies = 5  } 
+   SpyInfo                = {  country = "SIA" NumberOfSpies = 1  } 
    headofstate            = {  type = 9 id = 290001  } 
    headofgovernment       = {  type = 9 id = 290002  } 
    foreignminister        = {  type = 9 id = 290003  } 
@@ -156,48 +156,45 @@ inventions = { 3000027 }
       } 
      Division = 
      {  id       = {  type = 23600 id = 6  } 
-       name     = "6. Thai Cavalry Div." 
+       name     = "5. Thai Infantry Div." 
+       type     = infantry 
+	   model = 6
+       strength = 30 
+      }
+     Division = 
+     {  id       = {  type = 23600 id = 7  } 
+       name     = "6. Thai Infantry Div." 
+       type     = infantry 
+	   model = 6
+       strength = 30 
+      }
+     Division = 
+     {  id       = {  type = 23600 id = 8  } 
+       name     = "7. Thai Cavalry Div." 
        type     = cavalry 
 	   model = 6
        strength = 30 
       } 
+     Division = 
+     {  id       = {  type = 23600 id = 9  } 
+       name     = "8. Thai Cavalry Div." 
+       type     = cavalry 
+	   model = 6
+       strength = 30 
+      }
     } 
    landunit = 
    {  location = 1343 
      name     = "Royal Thai Police Force" 
-     id       = {  type = 23600 id = 8  } 
+     id       = {  type = 23600 id = 10  } 
      Division = 
-     {  id       = {  type = 23600 id = 9  } 
+     {  id       = {  type = 23600 id = 11  } 
        name     = "1. Royal Thai Police Div." 
        type     = garrison
 		model = 3 
        strength = 30 
        extra    = police 
 	   brigade_model = 1
-      } 
-    } 
-   navalunit = 
-   {  location = 3128 
-     base     = 3128 
-     name     = "Royal Thai Navy" 
-     id       = {  type = 23600 id = 10  } 
-     Division = 
-     {  id    = {  type = 23600 id = 11  } 
-       name  = "RTNS Sri Ayuthia" 
-       type  = light_cruiser 
-       model = 2 
-      } 
-     Division = 
-     {  id    = {  type = 23600 id = 12  } 
-       name  = "RTNS Dhonburi" 
-       type  = light_cruiser 
-       model = 2 
-      } 
-     Division = 
-     {  id    = {  type = 23600 id = 13  } 
-       name  = "Phra Ruang Flotille" 
-       type  = destroyer 
-       model = 2
       } 
     } 
    airunit = 
@@ -219,6 +216,30 @@ inventions = { 3000027 }
        model    = 3
        strength = 44 
       } 
-    } 
+    }
+   navalunit = 
+   {  location = 3128 
+     base     = 3128 
+     name     = "Royal Thai Navy" 
+     id       = {  type = 23600 id = 30  } 
+     Division = 
+     {  id    = {  type = 23600 id = 31  } 
+       name  = "RTNS Sri Ayuthia" 
+       type  = light_cruiser 
+       model = 2 
+      } 
+     Division = 
+     {  id    = {  type = 23600 id = 32  } 
+       name  = "RTNS Dhonburi" 
+       type  = light_cruiser 
+       model = 2 
+      } 
+     Division = 
+     {  id    = {  type = 23600 id = 33  } 
+       name  = "Phra Ruang Flotille" 
+       type  = destroyer 
+       model = 2
+      } 
+    }  
   } 
  

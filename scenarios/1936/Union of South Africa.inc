@@ -18,7 +18,7 @@ country =
 	money                  = 10 
 	manpower               = 51 
   capital                = 1120
-  SpyInfo                = { country = "SAF" NumberOfSpies = 5 }
+  SpyInfo                = { country = "SAF" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = AST value = 200 } # was access = yes
     relation = { tag = BEL value = 35 }
@@ -38,9 +38,6 @@ country =
     relation = { tag = USA value = 125 }
     relation = { tag = YEM value = 150 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 3 }
-  SpyInfo                = { country = "USA" NumberOfSpies = 2 }
-  SpyInfo                = { country = "HOL" NumberOfSpies = 1 }
   
   claimedprovinces      = { 1115 1116 1114 1117 1118 1120 1113 1119 1109 1108 1107 1106 1110
 2643 2644 2772 2773 2774 2775 2776 2777 2778 2779

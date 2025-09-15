@@ -5,7 +5,7 @@
 ### 8300068 --- Enact General Mobilization Group C (triggers 8300108)
 ### 8300069 --- Enact Extended Mobilization (triggers 8300109)
 ### 8300080 --- Enact Total Mobilization (triggers 8300110)
-### 1350005 --- End Mobilization (triggers 8300111, 8300112)
+### 1350005 --- End Mobilization (triggers 8300111, 8300113)
 
 event = {  #Prolong Conscription
  
@@ -247,13 +247,9 @@ event = {  #General Mob Group A
 		flag = theatsAssessed
 		local_flag = AllInit
 		NOT = { local_flag = demob }
-		#Can jump straight to general mobilization
-		#policy = { type = professional_army value = 5 } 
 		policy = { type = professional_army value = 1 }
 		NOT = { policy = { type = professional_army value = 6 } }
 		atwar = yes
-		
-		#NOT = { lost_national = { value = 100 } }
 		
 		NOT = { #too little to mobilize
 			lost_national = { value = 90 }
@@ -272,27 +268,13 @@ event = {  #General Mob Group A
 		}
 		
 		#when general mob happens, the penalties for taking people out of the workforce are immediate, but the manpower still "sits" in the recruitment pool and does nothing until new divisions are actually fielded.
-		#In effect, these people are neither working nor fighting, which is unrealistic.
+		#In effect, these people are neither working, training, or fighting, which is unrealistic.
 		#all things considered, it is better for "general mobilization" not to be invoked until more manpower is actually needed, otherwise the country is just wasting its IC/resources
 		#downside - if your territory is being overrun, failing to enact "general mob" early may cause you to lose out on potential manpower. But the ability to do that itself is unrealistic.
-		OR = {
-			NOT = { manpower = 70 }
-			lost_national = { value = 5 }
-			#local_flag = inMajorWar
-			AND = {
-				under_attack = -1
-				OR = {
-					country = POL 
-					country = VIC
-					country = CZE
-					AND = {
-						country = SOV
-						war = { country = GER }
-					}
-				}
-			}
-		}
+
+		policy = { type = professional_army value = 5 } 
 		
+		#can do?
 		OR = {
 			lost_national = { value = 15 }
 			AND = {
@@ -327,6 +309,25 @@ event = {  #General Mob Group A
 			}
 			policy = { type = defense_lobby value = 7 }
 		}
+		
+		#will do?
+		OR = {
+			NOT = { manpower = 70 }
+			lost_national = { value = 5 }
+			AND = {
+				under_attack = -1
+				OR = {
+					country = POL 
+					country = VIC
+					country = CZE
+					AND = {
+						country = SOV
+						war = { country = GER }
+					}
+				}
+			}
+		}
+		
 	}
    
 	name = "MOB6name"
@@ -614,20 +615,12 @@ event = { #general demob
 		NOT = { local_flag = demob }
 		policy = { type = professional_army value = 5 } 
 	}
-
 	decision_trigger = { 
 		atwar = no
 	}
-
 	trigger = {
-		NOT = { local_flag = demob }
-		policy = { type = professional_army value = 5 } 
-		atwar = no
-		NOT = {
-			policy = { type = defense_lobby value = 5 } #min for 2-year cons
-			local_flag = MOB_delay
-		}
-		NOT = { local_flag = do_not_demob }
+		ai = no
+		#AI will only demobilize by event (35% every 15 days)
 	}
    
 	name = "1350005name"
@@ -643,14 +636,14 @@ event = { #general demob
 	
 	action = {
 		name = "1350000text7" #End Partial Mobilisation -> go to 2 Years Conscr
-		trigger = { policy = { type = professional_army value = 5 } OR = { ai = no NOT = { local_flag = do_not_demob } } }
-		ai_chance = 100
+		trigger = { policy = { type = professional_army value = 5 } }
+		command = { type = local_setflag which = byDecision }
 		command = { type = trigger which = 8300111 }
 	}
 	action = {
 		name = "1350000text8" #End General Mobilisation -> go to Partial Mob
 		trigger = { policy = { type = professional_army value = 6 } }
-		ai_chance = 0	
-		command = { type = trigger which = 8300112 }
+		command = { type = local_setflag which = byDecision }
+		command = { type = trigger which = 8300113 }
 	}
 }

@@ -22,13 +22,12 @@
 		money = 1
    }
 
-   SpyInfo                = { country = "U56" NumberOfSpies = 5 }
+   SpyInfo                = { country = "U56" NumberOfSpies = 1 }
   diplomacy = 
    {   
    relation = {  tag = GER value = 80 access = no  }  
    relation = {  tag = ITA value = 120 access = yes  }  
    } 
-   SpyInfo                = {  country = "U06" NumberOfSpies = 3  } 
   
    headofstate            = {  type = 9 id = 1100001  } 
    headofgovernment       = {  type = 9 id = 1100002  } 

@@ -7,7 +7,7 @@
 
 country =
 { tag                    = GER
-  ai_settings			 = { flags = { Depression = 6 WARDebt = 2 ideology = 1 } }
+  ai_settings			 = { flags = { Depression = 6 ideology = 1 inDefault = 1 } }
   dissent				 = 8
   belligerence			 = 4
   capital                = 300
@@ -104,35 +104,6 @@ country =
       value      = 50
     }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 3 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 4 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 2 }
-  SpyInfo                = { country = "CZE" NumberOfSpies = 4 }
-  SpyInfo                = { country = "AUS" NumberOfSpies = 5 }
-  SpyInfo                = { country = "SPR" NumberOfSpies = 2 }
-  SpyInfo                = { country = "POL" NumberOfSpies = 3 }
-  SpyInfo                = { country = "SWE" NumberOfSpies = 3 }
-  SpyInfo                = { country = "NOR" NumberOfSpies = 4 }
-  SpyInfo                = { country = "FIN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "YUG" NumberOfSpies = 2 }
-  SpyInfo                = { country = "HUN" NumberOfSpies = 3 }
-  SpyInfo                = { country = "BUL" NumberOfSpies = 2 }
-  SpyInfo                = { country = "BEL" NumberOfSpies = 3 }
-  SpyInfo                = { country = "DEN" NumberOfSpies = 5 }
-  SpyInfo                = { country = "HOL" NumberOfSpies = 3 }
-  SpyInfo                = { country = "ARG" NumberOfSpies = 3 }
-  SpyInfo                = { country = "USA" NumberOfSpies = 3 }
-  SpyInfo                = { country = "ALB" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GRE" NumberOfSpies = 1 }
-  SpyInfo                = { country = "BRA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "JAP" NumberOfSpies = 2 }
-  SpyInfo                = { country = "ROM" NumberOfSpies = 2 }
-  SpyInfo                = { country = "LIT" NumberOfSpies = 2 }
-  SpyInfo                = { country = "LUX" NumberOfSpies = 1 }
-  SpyInfo                = { country = "POR" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ITA" NumberOfSpies = 4 }
-  SpyInfo                = { country = "CHI" NumberOfSpies = 4 }
-  SpyInfo                = { country = "MEX" NumberOfSpies = 1 }
   nationalprovinces      = { 
 							 307 208 3264 483 #Poland
 							 456 3363 494 3370 495 430 3382 197 205 3715 1839 3717 3463 #Foreign germans

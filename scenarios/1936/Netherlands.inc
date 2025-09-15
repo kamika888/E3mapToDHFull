@@ -16,7 +16,7 @@ country =
 	money                  = 40 
 	transports             = 250 
 	escorts                = 21 
-  SpyInfo                = { country = "HOL" NumberOfSpies = 5 }
+  SpyInfo                = { country = "HOL" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = BEL value = 150 }
     relation = { tag = CAN value = 80 }
@@ -34,17 +34,6 @@ country =
     relation = { tag = SWE value = 100 }
     relation = { tag = USA value = 70 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 2 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 2 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 1 }
-  SpyInfo                = { country = "BEL" NumberOfSpies = 2 }
-  SpyInfo                = { country = "DEN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 3 }
-  SpyInfo                = { country = "USA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "NOR" NumberOfSpies = 1 }
-  SpyInfo                = { country = "LUX" NumberOfSpies = 1 }
-  SpyInfo                = { country = "SPR" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ITA" NumberOfSpies = 1 }
   # Homeland
   nationalprovinces      = { 47 78 79 77 46 48 1019 49 1082 7043 7191 45 50 51 69 801 561 2965 4285 6502
                            }

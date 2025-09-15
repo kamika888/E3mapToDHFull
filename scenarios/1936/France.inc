@@ -4,7 +4,7 @@
 
 country =
 { tag                    = VIC
-  ai_settings			 = { flags = { WARDebt = 16 ideology = 6 } }
+  ai_settings			 = { flags = { WARDebt = 21 ideology = 6 } }
   capital                = 56
 	# Resource Reserves 
 	energy                 = 44400
@@ -83,31 +83,6 @@ country =
       value      = 50
     }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 3 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 4 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 2 }
-  SpyInfo                = { country = "CZE" NumberOfSpies = 1 }
-  SpyInfo                = { country = "AUS" NumberOfSpies = 1 }
-  SpyInfo                = { country = "SPR" NumberOfSpies = 4 }
-  SpyInfo                = { country = "POL" NumberOfSpies = 2 }
-  SpyInfo                = { country = "SWE" NumberOfSpies = 3 }
-  SpyInfo                = { country = "NOR" NumberOfSpies = 1 }
-  SpyInfo                = { country = "FIN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "YUG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "HUN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "BUL" NumberOfSpies = 1 }
-  SpyInfo                = { country = "BEL" NumberOfSpies = 4 }
-  SpyInfo                = { country = "DEN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "HOL" NumberOfSpies = 3 }
-  SpyInfo                = { country = "ARG" NumberOfSpies = 3 }
-  SpyInfo                = { country = "USA" NumberOfSpies = 2 }
-  SpyInfo                = { country = "ALB" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GRE" NumberOfSpies = 1 }
-  SpyInfo                = { country = "JAP" NumberOfSpies = 2 }
-  SpyInfo                = { country = "ROM" NumberOfSpies = 2 }
-  SpyInfo                = { country = "LUX" NumberOfSpies = 2 }
-  SpyInfo                = { country = "POR" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ITA" NumberOfSpies = 4 }
 
   nationalprovinces      = { 529 527 366 365 367 364 363 362 328 327 325 324 359 361 319 360 322 323 59  60  61  62  63  318 317 72 
                              64  44  43  18  54  42  55  41  56  57  58  33  34  35  36  37  38  39  40  320 321 528
@@ -331,7 +306,7 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
      political_left    = 6 
-     free_market       = 6
+     free_market       = 5
      freedom           = 8 
      professional_army = 4 #France had 2-year conscription in 1936
      defense_lobby     = 2 
@@ -1947,8 +1922,8 @@ landunit =
     }
 	landunit = {  
 		id = {  type = 13500 id = 2056  } 
-		location = 1794 
-		name = "Beirut Garrison"
+		location = 1862 
+		name = "Aleppo Garrison"
 		Division = 
 		{
 			id       = {  type = 13500 id = 2025 } 

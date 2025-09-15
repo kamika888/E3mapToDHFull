@@ -28,7 +28,7 @@ country =
     defense_lobby     = 3
     interventionism   = 1
   }
-  SpyInfo                = { country = "PHI" NumberOfSpies = 5 }
+  SpyInfo                = { country = "PHI" NumberOfSpies = 1 }
   nationalprovinces      = { 
 1735 1736 1737 1738 1739 1740 1741 1742 1743 1744 1745 1746 1747 1748 1749 1750
 5715 5716 5717 5718 5719 5720 5721 5722 5723 5724 5725 5726 5727 5728 5729 5730 5731 5732 5733

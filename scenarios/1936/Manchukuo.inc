@@ -20,7 +20,7 @@ country =
 	dissent				   = 30
     capital                = 2241
     #free                   = { energy = 14 metal = 7 rare_materials = 4 }
-  SpyInfo                = { country = "MAN" NumberOfSpies = 5 }
+  SpyInfo                = { country = "MAN" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = -100 }
     relation = { tag = CHI value = -100 }
@@ -202,7 +202,6 @@ country =
      interventionism   = 4 
   }
  inventions = { 3000027 }
-   SpyInfo                = {  country = "MAN" NumberOfSpies = 5  } 
    headofstate            = {  type = 9 id = 235001  } 
    headofgovernment       = {  type = 9 id = 235002  } 
    foreignminister        = {  type = 9 id = 235003  } 

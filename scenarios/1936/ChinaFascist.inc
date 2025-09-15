@@ -8,7 +8,7 @@ country =
   puppet                 = JAP
   control                = JAP
   name					 = U8736
-  ai_settings			 = { flags = { puppetLevel2 = 1 ideology = 2 } }
+  ai_settings			 = { flags = { puppetLevel2 = 1 ideology = 2 japChi_local = 15 } }
   ai					 = "exp_0.ai"
   intrinsic_gov_type     = fascist
   dissent				 = 30
@@ -21,9 +21,10 @@ country =
 	supplies               = 800 
 	money                  = 50 
     manpower               = 268
-   transports             = 200 
-   escorts                = 5 
-  SpyInfo                = { country = "U87" NumberOfSpies = 5 }
+	transports             = 200 
+	escorts                = 5 
+	extra_tc               = 20 #from japChi = 15 (global flag)
+  SpyInfo                = { country = "U87" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = -100 }
     relation = { tag = CHI value = -100 }
@@ -36,15 +37,6 @@ country =
     relation = { tag = SIA value = 75 }
     relation = { tag = USA value = 1 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 2 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CHI" NumberOfSpies = 3 }
-  SpyInfo                = { country = "JAP" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CYN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CSX" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CXB" NumberOfSpies = 1 }
   nationalprovinces      = {
 1275 1276 1277 1440 1441 1267 1268 1269 1270 1271
 1222 1223 1224 1227 1228 1229 1230 1273 1274 1439

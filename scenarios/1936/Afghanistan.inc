@@ -24,9 +24,9 @@ country =
      freedom           = 1 
      professional_army = 2 
      defense_lobby     = 2 
-     interventionism   = 1
+     interventionism   = 4
   }
-  SpyInfo                = { country = "AFG" NumberOfSpies = 5 }
+  SpyInfo                = { country = "AFG" NumberOfSpies = 1 }
   nationalprovinces      = { 1486 1493 1492 1484
 2864 2865 2866 2867
 5379 5380 5381 5382 5383 5384 5385 5386 5387 5388 

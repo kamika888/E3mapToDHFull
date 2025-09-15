@@ -25,7 +25,7 @@ country =
      defense_lobby     = 3 
      interventionism   = 3 
   }
-  SpyInfo                = { country = "TIB" NumberOfSpies = 5 }
+  SpyInfo                = { country = "TIB" NumberOfSpies = 1 }
   nationalprovinces      = { 1283 1448 1450 1451 1452 1453 1406 1444 1442 5205 1878 1877
 5505 5506 5507 5508 5509 5510 5511 5512 5513 5514 5515 5516 5517 5518 5519 5520 5521 5522 5523 5524 5525 5526
 5527 5528 5529 5530 5531 5532 5533 5534 5535 5536 5537 5538 5539 5540
@@ -91,7 +91,6 @@ blueprints = {
  
 }
 inventions = { 3000027 }
-   SpyInfo                = {  country = "TIB" NumberOfSpies = 4  } 
    headofstate            = {  type = 9 id = 440001  } 
    headofgovernment       = {  type = 9 id = 440002  } 
    foreignminister        = {  type = 9 id = 440003  } 

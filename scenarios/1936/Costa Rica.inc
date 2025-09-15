@@ -26,7 +26,7 @@ country =
      defense_lobby     = 1 
      interventionism   = 1
   }
-  SpyInfo                = { country = "COS" NumberOfSpies = 5 }
+  SpyInfo                = { country = "COS" NumberOfSpies = 1 }
   nationalprovinces      = { 540 2652 4290 }
   ownedprovinces         = { 540 2652 4290 }
   controlledprovinces    = { 540 2652 4290 }
@@ -76,7 +76,6 @@ country =
   diplomacy =
   { relation = { tag = USA value = 100 }
   }
-   SpyInfo                = {  country = "COS" NumberOfSpies = 1  } 
   
    headofstate            = {  type = 9 id = 310001  } 
    headofgovernment       = {  type = 9 id = 310002  } 

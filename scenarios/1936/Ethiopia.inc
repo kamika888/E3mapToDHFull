@@ -25,7 +25,7 @@ country =
      defense_lobby     = 6 
      interventionism   = 6
   }
-  SpyInfo                = { country = "ETH" NumberOfSpies = 5 }
+  SpyInfo                = { country = "ETH" NumberOfSpies = 1 }
   claimedprovinces      = { 
   #Internal
 1049 1050 1047 1053 1052 1051 1054 1033 1038 2342 4658 4659 4660 4661 4662 4663 4664 4665 4668 4669 4671 4677 4678 4682 6539 6540 6541 6542 7448 7449 7346 7447 7935
@@ -88,7 +88,6 @@ country =
      relation = {  tag = ITA value = -200  } 
      relation = {  tag = JAP value = 35  } 
     } 
-   SpyInfo                = {  country = "ETH" NumberOfSpies = 2  } 
    headofstate            = {  type = 9 id = 245001  } 
    headofgovernment       = {  type = 9 id = 245002  } 
    foreignminister        = {  type = 9 id = 245003  } 

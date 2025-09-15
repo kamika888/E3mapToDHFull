@@ -66,9 +66,7 @@ event = {
 		command = { type = disorg_division   which = 12700 value = 10105 where = -10 }
 		command = { type = disorg_division   which = 12700 value = 10106 where = -10 }
 		
-		#the city was largely destroyed in the fighting, it took decades to rebuild it
-		command = { type = construct which = ic where = 485 value = -2 } #out of 11
-		command = { type = construct which = infrastructure where = 485 value = -20 } #out of 80
+		command = { type = construct which = ic 			where = 485 value = -0.5 } #out of 7
 		
 		#command = { type = independence which = U48 value = 0 }
 		#command = { type = alliance which = U48 }
@@ -85,6 +83,8 @@ event = {
 		command = { trigger = { exists = U32 } type = event which = 200102 where = U32 when = 0 }
 		command = { trigger = { exists = U32 } type = access which = U32 }
 		#command = { type = event which = 200103 where = POL when = 1 }
+		
+		command = { trigger = { ai = SOV war = { country = SOV country = GER } } type = event which = 2401407 where = SOV when = 1 } #Soviets go on defensive for a bit
 	}
 }
 
@@ -170,7 +170,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1939 }
-	offset = 15
+	offset = 10
 	deathdate = { day = 29 month = december year = 1950 }
 
 	name = "Uprising Defeated"
@@ -180,8 +180,12 @@ event = {
 
 	action = {
 		name = ACTION_NAME_DAMN
-		command = { type = dissent value = 1 }
+		command = { type = dissent value = 2 }
 		command = { type = secedeprovince which = -1 value = 485 when = 2 } 
+		
+		#the city was largely destroyed in the fighting, it took decades to rebuild it
+		command = { type = construct which = ic 			where = 485 value = -2  } #out of 7
+		command = { type = construct which = infrastructure where = 485 value = -20 } #out of 80
 	}
 }
 
@@ -542,9 +546,16 @@ event = {
 			alliance = { country = GER country = VIC }
 		}
 		OR = { 
-			random = 1 
-			AND = { year = 1941 random = 15 } 
-			AND = { year = 1942 random = 40 } 
+			AND = {
+				event = { id = 2002008 days = 90 }
+				random = 1 
+			}
+			AND = {
+				flag = LustreENG
+				random = 40
+			}
+			AND = { year = 1941 random = 5  } 
+			AND = { year = 1942 random = 20 } 
 			region = { region = "Anatolia"	country = GER data = 1 value = 20 }
 			NOT = { area = { area = "Palestine"	country = -3 data = 1 value = 20 } }
 			NOT = { control = { province = 900 data = -3 } } #Suez
@@ -553,7 +564,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 10
+	offset = 15
 	deathdate = { day = 29 month = december year = 1963 }
 
 	name = 8name
@@ -589,6 +600,9 @@ event = {
 		command = { type = chiefofair which = 365172 } #Mahmud Salman
 		command = { type = event which = 2400530 where = IRQ when = 0 } #independent state
 		command = { type = event which = 2022005 where = ENG when = 0 }
+		
+		command = { trigger = { ai = IRQ } type = event which = 2400013 where = IRQ when = 0 } #Gar30+remove controlDeny
+
 		#not necessary
 		#command = { type = non_aggression which = ENG where = IRQ when = 6 } #6 days non-aggression
 		#command = { type = secedeprovince which = ENG value = 4157 when = 2 }
@@ -679,7 +693,13 @@ event = {
 		command = { type = access which = U02 }
 		command = { type = demobilize which = land when = 1 where = 0 value = -1 }
 		command = { type = secedearea which = IRQ value = "Iraq" when = 2 }
-		command = { type = event which = 2074006 where = ENG when = 0 }
+		command = { trigger = { ai = IRQ } 	type = event which = 2400097 where = IRQ when = 0 } #garSpec
+		command = { trigger = { ai = IRQ }	type = event which = 2400020 where = IRQ when = 0 } #gar100
+		command = { trigger = { ai = IRQ }	type = event which = 2400040 where = IRQ when = 0 } #exp0
+		command = { trigger = { ai = IRQ }	type = event which = 2400055 where = IRQ when = 0 } #enforcenoexp
+		
+		command = { type = alliance which = ENG when = 1 }
+		command = { type = event which = 2074006 where = ENG when = 1 }
 	}
 	action = {
 		ai_chance = 1
@@ -701,11 +721,25 @@ event = {
 	action = {
 		name = "Another solid victory"
 		command = { type = make_puppet which = IRQ }
+		command = { type = event which = 2074007 where = IRQ when = 0 }
+	}
+}
+
+event = {
+	id = 2074007
+	random = no
+
+	name = "Anglo-Iraqi War - Defeat"
+	desc = "After relieving the siege of Habbaniyah airbase and capturing nearby Fallujah, the British pressed on to Baghdad. The British forces were thoroughly outnumbered by the Iraqis, but they were much better trained and enjoyed an advantage in the air. However, the government in Baghdad panicked at the sight of British forces approaching the capital and quickly collapsed. Rashid Ali, the Grand Mufti, and many members of the 'National Defence Government' fled to Persia, then went on to Germany. On the morning of 31 May, the Mayor of Baghdad and a delegation approached British forces at the Washash Bridge, offering surrender."
+	style = 2
+  	picture = "news_paper"
+
+	action = {
+		name = "We have been defeated"
+		command = { type = set_domestic which = political_left value = 4 }
 		command = { type = event which = 2400537 where = IRQ when = 0 } #puppet level 7
-		command = { trigger = { ai = IRQ } 	type = event which = 2400097 where = IRQ when = 0 } #garSpec
-		command = { trigger = { ai = IRQ }	type = event which = 2400020 where = IRQ when = 0 } #gar100
-		command = { trigger = { ai = IRQ }	type = event which = 2400040 where = IRQ when = 0 } #exp0
-		command = { trigger = { ai = IRQ }	type = event which = 2400055 where = IRQ when = 0 } #enforcenoexp
+		command = { trigger = { non_aggression = { country = ENG country = VIC } } type = non_aggression which = VIC where = IRQ }
+		command = { trigger = { non_aggression = { country = ENG country = U04 } } type = non_aggression which = U04 where = IRQ }
 	}
 }
 
@@ -733,8 +767,8 @@ event = {
 	decision_trigger = {
 	}
 	trigger = {
-		random = 25
-		#lost_national = { country = SOV value = 5 }
+		#random = 25
+		lost_VP = { country = SOV value = 3 }
         war = { country = GER country = ENG }
         war = { country = GER country = SOV }
         NOT = {
@@ -757,7 +791,7 @@ event = {
 	desc = "Present an ultimatum to Iran to expel the German nationals and accept Allied military presense. We should be ready to go to war should the Iranians refuse our conditions."
 
 	date = { day = 0 month = january year = 1938 }
-	offset = 17
+	offset = 7
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -925,26 +959,6 @@ event = {
 		command = { type = secedeprovince which = ENG value = 1826 when = 2 }
 		command = { type = secedeprovince which = ENG value = 1825 when = 2 }
 		
-		command = { type = secedeprovince which = SOV value = 2840 when = 2 }
-		command = { type = secedeprovince which = SOV value = 4206 when = 2 }
-		command = { type = secedeprovince which = SOV value = 4202 when = 2 }
-		command = { type = secedeprovince which = SOV value = 4203 when = 2 }
-		command = { type = secedeprovince which = SOV value = 1859 when = 2 }
-		command = { type = secedeprovince which = SOV value = 4198 when = 2 }
-		command = { type = secedeprovince which = SOV value = 4201 when = 2 }
-		command = { type = secedeprovince which = SOV value = 1788 when = 2 }
-		command = { type = secedeprovince which = SOV value = 4199 when = 2 }
-		command = { type = secedeprovince which = SOV value = 2839 when = 2 }
-		command = { type = secedeprovince which = SOV value = 1787 when = 2 }
-		command = { type = secedeprovince which = SOV value = 4209 when = 2 }
-		command = { type = secedeprovince which = SOV value = 1503 when = 2 }
-		command = { type = secedeprovince which = SOV value = 2838 when = 2 }
-		command = { type = secedeprovince which = SOV value = 4232 when = 2 }
-		command = { type = secedeprovince which = SOV value = 4231 when = 2 }
-		command = { type = secedeprovince which = SOV value = 1500 when = 2 }
-		command = { type = secedeprovince which = SOV value = 4204 when = 2 }
-		command = { type = secedeprovince which = SOV value = 4207 when = 2 }
-		
 		command = { type = province_revoltrisk which = 2841 value = 50 }
 		command = { type = province_revoltrisk which = 4205 value = 50 }
 		command = { type = province_revoltrisk which = 1789 value = 50 }
@@ -1009,6 +1023,8 @@ event = {
 		command = { type = secedeprovince which = PER value = 4225 when = 2 }
 		command = { type = secedeprovince which = PER value = 7014 when = 2 }
 		
+		command = { type = demobilize which = land when = 0 where = 0 value = 15 } #leave ~15 land units
+		
 		command = { type = headofstate 				which = 150011 } # Mohammed Reza Pahlavi
 		command = { type = headofgovernment			which = 150015 } # Mohammed Ali Foroughi
 		command = { type = foreignminister 			which = 150028 } # Ali Zohayli
@@ -1029,6 +1045,9 @@ event = {
 		command = { type = set_domestic which = political_left value = 5 }
 		command = { type = end_trades	which = PER where = GER }
 		#command = { type = dissent		value = 15 }
+		
+		command = { type = access which = SOV }
+		command = { type = access which = ENG }
 		
 		command = { type = demobilize which = land when = 0 where = 0 value = 20 }
 		
@@ -1052,6 +1071,26 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK		
+		command = { type = secedeprovince which = SOV value = 2840 when = 2 }
+		command = { type = secedeprovince which = SOV value = 4206 when = 2 }
+		command = { type = secedeprovince which = SOV value = 4202 when = 2 }
+		command = { type = secedeprovince which = SOV value = 4203 when = 2 }
+		command = { type = secedeprovince which = SOV value = 1859 when = 2 }
+		command = { type = secedeprovince which = SOV value = 4198 when = 2 }
+		command = { type = secedeprovince which = SOV value = 4201 when = 2 }
+		command = { type = secedeprovince which = SOV value = 1788 when = 2 }
+		command = { type = secedeprovince which = SOV value = 4199 when = 2 }
+		command = { type = secedeprovince which = SOV value = 2839 when = 2 }
+		command = { type = secedeprovince which = SOV value = 1787 when = 2 }
+		command = { type = secedeprovince which = SOV value = 4209 when = 2 }
+		command = { type = secedeprovince which = SOV value = 1503 when = 2 }
+		command = { type = secedeprovince which = SOV value = 2838 when = 2 }
+		command = { type = secedeprovince which = SOV value = 4232 when = 2 }
+		command = { type = secedeprovince which = SOV value = 4231 when = 2 }
+		command = { type = secedeprovince which = SOV value = 1500 when = 2 }
+		command = { type = secedeprovince which = SOV value = 4204 when = 2 }
+		command = { type = secedeprovince which = SOV value = 4207 when = 2 }
+		
 		#south azerbaijan
 		command = { type = province_revoltrisk which = 2840 value = 10 }
 		command = { type = province_revoltrisk which = 4202 value = 10 }
@@ -2814,7 +2853,8 @@ event = {
 	id = 203120
 	random = no
 	country = GER
-	persistent = yes 
+	save_date = yes
+	#persistent = yes 
 	
 	name = "EVT_2022018_NAME" #Partitioning of Yugoslavia
 	desc = "EVT_2022018_DESC"
@@ -2823,10 +2863,10 @@ event = {
 
 	trigger = {	
 		NOT = { alliance = { country = YUG } }
-		area = { area = "East Serbia"		country = -3 data = 1 value = 100 }
-		area = { area = "Central Serbia"	country = -3 data = 1 value = 100 }
-		area = { area = "Bosnia" 			country = -3 data = 1 value = 100 }
-		area = { area = "Croatia" 			country = -3 data = 1 value = 100 }
+		area = { area = "East Serbia"		country = -3 data = 1 value = 90 }
+		area = { area = "Central Serbia"	country = -3 data = 1 value = 90 }
+		area = { area = "Bosnia" 			country = -3 data = 1 value = 90 }
+		area = { area = "Croatia" 			country = -3 data = 1 value = 90 }
 		control = { province = 453 data = -3 } #Belgrade is allied-controlled
 		participant = { country = GER value = 2 } #is member of Axis
 		OR = {
@@ -2847,6 +2887,8 @@ event = {
 	action_a = {
 		name = "EVT_2022018_ACTIONA" #Divide the lands with our allies
 		command = { type = dissent value = -1 }
+		
+		command = { type = extra_tc				value =  -50 }
 		command = { type = addclaim which = 459  where = GER }
 		command = { type = addclaim which = 7122 where = GER }
 		command = { type = addclaim which = 6560 where = GER }
@@ -2971,7 +3013,7 @@ event = {
 	id = 203121
 	random = no
 	country = CRO
-	persistent = yes
+	#persistent = yes
 	
 	#Triggered by GER2031
 	
@@ -3021,7 +3063,7 @@ event = {
 	id = 203122
 	random = no
 	country = SER
-	persistent = yes
+	#persistent = yes
 	
 	name = "EVT_2031_NAME"
 	desc = "EVT_2031_DESC"
@@ -3056,6 +3098,7 @@ event = {
 	id = 2022023
 	random = no
 	country = GER
+	save_date = yes
 	
 	name = "EVT_2022023_NAME" #Partitioning of Greece
 	desc = "EVT_2022023_DESC"
@@ -3083,6 +3126,7 @@ event = {
 	action = {
 		name = "Historical occupation zones" #Divide the lands with our allies
 		ai_chance = 5
+		command = { type = extra_tc					value = -30 }
 		command = { type = addclaim which = 401 	where = GER }
 		command = { type = addclaim which = 405 	where = GER }
 		command = { type = addclaim which = 7055 	where = GER }

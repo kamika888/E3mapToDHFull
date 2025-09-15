@@ -24,7 +24,7 @@ country =
 	supplies = 5
 	ic = 5
   }
-  SpyInfo                = { country = "CHC" NumberOfSpies = 5 }
+  SpyInfo                = { country = "CHC" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = JAP value = -200 }
     relation = { tag = MAN value = -100 }
@@ -39,15 +39,6 @@ country =
     relation = { tag = SIK value = 200 access = yes }
 	relation = { tag = TIB value = 40 access = yes }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 2 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CHI" NumberOfSpies = 3 }
-  SpyInfo                = { country = "JAP" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CYN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CSX" NumberOfSpies = 1 }
-  SpyInfo                = { country = "CXB" NumberOfSpies = 1 }
   nationalprovinces      = {
 1275 1276 1277 1440 1441 1267 1268 1269 1270 1271
 1222 1223 1224 1227 1228 1229 1230 1273 1274 1439
@@ -208,8 +199,8 @@ blueprints = {
    armamentminister       = {  type = 9 id = 260814  } 
    ministerofsecurity     = {  type = 9 id = 260856  } 
    ministerofintelligence = {  type = 9 id = 260868  } 
-   chiefofstaff           = {  type = 9 id = 260820  } 
-   chiefofarmy            = {  type = 9 id = 260867  } 
+   chiefofstaff           = {  type = 9 id = 260876  } 
+   chiefofarmy            = {  type = 9 id = 260871  } 
    chiefofnavy            = {  type = 9 id = 260806  } 
    chiefofair             = {  type = 9 id = 260808  } 
   # ######

@@ -4,7 +4,7 @@
 
 country =
 { tag                    = JAP
-  ai_settings			 = { flags = { ideology = 3 war_preparedness = 10 } }
+  ai_settings			 = { flags = { ideology = 3 WARDebt = 3 war_preparedness = 10 } }
   belligerence           = 3
   ai					 = "EXP_0_01.ai"
   capital                = 1184
@@ -18,7 +18,7 @@ country =
 	money                  = 100 
 	transports             = 600 
 	escorts                = 100 
-	extra_tc               = -45 #from japChi = 15 (global flag)
+	extra_tc               = -20 #from japChi = 15 (global flag)
 	free = {
 		supplies = -20			 #from japChi = 15 (global flag)
 	}
@@ -45,23 +45,6 @@ country =
     relation = { tag = SOV value = -10 }
     relation = { tag = USA value = 15 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 2 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 2 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 5 }
-  SpyInfo                = { country = "USA" NumberOfSpies = 3 }
-  SpyInfo                = { country = "SIK" NumberOfSpies = 1 }
-  SpyInfo                = { country = "TAN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 2 }
-  SpyInfo                = { country = "CXB" NumberOfSpies = 2 }
-  SpyInfo                = { country = "CYN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "LUX" NumberOfSpies = 1 }
-  SpyInfo                = { country = "POR" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ITA" NumberOfSpies = 2 }
-  SpyInfo                = { country = "CHI" NumberOfSpies = 4 }
-  SpyInfo                = { country = "CGX" NumberOfSpies = 1 }
-  SpyInfo                = { country = "PHI" NumberOfSpies = 2 }
-  SpyInfo                = { country = "NZL" NumberOfSpies = 1 }
-  SpyInfo                = { country = "AST" NumberOfSpies = 2 }
   # Sakhalin
   nationalprovinces      = { 1177 1178 1179 1180 1181 1182 1183 1184 1185 1186 1187 1188 1189 1190 1191 1784 1599 1192 1193 1785 1174 1176  
 1436 1437 1399
@@ -2370,11 +2353,12 @@ landunit =
      Division = 
      {  
 	   id       = {  type = 13016 id = 1501  } 
-       name     = "1st Special Naval Landing Force" 
+       name     = "Shanghai SNLF" 
        strength = 100 
        type     = marine 
        model    = 3
 	   experience = 90
+	   locked	= yes
      } 
      Division = 
      {  
@@ -2384,6 +2368,7 @@ landunit =
        type     = infantry 
        model    = 7
 	   experience = 90
+	   locked	= yes
      } 
     } 
 	landunit = 
@@ -2398,7 +2383,7 @@ landunit =
        strength = 100 
        type     = infantry 
        model    = 8
-	   #locked   = yes
+	   locked   = yes
 	   experience = 90
        extra    = artillery 
 	   brigade_model = 6
@@ -2410,7 +2395,7 @@ landunit =
        strength = 100 
        type     = infantry 
        model    = 8
-	   #locked   = yes
+	   locked   = yes
 	   experience = 90
        extra    = artillery 
 	   brigade_model = 6
@@ -2422,7 +2407,7 @@ landunit =
        strength = 100 
        type     = infantry 
        model    = 8
-	   #locked   = yes
+	   locked   = yes
 	   experience = 90
        extra    = artillery 
 	   brigade_model = 6
@@ -2434,7 +2419,7 @@ landunit =
        strength = 100 
        type     = infantry 
        model    = 8
-	   #locked   = yes
+	   locked   = yes
 	   experience = 90
        extra    = artillery 
 	   brigade_model = 6
@@ -2446,7 +2431,7 @@ landunit =
        strength = 100 
        type     = infantry 
        model    = 8
-	   #locked   = yes
+	   locked   = yes
 	   experience = 90
        extra    = artillery 
 	   brigade_model = 6
@@ -2458,7 +2443,7 @@ landunit =
        strength = 100 
        type     = hq 
        model    = 2
-	   #locked   = yes
+	   locked   = yes
 	   experience = 20
      } 
     } 
@@ -2844,20 +2829,35 @@ landunit =
 	landdivision = { dormant = yes id = { type = 13016 id = 2087 } name = "Dai 29 Hoheishidan" strength = 100 type = infantry model = 9 extra  = light_armor_brigade	brigade_model = 4 									 locked = yes }
 	
 	landdivision = { dormant = yes id = { type = 13016 id = 4001 } name = "1 IMB Beijing"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4002 } name = "2 IMB Tianjin"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4003 } name = "3 IMB Jinan"			type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4004 } name = "4 IMB Nanjing"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4005 } name = "5 IMB Hangzhou"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4006 } name = "6 IMB Wuhan"			type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4007 } name = "7 IMB Ningbo"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4008 } name = "8 IMB Nanchang"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4009 } name = "9 IMB Fuzhou"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4010 } name = "10 IMB Guangzhou"	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4011 } name = "11 IMB Yiyang"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4012 } name = "12 IMB Qinzhou"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4013 } name = "13 IMB Qiongshan"	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4014 } name = "14 IMB Guilin"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
-	landdivision = { dormant = yes id = { type = 13016 id = 4015 } name = "15 IMB Xian"			type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4002 } name = "2 IMB Beijing"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4003 } name = "3 IMB Tianjin"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4004 } name = "4 IMB Tianjin"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4005 } name = "5 IMB Jinan"			type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4006 } name = "6 IMB Jinan"			type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4007 } name = "7 IMB Nanjing"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4008 } name = "8 IMB Nanjing"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4009 } name = "9 IMB Hangzhou"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4010 } name = "10 IMB Hangzhou"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4011 } name = "11 IMB Wuhan"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4012 } name = "12 IMB Wuhan"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4013 } name = "13 IMB Ningbo"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4014 } name = "14 IMB Ningbo"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4015 } name = "15 IMB Nanchang"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4016 } name = "16 IMB Nanchang"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4017 } name = "17 IMB Fuzhou"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4018 } name = "18 IMB Fuzhou"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4019 } name = "19 IMB Guangzhou"	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4020 } name = "20 IMB Guangzhou"	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4021 } name = "21 IMB Yiyang"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4022 } name = "22 IMB Yiyang"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4023 } name = "23 IMB Qinzhou"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4024 } name = "24 IMB Qinzhou"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4025 } name = "25 IMB Qiongshan"	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4026 } name = "26 IMB Qiongshan"	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4027 } name = "27 IMB Guilin"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4028 } name = "28 IMB Guilin"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4029 } name = "29 IMB Xian"			type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4030 } name = "30 IMB Xian"			type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
 	
 	
 	#Philippines

@@ -25,7 +25,7 @@ country =
      defense_lobby     = 1 
      interventionism   = 2 
   }
-  SpyInfo                = { country = "URU" NumberOfSpies = 5 }
+  SpyInfo                = { country = "URU" NumberOfSpies = 1 }
   nationalprovinces      = { 849 833 2960 3776 3777 3778 3779 3780 }
   ownedprovinces         = { 849 833 2960 3776 3777 3778 3779 3780 }
   controlledprovinces    = { 849 833 2960 3776 3777 3778 3779 3780 }
@@ -95,7 +95,6 @@ inventions = { 3000027 }
      relation = {  tag = USA value = 100  } 
      relation = {  tag = VEN value = 10  } 
     } 
-   SpyInfo                = {  country = "URU" NumberOfSpies = 4  } 
    headofstate            = {  type = 9 id = 195001  } 
    headofgovernment       = {  type = 9 id = 195002  } 
    foreignminister        = {  type = 9 id = 195003  } 

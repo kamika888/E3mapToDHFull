@@ -23,12 +23,11 @@
    transports             = 50 
    escorts                = 0 
 
-   SpyInfo                = { country = "U80" NumberOfSpies = 5 }
+   SpyInfo                = { country = "U80" NumberOfSpies = 1 }
   diplomacy = 
    {   
    relation = {  tag = ENG value = 80 access = no  }  
     } 
-   SpyInfo                = {  country = "U06" NumberOfSpies = 3  } 
   
     
    nationalprovinces      = {  1474 1731 2828 2835 1430 1728 5336 5337 5338 5339 5340 5341 5342 5343 6920 7904 7192  } 
@@ -94,7 +93,7 @@
    {  date              = {  year = 0 month = january day = 0  } 
      democratic        = 1 
      political_left    = 4 
-     freedom           = 3 
+     freedom           = 1 
      free_market       = 1
      professional_army = 1 # no conscription 
      defense_lobby     = 3 

@@ -188,7 +188,7 @@ event = {
 	action = {
 		name = "This is not our war"
 		ai_chance = 99
-		command = { type = dissent value = -5 }
+		command = { type = dissent value = -3 }
 		#any troops ferried away need to be able to come back home
 		command = { trigger = { ai = yes NOT = { transport = { value = 1 when = now } } } type = add_corps		value = naval 		where = 2464 }
 		command = { trigger = { ai = yes NOT = { transport = { value = 1 when = now } } } type = add_division	value = transport 	when  = 0    }
@@ -196,6 +196,7 @@ event = {
 		command = { trigger = { ai = yes }	type = event which = 2400020 where = BUL when = 0 } #gar100
 		command = { trigger = { ai = yes }	type = event which = 2400040 where = BUL when = 0 } #exp0
 		command = { trigger = { ai = yes }	type = event which = 2400055 where = BUL when = 0 } #enforcenoexp
+		command = { 						type = ai	 which = "antiPartisanHigh.ai" }
 		
 		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = ENG when = 1080 }
 		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = VIC when = 1080 }
@@ -205,7 +206,7 @@ event = {
 		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = NZL when = 1080 }
 		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = U01 when = 1080 }
 		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = U02 when = 1080 }
-		#command = { trigger = { ai = no  }	type = non_aggression which = BUL where = SOV when = 1080 } #Separate event
+		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = SOV when = 1080 } #Separate event
 	}
 	action = {
 		name = "Germany's victory is OUR victory!"
@@ -370,6 +371,8 @@ event = {
 		name = "Germany's victory is OUR victory!"
 		command = { type = dissent value = 15 }
 		
+		command = { type = belligerence value = 5 }
+		
 		command = { trigger = { ai = yes }	type = event which = 2400045 where = BUL when = 0 } #exp50
 		command = { trigger = { ai = yes }	type = event which = 2400056 where = BUL when = 0 } #noexp_unenforce
 		command = { trigger = { ai = yes }	type = event which = 2400098 where = BUL when = 0 } #garspec_remove
@@ -451,6 +454,72 @@ event = {
 		}
 	}
 	
+########################################################################
+#  Penalty for deploying troops outside own territory
+#  Would be neat, but doesn't work. Have to use NAP instead
+#  In order to accurately measure army, need to include possible exp sent to Axis (which = 1)
+#  However, which=1 is totally borked. Bizarrely counts in the build queue with a multiplier on top, making the count meaningless
+########################################################################
+
+event = {
+	id = 2020016
+	random = no
+	country = BUL
+	persistent = yes
+	style = 2
+
+	trigger = {
+		ai = no
+		alliance = { country = GER }
+		NOT = { ispuppet = yes }
+		NOT = { flag = BulgariaFullAxis }
+		NOT = { flag = BulgariaUnderAttack }
+		
+		OR = {
+			AND = {
+				army = { country = BUL size = 10 type = 0 when = 0 where = 1 which = 1 }
+				NOT = { garrison = { province = 417 type = land size = 10 area = 3 } }
+			}
+			AND = {
+				army = { country = BUL size = 15 type = 0 when = 0 where = 1 which = 1 }
+				NOT = { garrison = { province = 417 type = land size = 15 area = 3 } }
+			}
+			AND = {
+				army = { country = BUL size = 20 type = 0 when = 0 where = 1 which = 1 }
+				NOT = { garrison = { province = 417 type = land size = 20 area = 3 } }
+			}
+			AND = {
+				army = { country = BUL size = 25 type = 0 when = 0 where = 1 which = 1 }
+				NOT = { garrison = { province = 417 type = land size = 25 area = 3 } }
+			}
+			AND = {
+				army = { country = BUL size = 30 type = 1 when = 0 where = 1 which = 1 }
+				NOT = { garrison = { province = 417 type = land size = 30 area = 3 } }
+			}
+			AND = {
+				army = { country = BUL size = 35 type = 1 when = 0 where = 1 which = 1 }
+				NOT = { garrison = { province = 417 type = land size = 35 area = 3 } }
+			}
+		}
+	}
+
+	#date = { day = 0 month = january year = 1938 }
+	#offset = 2
+	#deathdate = { day = 29 month = december year = 1963 }
+
+	name = "Generals unhappy"
+	desc = "Much of our establishment, including some generals and the Church are expressing dissent regarding our decision to deploy troops outside Bulgaria. After the bloody failure of WW1, Bulgarians prefer to keep their involvement in the new war at a minimal level unless there is a clear threat to the very survival of Bulgaria."
+
+	action = {
+		name = "This is not our war"
+		command = { type = dissent value = 2 }
+	}
+	action = {
+		name = "Germany's victory is OUR victory!"
+		command = { type = setflag which = BulgariaFullAxis } #The Allies will remember this...
+		command = { type = event which = 2020010 where = BUL when = 0 }
+	}
+}
 
 
 ########################################################################

@@ -15,7 +15,7 @@ country =
 	money                  = 10 
 	manpower               = 167 
   capital                = 830
-  SpyInfo                = { country = "PRU" NumberOfSpies = 5 }
+  SpyInfo                = { country = "PRU" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = ARG value = 20 }
     relation = { tag = BOL value = 30 }
@@ -96,7 +96,6 @@ country =
      interventionism   = 3 
   }
 inventions = { 3000027 }
-   SpyInfo                = {  country = "PRU" NumberOfSpies = 4  } 
    headofstate            = {  type = 9 id = 185001  } 
    headofgovernment       = {  type = 9 id = 185002  } 
    foreignminister        = {  type = 9 id = 185003  } 

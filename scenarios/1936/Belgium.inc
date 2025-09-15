@@ -16,7 +16,7 @@ country =
 	money                  = 20 
 	transports             = 100 
 	escorts                = 20 
-  SpyInfo                = { country = "BEL" NumberOfSpies = 5 }
+  SpyInfo                = { country = "BEL" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = AST value = 75 }
     relation = { tag = CAN value = 150 }
@@ -37,13 +37,6 @@ country =
     relation = { tag = SWE value = 100 }
     relation = { tag = USA value = 75 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 3 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 1 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 3 }
-  SpyInfo                = { country = "DEN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "HOL" NumberOfSpies = 3 }
-  SpyInfo                = { country = "LUX" NumberOfSpies = 1 }
   nationalprovinces      = { 51 45 50 52 65 68 69 70 7044 7043 1082 49 }
   claimedprovinces    	 = { 
 2292 71 

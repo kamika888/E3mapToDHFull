@@ -25,7 +25,7 @@ country =
      defense_lobby     = 3 
      interventionism   = 2
   }
-  SpyInfo                = { country = "PER" NumberOfSpies = 5 }
+  SpyInfo                = { country = "PER" NumberOfSpies = 1 }
   nationalprovinces      = { 1859 1787 1503 1502 1789 1825 1498 1497 1499 1826 1501 1500 1496 1495
 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845 4198 4201 4202 4203 4204 4205 4206 4207 4208 
 4209 4210 4211 4212 4213 4214 4215 4216 4217 4218 4219 4220 4221 4222 4223 4224 4227 4228 
@@ -86,6 +86,8 @@ country =
 
 #Air Doctrines - ww2 techs
 27480 27490 27500 27510 27520 27530 27540 27550 27570 27580 27590 27600 9030 9020 27560 27460 27470 9010
+
+6560
  } 
  inventions = { 3000027 }
    diplomacy = 
@@ -98,7 +100,6 @@ country =
      relation = {  tag = SWE value = 50  } 
      relation = {  tag = TUR value = -50  } 
     } 
-   SpyInfo                = {  country = "PER" NumberOfSpies = 5  } 
    headofstate            = {  type = 9 id = 150001  } 
    headofgovernment       = {  type = 9 id = 150002  } 
    foreignminister        = {  type = 9 id = 150003  } 

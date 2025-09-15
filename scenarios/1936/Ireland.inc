@@ -17,7 +17,7 @@ country =
 	supplies               = 500 
 	money                  = 10 
     capital                = 30
-  SpyInfo                = { country = "IRE" NumberOfSpies = 5 }
+  SpyInfo                = { country = "IRE" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = ARG value = 20 }
     relation = { tag = AST value = 75 }
@@ -42,9 +42,6 @@ country =
     relation = { tag = SPR value = 50 }
     relation = { tag = USA value = 75 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 4 }
-  SpyInfo                = { country = "GER" NumberOfSpies = 1 }
-  SpyInfo                = { country = "USA" NumberOfSpies = 1 }
   claimedprovinces       = { 28 29 }
   nationalprovinces      = { 27 26 25 24 30 3048 3049 3050 3051 3052 3053 7128 7129 }
   ownedprovinces         = { 27 26 25 24 30 3048 3049 3050 3051 3052 3053 }

@@ -16,7 +16,7 @@ country =
 	transports             = 100 
 	escorts                = 2 
   capital                = 142
-  SpyInfo                = { country = "FIN" NumberOfSpies = 5 }
+  SpyInfo                = { country = "FIN" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = AST value = 65 }
     relation = { tag = AUS value = 55 }
@@ -49,20 +49,6 @@ country =
     relation = { tag = USA value = 90 }
     relation = { tag = YUG value = 35 }
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "FRA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "SOV" NumberOfSpies = 4 }
-  SpyInfo                = { country = "LAT" NumberOfSpies = 1 }
-  SpyInfo                = { country = "LIT" NumberOfSpies = 2 }
-  SpyInfo                = { country = "POL" NumberOfSpies = 3 }
-  SpyInfo                = { country = "SWE" NumberOfSpies = 3 }
-  SpyInfo                = { country = "NOR" NumberOfSpies = 4 }
-  SpyInfo                = { country = "EST" NumberOfSpies = 2 }
-  SpyInfo                = { country = "YUG" NumberOfSpies = 1 }
-  SpyInfo                = { country = "HUN" NumberOfSpies = 1 }
-  SpyInfo                = { country = "DEN" NumberOfSpies = 2 }
-  SpyInfo                = { country = "USA" NumberOfSpies = 1 }
-  SpyInfo                = { country = "ITA" NumberOfSpies = 1 }
   claimedprovinces       = { 152 151 184 150 135 3342 133 7073 186 187 188 }
   nationalprovinces      = { 103 141 142 140 143 138 139 137 131 130 132 136 148 147 144 145 146 149  
 							123 183 2305	2630	2631

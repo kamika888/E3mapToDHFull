@@ -27,7 +27,7 @@ country =
      defense_lobby     = 3 
      interventionism   = 3
   }
-  SpyInfo                = { country = "IRQ" NumberOfSpies = 5 }
+  SpyInfo                = { country = "IRQ" NumberOfSpies = 1 }
   claimedprovinces		 = { 4213 4156 710 7977 4154 }
   nationalprovinces      = { 1860 1864 1865 1866 1790 1824 1823 1806 1791 2496 1498 1822 4153 4155 4157 4158 4159 4160 4161 4162 4163 4164 4165 4212 6499 7349 7350 }
   ownedprovinces         = { 1860 1864 1865 1866 1790 1824 1823 1806 1791 710 2496 4153 4154 4155 4156 4157 4158 4159 4160 4161 4162 4163 4164 4165 7349 7350 7977 }
@@ -76,12 +76,11 @@ country =
      relation = {  tag = USA value = 120  } 
      relation = {  tag = YEM value = 125  } 
     } 
-   SpyInfo                = {  country = "IRQ" NumberOfSpies = 3  } 
    headofstate            = {  type = 9 id = 365001  } 
    headofgovernment       = {  type = 9 id = 365002  } 
    foreignminister        = {  type = 9 id = 365003  } 
    armamentminister       = {  type = 9 id = 365004  } 
-   ministerofsecurity     = {  type = 9 id = 365005  } 
+   ministerofsecurity     = {  type = 9 id = 365086  } 
    ministerofintelligence = {  type = 9 id = 365006  } 
    chiefofstaff           = {  type = 9 id = 365007  } 
    chiefofarmy            = {  type = 9 id = 365008  } 
@@ -98,6 +97,7 @@ country =
        strength = 30 
        type     = infantry 
 	   model    = 5
+	   strength = 70 
       } 
      Division = 
      {  id       = {  type = 22500 id = 5  } 
@@ -105,24 +105,26 @@ country =
        strength = 30 
        type     = infantry 
 	   model    = 5
+	   strength = 50 
       } 
-	# Iraqi army in 1936 was 10,000 to 12,000 soldiers at most..
-    # Division = 
-    # {  id       = {  type = 22500 id = 6  } 
-    #   name     = "3. Iraqi Infantry Division" 
-    #   strength = 30 
-    #   type     = infantry 
-	#   model    = 5
-    #   extra    = artillery 
-	#   brigade_model = 2
-    #  } 
-    # Division = 
-    # {  id       = {  type = 22500 id = 7  } 
-    #   name     = "4. Iraqi Infantry Division" 
-    #   strength = 30 
-    #   type     = infantry 
-	#   model    = 5
-    #  } 
+     Division = 
+     {  id       = {  type = 22500 id = 6  } 
+       name     = "3. Iraqi Infantry Division" 
+       strength = 30 
+       type     = infantry 
+	   model    = 5
+       extra    = artillery 
+	   brigade_model = 2
+	   strength = 20 
+      } 
+     Division = 
+     {  id       = {  type = 22500 id = 7  } 
+       name     = "4. Iraqi Infantry Division" 
+       strength = 30 
+       type     = infantry 
+	   model    = 5
+	   strength = 20 
+      } 
 	}
 	
    airunit = 

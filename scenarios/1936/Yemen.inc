@@ -28,7 +28,7 @@ country =
      defense_lobby     = 3 
      interventionism   = 3 
   }
-  SpyInfo                = { country = "YEM" NumberOfSpies = 5 }
+  SpyInfo                = { country = "YEM" NumberOfSpies = 1 }
   nationalprovinces      = { 1812 1813 1814
 2855 1815 2857 4185 4186 4235
 4174 4187 4188 4189 6566 6567 6568 6569 6570 6571
@@ -90,7 +90,6 @@ country =
      relation = {  tag = TUR value = 35  } 
      relation = {  tag = USA value = 100  } 
     } 
-   SpyInfo                = {  country = "YEM" NumberOfSpies = 1  } 
    headofstate            = {  type = 9 id = 445001  } 
    headofgovernment       = {  type = 9 id = 445002  } 
    foreignminister        = {  type = 9 id = 445003  } 

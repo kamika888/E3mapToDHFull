@@ -27,7 +27,7 @@ country =
      defense_lobby     = 2 
      interventionism   = 1 
   }
-  SpyInfo                = { country = "LIB" NumberOfSpies = 5 }
+  SpyInfo                = { country = "LIB" NumberOfSpies = 1 }
   nationalprovinces      = { 992
 2762
 4476 4477 4478
@@ -79,7 +79,6 @@ country =
    {  relation = {  tag = PHI value = 200  } 
      relation = {  tag = USA value = 200  } 
     } 
-   #SpyInfo                = {  country = "USA" NumberOfSpies = 3  } 
    headofstate            = {  type = 9 id = 380001  } 
    headofgovernment       = {  type = 9 id = 380002  } 
    foreignminister        = {  type = 9 id = 380003  } 

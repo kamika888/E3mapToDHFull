@@ -26,7 +26,7 @@ country =
      defense_lobby     = 3 
      interventionism   = 3
   }
-  SpyInfo                = { country = "ALB" NumberOfSpies = 5 }
+  SpyInfo                = { country = "ALB" NumberOfSpies = 1 }
   nationalprovinces      = { 390 391 415 665 664 1169 3372 3393 5465 5466 6562 413 7163 7961 7315 7936 }
   ownedprovinces         = { 390 391 665 664 5465 5466 7163 7961 }
   controlledprovinces    = { 390 391 665 664 5465 5466 7163 7961 }
@@ -76,7 +76,6 @@ inventions = { 3000027 }
   diplomacy =
   { relation = { tag = ITA value = 10 }
   }
-   SpyInfo                = {  country = "ALB" NumberOfSpies = 3  } 
    headofstate            = {  type = 9 id = 285001  } 
    headofgovernment       = {  type = 9 id = 285002  } 
    foreignminister        = {  type = 9 id = 285003  } 

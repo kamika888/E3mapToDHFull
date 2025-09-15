@@ -26,7 +26,7 @@ country =
      defense_lobby     = 1 
      interventionism   = 2
   }
-  SpyInfo                = { country = "GUA" NumberOfSpies = 5 }
+  SpyInfo                = { country = "GUA" NumberOfSpies = 1 }
   nationalprovinces      = { 757 2649 4302 4303 4304 4305 4306 7380 }
   ownedprovinces         = { 757 2649 4302 4303 4304 4305 7380 }
   controlledprovinces    = { 757 2649 4302 4303 4304 4305 7380 }

@@ -26,7 +26,7 @@ country =
      defense_lobby     = 1 
      interventionism   = 2 
   }
-  SpyInfo                = { country = "HON" NumberOfSpies = 5 }
+  SpyInfo                = { country = "HON" NumberOfSpies = 1 }
   nationalprovinces      = { 760 2650 4296 4297 4298 4299 4300 6501 6503 }
   ownedprovinces         = { 760 2650 4296 4297 4298 4299 4300 6501 }
   controlledprovinces    = { 760 2650 4296 4297 4298 4299 4300 6501 }

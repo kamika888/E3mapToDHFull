@@ -25,7 +25,7 @@ country =
      defense_lobby     = 2 
      interventionism   = 3 
   }
-  SpyInfo                = { country = "ECU" NumberOfSpies = 5 }
+  SpyInfo                = { country = "ECU" NumberOfSpies = 1 }
   claimedprovinces 		 = { 817 818 551 908 1835 3785 3786 3787 3824 3823 3820 2930 3822 3821 2738 3788 3789 3790 7430 7435 7434 }
   nationalprovinces      = { 3782 3783 814 7429 7433 3784 3781 815 7431 }
   ownedprovinces         = { 814 815 817 551 3781 3782 3783 3784 3785 3786 3787 1835 3823 3822 7429 7430 7431 7435 7433 }
@@ -87,7 +87,6 @@ inventions = { 3000027 }
     relation = { tag = USA value = 75 }
     relation = { tag = VEN value = 20 }
   }
-   SpyInfo                = {  country = "ECU" NumberOfSpies = 3  } 
    headofstate            = {  type = 9 id = 190001  } 
    headofgovernment       = {  type = 9 id = 190002  } 
    foreignminister        = {  type = 9 id = 190003  } 

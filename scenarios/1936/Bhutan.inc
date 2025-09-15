@@ -27,7 +27,7 @@ country =
      defense_lobby     = 2 
      interventionism   = 1 
   }
-  SpyInfo                = { country = "BHU" NumberOfSpies = 5 }
+  SpyInfo                = { country = "BHU" NumberOfSpies = 1 }
   nationalprovinces      = { 1455 5180 7304 }
   ownedprovinces         = { 1455 5180 7304 }
   controlledprovinces    = { 1455 5180 7304 }
@@ -79,7 +79,6 @@ country =
     relation = { tag = USA value = 100 }
     relation = { tag = YEM value = 150 }
   }
-   SpyInfo                = {  country = "BHU" NumberOfSpies = 1  } 
    headofstate            = {  type = 9 id = 330001  } 
    headofgovernment       = {  type = 9 id = 330002  } 
    foreignminister        = {  type = 9 id = 330003  } 
