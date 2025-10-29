@@ -19,7 +19,7 @@ country =
   money                  = 10
   capital                = 1433 # Urumqi
   manpower               = 300
-  dissent                = 16
+  dissent                = 12
   policy =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 

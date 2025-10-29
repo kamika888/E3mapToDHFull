@@ -272,15 +272,20 @@ event = {
 	trigger = {
 		NOT = { ispuppet = yes }
 		NOT = { exists = U30 }
-		war = { country = GER country = SOV }
+		participant = { value = 2 }
 		war = { country = SOV }
 		
-		lost_national = { value = 25 }
 		OR = {
-			control = { province = 430 data = -2 } #Sibiu
-			control = { province = 432 data = -2 } #Braila
-			control = { province = 431 data = -2 } #Ploesti
-			control = { province = 424 data = -2 } #Bucharest
+			NOT = { war = { country = GER country = SOV } }
+			AND = {
+				lost_national = { value = 25 }
+				OR = {
+					control = { province = 430 data = -2 } #Sibiu
+					control = { province = 432 data = -2 } #Braila
+					control = { province = 431 data = -2 } #Ploesti
+					control = { province = 424 data = -2 } #Bucharest
+				}
+			}
 		}
 	}
 
@@ -347,6 +352,7 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		ai_chance = 100
+		command = { type = local_setflag which = noChange }
 		command = { type = leave_alliance when =  1 } # separate peace, pull out of alliance
 		command = { type = access which = GER }
 		command = { type = access which = ITA }
@@ -358,6 +364,8 @@ event = {
 		
 		command = { type = secederegion which = SOV value = "Ukraine" 		when = 1 } 
 		command = { type = secedearea	which = SOV value = "Bessarabia" 	when = 1 } 
+		
+		command = { trigger = { ai = yes }	type = event which = 2400040 where = -1 when = 0 } #exp0
 		
 		command = { type = event which = 2023013 where = SOV when = 1 }
 	}
@@ -412,7 +420,9 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
-		#command = { type = dissent value = 10 } #should already have +30 dissent from the coup_nation
+		command = { type = local_clrflag which = noChange }
+		command = { type = dissent value = 10 } #coup_nation gives +30
+		command = { trigger = { army = { size = 40 } } type = demobilize which = land when = 0 where = 0 value = -5 }
 		command = { type = secederegion which = SOV value = "Balkan" when = 1 } 
 		command = { type = secederegion which = SOV value = "Hungary" when = 1 } 
 		command = { type = secederegion which = SOV value = "Czechoslovakia" when = 1 } 
@@ -441,10 +451,20 @@ event = {
 		
 		command = { type = setflag which = RomAllies }
 		
+		command = { trigger = { non_aggression = { country = BUL country = SOV } } type = non_aggression which = BUL where = ROM } 
+		
 		#will be handled in post-war settlement event
 		#command = { type = local_setflag	when = 0	which = RepPay3	value = 6 } #6 years worth of reparation payments to USSR
 		#command = { type = setflag 		when = 0	which = RepPec	value = 6 }
 		#command = { type = event 			when = 0	which = 3021	where = SOV }
+		
+		command = { trigger = { ai = yes }	type = event which = 2400045 where = -1 when = 0 } #exp50
+		command = { trigger = { ai = yes }	type = event which = 2400056 where = -1 when = 0 } #noexp_unenforce
+		command = { trigger = { ai = yes }	type = event which = 2400098 where = -1 when = 0 } #garspec_remove
+		command = { trigger = { ai = yes }	type = event which = 2400013 where = -1 when = 0 } #gar30
+		
+		command = { trigger = { NOT = { ai = SOV } }	type = military_control which = SOV where = ROM value = 1 }
+		command = { trigger = { NOT = { ai = SOV } }	type = military_control which = SOV where = U30 value = 1 }
 	}
 }
 

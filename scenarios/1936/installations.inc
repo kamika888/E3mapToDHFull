@@ -2451,6 +2451,7 @@ province = { id = 1184 naval_base = { size = 10 current_size = 10 } }
 province = { id = 1181 naval_base = { size = 10 current_size = 10 } }
 province = { id = 1372 naval_base = { size = 10 current_size = 10 } }
 
+province = { id = 503  air_base = { size = 2 current_size = 2 } }
 province = { id = 1857 air_base = { size = 2 current_size = 2 } }
 province = { id = 1289 air_base = { size = 3 current_size = 3 } }
 province = { id = 1550 air_base = { size = 1 current_size = 1 } }
@@ -3941,7 +3942,7 @@ province =
 province = 
  { id = 920   # Tobruk - Tobruk - Libya
    anti_air = 2 
-   landfort = 3 
+   landfort = 1 
    coastalfort = 2 
  } 
  
@@ -4491,7 +4492,11 @@ province = { id = 334   # Coruna - Cantabric Chain - Spain
  } 
  
 province = { id = 341   # Madrid - Central Spain - Spain
-   anti_air = 3 
+   anti_air = 2 
+ } 
+ 
+province = { id = 357   # Barcelona - Catalonia - Spain
+   anti_air = 1 
  } 
  
 province = { id = 2244 #Pamplona - Spain
@@ -5156,8 +5161,8 @@ province = {
 
 province = { 
 	id = 5583
-	supplypool = 5500
-	oilpool = 10
+	supplypool = 10
+	oilpool = 2
 }
 
 #CHC/U58

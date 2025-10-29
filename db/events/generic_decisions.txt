@@ -19,6 +19,7 @@ event = {
 	trigger = {
 		atwar = yes
 		NOT = { local_flag = grand_offensive }
+		NOT = { local_flag = partisan_mode   }
 		
 		#majors should not waste it on non-majors
 		OR = {
@@ -218,7 +219,7 @@ event = {
 			}
 			AND = {
 				country = CHC
-				supplies = 500
+				supplies = 300
 				OR = {
 					#Once at long march, once at 100 regiments offensive, and every summer if not at AsiaPassive until the motherland is freed
 					AND = {
@@ -233,6 +234,10 @@ event = {
 					}
 					AND = {	
 						NOT = { local_flag = asiaPassive }
+						OR = {
+							event = 1330110170
+							year = 1942
+						}
 						lost_national = { value = 5 }
 						month = May
 						NOT = { month = October }
@@ -250,7 +255,7 @@ event = {
 						#repeatable, until SPR is destroyed
 					}
 					AND = {	
-						lost_national = { value = 25 }
+						lost_national = { value = 30 }
 						month = May
 						NOT = { month = October }
 						random = 20
@@ -262,7 +267,7 @@ event = {
 				supplies = 500
 				OR = {
 					AND = {	
-						lost_national = { value = 25 }
+						lost_national = { value = 35 }
 						month = May
 						NOT = { month = October }
 						random = 20
@@ -308,7 +313,7 @@ event = {
 	decision_picture = "decision_grand_offensive"
 
 	date = { day = 1 month = january year = 1914 }
-	offset = 5
+	offset = 4
 	deathdate = { day = 30 month = december year = 1999 }
 
 	action = {
@@ -317,7 +322,8 @@ event = {
 		command = { type = local_setflag when = 1				which = grand_offensiveCount value = 1 }
 
 		
-		command = { type = tc_mod 											value = 10	}
+		#increased supply consumption will cause increase in TC demand, this will partially cover it
+		command = { type = tc_mod 											value = 50	}
 		command = { type = supply_dist_mod 									value = 10	}
 		
 		#the cost is relative to military size.
@@ -405,7 +411,7 @@ event = {
 		command = { type = fuel_consumption 	which = air 				value = -0.2 }
 		command = { type = fuel_consumption 	which = naval				value = -0.2 }
 
-		command = { type = tc_mod 											value = -10	 }
+		command = { type = tc_mod 											value = -50	 }
 		command = { type = supply_dist_mod 									value = -10	 }
 		
 		command = { type = task_efficiency 	which = attack 					value = -0.2 }
@@ -1284,7 +1290,7 @@ event = {
 							local_flag = USA_Lend_Lease_to_ENG1_local
 							local_flag = USA_Lend_Lease_to_SOV1_local
 						}
-						NOT = { local_flag = sanctionsEvt local_flag = sanctionsWar }
+						NOT = { local_flag = Sanctions }
 					}
 					AND = {
 						exists = GER 
@@ -1294,8 +1300,7 @@ event = {
 							continent = "Europe"
 							NOT = { 
 								atwar = GER
-								local_flag = sanctionsEvt
-								local_flag = sanctionsWar
+								local_flag = Sanctions
 							}
 						}
 					}
@@ -1310,7 +1315,7 @@ event = {
 		}
 	}
    
-	name = "Budget Spending"
+	name = "Budget Spending - General"
 	desc = EVT_9000023_DESC
 	style = 2
 	picture = "money_devaluation"
@@ -1641,33 +1646,35 @@ event = {
 		#Take effect in December rather than in a month
 		#Reduce possible interest payments that would normally happen in December, in this sense it may be a better long term option compared to "invest in growth"
 	}
-#	Should not have a need for this, since supplies can typically be traded for money on the market, assuming no problems with shipping lanes
-#	action = {
-#		name = "Invest in Supplies"
-#		trigger = { 
-#			NOT = { local_flag = invest_supplies }
-#			ic = 10
-#			NOT = { local_flag = sanctionsEvt local_flag = sanctionsWar }
-#			OR = {
-#				ai = no
-#				AND = {
-#					atwar = yes
-#					NOT = { supplies = 200 }
-#				}
-#			}
-#		}
-#		ai_chance = 10
-#		
-#		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-#		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-#		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-#		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-#		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-#		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
-#		command = { type = local_setflag which = invest_supplies }
-#		command = { type = local_setflag which = invest_supplies_count when = 1 value = 1 }
-#		command = { type = event which = 9000048 where = -1 when = 180 }
-#	}
+#	In theory this should not be necessary since supplies can typically be traded for money on the market, however:
+#	In practice most AI countries are extremely reluctant to trade away supplies especially for money
+#	Also, even blockaded countries usually can smuggle in some amount of supplies, assuming they are willing to pay in disproportionately large quantities of gold.
+	action = {
+		name = "Invest in Supplies"
+		trigger = { 
+			NOT = { local_flag = invest_supplies }
+			ic = 10
+			NOT = { local_flag = Sanctions }
+			OR = {
+				ai = no
+				AND = {
+					atwar = yes
+					NOT = { supplies = 200 }
+				}
+			}
+		}
+		ai_chance = 10
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { type = local_setflag which = invest_supplies }
+		command = { type = local_setflag which = invest_supplies_count when = 1 value = 1 }
+		command = { type = event which = 9000048 where = -1 when = 180 }
+	}
 }
 
 event = {
@@ -1702,15 +1709,18 @@ event = {
 	
 	action = {
 		name = "ACTION_NAME_GREAT"
-		#command = { type = industrial_modifier which = total value = 2.00 }
+		command = { type = industrial_modifier which = total value = 2.00 }
 		
 		#Experimental
-		command = { trigger = { IC = 200 } 	type = construct which = ic where = -4 value = 1.6 } #?		- 1.70%
-		command = { trigger = { IC = 100 }	type = construct which = ic where = -4 value = 0.8 } #0.90% - 1.80%
-		command = { trigger = { IC = 50  }	type = construct which = ic where = -4 value = 0.4 } #1.00% - 2.00%
-		command = { trigger = { IC = 25  }	type = construct which = ic where = -4 value = 0.3 } #1.22% - 2.40%
-		command = { trigger = { IC = 12  }	type = construct which = ic where = -4 value = 0.2 } #1.25% - 2.50%
-		command = { trigger = {          }	type = construct which = ic where = -4 value = 0.1 } #0.90% - 3.00% (assuming 3 IC minimum)
+		#Has some issues. The variance is too high. Even if the step IC is reduced and number of steps is increased, the effective percentage will still vary substantially
+		#Additionally, since it increases base IC rather than effective IC, the true percentage increase cannot be known ahead of time, wherease with industrial_modifier we always know that the increase is exactly 2%
+		
+		#command = { trigger = { IC = 200 } type = construct which = ic where = -4 value = 1.6 } #3.2	#?		- 1.70%
+		#command = { trigger = { IC = 100 }	type = construct which = ic where = -4 value = 0.8 } #1.8	#0.90%	- 1.80%
+		#command = { trigger = { IC = 50  }	type = construct which = ic where = -4 value = 0.4 } #1.0	#1.00%	- 2.00%
+		#command = { trigger = { IC = 25  }	type = construct which = ic where = -4 value = 0.3 } #0.6	#1.22%	- 2.40%
+		#command = { trigger = { IC = 12  }	type = construct which = ic where = -4 value = 0.2 } #0.3	#1.25%	- 2.50%
+		#command = { trigger = {          }	type = construct which = ic where = -4 value = 0.1 } #0.1	#0.90%	- 3.00% (assuming 3 IC minimum)
 		command = { type = local_clrflag which = invest_industry }
 	}
 }
@@ -1808,72 +1818,79 @@ event = {
 	
 	action = {
 		name = "ACTION_NAME_GREAT"
-		#Over 200 IC country with no conscription gets +32.5 MP or around 2-3 infantry divisions
-		#Less than 12 IC country with no conscription gets +6.5 MP or about half of 1 infantry division
+		#Over 200 IC country with no conscription gets +35.5 MP or around 2-3 infantry divisions
+		#Less than 12 IC country with no conscription gets +7.0 MP or about half of 1 infantry division
+		
+		command = { trigger = { IC = { value = 200 } 													 		} 	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 100 } 	 														} 	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 50  }  															} 	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 25  }  															} 	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 12  }  															} 	type = manpowerpool value = 0.5 }
+		command = { trigger = { 			 																	} 	type = manpowerpool value = 0.5 }
 		
 		#general mobilization C
-		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 9 } } } type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { 			NOT = { policy = { type = professional_army value = 9 } } } type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 9 } } } type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { 						NOT = { policy = { type = professional_army value = 9 } } } type = manpowerpool value = 0.5 }
 		
 		#general mobilization B
-		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 8 } } } type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { 			NOT = { policy = { type = professional_army value = 8 } } } type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 8 } } } type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { 						NOT = { policy = { type = professional_army value = 8 } } } type = manpowerpool value = 0.5 }
 		
 		#general mobilization A
-		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 7 } } } type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { 			NOT = { policy = { type = professional_army value = 7 } } } type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 7 } } } type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
+		command = { trigger = { 						NOT = { policy = { type = professional_army value = 7 } } } type = manpowerpool value = 0.5 }
 		
 		#partial mobilization
-		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 6 } } } type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { 			NOT = { policy = { type = professional_army value = 6 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 6 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { 						NOT = { policy = { type = professional_army value = 6 } } } type = manpowerpool value = 1.0 }
 		
 		#2 year conscription
-		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 5 } } } type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { 			NOT = { policy = { type = professional_army value = 5 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 5 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { 						NOT = { policy = { type = professional_army value = 5 } } } type = manpowerpool value = 1.0 }
 		
 		#1 year conscription
-		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 4 } } } type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { 			NOT = { policy = { type = professional_army value = 4 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 4 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { 						NOT = { policy = { type = professional_army value = 4 } } } type = manpowerpool value = 1.0 }
 		
 		#selective conscription
-		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 3 } } } type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { 			NOT = { policy = { type = professional_army value = 3 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 3 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { 						NOT = { policy = { type = professional_army value = 3 } } } type = manpowerpool value = 1.0 }
 		
 		#no conscription
-		command = { trigger = { IC = 200 	NOT = { policy = { type = professional_army value = 2 } } } type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 100 	NOT = { policy = { type = professional_army value = 2 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 50  	NOT = { policy = { type = professional_army value = 2 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 25  	NOT = { policy = { type = professional_army value = 2 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = 12  	NOT = { policy = { type = professional_army value = 2 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { 			NOT = { policy = { type = professional_army value = 2 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 2 } } } type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 2 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 2 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 2 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 2 } } }	type = manpowerpool value = 1.0 }
+		command = { trigger = { 						NOT = { policy = { type = professional_army value = 2 } } } type = manpowerpool value = 1.0 }
 		
 		command = { type = industrial_modifier which = total value = 0.10 } #recruitment spending is actually a form of economic stimulus as well
 					
@@ -2235,7 +2252,7 @@ event = {
 					local_flag = USA_Lend_Lease_to_ENG1_local
 					local_flag = USA_Lend_Lease_to_SOV1_local
 				}
-				NOT = { local_flag = sanctionsEvt local_flag = sanctionsWar }
+				NOT = { local_flag = Sanctions }
 			}
 			AND = {
 				exists = GER 
@@ -2245,8 +2262,7 @@ event = {
 					continent = "Europe"
 					NOT = { 
 						atwar = GER
-						local_flag = sanctionsEvt
-						local_flag = sanctionsWar
+						local_flag = Sanctions
 					}
 				}
 			}
@@ -2274,7 +2290,7 @@ event = {
 					local_flag = USA_Lend_Lease_to_ENG1_local
 					local_flag = USA_Lend_Lease_to_SOV1_local
 				}
-				NOT = { local_flag = sanctionsEvt local_flag = sanctionsWar }
+				NOT = { local_flag = Sanctions }
 			}
 			AND = {
 				exists = GER 
@@ -2284,8 +2300,7 @@ event = {
 					continent = "Europe"
 					NOT = { 
 						atwar = GER
-						local_flag = sanctionsEvt
-						local_flag = sanctionsWar
+						local_flag = Sanctions
 					}
 				}
 			}
@@ -2467,7 +2482,7 @@ event = {
 					local_flag = USA_Lend_Lease_to_ENG1_local
 					local_flag = USA_Lend_Lease_to_SOV1_local
 				}
-				NOT = { local_flag = sanctionsEvt local_flag = sanctionsWar }
+				NOT = { local_flag = Sanctions }
 			}
 			AND = {
 				exists = GER 
@@ -2477,8 +2492,7 @@ event = {
 					continent = "Europe"
 					NOT = { 
 						atwar = GER
-						local_flag = sanctionsEvt
-						local_flag = sanctionsWar
+						local_flag = Sanctions
 					}
 				}
 			}
@@ -2506,7 +2520,7 @@ event = {
 					local_flag = USA_Lend_Lease_to_ENG1_local
 					local_flag = USA_Lend_Lease_to_SOV1_local
 				}
-				NOT = { local_flag = sanctionsEvt local_flag = sanctionsWar }
+				NOT = { local_flag = Sanctions }
 			}
 			AND = {
 				exists = GER 
@@ -2516,8 +2530,7 @@ event = {
 					continent = "Europe"
 					NOT = { 
 						atwar = GER
-						local_flag = sanctionsEvt
-						local_flag = sanctionsWar
+						local_flag = Sanctions
 					}
 				}
 			}
@@ -2949,12 +2962,13 @@ event = {
 
 	action = {
 		name = ACTION_NAME_EXCELLENT
+		#one model down from the latest researched
 		command = { trigger = { technology = 3810 NOT = { technology = 3820 } } type = add_division value = transport when = 0 }
-		command = { trigger = { technology = 3820 NOT = { technology = 3830 } } type = add_division value = transport when = 1 }
-		command = { trigger = { technology = 3830 NOT = { technology = 3840 } } type = add_division value = transport when = 2 }
-		command = { trigger = { technology = 3840 NOT = { technology = 3850 } } type = add_division value = transport when = 3 }
-		command = { trigger = { technology = 3850 NOT = { technology = 3860 } } type = add_division value = transport when = 4 }
-		command = { trigger = { technology = 3860 } 							type = add_division value = transport when = 5 }
+		command = { trigger = { technology = 3820 NOT = { technology = 3830 } } type = add_division value = transport when = 0 }
+		command = { trigger = { technology = 3830 NOT = { technology = 3840 } } type = add_division value = transport when = 1 }
+		command = { trigger = { technology = 3840 NOT = { technology = 3850 } } type = add_division value = transport when = 2 }
+		command = { trigger = { technology = 3850 NOT = { technology = 3860 } } type = add_division value = transport when = 3 }
+		command = { trigger = { technology = 3860 } 							type = add_division value = transport when = 4 }
 		command = { type = local_clrflag which = transports_conversion }
 	}
 }
@@ -3331,6 +3345,667 @@ event = {
 
 
 
+event = {
+	id = 9000070
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	decision = { 
+		local_flag = AllInit
+		NOT = { lost_national = { value = 90 } }
+	}
+	decision_trigger = {
+		OR = {
+			money = 6400
+			AND = {
+				NOT = { IC = 200 }
+				money = 3200
+			}
+			AND = {
+				NOT = { IC = 100 }
+				money = 1600
+			}
+			AND = {
+				NOT = { IC = 50 }
+				money = 800
+			}
+			AND = {
+				NOT = { IC = 25 }
+				money = 400
+			}
+			AND = {
+				NOT = { IC = 12 }
+				money = 200
+			}	
+		}
+	}
+
+	trigger = {
+		local_flag = AllInit
+		NOT = { local_flag = issue_currency } #had to print money recently
+		NOT = { lost_national = { value = 90 } }
+		OR = {
+			money = 12800
+			AND = {
+				NOT = { IC = 200 }
+				money = 6400
+			}
+			AND = {
+				NOT = { IC = 100 }
+				money = 3200
+			}
+			AND = {
+				NOT = { IC = 50 }
+				money = 1600
+			}
+			AND = {
+				NOT = { IC = 25 }
+				money = 800
+			}
+			AND = {
+				NOT = { IC = 12 }
+				money = 400
+			}	
+		}
+		OR = {
+			resource_shortage = energy
+			resource_shortage = metal
+			resource_shortage = rare_materials
+			resource_shortage = oil
+		}
+	}
+   
+	name = "Budget Spending - Extraction"
+	desc = "We can direct our accumulated financial reserves toward boosting the production of vital resources such as energy, steel, oil, and rare minerals. This initiative encompasses the expansion of existing extraction sites, geological surveys and exploration of new deposits, and research into advanced extraction methods. Should conventional means fall short, we will invest in the development of synthetic alternatives to secure a steady supply. While costly, these measures will strengthen our economy and ensure our industries remain fueled for the challenges ahead."
+	style = 2
+	picture = "money_devaluation"
+	decision_picture = "decision_money_devaluation"
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 30
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {
+		name = "Invest in Energy"
+		trigger = {
+			NOT = { local_flag = invest_energy }
+			OR = {
+				ai = no
+				resource_shortage = energy
+			}
+		}
+		ai_chance = 10
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { type = local_setflag which = invest_energy }
+		command = { type = local_setflag which = invest_energy_count when = 1 value = 1 }
+		command = { type = event which = 9000071 where = -1 when = 180 }
+	}
+	action = {
+		name = "Invest in Metals"
+		trigger = {
+			NOT = { local_flag = invest_metal }
+			OR = {
+				ai = no
+				resource_shortage = metal
+			}
+		}
+		ai_chance = 10
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { type = local_setflag which = invest_metal }
+		command = { type = local_setflag which = invest_metal_count when = 1 value = 1 }
+		command = { type = event which = 9000072 where = -1 when = 180 }
+	}
+	action = {
+		name = "Invest in Oil"
+		trigger = {
+			NOT = { local_flag = invest_oil }
+			OR = {
+				ai = no
+				resource_shortage = oil
+			}
+		}
+		ai_chance = 60
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { type = local_setflag which = invest_oil }
+		command = { type = local_setflag which = invest_oil_count when = 1 value = 1 }
+		command = { type = event which = 9000073 where = -1 when = 180 }
+	}
+	action = {
+		name = "Invest in Rare Minerals"
+		trigger = {
+			NOT = { local_flag = invest_rare }
+			OR = {
+				ai = no
+				resource_shortage = rare_materials
+			}
+		}
+		ai_chance = 60
+		
+		command = { trigger = { IC = 200 } 						type = money value = -6400 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { type = local_setflag which = invest_rare }
+		command = { type = local_setflag which = invest_rare_count when = 1 value = 1 }
+		command = { type = event which = 9000074 where = -1 when = 180 }
+	}
+}
+
+event = {
+	id = 9000071
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+   
+	name = "Energy Production"
+	desc = "Our investment into boosting energy production is starting to bear fruit. New power plants and expanded infrastructure have come online, significantly increasing our energy output. Improved efficiency in existing facilities ensures a more reliable supply to our factories and households. Where coal deposits were insufficient, hydroelectric dams, gas turbines, and other alternative sources have been developed to fill the gap. Our industries can now count on a stable flow of power."
+	style = 2
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = industrial_modifier which = energy value = 1.00 }
+		
+		command = { trigger = { IC = 200 } 	type = add_prov_resource which = -1 value = 6.0	where = energy } #21.0
+		command = { trigger = { IC = 100 } 	type = add_prov_resource which = -1 value = 5.0	where = energy } #15.0
+		command = { trigger = { IC = 50  } 	type = add_prov_resource which = -1 value = 4.0	where = energy } #10.0
+		command = { trigger = { IC = 25  } 	type = add_prov_resource which = -1 value = 3.0	where = energy } #6.0
+		command = { trigger = { IC = 12  } 	type = add_prov_resource which = -1 value = 2.0	where = energy } #3.0
+		command = { 						type = add_prov_resource which = -1 value = 1.0	where = energy } #1.0
+
+		command = { type = local_clrflag which = invest_energy }
+	}
+}
+
+event = {
+	id = 9000072
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+   
+	name = "Metal Production"
+	desc = "Our investment into boosting metal production is starting to bear fruit. Upgraded mining equipment and expanded steelworks have boosted our metal production. In regions with poor ore deposits, investments in recycling programs and alloy substitutes have provided a steady flow of industrial-grade metals. With these innovations, our industry can accelerate construction and armament efforts."
+	style = 2
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = industrial_modifier which = metal value = 1.00 }
+		
+		command = { trigger = { IC = 200 } 	type = add_prov_resource which = -1 value = 3.0	where = metal } #10.5
+		command = { trigger = { IC = 100 } 	type = add_prov_resource which = -1 value = 2.5	where = metal } #7.5
+		command = { trigger = { IC = 50  } 	type = add_prov_resource which = -1 value = 2.0	where = metal } #5.0
+		command = { trigger = { IC = 25  } 	type = add_prov_resource which = -1 value = 1.5	where = metal } #3.0
+		command = { trigger = { IC = 12  } 	type = add_prov_resource which = -1 value = 1.0	where = metal } #1.5
+		command = { 						type = add_prov_resource which = -1 value = 0.5	where = metal } #0.5
+
+		command = { type = local_clrflag which = invest_metal }
+	}
+}
+
+event = {
+	id = 9000073
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+   
+	name = "Oil Production"
+	desc = "Our investment into boosting oil production is starting to bear fruit. Fresh oil fields have been tapped and drilling capacity has expanded, while refining upgrades ensure more efficient use of the extracted crude. In areas where crude oil is scarce, synthetic fuel plants convert coal and natural gas into usable petroleum products, ensuring that our fuel reserves are far more secure."
+	style = 2
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = industrial_modifier which = oil value = 1.00 }
+		
+		command = { trigger = { IC = 200 } 	type = add_prov_resource which = -1 value = 1.5	where = oil } #5.3
+		command = { trigger = { IC = 100 } 	type = add_prov_resource which = -1 value = 1.3	where = oil } #3.8
+		command = { trigger = { IC = 50  } 	type = add_prov_resource which = -1 value = 1.0	where = oil } #2.5
+		command = { trigger = { IC = 25  } 	type = add_prov_resource which = -1 value = 0.8	where = oil } #1.5
+		command = { trigger = { IC = 12  } 	type = add_prov_resource which = -1 value = 0.5	where = oil } #0.8
+		command = { 						type = add_prov_resource which = -1 value = 0.3	where = oil } #0.3
+
+		command = { type = local_clrflag which = invest_oil }
+	}
+}
+
+event = {
+	id = 9000074
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+   
+	name = "Rare Minerals Production"
+	desc = "Our investment into boosting rare minerals production is starting to bear fruit. Geological surveys have uncovered new deposits of rare minerals, and investment in specialized extraction facilities ensures they are being put to use. These critical resources will fuel both civilian and military research. Where nature fell short, science has stepped in. Substitutes and laboratory-grown materials are filling the void, while research into synthetic rubber from petroleum and other chemical processes has borne fruit. Thanks to these efforts, our industries now enjoy a steady supply of this vital material for vehicles, machinery, and military equipment."
+	style = 2
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = industrial_modifier which = rare_materials value = 1.00 }
+		
+		command = { trigger = { IC = 200 } 	type = add_prov_resource which = -1 value = 1.5	where = rare_materials } #5.3
+		command = { trigger = { IC = 100 } 	type = add_prov_resource which = -1 value = 1.3	where = rare_materials } #3.8
+		command = { trigger = { IC = 50  } 	type = add_prov_resource which = -1 value = 1.0	where = rare_materials } #2.5
+		command = { trigger = { IC = 25  } 	type = add_prov_resource which = -1 value = 0.8	where = rare_materials } #1.5
+		command = { trigger = { IC = 12  } 	type = add_prov_resource which = -1 value = 0.5	where = rare_materials } #0.8
+		command = { 						type = add_prov_resource which = -1 value = 0.3	where = rare_materials } #0.3
+
+		command = { type = local_clrflag which = invest_rare }
+	}
+}
+
+
+
+event = {
+	id = 9000080
+	random = no
+	persistent = yes
+
+	decision = { 
+		local_flag = AllInit
+		NOT = { local_flag = partisan_mode 	}
+		NOT = { local_flag = partisan_chg	}
+	}
+	decision_trigger = {
+		atwar = yes
+		NOT = { ispuppet = yes } #puppets can't partisan mode unless by event
+		
+		#Can't switch to partisan mode right after a long and bloody conventional war. Need to wait for the long war counter to go down.
+		OR = {
+			NOT = { local_flag = { which = warDurationCount when = 1 value = 4 } } #4 years of war
+			NOT = { local_flag = { which = mpRelatLCount 	when = 1 value = 4 } } #8 mil total losses at China tier
+		}
+	}
+	trigger = {
+		local_flag = AllInit
+		NOT = { local_flag = partisan_mode	}
+		NOT = { local_flag = partisan_chg	}
+		NOT = { local_flag = partisan_stop	}
+		
+		atwar = yes
+		NOT = { ispuppet = yes }
+		OR = {
+			NOT = { local_flag = { which = warDurationCount when = 1 value = 4 } } #4 years of war
+			NOT = { local_flag = { which = mpRelatLCount 	when = 1 value = 4 } } #8 mil total losses at China tier
+		}
+		OR = {
+			local_flag = AllDefenseSpecWinter
+			local_flag = AllDefenseSpecMountain
+			local_flag = AllDefenseSpecJungle
+			#local_flag = AllDefenseSpecDesert
+		}
+		NOT 	= { IC = 20    }
+		lost_IC = { value = 70 }
+		manpower = 200
+	}
+   
+	name = "Partisan Mode"
+	desc = "Given the nature of the enemy we're facing, we have a choice to effectively abandon conventional warfare and retreat to the safety of the mountains and forests, from which we can launch a campaign of endless harassment against our enemy. Note that this is a very unpopular move. It will cost at minimum 10 dissent, and much more if we still hold a lot of industry and population centers."
+	style = 2
+	picture = "sov_partisans"
+	decision_picture = "decision_grand_offensive3"
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 30
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {
+		name = "To the mountains!"
+		#This is never a popular choice, especially since it means populated areas are being abandoned to enemy occupation without a fight
+		command = { 																	type = dissent value = 10 } 
+		command = { trigger = { OR = { IC = 20 NOT = { lost_IC = { value = 70 } } } }	type = dissent value = 10 } 
+		command = { trigger = { OR = { IC = 40 NOT = { lost_IC = { value = 50 } } } }	type = dissent value = 10 } 
+		command = { trigger = { OR = { IC = 60 NOT = { lost_IC = { value = 30 } } } }	type = dissent value = 10 } 
+		command = { trigger = { OR = { IC = 80 NOT = { lost_IC = { value = 10 } } } }	type = dissent value = 10 } 
+		command = { type = local_setflag which = partisan_mode_init }
+		command = { type = event which = 9000081 where = -1 when = 60 }
+	}
+}
+
+event = {
+	id = 9000081
+	random = no
+	persistent = yes
+	
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+   
+	name = "Partisan Army"
+	desc = "We have abandoned conventional warfare and retreated to the safety of the forests and mountains, where we are largely out of reach for the occupational authorities."
+	style = 2
+	picture = "sov_partisans"
+
+	action = {
+		name = "ACTION_NAME_OK"
+		trigger = { NOT = { local_flag = partisan_mode } }
+		command = { type = demobilize which = armor 			when = 0 where = 0 value = 0  }
+		command = { type = demobilize which = light_armor 		when = 0 where = 0 value = 0  }
+		command = { type = demobilize which = motorized 		when = 0 where = 0 value = 0  }
+		command = { type = demobilize which = mechanized 		when = 0 where = 0 value = 0  }
+		command = { type = demobilize which = air	 			when = 0 where = 0 value = 0  }
+		command = { type = demobilize which = naval	 			when = 0 where = 0 value = 1  }  #1 TP
+		
+		command = { type = extra_tc 										value = 20	  }
+		
+		command = { type = industrial_modifier 	which = total				value = -50   }
+		
+		command = { type = transport_weight		which = militia				value = -5	  }
+		command = { type = transport_weight		which = garrison			value = -5	  }
+		command = { type = transport_weight		which = infantry			value = -5	  }
+		command = { type = transport_weight		which = cavalry				value = -5	  }
+		command = { type = transport_weight		which = bergsjaeger			value = -5	  }
+		command = { type = transport_weight		which = marine				value = -5	  }
+		command = { type = transport_weight		which = hq					value = -7	  }
+		
+		
+		command = { type = supply_consumption 	which = militia				value = -0.1  }
+		command = { type = supply_consumption 	which = garrison			value = -0.1  }
+		command = { type = supply_consumption 	which = infantry			value = -0.5  }
+		command = { type = supply_consumption 	which = cavalry				value = -0.8  }
+		command = { type = supply_consumption 	which = bergsjaeger			value = -0.4  }
+		command = { type = supply_consumption 	which = marine				value = -0.3  }
+		command = { type = supply_consumption 	which = hq					value = -1.2  }
+	
+		command = { type = task_efficiency 		which = attack 				value = -0.3  }
+		command = { type = task_efficiency		which = support_attack 		value = -0.3  }
+		command = { type = task_efficiency 		which = amphibious_assault 	value = -0.3  }
+		
+		command = { type = soft_attack 			which = militia 			value = -2    }
+		command = { type = soft_attack 			which = garrison 			value = -2    }
+		command = { type = soft_attack 			which = infantry 			value = -2    }
+		command = { type = soft_attack 			which = cavalry 			value = -2    }
+		command = { type = soft_attack 			which = bergsjaeger			value = -2    }
+		command = { type = soft_attack 			which = marine				value = -2    }
+		#command = { type = soft_attack 		which = hq					value = -2    }
+		
+		#command = { type = ground_def_eff		when  = 1 					value = -0.30 }
+		#command = { type = max_organization 	which = land				value = 30	  }
+		command = { type = morale 				which = land 				value = 30	  }	
+		
+		command = { type = defensiveness 		which = militia				value = -20	  }
+		command = { type = defensiveness 		which = garrison			value = -20	  }
+		command = { type = defensiveness 		which = infantry			value = -20	  }
+		command = { type = defensiveness 		which = cavalry				value = -15	  }
+		command = { type = defensiveness 		which = bergsjaeger			value = -15	  }
+		command = { type = defensiveness 		which = marine				value = -20	  }
+		command = { type = defensiveness 		which = hq					value = -5	  }
+		
+		command = { type = plain_defense 		which = land 				value = -120  }
+		command = { type = plain_attack 		which = land 				value = -60	  }
+		command = { type = hill_defense 		which = land 				value = -60	  }
+		command = { type = hill_attack 			which = land 				value = -30	  }
+		command = { type = urban_defense 		which = land 				value = -40	  }
+		command = { type = urban_attack 		which = land 				value = -20	  }
+		command = { type = mountain_defense		which = land 				value = 1000  }
+		command = { type = mountain_attack		which = land 				value = 500   }
+		command = { type = jungle_defense 		which = land 				value = 1000  }
+		command = { type = jungle_attack 		which = land 				value = 500   }
+		command = { type = swamp_defense 		which = land				value = 1000  }
+		command = { type = swamp_attack 		which = land				value = 500   }
+		command = { type = forest_defense 		which = land 				value = 500	  }
+		command = { type = forest_attack 		which = land 				value = 250	  }
+		command = { type = desert_defense 		which = land 				value = 100   }
+		command = { type = desert_attack 		which = land 				value =  50	  }
+		
+		command = { type = local_setflag which = partisan_mode }
+		command = { type = local_clrflag which = partisan_chg  }
+	}
+}
+
+event = {
+	id = 9000082
+	random = no
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		local_flag = partisan_mode
+		NOT = { local_flag = partisan_chg  }
+		NOT = { army = 100 }
+		atwar = yes
+		manpower = 15
+		supplies = 50
+		
+		NOT = { 
+			AND = { 
+				country = CHC
+				NOT = { event = 1330110100 } #CCP survives the long march
+			}
+			country = UTO #Soviet Partisans
+		}
+	}
+   
+	name = "New Partisans"
+	desc = "Although we are largely unable to mobilize new recruits as a regular army would do, the enemy occupation of our soil is a blessing in disguise for our cause. The inevitable abuses of the occupying authorities and humiliation that our people have to endue at their hands is causing new recurits to gradually flow into our ranks, often bringing with them some stolen arms and supplies."
+	style = 2
+	picture = "sov_partisans"
+
+	date = { day = 1 month = january year = 1930 }
+	offset = 30
+	deathdate = { day = 30 month = december year = 1999 }
+
+	#Inf 20%
+	#Mil 80%
+	action = {
+		name = "ACTION_NAME_GREAT"
+		trigger = { year = 1931 }
+		ai_chance = 4
+		command = { type = dissent		value = -0.1 }
+		#command = { type = manpowerpool value = 16	 }
+		command = { type = supplies 	value = 120  }
+		command = { type = add_division value = infantry when = 8 where = -80 }
+		command = { type = local_setflag which = Partisans_count when = 1 value = 1 }
+	}
+	action = {
+		name = "ACTION_NAME_GREAT"
+		trigger = { year = 1936 }
+		ai_chance = 4
+		command = { type = dissent		value = -0.1 }
+		#command = { type = manpowerpool value = 16	 }
+		command = { type = supplies 	value = 120  }
+		command = { type = add_division value = infantry when = 9 where = -80 }
+		command = { type = local_setflag which = Partisans_count when = 1 value = 1 }
+	}
+	action = {
+		name = "ACTION_NAME_GREAT"
+		trigger = { year = 1939 }
+		ai_chance = 4
+		command = { type = dissent		value = -0.1 }
+		#command = { type = manpowerpool value = 16	 }
+		command = { type = supplies 	value = 120  }
+		command = { type = add_division value = infantry when = 10 where = -80 }
+		command = { type = local_setflag which = Partisans_count when = 1 value = 1 }
+	}
+	action = {
+		name = "ACTION_NAME_GREAT"
+		trigger = { year = 1942 }
+		ai_chance = 4
+		command = { type = dissent		value = -0.1 }
+		#command = { type = manpowerpool value = 16	 }
+		command = { type = supplies 	value = 120  }
+		command = { type = add_division value = infantry when = 11 where = -80 }
+		command = { type = local_setflag which = Partisans_count when = 1 value = 1 }
+	}
+	action = {
+		name = "ACTION_NAME_GREAT"
+		trigger = { year = 1945 }
+		ai_chance = 4
+		command = { type = dissent		value = -0.1 }
+		#command = { type = manpowerpool value = 16	 }
+		command = { type = supplies 	value = 120  }
+		command = { type = add_division value = infantry when = 12 where = -80 }
+		command = { type = local_setflag which = Partisans_count when = 1 value = 1 }
+	}
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		ai_chance = 20
+		command = { type = dissent		value = -0.1 }
+		#command = { type = manpowerpool value = 16	 }
+		command = { type = supplies 	value = 120  }
+		command = { type = add_division value = militia when = 4 where = -80 }
+		command = { type = local_setflag which = Partisans_count when = 1 value = 1 }
+	}
+	action = {
+		name = "ACTION_NAME_GREAT"
+		ai_chance = 25
+		command = { type = dissent		value = -0.1 }
+		#command = { type = manpowerpool value = 16	 }
+		command = { type = supplies 	value = 120  }
+		command = { type = add_division value = militia when = 5 where = -80 }
+		command = { type = local_setflag which = Partisans_count when = 1 value = 1 }
+	}
+	action = {
+		name = "ACTION_NAME_GREAT"
+		trigger = { year = 1942 }
+		ai_chance = 30
+		command = { type = dissent		value = -0.1 }
+		#command = { type = manpowerpool value = 16	 }
+		command = { type = supplies 	value = 120  }
+		command = { type = add_division value = militia when = 6 where = -80 }
+		command = { type = local_setflag which = Partisans_count when = 1 value = 1 }
+	}
+}
+
+
+event = {
+	id = 9000085
+	random = no
+	persistent = yes
+
+	decision = { 
+		local_flag = AllInit
+		local_flag = partisan_mode
+		NOT = { local_flag = partisan_chg  }
+	}
+	decision_trigger = {
+	}
+	trigger = {
+		local_flag = AllInit
+		local_flag = partisan_mode
+		NOT = { local_flag = partisan_chg  }
+		NOT = { local_flag = partisan_stay }
+		OR = {
+			atwar = no
+			local_flag = partisan_stop
+		}
+		#ai = no
+	}
+   
+	name = "Conventional Mode"
+	desc = "Given the nature of the enemy we're facing, we have a choice to effectively abandon partisan warfare and return to conventional struggle where we will attempt to seize and hold territory with the aim of fully liberating our land."
+	style = 2
+	picture = "sov_partisans"
+	decision_picture = "decision_grand_offensive3"
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 30
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {
+		name = "To the cities!"
+		command = { type = dissent value = -5 }
+		command = { type = local_setflag which = partisan_chg }
+		command = { type = event which = 9000086 where = -1 when = 60 }
+	}
+}
+
+event = {
+	id = 9000086
+	random = no
+	persistent = yes
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+   
+	name = "Conventional Army"
+	desc = "We have come down from the mountains and out of the forests in order to face the enemy face to face and finally expell him from out homeland!"
+	style = 2
+	picture = "soviet_reinforcements"
+		
+	action = {
+		name = "ACTION_NAME_OK"
+		trigger = { local_flag = partisan_mode }
+		command = { type = extra_tc 										value = -20	  }
+		
+		command = { type = industrial_modifier 	which = total				value = 50    }
+		command = { type = transport_weight		which = militia				value = -5	  }
+		command = { type = transport_weight		which = garrison			value = -5	  }
+		command = { type = transport_weight		which = infantry			value = -5	  }
+		command = { type = transport_weight		which = cavalry				value = -5	  }
+		command = { type = transport_weight		which = bergsjaeger			value = -5	  }
+		command = { type = transport_weight		which = marine				value = -5	  }
+		command = { type = transport_weight		which = hq					value = -7	  }
+		
+		command = { type = supply_consumption 	which = militia				value = 0.1   }
+		command = { type = supply_consumption 	which = garrison			value = 0.1   }
+		command = { type = supply_consumption 	which = infantry			value = 0.5   }
+		command = { type = supply_consumption 	which = cavalry				value = 0.8   }
+		command = { type = supply_consumption 	which = bergsjaeger			value = 0.4   }
+		command = { type = supply_consumption 	which = marine				value = 0.3   }
+		command = { type = supply_consumption 	which = hq					value = 1.2   }
+	
+		command = { type = task_efficiency 		which = attack 				value = 0.3   }
+		command = { type = task_efficiency		which = support_attack 		value = 0.3   }
+		command = { type = task_efficiency 		which = amphibious_assault 	value = 0.3   }
+		
+		command = { type = soft_attack 			which = militia 			value = 2     }
+		command = { type = soft_attack 			which = garrison 			value = 2     }
+		command = { type = soft_attack 			which = infantry 			value = 2     }
+		command = { type = soft_attack 			which = cavalry 			value = 2     }
+		command = { type = soft_attack 			which = bergsjaeger			value = 2     }
+		command = { type = soft_attack 			which = marine				value = 2     }
+		#command = { type = soft_attack 		which = hq					value = 2     }
+		
+		#command = { type = ground_def_eff		when  = 1 					value = 0.30  }
+		#command = { type = max_organization 	which = land				value = -30	  }
+		command = { type = morale 				which = land 				value = -30	  }	
+
+		command = { type = defensiveness 		which = militia				value = 20	  }
+		command = { type = defensiveness 		which = garrison			value = 20	  }
+		command = { type = defensiveness 		which = infantry			value = 20	  }
+		command = { type = defensiveness 		which = cavalry				value = 15	  }
+		command = { type = defensiveness 		which = bergsjaeger			value = 15	  }
+		command = { type = defensiveness 		which = marine				value = 20	  }
+		command = { type = defensiveness 		which = hq					value = 5	  }
+		
+		command = { type = plain_defense 		which = land 				value = 120   }
+		command = { type = plain_attack 		which = land 				value = 60	  }
+		command = { type = hill_defense 		which = land 				value = 60	  }
+		command = { type = hill_attack 			which = land 				value = 30	  }
+		command = { type = urban_defense 		which = land 				value = 40	  }
+		command = { type = urban_attack 		which = land 				value = 20	  }
+		command = { type = mountain_defense		which = land 				value = -1000 }
+		command = { type = mountain_attack		which = land 				value = -500  }
+		command = { type = jungle_defense 		which = land 				value = -1000 }
+		command = { type = jungle_attack 		which = land 				value = -500  }
+		command = { type = swamp_defense 		which = land				value = -1000 }
+		command = { type = swamp_attack 		which = land				value = -500  }
+		command = { type = forest_defense 		which = land 				value = -500  }
+		command = { type = forest_attack 		which = land 				value = -250  }
+		command = { type = desert_defense 		which = land 				value = -100  }
+		command = { type = desert_attack 		which = land 				value =  -50  }
+		
+		command = { type = local_clrflag which = partisan_mode }
+		command = { type = local_clrflag which = partisan_chg  }
+	}
+}
+
+
 #
 #	From Nick's mod: forced resource trades in case Allies are trying to starve Axis nations pre-war.
 #	Default resource ratios below. Actual cost will be 120% relative to normal, so it is still not a great trade for the Axis.
@@ -3359,8 +4034,7 @@ event = {
 			ai = USA
 			war = { country = USA }
 			war = { country = ENG }
-			local_flag = SanctionsWar
-			local_flag = SanctionsEvt
+			local_flag = Sanctions
 		}
 	}
 	trigger = { 	
@@ -3420,8 +4094,7 @@ event = {
 			ai = USA
 			war = { country = USA }
 			war = { country = ENG }
-			local_flag = SanctionsWar
-			local_flag = SanctionsEvt
+			local_flag = Sanctions
 		}
 	}
 	trigger = { 	
@@ -3493,8 +4166,7 @@ event = {
 			ai = ENG
 			war = { country = USA }
 			war = { country = ENG }
-			local_flag = SanctionsWar
-			local_flag = SanctionsEvt
+			local_flag = Sanctions
 		}
 	}
 	trigger = { 	
@@ -3574,8 +4246,7 @@ event = {
 		OR = { 
 			war = { country = ENG }
 			war = { country = USA }
-			local_flag = SanctionsWar
-			local_flag = SanctionsEvt
+			local_flag = Sanctions
 		}
 		OR = { 
 			local_flag = MPTradeGold

@@ -108,6 +108,9 @@ country =
 #Exp. Rocket
 5560
 
+#Winter eq
+5920
+
 #Improved Destroyer 
 3010 3020 3030 3040 3050 3060 
 #Basic Light Cruiser 

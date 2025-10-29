@@ -686,5 +686,7 @@ inventions = { 3000027 }
 	#remaining basque troops
 	landdivision = { dormant = yes id = { type = 27600 id = 620 }  name = "4th PCE-JSU Mil. Div."				type = militia		model = 5 	strength = 50	experience = 90			} 
 	landdivision = { dormant = yes id = { type = 27600 id = 621 }  name = "7th PCE-JSU Mil. Div."				type = militia		model = 5 	strength = 50	experience = 90			} 
+	
+	landdivision = { dormant = yes id = { type = 27600 id = 630 }  name = "Madrid Garrison"		locked = yes	type = garrison		model = 4 	strength = 50	experience = 10 		} 
   } 
  

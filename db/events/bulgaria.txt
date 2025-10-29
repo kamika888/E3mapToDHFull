@@ -198,15 +198,15 @@ event = {
 		command = { trigger = { ai = yes }	type = event which = 2400055 where = BUL when = 0 } #enforcenoexp
 		command = { 						type = ai	 which = "antiPartisanHigh.ai" }
 		
-		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = ENG when = 1080 }
-		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = VIC when = 1080 }
-		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = SAF when = 1080 }
-		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = CAN when = 1080 }
-		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = AST when = 1080 }
-		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = NZL when = 1080 }
-		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = U01 when = 1080 }
-		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = U02 when = 1080 }
-		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = SOV when = 1080 } #Separate event
+		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = ENG when = 3600 }
+		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = VIC when = 3600 }
+		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = SAF when = 3600 }
+		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = CAN when = 3600 }
+		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = AST when = 3600 }
+		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = NZL when = 3600 }
+		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = U01 when = 3600 }
+		command = { trigger = { ai = no  }	type = non_aggression which = BUL where = U02 when = 3600 }
+		#command = { trigger = { ai = no  }	type = non_aggression which = BUL where = SOV when = 3600 } #Separate event
 	}
 	action = {
 		name = "Germany's victory is OUR victory!"
@@ -233,6 +233,7 @@ event = {
 		alliance = { country = GER }
 		war = { country = SOV }
 		under_attack = SOV
+		NOT = { non_aggression = { country = BUL country = SOV } }
 	}
 
 	date = { day = 0 month = january year = 1938 }
@@ -244,9 +245,10 @@ event = {
 		ai_chance = 99
 		command = { type = dissent value = -1 }
 		
-		command = { type = peace which = SOV value = 1 }
-		#command = { type = peace which = MON value = 1 }
-		#command = { type = peace which = TAN value = 1 }
+		#This causes various problems when Yugoslavia revolts. 
+		#command = { type = peace which = SOV value = 1 }
+		
+		command = { type = non_aggression which = BUL where = SOV when = 3600 }
 		
 		#just in case
 		command = { trigger = { ai = yes } 	type = event which = 2400097 where = BUL when = 0 } #garSpec
@@ -291,14 +293,15 @@ event = {
 			NOT = { war = { country = BUL } }
 			non_aggression = { country = -1 country = BUL } 
 		}
-		region = { region = "Romania"	country = -3 value = 30 }
 		OR = {
-			region = { region = "Romania"	country = -3 value = 80 }
-			region = { region = "Balkan" 	country = -3 value = 15 } #this could also be trigged by something like YUG revolt
+			region = { region = "Romania"	country = -3 value = 60 }
 			AND = {
-				region = { region = "Romania"	country = -3 value = 60 }
-				random = 5
+				region = { region = "Romania"	country = -3 value = 40 }
+				random = 10
 			}
+			NOT = { control = { province = 417 data = -2 } } #Sofia
+			NOT = { control = { province = 422 data = -3 } } #Burgas
+			lost_national = { country = BUL value = 25 }
 		}
 		event = { id = 2003250 days = 360 }
 	}
@@ -310,10 +313,15 @@ event = {
 	action = {
 		name = "Punish the collaborators!"
 		
+		command = { trigger = { non_aggression = { country = -1 country = BUL } } type = local_setflag which = NAP }
+		command = { trigger = { local_flag = NAP } type = end_non_aggression which = SOV where = BUL } #will give 5 dissent
+		command = { trigger = { local_flag = NAP } type = dissent value = -4 }
+		command = { trigger = { local_flag = NAP } type = belligerence which = SOV	value = 1 }
+		command = { trigger = { local_flag = NAP } type = local_clrflag which = NAP }
+		
 		command = { trigger = { NOT = { war = { country = BUL } } } type = war which = BUL }
 		command = { type = setflag which = BulgariaUnderAttack }
-		command = { trigger = { ai = yes } type = non_aggression which = BUL where = ROM when = 12 }
-		command = { trigger = { ai = yes } type = non_aggression which = BUL where = U30 when = 12 }
+		
 		command = { type = event which = 2020010 where = BUL when = 0 }
 	}
 }
@@ -369,9 +377,17 @@ event = {
 
 	action = {
 		name = "Germany's victory is OUR victory!"
-		command = { type = dissent value = 15 }
+		command = { type = dissent 		value = 3  }
 		
-		command = { type = belligerence value = 5 }
+		command = { 
+			trigger = {
+				OR = {
+					event = 2023013 #Romania surrendered
+					control = { province = 424 data = -2 } #Bucharest
+				}
+			}		type = dissent 		value = 12 }
+		
+		command = { type = belligerence value = 5  }
 		
 		command = { trigger = { ai = yes }	type = event which = 2400045 where = BUL when = 0 } #exp50
 		command = { trigger = { ai = yes }	type = event which = 2400056 where = BUL when = 0 } #noexp_unenforce
@@ -387,6 +403,7 @@ event = {
 		command = { trigger = { non_aggression = { country = -1 country = U01 } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
 		command = { trigger = { non_aggression = { country = -1 country = U02 } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
 		command = { trigger = { non_aggression = { country = -1 country = SOV } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { trigger = { non_aggression = { country = -1 country = ROM } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
 		
 		command = { type = end_non_aggression which = BUL where = ENG }
 		command = { type = end_non_aggression which = BUL where = VIC }
@@ -397,7 +414,10 @@ event = {
 		command = { type = end_non_aggression which = BUL where = U01 }
 		command = { type = end_non_aggression which = BUL where = U02 }
 		command = { type = end_non_aggression which = BUL where = SOV }
+		command = { type = end_non_aggression which = BUL where = ROM }
 		
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
 		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
 		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
 		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
@@ -418,6 +438,9 @@ event = {
 		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_setflag which = dissentReduce5 when = 1 value = -1 }
 		
 		command = { trigger = { war = { country = GER country = SOV } NOT = { war = { country = SOV } } } type = war which = SOV }
+		
+		command = { trigger = { ai = yes } type = non_aggression which = BUL where = ROM when = 12 }
+		command = { trigger = { ai = yes } type = non_aggression which = BUL where = U30 when = 12 }
 	}
 }
 
@@ -493,18 +516,18 @@ event = {
 				NOT = { garrison = { province = 417 type = land size = 25 area = 3 } }
 			}
 			AND = {
-				army = { country = BUL size = 30 type = 1 when = 0 where = 1 which = 1 }
+				army = { country = BUL size = 30 type = 0 when = 0 where = 1 which = 1 }
 				NOT = { garrison = { province = 417 type = land size = 30 area = 3 } }
 			}
 			AND = {
-				army = { country = BUL size = 35 type = 1 when = 0 where = 1 which = 1 }
+				army = { country = BUL size = 35 type = 0 when = 0 where = 1 which = 1 }
 				NOT = { garrison = { province = 417 type = land size = 35 area = 3 } }
 			}
 		}
 	}
 
 	#date = { day = 0 month = january year = 1938 }
-	#offset = 2
+	#offset = 20
 	#deathdate = { day = 29 month = december year = 1963 }
 
 	name = "Generals unhappy"
@@ -539,20 +562,24 @@ event = {
 	trigger = {
 		NOT = { ispuppet = yes }
 		NOT = { exists = U29 }
+		participant = { value = 2 }
 		war = { country = SOV }
 		NOT = { non_aggression = { country = BUL country = SOV } }
+		
 		OR = {
+			NOT = { war = { country = GER country = SOV } }
 			AND = {
-				war = { country = SOV }
 				OR = {
-					control = { province = 424 data = -2 } #Bucharest +
-					control = { province = 423 data = -2 } #Dobrich +
-					control = { province = 417 data = -2 } #Sofia +
-					control = { province = 422 data = -2 } #Burgas +
+					event = 2023013 #Romania surrendered
+					control = { province = 424 data = -2 } #Bucharest
 				}
-				dissent = 10
+				OR = {
+					control = { province = 417 data = -2 } #Sofia
+					control = { province = 422 data = -2 } #Burgas
+					lost_national = { value = 25 }
+					dissent = 10
+				}
 			}
-			lost_national = { value = 25 }
 		}
 	}
 
@@ -621,6 +648,7 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		ai_chance = 100
+		command = { type = local_setflag which = noChange }
 		command = { type = leave_alliance when =  1 } # separate peace, pull out of alliance
 		command = { type = access which = GER }
 		command = { type = access which = ITA }
@@ -633,6 +661,8 @@ event = {
 		command = { type = secedearea	which = SOV value = "East Serbia" 		when = 1 } 
 		command = { type = secedearea	which = SOV value = "Central Serbia"	when = 1 } 
 		command = { type = secedearea	which = SOV value = "Thrace" 			when = 1 } 
+		
+		command = { trigger = { ai = yes }	type = event which = 2400040 where = -1 when = 0 } #exp0
 		
 		command = { type = event which = 2020023 where = SOV when = 1 }
 	}
@@ -689,14 +719,17 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
-		#command = { type = dissent value = 10 } #should already have +30 dissent from the coup_nation
+		command = { type = local_clrflag which = noChange }
+		command = { type = dissent value = 10 } #coup_nation gives +30
+		
+		command = { trigger = { army = { size = 30 } } type = demobilize which = land when = 0 where = 0 value = -3 }
 		command = { type = secederegion which = U30 value = "Romania" 			when = 1 } 
 		command = { type = secederegion which = ROM value = "Romania" 			when = 1 } 
 		command = { type = secedearea	which = SOV value = "East Serbia" 		when = 1 } 
 		command = { type = secedearea	which = SOV value = "Central Serbia"	when = 1 } 
 		command = { type = secedearea	which = SOV value = "Thrace" 			when = 1 } 
 		
-		command = { trigger = { NOT = { flag = BulgariaFullAxis } } type = secedeprovince which = BUL value = 423  when = 2 }
+		command = { trigger = { NOT = { flag = BulgariaFullAxis } } type = secedeprovince which = -3 value = 423  when = 2 }
 		
 		command = { trigger = { flag = BulgariaFullAxis } type = secedeprovince which = SOV value = 423  when = 2 } #Dobrich
 		command = { trigger = { flag = BulgariaFullAxis } type = secedeprovince which = SOV value = 6506 when = 2 } #Vidin
@@ -714,10 +747,10 @@ event = {
 		command = { type = event which = 2400151 where = -1 when = 1   } #initial confusion
 		command = { type = event which = 2400161 where = -1 when = 180 } #recovery in 6 months
 		
-		command = { trigger = { ai = BUL }	type = event which = 2400045 where = BUL when = 0 } #exp50
-		command = { trigger = { ai = BUL }	type = event which = 2400056 where = BUL when = 0 } #noexp_unenforce
-		command = { trigger = { ai = BUL }	type = event which = 2400098 where = BUL when = 0 } #garspec_remove
-		command = { trigger = { ai = BUL }	type = event which = 2400013 where = BUL when = 0 } #gar30
+		command = { trigger = { ai = yes }	type = event which = 2400045 where = -1 when = 0 } #exp50
+		command = { trigger = { ai = yes }	type = event which = 2400056 where = -1 when = 0 } #noexp_unenforce
+		command = { trigger = { ai = yes }	type = event which = 2400098 where = -1 when = 0 } #garspec_remove
+		command = { trigger = { ai = yes }	type = event which = 2400013 where = -1 when = 0 } #gar30
 		
 		command = { type = setflag which = BulAllies }
 		
@@ -725,6 +758,9 @@ event = {
 		#command = { type = local_setflag	when = 0	which = RepPay3	value = 6 }
 		#command = { type = setflag 		when = 0	which = RepPec	value = 6 }
 		#command = { type = event 			when = 0	which = 3021	where = SOV }
+		
+		command = { trigger = { NOT = { ai = SOV } }	type = military_control which = SOV where = BUL value = 1 }
+		command = { trigger = { NOT = { ai = SOV } }	type = military_control which = SOV where = U29 value = 1 }
 	}
 }
 
@@ -758,3 +794,74 @@ event = {
 	}
 }
 	
+
+
+#############################################################################
+#	Trying to dissuade players from attempting to do something much more difficult in real life than in the game, like the Yugoslav invasion of Bulgaria
+#	1. If Bulgaria is invaded and either U27 or SOV is NOT AI, Bulgaria will become a full Axis member without accompanying dissent. Also, preemptive annexation can kick in as well if Bulgaria gets overrun.
+#	2. If Bulgaria is invaded and either GER or BUL is NOT AI, Bulgaira will bail out of the war. This is to prevent Germany from exploiting and letting Bulgaria lose territory on purpose in order to make it full Axis
+#############################################################################
+
+event = {
+	id = 2020030
+	random = no
+	country = BUL
+
+	name = "EVT_2750_NAME"
+	desc = "EVT_2750_DESC"
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		NOT = { ispuppet = yes }
+		NOT = { exists = U29 }
+		participant = { value = 2 }
+		#war = { country = U27 }
+		
+		NOT = {
+			event = 2023013 #Romania surrendered
+			control = { province = 424 data = -2 } #Bucharest
+		}
+		
+		OR = {
+			control = { province = 417 data = -2 } #Sofia +
+			control = { province = 422 data = -2 } #Burgas +
+			lost_national = { value = 25 }
+		}
+	}
+
+	date = { day = 0 month = january year = 1938 }
+	offset = 1
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	name = "Bulgaria invaded"
+	desc = "Despite our best attempts to maintain a low profile in this war, we are now faced with a full-blown invasion. As such, we have to pick sides immediately - will we fight with Germany to the end, or will we jump ship before it's too late?"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "Germany's victory is OUR victory!"
+		ai_chance = 90
+		trigger = {
+			OR = {
+				ai = no
+				NOT = { ai = SOV }
+				NOT = { ai = U27 }
+			}
+		}
+		command = { type = setflag which = BulgariaFullAxis } #The Allies will remember this...
+		command = { type = event which = 2020010 where = BUL when = 0 }
+	}
+	action = {
+		name = "Inquire about their conditions"
+		ai_chance = 10
+		trigger = {
+			OR = {
+				ai = no
+				NOT = { ai = GER }
+				NOT = { ai = BUL }
+			}
+		}
+		command = { type = event which = 2020021 where = SOV when = 0 }
+	}
+}

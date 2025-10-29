@@ -9,7 +9,7 @@ country =
   control				 = CHI
   ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   extra_tc               = 10
-  dissent				 = 15
+  dissent				 = 30
   # Resource Reserves
   energy                 = 200
   metal                  = 200
@@ -238,7 +238,7 @@ country =
        type       = hq
 	   strength  = 40
        model     = 1
-	   locked	 = yes
+	   #locked		= yes
       }
      Division = 
      { 
@@ -249,7 +249,7 @@ country =
        model     = 2
 	   extra1 = cavalry_brigade
 	   brigade_model1 = 2
-	   locked	 = yes
+	   #locked		= yes
       }
      Division = 
      { 
@@ -260,7 +260,7 @@ country =
        model     = 3
 	   extra1 = cavalry_brigade
 	   brigade_model1 = 4
-	   locked	 = yes
+	   #locked		= yes
       }
 	 Division = 
      { experience 	= 20 
@@ -269,7 +269,7 @@ country =
        type  		= cavalry 
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
 	 Division = 
      { experience 	= 20 
@@ -278,7 +278,7 @@ country =
        type  		= cavalry 
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
 	  Division = 
      { 
@@ -287,7 +287,7 @@ country =
        type       = militia
 	   strength  = 40
        model     = 2
-	   locked	 = yes
+	   #locked		= yes
       }
     }
 	
@@ -303,7 +303,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
      Division = 
      { experience 	= 20 
@@ -312,7 +312,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
 	 Division = 
      { experience 	= 20 
@@ -321,7 +321,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
 	 Division = 
      { experience 	= 20 
@@ -330,7 +330,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
      Division = 
      { experience 	= 20 
@@ -339,7 +339,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
 	 Division = 
      { experience 	= 20 
@@ -348,7 +348,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
 	 Division = 
      { experience 	= 20 
@@ -357,7 +357,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
 	 Division = 
      { experience 	= 20 
@@ -366,7 +366,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
      Division = 
      { experience 	= 20 
@@ -375,7 +375,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
 	 Division = 
      { experience 	= 20 
@@ -384,7 +384,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
      Division = 
      { experience 	= 20 
@@ -393,7 +393,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
      Division = 
      { experience 	= 20 
@@ -402,7 +402,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       }
      Division = 
      { experience 	= 20 
@@ -411,7 +411,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
      Division = 
      { experience 	= 20 
@@ -420,7 +420,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
      Division = 
      { experience 	= 20 
@@ -429,7 +429,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
      Division = 
      { experience 	= 20 
@@ -438,7 +438,7 @@ country =
        type  		= militia
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
 	 Division = 
      { experience 	= 20 
@@ -447,7 +447,7 @@ country =
        type  		= cavalry 
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
 	 Division = 
      { experience 	= 20 
@@ -456,7 +456,7 @@ country =
        type  		= cavalry 
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
      Division = 
      { experience 	= 20 
@@ -465,7 +465,7 @@ country =
        type  		= cavalry 
 	   strength  	= 40
        model		= 2 
-	   locked		= yes
+	   #locked		= yes
       } 
 	 Division = 
      { experience 	= 20 
@@ -474,7 +474,7 @@ country =
        type  		= hq 
 	   strength  	= 40
        model		= 1 
-	   locked		= yes
+	   #locked		= yes
       } 
      dig_in   = 20.000 
     }

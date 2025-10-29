@@ -22,7 +22,7 @@ country =
   oil                    = 100
   supplies               = 250
   money                  = 50
-  capital                = 5626 
+  capital                = 7994 
   manpower               = 0
   
    headofstate            = {  type = 9 id = 1105001  } 
@@ -107,6 +107,7 @@ country =
 5674 5675 5676 5677 5678 5679 5680 5681 5682 5683
 5684 5685 5686 5687 5688 5689 5690 5691 5692 5693
 6497 6498 6916 7911 7918 7917 5486 5487 5578 5583
+7994
 }
   claimedprovinces 		 = { 
 1487 3485 5872 5836 5873 5891 5892 5893 6953
@@ -124,10 +125,10 @@ country =
 #mongolia
 1404 3768 1418 3594
 }
-  ownedprovinces         = { 1206 5626 7993
+  ownedprovinces         = { 7994
+							#1378 1375 5688 5689 5687 2485 5690 5685 5674 5669 1374 2345 
   }
-  controlledprovinces    = { 1206 5626 7993
-1378 1375 5688 5689 5687 2485 5690 5685 5674 5669 1374 2345
+  controlledprovinces    = { 1378 1375 5688 5689 5687 2485 5690 5685 5674 5669 1374 2345 7994
   }
   # Guangxi
   # ROTW Minor Tech '36
@@ -375,6 +376,40 @@ country =
       } 
      dig_in   = 20.000 
     } 
+	
+#   landunit = 
+#   {  location = 1206
+#     name     = "Northeast Counter-Japanese United Army" 
+#     id       = {  type = 22302 id = 1  } 
+#		Division = 
+#		{
+#			id       = {  type = 22302 id = 3  } 
+#			name     = "Chinese People's National Salvation Army" 
+#			type     = militia 
+#			strength = 50
+#			model    = 3
+#			max_strength = 50 
+#		} 
+#		Division = 
+#		{
+#			id       = {  type = 22302 id = 4  } 
+#			name     = "Chahar Self-Defense Army" 
+#			type     = militia 
+#			strength = 50
+#			model    = 3
+#			max_strength = 50 
+#		}
+#		#Defunct
+#		Division = 
+#		{
+#			id       = {  type = 22302 id = 5  } 
+#			name     = "Chahar People's Counter-Japanese Army" 
+#			type     = militia 
+#			strength = 20
+#			model    = 3
+#			max_strength = 50 
+#		}
+#    }
 
 #	landunit = 
 #	{  

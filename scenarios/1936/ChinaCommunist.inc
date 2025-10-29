@@ -8,7 +8,7 @@ country =
   intrinsic_gov_type     = leninist
   extra_tc               = 7
   capital                = 1270 # Yan'an
-  ai_settings			 = { flags = { ControlDeny = 1 do_not_demob = 1 ideology = 9 } }
+  ai_settings			 = { flags = { ControlDeny = 1 do_not_demob = 1 ideology = 9 inMajorWar = 1 } }
 	# Resource Reserves 
 	energy                 = 1240
 	metal                  = 520
@@ -16,12 +16,11 @@ country =
 	oil                    = 100 
 	supplies               = 800 
 	money                  = 50 
-  manpower               = 1000
+    manpower               = 1000
   free = {
 	energy = 5
 	metal = 3
 	rare_materials = 2
-	supplies = 5
 	ic = 5
   }
   SpyInfo                = { country = "CHC" NumberOfSpies = 1 }
@@ -84,7 +83,7 @@ country =
 5572 5573 5574 5575 5576 5579 5580 
 5586 5588 5590 5591 5556 2505
 5592 5593 5594 5595 5596 5597 5598 5599 5600 5601 
-5606 5608 5609 5610 5611 
+5606 5608 5609 5610 5611 3086
 5612 5614 5615 5616 5617 5618 5619 5620 5621 
 5622 5623 5624 5625 5626 5627 5628 5629 5630 5631 
 5632 5633 5634 5635 5636 5637 5638 5639 5640 5641 
@@ -111,40 +110,44 @@ country =
 #mongolia
 1404 3768 1418 3594
 }
-  ownedprovinces         = { 1270 1271 5569 5570 5571 5554
+  ownedprovinces         = { 1270 1271 5569 5570 5571 5554 7993
   }
-  controlledprovinces    = { 1270 1271 5569 5570 5571 5554 5581 5583 5584 
+  controlledprovinces    = { 1270 1271 5569 5570 5571 5554 5581 5583 5584 7993
   }
   
   # Group E 1936 techs
   # ######################
   # GW fighter
  	techapps = { 
-
-	# Construction Engineering - Up to 1910
+	# Manufacturing
+	5810 5820 5050
+	# Construction Engineering
 	5800 5080
-	
-	# Computers
-	5310
 
-	# Crypto
+	# Synthetic Oil
+	5190
+
+	#Computers
+	5310 54010
+
+	# Crypto - Up to 1923
 	5316 5326 5327
 
 	# Infantry Division
-	1010 1020 1030 1040 1050 1060 1070 1080
+	1010 1020 1030 1040 1050 1060 1070 1080 
 	# Mountain Division
 	1160 1170 1180 1190 1200 1210 1220 1230 
 	# Cavalry Division  
-	13060 13070 13080 1310 1320 1330
-
+	13060 13070 13080 1310 1320 1330 1340 1350 1360 1370
+	# Engineers
+	1830 1840
 	# Supply 
 	1910 1920 1930 1940 1950 1960 1970 1980 1990 199130
 
+	# Armoured Car  
+	2860 2870
 	# Field Artillery 
 	2290 2300 2310 2900 2910
-
-	# Hospital System
-	14000 14010 14020
 	# Great War Land Doctrines (entente)
 	6500 6510 6530 6580 6600 6610 6680 6620 6630 6640 6650 6660 6670 6540 6910
 	# Manpower Doctrine
@@ -152,7 +155,44 @@ country =
 	#AA
 	2800 2450 21180 21190
 
-	} 
+	# Medicine
+	5600 5610
+
+	# Hospital System
+	14000 14010 14020
+
+	# Destroyers
+	3010 
+	# Light Cruiser 
+	3110 3120 3130 3140
+	# Heavy Cruiser 
+	3210 3220
+	# Troopships
+	3810
+	#Early Torpedoes
+	3720 3730
+	#Early Battleship
+	3410 3420
+
+	# Naval Doctrines
+	8010 8020 8050 8060 8070 8080
+
+	# Interceptor Fighter  
+	4500 4510 4520 4530 4540 4550
+	# Multirole Fighter
+	4300 4310 4320 
+	# Tactical Bomber 
+	4600 4610 4620 4630 4120
+	# Strategic Bomber
+	4800 4810
+	# Naval Bomber
+	4700 
+	# Seaplane
+	4740 4750 4760 4770
+
+	# Air Doctrines - ww2 techs
+	27480 27490 27500 27510 27520 27530 27540 27550 27570 27580 27590 27600 9030 9020 27560 27460 27470 
+} 
 
 blueprints = {
 	
@@ -206,37 +246,6 @@ blueprints = {
   # ######
   # COMMUNSIT CHINA OOB
   # ######
-   landunit = 
-   {  location = 1206
-     name     = "Northeast Counter-Japanese United Army" 
-     id       = {  type = 22302 id = 1  } 
-		Division = 
-		{
-			id       = {  type = 22302 id = 3  } 
-			name     = "Chinese People's National Salvation Army" 
-			type     = militia 
-			strength = 70
-			model    = 3
-		} 
-		Division = 
-		{
-			id       = {  type = 22302 id = 4  } 
-			name     = "Chahar Self-Defense Army" 
-			type     = militia 
-			strength = 70
-			model    = 3
-		}
-		#Defunct
-		Division = 
-		{
-			id       = {  type = 22302 id = 5  } 
-			name     = "Chahar People's Counter-Japanese Army" 
-			type     = militia 
-			strength = 20
-			model    = 3
-		}
-    }
-
 
    #20
    landunit = 
@@ -252,22 +261,22 @@ blueprints = {
        strength   = 90 
        model      = 7 
       } 
-     Division = 
-     {  experience = 90 
-       id         = {  type = 24000 id = 3  } 
-       name       = "15. Division" 
-       type       = bergsjaeger 
-       strength   = 70 
-       model      = 7 
-      } 
-     Division = 
-     {  experience = 90 
-       id         = {  type = 24000 id = 4  } 
-       name       = "28. Division" 
-       type       = bergsjaeger 
-       strength   = 40 
-       model      = 7 
-      } 
+    # Division = 
+    # {  experience = 90 
+    #   id         = {  type = 24000 id = 3  } 
+    #   name       = "15. Division" 
+    #   type       = bergsjaeger 
+    #   strength   = 70 
+    #   model      = 7 
+    #  } 
+    # Division = 
+    # {  experience = 90 
+    #   id         = {  type = 24000 id = 4  } 
+    #   name       = "28. Division" 
+    #   type       = bergsjaeger 
+    #   strength   = 40 
+    #   model      = 7 
+    #  } 
 	  Division = 
      {  experience = 90 
        id         = {  type = 24000 id = 5  } 
@@ -301,6 +310,7 @@ blueprints = {
        model      = 7 
       } 
 	  division = {
+	    experience = 90 
 		id       = {  type = 24000 id = 9  } 
 		name     = "Central Military Commission" 
 		strength = 60 
@@ -311,8 +321,8 @@ blueprints = {
     } 
    landunit = 
    {  location = 1270 
-     name     = "Shaanxi-Gansu-Ningxia Base Area" 
-	 leader   = 260026
+     name     = "15th Army Corps" 
+  	 leader   = 260026
      id       = {  type = 24000 id = 10  } 
      Division = 
      {  experience = 90 
@@ -431,14 +441,14 @@ blueprints = {
        strength  = 60 
        model      = 7
       } 
-	Division = 
-     {  experience = 90 
-       id         = {  type = 24000 id = 33  } 
-       name       = "32. Division" 
-       type       = bergsjaeger 
-       strength  = 30 
-       model      = 7
-      } 
+	#Division = 
+    # {  experience = 90 
+    #   id         = {  type = 24000 id = 33  } 
+    #   name       = "32. Division" 
+    #   type       = bergsjaeger 
+    #   strength  = 30 
+    #   model      = 7
+    #  } 
      dig_in   = 20.000 
     }
 

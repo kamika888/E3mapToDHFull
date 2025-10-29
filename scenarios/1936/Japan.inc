@@ -2828,6 +2828,7 @@ landunit =
 	landdivision = { dormant = yes id = { type = 13016 id = 2086 } name = "Dai 28 Hoheishidan" strength = 100 type = infantry model = 9 extra1 = cavalry_brigade	brigade_model1 = 7	extra2 = engineer brigade_model2 = 3 locked = yes }
 	landdivision = { dormant = yes id = { type = 13016 id = 2087 } name = "Dai 29 Hoheishidan" strength = 100 type = infantry model = 9 extra  = light_armor_brigade	brigade_model = 4 									 locked = yes }
 	
+	
 	landdivision = { dormant = yes id = { type = 13016 id = 4001 } name = "1 IMB Beijing"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
 	landdivision = { dormant = yes id = { type = 13016 id = 4002 } name = "2 IMB Beijing"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
 	landdivision = { dormant = yes id = { type = 13016 id = 4003 } name = "3 IMB Tianjin"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }

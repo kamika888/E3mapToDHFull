@@ -9,7 +9,7 @@ country =
   control				 = CHI
   ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   extra_tc               = 10
-  dissent				 = 15
+  dissent				 = 10
   # Resource Reserves
   energy                 = 200
   metal                  = 200
@@ -107,10 +107,10 @@ country =
 1404 3768 1418 3594
 }
   ownedprovinces         = { 1205 1204 2526 1210 2525 1211 1212 2523 
-5637
+5637 5626 
   }
   controlledprovinces    = { 1205 1204 2526 1210 2525 1211 1212 2523 
-5637
+5637 5626
   }
   # Guangxi
   # ROTW Minor Tech '36

@@ -473,13 +473,21 @@ event = {
 		
 		#MP from difference in mobilization levels - upon annexation Austria adopts Germany's mobilization level
 		#Austria 7 base MP
-		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 2 } NOT = { flag = { which = ausmob when = 1 value = 2 } } } type = manpowerpool value = 49  } #7		select cons
-		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 3 } NOT = { flag = { which = ausmob when = 1 value = 3 } } } type = manpowerpool value = 49  } #7		1-year cons
-		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 4 } NOT = { flag = { which = ausmob when = 1 value = 4 } } } type = manpowerpool value = 49  } #7		2-year cons
-		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 5 } NOT = { flag = { which = ausmob when = 1 value = 5 } } } type = manpowerpool value = 245 } #35	partial mob
-		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 6 } NOT = { flag = { which = ausmob when = 1 value = 6 } } } type = manpowerpool value = 343 } #49	general mob A
-		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 7 } NOT = { flag = { which = ausmob when = 1 value = 7 } } } type = manpowerpool value = 245 } #35	general mob B
-		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 8 } NOT = { flag = { which = ausmob when = 1 value = 8 } } } type = manpowerpool value = 245 } #35	general mob C
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 2 } NOT = { flag = { which = ausmob when = 1 value = 2 } } } type = manpowerpool value = 49   } #7	select cons
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 3 } NOT = { flag = { which = ausmob when = 1 value = 3 } } } type = manpowerpool value = 49   } #7	1-year cons
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 4 } NOT = { flag = { which = ausmob when = 1 value = 4 } } } type = manpowerpool value = 49   } #7	2-year cons
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 5 } NOT = { flag = { which = ausmob when = 1 value = 5 } } } type = manpowerpool value = 245  } #35	partial mob
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 6 } NOT = { flag = { which = ausmob when = 1 value = 6 } } } type = manpowerpool value = 343  } #49	general mob A
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 7 } NOT = { flag = { which = ausmob when = 1 value = 7 } } } type = manpowerpool value = 245  } #35	general mob B
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 8 } NOT = { flag = { which = ausmob when = 1 value = 8 } } } type = manpowerpool value = 245  } #35	general mob C
+		#reverse
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 2 } } flag = { which = ausmob when = 1 value = 2 } } type = manpowerpool value = -49  } #7	select cons
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 3 } } flag = { which = ausmob when = 1 value = 3 } } type = manpowerpool value = -49  } #7	1-year cons
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 4 } } flag = { which = ausmob when = 1 value = 4 } } type = manpowerpool value = -49  } #7	2-year cons
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 5 } } flag = { which = ausmob when = 1 value = 5 } } type = manpowerpool value = -245 } #35	partial mob
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 6 } } flag = { which = ausmob when = 1 value = 6 } } type = manpowerpool value = -343 } #49	general mob A
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 7 } } flag = { which = ausmob when = 1 value = 7 } } type = manpowerpool value = -245 } #35	general mob B
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 8 } } flag = { which = ausmob when = 1 value = 8 } } type = manpowerpool value = -245 } #35	general mob C
 		
 		command = { type = clrflag which = ausmob }
 		
@@ -2058,7 +2066,7 @@ event = {
 		name = "Sign the treaty"
 		ai_chance = 100
 		command = { type = relation which = GER value = 10 }
-		command = { type = dissent value = -5 }
+		command = { type = dissent value = -6 }
 		command = { type = belligerence which = SOV value = 5 }
 		command = { type = oilpool value = -2000 }
 		command = { type = supplies value = 1000 }
@@ -2625,6 +2633,7 @@ event = {
 		command = { trigger = { event = 2003025 } type = access which = SOV }
 		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = POL value = 1 }
 		command = { trigger = { ai = yes ai = SLO } type = non_aggression which = SLO where = POL when = 4 } #Give germany time to deploy troops to Slovakia
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
 	}
 }
 #########################################################################
@@ -3181,6 +3190,8 @@ event = {
 		NOT = {
 			area = { area = "Krakow" 	country = REB data = 1 value = 1 }
 			area = { area = "Warsaw" 	country = REB data = 1 value = 1 }
+			control = { province = 504 	data = -2 }
+			control = { province = 3270	data = -2 }
 			garrison = { country = REB province = 485 type = land size = 1 area = 1 }
 			garrison = { country = REB province = 479 type = land size = 1 area = 1 }
 		}
@@ -3333,17 +3344,17 @@ event = {
 		
 		OR = {
 			AND = {
-				garrison = { country = -3 province = 485  type = land size = 12 area = 1 } # Warsaw
-				garrison = { country = -3 province = 487  type = land size = 12 area = 1 } # Lublin
-				garrison = { country = -3 province = 510  type = land size = 6 area = 1 } # Koenigsberg
+				garrison = { country = -3 province = 485  type = land size = 30 area = 1 } # Warsaw
+				garrison = { country = -3 province = 487  type = land size = 30 area = 1 } # Lublin
+				garrison = { country = -3 province = 510  type = land size = 20 area = 1 } # Koenigsberg
 			}
 			alliance = { country = POL }
 			alliance = { country = SOV country = POL }
 		}
 		
 		NOT = { control = { province = 401 data = -2 } } # Athens
-		NOT = { area = { area = "Attica" country = -2 data = 1 value = 15 } }
-		NOT = { area = { area = "Thrace" country = -2 data = 1 value = 10 } }
+		NOT = { area = { area = "Attica" country = -2 data = 1 value = 25 } }
+		NOT = { area = { area = "Thrace" country = -2 data = 1 value = 20 } }
 		
 		OR = {
 			land_percentage = { country = SOV value = 0.4 }
@@ -3378,8 +3389,8 @@ event = {
 		command = { type = end_trades which = GER where = SOV }
 		command = { type = war which = SOV } 
 		
-		command = { trigger = { ai = yes } type = ai which = "invasionYes.ai" }
-		command = { trigger = { ai = yes } type = ai which = "garrison30.ai" }
+		command = { trigger = { ai = yes } type = ai 			which = "invasionYes.ai" }
+		command = { trigger = { ai = yes } type = ai 			which = "garrison30.ai" }
 		command = { trigger = { ai = yes } type = local_clrflag which = sovPrep 		}
 		command = { trigger = { ai = yes } type = local_clrflag which = garSpec 		}
 		command = { trigger = { ai = yes } type = local_setflag which = gar value = 30  }
@@ -4328,9 +4339,21 @@ event = {
 		OR = {
 			alliance = { country = GER }
 			event = { id = 2003053 days = 4 }
+			dissent = 20
+			AND = {
+				war = { country = GER country = SOV }
+				war = { country = GER country = USA }
+				war = { country = GER country = ENG }
+				OR = {
+					alliance = { country = GRE country = ENG }
+					NOT = {
+						control = { province = 401 data = GRE }
+						control = { province = 401 data = GER }
+						control = { province = 401 data = ITA }
+					}
+				}
+			}
 		}
-		#NOT = { puppet = { country = YUG country = GER } }
-		dissent = 20
 	}
 
 	name = EVT_6_NAME
@@ -5082,7 +5105,7 @@ event = {
 		command = { trigger = { ai = GER } type = trigger which = 2003066 }
 		
 		#command = { type = sleepevent which = 2003067 } #will still need the event in order to invade Denmark
-		command = { type = trigger which = 2049030 }
+		command = { type = trigger which = 2006100 }
 	}
 }
 
@@ -5132,6 +5155,7 @@ event = {
 		
 		#command = { type = leave_alliance when = 1 }
 		#command = { type = alliance which = ENG when = 1 }
+		command = { trigger = { ai = yes } 	type = ai which = "noExpFRA.ai" }
 		
 		command = { type = event which = 2022002 where = ENG when = 0 }
 	}
@@ -5158,6 +5182,8 @@ event = {
 		command = { type = damage_division 	which = -1 where = 35 }
 		
 		command = { type = set_domestic which = political_left value = 7 }
+		
+		command = { trigger = { ai = yes } 	type = ai which = "noExpFRA.ai" }
 		
 		command = { type = event which = 2022002 where = ENG when = 0 }
 	}
@@ -5222,7 +5248,7 @@ event = {
 
 # The Allies invade Norway
 event = {
-	id = 2049030
+	id = 2006100
 	random = no
 	country = USA
 	one_action = yes
@@ -5271,6 +5297,7 @@ event = {
 
 	trigger = {
 		OR = { 
+			#for game purposes, it's better to have AI germany be almost finished with norway before starting France
 			AND = {
 				NOT = { year = 1940 }
 				random = 1
@@ -5278,12 +5305,12 @@ event = {
 			AND = {
 				year = 1940
 				NOT = { month = March }
-				random = 2
+				random = 5
 			}
 			AND = {
 				year = 1940
 				month = March
-				random = 3
+				random = 10
 			}
 			AND = { 
 				year	= 1940
@@ -6651,7 +6678,7 @@ event = {
 	name = "Align Finland"
 	desc = "Finland wished to re-enter the war against USSR mainly because of the Soviet invasion of Finland during the Winter War, which the League of Nations and Nordic neutrality had failed to prevent, and to reverse its territorial losses from the 1940 Moscow Peace Treaty. Then, depending on the success of the German invasion of the Soviet Union, to possibly expand its borders, especially into East Karelia. Some right-wing groups, such as the Academic Karelia Society, supported a Greater Finland ideology as well."
   	style = 2
-  	picture = "finnish_reinforcements"
+  	picture = "Hitler_Mannerheim"
 	decision_picture="decision_rapallo_conference"
 
 	date = { day = 0 month = january year = 1936 }

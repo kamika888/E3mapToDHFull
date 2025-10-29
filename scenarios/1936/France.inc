@@ -1950,8 +1950,8 @@ landunit =
 	
 	#after vichy collapse, for operation bright moon. Since free france inherits Vichy, it should inherit the dormand divisions as well
 	landdivision = { dormant = yes id = { type = 13500 id = 2040 } 	name = "Legion etrangere 5e REI" 			type = infantry model = 11 experience = 60 									locked = no }
-	landdivision = { dormant = yes id = { type = 13500 id = 2041 } 	name = "Division du Annam-Laos" 			type = garrison model = 6 													locked = no }
-	landdivision = { dormant = yes id = { type = 13500 id = 2042 } 	name = "Division du Tonkin"  				type = garrison model = 6 													locked = no }
+	landdivision = { dormant = yes id = { type = 13500 id = 2041 } 	name = "Division du Annam-Laos" 			type = infantry model = 10 													locked = no }
+	landdivision = { dormant = yes id = { type = 13500 id = 2042 } 	name = "Division du Tonkin"  				type = infantry model = 10 													locked = no }
 	landdivision = { dormant = yes id = { type = 13500 id = 2043 } 	name = "Division du Cochinchina-Cambodia" 	type = infantry model = 11 extra = artillery brigade_model = 9 				locked = no }
 	#landdivision = { dormant = yes id = { type = 13500 id = 2044 } name = "8e Division d'Infanterie" 			type = infantry model = 11 extra = light_armor_brigade brigade_model = 7 	locked = no }
 	#landdivision = { dormant = yes id = { type = 13500 id = 2045 } name = "6e Division d'Infanterie" 			type = infantry model = 11 												 	locked = no }

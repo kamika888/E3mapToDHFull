@@ -63,7 +63,6 @@ event = {
 		random = 25
 	}
 
-	#date = { day = 1 month = january year = 1936 } #tmp
 	date = { day = 15 month = june year = 1936 }
 	offset = 5
 	deathdate = { day = 29 month = july year = 1937 }
@@ -163,7 +162,7 @@ event = {
 		name = ACTION_NAME_DAMN 
 		command = { type = peace which = U07 value = 0 }
 		
-		command = { type = dissent value = 7 } 
+		command = { type = dissent value = 10 } 
 		#command = { type = end_mastery which = U52 }
 		#command = { type = end_mastery which = EUS }
 		
@@ -224,10 +223,9 @@ event = {
 		command = { type = oilpool	value = 1000 }
 		#command = { type = money value = 500 }
 		#command = { type = free_money 	value = -2  }
-		command = { type = manpowerpool value = 500 }
 		#command = { type = capital which = 354 }
 		command = { type = event which = 5102 where = SPA when = 0 }
-		command = { type = event which = 5107 where = SPA when = 1 }
+		command = { type = event which = 5107 where = SPA when = 3 } #War start
 		
 		command = { type = local_setflag which = war_preparedness when = 0 value = 4 }
 		command = { type = local_setflag which = stayInWar		}
@@ -239,6 +237,47 @@ event = {
 		command = { trigger = { NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
 		
 		#command = { type = capital which = 354 }
+		
+		#Removing regular army from Asturias and from easy encirclement
+		command = { trigger = { ai = yes garrison = { country = -1 province = 1726 type = land size = 1  area = 3 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		command = { trigger = { ai = yes garrison = { country = -1 province = 1726 type = land size = 2  area = 3 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		command = { trigger = { ai = yes garrison = { country = -1 province = 1726 type = land size = 3  area = 3 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		command = { trigger = { ai = yes garrison = { country = -1 province = 1726 type = land size = 4  area = 3 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		command = { trigger = { ai = yes garrison = { country = -1 province = 1726 type = land size = 5  area = 3 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		command = { trigger = { ai = yes garrison = { country = -1 province = 331  type = land size = 1  area = 3 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		command = { trigger = { ai = yes garrison = { country = -1 province = 331  type = land size = 2  area = 3 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		command = { trigger = { ai = yes garrison = { country = -1 province = 331  type = land size = 3  area = 3 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		command = { trigger = { ai = yes garrison = { country = -1 province = 331  type = land size = 4  area = 3 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		command = { trigger = { ai = yes garrison = { country = -1 province = 331  type = land size = 5  area = 3 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		command = { trigger = { ai = yes garrison = { country = -1 province = 7981 type = land size = 1  area = 0 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		command = { trigger = { ai = yes garrison = { country = -1 province = 7981 type = land size = 2  area = 0 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		command = { trigger = { ai = yes garrison = { country = -1 province = 343  type = land size = 1  area = 0 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		command = { trigger = { ai = yes garrison = { country = -1 province = 343  type = land size = 2  area = 0 } }	type = setflag which = sprNOR when = 1 value = 1  }
+		
+		command = { trigger = { ai = yes } 																type = remove_units which = land where = -1 when = 0 value = 332  }
+		command = { trigger = { ai = yes } 																type = remove_units which = land where = -1 when = 0 value = 3180 }
+		command = { trigger = { ai = yes } 																type = remove_units which = land where = -1 when = 0 value = 1726 }
+		command = { trigger = { ai = yes } 																type = remove_units which = land where = -1 when = 0 value = 331  }
+		command = { trigger = { ai = yes } 																type = remove_units which = land where = -1 when = 0 value = 7127 }
+		command = { trigger = { ai = yes } 																type = remove_units which = land where = -1 when = 0 value = 343  }
+		command = { trigger = { ai = yes } 																type = remove_units which = land where = -1 when = 0 value = 342 }
+		
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 1  } } 						type = add_corps 						 value = land where = 354 }	
+		
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 1  } }							type = add_division					value = infantry	when = 7  } 
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 2  } }							type = add_division					value = infantry	when = 7  } 
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 3  } }							type = add_division					value = militia		when = 4  } 
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 4  } }							type = add_division					value = infantry	when = 7  } 
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 5  } }							type = add_division					value = infantry	when = 7  } 
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 6  } }							type = add_division					value = militia		when = 4  } 
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 7  } }							type = add_division					value = infantry	when = 7  } 
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 8  } }							type = add_division					value = infantry	when = 7  } 
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 9  } }							type = add_division					value = militia		when = 4  } 
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 10 } }							type = add_division					value = infantry	when = 7  }	
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 11 } }							type = add_division					value = infantry	when = 7  }	
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 12 } }							type = add_division					value = militia		when = 4  } 
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 13 } }							type = add_division					value = infantry	when = 7  }	
+		command = { trigger = { flag = { which = sprNOR when = 1 value = 14 } }							type = add_division					value = infantry	when = 7  }	
 	} 
 }
 
@@ -314,18 +353,16 @@ event = {
 		command = { type = sleepminister which = 35184 } #José Sanjurjo as HoS
 		command = { type = sleepminister which = 35186 } #José Sanjurjo as HoG
 		command = { type = sleepminister which = 35137 } #José Sanjurjo as CoA
-		command = { type = capital which = 334 }
+		command = { type = capital which = 347 }
 		#command = { type = capital which = 333 }
 		
 		command = { type = supplies 	value = 5000 }
 		command = { type = oilpool		value = 1000 }
 		command = { type = money 		value = 500  }
-		command = { type = manpowerpool value = 500 }
 		
 		command = { type = event which = 5104 where = U52 when = 0   }
 		command = { type = event which = 5105 where = EUS when = 0   }
 		command = { type = event which = 5106 where = U69 when = 0   }
-		command = { type = event which = 5108 where = SPR when = 21  } #War start
 		
 		command = { type = local_setflag which = war_preparedness when = 0 value = 4 }
 		command = { type = local_setflag which = stayInWar		}
@@ -403,10 +440,9 @@ event = {
 		command = { type = local_setflag which = do_not_demob	}
 
 		command = { type = transport_pool which = U52 value = 50 }
-		command = { type = manpowerpool value = 200 }
-		command = { type = supplies value = 2000 }
-		command = { type = oilpool	value = 500  }
-		command = { type = money 	value = 50   }
+		command = { type = supplies 	value = 2000 }
+		command = { type = oilpool		value = 500  }
+		command = { type = money 		value = 50   }
 		#command = { type = free_money 	value = -2  }
 	}
 }
@@ -453,10 +489,9 @@ event = {
 		
 		command = { trigger = { ai = yes } type = trade which = EUS where = SPR supplies = -4 when = 1440 value = 1 when = 1800 }
 		
-		command = { type = manpowerpool value = 100 }
-		command = { type = supplies value = 2000 }
-		command = { type = oilpool	value = 500  }
-		command = { type = money 	value = 50   }
+		command = { type = supplies 	value = 1000 }
+		command = { type = oilpool		value = 250  }
+		command = { type = money 		value = 50   }
 		#command = { type = free_money 	value = -2  }
 	}
 }
@@ -506,12 +541,9 @@ event = {
 		command = { type = event which = 3130 where = -1 when = 1080 } #inMajorWar clear
 		command = { trigger = { NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 }
 		
-
-		command = { type = transport_pool which = EUS value = 50 }
-		command = { type = manpowerpool value = 200 }
-		command = { type = supplies value = 2000 }
-		command = { type = oilpool	value = 500  }
-		command = { type = money 	value = 50   }
+		command = { type = supplies 	value = 2000 }
+		command = { type = oilpool		value = 500  }
+		command = { type = money 		value = 50   }
 	}
 }
 
@@ -527,16 +559,28 @@ event = {
 	action_a = { 
 		name = "Ok"
 		command = { type = war which = SPR }
-		command = { type = non_aggression which = SPR where = U69 when = 20 }
-		command = { type = non_aggression which = EUS where = U69 when = 20 }
-		command = { type = non_aggression which = U52 where = U69 when = 20 }
-		command = { type = non_aggression which = SPR where = SPA when = 20 }
-		command = { type = non_aggression which = EUS where = SPA when = 20 }
-		command = { type = non_aggression which = U52 where = SPA when = 20 }
+		#command = { type = non_aggression which = SPR where = SPA when = 1 }
+		#command = { type = non_aggression which = SPR where = U69 when = 20 }
+		#command = { type = non_aggression which = EUS where = U69 when = 20 }
+		#command = { type = non_aggression which = U52 where = U69 when = 20 }
+		#command = { type = non_aggression which = SPR where = SPA when = 20 }
+		#command = { type = non_aggression which = EUS where = SPA when = 20 }
+		#command = { type = non_aggression which = U52 where = SPA when = 20 }
 		
 		command = { type = addcore which = 2243 }
 		command = { type = addcore which = 3184 }
 		command = { type = addcore which = 3185 }
+		
+		#initial confusion
+		command = { type = event which = 2400151 where = SPR when = 0  }
+		command = { type = event which = 2400151 where = EUS when = 0  }
+		command = { type = event which = 2400151 where = U52 when = 0  }
+		#recovery in 45 days
+		command = { type = event which = 2400161 where = SPR when = 45 }
+		command = { type = event which = 2400161 where = EUS when = 45 }
+		command = { type = event which = 2400161 where = U52 when = 45 }
+		
+		command = { type = event which = 5108 where = SPR when = 0 }
 	} 
 }
 
@@ -582,88 +626,179 @@ event = {
 		command = { type = military_control which = SPR where = U52 value = 1 }
 		command = { type = military_control which = SPR where = EUS value = 1 }
 		
-		command = { type = demobilize which = light_armor 	when = 0 where = 1 value = -1 }
-		command = { type = demobilize which = air 			when = 0 where = 1 value = 0 }
-		
+		command = { type = demobilize which = light_armor 		when = 0 where = 1 value = 0 }
+		command = { type = demobilize which = air 				when = 0 where = 1 value = 0 }
+
 		command = { type = add_division value = interceptor		when = 5 where = -50 }
 		command = { type = add_division value = tactical_bomber	when = 2 where = -50 }
 		
-		command = { type = add_corps value = land where = 3190 }
-		command = { type = add_division which = "2nd UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 1726 }
-		command = { type = add_division which = "1st Republican Left Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = manpowerpool value = -290 }
+		command = { type = manpowerpool value = -50  } #SPR starts the war with around 50
 		
-		command = { type = add_corps value = land where = 3195 }
-		command = { type = add_division which = "1st UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 3195 }
-		command = { type = add_division which = "2nd PCE-JSU Mil. Div." value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 341 } #Madrid
-		command = { type = add_division which = "2nd Republican Left Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 341 }
-		command = { type = add_division which = "4th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 3192 }
-		command = { type = add_division which = "1st Republican Union Mil. Div." value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 342 }
-		command = { type = add_division which = "5th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 3197 }
-		command = { type = add_division which = "6th PCE-JSU Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 3197 }
-		command = { type = add_division which = "10th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 3197 }
-		command = { type = add_division which = "4th Republican Left Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 3197 }
-		command = { type = add_division which = "11th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 7164 }
-		command = { type = add_division which = "3rd UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 3202 }
-		command = { type = add_division which = "3rd Republican Left Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 3202 }
-		#command = { type = add_division which = "1st Armor Division" value = light_armor when = 0 where = -80 }
-		command = { type = add_division which = "1st Armor Division" value = infantry when = 8 where = light_armor_brigade }
-		
-		command = { type = add_corps value = land where = 2618 }
-		command = { type = add_division which = "1st PCE-JSU Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 2618 }
-		command = { type = add_division which = "2nd Republican Union Mil. Div." value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 3204 }
-		command = { type = add_division which = "6th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 3204 }
-		command = { type = add_division which = "12th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 349  }
+		#command = { type = add_division which = "4th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 7107 }
-		command = { type = add_division which = "7th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "1st PCE-JSU Mil. Div."				value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 7107 }
+		#command = { type = add_division which = "5th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
 		
+		command = { type = add_corps value = land where = 3204 }
+		command = { type = add_division which = "3rd Republican Left Mil. Div."		value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 3204 }
+		#command = { type = add_division which = "7th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 2618 }
+		command = { type = add_division which = "3rd UGT-PSOE Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 2618 }
+		#command = { type = add_division which = "3rd CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 3202 }
+		command = { type = add_division which = "11th UGT-PSOE Mil. Div."			value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3202 }
+		command = { type = add_division which = "4th UGT-PSOE Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 343  }
+		command = { type = add_division which = "4th Republican Left Mil. Div."		value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 3198 }
+		command = { type = add_division which = "10th UGT-PSOE Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 3198 }
+		#command = { type = add_division which = "20th CNT-FAI Mil. Div." 			value = militia when = 4 where = -30 }
+		
+		command = { type = add_corps value = land where = 7164 }
+		command = { type = add_division which = "6th PCE-JSU Mil. Div."				value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7164 } 
+		command = { type = add_division which = "2nd Republican Left Mil. Div."		value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 342  }
+		command = { type = add_division which = "5th UGT-PSOE Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 342  }
+		#command = { type = add_division which = "16th CNT-FAI Mil. Div." 			value = militia when = 4 where = -30 }
+		
+		command = { type = add_corps value = land where = 3194 }
+		command = { type = add_division which = "1st Republican Union Mil. Div."	value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 3194  }
+		#command = { type = add_division which = "6th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 341  } #Madrid
+		command = { type = activate_division which = 27600 							value = 630 	where = 341	when = 1 } 
+		command = { type = add_division 							 	 			value = garrison when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 341  }
+		#command = { type = add_division which = "2nd CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 3195 }
+		command = { type = add_division which = "1st UGT-PSOE Mil. Div." 			value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3195 }
+		command = { type = add_division which = "2nd PCE-JSU Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 3190 }
+		#command = { type = add_division which = "1st Armor Division"				value = light_armor when = 0 where = -80 }
+		command = { type = add_division which = "1st Armor Division"				value = infantry when = 8 where = light_armor_brigade }
+		command = { type = add_corps value = land where = 3190 }
+		command = { type = add_division which = "2nd UGT-PSOE Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 3190 }
+		#command = { type = add_division which = "15th CNT-FAI Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 3190 }
+		#command = { type = add_division which = "1st CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 3191 }
+		command = { type = add_division which = "6th UGT-PSOE Mil. Div."			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 1162 }
+		command = { type = add_division which = "12th UGT-PSOE Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 1162 }
+		#command = { type = add_division which = "1st POUM Mil. Div." 				value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 7109 }
+		command = { type = add_division which = "7th UGT-PSOE Mil. Div."			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 3187  }
+		command = { type = add_division which = "65th Division"						value = infantry when = 8 where = -30 }
+		command = { type = add_corps value = land where = 3187 }
+		command = { type = add_division which = "3rd PCE-JSU (PSUC) Mil. Div."		value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 3187 }
+		#command = { type = add_division which = "12th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 7114 }
+		command = { type = add_division which = "9th UGT-PSOE Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 7114 }
+		#command = { type = add_division which = "2nd ERC Mil. Div." 				value = militia when = 4 where = -50 }
+		
+		#command = { type = add_corps value = land where = 7113 }
+		#command = { type = add_division which = "1st ERC Mil. Div." 				value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 7113 }
+		#command = { type = add_division which = "19th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		#command = { type = add_corps value = land where = 3186 }
+		#command = { type = add_division which = "1st Catalan State Mil. Div." 		value = militia when = 4 where = -50 }
+
+		#command = { type = add_corps value = land where = 356 }
+		#command = { type = add_division which = "2nd Catalan State Mil. Div." 		value = militia when = 4 where = -50 }
+		
+		#command = { type = add_corps value = land where = 357 }
+		#command = { type = add_division which = "Comissaria d'Ordre Public" 		value = garrison when = 4 where = -50 }
+		#command = { type = add_division 							 				value = garrison when = 4 where = -50 }
+		#command = { type = add_division 							 				value = garrison when = 4 where = -50 }
+		
+		#command = { type = add_corps value = land where = 7108 }
+		#command = { type = add_division which = "18th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+
+		#command = { type = add_corps value = land where = 3203 }
+		#command = { type = add_division which = "10th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+	
+		#command = { type = add_corps value = land where = 352  }
+		#command = { type = add_division which = "11th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 7106  }
+		command = { type = add_division which = "2nd Republican Union Mil. Div."	value = militia when = 4 where = -50 }
+		
+		
+		#Island
+		#command = { type = add_corps value = land where = 2619 }
+		#command = { type = add_division which = "14th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		
+		#Asturias
+		command = { type = add_corps value = land where = 1726 }
+		command = { type = add_division which = "1st Republican Left Mil. Div."		value = militia when = 4 where = -50 }		
+		command = { type = add_corps value = land where = 1726 }
+		command = { type = add_division which = "48th Division"						value = infantry when = 8 where = -50 }	
 		command = { type = add_corps value = land where = 1726 }
 		command = { type = add_division which = "Sovereign Council of Asturias and Leon" value = hq when = 2 where = -30 }
 		command = { type = add_corps value = land where = 1726 }
-		command = { type = add_division which = "Asturias garrison" value = garrison when = 4 where = -30 }
-		command = { type = add_corps value = land where = 3190 }
-		command = { type = add_division which = "65th Division" value = infantry when = 8 where = -30 }
+		command = { type = add_division which = "Asturias garrison"					value = garrison when = 4 where = -30 }
+		#command = { type = add_corps value = land where = 1726 }
+		#command = { type = activate_division which = 27600 value = 602 where = 1726	when = 1 } #9th CNT-FAI Mil. Div.
+		#command = { type = add_corps value = land where = 1726 }
+		#command = { type = activate_division which = 27600 value = 603 where = 1726	when = 1 } #20th CNT-FAI Mil. Div.
 		
 		command = { type = add_corps value = land where = 3180 }
-		#command = { type = add_division which = "63rd Division" value = infantry when = 8 where = -30 }
 		command = { type = activate_division which = 27600 value = 600 where = 3180	when = 1 } #63rd Division
 		command = { type = add_corps value = land where = 3180 }
-		#command = { type = add_division which = "5th PCE-JSU Mil. Div." value = militia when = 4 where = -50 }
 		command = { type = activate_division which = 27600 value = 601 where = 3180	when = 1 } #5th PCE-JSU Mil. Div.
+		#command = { type = add_corps value = land where = 3180 }
+		#command = { type = add_division which = "2nd POUM Mil. Div." 				value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 3180 }
+		#command = { type = add_division which = "8th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
 		
+		#command = { type = add_corps value = land where = 332 }
+		#command = { type = add_division which = "17th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
 		
-	
-		command = { type = add_corps value = land where = 7112 }
-		command = { type = add_division which = "3rd PCE-JSU (PSUC) Mil. Div." value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 7127 }
+		#command = { type = add_division which = "13th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 7127 }
+		#command = { type = add_division which = "1st PNV Mil. Div." 		value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 7127 }
+		#command = { type = add_division which = "3rd PNV Mil. Div." 		value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 1734 }
-		command = { type = add_division which = "9th UGT-PSOE Mil. Div." value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 331 }
+		#command = { type = add_division which = "2nd PNV Mil. Div." 		value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 331 }
+		#command = { type = add_division which = "4th PNV Mil. Div." 		value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 331 }
+		#command = { type = add_division which = "4th PCE-JSU Mil. Div." 	value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 341 }
-		command = { type = add_division 							 	value = garrison when = 4 where = -50 }
 		
 		command = { trigger = { NOT = { transport = { value = 3 } } } type = add_division value = transport when = 2 }
 		command = { trigger = { NOT = { transport = { value = 3 } } } type = add_division value = transport when = 2 }
@@ -679,8 +814,8 @@ event = {
 		command = { type = construct which = land_fort where = 3195 value = 2 } #Castle of Manzanares el Real
 		command = { type = construct which = land_fort where = 341	value = 2 } #Castle of Alameda/Castle of Batres
 		
-		command = { type = construct which = land_fort where = 3194 value = 4 } #Alcazar of Toledo
-		command = { type = construct which = land_fort where = 330  value = 6 } #Castle of Aljaferia
+		command = { type = construct which = land_fort where = 3194 value = 2 } #Alcazar of Toledo
+		command = { type = construct which = land_fort where = 330  value = 4 } #Castle of Aljaferia
 		command = { type = construct which = land_fort where = 329  value = 3 } #Castle of Loarre/Alcazar of Malaga
 		command = { type = construct which = land_fort where = 7114 value = 3 } #Castle of San Esteban de Litera/Castle of Altarriba
 		command = { type = construct which = land_fort where = 338	value = 2 } #Castle of Trujillo
@@ -702,12 +837,15 @@ event = {
 		
 		command = { type = construct which = land_fort where = 331	value = 3 } #Castle of Arteaga / Iron ring of Bilbao
 		
-		command = { type = construct which = land_fort where = 2244 value = 2 } #Castle of Olite
-		command = { type = construct which = land_fort where = 3184 value = 4 } #Castle of San Vincente/Palace of Vicuna
+		command = { type = construct which = land_fort where = 2244 value = 4 } #Castle of Olite
+		command = { type = construct which = land_fort where = 3184 value = 2 } #Castle of San Vincente/Palace of Vicuna
 		
 		command = { type = belligerence value = 10 }
 		
+		command = { type = local_setflag which = garSpec }
+		
 		command = { trigger = { ai = yes } type = ai which = "nations\SPR.ai" }
+		command = { trigger = { ai = yes } type = ai which = "garrison15.ai" }
 		command = { trigger = { ai = yes } type = ai which = "airStrat.ai" }
 		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
 		
@@ -728,89 +866,106 @@ event = {
 
 	action = { 
 		name = ACTION_NAME_DAMN
-		command = { type = add_corps value = land where = 3190 }
-		command = { type = add_division which = "15th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = dissent value = -1 }
 		
-		command = { type = add_corps value = land where = 342 }
-		command = { type = add_division which = "16th CNT-FAI Mil. Div." 		value = militia when = 4 where = -30 }
-		command = { type = add_corps value = land where = 342 }
-		command = { type = add_division which = "20th CNT-FAI Mil. Div." 		value = militia when = 4 where = -30 }
+		command = { type = manpowerpool value = -290 }
 		
-		command = { type = add_corps value = land where = 7164 }
-		command = { type = add_division which = "18th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		
-		command = { type = add_corps value = land where = 3202 }
-		command = { type = add_division which = "10th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 349  }
+		command = { type = add_division which = "4th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 7107 }
-		command = { type = add_division which = "11th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_division which = "5th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 1726 }
-		#command = { type = add_division which = "9th CNT-FAI Mil. Div." 		value = militia when = 4 where = -30 }
-		command = { type = activate_division which = 27600 value = 602 where = 1726	when = 1 } #9th CNT-FAI Mil. Div.
-		command = { type = add_corps value = land where = 1726 }
-		#command = { type = add_division which = "20th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = activate_division which = 27600 value = 603 where = 1726	when = 1 } #20th CNT-FAI Mil. Div.
+		command = { type = add_corps value = land where = 3204 }
+		command = { type = add_division which = "7th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 332 }
-		command = { type = add_division which = "4th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 332 }
-		command = { type = add_division which = "17th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 2618 }
+		command = { type = add_division which = "3rd CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 3180 }
-		command = { type = add_division which = "2nd POUM Mil. Div." 			value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 3180 }
-		command = { type = add_division which = "8th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3198 }
+		command = { type = add_division which = "8th CNT-FAI Mil. Div." 			value = militia when = 4 where = -30 }
 		
-		command = { type = add_corps value = land where = 3186 }
-		command = { type = add_division which = "1st CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 3186 }
-		command = { type = add_division which = "1st Catalan State Mil. Div." 	value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 342  }
+		command = { type = add_division which = "16th CNT-FAI Mil. Div." 			value = militia when = 4 where = -30 }
 		
-		command = { type = add_corps value = land where = 1531 }
-		command = { type = add_division which = "2nd CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 3195 }
-		command = { type = add_division which = "1st POUM Mil. Div." 			value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 7113 }
-		command = { type = add_division which = "1st ERC Mil. Div." 			value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 7113 }
-		command = { type = add_division which = "19th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 7113 }
-		command = { type = add_division which = "2nd ERC Mil. Div." 			value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3194  }
+		command = { type = add_division which = "6th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 7114 }
-		command = { type = add_division which = "5th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 7114 }
-		command = { type = add_division which = "7th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 7114 }
-		command = { type = add_division which = "2nd Catalan State Mil. Div." 	value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 341  }
+		command = { type = add_division which = "2nd CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 3190 }
+		command = { type = add_division which = "15th CNT-FAI Mil. Div."			value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3190 }
+		command = { type = add_division which = "1st CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 1162 }
+		command = { type = add_division which = "1st POUM Mil. Div." 				value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 3187 }
-		command = { type = add_division which = "3rd CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 3187 }
-		command = { type = add_division which = "12th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_division which = "12th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 1734 }
-		command = { type = add_division which = "6th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7114 }
+		command = { type = add_division which = "2nd ERC Mil. Div." 				value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 7127 }
-		command = { type = add_division which = "13th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7113 }
+		command = { type = add_division which = "1st ERC Mil. Div." 				value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 7113 }
+		command = { type = add_division which = "19th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 2619 }
-		command = { type = add_division which = "14th CNT-FAI Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3186 }
+		command = { type = add_division which = "1st Catalan State Mil. Div." 		value = militia when = 4 where = -50 }
+
+		command = { type = add_corps value = land where = 356 }
+		command = { type = add_division which = "2nd Catalan State Mil. Div." 		value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 357 }
-		command = { type = add_division which = "Comissaria d'Ordre Public" 	value = garrison when = 4 where = -50 }
-		command = { type = add_division 							 			value = garrison when = 4 where = -50 }
-		command = { type = add_division 							 			value = garrison when = 4 where = -50 }
+		command = { type = add_division which = "Comissaria d'Ordre Public" 		value = garrison when = 4 where = -50 }
+		command = { type = add_division 							 				value = garrison when = 4 where = -50 }
+		command = { type = add_division 							 				value = garrison when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 7108 }
+		command = { type = add_division which = "18th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+
+		command = { type = add_corps value = land where = 3203 }
+		command = { type = add_division which = "10th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+	
+		command = { type = add_corps value = land where = 352  }
+		command = { type = add_division which = "11th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
 		
 		
-		command = { trigger = { NOT = { transport = { value = 2 } } } type = add_division value = transport when = 2 }
-		command = { trigger = { NOT = { transport = { value = 2 } } } type = add_division value = transport when = 2 }
+		#Island
+		command = { type = add_corps value = land where = 2619 }
+		command = { type = add_division which = "14th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		
+		#Asturias
+		command = { type = add_corps value = land where = 1726 }
+		command = { type = activate_division which = 27600 value = 602 where = 1726	when = 1 } #9th CNT-FAI Mil. Div.
+		
+		command = { type = add_corps value = land where = 3180 }
+		command = { type = activate_division which = 27600 value = 603 where = 3180	when = 1 } #20th CNT-FAI Mil. Div.
+		command = { type = add_corps value = land where = 3180 }
+		command = { type = add_division which = "2nd POUM Mil. Div." 				value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 3180 }
+		#command = { type = add_division which = "8th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 7127 }
+		command = { type = add_division which = "13th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 332 }
+		command = { type = add_division which = "17th CNT-FAI Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		
+		#command = { trigger = { NOT = { transport = { value = 2 } } } type = add_division value = transport when = 2 }
+		#command = { trigger = { NOT = { transport = { value = 2 } } } type = add_division value = transport when = 2 }
 		
 		#command = { type = task_efficiency which = attack 			value = -0.3 }
 		#command = { type = task_efficiency which = support_attack 	value = -0.3 }
 		
+		command = { type = local_setflag which = garSpec }
+		
+		command = { trigger = { ai = yes } type = ai which = "garrison30.ai" }
 		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
 		command = { trigger = { ai = yes } type = ai which = "airStrat.ai" }
 		
@@ -830,23 +985,26 @@ event = {
 
 	action = { 
 		name = ACTION_NAME_DAMN
+		command = { type = manpowerpool value = -50 }
+		
 		command = { type = add_corps value = land where = 7127 }
-		command = { type = add_division which = "1st PNV Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_division which = "1st PNV Mil. Div." 				value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 7127 }
-		command = { type = add_division which = "3rd PNV Mil. Div." 		value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 7127 }
-		command = { type = add_division which = "13th CNT-FAI Mil. Div." 	value = militia when = 4 where = -50 }
+		command = { type = add_division which = "3rd PNV Mil. Div." 				value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 331 }
-		command = { type = add_division which = "2nd PNV Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_division which = "2nd PNV Mil. Div." 				value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 331 }
-		command = { type = add_division which = "4th PCE-JSU Mil. Div." 	value = militia when = 4 where = -50 }
+		command = { type = add_division which = "4th PNV Mil. Div." 				value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 331 }
-		command = { type = add_division which = "4th PNV Mil. Div." 		value = militia when = 4 where = -50 }
+		command = { type = add_division which = "4th PCE-JSU Mil. Div." 			value = militia when = 4 where = -50 }
 		
 		#command = { type = task_efficiency which = attack 			value = -0.3 }
 		#command = { type = task_efficiency which = support_attack 	value = -0.3 }
 		
+		command = { type = local_setflag which = garSpec }
+		
+		command = { trigger = { ai = yes } type = ai which = "garrison15.ai" }
 		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
 		command = { trigger = { ai = yes } type = ai which = "airStrat.ai" }
 		
@@ -878,115 +1036,155 @@ event = {
 		#50*5000+16*10000=410,000 (foreign intervention will add more)
 		
 		
-		command = { type = demobilize which = light_armor 	when = 0 where = 1 value = -1 }
-		command = { type = demobilize which = air 			when = 0 where = 1 value = 0 }
+		command = { type = demobilize which = light_armor 		when = 0 where = 1 value = 0 }
+		command = { type = demobilize which = air 				when = 0 where = 1 value = 0 }
 		
 		command = { type = add_division value = interceptor		when = 5 where = -50 }
+		command = { type = add_division value = interceptor		when = 5 where = -50 }
 		command = { type = add_division value = tactical_bomber	when = 2 where = -50 }
+		
+		command = { type = manpowerpool value = -420 }
 
 		command = { type = add_corps value = land where = 7119 }
-		command = { type = add_division which = "9th Falangist Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 7119 }
-		command = { type = add_division which = "13th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "9th Falangist Mil. Div." 			value = militia when = 4 where = -50 }
+		
+		command = { type = add_corps value = land where = 7120 }
+		command = { type = add_division which = "13th Falangist Mil. Div."			value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 7165 }
-		command = { type = add_division which = "1st CEDA Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "1st CEDA Mil. Div." 				value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 7165 }
-		command = { type = add_division which = "2nd Spanish Renovation Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "2nd Spanish Renovation Mil. Div."	value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 1532 }
-		command = { type = add_division which = "3rd Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "3rd Falangist Mil. Div."			value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 1532 }
-		command = { type = add_division which = "6th Moroccan Division" value = infantry when = 8 where = -50 }
+		command = { type = add_division which = "6th Moroccan Division"				value = infantry when = 8 where = -50 }
+		#command = { type = add_corps value = land where = 1532 }
+		#command = { type = add_division which = "6th Carlist Mil. Div."			value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 7116 }
-		command = { type = add_division which = "3rd Spanish Renovation Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "3rd Spanish Renovation Mil. Div."	value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 7116 }
-		command = { type = add_division which = "10th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "10th Falangist Mil. Div."			value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "14th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "14th Falangist Mil. Div."			value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "2nd Spanish Foreign Legion" value = infantry when = 8 where = -50 }
+		command = { type = add_division which = "2nd Spanish Foreign Legion"		value = infantry when = 8 where = -50 }
+		#command = { type = add_corps value = land where = 333 }
+		#command = { type = add_division which = "1st Carlist Mil. Div."			value = militia when = 4 where = -50 }
 		
+		command = { type = add_corps value = land where = 3184 }
+		command = { type = add_division which = "17th Falangist Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 3184 }
+		#command = { type = add_division which = "5th Carlist Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 3184 }
+		#command = { type = add_division which = "8th Carlist Mil. Div."			value = militia when = 4 where = -50 }
+		
+		#command = { type = add_corps value = land where = 2244 }
+		#command = { type = add_division which = "3rd Carlist Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 2244 }
+		#command = { type = add_division which = "4th Carlist Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 2244 }
+		#command = { type = add_division which = "7th Carlist Mil. Div."			value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 2244 }
-		command = { type = add_division which = "4th CEDA Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "4th CEDA Mil. Div."				value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 329 }
-		command = { type = add_division which = "20th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 329  }
+		command = { type = add_division which = "20th Falangist Mil. Div."			value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 329  }
+		command = { type = add_division which = "1st Spanish Renovation Mil. Div."	value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 329  }
+		#command = { type = add_division which = "2nd Carlist Mil. Div."			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 329 }
-		command = { type = add_division which = "1st Spanish Renovation Mil. Div." value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 330 }
-		command = { type = add_division which = "17th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "17th Division"						value = infantry when = 8 where = -50 }
+		command = { type = add_corps value = land where = 330  }
+		command = { type = add_division which = "19th Falangist Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 330 }
+		#command = { type = add_division which = "9th Carlist Mil. Div."			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 330 }
-		command = { type = add_division which = "8th Falangist Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 330 }
-		command = { type = add_division which = "4th Moroccan Division" value = infantry when = 8 where = -50 }
-		command = { type = add_corps value = land where = 330 }
-		command = { type = add_division which = "15th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 1734 }
+		command = { type = add_division which = "15th Falangist Mil. Div."			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 340 }
-		command = { type = add_division which = "7th Falangist Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 340 }
-		command = { type = add_division which = "11th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 340  }
+		command = { type = add_division which = "7th Falangist Mil. Div."			value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 340  }
+		command = { type = add_division which = "11th Falangist Mil. Div."			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 961 }
-		command = { type = add_division which = "6th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 961  }
+		command = { type = add_division which = "6th Falangist Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 961  }
+		#command = { type = add_division which = "10th Carlist Mil. Div."			value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 3183 }
-		command = { type = add_division which = "5th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "5th Falangist Mil. Div."			value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 3183 }
-		command = { type = add_division which = "5th Moroccan Division" value = infantry when = 8 where = -50 }
-		
-		command = { type = add_corps value = land where = 3194 }
-		command = { type = add_division which = "4th Falangist Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 3194 }
-		command = { type = add_division which = "1st Spanish Foreign Legion" value = infantry when = 8 where = -50 }
-		command = { type = add_corps value = land where = 3194 }
-		#command = { type = add_division which = "1st Armor Division" value = light_armor when = 0 where = -80 }
-		command = { type = add_division which = "1st Armor Division" value = infantry when = 8 where = light_armor_brigade }
+		command = { type = add_division which = "12th Falangist Mil. Div."			value = militia when = 4 where = -50 }
+		#command = { type = add_corps value = land where = 3183 }
+		#command = { type = add_division which = "11th Carlist Mil. Div."			value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 3196 }
-		command = { type = add_division which = "2nd CEDA Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "4th Falangist Mil. Div."			value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 3196 }
-		command = { type = add_division which = "12th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "2nd CEDA Mil. Div."				value = militia when = 4 where = -50 }
 		
+		command = { type = add_corps value = land where = 3197 }
+		command = { type = add_division which = "1st Spanish Foreign Legion"		value = infantry when = 8 where = -50 }
+		command = { type = add_corps value = land where = 3197 }
+		#command = { type = add_division which = "1st Armor Division"				value = light_armor when = 0 where = -80 }
+		command = { type = add_division which = "1st Armor Division"				value = infantry when = 8 where = light_armor_brigade }		
+		
+		command = { type = add_corps value = land where = 338  }
+		command = { type = add_division which = "3rd CEDA Mil. Div."				value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 338 }
-		command = { type = add_division which = "3rd Moroccan Division" value = infantry when = 8 where = -50 }
-		command = { type = add_corps value = land where = 338 }
-		command = { type = add_division which = "19th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "8th Falangist Mil. Div."			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 3198 }
-		command = { type = add_division which = "1st Falangist Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 3198 }
-		command = { type = add_division which = "3rd CEDA Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3199 }
+		command = { type = add_division which = "3rd Moroccan Division"				value = infantry when = 8 where = -50 }
+		command = { type = add_corps value = land where = 3199 }
+		command = { type = add_division which = "1st Falangist Mil. Div."			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 351 }
-		command = { type = add_division which = "18th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 351  }
+		command = { type = add_division which = "18th Falangist Mil. Div."			value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 351  }
+		command = { type = add_division which = "5th Moroccan Division"				value = infantry when = 8 where = -50 }
 		
 		command = { type = add_corps value = land where = 3201 }
-		command = { type = add_division which = "2nd Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "4th Moroccan Division"				value = infantry when = 8 where = -50 }
 		command = { type = add_corps value = land where = 3201 }
-		command = { type = add_division which = "4th Spanish Renovation Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "4th Spanish Renovation Mil. Div."	value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 350 }
-		command = { type = add_division which = "1st Moroccan Division" value = infantry when = 8 where = -50 }
-		command = { type = add_corps value = land where = 350 }
-		command = { type = add_division which = "16th Falangist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 350  }
+		command = { type = add_division which = "1st Moroccan Division"				value = infantry when = 8 where = -50 }
+		command = { type = add_corps value = land where = 350  }
+		command = { type = add_division which = "16th Falangist Mil. Div."			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 349 }
-		command = { type = add_division which = "2nd Moroccan Division" value = infantry when = 8 where = -50 }
+		command = { type = add_corps value = land where = 3200 }
+		command = { type = add_division which = "2nd Moroccan Division"				value = infantry when = 8 where = -50 }
 		
-		command = { type = add_corps value = land where = 535 }
-		command = { type = add_division value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 1157 }
+		command = { type = add_division which = "2nd Falangist Mil. Div."			value = militia when = 4 where = -50 }
 		
+		#Albacete pocket
+		command = { type = add_corps value = land where = 1161  }
+		command = { type = add_division which = "Guardia Civil Albacete"			value = militia when = 4 where = -50 }
+		
+
+		#Ceuta
 		command = { type = add_corps value = land where = 957 }
-		command = { type = add_division which = "7th Moroccan Division" value = infantry when = 8 where = -50 }
+		command = { type = add_division which = "7th Moroccan Division" 			value = infantry when = 8 where = -50 }
 		
+		#La Coruna
 		command = { type = add_corps value = land where = 334 }
-		command = { type = add_division 							 			value = garrison when = 4 where = -50 }
+		command = { type = add_division 							 				value = garrison when = 4 where = -50 }
+		
+		#Island
+		command = { type = add_corps value = land where = 535 }
+		command = { type = add_division												value = militia when = 4 where = -50 }
+		
+
 		
 		command = { trigger = { NOT = { transport = { value = 2 } } } type = add_division value = transport when = 2 }
 		command = { trigger = { NOT = { transport = { value = 2 } } } type = add_division value = transport when = 2 }
@@ -998,8 +1196,13 @@ event = {
 		
 		command = { type = belligerence value = 10 }
 		
+		command = { type = local_setflag which = garSpec }
+		
+		command = { trigger = { ai = yes } type = ai which = "garrison15.ai" }
 		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
 		command = { trigger = { ai = yes } type = ai which = "airStrat.ai" }
+		command = { trigger = { ai = yes } type = ai which = "buildLand5_6.ai" }
+		command = { trigger = { ai = yes } type = local_setflag	which = AI1936_land  value = 6  }
 		
 		command = { type = local_clrflag which = WAR_change		}
 		command = { type = local_clrflag which = do_not_demob	}
@@ -1017,40 +1220,50 @@ event = {
 
 	action = { 
 		name = ACTION_NAME_DAMN
+		command = { type = manpowerpool value = -110 }
+		
 		command = { type = add_corps value = land where = 1532 }
-		command = { type = add_division which = "6th Carlist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "6th Carlist Mil. Div."				value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 333 }
-		command = { type = add_division which = "1st Carlist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "1st Carlist Mil. Div."				value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 3184 }
-		command = { type = add_division which = "5th Carlist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "5th Carlist Mil. Div."				value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 3184 }
-		command = { type = add_division which = "8th Carlist Mil. Div." value = militia when = 4 where = -50 }
-		command = { type = add_corps value = land where = 3184 }
-		command = { type = add_division which = "9th Carlist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "8th Carlist Mil. Div."				value = militia when = 4 where = -50 }
 		
 		command = { type = add_corps value = land where = 2244 }
-		command = { type = add_division which = "4th Carlist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "3rd Carlist Mil. Div."				value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 2244 }
-		command = { type = add_division which = "7th Carlist Mil. Div." value = militia when = 4 where = -50 }
-		
+		command = { type = add_division which = "4th Carlist Mil. Div."				value = militia when = 4 where = -50 }
 		command = { type = add_corps value = land where = 2244 }
-		command = { type = add_division which = "3rd Carlist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_division which = "7th Carlist Mil. Div."				value = militia when = 4 where = -50 }
+
+		command = { type = add_corps value = land where = 329  }
+		command = { type = add_division which = "2nd Carlist Mil. Div."				value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 329 }
-		command = { type = add_division which = "2nd Carlist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 330 }
+		command = { type = add_division which = "9th Carlist Mil. Div."				value = militia when = 4 where = -50 }
+
+		command = { type = add_corps value = land where = 961  }
+		command = { type = add_division which = "10th Carlist Mil. Div."			value = militia when = 4 where = -50 }
 		
-		command = { type = add_corps value = land where = 961 }
-		command = { type = add_division which = "10th Carlist Mil. Div." value = militia when = 4 where = -50 }
+		command = { type = add_corps value = land where = 3183 }
+		command = { type = add_division which = "11th Carlist Mil. Div."			value = militia when = 4 where = -50 }
+
 		
+		command = { type = demobilize which = garrison	 							when = 0 where = 1 value = -1 }
 		command = { type = add_corps value = land where = 2244 }
-		command = { type = add_division 							 	value = garrison when = 4 where = -50 }
+		command = { type = add_division 							 				value = militia when = 4 where = -50 }
 		
 		
 		#command = { type = task_efficiency which = attack 			value = -0.3 }
 		#command = { type = task_efficiency which = support_attack 	value = -0.3 }
 		
+		command = { type = local_setflag which = garSpec }
+		
+		command = { trigger = { ai = yes } type = ai which = "garrison15.ai" }
 		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
 		command = { trigger = { ai = yes } type = ai which = "airStrat.ai" }
 		
@@ -1092,6 +1305,8 @@ event = {
 		command = { type = chiefofarmy 			which = 35008 } #Emilio Mola Vidal
 		command = { type = relation 			which = GER value = 20 }
 		command = { type = relation 			which = ITA value = 20 }
+		
+		command = { type = capital which = 333 }
 	}
 	action = {
 		name = "Francisco Franco Bahamonde"
@@ -1110,6 +1325,8 @@ event = {
 		command = { type = chiefofarmy 			which = 35181 } #Francisco Franco Bahamonde
 		command = { type = relation 			which = GER value = 10 }
 		command = { type = relation 			which = ITA value = 10 }
+		
+		command = { type = capital which = 333 }
 	}
 	action = {
 		name = "Miguel Cabanellas Ferrer"
@@ -1130,6 +1347,8 @@ event = {
 		command = { type = chiefofarmy 			which = 35144 } #Miguel Cabanellas Ferrer
 		command = { type = relation 			which = GER value = -10 }
 		command = { type = relation 			which = ITA value = -10 }
+		
+		command = { type = capital which = 333 }
 	}
 	action = {
 		name = "Spain doesn't need a Caudillo - retain collective leadership"
@@ -1146,6 +1365,8 @@ event = {
 		command = { type = dissent value = 10 }
 		command = { type = relation 			which = GER value = -20 }
 		command = { type = relation 			which = ITA value = -20 }
+		
+		command = { type = capital which = 333 }
 	}
 }
 
@@ -1464,6 +1685,8 @@ event = {
 		name = "Leave them alone"
 		ai_chance = 0
 		command = { type = dissent value = 10 }
+		command = { type = end_mastery which = U52 }
+		command = { type = event which = 2400530 where = U52 when = 0 } #independent state
 	}
 }
 
@@ -1479,6 +1702,17 @@ event = {
 	action = {
 		name = "Unity above all. Condemn the Trotskyists and troublemakers (game over)"
 		ai_chance = 98
+		command = { trigger = { policy = { type = professional_army value = 1  } }			type = setflag which = catmob when = 0 value = 1  }
+		command = { trigger = { policy = { type = professional_army value = 2  } }			type = setflag which = catmob when = 0 value = 2  }
+		command = { trigger = { policy = { type = professional_army value = 3  } }			type = setflag which = catmob when = 0 value = 3  }
+		command = { trigger = { policy = { type = professional_army value = 4  } }			type = setflag which = catmob when = 0 value = 4  }
+		command = { trigger = { policy = { type = professional_army value = 5  } }			type = setflag which = catmob when = 0 value = 5  }
+		command = { trigger = { policy = { type = professional_army value = 6  } }			type = setflag which = catmob when = 0 value = 6  }
+		command = { trigger = { policy = { type = professional_army value = 7  } }			type = setflag which = catmob when = 0 value = 7  }
+		command = { trigger = { policy = { type = professional_army value = 8  } }			type = setflag which = catmob when = 0 value = 8  }
+		command = { trigger = { policy = { type = professional_army value = 9  } }			type = setflag which = catmob when = 0 value = 9  }
+		command = { trigger = { policy = { type = professional_army value = 10 } }			type = setflag which = catmob when = 0 value = 10 }
+
 		command = { type = event which = 5142 where = SPR when = 1 }
 		
 		#command = { type = revolt which = 357 when = 1 }
@@ -1490,8 +1724,6 @@ event = {
 		command = { type = end_puppet }
 		command = { type = leave_alliance when = 1 }
 		command = { type = event which = 2400530 where = U52 when = 0 } #independent state
-		command = { type = war which = SPR }
-		command = { type = war which = SPA }
 		command = { type = dissent value = 15 }
 		
 		command = { type = name where = U52 which = U52_SPA }
@@ -1509,9 +1741,10 @@ event = {
 		#command = { type = switch_allegiance which = -1 where = SPR }
 		#command = { type = switch_allegiance which = -1 where = SPR }
 		#command = { type = switch_allegiance which = -1 where = SPR }
-		
-		command = { type = non_aggression which = SPR where = U52 when = 1 }
-		command = { type = non_aggression which = EUS where = U52 when = 1 }
+		command = { type = war which = SPA }
+		command = { type = non_aggression which = U52 where = SPA when = 3 }
+		command = { type = non_aggression which = U52 where = U69 when = 3 }
+		command = { type = event which = 5164 where = -1 when = 6 }
 	}
 }
 
@@ -1541,6 +1774,24 @@ event = {
 		command = { type = foreignminister		which = 255057 } #Jose Giral Pereira
 		command = { type = ministerofsecurity	which = 255132 } #Julian Zugazagoitia Mendieta
 		command = { type = chiefofnavy			which = 255246 } #Indalecio Prieto Tuero
+		
+		#MP from difference in mobilization levels - upon annexation Catalonia adopts Spain's mobilization level
+		#Catalonia 3 base MP
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 2 } NOT = { flag = { which = catmob when = 1 value = 2 } } } type = manpowerpool value = 21   } #7	select cons
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 3 } NOT = { flag = { which = catmob when = 1 value = 3 } } } type = manpowerpool value = 21   } #7	1-year cons
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 4 } NOT = { flag = { which = catmob when = 1 value = 4 } } } type = manpowerpool value = 21   } #7	2-year cons
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 5 } NOT = { flag = { which = catmob when = 1 value = 5 } } } type = manpowerpool value = 105  } #35	partial mob
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 6 } NOT = { flag = { which = catmob when = 1 value = 6 } } } type = manpowerpool value = 147  } #49	general mob A
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 7 } NOT = { flag = { which = catmob when = 1 value = 7 } } } type = manpowerpool value = 105  } #35	general mob B
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 8 } NOT = { flag = { which = catmob when = 1 value = 8 } } } type = manpowerpool value = 105  } #35	general mob C
+		#reverse
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 2 } } flag = { which = catmob when = 1 value = 2 } } type = manpowerpool value = -21  } #7	select cons
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 3 } } flag = { which = catmob when = 1 value = 3 } } type = manpowerpool value = -21  } #7	1-year cons
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 4 } } flag = { which = catmob when = 1 value = 4 } } type = manpowerpool value = -21  } #7	2-year cons
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 5 } } flag = { which = catmob when = 1 value = 5 } } type = manpowerpool value = -105 } #35	partial mob
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 6 } } flag = { which = catmob when = 1 value = 6 } } type = manpowerpool value = -147 } #49	general mob A
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 7 } } flag = { which = catmob when = 1 value = 7 } } type = manpowerpool value = -105 } #35	general mob B
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 8 } } flag = { which = catmob when = 1 value = 8 } } type = manpowerpool value = -105 } #35	general mob C
 	}
 }
 
@@ -1606,6 +1857,8 @@ event = {
 		name = "Leave them alone"
 		ai_chance = 0
 		command = { type = dissent value = 10 }
+		command = { type = end_mastery which = EUS }
+		command = { type = event which = 2400530 where = EUS when = 0 } #independent state
 	}
 }
 
@@ -1621,6 +1874,18 @@ event = {
 	action = {
 		name = "Unity above all. Condemn the separatists and ractionaries (game over)"
 		ai_chance = 10
+		
+		command = { trigger = { policy = { type = professional_army value = 1  } }			type = setflag which = eusmob when = 0 value = 1  }
+		command = { trigger = { policy = { type = professional_army value = 2  } }			type = setflag which = eusmob when = 0 value = 2  }
+		command = { trigger = { policy = { type = professional_army value = 3  } }			type = setflag which = eusmob when = 0 value = 3  }
+		command = { trigger = { policy = { type = professional_army value = 4  } }			type = setflag which = eusmob when = 0 value = 4  }
+		command = { trigger = { policy = { type = professional_army value = 5  } }			type = setflag which = eusmob when = 0 value = 5  }
+		command = { trigger = { policy = { type = professional_army value = 6  } }			type = setflag which = eusmob when = 0 value = 6  }
+		command = { trigger = { policy = { type = professional_army value = 7  } }			type = setflag which = eusmob when = 0 value = 7  }
+		command = { trigger = { policy = { type = professional_army value = 8  } }			type = setflag which = eusmob when = 0 value = 8  }
+		command = { trigger = { policy = { type = professional_army value = 9  } }			type = setflag which = eusmob when = 0 value = 9  }
+		command = { trigger = { policy = { type = professional_army value = 10 } }			type = setflag which = eusmob when = 0 value = 10 }
+		
 		command = { type = event which = 5152 where = SPR when = 1 }
 	}
 	action = {
@@ -1629,13 +1894,14 @@ event = {
 		command = { type = end_puppet }
 		command = { type = leave_alliance when = 1 }
 		command = { type = event which = 2400530 where = EUS when = 0 } #independent state
-		command = { type = war which = SPR }
-		command = { type = war which = SPA }
 		command = { type = dissent value = 5 }
 		command = { type = remove_division which = "4th PCE-JSU Mil. Div." 	value = EUS }
 		command = { type = add_division value = militia when = 4 }
 		command = { type = add_division value = militia when = 4 }
-		command = { type = non_aggression which = SPR where = EUS when = 1 }
+		command = { type = war which = SPA }
+		command = { type = non_aggression which = EUS where = SPA when = 3 }
+		command = { type = non_aggression which = EUS where = U69 when = 3 }
+		command = { type = event which = 5164 where = -1 when = 6 }
 	}
 }
 
@@ -1654,6 +1920,24 @@ event = {
 		command = { type = dissent value = -1 }
 		command = { type = remove_division which = "1st PNV Mil. Div." 				value = EUS }
 		command = { type = remove_division which = "1st PNV Mil. Div." 				value = SPR }
+		
+		#MP from difference in mobilization levels - upon annexation Euskadi adopts Spain's mobilization level
+		#Euskadi 1 base MP
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 2 } NOT = { flag = { which = eusmob when = 1 value = 2 } } } type = manpowerpool value = 7   } #7		select cons
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 3 } NOT = { flag = { which = eusmob when = 1 value = 3 } } } type = manpowerpool value = 7   } #7		1-year cons
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 4 } NOT = { flag = { which = eusmob when = 1 value = 4 } } } type = manpowerpool value = 7   } #7		2-year cons
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 5 } NOT = { flag = { which = eusmob when = 1 value = 5 } } } type = manpowerpool value = 35  } #35	partial mob
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 6 } NOT = { flag = { which = eusmob when = 1 value = 6 } } } type = manpowerpool value = 49  } #49	general mob A
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 7 } NOT = { flag = { which = eusmob when = 1 value = 7 } } } type = manpowerpool value = 35  } #35	general mob B
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 8 } NOT = { flag = { which = eusmob when = 1 value = 8 } } } type = manpowerpool value = 35  } #35	general mob C
+		#reverse
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 2 } } flag = { which = eusmob when = 1 value = 2 } } type = manpowerpool value = -7  } #7		select cons
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 3 } } flag = { which = eusmob when = 1 value = 3 } } type = manpowerpool value = -7  } #7		1-year cons
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 4 } } flag = { which = eusmob when = 1 value = 4 } } type = manpowerpool value = -7  } #7		2-year cons
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 5 } } flag = { which = eusmob when = 1 value = 5 } } type = manpowerpool value = -35 } #35	partial mob
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 6 } } flag = { which = eusmob when = 1 value = 6 } } type = manpowerpool value = -49 } #49	general mob A
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 7 } } flag = { which = eusmob when = 1 value = 7 } } type = manpowerpool value = -35 } #35	general mob B
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 8 } } flag = { which = eusmob when = 1 value = 8 } } type = manpowerpool value = -35 } #35	general mob C
 	}
 }
 
@@ -1698,6 +1982,8 @@ event = {
 		name = "Leave them alone"
 		ai_chance = 0
 		command = { type = dissent value = 10 }
+		command = { type = end_mastery which = U69 }
+		command = { type = event which = 2400530 where = U69 when = 0 } #independent state
 	}
 }
 
@@ -1713,6 +1999,17 @@ event = {
 	action = {
 		name = "Unity above all. Condemn the hardliners and adventurists (game over)"
 		ai_chance = 99
+		command = { trigger = { policy = { type = professional_army value = 1  } }			type = setflag which = navmob when = 0 value = 1  }
+		command = { trigger = { policy = { type = professional_army value = 2  } }			type = setflag which = navmob when = 0 value = 2  }
+		command = { trigger = { policy = { type = professional_army value = 3  } }			type = setflag which = navmob when = 0 value = 3  }
+		command = { trigger = { policy = { type = professional_army value = 4  } }			type = setflag which = navmob when = 0 value = 4  }
+		command = { trigger = { policy = { type = professional_army value = 5  } }			type = setflag which = navmob when = 0 value = 5  }
+		command = { trigger = { policy = { type = professional_army value = 6  } }			type = setflag which = navmob when = 0 value = 6  }
+		command = { trigger = { policy = { type = professional_army value = 7  } }			type = setflag which = navmob when = 0 value = 7  }
+		command = { trigger = { policy = { type = professional_army value = 8  } }			type = setflag which = navmob when = 0 value = 8  }
+		command = { trigger = { policy = { type = professional_army value = 9  } }			type = setflag which = navmob when = 0 value = 9  }
+		command = { trigger = { policy = { type = professional_army value = 10 } }			type = setflag which = navmob when = 0 value = 10 }
+		
 		command = { type = event which = 5162 where = SPA when = 1 }
 	}
 	action = {
@@ -1721,16 +2018,21 @@ event = {
 		command = { type = end_puppet }
 		command = { type = leave_alliance when = 1 }
 		command = { type = event which = 2400530 where = U69 when = 0 } #independent state
-		command = { type = war which = SPR }
-		command = { type = war which = SPA }
 		command = { type = dissent value = 10 }
+		command = { type = end_access which = SPA when = 1 }
+		command = { type = end_access which = SPA when = 0 }
 		
 		command = { type = name where = U69 which = U69_SPA }
 		
+		command = { type = add_division value = militia when = 4 }
 		#command = { type = add_division value = militia when = 4 }
 		#command = { type = add_division value = militia when = 4 }
-		#command = { type = add_division value = militia when = 4 }
-		command = { type = non_aggression which = SPA where = U69 when = 1 }
+		command = { type = war which = SPR }
+		command = { type = non_aggression which = U69 where = SPR when = 3 }
+		command = { type = non_aggression which = U69 where = U52 when = 3 }
+		command = { type = non_aggression which = U69 where = EUS when = 3 }
+		#command = { type = non_aggression which = U69 where = SPA when = 3 }
+		command = { type = event which = 5164 where = -1 when = 6 }
 	}
 }
 
@@ -1749,13 +2051,31 @@ event = {
 		command = { type = dissent value = -1 }
 		command = { type = remove_division which = "3rd Carlist Mil. Div." 	value = U69 }
 		command = { type = remove_division which = "3rd Carlist Mil. Div." 	value = SPA }
+		
+		#MP from difference in mobilization levels - upon annexation Euskadi adopts Spain's mobilization level
+		#Euskadi 2 base MP
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 2 } NOT = { flag = { which = navmob when = 1 value = 2 } } } type = manpowerpool value = 14  } #7		select cons
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 3 } NOT = { flag = { which = navmob when = 1 value = 3 } } } type = manpowerpool value = 14  } #7		1-year cons
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 4 } NOT = { flag = { which = navmob when = 1 value = 4 } } } type = manpowerpool value = 14  } #7		2-year cons
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 5 } NOT = { flag = { which = navmob when = 1 value = 5 } } } type = manpowerpool value = 70  } #35	partial mob
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 6 } NOT = { flag = { which = navmob when = 1 value = 6 } } } type = manpowerpool value = 98  } #49	general mob A
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 7 } NOT = { flag = { which = navmob when = 1 value = 7 } } } type = manpowerpool value = 70  } #35	general mob B
+		command = { trigger = { local_flag = { which = MOB_level when = 1 value = 8 } NOT = { flag = { which = navmob when = 1 value = 8 } } } type = manpowerpool value = 70  } #35	general mob C
+		#reverse
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 2 } } flag = { which = navmob when = 1 value = 2 } } type = manpowerpool value = -14 } #7		select cons
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 3 } } flag = { which = navmob when = 1 value = 3 } } type = manpowerpool value = -14 } #7		1-year cons
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 4 } } flag = { which = navmob when = 1 value = 4 } } type = manpowerpool value = -14 } #7		2-year cons
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 5 } } flag = { which = navmob when = 1 value = 5 } } type = manpowerpool value = -70 } #35	partial mob
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 6 } } flag = { which = navmob when = 1 value = 6 } } type = manpowerpool value = -98 } #49	general mob A
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 7 } } flag = { which = navmob when = 1 value = 7 } } type = manpowerpool value = -70 } #35	general mob B
+		command = { trigger = { NOT = { local_flag = { which = MOB_level when = 1 value = 8 } } flag = { which = navmob when = 1 value = 8 } } type = manpowerpool value = -70 } #35	general mob C
 	}
 }
 
 #Basque region to Carlists if they exist
 
 event = { 
-	id = 5170
+	id = 5163
 	random = no
 	#invisible
 	persistent = yes
@@ -1785,6 +2105,26 @@ event = {
 	}
 }
 
+event = { 
+	id = 5164
+	random = no
+	#invisible
+	persistent = yes
+	
+	name = "Intra Civil War"
+	desc = "There are now at least two civil wars in Spain"
+	style = 2
+ 	picture = "news_paper"
+	
+	action = {
+		name = "ACTION_NAME_DAMN" 
+		command = { type = war which = SPR }
+		command = { type = war which = SPA }
+	}
+}
+
+#Snowball and some anti-snowball events
+
 #Basques surrendered
 event = { 
 	id = 5171
@@ -1793,7 +2133,7 @@ event = {
 	
 	trigger = {
 		war = { country = SPA }
-		NOT = { alliance = { country = EUS } }
+		NOT = { exists = EUS }
 		NOT = { event = 5152 } #Basques incorporated
 	}
 	
@@ -1823,10 +2163,6 @@ event = {
 		war = { country = SPA }
 		control = { province = 3180 data = -2 }
 		control = { province = 1726 data = -2 }
-		NOT = { 
-			division_exists = { type = 27600 id = 600 }
-			division_exists = { type = 27600 id = 601 }
-		}
 	}
 	
 	name = "Defeat in the North"
@@ -1842,19 +2178,19 @@ event = {
 		name = "ACTION_NAME_DAMN" 
 		trigger = { exists = U52 }
 		command = { type = dissent value = 1 }
-		command = { type = add_corps value = land where = 354 }
-		command = { type = activate_division which = 27600 value = 610 where = 354	when = 1 } #63rd Division
-		command = { type = activate_division which = 27600 value = 611 where = 354	when = 1 } #5th PCE-JSU Mil. Div.
+		command = { trigger = { NOT = { division_exists = { type = 27600 id = 600 } division_exists = { type = 27600 id = 601 } } }	type = add_corps value = land where = 354 }
+		command = { trigger = { NOT = { division_exists = { type = 27600 id = 600 } division_exists = { type = 27600 id = 601 } } }	type = activate_division which = 27600 value = 610 where = 354	when = 1 } #63rd Division
+		command = { trigger = { NOT = { division_exists = { type = 27600 id = 600 } division_exists = { type = 27600 id = 601 } } }	type = activate_division which = 27600 value = 611 where = 354	when = 1 } #5th PCE-JSU Mil. Div.
 	}
 	action = {
 		name = "ACTION_NAME_DAMN" 
 		trigger = { NOT = { exists = U52 } }
 		command = { type = dissent value = 1 }
-		command = { type = add_corps value = land where = 354 }
-		command = { type = activate_division which = 27600 value = 610 where = 354	when = 1 } #63rd Division
-		command = { type = activate_division which = 27600 value = 611 where = 354	when = 1 } #5th PCE-JSU Mil. Div.
-		command = { type = activate_division which = 27600 value = 612 where = 354	when = 1 } #9th CNT-FAI Mil. Div.
-		command = { type = activate_division which = 27600 value = 613 where = 354	when = 1 } #20th CNT-FAI Mil. Div.
+		command = { trigger = { NOT = { division_exists = { type = 27600 id = 600 } division_exists = { type = 27600 id = 601 } } }		type = add_corps value = land where = 354 }
+		command = { trigger = { NOT = { division_exists = { type = 27600 id = 600 } division_exists = { type = 27600 id = 601 } } }	type = activate_division which = 27600 value = 610 where = 354	when = 1 } #63rd Division
+		command = { trigger = { NOT = { division_exists = { type = 27600 id = 600 } division_exists = { type = 27600 id = 601 } } }		type = activate_division which = 27600 value = 611 where = 354	when = 1 } #5th PCE-JSU Mil. Div.
+		command = { trigger = { NOT = { division_exists = { type = 27600 id = 600 } division_exists = { type = 27600 id = 601 } } }	type = activate_division which = 27600 value = 612 where = 354	when = 1 } #9th CNT-FAI Mil. Div.
+		command = { trigger = { NOT = { division_exists = { type = 27600 id = 600 } division_exists = { type = 27600 id = 601 } } }		type = activate_division which = 27600 value = 613 where = 354	when = 1 } #20th CNT-FAI Mil. Div.
 	}
 }
 
@@ -1867,10 +2203,6 @@ event = {
 		war = { country = SPA }
 		control = { province = 3180 data = -2 }
 		control = { province = 1726 data = -2 }
-		NOT = { 
-			division_exists = { type = 27600 id = 602 }
-			division_exists = { type = 27600 id = 603 }
-		}
 	}
 	
 	name = "Defeat in the North"
@@ -1886,8 +2218,333 @@ event = {
 		name = "ACTION_NAME_DAMN" 
 		command = { type = dissent value = 1 }
 		command = { type = add_corps value = land where = 357 }
-		command = { type = activate_division which = 27600 value = 612 where = 354	when = 1 } #9th CNT-FAI Mil. Div.
-		command = { type = activate_division which = 27600 value = 613 where = 354	when = 1 } #20th CNT-FAI Mil. Div.
+		command = { trigger = { NOT = { division_exists = { type = 27600 id = 602 } division_exists = { type = 27600 id = 603 } } }	type = activate_division which = 27600 value = 612 where = 354	when = 1 } #9th CNT-FAI Mil. Div.
+		command = { trigger = { NOT = { division_exists = { type = 27600 id = 602 } division_exists = { type = 27600 id = 603 } } }		type = activate_division which = 27600 value = 613 where = 354	when = 1 } #20th CNT-FAI Mil. Div.
+	}
+}
+
+event = { 
+	id = 5174
+	random = no
+	country = SPR
+	
+	trigger = {
+		war = { country = SPA }
+		OR = {
+			#Catalonia securely cut off
+			AND = {
+				control = { province = 355  data = -2 }
+				control = { province = 3187 data = -2 }
+				control = { province = 1734 data = -2 }
+				control = { province = 7112 data = -2 }
+			}
+			#Facing overall defeat
+			region = { country = -2 region = "Spain" data = 1 value = 55 }
+		}
+		NOT = { war = { country = GER country = ENG } }
+		OR = {
+			event = { id = 2003011 days = 30 } #Munich treaty
+			NOT = { exists = CZE }
+		}
+	}
+	
+	name = "The Doomed Cause"
+	desc = "Following the success of the latest Nationalist offensive, the Republic was in dire straits. Almost three years since the start of the military coup, and victory seemed further than ever. All attempts to rectify the situation, even the huge and bloody Ebro Offensive, had failed to yield any meaningful gains. Even worse news, however, came not from the battlefiled, but from the foreign capitals. The failure of France and England to defend Czhechoslovakia had dashed the main loyalist hope that a European war would force the Allied armies to intervene and rescue the Republic. Following this, the Soviets started to pull back aid as well. This had a serious effect of the morale of the Republican Army which now understood that no help was to come in the forseeable future."
+	style = 2
+ 	picture = "news_paper"
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 10
+	deathdate = { year = 1948 month = january day = 3 }
+	
+	action = {
+		name = "ACTION_NAME_DAMN" 
+		command = { type = dissent 		value = 5    }
+		command = { type = manpowerpool value = -200 }
+		command = { type = demobilize 	which = land when = 0 where = 0 value = -2 }
+	}
+}
+
+event = { 
+	id = 5175
+	random = no
+	country = SPR
+	
+	trigger = {
+		war = { country = SPA }
+		event = { id = 5100 days = 60 }
+		control = { province = 341  data = -2 }
+		control = { province = 1531 data = -2 }
+		NOT = { war = { country = GER country = ENG } }
+		OR = {
+			ai = SPA
+			year = 1938
+		}
+	}
+	
+	name = "Fall of Madrid"
+	desc = "The fall of Madrid to the enemy dealt a serious demoralizing blow to our army. The recruitment levels fell and defections became rampant."
+	style = 2
+ 	picture = "news_paper"
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 10
+	deathdate = { year = 1948 month = january day = 3 }
+	
+	action = {
+		name = "ACTION_NAME_DAMN" 
+		command = { type = dissent 		value = 5 	 }
+		command = { type = manpowerpool value = -200 }
+		command = { type = demobilize 	which = land when = 0 where = 0 value = -2 }
+	}
+}
+
+event = { 
+	id = 5176
+	random = no
+	country = SPR
+	
+	trigger = {
+		war = { country = SPA }
+		event = { id = 5100 days = 60 }
+		control = { province = 354  data = -2 }
+		control = { province = 7109 data = -2 }
+		NOT = { war = { country = GER country = ENG } }
+		OR = {
+			ai = SPA
+			year = 1938
+		}
+	}
+	
+	name = "Fall of Valencia"
+	desc = "The fall of Valencia to the enemy dealt a serious demoralizing blow to our army. The recruitment levels fell and defections became rampant."
+	style = 2
+ 	picture = "news_paper"
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 10
+	deathdate = { year = 1948 month = january day = 3 }
+	
+	action = {
+		name = "ACTION_NAME_DAMN" 
+		command = { type = dissent 		value = 5 	 }
+		command = { type = manpowerpool value = -200 }
+		command = { type = demobilize 	which = land when = 0 where = 0 value = -2 }
+	}
+}
+
+event = { 
+	id = 5177
+	random = no
+	country = SPR
+	
+	trigger = {
+		war = { country = SPA }
+		event = { id = 5100 days = 60 }
+		control = { province = 357  data = -2 }
+		control = { province = 356  data = -2 }
+		control = { province = 3189 data = -2 }
+		NOT = { war = { country = GER country = ENG } }
+		OR = {
+			ai = SPA
+			year = 1938
+		}
+	}
+	
+	name = "Fall of Barcelona"
+	desc = "The fall of Barcelona to the enemy dealt a serious demoralizing blow to our army. The recruitment levels fell and defections became rampant."
+	style = 2
+ 	picture = "news_paper"
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 10
+	deathdate = { year = 1948 month = january day = 3 }
+	
+	action = {
+		name = "ACTION_NAME_DAMN" 
+		command = { type = dissent 		value = 5 	 }
+		command = { type = manpowerpool value = -200 }
+		command = { type = demobilize 	which = land when = 0 where = 0 value = -2 }
+	}
+}
+
+#SPA defeat snowball
+
+event = { 
+	id = 5180
+	random = no
+	country = SPA
+	
+	trigger = {
+		war = { country = SPR }
+		control = { province = 341 data = -2 }
+		control = { province = 357 data = -2 }
+		control = { province = 354 data = -2 }
+		OR = {
+			control = { province = 347  data = -2 }
+			control = { province = 334  data = -2 }
+			control = { province = 333  data = -2 }
+			control = { province = 2244 data = -2 }
+		}
+		event = { id = 5100 days = 1000 }
+		region = { country = -2 region = "Spain" data = 1 value = 50 }
+		NOT = { war = { country = GER country = ENG } }
+		NOT = { exists = CZE }
+	}
+	
+	name = "The Doomed Cause"
+	desc = "Following the success of the latest Republican offensive, the Nationalist Army was in dire straits. Almost three years since the start of military coup, and victory seemed further than ever. All attempts to rectify the situation, even the huge and bloody Levante Offensive, had failed to yield any meaningful gains. Even worse news, however, came not from the battlefiled, but from the foreign capitals. With the end of Czechoslovakia and the British guarantee to Poland, a big European war seemed closer than in 1914. If it were to happen, the isolated Nationalists would likely face the full wrath of the French Army and the British Navy. Franco's only hope was to win the war in Spain before such a conflict breaks out, but now this hope was completely dashed. This had a serious effect of the morale of the Nationalist Army which now understood that their prospects of victory were razor thin."
+	style = 2
+ 	picture = "news_paper"
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 10
+	deathdate = { year = 1948 month = january day = 3 }
+	
+	action = {
+		name = "ACTION_NAME_DAMN" 
+		command = { type = dissent 		value = 5    }
+		command = { type = manpowerpool value = -400 }
+		command = { type = demobilize 	which = land when = 0 where = 0 value = -4 }
+	}
+}
+
+event = { 
+	id = 5181
+	random = no
+	country = SPA
+	
+	trigger = {
+		war = { country = SPR }
+		event = { id = 5100 days = 60 }
+		control = { province = 2244  data = -2 }
+		control = { province = 3184  data = -2 }
+		control = { province = 3185  data = -2 }
+		NOT = { war = { country = GER country = ENG } }
+		OR = {
+			ai = SPR
+			year = 1938
+		}
+	}
+	
+	name = "Fall of Navarre"
+	desc = "The fall of Navarre to the enemy dealt a serious demoralizing blow to our army. The recruitment levels fell and defections became rampant."
+	style = 2
+ 	picture = "news_paper"
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 10
+	deathdate = { year = 1948 month = january day = 3 }
+	
+	action = {
+		name = "ACTION_NAME_DAMN" 
+		command = { type = dissent 		value = 5 	 }
+		command = { type = manpowerpool value = -400 }
+		command = { type = demobilize 	which = land when = 0 where = 0 value = -4 }
+	}
+}
+
+event = { 
+	id = 5182
+	random = no
+	country = SPA
+	
+	trigger = {
+		war = { country = SPR }
+		event = { id = 5100 days = 60 }
+		control = { province = 347   data = -2 }
+		control = { province = 346   data = -2 }
+		control = { province = 3200  data = -2 }
+		NOT = { war = { country = GER country = ENG } }
+		OR = {
+			ai = SPR
+			year = 1938
+		}
+	}
+	
+	name = "Fall of Seville"
+	desc = "The fall of Seville to the enemy dealt a serious demoralizing blow to our army. The recruitment levels fell and defections became rampant."
+	style = 2
+ 	picture = "news_paper"
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 10
+	deathdate = { year = 1948 month = january day = 3 }
+	
+	action = {
+		name = "ACTION_NAME_DAMN" 
+		command = { type = dissent 		value = 5 	 }
+		command = { type = manpowerpool value = -400 }
+		command = { type = demobilize 	which = land when = 0 where = 0 value = -4 }
+	}
+}
+
+event = { 
+	id = 5183
+	random = no
+	country = SPA
+	
+	trigger = {
+		war = { country = SPR }
+		event = { id = 5100 days = 60 }
+		control = { province = 333   data = -2 }
+		control = { province = 3184  data = -2 }
+		control = { province = 7116  data = -2 }
+		NOT = { war = { country = GER country = ENG } }
+		OR = {
+			ai = SPR
+			year = 1938
+		}
+	}
+	
+	name = "Fall of Burgos"
+	desc = "The fall of Burgos to the enemy dealt a serious demoralizing blow to our army. The recruitment levels fell and defections became rampant."
+	style = 2
+ 	picture = "news_paper"
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 10
+	deathdate = { year = 1948 month = january day = 3 }
+	
+	action = {
+		name = "ACTION_NAME_DAMN" 
+		command = { type = dissent 		value = 5 	 }
+		command = { type = manpowerpool value = -400 }
+		command = { type = demobilize 	which = land when = 0 where = 0 value = -4 }
+	}
+}
+
+event = { 
+	id = 5184
+	random = no
+	country = SPA
+	
+	trigger = {
+		war = { country = SPR }
+		event = { id = 5100 days = 60 }
+		control = { province = 334   data = -2 }
+		control = { province = 7121  data = -2 }
+		NOT = { war = { country = GER country = ENG } }
+		OR = {
+			ai = SPR
+			year = 1938
+		}
+	}
+	
+	name = "Fall of La Coruna"
+	desc = "The fall of La Coruna to the enemy dealt a serious demoralizing blow to our army. The recruitment levels fell and defections became rampant."
+	style = 2
+ 	picture = "news_paper"
+	
+	date = { year = 1936 month = january day = 1 }
+	offset = 10
+	deathdate = { year = 1948 month = january day = 3 }
+	
+	action = {
+		name = "ACTION_NAME_DAMN" 
+		command = { type = dissent 		value = 5 	 }
+		command = { type = manpowerpool value = -400 }
+		command = { type = demobilize 	which = land when = 0 where = 0 value = -4 }
 	}
 }
 
@@ -2287,6 +2944,9 @@ event = {
 		command = { type = local_clrflag which = AID_to_SPA }
 		command = { type = local_clrflag which = AID_to_SPR }
 		
+		command = { trigger = { NOT = { technology = 6320 } 						} type = gain_tech which = 6320 }
+		command = { trigger = { NOT = { technology = 6330 } NOT = { exists = SPA } 	} type = gain_tech which = 6330 }
+		
 		#command = { trigger = { exists = SPA } type = clrflag which = SPR_SOVAssistFlag }
 		
 		command = { type = trigger which = 5204 }
@@ -2329,6 +2989,7 @@ event = {
 	}
 }
 
+#disabled
 event = { 
 	id = 5205
 	random = no
@@ -2349,9 +3010,9 @@ event = {
 		ai = no
 	}
 	
-	date = { day = 1 month = january year = 1936 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1999 }
+	#date = { day = 1 month = january year = 1936 }
+	#offset = 30
+	#deathdate = { day = 29 month = december year = 1999 }
 	
 	name = "Spanish Civil War - Soviet command"
 	desc = "We have the opportunity to take overall control of the military operations of our allies in Spain"
@@ -2717,6 +3378,9 @@ event = {
 		command = { type = local_clrflag which = AID_to_SPA }
 		command = { type = local_clrflag which = AID_to_SPR }
 		
+		command = { trigger = { NOT = { technology = 6230 } 						} type = gain_tech which = 6230 }
+		command = { trigger = { NOT = { technology = 6240 } NOT = { exists = SPR } 	} type = gain_tech which = 6240 }
+		
 		#command = { trigger = { exists = SPR } type = clrflag which = SPA_GERAssistFlag }
 		
 		command = { type = trigger which = 5214 }
@@ -2762,6 +3426,7 @@ event = {
 	}
 }
 
+#disabled
 event = { 
 	id = 5215
 	random = no
@@ -2782,9 +3447,9 @@ event = {
 		ai = no
 	}
 	
-	date = { day = 1 month = january year = 1936 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1999 }
+	#date = { day = 1 month = january year = 1936 }
+	#offset = 30
+	#deathdate = { day = 29 month = december year = 1999 }
 	
 	name = "Spanish Civil War - German command"
 	desc = "We have the opportunity to take overall control of the military operations of our allies in Spain"
@@ -3230,6 +3895,9 @@ event = {
 		command = { type = local_clrflag which = AID_to_SPA }
 		command = { type = local_clrflag which = AID_to_SPR }
 		
+		command = { trigger = { NOT = { technology = 6110 } 						} type = gain_tech which = 6110 }
+		command = { trigger = { NOT = { technology = 6130 } NOT = { exists = SPR } 	} type = gain_tech which = 6130 }
+		
 		#command = { trigger = { exists = SPR } type = clrflag which = SPA_ITAAssistFlag }
 		
 		command = { type = trigger which = 5224 }
@@ -3270,6 +3938,7 @@ event = {
 	}
 }
 
+#disabled
 event = { 
 	id = 5225
 	random = no
@@ -3295,9 +3964,9 @@ event = {
 	style = 2
 	picture = "SCW_Italian_Intervention2"
 	
-	date = { day = 1 month = january year = 1936 }
-	offset = 15
-	deathdate = { day = 29 month = december year = 1999 }
+	#date = { day = 1 month = january year = 1936 }
+	#offset = 15
+	#deathdate = { day = 29 month = december year = 1999 }
 	
 	action = {
 		name = "Do it!"
@@ -3700,6 +4369,9 @@ event = {
 		command = { type = local_clrflag which = AID_to_SPA }
 		command = { type = local_clrflag which = AID_to_SPR }
 		
+		command = { trigger = { NOT = { technology = 6110 } 						} type = gain_tech which = 6110 }
+		command = { trigger = { NOT = { technology = 6130 } NOT = { exists = SPR } 	} type = gain_tech which = 6130 }
+		
 		#command = { trigger = { flag = ENG_to_SPA_1 exists = SPR } type = clrflag which = SPA_ENGAssistFlag }
 		#command = { trigger = { flag = ENG_to_SPR_1 exists = SPA } type = clrflag which = SPR_ENGAssistFlag }
 		
@@ -3772,6 +4444,7 @@ event = {
 	}
 }
 
+#disabled
 event = { 
 	id = 5235
 	random = no
@@ -3800,9 +4473,9 @@ event = {
 		ai = no
 	}
 	
-	date = { day = 1 month = january year = 1936 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1999 }
+	#date = { day = 1 month = january year = 1936 }
+	#offset = 30
+	#deathdate = { day = 29 month = december year = 1999 }
 	
 	name = "Spanish Civil War - British command"
 	desc = "We have the opportunity to take overall control of the military operations of our allies in Spain"
@@ -4216,6 +4889,9 @@ event = {
 		command = { type = local_clrflag which = AID_to_SPA }
 		command = { type = local_clrflag which = AID_to_SPR }
 		
+		command = { trigger = { NOT = { technology = 6110 } 						} type = gain_tech which = 6110 }
+		command = { trigger = { NOT = { technology = 6130 } NOT = { exists = SPR } 	} type = gain_tech which = 6130 }
+		
 		#command = { trigger = { flag = ENG_to_SPA_1 exists = SPR } type = clrflag which = SPA_FRAAssistFlag }
 		#command = { trigger = { flag = ENG_to_SPR_1 exists = SPA } type = clrflag which = SPR_FRAAssistFlag }
 		
@@ -4288,6 +4964,7 @@ event = {
 	}
 }
 
+#disabled
 event = { 
 	id = 5245
 	random = no
@@ -4316,9 +4993,9 @@ event = {
 		ai = no
 	}
 	
-	date = { day = 1 month = january year = 1936 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1999 }
+	#date = { day = 1 month = january year = 1936 }
+	#offset = 30
+	#deathdate = { day = 29 month = december year = 1999 }
 	
 	name = "Spanish Civil War - French command"
 	desc = "We have the opportunity to take overall control of the military operations of our allies in Spain"
@@ -4429,7 +5106,7 @@ event = {
 	trigger = {
 		war = { country = SPA }
 		flag = SOV_to_SPR_2
-		event = { id = 5100 days = 200 } #Early 1937
+		event = { id = 5100 days = 120 } #Late 1936
 	}
 
 	name = "Spanish Civil War - International Volunteers"
@@ -4763,7 +5440,8 @@ event = {
 	trigger = {
 		war = { country = SPA }
 		OR = {
-			event = { id = 5100 days = 720 } #at least two years into the war
+			event = { id = 5100 days = 1000 } #around three years into the war
+			event = { id = 2003011 days = 30 } #Munich treaty
 			region = { country = -2 region = "Spain" data = 1 value = 80 }
 		}
 		OR = {
@@ -4919,7 +5597,7 @@ event = {
 	trigger = {
 		war = { country = SPR }
 		OR = {
-			event = { id = 5100 days = 720 } #at least two years into the war
+			event = { id = 5100 days = 1000 } #around three years into the war
 			region = { country = -2 region = "Spain" data = 1 value = 80 }
 		}
 		OR = {
@@ -5133,6 +5811,7 @@ event = {
 		command = { type = remove_division which = "8th Carlist Mil. Div."				value = SPR }
 		command = { type = remove_division which = "9th Carlist Mil. Div."				value = SPR }
 		command = { type = remove_division which = "10th Carlist Mil. Div."				value = SPR }
+		command = { type = remove_division which = "11th Carlist Mil. Div."				value = SPR }
 		
 		command = { type = remove_division which = "1st CEDA Mil. Div."					value = SPR }
 		command = { type = remove_division which = "2nd CEDA Mil. Div."					value = SPR }
@@ -5237,6 +5916,7 @@ event = {
 		command = { type = remove_division which = "8th Carlist Mil. Div."				value = VIC }
 		command = { type = remove_division which = "9th Carlist Mil. Div."				value = VIC }
 		command = { type = remove_division which = "10th Carlist Mil. Div."				value = VIC }
+		command = { type = remove_division which = "11th Carlist Mil. Div."				value = VIC }
 		
 		command = { type = remove_division which = "1st CEDA Mil. Div."					value = VIC }
 		command = { type = remove_division which = "2nd CEDA Mil. Div."					value = VIC }
@@ -5326,7 +6006,7 @@ event = {
 		command = { type = construct which = land_fort where = 2244 value = -1 }
 		command = { type = construct which = land_fort where = 3184 value = -3 }
 		
-		command = { type = manpowerpool value = -500 }
+		#command = { type = manpowerpool value = -500 }
 		
 		command = { trigger = { flag = ITA_to_SPA_1 } type = event which = 5420 where = ITA when = 0 } #Italy decides what to do with Mallorca (if hasn't fired already)
 		
@@ -5336,6 +6016,9 @@ event = {
 		
 		command = { type = end_trades which = SPR where = EUS }
 		command = { type = end_trades which = SPR where = MEX }
+		
+		command = { type = local_clrflag which = garSpec }
+		command = { trigger = { ai = yes } type = ai which = "garrison30.ai" }
 		
 		#The army was reduced partly to ease the economic strain, partly because far from all the reintegrated units were politically reliable. Both were forced measures
 		command = { trigger = { army = { size = 80 } } type = demobilize which = land when = 0 where = 0 value = 80 }
@@ -5595,7 +6278,10 @@ event = {
 		command = { type = end_trades which = SPA where = USA }
 		command = { type = end_trades which = SPA where = POR }
 		
-		command = { type = manpowerpool value = -500 }
+		#command = { type = manpowerpool value = -500 }
+		
+		command = { type = local_clrflag which = garSpec }
+		command = { trigger = { ai = yes } type = ai which = "garrison30.ai" }
 		
 		command = { trigger = { ai = yes } type = ai which = "nations\SPA.ai" }
 		command = { trigger = { ai = yes } type = ai which = "airLand.ai" }
@@ -6512,257 +7198,5 @@ event = {
 		name = "ACTION_NAME_GREAT"
 		command = { type = dissent value = -1 } 
 		command = { type = relation which = SPR value = 60 } 
-	}
-}
-
-#################################################
-#Portugal / Azores negotiations
-#################################################
-
-event = { 
-	id = 5450
-	random = no
-	country = ENG
-	persistent = yes
-	
-	name = "Access to the Azores"
-	desc = "Upon the start of World War II in 1939, the Portuguese Government announced that the 600-year-old Anglo-Portuguese Alliance remained intact, but that since the British did not seek Portuguese assistance, Portugal was free to remain neutral in the war and would do so. In an aide-memoire of 5 September 1939, the British Government confirmed the understanding. However, the strategic location of the Azores made them highly valuable for both the Allies and the Axis powers. Control over the islands could facilitate transatlantic supply routes, sumbarine or anti-submarine operations, and reconnaissance missions. Each side made plans to invade the Azores, and the Allies began to put pressure on Portugal to grant them access to the islands. The Allies considered seizing the islands by force if the negotiations failed, however, ultimately seeing that the war was clearly progressing in the Allies favor, Portigal signed an agreement giving the Allies access to the Azores."
-	style = 2
-	
-	decision = {
-		NOT = { local_flag = AzoresTransfer }
-		war = { country = ENG country = GER }
-		NOT = { 
-			war = { country = ENG country = POR }
-			alliance = { country = ENG country = POR }
-		}
-	}
-	decision_trigger = {
-		control = { province = 7257 data = POR }
-		control = { province = 7258 data = POR }
-		control = { province = 1867 data = POR }
-	}
-	trigger = {
-		NOT = { local_flag = AzoresTransfer }
-		war = { country = ENG country = GER }
-		NOT = { 
-			war = { country = ENG country = POR }
-			alliance = { country = ENG country = POR }
-		}
-		control = { province = 7257 data = POR }
-		control = { province = 7258 data = POR }
-		control = { province = 1867 data = POR }
-		NOT = { alliance = { country = GER country = SPA } }
-		war = { country = GER country = SOV }
-		war = { country = GER country = USA }
-		NOT = { flag = GER_USA_undeclared_war }
-		OR = {
-			lost_national = { country = GER value = 10 } #Germany invaded
-			NOT = { region = { region = "Poland" country = GER data = 1 value = 30 } }
-			alliance = { country = ENG country = SPA } #spain joined the allies
-			alliance = { country = ENG country = SPR }
-			event = 980 #Successful Allied landings in North Africa / negotiations with Darlan
-			region = { region = "Morocco" country = USA data = 1 value = 60 }
-			region = { region = "Morocco" country = ENG data = 1 value = 60 }
-			event = 2003181 #July plot
-		}
-	}
-
-	date = { day = 1 month = january year = 1936 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1999 } 
-
-	action = { 
-		name = "Demand access to the Azores"
-		command = { type = event which = 5451 where = POR when = 0 }
-	}
-}
-
-event = { 
-	id = 5451
-	random = no
-	country = POR
-	persistent = yes
-	
-	name = "Access to the Azores"
-	desc = "Upon the start of World War II in 1939, the Portuguese Government announced that the 600-year-old Anglo-Portuguese Alliance remained intact, but that since the British did not seek Portuguese assistance, Portugal was free to remain neutral in the war and would do so. In an aide-memoire of 5 September 1939, the British Government confirmed the understanding. However, the strategic location of the Azores made them highly valuable for both the Allies and the Axis powers. Control over the islands could facilitate transatlantic supply routes, sumbarine or anti-submarine operations, and reconnaissance missions. Each side made plans to invade the Azores, and the Allies began to put pressure on Portugal to grant them access to the islands. The Allies considered seizing the islands by force if the negotiations failed, however, ultimately seeing that the war was clearly progressing in the Allies favor, Portigal signed an agreement giving the Allies access to the Azores."
-	style = 2
-
-	action = { 
-		name = "Accept"
-		trigger = {
-			OR = {
-				ai = no
-				AND = {
-					NOT = { alliance = { country = GER country = SPA } }
-					war = { country = GER country = SOV }
-					war = { country = GER country = USA }
-					NOT = { flag = GER_USA_undeclared_war }
-					OR = {
-						lost_national = { country = GER value = 10 } #Germany invaded
-						NOT = { region = { region = "Poland" country = GER data = 1 value = 30 } }
-						alliance = { country = ENG country = SPA } #spain joined the allies
-						alliance = { country = ENG country = SPR }
-						event = 980 #Successful Allied landings in North Africa / negotiations with Darlan
-						region = { region = "Morocco" country = USA data = 1 value = 60 }
-						region = { region = "Morocco" country = ENG data = 1 value = 60 }
-						event = 2003181 #July plot
-					}
-				}
-			}
-		}
-		command = { type = secedeprovince which = ENG value = 7257 when = 2 }
-		command = { type = secedeprovince which = ENG value = 7258 when = 2 }
-		command = { type = secedeprovince which = ENG value = 1867 when = 2 }
-		
-		command = { type = event which = 5452 where = ENG when = 0 }
-		command = { type = event which = 5452 where = GER when = 0 }
-		
-		command = { type = dissent value = 5 }  
-	}
-	action = { 
-		name = "Refuse"
-		trigger = {
-			OR = {
-				ai = no
-				NOT = {
-					AND = {
-						NOT = { alliance = { country = GER country = SPA } }
-						war = { country = GER country = SOV }
-						war = { country = GER country = USA }
-						NOT = { flag = GER_USA_undeclared_war }
-						OR = {
-							lost_national = { country = GER value = 10 } #Germany invaded
-							NOT = { region = { region = "Poland" country = GER data = 1 value = 30 } }
-							alliance = { country = ENG country = SPA } #spain joined the allies
-							alliance = { country = ENG country = SPR }
-							event = 980 #Successful Allied landings in North Africa / negotiations with Darlan
-							region = { region = "Morocco" country = USA data = 1 value = 60 }
-							region = { region = "Morocco" country = ENG data = 1 value = 60 }
-							event = 2003181 #July plot
-						}
-					}
-				}
-			}
-		}
-		command = { type = event which = 5453 where = ENG when = 0 }
-		command = { type = event which = 5453 where = GER when = 0 }
-	}
-}
-
-event = { 
-	id = 5452
-	random = no
-	tag = { ENG GER }
-	persistent = yes
-	
-	name = "Access to the Azores - Accepted"
-	desc = "In May, in the Third Washington Conference, code-named Trident, the conferees agreed that the occupation of the Azores was essential to the conduct of the anti-U-boat campaign, extending Allied air cover for convoys and increasing harassing activities against U-boats. Delighted with the American stance Churchill cabled home with instructions: Portugal should be informed that if it refused to hand over the base, the Azores would be occupied. Luckily for both sides, the use of force turned out to be unnecessary. When the British requested military base facilities in the Azores, invoking the Anglo-Portuguese Alliance, Salazar responded favorably and quickly: Portugal allowed these bases, letting the British use the Azorean ports of Horta (on the island of Faial) and Ponta Delgada (on the island of Sao Miguel), and the airfields of Lajes Field (on Terceira Island) and Santana Field (on Sao Miguel Island)."
-	style = 2
-
-	action = { 
-		name = ACTION_NAME_GREAT
-		trigger = { country = ENG }
-		command = { type = relation which = POR value = 30 }
-		command = { type = addclaim	which = 7257  }
-		command = { type = addclaim	which = 7258  }
-		command = { type = addclaim	which = 1867  }
-		command = { type = local_setflag which = AzoresTransfer }
-	}
-	action = { 
-		name = ACTION_NAME_DAMN
-		ai_chance = 98
-		trigger = { country = GER 
-			OR = {
-				ai = no
-				NOT = {	region = { region = "Spain" country = -3 data = 1 value = 60 } } #AI will always invade if Spain is controlled
-			}
-		}
-		command = { type = relation which = POR value = -50 }
-	}
-	action = { 
-		name = "Punish them"
-		ai_chance = 2
-		trigger = { country = GER }
-		command = { type = end_access which = POR when = 0 }
-		command = { type = end_access which = POR when = 1 }
-		command = { type = relation which = POR value = -100 }
-		command = { type = war which = POR }
-	}
-}
-
-event = { 
-	id = 5453
-	random = no
-	tag = { ENG GER }
-	persistent = yes
-	
-	name = "Access to the Azores - Rejected"
-	desc = "In May, in the Third Washington Conference, code-named Trident, the conferees agreed that the occupation of the Azores was essential to the conduct of the anti-U-boat campaign, extending Allied air cover for convoys and increasing harassing activities against U-boats. Delighted with the American stance Churchill cabled home with instructions: Portugal should be informed that if it refused to hand over the base, the Azores would be occupied. When the negotiations fell through again and Salazar could not be convinced to come on board with the Allied demands, the Allies had to decide how to respond. On the table was War Plan Grey - which called for a landing force of 28,000 troops, one half Marine and one half Army, to take the Azores by force."
-	style = 2
-
-	action = { 
-		name = ACTION_NAME_GREAT
-		trigger = { country = GER }
-		command = { type = relation which = POR value = 10 }
-	}
-	action = { 
-		name = ACTION_NAME_DAMN
-		ai_chance = 2
-		trigger = { country = ENG }
-		command = { type = relation which = POR value = -10 }
-	}
-	action = { 
-		name = "Punish them"
-		ai_chance = 98
-		trigger = { country = ENG }
-		command = { type = end_access which = POR when = 0 }
-		command = { type = end_access which = POR when = 1 }
-		command = { type = relation which = POR value = -50 }
-		command = { trigger = { NOT = { non_aggression = { country = POR country = ENG } } } type = dissent value = 1 }
-		command = { trigger = { 		non_aggression = { country = POR country = ENG } }	 type = end_non_aggression which = ENG where = POR } #5 dissent
-		command = { type = war which = POR }
-	}
-}
-
-event = { 
-	id = 5455
-	random = no
-	tag = { ENG }
-	
-	name = "Returning the Azores"
-	desc = "Given the change in circumstances, the Allied occupation of the Azores ends"
-	style = 2
-	
-	trigger = {
-		OR = {
-			alliance = { country = POR }
-			AND = { 
-				NOT = { war = { country = GER } }
-				NOT = { war = { country = SOV } }
-			}
-		}
-		control = { province = 7257 data = -3 }
-		control = { province = 7258 data = -3 }
-		control = { province = 1867 data = -3 }
-		NOT = {
-			control = { province = 7257 data = POR }
-			control = { province = 7258 data = POR }
-			control = { province = 1867 data = POR }
-		}
-	}
-
-	date = { day = 1 month = january year = 1936 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1999 } 
-
-	action = { 
-		name = ACTION_NAME_OK
-		command = { type = secedeprovince which = POR value = 7257 when = 2 }
-		command = { type = secedeprovince which = POR value = 7258 when = 2 }
-		command = { type = secedeprovince which = POR value = 1867 when = 2 }
-		command = { type = removeclaim	which = 7257  }
-		command = { type = removeclaim	which = 7258  }
-		command = { type = removeclaim	which = 1867  }
 	}
 }

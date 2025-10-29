@@ -9,7 +9,7 @@ country =
   control				 = CHI
   ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   extra_tc               = 10
-  dissent				 = 15
+  dissent				 = 10
   # Resource Reserves
   energy                 = 200
   metal                  = 200

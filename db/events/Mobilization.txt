@@ -221,16 +221,7 @@ event = {  #General Mob Group A
 		NOT = { lost_national = { value = 100 } }
 	}
 
-	decision_trigger = { 
-		NOT = { local_flag = demilitarized }
-		#only independent states and very strong puppets can do general mobilization
-		OR = {
-			local_flag = puppetLevel7
-			local_flag = puppetLevel8
-			local_flag = puppetLevel9
-			local_flag = legitIndie
-		}
-		
+	decision_trigger = {
 		OR = {
 			lost_national = { value = 15 }
 			AND = {
@@ -238,50 +229,8 @@ event = {  #General Mob Group A
 				NOT = { dissent = 10 }
 			}
 			local_flag = inMajorWar
-			policy = { type = defense_lobby value = 7 }
-		}
-	}
-
-	trigger = {
-		NOT = { local_flag = demilitarized }
-		flag = theatsAssessed
-		local_flag = AllInit
-		NOT = { local_flag = demob }
-		policy = { type = professional_army value = 1 }
-		NOT = { policy = { type = professional_army value = 6 } }
-		atwar = yes
-		
-		NOT = { #too little to mobilize
-			lost_national = { value = 90 }
-			AND = {
-				country = CHC
-				NOT = { region = { region = "China" country = CHC value = 10 } }
-			}
-		} 
-		
-		#only independent states and very strong puppets can mobilize
-		OR = {
-			local_flag = puppetLevel7
-			local_flag = puppetLevel8
-			local_flag = puppetLevel9
-			local_flag = legitIndie
-		}
-		
-		#when general mob happens, the penalties for taking people out of the workforce are immediate, but the manpower still "sits" in the recruitment pool and does nothing until new divisions are actually fielded.
-		#In effect, these people are neither working, training, or fighting, which is unrealistic.
-		#all things considered, it is better for "general mobilization" not to be invoked until more manpower is actually needed, otherwise the country is just wasting its IC/resources
-		#downside - if your territory is being overrun, failing to enact "general mob" early may cause you to lose out on potential manpower. But the ability to do that itself is unrealistic.
-
-		policy = { type = professional_army value = 5 } 
-		
-		#can do?
-		OR = {
-			lost_national = { value = 15 }
-			AND = {
-				lost_national = { value = 3 }
-				NOT = { dissent = 10 }
-			}
-			local_flag = inMajorWar
+			policy = { type = defense_lobby 	value = 7 }
+			policy = { type = interventionism 	value = 7 }
 			#Great Power at war with another Great Power
 			AND = {
 				OR = { 
@@ -307,13 +256,106 @@ event = {  #General Mob Group A
 					war = { country = CHI }
 				}
 			}
-			policy = { type = defense_lobby value = 7 }
+			AND = {
+				puppet = { country = -1 country = ENG }
+				local_flag = puppetLevel9
+				policy = { country = ENG type = professional_army value = 6 }
+			}
+		}
+	
+		NOT = { local_flag = demilitarized }
+		#only independent states and very strong puppets can do general mobilization
+		OR = {
+			local_flag = puppetLevel7
+			local_flag = puppetLevel8
+			local_flag = puppetLevel9
+			local_flag = legitIndie
+		}
+	}
+
+	trigger = {
+		NOT = { local_flag = demilitarized }
+		flag = theatsAssessed
+		local_flag = AllInit
+		NOT = { local_flag = demob }
+		policy = { type = professional_army value = 1 }
+		NOT = { policy = { type = professional_army value = 6 } }
+		atwar = yes
+		NOT = { lost_national = { value = 100 } }
+		NOT = { 
+			AND = { 
+				local_flag = partisan_mode
+				manpower = 40
+			}
+		}
+		
+		#only independent states and very strong puppets can mobilize
+		OR = {
+			local_flag = puppetLevel7
+			local_flag = puppetLevel8
+			local_flag = puppetLevel9
+			local_flag = legitIndie
+		}
+		
+		#when general mob happens, the penalties for taking people out of the workforce are immediate, but the manpower still "sits" in the recruitment pool and does nothing until new divisions are actually fielded.
+		#In effect, these people are neither working, training, or fighting, which is unrealistic.
+		#all things considered, it is better for "general mobilization" not to be invoked until more manpower is actually needed, otherwise the country is just wasting its IC/resources
+		#downside - if your territory is being overrun, failing to enact "general mob" early may cause you to lose out on potential manpower. But the ability to do that itself is unrealistic.
+
+		policy = { type = professional_army value = 5 } 
+		
+		#can do?
+		OR = {
+			lost_national = { value = 15 }
+			AND = {
+				lost_national = { value = 3 }
+				NOT = { dissent = 10 }
+			}
+			local_flag = inMajorWar
+			policy = { type = defense_lobby 	value = 7 }
+			policy = { type = interventionism 	value = 7 }
+			#Great Power at war with another Great Power
+			AND = {
+				OR = { 
+					country = GER
+					country = ITA
+					country = ENG
+					country = VIC
+					country = SOV
+					country = RUS
+					country = USA
+					country = JAP
+					country = CHI
+				}
+				OR = { 
+					war = { country = GER }
+					war = { country = ITA }
+					war = { country = ENG }
+					war = { country = VIC }
+					war = { country = SOV }
+					war = { country = RUS }
+					war = { country = USA }
+					war = { country = JAP }
+					war = { country = CHI }
+				}
+			}
+			AND = {
+				puppet = { country = -1 country = ENG }
+				local_flag = puppetLevel9
+				policy = { country = ENG type = professional_army value = 6 }
+			}
 		}
 		
 		#will do?
 		OR = {
 			NOT = { manpower = 70 }
 			lost_national = { value = 5 }
+			local_flag = inMajorWar
+			country = GER
+			AND = {
+				country = ENG
+				control = { province = 56 data = -2 } #Paris fell
+			}
 			AND = {
 				under_attack = -1
 				OR = {
@@ -382,14 +424,13 @@ event = {  #General Mob Group B
 		policy = { type = professional_army value = 6 }
 		NOT = { policy = { type = professional_army value = 7 } }
 		atwar = yes
-		
-		NOT = { #too little to mobilize
-			lost_national = { value = 90 }
-			AND = {
-				country = CHC
-				NOT = { region = { region = "China" country = CHC value = 10 } }
+		NOT = { lost_national = { value = 90 } }
+		NOT = { 
+			AND = { 
+				local_flag = partisan_mode
+				manpower = 40
 			}
-		} 
+		}
 
 		OR = {
 			NOT = { manpower = 70 }
@@ -451,14 +492,13 @@ event = {  #General Mob Group C
 		policy = { type = professional_army value = 7 }
 		NOT = { policy = { type = professional_army value = 8 } }
 		atwar = yes
-		
-		NOT = { #too little to mobilize
-			lost_national = { value = 90 }
-			AND = {
-				country = CHC
-				NOT = { region = { region = "China" country = CHC value = 10 } }
+		NOT = { lost_national = { value = 90 } }
+		NOT = { 
+			AND = { 
+				local_flag = partisan_mode
+				manpower = 40
 			}
-		} 
+		}
 		
 		OR = {
 			NOT = { manpower = 70 }
@@ -566,6 +606,7 @@ event = {  #total mob
 		}
 		NOT = { ispuppet = yes }
 		NOT = { dissent = 15 }
+		NOT = { local_flag = partisan_mode }
 	}
 
 	trigger = {
@@ -584,6 +625,7 @@ event = {  #total mob
 		policy = { type = professional_army value = 8 } 
 		NOT = { policy = { type = professional_army value = 10 } }
 		NOT = { dissent = 15 }
+		NOT = { local_flag = partisan_mode }
 	}
    
 	name = "MOB10name"

@@ -75,7 +75,7 @@ event = {
     country = GER
     
     name = "German Surrender"
-    desc = "Upon Hitler's death, the remaining Nazi leaders gathered in Flensburg and made several attempts to negotiate a partial surrender, or, failing that, surrender only to the Western Allies and in doing so provoke a conflict between them and Moscow. On 4 May the Flensburg government signed an instrument of surrender for all remaining forces in northern Europe and Germany. This was accepted by Montgomery on behalf of Eisenhower. This 4 May surrender would become effective at 8:00 am on 5 May, and it was joined by the remaining German forces trapped in South-west Germany as well, thus including all German forces on the Western Front. Meanwhile, the troops facing the Soviet Army were ordered to continue resistance, and where possible, westward evacuation. The Allies quickly caught on to the German plan, and Eisenhower declared that hostilities would resume unless Germany declared immediate unconditional surrender on all fronts, and should the Germans continue to stall for time, the Allies would shoot at any German trying to surrender, and any future surrenders would have to be made to the Soviets instead. Faced with these options, Germany had no choice but to acceed to Allied demands. The German military leadership ended up signing two more surrender documents before hostilities definitively ceased. One was signed on May 7th, but was not consulted with the Soviet side and was thus scrapped on the same day. The second, ammended surrender was signed on May 8th shortly before midnight Berlin time. On May 9, Donitz issued orders to the German Armed Forces regarding the military surrender and the World War II in Europe officially ended. The Allies dissolved the Flensburg government a month later."
+    desc = "Upon Hitler's death, the remaining Nazi leaders gathered in Flensburg and made several attempts to negotiate a partial surrender, or, failing that, surrender only to the Western Allies and in doing so provoke a conflict between them and Moscow. On 4 May the Flensburg government signed an instrument of surrender for all remaining forces in northern Europe and Germany. This was accepted by Montgomery on behalf of Eisenhower. This surrender would become effective at 8:00 am on 5 May, and it was joined by the remaining German forces trapped in South-west Germany as well, thus including all German forces on the Western Front. Meanwhile, the troops facing the Soviet Army were ordered to continue resistance, and where possible, westward evacuation. The Allies quickly caught on to the German plan, and Eisenhower declared that hostilities would resume unless Germany declared immediate unconditional surrender on all fronts. Should the Germans continue to stall for time, the Allies would shoot at any German trying to surrender, and any future surrenders would have to be made to the Soviets instead. Faced with these options, Germany had no choice but to acceed to Allied demands. The German military leadership ended up signing two more surrender documents before hostilities definitively ceased. One was signed on May 7th, but was not consulted with the Soviet side and was thus scrapped on the same day. The second, ammended surrender documentwas signed on May 8th shortly before midnight Berlin time. On May 9, Donitz issued orders to the German Armed Forces regarding the military surrender and the World War II in Europe officially ended. The Allies dissolved the Flensburg government a month later."
     style = 2
     picture = "Hitler_Death"
 
@@ -391,15 +391,133 @@ event = {
 		
 		#command = { type = leave_alliance when = 1 }
 		command = { type = peace which = ENG value = 1 }
-		#command = { type = peace which = SOV value = 1 } #resistance continued against the Soviets
+		#command = { type = peace which = SOV value = 1 } #resistance continued against the Soviets for a few more days
 		
-		command = { type = event which = 3140 where = -1 when = 0 }
+		command = { type = event which = 3140 where = -1 when = 0 } #Grant Military Access to allies
 		
+		command = { type = setflag which = FraReturn }
+		command = { type = trigger which = 2003214 }
     }
     action = {
         name = "It's not over"
 		ai_chance = 0
 		command = { type = dissent value = 10 }
+	}
+}
+
+event = { 
+	id = 2003214 
+	random = no 
+	persistent = yes
+	all = yes
+
+    name = "German Surrender"
+    desc = "Upon Hitler's death, the remaining Nazi leaders gathered in Flensburg and made several attempts to negotiate a partial surrender, or, failing that, surrender only to the Western Allies and in doing so provoke a conflict between them and Moscow. On 4 May the Flensburg government signed an instrument of surrender for all remaining forces in northern Europe and Germany. This was accepted by Montgomery on behalf of Eisenhower. This surrender would become effective at 8:00 am on 5 May, and it was joined by the remaining German forces trapped in South-west Germany as well, thus including all German forces on the Western Front. Meanwhile, the troops facing the Soviet Army were ordered to continue resistance, and where possible, westward evacuation. The Allies quickly caught on to the German plan, and Eisenhower declared that hostilities would resume unless Germany declared immediate unconditional surrender on all fronts. Should the Germans continue to stall for time, the Allies would shoot at any German trying to surrender, and any future surrenders would have to be made to the Soviets instead. Faced with these options, Germany had no choice but to acceed to Allied demands. The German military leadership ended up signing two more surrender documents before hostilities definitively ceased. One was signed on May 7th, but was not consulted with the Soviet side and was thus scrapped on the same day. The second, ammended surrender documentwas signed on May 8th shortly before midnight Berlin time. On May 9, Donitz issued orders to the German Armed Forces regarding the military surrender and the World War II in Europe officially ended. The Allies dissolved the Flensburg government a month later."
+    style = 2
+    picture = "Hitler_Death"
+	
+	action = {
+		name = "ACTION_NAME_HURRAH"
+		#Big Four only
+		trigger = { OR = { country = USA country = SOV country = ENG country = VIC } }
+		
+		command = { type = dissent	  value = -10 }
+		
+		#German blueprints fall into Allied hands and scientists are won over by the Allies
+		#specifically nuclear and rocketry techs, plus one above
+		command = { trigger = { technology = { country = GER value = 5470  } } 	type = gain_tech which = 5470  }
+		command = { trigger = { technology = { country = GER value = 5480  } } 	type = gain_tech which = 5480  }
+		command = { trigger = { technology = { country = GER value = 5490  } } 	type = gain_tech which = 5490  }
+		command = { trigger = { technology = { country = GER value = 5500  } } 	type = gain_tech which = 5500  }
+		command = { trigger = { technology = { country = GER value = 5510  } } 	type = gain_tech which = 5510  }
+		command = { trigger = { technology = { country = GER value = 5520  } } 	type = gain_tech which = 5520  }
+		command = { trigger = { technology = { country = GER value = 5530  } } 	type = gain_tech which = 5530  }
+		command = { trigger = { technology = { country = GER value = 5540  } } 	type = gain_tech which = 5540  }
+		command = { trigger = { technology = { country = GER value = 7170  } } 	type = gain_tech which = 7170  }
+		command = { trigger = { technology = { country = GER value = 7180  } } 	type = gain_tech which = 7180  }
+		command = { trigger = { technology = { country = GER value = 7190  } } 	type = gain_tech which = 7190  }
+		command = { trigger = { technology = { country = GER value = 16010 } } 	type = gain_tech which = 16010 }
+		command = { trigger = { technology = { country = GER value = 16020 } } 	type = gain_tech which = 16020 }
+		
+		command = { trigger = { technology = { country = GER value = 5470  } } 	type = gain_tech which = 5480  }
+		command = { trigger = { technology = { country = GER value = 5480  } } 	type = gain_tech which = 5490  }
+		command = { trigger = { technology = { country = GER value = 5490  } } 	type = gain_tech which = 5500  }
+		command = { trigger = { technology = { country = GER value = 5500  } } 	type = gain_tech which = 5510  }
+		command = { trigger = { technology = { country = GER value = 5510  } } 	type = gain_tech which = 5520  }
+		command = { trigger = { technology = { country = GER value = 5520  } } 	type = gain_tech which = 5530  }
+		command = { trigger = { technology = { country = GER value = 5530  } } 	type = gain_tech which = 5540  }
+		command = { trigger = { technology = { country = GER value = 5540  } } 	type = gain_tech which = 7170  }
+		command = { trigger = { technology = { country = GER value = 7170  } } 	type = gain_tech which = 7180  }
+		command = { trigger = { technology = { country = GER value = 7180  } } 	type = gain_tech which = 7190  }
+		command = { trigger = { technology = { country = GER value = 7190  } } 	type = gain_tech which = 16010 }
+		command = { trigger = { technology = { country = GER value = 16010 } } 	type = gain_tech which = 16020 }
+
+		command = { trigger = { technology = { country = GER value = 5560  } } 	type = gain_tech which = 5560  }
+		command = { trigger = { technology = { country = GER value = 7550  } } 	type = gain_tech which = 7550  }
+		command = { trigger = { technology = { country = GER value = 7560  } } 	type = gain_tech which = 7560  }
+		command = { trigger = { technology = { country = GER value = 7570  } } 	type = gain_tech which = 7570  }
+		command = { trigger = { technology = { country = GER value = 7580  } } 	type = gain_tech which = 7580  }
+		command = { trigger = { technology = { country = GER value = 7590  } } 	type = gain_tech which = 7590  }
+		
+		command = { trigger = { technology = { country = GER value = 5560  } } 	type = gain_tech which = 7550  }
+		command = { trigger = { technology = { country = GER value = 7550  } } 	type = gain_tech which = 7560  }
+		command = { trigger = { technology = { country = GER value = 7560  } } 	type = gain_tech which = 7570  }
+		command = { trigger = { technology = { country = GER value = 7570  } } 	type = gain_tech which = 7580  }
+		command = { trigger = { technology = { country = GER value = 7580  } } 	type = gain_tech which = 7590  }
+		
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		command = { type = steal_tech which = GER }
+		
+		#German scientists contribute to research
+		command = { type = gain_tech which = -1  }
+		command = { type = gain_tech which = -1  }
+		command = { type = gain_tech which = -1  }
+		command = { type = gain_tech which = -1  }
+		command = { type = gain_tech which = -1  }
+		command = { type = gain_tech which = -1  }
+		command = { type = gain_tech which = -1  }
+		command = { type = gain_tech which = -1  }
+		command = { type = gain_tech which = -1  }
+		command = { type = gain_tech which = -1  }
+		command = { type = gain_tech which = -2  }
+		command = { type = gain_tech which = -2  }
+		command = { type = gain_tech which = -2  }
+
+	}
+	action = {
+		name = "Treason!"
+		#Japan and whoever else is left
+		trigger = { alliance = { country = GER }  }
+		
+		command = { type = dissent	  value = 1   }
+	}
+	action = {
+		name = "ACTION_NAME_GREAT"
+		#Everyone else
+		trigger = { NOT = { country = USA country = SOV country = ENG country = VIC alliance = { country = GER } } }
+		
+		command = { type = relation which = USA value = 10 }
+		command = { type = relation which = SOV value = 10 }
+		command = { type = relation which = ENG value = 10 }
+		command = { type = relation which = VIC value = 10 }
 	}
 }
 
@@ -409,13 +527,32 @@ event = {
     tag = { ENG USA }
     
     name = "German Surrender"
-     desc = "Upon Hitler's death, the remaining Nazi leaders gathered in Flensburg and made several attempts to negotiate a partial surrender, or, failing that, surrender only to the Western Allies and in doing so provoke a conflict between them and Moscow. On 4 May the Flensburg government signed an instrument of surrender for all remaining forces in northern Europe and Germany. This was accepted by Montgomery on behalf of Eisenhower. This 4 May surrender would become effective at 8:00 am on 5 May, and it was joined by the remaining German forces trapped in South-west Germany as well, thus including all German forces on the Western Front. Meanwhile, the troops facing the Soviet Army were ordered to continue resistance, and where possible, westward evacuation. The Allies quickly caught on to the German plan, and Eisenhower declared that hostilities would resume unless Germany declared immediate unconditional surrender on all fronts, and should the Germans continue to stall for time, the Allies would shoot at any German trying to surrender, and any future surrenders would have to be made to the Soviets instead. Faced with these options, Germany had no choice but to acceed to Allied demands. The German military leadership ended up signing two more surrender documents before hostilities definitively ceased. One was signed on May 7th, but was not consulted with the Soviet side and was thus scrapped on the same day. The second, ammended surrender was signed on May 8th shortly before midnight Berlin time. On May 9, Donitz issued orders to the German Armed Forces regarding the military surrender and the World War II in Europe officially ended. The Allies dissolved the Flensburg government a month later."
+    desc = "The German military leadership ended up signing two more surrender documents before hostilities definitively ceased. One was signed on May 7th, but was not consulted with the Soviet side and was thus scrapped on the same day. The second, ammended surrender document was signed on May 8th shortly before midnight Berlin time. On May 9, Donitz issued orders to the German Armed Forces regarding the military surrender and the World War II in Europe officially ended. The Allies dissolved the Flensburg government a month later. Meanwhile, back in London, the British Chiefs of Staff Committee was tasked with developing a plan for a possible offensive war against the Soviet Union and its allies, codenamed Operation Unthinkable"
     style = 2
     picture = "Hitler_Death"
 
     action = {
         name = "VICTORY!"
+		ai_chance = 100
 		command = { type = inherit which = GER value = 0 }
+	}
+	action = {
+        name = "Operation Unthinkable"
+		ai_chance = 0
+		command = { type = dissent	  value = 10 }
+		command = { type = remove_claim_region 	which = "Germany"			where = ENG }
+		command = { type = remove_claim_region 	which = "Austria"			where = ENG }
+		command = { type = remove_claim_region 	which = "Germany"			where = USA }
+		command = { type = remove_claim_region 	which = "Austria"			where = USA }
+		command = { type = war which = SOV }
+		command = { type = belligerence which = ENG	value = 20  }
+		command = { type = belligerence which = USA	value = 20  }
+		command = { type = belligerence which = SOV	value = -20 }
+		command = { type = make_puppet which = GER }
+		command = { type = event where = GER which = 2400537 when = 0 } #medium-strong puppet
+		command = { type = secederegion	which = GER value = "Germany" 		when = 1 }
+		command = { type = secederegion	which = GER value = "Austria" 		when = 1 }
+		command = { type = flag_ext 	where = GER which = "_FRG" }
 	}
 }
 
@@ -437,6 +574,19 @@ event = {
 			control = { province = 300	data = -3  }
 			control = { province = 300	data = SOV }
 		}
+		NOT = {
+			war = { country = ITA }
+			war = { country = FIN }
+			war = { country = SPA }
+			war = { country = POR }
+			war = { country = HUN }
+			war = { country = ROM }
+			war = { country = BUL }
+			war = { country = CRO }
+			war = { country = SLO }
+			war = { country = SER }
+			war = { country = NOR }
+		}
     }
 
     date = { day = 0 month = january year = 1933 }
@@ -445,8 +595,6 @@ event = {
 
     action = {
         name = "VICTORY!"
-		command = { type = dissent				value = -10  }
-		
 		command = { type = add_claim_region 	which = "Germany"			where = ENG }
 		command = { type = add_claim_region 	which = "Austria"			where = ENG }
 		command = { type = add_claim_region 	which = "Germany"			where = VIC }
@@ -491,6 +639,8 @@ event = {
 		command = { type = remove_core_region	which = "Greenland"			where = USA }
 		
 		command = { type = addclaim				which = 31					where = ENG } #Malta
+		
+		command = { type = remove_units 		which = all where = REB when = 3 value = "Europe" }
 		
 		command = { trigger = { OR = { NOT = { exists = ICL } AND = { ispuppet = ICL NOT = { puppet = { country = ICL } } } } } type = local_setflag which = makePuppet }
 		command = { trigger = { local_flag = makePuppet NOT = { exists = ICL } }	type = secedeprovince	which = -3	value = 1   when = 2 }
@@ -738,7 +888,10 @@ event = {
 		command = { type = add_division 	value = garrison when = 6 }
 		command = { type = add_division 	value = garrison when = 6 }
 		
-		command = { type = belligerence 	value = -50  }
+		command = { type = belligerence 	which = USA value = -50 }
+		command = { type = belligerence 	which = SOV value = -50 }
+		command = { type = belligerence 	which = ENG value = -50 }
+		command = { type = belligerence 	which = VIC value = -50 }
 		
 		
 		command = { type = event which = 2003203 where = SOV when = 1 }
@@ -757,8 +910,6 @@ event = {
 
     action = {
         name = "VICTORY!"
-		command = { type = dissent				value = -10  }
-		
 		command = { type = add_claim_region 	which = "Germany"			where = SOV }
 		command = { type = add_claim_region 	which = "Austria"			where = SOV }
 		
@@ -866,6 +1017,7 @@ event = {
 		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = HUN }
 		command = { trigger = { local_flag = makePuppet }							type = event			where = HUN which = 2400537 when = 0 } #medium-strong puppet
 		command = { trigger = { local_flag = makePuppet }							type = event			where = HUN which = 117		when = 0 } #start dev
+		command = { trigger = { local_flag = makePuppet }							type = flag_ext 		where = HUN which = "_1957" }
 		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
 		
 		command = { trigger = { OR = { NOT = { exists = BUL exists = U29 } AND = { ispuppet = BUL NOT = { puppet = { country = BUL } } } } } type = local_setflag which = makePuppet }
@@ -915,38 +1067,81 @@ event = {
 		command = { trigger = { local_flag = makePuppet }							type = event			where = FIN which = 2400537 when = 0 } #medium-strong puppet
 		command = { trigger = { local_flag = makePuppet }							type = event			where = FIN which = 118		when = 0 } #start dev
 		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
+		
+		command = { type = secedearea 		which = U32 value = "Warsaw"	when = 1 }
+		command = { type = secedearea		which = U32 value = "Poznan"	when = 1 }
+		command = { type = secedearea		which = U32 value = "Krakow"	when = 1 }
+		command = { type = secedeprovince	which = U32 value = 504			when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 3270		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 308			when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 473			when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 482			when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 1400		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 1595		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 1623		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 1779		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 1810		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 3238		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 3258		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 3259		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 6519		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 7046		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 7047		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 7177		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 303			when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 304			when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 1811		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 2647		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 3260		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 3261		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 7978		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 1884		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 2628		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 486			when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 6515		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 1875		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 505			when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 6516		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 7335		when = 1 }
+		command = { type = secedeprovince 	which = U32 value = 509			when = 1 }
 
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedearea 	which = U32 value = "Warsaw"		when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedearea		which = U32 value = "Poznan"		when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedearea		which = U32 value = "Krakow"		when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedearea		which = U32 value = "Grodno"		when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince	which = U32 value = 504				when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 3270			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 308				when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 473				when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 482				when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 1400			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 1595			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 1623			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 1779			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 1810			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 3238			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 3258			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 3259			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 6519			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 7046			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 7047			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 7177			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 303				when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 304				when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 1811			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 2647			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 3260			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 3261			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 7978			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 1884			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 2628			when = 2 }
-		command = { trigger = { control = { province = 485	data = -3 } } type = secedeprovince which = U32 value = 486				when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedearea 		which = U32 value = "Warsaw"	when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedearea		which = U32 value = "Poznan"	when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedearea		which = U32 value = "Krakow"	when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedearea		which = U32 value = "Grodno"	when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince	which = U32 value = 504			when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 3270		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 308			when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 473			when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 482			when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 1400		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 1595		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 1623		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 1779		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 1810		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 3238		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 3258		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 3259		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 6519		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 7046		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 7047		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 7177		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 303			when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 304			when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 1811		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 2647		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 3260		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 3261		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 7978		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 1884		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 2628		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 486			when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 6515		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 1875		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 505			when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 6516		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 7335		when = 2 }
+		command = { trigger = { control = { province = 485	data = -3 } } 			type = secedeprovince 	which = U32 value = 509			when = 2 }
 		
 		command = { type = secederegion	which = CZE value = "Czechoslovakia"	when = 2 }
 		
@@ -996,6 +1191,7 @@ event = {
 		command = { type = addclaim 		which = 499 	where = SOV }
 		command = { type = addclaim 		which = 3233 	where = SOV }
 		command = { type = addclaim 		which = 2302 	where = SOV }
+		command = { type = addclaim 		which = 209 	where = SOV }
 		
 		command = { type = secederegion		which = NOR value = "Norway"		when = 1 }
 		command = { type = secederegion		which = SWE value = "Sweden" 		when = 1 }
@@ -1035,8 +1231,6 @@ event = {
 		command = { trigger = { ai = yes } type = local_setflag which = do_not_demob }
 		
 		command = { type = local_clrflag	which = inMajorWar	}
-		
-		command = { type = belligerence 	value = -50  }
 		
 		#Post-war German ethnic cleansing
 		command = { type = add_core_area 		which = "Bohemia"			where = CZE }
@@ -1187,8 +1381,22 @@ event = {
 		command = { trigger = { local_flag = JapSovNAP } type = dissent value = -5 }
 		command = { trigger = { local_flag = JapSovNAP } type = local_clrflag which = JapSovNAP }
 		
+		command = { trigger = { non_aggression = { country = U87 country = SOV } } type = local_setflag which = JapSovNAP }
+		command = { trigger = { local_flag = JapSovNAP } type = end_non_aggression which = SOV where = U87 } #will give 5 dissent
+		command = { trigger = { local_flag = JapSovNAP } type = dissent value = -5 }
+		command = { trigger = { local_flag = JapSovNAP } type = local_clrflag which = JapSovNAP }
+		
 		command = { type = end_trades which = SOV where = JAP }
-		command = { type = war which = JAP } 
+		
+		
+		#For some mysterious reason this counts as a manual declaration of war, resulting in additional +7.5 dissent.
+		command = { trigger = { atwar = yes }			type = local_setflag which = atWarSov }
+		command = { 									type = dissent 	value = -7.5 }
+		command = { 									type = war 		which = JAP }
+		command = { trigger = { local_flag = atWarSov } type = war 		which = MAN }
+		command = { trigger = { local_flag = atWarSov } type = war 		which = MEN }
+		command = { trigger = { local_flag = atWarSov } type = war 		which = U87 }
+		command = { trigger = { local_flag = atWarSov } type = dissent	value = -22 }
 		
 		command = { type = add_claim_area	which = "Jilin"				where = SOV }
 		command = { type = add_claim_area	which = "Heilongjiang"		where = SOV }
@@ -1201,6 +1409,12 @@ event = {
 		command = { type = add_claim_area	which = "Seoul"				where = SOV }
 		
 		command = { trigger = { ai = yes } type = local_clrflag which = do_not_demob }
+		
+		command = { trigger = { ai = yes } type = non_aggression which = MON where = MEN when = 14 } 
+		command = { trigger = { ai = yes } type = non_aggression which = MON where = U87 when = 14 } 
+		command = { trigger = { ai = yes } type = non_aggression which = MON where = MAN when = 14 } 
+		
+		command = { type = trigger which = 2003218 }
 	}
 }
 
@@ -1310,8 +1524,9 @@ event = {
 		name = "We will not start WW3 over Poland"
 		ai_chance = 95
 		command = { type = dissent		value = 1  }
-		command = { type = belligerence value = 10 }
+		command = { type = belligerence value = -2 }
 		command = { type = end_mastery which = POL }
+		command = { type = event which = 2400530 where = POL when = 0 } #legit indie
 		command = { type = event which = 2003221 where = POL when = 0 }
 		#withdraw subsidies?
 	}
@@ -1319,7 +1534,7 @@ event = {
 		name = "We will start WW3 over Poland"
 		ai_chance = 5
 		command = { type = dissent		value = 10 }
-		command = { type = belligerence value = -2 }
+		command = { type = belligerence value = 10 }
 		command = { type = event which = 2003223 where = SOV when = 7 }
 	}
 }
@@ -1335,10 +1550,25 @@ event = {
 	
 	action = {
 		name = "Traitors!"
+		command = { type = leave_alliance 	when  = 1 }
+		command = { type = peace which = VIC value = 1 }
+		command = { type = peace which = U33 value = 1 }
+		command = { type = peace which = U72 value = 1 }
+		command = { type = peace which = VIE value = 1 }
+		command = { type = peace which = LAO value = 1 }
+		command = { type = peace which = CMB value = 1 }
+		command = { type = peace which = INO value = 1 }
+		command = { type = peace which = PHI value = 1 }
+		command = { type = peace which = GER value = 1 }
+		command = { type = peace which = ITA value = 1 }
+		command = { type = peace which = JAP value = 1 }
+		command = { type = dissent 			value = -100 }
+		command = { type = belligerence 	value = -100 }
+		command = { type = end_access 		which = SOV when = 0 }
+		command = { type = end_access 		which = SOV when = 1 }
+		
 		command = { type = local_clrflag which = puppetOf }
-		command = { type = domestic which = political_left value = -5 }
-		command = { type = event which = 2400530 where = POL when = 0 } #legit indie
-		command = { type = event which = 2400602 where = POL when = 0 }
+		command = { type = set_domestic which = political_left value = 4 }
 		
 		command = { type = event which = 2003222 where = SOV when = 7 }
 	}
@@ -1367,17 +1597,20 @@ event = {
 	country = SOV
 	
 	name = "The fate of Poland"
-	desc = "With the end of WW2 in Europe, the Soviets were faced with a dilemma - while most of Poland was occupied by the Red Army and the pro-Soviet Polish Committee of National Liberation (PKWN), Warsaw was still held by the forces loyal to the Polish government-in-exile (i.e., the Armia Krajowa, or Home Army, and the London-based Polish authorities). Clashes soon broke out between the two sides, and Stalin demanded from the Allies that they respect prior agreements and withdraw support from the anti-Soviet government, like the USSR effectively refused to support the Greek Communist governments. Despite the ultimatum from Moscow, the Allies decided to stick to their guns and risk WW3 over Poland. Their lack of any respect for our interests and accomplishments and their willingness to risk WW3 to contest a country like Poland means they are ready to use force to destroy us. We cannot decline this challenge"
+	desc = "With the end of WW2 in Europe, the Soviets were faced with a dilemma - while most of Poland was occupied by the Red Army and the pro-Soviet Polish Committee of National Liberation (PKWN), Warsaw was still held by the forces loyal to the Polish government-in-exile (i.e., the Armia Krajowa, or Home Army, and the London-based Polish authorities). Clashes soon broke out between the two sides, and Stalin demanded from the Allies that they respect prior agreements and withdraw support from the anti-Soviet government, like the USSR effectively refused to support the Greek Communist governments. Despite the ultimatum from Moscow, the Allies decided to stick to their guns and risk WW3 over Poland. Their lack of any respect for prior agreements, for our accomplishments and our legitimate interests, and their willingness to risk WW3 to contest a country like Poland means they are ready to use force to destroy us. We cannot decline this challenge."
   	style = 2
 	
 	action = {
 		name = "Crush the Polish fascists"
 		command = { type = war which = POL }
+		command = { trigger = { war = { country = ENG country = U33 } } type = alliance which = U33 when = 1 }
+		command = { trigger = { war = { country = ENG country = U72 } } type = alliance which = U72 when = 1 }
+		command = { trigger = { war = { country = ENG country = LAO } } type = alliance which = LAO when = 1 }
+		command = { trigger = { war = { country = ENG country = INO } } type = alliance which = INO when = 1 }
 		command = { type = non_aggression which = U32 where = POL when = 7 } 
 		command = { }
 	}
 }
-
 
 
 event = { 
@@ -1397,6 +1630,7 @@ event = {
 			war = { country = SOV country = POL }
 		}
 		NOT = { control = { province = 485 data = POL } }
+		NOT = { region = { region = "Poland" country = POL value = 2 } }
 	}
 
 	date = { day = 0 month = january year = 1937 }
@@ -1413,8 +1647,45 @@ event = {
 		command = { type = free_ic	value = 5 }
 		command = { type = inherit which = POL value = 1 }
 		#just in case
-		command = { type = secederegion which = U32 value = "Poland"	when = 1 }
-		command = { type = secederegion which = SOV value = "Poland"	when = 1 }
+		command = { type = secederegion 	which = U32 value = "Poland"	when = 1 }
+		command = { type = secederegion 	which = SOV value = "Poland"	when = 1 }
+		
+		command = { type = secedearea 		which = U32 value = "Warsaw"	when = 2 }
+		command = { type = secedearea		which = U32 value = "Poznan"	when = 2 }
+		command = { type = secedearea		which = U32 value = "Krakow"	when = 2 }
+		command = { type = secedeprovince	which = U32 value = 504			when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 3270		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 308			when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 473			when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 482			when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 1400		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 1595		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 1623		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 1779		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 1810		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 3238		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 3258		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 3259		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 6519		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 7046		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 7047		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 7177		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 303			when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 304			when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 1811		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 2647		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 3260		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 3261		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 7978		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 1884		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 2628		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 486			when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 6515		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 1875		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 505			when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 6516		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 7335		when = 2 }
+		command = { type = secedeprovince 	which = U32 value = 509			when = 2 }
 	}
 }
 
@@ -1493,6 +1764,180 @@ event = {
 event = { 
 	id = 2003231
 	random = no 
+	country = SOV
+
+	trigger = {
+		event = 2003202 #Potsdam
+		NOT = { 
+			war = { country = GER }
+			war = { country = ITA }
+		}
+		alliance = { country = U33 country = SOV }
+		NOT = { control = { province = 401 data = U33 } }
+	}
+
+	date = { day = 0 month = january year = 1937 }
+	offset = 30
+	deathdate = { day = 29 month = september year = 1999 }	
+	
+	name = "The fate of Greece"
+	desc = "With the end of WW2 in Europe, the British were faced with a dilemma - while most of Greece was occupied by the Communist-influenced Greek People's Liberation Army (ELAS), Athens was instead held by the British with support of the forces loyal to the Greek government-in-exile (Mainly the Royal Army and the National Republican Greek League), as well as the Security Battalions of the now-defunct collaborationist 'Hellenic State'. Clashes soon broke out between the two sides, and Churchill demanded from the USSR that it respect prior agreements and withdraw support from the Communist elements, like the British effectively refused to support the Polish Exiled government. Nobody in the USSR was in any mood to go to war with the Western Allies over Greece at this time, and ultimately the Greek Communist forces were left on their own."
+  	style = 2
+	
+	action = {
+		name = "We will not start WW3 over Greece"
+		ai_chance = 95
+		command = { type = dissent		value = 1  }
+		command = { type = belligerence value = -2 }
+		command = { type = end_mastery which = U33 }
+		command = { type = event which = 2400530 where = U33 when = 0 } #legit indie
+		command = { type = event which = 2003232 where = U33 when = 0 }
+		#withdraw subsidies?
+	}
+	action = {
+		name = "We will start WW3 over Greece"
+		ai_chance = 5
+		command = { type = dissent		value = 10 }
+		command = { type = belligerence value = 10 }
+		command = { type = event which = 2003223 where = ENG when = 7 }
+	}
+}
+
+event = { 
+	id = 2003232
+	random = no 
+	country = U33
+	
+	name = "The fate of Greece"
+	desc = "With the end of WW2 in Europe, the British were faced with a dilemma - while most of Greece was occupied by the Communist-influenced Greek People's Liberation Army (ELAS), Athens was instead held by the British with support of the forces loyal to the Greek government-in-exile (Mainly the Royal Army and the National Republican Greek League), as well as the Security Battalions of the now-defunct collaborationist 'Hellenic State'. Clashes soon broke out between the two sides, and Churchill demanded from the USSR that it respect prior agreements and withdraw support from the Communist elements, like the British effectively refused to support the Polish Exiled government. Nobody in the USSR was in any mood to go to war with the Western Allies over Greece at this time, and ultimately the Greek Communist forces were left on their own."
+  	style = 2
+	
+	action = {
+		name = "Traitors!"
+		command = { type = leave_alliance 	when  = 1 }
+		command = { type = peace which = EST value = 1 }
+		command = { type = peace which = LAT value = 1 }
+		command = { type = peace which = LIT value = 1 }
+		command = { type = peace which = POL value = 1 }
+		command = { type = peace which = UKR value = 1 }
+		command = { type = peace which = GER value = 1 }
+		command = { type = peace which = ITA value = 1 }
+		command = { type = peace which = JAP value = 1 }
+		command = { type = dissent 			value = -100 }
+		command = { type = belligerence 	value = -100 }
+		command = { type = end_access 		which = ENG when = 0 }
+		command = { type = end_access 		which = ENG when = 1 }
+		
+		command = { type = local_clrflag which = puppetOf }
+		command = { type = set_domestic which = political_left value = 9 }
+		
+		command = { type = event which = 2003233 where = ENG when = 14 }
+	}
+}
+
+event = { 
+	id = 2003233
+	random = no 
+	country = ENG
+	
+	name = "The fate of Greece"
+	desc = "With the end of WW2 in Europe, the British were faced with a dilemma - while most of Greece was occupied by the Communist-influenced Greek People's Liberation Army (ELAS), Athens was instead held by the British with support of the forces loyal to the Greek government-in-exile (Mainly the Royal Army and the National Republican Greek League), as well as the Security Battalions of the now-defunct collaborationist 'Hellenic State'. Clashes soon broke out between the two sides, and Churchill demanded from the USSR that it respect prior agreements and withdraw support from the Communist elements, like the British effectively refused to support the Polish Exiled government. Nobody in the USSR was in any mood to go to war with the Western Allies over Greece at this time, and ultimately the Greek Communist forces were left on their own."
+  	style = 2
+	
+	action = {
+		name = "Crush the Greek communists"
+		command = { type = secedeprovince 	which = ENG value = 7914		when = 2 }
+		command = { type = addclaim 		where = ENG which = 7914				 }
+		command = { type = make_puppet		which = GRE }
+		command = { type = event which = 2003235 where = U33 when = 0 } #If ENG declares war directly on U33, by game rules U33 will automatically join the axis :/
+		command = { }
+	}
+}
+
+event = { 
+	id = 2003234
+	random = no 
+	country = ENG
+	
+	name = "The fate of Greece"
+	desc = "With the end of WW2 in Europe, the British were faced with a dilemma - while most of Greece was occupied by the Communist-influenced Greek People's Liberation Army (ELAS), Athens was instead held by the British with support of the forces loyal to the Greek government-in-exile (Mainly the Royal Army and the National Republican Greek League), as well as the Security Battalions of the now-defunct collaborationist 'Hellenic State'. Clashes soon broke out between the two sides, and Churchill demanded from the USSR that it respect prior agreements and withdraw support from the Communist elements, like the British effectively refused to support the Polish Exiled government. Despite the ultimatum from London, the Soviets decided to stick to their guns and risk WW3 over Greece. Their lack of any respect for prior agreements, for our accomplishments and our legitimate interests, and their willingness to risk WW3 to contest a country like Greece means they are ready to use force to destroy us. We cannot decline this challenge."
+  	style = 2
+	
+	action = {
+		name = "Crush the Greek communists"
+		command = { type = secedeprovince 	which = ENG value = 7914		when = 2 }
+		command = { type = addclaim 		where = ENG which = 7914				 }
+		command = { type = make_puppet		which = GRE }
+		command = { type = event which = 2003235 where = U33 when = 0 } #If ENG declares war directly on U33, by game rules U33 will automatically join the axis :/
+		command = { }
+	}
+}
+
+event = { 
+	id = 2003235
+	random = no 
+	country = U33
+	
+	name = "The fate of Greece"
+	desc = "The Greek Monarchists, aided by the British, have opened fire on our forces and gave us an ultimatum to lay down arms and disband. We must prepare for a long struggle."
+  	style = 2
+	
+	action = {
+		name = "ACTION_NAME_DAMN"
+		command = { type = war which = ENG }
+		command = { type = non_aggression which = GRE where = U33 when = 7 } 
+		command = { type = trigger which = 2003236 }
+	}
+}
+
+event = {
+	id = 2003236
+	random = no
+	country = ENG
+	
+	name = "The fate of Greece"
+	desc = "With the end of WW2 in Europe, the British were faced with a dilemma - while most of Greece was occupied by the Communist-influenced Greek People's Liberation Army (ELAS), Athens was instead held by the British with support of the forces loyal to the Greek government-in-exile (Mainly the Royal Army and the National Republican Greek League), as well as the Security Battalions of the now-defunct collaborationist 'Hellenic State'. Clashes soon broke out between the two sides, and Churchill demanded from the USSR that it respect prior agreements and withdraw support from the Communist elements, like the British effectively refused to support the Polish Exiled government."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_DAMN"
+		command = { trigger = { NOT = { war = { country = SOV } } } type = trigger which = 2003237 }
+		command = { trigger = { ai = GRE } type = event which = 2400048 where = GRE when = 0 } #exp80
+		#very rudimentary but it's late game so whatever
+		command = { trigger = { ai = yes } type = demobilize which = infantry	when = 1 where = 1 value = -3 }
+		command = { trigger = { ai = yes } type = demobilize which = motorized	when = 1 where = 1 value = -2 }
+		command = { trigger = { ai = yes } type = add_corps 	value = land 		where = 7914 }	
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+	}
+}
+
+event = {
+	id = 2003237
+	random = no
+	persistent = yes
+	all = yes
+	
+	desc = "With the end of WW2 in Europe, the British were faced with a dilemma - while most of Greece was occupied by the Communist-influenced Greek People's Liberation Army (ELAS), Athens was instead held by the British with support of the forces loyal to the Greek government-in-exile (Mainly the Royal Army and the National Republican Greek League), as well as the Security Battalions of the now-defunct collaborationist 'Hellenic State'. Clashes soon broke out between the two sides, and Churchill demanded from the USSR that it respect prior agreements and withdraw support from the Communist elements, like the British effectively refused to support the Polish Exiled government."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "It is not our struggle"
+		trigger = { war = { country = U33 } NOT = { country = VIC country = U01 country = GRE country = HOL country = ENG country = VIE country = U72 country = LAO country = CMB country = INO country = PHI } NOT = { puppet = { country = -1 country = VIC } puppet = { country = -1 country = ENG } } }
+		command = { }
+		command = { type = peace which = U33 value = 1 }
+		command = { type = secedearea which = ENG value = "Attica" when = 1 }
+	}
+}
+
+event = { 
+	id = 2003240
+	random = no 
 	country = GRE
 
 	trigger = {
@@ -1520,6 +1965,9 @@ event = {
 		command = { type = inherit which = U33 value = 0 }
 		command = { type = capital which = 401 }
 		command = { type = dissent value = -3 }
+		command = { type = secedearea	which = GRE value = "Attica"		when = 2 }
+		command = { type = secedearea	which = GRE value = "Thrace"		when = 2 }
+		command = { type = secedearea	which = GRE value = "Greek Island"	when = 2 }
 	}
 }
 
@@ -1775,6 +2223,7 @@ event = {
 			war = { country = GER country = ENG }
 		}
 		OR = {
+			#NOT = { war = { country = GER country = ENG } }
 			AND = {
 				NOT = { nuked = 1 }
 				OR = {
@@ -1836,17 +2285,17 @@ event = {
 					nuked = { country = JAP data = -1 where = 7971 }
 				}
 			}
-		 	lost_national = { country = JAP value = 70 }
+		 	lost_national = { country = JAP value = 50 } #Japan has many tiny islands off the coast
 			AND = {
 				war = { country = USA }
 				war = { country = SOV }
-				lost_national = { country = JAP value = 30 }
+				lost_national = { country = JAP value = 25 }
 			}
 		}
 	}
 
 	date = { day = 0 month = january year = 1939 }
-	offset = 30
+	offset = 15
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action_a = {
@@ -1857,6 +2306,8 @@ event = {
 		command = { trigger = { war = { country = CHI } } type = setflag which = JAP_CHI_WAR }
 		command = { trigger = { war = { country = CHC } } type = setflag which = JAP_CHC_WAR }
 		
+		command = { type = secedearea	which = -1 value = "Indochine" when = 0 }
+		command = { type = secederegion	which = -1 value = "Indonesia" when = 0 }
 		
 		command = { type = leave_alliance when = 1 }
 		command = { type = peace which = USA value = 1 }
@@ -1864,13 +2315,14 @@ event = {
 		command = { type = peace which = ENG value = 1 }
 		command = { type = peace which = CHI value = 1 }
 		command = { type = peace which = CHC value = 1 }
+		command = { type = peace which = FIN value = 1 }
+		command = { type = peace which = U33 value = 1 }
 
 		
 		command = { trigger = { puppet = { country = MAN } } type = inherit which = MAN }
 		command = { trigger = { puppet = { country = MEN } } type = inherit which = MEN }
 		command = { trigger = { puppet = { country = U87 } } type = inherit which = U87 }
 		command = { trigger = { puppet = { country = U03 } } type = inherit which = U03 }
-		command = { trigger = { puppet = { country = INO } } type = inherit which = INO }
 		command = { trigger = { puppet = { country = PAK } } type = inherit which = PAK }
 		command = { trigger = { puppet = { country = IND } } type = inherit which = IND }
 		command = { trigger = { puppet = { country = BUR } } type = inherit which = BUR }
@@ -1879,27 +2331,113 @@ event = {
 		command = { trigger = { puppet = { country = NZL } } type = inherit which = NZL }
 		command = { trigger = { puppet = { country = KOR } } type = inherit which = KOR }
 		
-		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Pyongyang" when = 2 } # North Korea
-		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Sakhalin_Kuriles" when = 2 }
-		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Heilongjiang" when = 2 }
-		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Jilin" when = 2 }
-		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Liaoning" when = 2 }
-		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Rehe" when = 2 }
-		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Chahar" when = 2 }
-		command = { trigger = { flag = JAP_SOV_WAR } type = secedeprovince which = JAP value = 7034 when = 2 }
-		command = { trigger = { flag = JAP_SOV_WAR } type = secedeprovince which = JAP value = 2231 when = 2 }
-		command = { trigger = { flag = JAP_SOV_WAR } type = secedeprovince which = SOV value = 2219 when = 2 }
+		command = { type = remove_units 		which = all where = REB when = 3 value = "Asia" }
 		
-		command = { trigger = { flag = JAP_SOV_WAR } type = add_core_area  which = "Sakhalin_Kuriles"	where = SOV }
-		command = { trigger = { flag = JAP_SOV_WAR } type = add_claim_area which = "Heilongjiang"		where = SOV }
-		command = { trigger = { flag = JAP_SOV_WAR } type = add_claim_area which = "Jilin"				where = SOV }
-		command = { trigger = { flag = JAP_SOV_WAR } type = add_claim_area which = "Liaoning"			where = SOV }
-		command = { trigger = { flag = JAP_SOV_WAR } type = add_claim_area which = "Rehe"				where = SOV }
-		command = { trigger = { flag = JAP_SOV_WAR } type = add_claim_area which = "Chahar"				where = SOV }
 		
-		command = { type = secedeprovince which = ENG value = 1315 when = 2 } # Hong Kong - China
-		command = { type = secedeprovince which = POR value = 1316 when = 2 } # Macao - China
-		command = { type = secedeprovince which = VIC value = 696 when = 2 } # Kouang - China
+		command = { trigger = { OR = { puppet = { country = SIA } NOT = { exists = SIA } } }	type = local_setflag 		which = puppet 	}
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = SIA }
+		command = { trigger = { local_flag = puppet }											type = independence 		which = SIA value = 0 }
+		command = { trigger = { local_flag = puppet } 											type = end_mastery 			which = SIA 	}
+		command = { trigger = { local_flag = puppet } 											type = event 				which = 2400530 where = SIA when = 0 } #legit indie
+		command = { trigger = { local_flag = puppet }											type = event 				which = 2059004 where = SIA when = 1 } #thai surrender
+		command = { trigger = { local_flag = puppet }		 									type = local_clrflag 		which = puppet 	}
+		
+		command = { trigger = { OR = { puppet = { country = VIE } NOT = { exists = VIE } } }	type = local_setflag 		which = puppet 	}
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = VIE }
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = VIE }
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = VIE }
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = VIE }
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = VIE }
+		command = { trigger = { local_flag = puppet }											type = independence 		which = U72 value = 0 }
+		command = { trigger = { local_flag = puppet } 											type = end_mastery 			which = VIE 	}
+		command = { trigger = { local_flag = puppet } 											type = event 				which = 2400530 where = U72 when = 0 } #legit indie
+		command = { trigger = { local_flag = puppet } 											type = event 				which = 2400530 where = VIE when = 0 } #legit indie
+		command = { trigger = { local_flag = puppet } 											type = event 				which = 2049010 where = U72 when = 1 } #NationalRevolution
+		command = { trigger = { local_flag = puppet } 											type = event 				which = 2049010 where = VIE when = 1 } #NationalRevolution
+		command = { trigger = { local_flag = puppet }		 									type = local_clrflag 		which = puppet 	}
+		
+		command = { trigger = { OR = { puppet = { country = LAO } NOT = { exists = LAO } } }	type = local_setflag 		which = puppet 	}
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = LAO }
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = LAO }
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = LAO }
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = LAO }
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = LAO }
+		command = { trigger = { local_flag = puppet }											type = independence 		which = LAO value = 0 }
+		command = { trigger = { local_flag = puppet } 											type = end_mastery 			which = LAO 	}
+		command = { trigger = { local_flag = puppet } 											type = event 				which = 2400530 where = LAO when = 0 } #legit indie
+		command = { trigger = { local_flag = puppet } 											type = event 				which = 2049011 where = LAO when = 1 } #NationalRevolution
+		command = { trigger = { local_flag = puppet }		 									type = local_clrflag 		which = puppet 	}
+		
+		command = { trigger = { OR = { puppet = { country = CMB } NOT = { exists = CMB } } }	type = local_setflag 		which = puppet 	}
+		#command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = CMB }
+		#command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = CMB }
+		#command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = CMB }
+		#command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = CMB }
+		#command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = CMB }
+		command = { trigger = { local_flag = puppet }											type = independence 		which = CMB value = 0 }
+		command = { trigger = { local_flag = puppet } 											type = end_mastery 			which = CMB 	}
+		command = { trigger = { local_flag = puppet } 											type = event 				which = 2400530 where = CMB when = 0 } #legit indie
+		command = { trigger = { local_flag = puppet } 											type = event 				which = 2049012 where = CMB when = 1 } #NationalRevolution
+		command = { trigger = { local_flag = puppet }		 									type = local_clrflag 		which = puppet 	}
+		
+		command = { trigger = { OR = { puppet = { country = INO } NOT = { exists = INO } } }	type = local_setflag 		which = puppet 	}
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = INO }
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = INO }
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = INO }
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = INO }
+		command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = INO }
+		command = { trigger = { local_flag = puppet }											type = independence 		which = INO value = 0 }
+		command = { trigger = { local_flag = puppet } 											type = end_mastery 			which = INO 	}
+		command = { trigger = { local_flag = puppet } 											type = event 				which = 2400530 where = INO when = 0 } #legit indie
+		command = { trigger = { local_flag = puppet } 											type = event 				which = 2049013 where = INO when = 1 } #NationalRevolution
+		command = { trigger = { local_flag = puppet }		 									type = local_clrflag 		which = puppet 	}
+		
+		command = { trigger = { OR = { puppet = { country = PHI } NOT = { exists = PHI } } }	type = local_setflag 		which = puppet 	}
+		#command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = PHI }
+		#command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = PHI }
+		#command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = PHI }
+		#command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = PHI }
+		#command = { trigger = { local_flag = puppet }											type = switch_allegiance 	which = -1 where = PHI }
+		command = { trigger = { local_flag = puppet }											type = independence 		which = PHI value = 0 }
+		command = { trigger = { local_flag = puppet } 											type = end_mastery 			which = PHI 	}
+		command = { trigger = { local_flag = puppet } 											type = event 				which = 2400530 where = PHI when = 0 } #legit indie
+		command = { trigger = { local_flag = puppet } 											type = event 				which = 2049014 where = PHI when = 1 } #NationalRevolution
+		command = { trigger = { local_flag = puppet }		 									type = local_clrflag 		which = puppet 	}
+		
+		
+		command = { type = event 				which = 2400500 where = REB when = 5 }
+		
+		command = { type = secedearea 	which = VIE value = Indochine when = 1 } 
+		command = { type = secedearea 	which = LAO value = Indochine when = 1 }
+		command = { type = secedearea 	which = CMB value = Indochine when = 1 }
+		command = { type = secedearea 	which = U03 value = Indochine when = 1 } 
+		command = { type = secedearea 	which = VIC value = Indochine when = 1 }
+		
+		command = { type = secederegion	which = INO value = Indonesia when = 1 }
+		command = { type = secederegion	which = HOL value = Indonesia when = 1 }
+		
+		command = { 								 type = secedearea which = USA value = "Seoul"				when = 2 } # South Korea
+		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Pyongyang"			when = 2 } # North Korea
+		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Sakhalin_Kuriles"	when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Heilongjiang"		when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Jilin"				when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Liaoning"			when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Rehe"				when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR } type = secedearea which = SOV value = "Chahar"				when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR } type = secedeprovince which = JAP value = 7034 			when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR } type = secedeprovince which = JAP value = 2231 			when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR } type = secedeprovince which = SOV value = 2219 			when = 2 }
+		
+		command = { trigger = { flag = JAP_SOV_WAR } type = add_core_area  which = "Sakhalin_Kuriles"			where = SOV }
+		command = { trigger = { flag = JAP_SOV_WAR } type = add_claim_area which = "Heilongjiang"				where = SOV }
+		command = { trigger = { flag = JAP_SOV_WAR } type = add_claim_area which = "Jilin"						where = SOV }
+		command = { trigger = { flag = JAP_SOV_WAR } type = add_claim_area which = "Liaoning"					where = SOV }
+		command = { trigger = { flag = JAP_SOV_WAR } type = add_claim_area which = "Rehe"						where = SOV }
+		command = { trigger = { flag = JAP_SOV_WAR } type = add_claim_area which = "Chahar"						where = SOV }
+		
+		command = { type = secedeprovince which = ENG value = 1315 	when = 2 } # Hong Kong - China
+		command = { type = secedeprovince which = POR value = 1316 	when = 2 } # Macao - China
+		command = { type = secedeprovince which = VIC value = 696 	when = 2 } # Kouang - China
 		
 		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } type = secedearea which = CHI value = "Heilongjiang" when = 1 }
 		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } type = secedearea which = CHI value = "Jilin" when = 1 }
@@ -1909,16 +2447,10 @@ event = {
 		
 		command = { type = secederegion which = CHI value = "China" when = 1 }
 		
-		#command = { type = secedearea which = U03 value = Indochine when = 2 } 
-		command = { type = secedearea which = VIC value = Indochine when = 2 } #giving directly to France   
-		
 		command = { trigger = { flag = JAP_CHI_WAR } type = event which = 2049003 where = CHI when = 1 } #Japan Surrenders     
 		command = { trigger = { flag = JAP_CHC_WAR } type = event which = 2049004 where = CHC when = 1 } #Japan Surrenders     
 		command = { trigger = { flag = JAP_USA_WAR } type = event which = 2049005 where = USA when = 1 } #Japan Surrenders     
 		command = { trigger = { flag = JAP_SOV_WAR } type = event which = 2007011 where = SOV when = 1 } #Japan Surrenders  
-
-		command = { type = end_mastery which = SIA }
-		command = { type = event which = 2400530 where = SIA when = 0 } #legit indie
 	}
 	action_b = {
 		ai_chance = 1
@@ -1927,6 +2459,1024 @@ event = {
 		command = { type = domestic which = political_left value = -1 }
 	}
 }
+
+event = {
+	id = 2049010
+	random = no
+	tag = { VIE U72 }
+	
+	name = "Vietnamese Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces are attempting to take over the government in order to launch a struggle to finally free our country from all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_COUP_SUCCEEDS"
+		ai_chance = 100
+		command = { trigger = { NOT = { country = U72 } } type = country which = U72 } #change tag is very dangerous, but seems to be necessary - otherwise VIE cannot be established in opposition
+		#command = { type = flag_ext where = VIE which = "_COM" }
+		
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = peace which = VIC value = 1 }
+		command = { type = dissent value = -100 }
+		
+		command = { type = capital which = 1333 }
+		
+		command = { type = add_division value = marine when = 5 }
+		command = { type = add_division value = marine when = 5 }
+		
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_division value = infantry when = 11 }
+		
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		
+		command = { type = add_brigade value = tank_destroyer 	when = 1 }
+		command = { type = add_brigade value = tank_destroyer 	when = 1 }
+		
+		command = { trigger = { war = { country = ENG country = VIE } NOT = { alliance = { country = VIE } } }	type = alliance which = VIE when = 1 }
+		command = { trigger = { war = { country = ENG country = LAO } NOT = { alliance = { country = LAO } } }	type = alliance which = LAO when = 1 }
+		command = { trigger = { war = { country = ENG country = CMB } NOT = { alliance = { country = CMB } } }	type = alliance which = CMB when = 1 }
+		command = { trigger = { war = { country = ENG country = INO } NOT = { alliance = { country = INO } } }	type = alliance which = INO when = 1 }
+		command = { trigger = { war = { country = ENG country = U33 } NOT = { alliance = { country = U33 } } }	type = alliance which = U33 when = 1 }
+		
+		command = { trigger = { NOT = { war = { country = ENG } } }	type = war which = ENG }
+		
+		command = { type = set_domestic which = political_left 		value = 9 }
+		command = { type = set_domestic which = interventionism 	value = 4 }
+		command = { type = set_domestic which = freedom 			value = 3 }
+		command = { type = set_domestic which = free_market 		value = 2 }
+		command = { type = set_domestic which = defense_lobby		value = 7 }
+		command = { type = set_domestic which = democratic			value = 7 }
+		command = { type = set_domestic which = professional_army	value = 4 }
+
+		command = { type = free_supplies 		value = 10  }
+		command = { type = event which = 9000081 where = -1 when = 0 } #PartisanArmy
+
+		command = { type = belligerence value = -500 }
+		command = { type = belligerence value = 16   }
+
+		command = { type = local_setflag which = MOB_level when = 0 value = 4 }
+		command = { type = local_setflag which = MSB_level when = 0 value = 4 }
+		command = { type = local_setflag which = WAR_level when = 0 value = 7 }
+		
+		command = { type = manpowerpool 		value = 100  }
+		command = { type = supplies 			value = 2000 }
+		command = { type = oilpool 				value = 100  }
+		command = { type = energypool 			value = 1000 }
+		command = { type = metalpool 			value = 500  }
+		command = { type = rarematerialspool 	value = 250  }
+		command = { type = money 				value = 1000 }
+		
+		command = { type = local_setflag which = legitIndie }
+		command = { type = local_setflag which = sliderSet  }
+		
+		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
+		
+		command = { type = event which = 2049030 where = VIC when = 1 }
+		command = { type = event which = 2049030 where = U01 when = 1 }
+		command = { type = event which = 2049030 where = ENG when = 1 }
+		
+		#command = { type = non_aggression which = VIE where = ENG when = 30  } 
+		#command = { type = non_aggression which = VIE where = U02 when = 30  } 
+		#command = { type = non_aggression which = VIE where = JAP when = 30  } 
+		#command = { type = non_aggression which = VIE where = USA when = 1800 } 
+		#command = { type = non_aggression which = U72 where = ENG when = 30  } 
+		#command = { type = non_aggression which = U72 where = U02 when = 30  } 
+		#command = { type = non_aggression which = U72 where = JAP when = 30  } 
+		#command = { type = non_aggression which = U72 where = USA when = 1800 } 
+		
+		command = { type = control which = VIC value = 1338 }
+		
+		command = { type = trade which = SOV where = U72 supplies = -16 value = 1 } 
+		
+		command = { trigger = { ai = yes } type = ai 			which = "garrison30.ai" }
+		command = { trigger = { ai = yes } type = local_setflag which = garSpec 		}
+		command = { trigger = { ai = yes } type = local_setflag which = gar value = 30  }
+	}
+	action = {
+		name = "ACTION_NAME_COUP_FAILS"
+		trigger = { exists = VIC } 
+		ai_chance = 0
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = peace which = VIC value = 1 }
+		command = { type = dissent value = 20 }
+		
+		command = { type = local_setflag which = legitIndie }
+		command = { type = local_setflag which = sliderSet  }
+		
+		command = { type = event which = 2049020 where = VIC when = 1 }
+	}
+}
+
+event = {
+	id = 2049011
+	random = no
+	country = LAO
+	
+	name = "Laotian Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces are attempting to take over the government in order to launch a struggle to finally free our country from all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_COUP_SUCCEEDS"
+		ai_chance = 100
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = peace which = VIC value = 1 }
+		command = { type = dissent value = -100 }
+		
+		command = { type = flag_ext where = LAO which = "_COM" }
+		
+		command = { type = capital which = 2950 }
+		
+		command = { type = add_division value = marine when = 5 }
+		
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_division value = infantry when = 11 }
+		
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		
+		command = { type = add_brigade value = tank_destroyer 	when = 1 }
+		
+		command = { trigger = { war = { country = ENG country = VIE } NOT = { alliance = { country = VIE } } }	type = alliance which = VIE when = 1 }
+		command = { trigger = { war = { country = ENG country = LAO } NOT = { alliance = { country = LAO } } }	type = alliance which = LAO when = 1 }
+		command = { trigger = { war = { country = ENG country = CMB } NOT = { alliance = { country = CMB } } }	type = alliance which = CMB when = 1 }
+		command = { trigger = { war = { country = ENG country = INO } NOT = { alliance = { country = INO } } }	type = alliance which = INO when = 1 }
+		command = { trigger = { war = { country = ENG country = U33 } NOT = { alliance = { country = U33 } } }	type = alliance which = U33 when = 1 }
+		
+		command = { trigger = { NOT = { war = { country = ENG } } }	type = war which = ENG }
+		
+		command = { type = set_domestic which = political_left 		value = 8 }
+		command = { type = set_domestic which = interventionism 	value = 3 }
+		command = { type = set_domestic which = freedom 			value = 2 }
+		command = { type = set_domestic which = free_market 		value = 1 }
+		command = { type = set_domestic which = defense_lobby		value = 7 }
+		command = { type = set_domestic which = democratic			value = 7 }
+		command = { type = set_domestic which = professional_army	value = 4 }
+		
+		command = { type = free_supplies 		value = 5  }
+		command = { type = event which = 9000081 where = -1 when = 0 } #PartisanArmy
+
+		command = { type = belligerence value = -500 }
+		command = { type = belligerence value = 16   }
+
+		command = { type = local_setflag which = MOB_level when = 0 value = 4 }
+		command = { type = local_setflag which = MSB_level when = 0 value = 4 }
+		command = { type = local_setflag which = WAR_level when = 0 value = 7 }
+		
+		command = { type = manpowerpool 		value = 50   }
+		command = { type = supplies 			value = 1000 }
+		command = { type = oilpool 				value = 50   }
+		command = { type = energypool 			value = 500  }
+		command = { type = metalpool 			value = 250  }
+		command = { type = rarematerialspool 	value = 100  }
+		command = { type = money 				value = 500  }
+		
+		command = { type = local_setflag which = legitIndie }
+		command = { type = local_setflag which = sliderSet  }
+		
+		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
+		
+		command = { type = event which = 2049031 where = VIC when = 1 }
+		command = { type = event which = 2049031 where = U01 when = 1 }
+		command = { type = event which = 2049031 where = ENG when = 1 }
+		
+		#command = { type = non_aggression which = LAO where = ENG when = 30  } 
+		#command = { type = non_aggression which = LAO where = U02 when = 30  } 
+		#command = { type = non_aggression which = LAO where = JAP when = 30  } 
+		#command = { type = non_aggression which = LAO where = USA when = 1800 } 
+		
+		command = { type = secedeprovince  which = LAO value = 7994 when = 2 }
+		
+		command = { type = control which = VIC value = 1306 }
+	}
+	action = {
+		name = "ACTION_NAME_COUP_FAILS"
+		trigger = { exists = VIC } 
+		ai_chance = 0
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = peace which = VIC value = 1 }
+		command = { type = dissent value = 20 }
+		
+		command = { type = local_setflag which = legitIndie }
+		command = { type = local_setflag which = sliderSet  }
+		
+		command = { type = event which = 2049021 where = VIC when = 1 }
+	}
+}
+
+event = {
+	id = 2049012
+	random = no
+	country = CMB
+	
+	name = "Cambodian Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces are attempting to take over the government in order to launch a struggle to finally free our country from all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_COUP_SUCCEEDS"
+		ai_chance = 5
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = peace which = VIC value = 1 }
+		command = { type = dissent value = -100 }
+		
+		command = { type = capital which = 1339 }
+		
+		command = { type = flag_ext where = CMB which = "_COM" }
+		
+		command = { type = add_division value = marine when = 5 }
+		
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_division value = infantry when = 11 }
+		
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		
+		command = { type = add_brigade value = tank_destroyer 	when = 1 }
+		
+		command = { trigger = { war = { country = ENG country = VIE } NOT = { alliance = { country = VIE } } }	type = alliance which = VIE when = 1 }
+		command = { trigger = { war = { country = ENG country = LAO } NOT = { alliance = { country = LAO } } }	type = alliance which = LAO when = 1 }
+		command = { trigger = { war = { country = ENG country = CMB } NOT = { alliance = { country = CMB } } }	type = alliance which = CMB when = 1 }
+		command = { trigger = { war = { country = ENG country = INO } NOT = { alliance = { country = INO } } }	type = alliance which = INO when = 1 }
+		command = { trigger = { war = { country = ENG country = U33 } NOT = { alliance = { country = U33 } } }	type = alliance which = U33 when = 1 }
+		
+		command = { trigger = { NOT = { war = { country = ENG } } }	type = war which = ENG }
+		
+		command = { type = set_domestic which = political_left 		value = 8 }
+		command = { type = set_domestic which = interventionism 	value = 3 }
+		command = { type = set_domestic which = freedom 			value = 2 }
+		command = { type = set_domestic which = free_market 		value = 1 }
+		command = { type = set_domestic which = defense_lobby		value = 7 }
+		command = { type = set_domestic which = democratic			value = 7 }
+		command = { type = set_domestic which = professional_army	value = 4 }
+		
+		command = { type = free_supplies 		value = 5  }
+		command = { type = event which = 9000081 where = -1 when = 0 } #PartisanArmy
+
+		command = { type = belligerence value = -500 }
+		command = { type = belligerence value = 16   }
+
+		command = { type = local_setflag which = MOB_level when = 0 value = 4 }
+		command = { type = local_setflag which = MSB_level when = 0 value = 4 }
+		command = { type = local_setflag which = WAR_level when = 0 value = 7 }
+		
+		command = { type = manpowerpool 		value = 50   }
+		command = { type = supplies 			value = 1000 }
+		command = { type = oilpool 				value = 50   }
+		command = { type = energypool 			value = 500  }
+		command = { type = metalpool 			value = 250  }
+		command = { type = rarematerialspool 	value = 100  }
+		command = { type = money 				value = 500  }
+		
+		command = { type = local_setflag which = legitIndie }
+		command = { type = local_setflag which = sliderSet  }
+		
+		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
+		
+		command = { type = event which = 2049032 where = VIC when = 1 }
+		command = { type = event which = 2049032 where = U01 when = 1 }
+		command = { type = event which = 2049032 where = ENG when = 1 }
+		
+		#command = { type = non_aggression which = CMB where = ENG when = 30  } 
+		#command = { type = non_aggression which = CMB where = U02 when = 30  } 
+		#command = { type = non_aggression which = CMB where = JAP when = 30  } 
+		#command = { type = non_aggression which = CMB where = USA when = 1800 } 
+		
+		command = { type = control which = VIC value = 7910 }
+	}
+	action = {
+		name = "ACTION_NAME_COUP_FAILS"
+		trigger = { exists = VIC } 
+		ai_chance = 95
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = peace which = VIC value = 1 }
+		command = { type = dissent value = 20 }
+		
+		command = { type = local_setflag which = legitIndie }
+		command = { type = local_setflag which = sliderSet  }
+		
+		command = { type = event which = 2049022 where = VIC when = 1 }
+	}
+}
+
+event = {
+	id = 2049013
+	random = no
+	country = INO
+	
+	name = "Indonesian Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces are attempting to take over the government in order to launch a struggle to finally free our country from all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_COUP_SUCCEEDS"
+		ai_chance = 100
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = peace which = VIC value = 1 }
+		command = { type = dissent value = -100 }
+		
+		command = { type = capital which = 1613 }
+
+		command = { type = add_corps value = land where = 1613 }
+		command = { type = add_division value = marine when = 5 }
+		command = { type = add_division value = marine when = 5 }
+		command = { type = add_division value = marine when = 5 }
+		command = { type = add_division value = marine when = 5 }
+		command = { type = add_division value = marine when = 5 }
+		
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_division value = infantry when = 11 }
+		
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		
+		command = { type = add_brigade value = tank_destroyer 	when = 1 }
+		command = { type = add_brigade value = tank_destroyer 	when = 1 }
+		command = { type = add_brigade value = tank_destroyer 	when = 1 }
+		command = { type = add_brigade value = tank_destroyer 	when = 1 }
+		command = { type = add_brigade value = tank_destroyer 	when = 1 }
+		
+		command = { type = transport_pool 	which = -1 value = 200 }
+		command = { type = add_division value = transport when = 2 }
+		command = { type = add_division value = transport when = 2 }
+		command = { type = add_division value = transport when = 2 }
+		
+		command = { trigger = { war = { country = ENG country = VIE } NOT = { alliance = { country = VIE } } }	type = alliance which = VIE when = 1 }
+		command = { trigger = { war = { country = ENG country = LAO } NOT = { alliance = { country = LAO } } }	type = alliance which = LAO when = 1 }
+		command = { trigger = { war = { country = ENG country = CMB } NOT = { alliance = { country = CMB } } }	type = alliance which = CMB when = 1 }
+		command = { trigger = { war = { country = ENG country = INO } NOT = { alliance = { country = INO } } }	type = alliance which = INO when = 1 }
+		command = { trigger = { war = { country = ENG country = U33 } NOT = { alliance = { country = U33 } } }	type = alliance which = U33 when = 1 }
+		
+		command = { trigger = { NOT = { war = { country = ENG } } }	type = war which = ENG }
+		
+		command = { type = set_domestic which = political_left 		value = 8 }
+		command = { type = set_domestic which = interventionism 	value = 4 }
+		command = { type = set_domestic which = freedom 			value = 3 }
+		command = { type = set_domestic which = free_market 		value = 3 }
+		command = { type = set_domestic which = defense_lobby		value = 7 }
+		command = { type = set_domestic which = democratic			value = 7 }
+		command = { type = set_domestic which = professional_army	value = 4 }
+		
+		command = { type = free_supplies 		value = 10  }
+		command = { type = event which = 9000081 where = -1 when = 0 } #PartisanArmy
+
+		command = { type = belligerence value = -500 }
+		command = { type = belligerence value = 16   }
+
+		command = { type = local_setflag which = MOB_level when = 0 value = 4 }
+		command = { type = local_setflag which = MSB_level when = 0 value = 4 }
+		command = { type = local_setflag which = WAR_level when = 0 value = 7 }
+		
+		command = { type = manpowerpool 		value = 300  }
+		command = { type = supplies 			value = 5000 }
+		command = { type = oilpool 				value = 500  }
+		command = { type = energypool 			value = 5000 }
+		command = { type = metalpool 			value = 2500 }
+		command = { type = rarematerialspool 	value = 1000 }
+		command = { type = money 				value = 2000 }
+		
+		command = { type = local_setflag which = legitIndie }
+		command = { type = local_setflag which = sliderSet  }
+		
+		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
+		
+		command = { type = event which = 2049033 where = HOL when = 1 }
+		command = { type = event which = 2049033 where = ENG when = 1 }
+		
+		#command = { type = non_aggression which = INO where = ENG when = 30  } 
+		#command = { type = non_aggression which = INO where = U02 when = 30  } 
+		#command = { type = non_aggression which = INO where = JAP when = 30  } 
+		#command = { type = non_aggression which = INO where = USA when = 1800 } 
+		
+		command = { type = control which = HOL value = 1373 }
+		
+		command = { type = trade which = SOV where = INO supplies = -16 value = 1 } 
+		
+		command = { trigger = { ai = yes } type = ai 			which = "garrison30.ai" }
+		command = { trigger = { ai = yes } type = local_setflag which = garSpec 		}
+		command = { trigger = { ai = yes } type = local_setflag which = gar value = 30  }
+	}
+	action = {
+		name = "ACTION_NAME_COUP_FAILS"
+		trigger = { exists = HOL } 
+		ai_chance = 0
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = peace which = VIC value = 1 }
+		command = { type = dissent value = 20 }
+		
+		command = { type = local_setflag which = legitIndie }
+		command = { type = local_setflag which = sliderSet  }
+		
+		command = { type = event which = 2049023 where = HOL when = 1 }
+	}
+}
+
+event = {
+	id = 2049014
+	random = no
+	country = INO
+	
+	name = "Philippine Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces are attempting to take over the government in order to launch a struggle to finally free our country from all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_COUP_SUCCEEDS"
+		ai_chance = 5
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = peace which = VIC value = 1 }
+		command = { type = dissent value = -100 }
+		
+		command = { type = capital which = 1737 }
+		
+		command = { type = add_division value = marine when = 5 }
+		command = { type = add_division value = marine when = 5 }
+		
+		command = { type = add_division value = infantry when = 11 }
+		command = { type = add_division value = infantry when = 11 }
+		
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		command = { type = add_division value = militia when = 5 }
+		
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		command = { type = add_brigade value = anti_air 		when = 4 }
+		
+		command = { type = add_brigade value = tank_destroyer 	when = 1 }
+		command = { type = add_brigade value = tank_destroyer 	when = 1 }
+		
+		command = { type = transport_pool 	which = -1 value = 200 }
+		command = { type = add_division value = transport when = 2 }
+		command = { type = add_division value = transport when = 2 }
+		command = { type = add_division value = transport when = 2 }
+		
+		command = { trigger = { war = { country = ENG country = VIE } NOT = { alliance = { country = VIE } } }	type = alliance which = VIE when = 1 }
+		command = { trigger = { war = { country = ENG country = LAO } NOT = { alliance = { country = LAO } } }	type = alliance which = LAO when = 1 }
+		command = { trigger = { war = { country = ENG country = CMB } NOT = { alliance = { country = CMB } } }	type = alliance which = CMB when = 1 }
+		command = { trigger = { war = { country = ENG country = INO } NOT = { alliance = { country = INO } } }	type = alliance which = INO when = 1 }
+		command = { trigger = { war = { country = ENG country = U33 } NOT = { alliance = { country = U33 } } }	type = alliance which = U33 when = 1 }
+		
+		command = { trigger = { NOT = { war = { country = ENG } } }	type = war which = ENG }
+		
+		command = { type = set_domestic which = political_left 		value = 8 }
+		command = { type = set_domestic which = interventionism 	value = 4 }
+		command = { type = set_domestic which = freedom 			value = 3 }
+		command = { type = set_domestic which = free_market 		value = 2 }
+		command = { type = set_domestic which = defense_lobby		value = 7 }
+		command = { type = set_domestic which = democratic			value = 7 }
+		command = { type = set_domestic which = professional_army	value = 4 }
+
+		command = { type = free_supplies 		value = 10  }
+		command = { type = event which = 9000081 where = -1 when = 0 } #PartisanArmy
+
+		command = { type = belligerence value = -500 }
+		command = { type = belligerence value = 16   }
+
+		command = { type = local_setflag which = MOB_level when = 0 value = 4 }
+		command = { type = local_setflag which = MSB_level when = 0 value = 4 }
+		command = { type = local_setflag which = WAR_level when = 0 value = 7 }
+		
+		command = { type = manpowerpool 		value = 100  }
+		command = { type = supplies 			value = 2000 }
+		command = { type = oilpool 				value = 100  }
+		command = { type = energypool 			value = 1000 }
+		command = { type = metalpool 			value = 500  }
+		command = { type = rarematerialspool 	value = 250  }
+		command = { type = money 				value = 1000 }
+		
+		command = { type = local_setflag which = legitIndie }
+		command = { type = local_setflag which = sliderSet  }
+		
+		command = { type = event which = 5000 where = -1  when = 0   } #temp GDE boost
+		command = { type = event which = 5001 where = -1  when = 90  } #GDE reset 1
+		command = { type = event which = 5001 where = -1  when = 270 } #GDE reset 2
+		command = { type = event which = 5001 where = -1  when = 810 } #GDE reset 3
+		
+		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
+		
+		command = { type = event which = 2049034 where = USA when = 1 }
+		command = { type = event which = 2049034 where = ENG when = 1 }
+		
+		#command = { type = non_aggression which = PHI where = ENG when = 30  } 
+		#command = { type = non_aggression which = PHI where = U02 when = 30  } 
+		#command = { type = non_aggression which = PHI where = JAP when = 30  } 
+		#command = { type = non_aggression which = PHI where = USA when = 30  } 
+		
+		command = { type = control which = USA value = 1750 }
+		
+		command = { type = trade which = SOV where = PHI supplies = -16 value = 1 } 
+	}
+	action = {
+		name = "ACTION_NAME_COUP_FAILS"
+		trigger = { exists = USA } 
+		ai_chance = 95
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = ENG value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = peace which = VIC value = 1 }
+		command = { type = dissent value = 20 }
+		
+		command = { type = local_setflag which = legitIndie }
+		command = { type = local_setflag which = sliderSet  }
+		
+		command = { type = event which = 2049024 where = USA when = 1 }
+	}
+}
+
+
+event = {
+	id = 2049020
+	random = no
+	
+	name = "Vietnamese Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local government of Vietnam wisely decides not to contest our return and peacefully submits to our rule."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = remove_claim_area which = "Indochine"		where = VIC }
+		command = { type = make_puppet which = VIE }
+		command = { type = event which = 2400535 where = VIE when = 0 } #medium puppet
+		#very rudimentary but it's late game so whatever
+		command = { trigger = { ai = yes } type = demobilize which = infantry	when = 1 where = 1 value = -3 }
+		command = { trigger = { ai = yes } type = demobilize which = motorized	when = 1 where = 1 value = -2 }
+		command = { trigger = { ai = yes } type = add_corps 	value = land 		where = 1338 }	
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+	}
+}
+
+event = {
+	id = 2049021
+	random = no
+	
+	name = "Laotian Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local government of Laos wisely decides not to contest our return and peacefully submits to our rule."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = remove_claim_area which = "Indochine"		where = VIC }
+		command = { type = make_puppet which = LAO }
+		command = { type = event which = 2400535 where = LAO when = 0 } #medium puppet
+		#very rudimentary but it's late game so whatever
+		command = { trigger = { ai = yes } type = demobilize which = infantry	when = 1 where = 1 value = -3 }
+		command = { trigger = { ai = yes } type = demobilize which = motorized	when = 1 where = 1 value = -2 }
+		command = { trigger = { ai = yes } type = add_corps 	value = land 		where = 1589 }	
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    }
+
+		command = { type = secedeprovince which = LAO value = 3116 			when = 2 }
+		command = { type = secedeprovince which = LAO value = 1589 			when = 2 }
+		command = { type = secedeprovince which = LAO value = 1329 			when = 2 }
+		command = { type = secedeprovince which = LAO value = 3119 			when = 2 }
+		command = { type = secedeprovince which = LAO value = 7024 			when = 2 }
+		command = { type = secedeprovince which = LAO value = 3117 			when = 2 }
+		command = { type = secedeprovince which = LAO value = 1332 			when = 2 }
+	}
+}
+
+event = {
+	id = 2049022
+	random = no
+	
+	name = "Cambodian Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local government of Cambodia wisely decides not to contest our return and peacefully submits to our rule."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = remove_claim_area which = "Indochine"		where = VIC }
+		command = { type = make_puppet which = CMB }
+		command = { type = event which = 2400535 where = CMB when = 0 } #medium puppet
+		#very rudimentary but it's late game so whatever
+		command = { trigger = { ai = yes } type = demobilize which = infantry	when = 1 where = 1 value = -3 }
+		command = { trigger = { ai = yes } type = demobilize which = motorized	when = 1 where = 1 value = -2 }
+		command = { trigger = { ai = yes } type = add_corps 	value = land 		where = 7910 }	
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+		
+		command = { type = secedeprovince which = CMB value = 3121 			when = 2 }
+		command = { type = secedeprovince which = CMB value = 1340 			when = 2 }
+		command = { type = secedeprovince which = CMB value = 1341 			when = 2 }
+		command = { type = secedeprovince which = CMB value = 3122 			when = 2 }
+		command = { type = secedeprovince which = CMB value = 7025 			when = 2 }
+	}
+}
+
+event = {
+	id = 2049023
+	random = no
+	
+	name = "Indonesian Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local government of Indonesia wisely decides not to contest our return and peacefully submits to our rule."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = remove_claim_region which = "Indonesia"		where = HOL }
+		command = { type = make_puppet which = INO }
+		command = { type = event which = 2400535 where = INO when = 0 } #medium puppet
+		#very rudimentary but it's late game so whatever
+		command = { trigger = { ai = yes } type = demobilize which = infantry	when = 1 where = 1 value = -3 }
+		command = { trigger = { ai = yes } type = demobilize which = motorized	when = 1 where = 1 value = -2 }
+		command = { trigger = { ai = yes } type = add_corps 	value = land 		where = 1373 }	
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+	}
+}
+
+event = {
+	id = 2049024
+	random = no
+	
+	name = "Philippine Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local government of Philippines wisely decides not to contest our return and peacefully submits to our rule."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = remove_claim_region which = "Philippines"	where = USA }
+		command = { type = make_puppet which = PHI }
+		command = { type = event which = 2400535 where = PHI when = 0 } #medium puppet
+		#very rudimentary but it's late game so whatever
+		command = { trigger = { ai = yes } type = demobilize which = infantry	when = 1 where = 1 value = -3 }
+		command = { trigger = { ai = yes } type = demobilize which = motorized	when = 1 where = 1 value = -2 }
+		command = { trigger = { ai = yes } type = add_corps 	value = land 		where = 1750 }	
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+	}
+}
+
+event = {
+	id = 2049030
+	random = no
+	persistent = yes
+	all = yes
+	
+	name = "Vietnamese Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces in Vietnam have taken over the government in order to launch a struggle to shake off all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_DAMN"
+		trigger = { OR = { country = VIC country = U01 country = ENG } }
+		command = { }
+		command = { trigger = { country = ENG }	type = trigger which = 2049040 }
+		#very rudimentary but it's late game so whatever
+		command = { trigger = { ai = yes } type = demobilize which = infantry	when = 1 where = 1 value = -3 }
+		command = { trigger = { ai = yes } type = demobilize which = motorized	when = 1 where = 1 value = -2 }
+		command = { trigger = { ai = yes } type = add_corps 	value = land 		where = 1338 }	
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+	}
+}
+
+event = {
+	id = 2049040
+	random = no
+	persistent = yes
+	all = yes
+	
+	name = "Vietnamese Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces in Vietnam have taken over the government in order to launch a struggle to shake off all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "It is not our struggle"
+		trigger = { NOT = { country = VIC country = U01 country = GRE country = HOL country = ENG country = VIE country = U72 country = LAO country = CMB country = INO country = PHI } NOT = { puppet = { country = -1 country = VIC } puppet = { country = -1 country = ENG } } }
+		command = { }
+		command = { type = peace which = U72 value = 1 }
+		command = { type = secedearea which = VIC value = "Indochine" when = 1 }
+	}
+}
+
+event = {
+	id = 2049031
+	random = no
+	persistent = yes
+	all = yes
+	
+	name = "Laotian Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces in Laos have taken over the government in order to launch a struggle to shake off all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_DAMN"
+		trigger = { OR = { country = VIC country = U01 country = ENG } }
+		command = { }
+		command = { trigger = { country = ENG }	type = trigger which = 2049041 }
+		#very rudimentary but it's late game so whatever
+		command = { trigger = { ai = yes } type = demobilize which = infantry	when = 1 where = 1 value = -3 }
+		command = { trigger = { ai = yes } type = demobilize which = motorized	when = 1 where = 1 value = -2 }
+		command = { trigger = { ai = yes } type = add_corps 	value = land 		where = 1589 }	
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+	}
+}
+
+event = {
+	id = 2049041
+	random = no
+	persistent = yes
+	all = yes
+	
+	name = "Laotian Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces in Laos have taken over the government in order to launch a struggle to shake off all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "It is not our struggle"
+		trigger = { NOT = { country = VIC country = U01 country = GRE country = HOL country = ENG country = VIE country = U72 country = LAO country = CMB country = INO country = PHI } NOT = { puppet = { country = -1 country = VIC } puppet = { country = -1 country = ENG } } }
+		command = { }
+		command = { type = peace which = LAO value = 1 }
+		command = { type = secedearea which = VIC value = "Indochine" when = 1 }
+	}
+}
+
+event = {
+	id = 2049032
+	random = no
+	persistent = yes
+	all = yes
+	
+	name = "Cambodian Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces in Cambodia have taken over the government in order to launch a struggle to shake off all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_DAMN"
+		trigger = { OR = { country = VIC country = U01 country = ENG } }
+		command = { }
+		command = { trigger = { country = ENG }	type = trigger which = 2049042 }
+		#very rudimentary but it's late game so whatever
+		command = { trigger = { ai = yes } type = demobilize which = infantry	when = 1 where = 1 value = -3 }
+		command = { trigger = { ai = yes } type = demobilize which = motorized	when = 1 where = 1 value = -2 }
+		command = { trigger = { ai = yes } type = add_corps 	value = land 		where = 7910 }	
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+	}
+}
+
+event = {
+	id = 2049042
+	random = no
+	persistent = yes
+	all = yes
+	
+	name = "Cambodian Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces in Cambodia have taken over the government in order to launch a struggle to shake off all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "It is not our struggle"
+		trigger = { NOT = { country = VIC country = U01 country = GRE country = HOL country = ENG country = VIE country = U72 country = LAO country = CMB country = INO country = PHI } NOT = { puppet = { country = -1 country = VIC } puppet = { country = -1 country = ENG } } }
+		command = { }
+		command = { type = peace which = CMB value = 1 }
+		command = { type = secedearea which = VIC value = "Indochine" when = 1 }
+	}
+}
+
+event = {
+	id = 2049033
+	random = no
+	persistent = yes
+	all = yes
+	
+	name = "Indonesian Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces in Indonesia have taken over the government in order to launch a struggle to shake off all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_DAMN"
+		trigger = { OR = { country = HOL country = ENG } }
+		command = { }
+		command = { trigger = { country = HOL } type = inherit which = U36 value = 1 }
+		command = { trigger = { country = ENG }	type = trigger which = 2049043 }
+		#very rudimentary but it's late game so whatever
+		command = { trigger = { ai = yes } type = demobilize which = infantry	when = 1 where = 1 value = -3 }
+		command = { trigger = { ai = yes } type = demobilize which = motorized	when = 1 where = 1 value = -2 }
+		command = { trigger = { ai = yes } type = add_corps 	value = land 		where = 1373 }	
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+	}
+}
+
+event = {
+	id = 2049043
+	random = no
+	persistent = yes
+	all = yes
+	
+	name = "Indonesian Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces in Indonesia have taken over the government in order to launch a struggle to shake off all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "It is not our struggle"
+		trigger = { NOT = { country = VIC country = U01 country = GRE country = HOL country = ENG country = VIE country = U72 country = LAO country = CMB country = INO country = PHI } NOT = { puppet = { country = -1 country = HOL } puppet = { country = -1 country = ENG } } }
+		command = { }
+		command = { type = peace which = INO value = 1 }
+		command = { type = secederegion which = HOL value = "Indonesia" when = 1 }
+	}
+}
+
+event = {
+	id = 2049034
+	random = no
+	persistent = yes
+	all = yes
+	
+	name = "Philippine Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces in Philippines have taken over the government in order to launch a struggle to shake off all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_DAMN"
+		trigger = { OR = { country = USA country = ENG } }
+		command = { }
+		command = { trigger = { country = ENG }	type = trigger which = 2049044 }
+		#very rudimentary but it's late game so whatever
+		command = { trigger = { ai = yes } type = demobilize which = infantry	when = 1 where = 1 value = -3 }
+		command = { trigger = { ai = yes } type = demobilize which = motorized	when = 1 where = 1 value = -2 }
+		command = { trigger = { ai = yes } type = add_corps 	value = land 		where = 1750 }	
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = infantry	when  = 12   } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+		command = { trigger = { ai = yes } type = add_division	value = motorized	when  = 3    } 
+	}
+}
+
+event = {
+	id = 2049044
+	random = no
+	persistent = yes
+	all = yes
+	
+	name = "Philippine Revolution"
+	desc = "With the withdrawal of the Japanese forces, the local nationalist forces in Philippines have taken over the government in order to launch a struggle to shake off all foreign rule!"
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "It is not our struggle"
+		trigger = { NOT = { country = USA country = VIC country = U01 country = GRE country = HOL country = ENG country = HOL country = VIE country = U72 country = LAO country = CMB country = INO country = PHI } NOT = { puppet = { country = -1 country = USA } puppet = { country = -1 country = ENG } } }
+		command = { }
+		command = { type = peace which = PHI value = 1 }
+		command = { type = secederegion which = USA value = "Philippines" when = 1 }
+	}
+}
+
+event = {
+	id = 2400500
+	random = no
+	country = REB
+	
+	name = "AI_EVENT"
+
+	action = {
+		command = { type = add_claim_area 	which = "Indochine"		where = VIC }
+		command = { type = add_claim_region which = "Indonesia"		where = HOL }
+		command = { type = add_claim_region which = "Philippines"	where = USA }
+	}
+}
+
+
 
 event = {
 	id = 2007011
@@ -1945,6 +3495,7 @@ event = {
 		command = { 											type = inherit 		which = MAN }
 		command = { 											type = inherit		which = MEN }
 		command = { 											type = belligerence value = -20 }
+		command = { trigger = { NOT = { flag = JAP_USA_WAR } }	type = add_claim_region	which = "Japan" }
 		command = { trigger = { NOT = { flag = JAP_USA_WAR } }	type = inherit 		which = JAP }
 		command = { trigger = { NOT = { flag = JAP_USA_WAR } }	type = belligerence value = -50 }
 		command = { type = money value = 1000 }
@@ -2017,6 +3568,7 @@ event = {
 		name = EVT_45_ACTA
 		command = { trigger = { NOT = { exists = CHC } puppet = { country = CHI country = JAP } } 	type = inherit which = CHI value = 0 }
 		command = { trigger = { exists = U87 NOT = { exists = CHI exists = CHC } }					type = inherit which = U87 value = 0 }
+		command = { type = add_claim_region	which = "Japan" }
 		command = { type = inherit 			which = JAP } 
 		command = { type = belligerence 	value = -50 }
 		command = { type = money value = 1000 }
@@ -2027,5 +3579,194 @@ event = {
 		command = { type = make_puppet which = KOR } 
 		command = { type = event which = 2400538 where = KOR when = 0 } #strong puppet	
 		command = { type = event which = 2011049 where = KOR when = 0 }
+	}
+}
+
+event = {
+	id = 2049050
+	random = no
+	country = VIC
+
+	name = "Establishment of the State of Vietnam"
+	desc = "After wrestling the control of Cochichina and Vietnam south of the 16th parallel, the French established a friendly government in Saigon under the leadership of the anti-communist forces led by the former Emperor Bao Dai. Together they proclaimed the State of Vietnam as an associated member of the French Union."
+	style = 2
+ 	picture = "news_paper"
+	
+	trigger = {
+		event = 2011028
+		NOT = { war = { country = JAP } }
+		NOT = { exists = VIE }
+		#NOT = { exists = U03 }
+		#war = { country = U72 }
+		area = { area = "Indochine" country = -3 value = 15 }
+		control = { province = 1337 data = -3 } # Saigon
+		control = { province = 1335 data = -3 } # Danang
+	}
+
+	date = { day = 0 month = january year = 1940 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "ACTION_NAME_OK"
+		command = { type = inherit 				which = U03 		value = 1 }
+		command = { type = remove_claim_area	which = "Indochine"	where = VIC }
+		command = { type = addclaim				which = 7906		where = VIC }
+		command = { type = secedeprovince		which = -3	value = 1337 when = 2 }
+		command = { type = independence 		which = VIE value = 1 }
+		command = { type = make_puppet			which = VIE }
+		command = { type = event				where = VIE which = 2400535 when = 0 } #medium puppet
+		command = { type = event				where = VIE which = 2049051 when = 0 }
+	}
+}
+
+event = {
+	id = 2049051
+	random = no
+	country = VIE
+
+	name = "Establishment of State of Vietnam"
+	desc = "After wrestling the control of Cochichina and Vietnam south of the 16th parallel, the French established a friendly government in Saigon under the leadership of the anti-communist forces led by the former Emperor Bao Dai. Together they proclaimed the State of Vietnam as an associated member of the French Union."
+	style = 2
+ 	picture = "news_paper"
+	
+	action = {
+		name = "ACTION_NAME_OK"
+		command = { type = add_claim_area	which = "Indochine"	where = VIC }
+		command = { type = capital which = 1337 }
+		command = { type = set_domestic which = political_left 		value = 4 }
+		command = { type = set_domestic which = interventionism 	value = 4 }
+		command = { type = set_domestic which = freedom 			value = 3 }
+		command = { type = set_domestic which = free_market 		value = 2 }
+		command = { type = set_domestic which = defense_lobby		value = 7 }
+		command = { type = set_domestic which = democratic			value = 7 }
+		command = { type = set_domestic which = professional_army	value = 4 }
+		
+		command = { type = secedeprovince		which = VIC	value = 7906 when = 2 }
+	}
+}
+
+
+
+event = {
+	id = 2049052
+	random = no
+	country = VIC
+
+	name = "Establishment of the Kingdom of Laos"
+	desc = "After wrestling the control of Laos, the French established a friendly government in Vientiane under the leadership of the anti-communist forces led by King Sisavang Vong. Together they proclaimed the Kingdom of Laos as an associated member of the French Union."
+	style = 2
+ 	picture = "news_paper"
+	
+	trigger = {
+		event = 2011028
+		NOT = { war = { country = JAP } }
+		NOT = { exists = LAO }
+		#NOT = { exists = U03 }
+		#war = { country = U72 }
+		area = { area = "Indochine" country = -3 value = 15 }
+		control = { province = 1329 data = -3 }
+		control = { province = 7987 data = -3 }
+	}
+
+	date = { day = 0 month = january year = 1940 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "ACTION_NAME_OK"
+		command = { type = inherit 				which = U03 		value = 1 }
+		command = { type = remove_claim_area	which = "Indochine"	where = VIC }
+		command = { type = addclaim				which = 7906		where = VIC }
+		command = { type = independence 		which = LAO 		value = 1 }
+		command = { type = make_puppet			which = LAO }
+		command = { type = event				where = LAO which = 2400535 when = 0 } #medium puppet
+		command = { type = event				where = LAO which = 2049053 when = 0 }
+	}
+}
+
+event = {
+	id = 2049053
+	random = no
+	country = LAO
+
+	name = "Establishment of the Kingdom of Laos"
+	desc = "After wrestling the control of Laos, the French established a friendly government in Vientiane under the leadership of the anti-communist forces led by King Sisavang Vong. Together they proclaimed the Kingdom of Laos as an associated member of the French Union."
+	style = 2
+ 	picture = "news_paper"
+	
+	action = {
+		name = "ACTION_NAME_OK"
+		command = { type = add_claim_area	which = "Indochine"	where = VIC }
+		command = { type = capital which = 1329 }
+		command = { type = set_domestic which = political_left 		value = 4 }
+		command = { type = set_domestic which = interventionism 	value = 4 }
+		command = { type = set_domestic which = freedom 			value = 3 }
+		command = { type = set_domestic which = free_market 		value = 2 }
+		command = { type = set_domestic which = defense_lobby		value = 7 }
+		command = { type = set_domestic which = democratic			value = 7 }
+		command = { type = set_domestic which = professional_army	value = 4 }
+	}
+}
+
+
+event = {
+	id = 2049054
+	random = no
+	country = VIC
+
+	name = "Establishment of the Kingdom of Cambodia"
+	desc = "After wrestling the control of Cambodia, the French established a friendly government in Phnom Penh under the leadership of the anti-communist forces led by King Norodom Sihanouk. Together they proclaimed the Kingdom of Cambodia as an associated member of the French Union."
+	style = 2
+ 	picture = "news_paper"
+	
+	trigger = {
+		event = 2011028
+		NOT = { war = { country = JAP } }
+		NOT = { exists = CMB }
+		#NOT = { exists = U03 }
+		#war = { country = U72 }
+		area = { area = "Indochine" country = -3 value = 15 }
+		control = { province = 1339 data = -3 }
+		control = { province = 1340 data = -3 }
+	}
+
+	date = { day = 0 month = january year = 1940 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "ACTION_NAME_OK"
+		command = { type = inherit 				which = U03 		value = 1 }
+		command = { type = remove_claim_area	which = "Indochine"	where = VIC }
+		command = { type = addclaim				which = 7906		where = VIC }
+		command = { type = independence 		which = CMB 		value = 1 }
+		command = { type = make_puppet			which = CMB }
+		command = { type = event				where = CMB which = 2400535 when = 0 } #medium puppet
+		command = { type = event				where = CMB which = 2049055 when = 0 }
+	}
+}
+
+event = {
+	id = 2049055
+	random = no
+	country = CMB
+
+	name = "Establishment of the Kingdom of Cambodia"
+	desc = "After wrestling the control of Cambodia, the French established a friendly government in Phnom Penh under the leadership of the anti-communist forces led by King Norodom Sihanouk. Together they proclaimed the Kingdom of Cambodia as an associated member of the French Union."
+	style = 2
+ 	picture = "news_paper"
+	
+	action = {
+		name = "ACTION_NAME_OK"
+		command = { type = add_claim_area	which = "Indochine"	where = VIC }
+		command = { type = capital which = 1339 }
+		command = { type = set_domestic which = political_left 		value = 4 }
+		command = { type = set_domestic which = interventionism 	value = 4 }
+		command = { type = set_domestic which = freedom 			value = 3 }
+		command = { type = set_domestic which = free_market 		value = 2 }
+		command = { type = set_domestic which = defense_lobby		value = 7 }
+		command = { type = set_domestic which = democratic			value = 7 }
+		command = { type = set_domestic which = professional_army	value = 4 }
 	}
 }

@@ -88,9 +88,9 @@ event = {
 			control = { province = 2527 data = U58 } 
 			control = { province = 2576 data = U58 } 
 			area = { area = "Liaoning" 	country = CHI data = 1 value = 1 }
-			area = { area = "Liaoning" 	country = CHC data = 1 value = 1 }
 			area = { area = "Rehe" 		country = CHI data = 1 value = 1 }
-			area = { area = "Rehe" 		country = CHC data = 1 value = 1 }
+			#area = { area = "Liaoning" 	country = CHC data = 1 value = 1 }
+			#area = { area = "Rehe" 		country = CHC data = 1 value = 1 }
 			event = 2012016
 			alliance = { country = CHI country = CHC }
 			AND = {
@@ -173,9 +173,15 @@ event = {
         command = { type = relation which = CYN value = -50 }
 		command = { type = trigger which = 2012016 } # Chinese unified front
 		
-		command = { type = remove_units which = land where = U58 when = 1 value = "Chahar" }
-		command = { type = remove_units which = land where = U58 when = 1 value = "Suiyuan_Ningxia" }
-		command = { type = remove_units which = land where = U58 when = 1 value = "Shanxi" }
+		#command = { type = remove_units which = land where = U58 when = 1 value = "Chahar" }
+		#command = { type = remove_units which = land where = U58 when = 1 value = "Suiyuan_Ningxia" }
+		#command = { type = remove_units which = land where = U58 when = 1 value = "Shanxi" }
+		command = { type = damage_division 			which = 22302 value = 3 where = 90  } 
+		command = { type = damage_division 			which = 22302 value = 4 where = 90  } 
+		command = { type = damage_division 			which = 22302 value = 5 where = 90  } 
+		command = { type = disorg_division 			which = 22302 value = 3 where = 100 }
+		command = { type = disorg_division 			which = 22302 value = 4 where = 100 }
+		command = { type = disorg_division 			which = 22302 value = 5 where = 100 }
 		
 		command = { type = ai which = "nations\JAP_CHI.ai" }
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = trigger which = 8300105 }  #partial Mobilization
@@ -213,6 +219,8 @@ event = {
 		command = { trigger = { ai = JAP } type = remove_units which = land where = REB when = 1 value = "Jilin"		}
 		command = { trigger = { ai = JAP } type = remove_units which = land where = REB when = 1 value = "Liaoning"		}
 		command = { trigger = { ai = JAP } type = remove_units which = land where = REB when = 1 value = "Rehe"			}
+		
+		command = { type = event which = 1330110101 where = CHC when = 60 } #CHC expanding partisans
 	}
 	action = {
 		name = "This whole China affair has been a huge waste and debacle"
@@ -376,7 +384,6 @@ event = {
 		command = { type = relation which = SOV value = -5 }
 		command = { type = relation which = CHI value = -25 }
 		command = { type = event which = 1330110083 when = 2 where = CHI } #Nanjing
-		command = { type = ai which = "invasionYes.ai" }
 	}
 }
 
@@ -613,7 +620,7 @@ event = {
 		command = { type = relation which = USA value = -20 }
 		command = { type = relation which = CGX value = -30 }	
 		command = { type = trigger which = 2012001 } # CHI
-		command = { type = trigger which = 2049022 } # USA
+		command = { type = trigger which = 2049222 } # USA
 	}
 }
 #########################################################################
@@ -818,14 +825,78 @@ event = {
 	desc = "EVT_3813_DESC"
   	style = 2
  	picture = "news_paper"
+	
 	date = { day = 0 month = january year = 1939 }
-	offset = 1
+	offset = 10
 	deathdate = { day = 29 month = december year = 1963 }
 
-	action_a = {
-		name = "EVT_3813_ACTA" #
+	action = {
+		name = "Inquire about their conditions"
+		ai_chance = 99
+		command = { type = event which = 2059003 where = USA when = 0 }
+	}
+	action = {
+		name = "Keep fighting"
+		ai_chance = 1
+		command = { type = dissent value = 15 }
+		command = { type = switch_allegiance which = -1 where = ENG }
+		command = { type = switch_allegiance which = -1 where = ENG }
+		command = { type = switch_allegiance which = -1 where = ENG }
+	}
+}
+
+event = {
+	id = 2059003
+	random = no
+	tag = { ENG USA }
+
+	name = "EVT_3813_NAME"
+	desc = "EVT_3813_DESC"
+  	style = 2
+ 	picture = "news_paper"
+
+	action = {
+		ai_chance = 100
+		name = ACTION_NAME_ACCEPT
+		command = { type = event which = 2059004 where = SIA when = 10 }
+	}
+	action = {
+		ai_chance = 0
+		name = ACTION_NAME_REFUSE
+		command = { type = relation which = SOV value = -60 }
+		command = { type = relation which = VIC value = -60 }
+	
+		command = { type = dissent 		value = 10 }
+		command = { type = belligerence value = 15 }
+		command = { type = event which = 2059007 where = SIA when = 0 }
+	}
+}
+
+
+event = {
+	id = 2059004
+	random = no
+	country = SIA
+
+	name = "Thai surrender - Allies accept"
+	desc = "The Allies accepted our surrender offer. We will now fight the rest of the war on their side."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		ai_chance = 100
+		command = { type = local_clrflag which = noChange }
 		command = { type = end_puppet }
-		command = { type = leave_alliance when = 1 }
+		command = { type = leave_alliance when =  1 } # separate peace, pull out of alliance
+		command = { type = access which = JAP }
+		command = { type = access which = U87 }
+		command = { type = access which = VIE }
+		command = { type = access which = CMB }
+		command = { type = access which = LAO }
+		command = { type = access which = MAN }
+		command = { type = access which = MEN }
+		
 		command = { type = access which = USA }
 		command = { type = access which = ENG }
 		command = { type = access which = VIC }
@@ -837,18 +908,123 @@ event = {
 		command = { type = access which = HOL }
 		command = { type = access which = U05 }
 		command = { type = access which = BEL }
-		command = { type = end_access which = JAP }
+
 		command = { type = military_control which = JAP where = SIA value = 0 }
-		command = { type = secedearea which = U02 value = "North Burma" when = 2 }
-		command = { type = secedearea which = U02 value = "South Burma" when = 2 }
-		command = { type = secedearea which = ENG value = "North Burma" when = 1 }
-		command = { type = secedearea which = ENG value = "South Burma" when = 1 }
-		command = { type = secedearea which = U03 value = "Indochine" when = 1 }
-		command = { type = secedearea which = VIC value = "Indochine" when = 1 }
+		command = { type = secedearea which = U02 value = "North Burma"	when = 2 }
+		command = { type = secedearea which = U02 value = "South Burma"	when = 2 }
+		command = { type = secedearea which = ENG value = "North Burma"	when = 1 }
+		command = { type = secedearea which = ENG value = "South Burma"	when = 1 }
+		command = { type = secedearea which = U03 value = "Indochine" 	when = 1 }
+		command = { type = secedearea which = VIC value = "Indochine"	when = 1 }
 		
 		command = { trigger = { ai = yes }	type = event which = 2400040 where = -1 when = 0 } #exp_0
 		command = { trigger = { ai = yes }	type = event which = 2400055 where = -1 when = 0 } #enforcenoexp
 		command = { 						type = event which = 2400530 where = -1 when = 0 } #legit indie
+		
+		command = { type = event which = 2059005 where = USA when = 1 }
+		
+		command = { trigger = { alliance = { country = USA country = ENG } }			type = event which = 2059005 where = USA when = 0 }
+		command = { trigger = { NOT = { alliance = { country = USA country = ENG } } }	type = event which = 2059005 where = ENG when = 0 }
+	}
+	action = {
+		name = "Keep fighting"
+		ai_chance = 0
+		command = { type = dissent value = 15 }
+		command = { type = switch_allegiance which = -1 where = ENG }
+		command = { type = switch_allegiance which = -1 where = ENG }
+		command = { type = switch_allegiance which = -1 where = ENG }
+	}
+}
+
+event = {
+	id = 2059005
+	random = no
+	tag = { ENG USA }
+
+	name = "Thai surrender - Thailand accepts"
+	desc = "The Thai accepted our offer. They will now fight the rest of the war on our side."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = dissent value = -1 }
+		
+		command = { type = embargo which = -1 where = SIA value = -2 }
+		command = { type = remove_claim_area which = "Siam" 		 }
+		command = { type = remove_claim_area which = "Kra Peninsula" }
+		command = { type = make_puppet which = SIA }
+		command = { type = alliance which = SIA when = 1 }
+		command = { type = event which = 2400537 where = SIA when = 0 } #medium puppet
+		command = { type = event which = 2059006 where = SIA when = 0 }
+	}
+}
+
+event = {
+	id = 2059006
+	random = no
+	tag = { SIA }
+
+	name = "Thai surrender - Allies accept"
+	desc = "The Allies accepted our surrender offer. We will now fight the rest of the war on their side."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = local_clrflag which = noChange }
+		command = { type = dissent value = 10 } #coup_nation gives +30
+		
+		command = { trigger = { army = { size = 40 } } type = demobilize which = land when = 0 where = 0 value = -5 }
+		
+		command = { type = secedearea 	which = VIC value = "Indochine"		when = 1 } 
+		command = { type = secederegion which = U02 value = "India"			when = 1 } 
+		command = { type = secederegion which = U02 value = "North Burma"	when = 1 } 
+		command = { type = secederegion which = U02 value = "Burma"			when = 1 } 
+		command = { type = secederegion which = ENG value = "Malacka" 		when = 1 } 
+		
+		command = { type = set_domestic which = political_left value = 4 }
+		command = { type = set_relation which = JAP value = -50 }
+		
+		command = { type = event which = 2400151 where = -1 when = 1   } #initial confusion
+		command = { type = event which = 2400161 where = -1 when = 180 } #recovery in 6 months
+		
+		#will be handled in post-war settlement event
+		#command = { type = local_setflag	when = 0	which = RepPay3	value = 6 } #6 years worth of reparation payments to USSR
+		#command = { type = setflag 		when = 0	which = RepPec	value = 6 }
+		#command = { type = event 			when = 0	which = 3021	where = SOV }
+		
+		command = { trigger = { ai = yes }	type = event which = 2400041 where = -1 when = 0 } #exp10
+		command = { trigger = { ai = yes }	type = event which = 2400056 where = -1 when = 0 } #noexp_unenforce
+		command = { trigger = { ai = yes }	type = event which = 2400098 where = -1 when = 0 } #garspec_remove
+		command = { trigger = { ai = yes }	type = event which = 2400013 where = -1 when = 0 } #gar30
+		
+		command = { trigger = { NOT = { ai = ENG } }	type = military_control which = ENG where = SIA value = 1 }
+	}
+}
+
+event = {
+	id = 2059007
+	random = no
+	country = SIA
+
+	name = "Thai surrender - Allies refuse"
+	desc = "The Allies rejected our surrender offer. We will have to fight even harder to preserve what's left of our independence."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "Over our dead bodies!"
+		command = { type = dissent value = -20 }
+		command = { type = province_manpower which = -1 value = -1 }
+		command = { type = manpowerpool value = 300 } 
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
+		command = { type = add_division value = infantry when = 10 where = -70 }
 	}
 }
 
@@ -1271,15 +1447,16 @@ event = {
 	random = no
 	country = JAP
 
-	decision = {
-		war = { country = ENG }
-		control = { province = 1353 data = -2 }
-	}
 	trigger = {
 		war = { country = ENG }
-		control = { province = 1351 data = -3 }
-		control = { province = 1353 data = -2 }
-		garrison = { country = -3 province = 1351 type = land size = 2 area = no }
+		OR = {
+			AND = {
+				control = { province = 1351 data = -3 }
+				control = { province = 1353 data = -2 }
+				garrison = { country = -3 province = 1351 type = land size = 2 area = no }
+			}
+			event = { id = 2011025 days = 120 } #4 months max
+		}
 	}
 	
 	name = "Battle of Singapore (30-day Japanese Blitz)"
@@ -1299,8 +1476,8 @@ event = {
 		command = { type = surprise 			which = land value =  50 }
 		command = { type = surprise 			which = air  value =  50 }
 		command = { type = ground_def_eff 		when  = 1	 value = 0.5 }
-		command = { type = defensiveness 		which = land value = -30 }
-		command = { type = toughness 			which = land value = -30 }
+		command = { type = defensiveness 		which = land value = -20 }
+		command = { type = toughness 			which = land value = -20 }
 		command = { type = max_organization 	which = land value =  30 }
 		command = { type = morale 				which = land value =  30 }
 		command = { type = urban_attack 		which = land value = 100 }
@@ -2135,7 +2312,7 @@ event = {
 		command = { type = activate_division 			which = 22002 	value = 112 when = 0						where = 1235  }
 		
 		#Barter agreement
-		command = { type = trade which = GER where = CHI rare_materials = 50 supplies = -10 when = 1800 			value = 1 	  } #5 years
+		command = { type = trade which = GER where = CHI rare_materials = 50 energy = -20 supplies = -10 when = 1800 value = 1 	  } #5 years
     }
 }
 

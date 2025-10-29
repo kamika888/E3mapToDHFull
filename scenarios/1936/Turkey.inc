@@ -12,7 +12,7 @@ country =
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 20 
-	manpower               = 38 
+	manpower               = 138 
 
 	transports             = 135 
 	escorts                = 10 

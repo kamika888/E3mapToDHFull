@@ -212,32 +212,6 @@ inventions = { 3000027 }
    chiefofnavy            = {  type = 9 id = 9  } 
    chiefofair             = {  type = 9 id = 10 } 
  
-   landunit = 
-   {  id       = {  type = 11500 id = 1  } 
-     location = 50 
-     name     = "Ie Legerkorps" 
-     Division = 
-     {  id   = {  type = 11500 id = 12  } 
-       name = "11" 
-	   strength     = 100
-       type = armor 
-	   model = 1 
-      } 
-     Division = 
-     {  id   = {  type = 11500 id = 13  } 
-       name = "12" 
-	   strength     = 100
-       type = armor 
-	   model = 1 
-      } 
-     Division = 
-     {  id   = {  type = 11500 id = 14  } 
-       name = "13" 
-	   strength     = 100
-       type = armor 
-	   model = 1 
-      } 
-    } 
 
   } 
  

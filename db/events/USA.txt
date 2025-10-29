@@ -1613,7 +1613,7 @@ event = {
 	decision_trigger = {
 		NOT = { non_aggression = { country = JAP country = USA } }
 		OR = {
-			belligerence = { country = JAP value = 240 } 
+			belligerence = { country = JAP value = 280 } 
 			war = { country = JAP }
 			AND = {
 				war = { country = JAP country = ENG }
@@ -1658,8 +1658,10 @@ event = {
 			#flag = GER_USA_undeclared_war
 		}
 		NOT = { non_aggression = { country = JAP country = USA } }
+		NOT = { belligerence = { country = ENG value = 160 } }
+		NOT = { belligerence = { country = SOV value = 160 } }
 		OR = {
-			belligerence = { country = JAP value = 240 } 
+			belligerence = { country = JAP value = 280 } 
 			war = { country = JAP }
 			AND = {
 				war = { country = JAP country = ENG }
@@ -1794,7 +1796,7 @@ event = {
 	decision_trigger = {
 		NOT = { non_aggression = { country = JAP country = ENG } }
 		OR = {
-			belligerence = { country = JAP value = 240 } 
+			belligerence = { country = JAP value = 280 } 
 			war = { country = JAP country = HOL }
 			war = { country = JAP country = USA }
 			AND = {
@@ -1837,8 +1839,9 @@ event = {
 			war = { country = JAP country = HOL }
 		}
 		NOT = { non_aggression = { country = JAP country = ENG } }
+		NOT = { belligerence = { country = SOV value = 160 } }
 		OR = {
-			belligerence = { country = JAP value = 240 } 
+			belligerence = { country = JAP value = 280 } 
 			war = { country = JAP country = HOL }
 			war = { country = JAP country = USA }
 			AND = {
@@ -1952,7 +1955,6 @@ event = {
 
 	decision = {
 		NOT = { war = { country = JAP } }
-		event = 750 #Sov Operation Z
 		OR = {
 			war = { country = JAP country = CHI }
 			war = { country = JAP country = CHC }
@@ -1961,49 +1963,66 @@ event = {
 		}
 	}
 	decision_trigger = {
-		NOT = { non_aggression = { country = JAP country = SOV } }
 		OR = {
-			belligerence = { country = JAP value = 240 } 
+			belligerence = { country = JAP value = 100 } 
 			AND = {
-				war = { country = JAP country = ENG }
-				war = { country = GER country = ENG }
-				war = { country = GER country = SOV }
+				NOT = { non_aggression = { country = SOV country = JAP } }
+				belligerence = { country = JAP value = 70 } 
 			}
-			#Japan getting close to victory in China despite the aid
-			flag = { which = japChi when = 1 value = 55  }
-			#Japan destroying the main CCP base
-			area = { area = "Shaanxi" country = JAP data = 1 value = 70 } 
-			area = { area = "Shaanxi" country = U87 data = 1 value = 70 }
 		}
 	}
 	trigger = {
 		NOT = { war = { country = JAP } }
-		event = 750 #Sov Operation Z
 		OR = {
 			war = { country = JAP country = CHI }
 			war = { country = JAP country = CHC }
 			war = { country = JAP country = ENG }
 			war = { country = JAP country = USA }
 		}
-		NOT = { non_aggression = { country = JAP country = SOV } }
 		OR = {
-			belligerence = { country = JAP value = 240 } 
+			belligerence = { country = JAP value = 100 } 
 			AND = {
-				war = { country = JAP country = ENG }
-				war = { country = GER country = ENG }
-				war = { country = GER country = SOV }
+				NOT = { non_aggression = { country = SOV country = JAP } }
+				belligerence = { country = JAP value = 70 } 
 			}
+		}
+		NOT = { belligerence = { country = ENG value = 160 } }
+		OR = {
+			belligerence = { country = JAP value = 280 } 
 			#Japan getting close to victory in China despite the aid
 			flag = { which = japChi when = 1 value = 55  }
 			#Japan destroying the main CCP base
 			area = { area = "Shaanxi" country = JAP data = 1 value = 70 }
 			area = { area = "Shaanxi" country = U87 data = 1 value = 70 }
+			
+			AND = {
+				#Japan has almost no defenses on the border. Unfortunately, cannot count allied troops, counting only Japanese
+				NOT = { ai = JAP }
+				NOT = { garrison = { country = JAP province = 1379 type = land size = 12 area = 3 } } #Manchuria
+				NOT = { garrison = { country = JAP province = 1199 type = land size = 15 area = 2 } } #Korea
+				war = { country = JAP country = ENG } #Japan distracted
+				war = { country = JAP country = USA }
+				war = { country = JAP country = CHI }
+				#USSR has plenty of troops on the border
+				garrison = { country = SOV province = 1525 type = land size = 15 area = 2 }
+			}
 		}
+		
+		control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
 		NOT = { 
+			#war = { country = GER }
+			war = { country = JAP }
 			war = { country = ENG }
-			war = { country = GER }
-			war = { country = FIN }
-			war = { country = ROM }
+			#war = { country = FIN }
+			#war = { country = SWE }
+			#war = { country = ROM }
+		}
+	
+		NOT = { lost_VP = { country = SOV value = 10 } }
+		OR = {
+			NOT = { war = { country = GER } }
+			# Finished reogranization of the Red Army (~Nov 1942) and ready to strike
+			event = { id = 2007030 days = 30 } 
 		}
 	}
 
@@ -2026,8 +2045,26 @@ event = {
 		command = { trigger = { belligerence = { country = ENG value = 170 } } type = dissent value = 2  }
 		
 		command = { type = belligerence value = 1 }
-
-		command = { trigger = { NOT = { war = { country = JAP } } } 	type = war which = JAP }
+		
+		#Leaving net +3 dissent if there was a non-aggression pact. Otherwise, no dissent.
+		command = { trigger = { non_aggression = { country = SOV country = JAP } } type = local_setflag which = NAPDissent }
+		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = SOV where = JAP } #will give 5 dissent
+		command = { trigger = { local_flag = NAPDissent } type = dissent value = -3 }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = SOV	value = 20  }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = JAP	value = -20 }
+		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
+		
+		#manchuria may also have NAP, removing it in full
+		command = { trigger = { non_aggression = { country = SOV country = MAN } } type = local_setflag which = NAPDissent }
+		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = SOV where = MAN } #will give 5 dissent
+		command = { trigger = { local_flag = NAPDissent } type = dissent value = -5 }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = SOV	value = 5  }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = MAN	value = -5 }
+		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
+		
+		command = { type = clrflag which = JAP_SOV_NAP }
+		
+		command = { type = war which = JAP } 
 		
 		command = { type = relation which = CHI value =  10 }
 		command = { type = relation which = CHC value =  10 }
@@ -2278,7 +2315,7 @@ event = {
 	}
 	decision_trigger = {
 		OR = {
-			belligerence = { country = GER value = 130 } 
+			belligerence = { country = GER value = 140 } 
 			event = 2002008 #French State
 			NOT = { war = { country = VIC country = GER } }
 			#Balkans/Spain in Axis
@@ -2308,7 +2345,7 @@ event = {
 		#NOT = { war = { country = GER } }
 		event = 610
 		OR = {
-			belligerence = { country = GER value = 130 } 
+			belligerence = { country = GER value = 140 } 
 			NOT = { war = { country = VIC country = GER } }
 			#Balkans/Spain in Axis
 			#Disabled - causes US entry into the war far too early if SCW never ended or Greece invaded early. Need to wait for France to be defeated before things get really serious.
@@ -2490,7 +2527,7 @@ event = {
 	}
 	decision_trigger = {
 		OR = {
-			belligerence = { country = GER value = 170 } 
+			belligerence = { country = GER value = 180 } 
 			flag = ENG_invaded
 			#USSR is invaded
 			AND = {
@@ -2514,7 +2551,7 @@ event = {
 			event = 620
 		}
 		OR = {
-			belligerence = { country = GER value = 170 } 
+			belligerence = { country = GER value = 180 } 
 			flag = ENG_invaded
 			#USSR is invaded
 			AND = {
@@ -2670,7 +2707,7 @@ event = {
 	}
 	decision_trigger = {
 		OR = {
-			belligerence = { country = GER value = 200 } 
+			belligerence = { country = GER value = 230 } 
 			flag = ENG_invaded
 			#USSR is losing the war
 			NOT = { control = { province = 175 data = SOV } } #Moscow
@@ -2688,7 +2725,7 @@ event = {
 		NOT = { war = { country = GER } }
 		event = 630
 		OR = {
-			belligerence = { country = GER value = 200 } 
+			belligerence = { country = GER value = 230 } 
 			flag = ENG_invaded
 			#USSR is losing the war
 			NOT = { control = { province = 175 data = SOV } } #Moscow
@@ -2790,6 +2827,7 @@ event = {
 		ai = no
 		NOT = { local_flag = IamTheSenate }
 		NOT = { local_flag = CongressAdjourns }
+		exists = GER
 		NOT = {
 			war = { country = ENG }
 			war = { country = SOV }
@@ -3266,12 +3304,12 @@ event = {
 	}
 	decision_trigger = {
 		event = 610 #Cash and Carry Europe
-		lost_national = { country = SOV value = 3 }
+		lost_VP = { country = SOV value = 3 }
 	}
 	trigger = {
 		war = { country = GER country = SOV }
 		NOT = { flag = SOV_noLendLease }
-		lost_national = { country = SOV value = 3 }
+		lost_VP = { country = SOV value = 3 }
 		event = 610 #Cash and Carry Europe
 	}
 
@@ -3366,7 +3404,7 @@ event = {
 		}
 		OR = {
 			event = { id = 700 days = 180 } #6 months after Cash and Carry USSR
-			lost_national = { country = SOV value = 12 }
+			lost_VP = { country = SOV value = 12 }
 			AND = {
 				NOT = { control = { province = 212 data = SOV } } #Minsk
 				NOT = { control = { province = 238 data = SOV } } #Kiev
@@ -3383,7 +3421,7 @@ event = {
 		}
 		OR = {
 			event = { id = 700 days = 180 } #6 months after Cash and Carry USSR
-			lost_national = { country = SOV value = 12 }
+			lost_VP = { country = SOV value = 12 }
 			AND = {
 				NOT = { control = { province = 212 data = SOV } } #Minsk
 				NOT = { control = { province = 238 data = SOV } } #Kiev
@@ -3486,7 +3524,7 @@ event = {
 		lost_national = { country = SOV value = 3 }
 		OR = {
 			war = { country = GER }
-			lost_national = { country = SOV value = 15 }
+			lost_VP = { country = SOV value = 12 }
 		}
 	}
 	trigger = {
@@ -3495,7 +3533,7 @@ event = {
 		lost_national = { country = SOV value = 3 }
 		OR = {
 			war = { country = GER }
-			lost_national = { country = SOV value = 15 }
+			lost_VP = { country = SOV value = 12 }
 		}
 	}
 
@@ -3697,11 +3735,9 @@ event = {
 		command = { type = construct which = air_base where = 1360 value = 2 } #Chengdu
 		command = { type = construct which = air_base where = 5570 value = 1 } #Fuxian
 		
-		#China will construct AA on its own with soviet supply aid
-		#command = { type = construct which = flak where = 1360 value = 1 }
-		#command = { type = construct which = flak where = 2551 value = 2 }
-		#command = { type = construct which = flak where = 1270 value = 1 }
-		#command = { type = construct which = flak where = 1267 value = 1 }
+		#Need to give at least a little starting AA, otherwise Japan will destroy china from the air
+		command = { type = construct which = flak where = 1360 value = 1 }
+		command = { type = construct which = flak where = 1270 value = 1 }
 		
 		command = { type = wakeleader which = 55375 } #Khryukin
 	   	command = { type = gain_tech which = 6310  } #Large Front Doctrine
@@ -4215,9 +4251,10 @@ event = {
 		
 		command = { type = construct which = air_base where = 1918 value = 2 } #Dali
 		
-		#China will construct AA on its own with british supply aid
-		#command = { type = construct which = flak where = 1918 value = 1 }
-		#command = { type = construct which = flak where = 1307 value = 2 }
+		#Need to give at least a little starting AA, otherwise Japan will destroy china from the air
+		command = { type = construct which = flak where = 2551 value = 1 }
+		command = { type = construct which = flak where = 1307 value = 1 }
+
 
 		command = { type = local_setflag which = ENG_Lend_Lease_to_CHI2_local }
 	}
@@ -4334,7 +4371,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 60
+	offset = 20
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -4562,8 +4599,7 @@ event = {
 		trigger = {
 			OR = { flag = USA_Lend_Lease_to_CHI0 flag = USA_Lend_Lease_to_CHI1 flag = USA_Lend_Lease_to_CHI2 flag = USA_Lend_Lease_to_CHI3 flag = USA_Lend_Lease_to_CHI4 }
 			OR = {
-				#temporarily disable free player choice
-				#ai = no
+				ai = no
 				NOT = { war = { country = JAP country = CHI } }
 				lost_national = { value = 10 }
 			}
@@ -4867,7 +4903,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 60
+	offset = 20
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -5127,8 +5163,7 @@ event = {
 		trigger = {
 			OR = { flag = OperationZ flag = SOV_Lend_Lease_to_CHI1 flag = SOV_Lend_Lease_to_CHI2 flag = SOV_Lend_Lease_to_CHI3 flag = SOV_Lend_Lease_to_CHI4 }
 			OR = {
-				#temporarily disable free player choice
-				#ai = no
+				ai = no
 				NOT = { war = { country = JAP country = CHI } }
 				lost_national = { value = 10 }
 				NOT = { alliance = { country = CHC country = CHI } }
@@ -5417,10 +5452,10 @@ event = {
 event = {
 	id = 1015
 	random = no
-	country = JAP
+	country = SOV
 
 	name = "Soviet-Japanese Non-Aggression Pact"
-	desc = "After the Fall of France and then the expansion of the Axis Powers, the Soviet Union wished to mend its diplomatic relations in the Far East to safeguard its eastern border and to concentrate on the European Theatre of World War II. On the other hand, the Empire of Japan was bogged down in a seemingly-interminable war against China and had rapidly-deteriorating relations with the United States. Reaching an accomodation with the Soviet Union would allow Japan to both secure the withdrawal of Soviet support from China, something which Japan seeked to achieve over the past 3 years, while also securing Manchuria and Inner Mongolia from any potential Soviet invasion."
+	desc = "After the Fall of France and then the expansion of the Axis Powers, the Soviet Union wished to mend its diplomatic relations in the Far East to safeguard its eastern border and to concentrate on the European Theatre of World War II. On the other hand, the Empire of Japan was bogged down in a seemingly-interminable war against China and had rapidly-deteriorating relations with the United States. Reaching an accomodation with the Soviet Union would allow Japan to both secure the withdrawal of Soviet support from China, something which Japan seeked to achieve over the past 3 years, while also securing Manchuria and Inner Mongolia from any potential Soviet invasion during the upcoming war with the United States."
 	style = 2
 
 	decision = {
@@ -5429,43 +5464,54 @@ event = {
 		event = 2011023 #Khalkin Ghol
 	}
 	decision_trigger = {
-		NOT = { war = { country = SOV } }
-		#Conditions for USSR to accept
+		NOT = { war = { country = JAP country = SOV } }
+		#Human SOV has to have at least 30 divisions in the far east region, otherwise Japan is not interested
+		garrison = { country = SOV province = 1372 type = land size = 30 area = 2 }
 		OR = {
-			NOT = { ai = SOV }
+			NOT = { ai = JAP }
+			AND = {
+				event = 2011014 #Khalkin Ghol - Soviet Victory
+				event = 540 #US export control act - war against the US is looming
+			}
+		}
+		OR = {
 			event = 2011016 #Khalkin Ghol - Japanese Victory
-			NOT = { flag = OperationZ }
 			NOT = { war = { country = JAP country = CHI } }
 			NOT = { alliance = { country = CHC country = CHI } }
 			flag = NewFourthArmyIncident
 			lost_national = { country = SOV value = 10 }
 			war = { country = SOV country = GER }
 			event = { id = 2002008 days = 180 } #~6 months since the fall of France. The USSR is getting worried about the looming German invasion
+			AND = {
+				event = { id = 2002008 days = 180 } #~6 months since the fall of France. The USSR is getting worried about the looming German invasion
+				flag = USA_Lend_Lease_to_CHI2 #USA is supporting China
+			}
 		}
 	}
 	trigger = {
 		NOT = { flag = JAP_SOV_NAP }
 		event = 2011024 #Chasan lake
 		event = 2011023 #Khalkin Ghol
-		event = 2011014 #Khalkin Ghol - Soviet Victory
-		event = 540 #US export control act - war against the US is looming
+		NOT = { war = { country = JAP country = SOV } }
 		OR = {
-			ai = SOV
-			#Human SOV has to have at least 30 divisions in the far east region, otherwise Japan is not interested
-			garrison = { country = SOV province = 1372 type = land size = 30 area = 2 }
+			NOT = { ai = JAP }
+			AND = {
+				event = 2011014 #Khalkin Ghol - Soviet Victory
+				event = 540 #US export control act - war against the US is looming
+				NOT = { flag = { which = japChi when = 1 value = 60  } }
+			}
 		}
-		NOT = { war = { country = SOV } }
-		#Conditions for USSR to accept
 		OR = {
-			#US lend lease - war is near - Japan will propose NAP at this point even if the USSR will probably not accept it
-			#event = 550
-			NOT = { flag = OperationZ }
+			event = 2011016 #Khalkin Ghol - Japanese Victory
 			NOT = { war = { country = JAP country = CHI } }
 			NOT = { alliance = { country = CHC country = CHI } }
 			flag = NewFourthArmyIncident
 			lost_national = { country = SOV value = 10 }
 			war = { country = SOV country = GER }
-			event = { id = 2002008 days = 180 } #~6 months since the fall of France. The USSR is getting worried about the looming German invasion
+			AND = {
+				event = { id = 2002008 days = 180 } #~6 months since the fall of France. The USSR is getting worried about the looming German invasion
+				flag = USA_Lend_Lease_to_CHI2 #USA is supporting China
+			}
 		}
 	}
 
@@ -5475,11 +5521,6 @@ event = {
 
 	action = {
 		name = "Propose Non-Aggression Pact"
-		command = { type = dissent value = 0.5 }
-
-		command = { type = relation which = GER value = -10 }
-		command = { type = relation which = ITA value = -10 }
-
 		command = { type = trigger which = 1016 }
 	}
 }
@@ -5487,10 +5528,10 @@ event = {
 event = {
 	id = 1016
 	random = no
-	country = SOV
+	country = JAP
 
 	name = "Soviet-Japanese Non-Aggression Pact"
-	desc = "After the Fall of France and then the expansion of the Axis Powers, the Soviet Union wished to mend its diplomatic relations in the Far East to safeguard its eastern border and to concentrate on the European Theatre of World War II. On the other hand, the Empire of Japan was bogged down in a seemingly-interminable war against China and had rapidly-deteriorating relations with the United States. Reaching an accomodation with the Soviet Union would allow Japan to both secure the withdrawal of Soviet support from China, something which Japan seeked to achieve over the past 3 years, while also securing Manchuria and Inner Mongolia from any potential Soviet invasion."
+	desc = "After the Fall of France and then the expansion of the Axis Powers, the Soviet Union wished to mend its diplomatic relations in the Far East to safeguard its eastern border and to concentrate on the European Theatre of World War II. On the other hand, the Empire of Japan was bogged down in a seemingly-interminable war against China and had rapidly-deteriorating relations with the United States. Reaching an accomodation with the Soviet Union would allow Japan to both secure the withdrawal of Soviet support from China, something which Japan seeked to achieve over the past 3 years, while also securing Manchuria and Inner Mongolia from any potential Soviet invasion during the upcoming war with the United States."
 	style = 2
 
 	action = {
@@ -5498,18 +5539,61 @@ event = {
 		ai_chance = 100
 		trigger = { 
 			OR = {
-				NOT = { ai = SOV }
-				event = 2011016 #Khalkin Ghol - Japanese Victory
-				NOT = { flag = OperationZ }
-				NOT = { war = { country = JAP country = CHI } }
-				NOT = { alliance = { country = CHC country = CHI } }
-				flag = NewFourthArmyIncident
-				lost_national = { country = SOV value = 10 }
-				war = { country = SOV country = GER }
-				event = { id = 2002008 days = 180 } #~6 months since the fall of France. The USSR is getting worried about the looming German invasion
+				NOT = { ai = JAP }
+				AND = {
+					event = 2011014 #Khalkin Ghol - Soviet Victory
+					event = 540 #US export control act - war against the US is looming
+					NOT = { flag = { which = japChi when = 1 value = 60  } }
+				}
 			}
 		}
-		command = { type = dissent value = 0.5 }
+		command = { type = dissent value = 0.2 }
+
+		command = { type = relation which = SOV value =  50 }
+		command = { type = relation which = GER value = -10 }
+		command = { type = relation which = ITA value = -10 }
+
+		command = { type = event which = 1017 where = SOV when = 0 }
+	}
+	
+	action = {
+		name = "Not interested"
+		ai_chance = 100
+		trigger = {  
+			OR = {
+				NOT = { ai = JAP }
+				NOT = {
+					AND = {
+						event = 2011014 #Khalkin Ghol - Soviet Victory
+						event = 540 #US export control act - war against the US is looming
+						NOT = { flag = { which = japChi when = 1 value = 60  } }
+					}
+				}
+			}
+		}
+
+		command = { type = relation which = SOV value = -50 }
+		command = { type = relation which = GER value = 10  }
+		command = { type = relation which = ITA value = 10  }
+	}
+}
+
+event = {
+	id = 1017
+	random = no
+
+	name = "Soviet-Japanese Non-Aggression Pact Signed"
+	desc = "We have signed a non-aggresion pact with the Empire of Japan. This will make our nations stronger."
+	style = 2
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = dissent value = 0.2 }
+
+		command = { type = relation which = ENG value = -10 }
+		command = { type = relation which = USA value = -10 }
+		command = { type = relation which = CHI value = -20 }
+		command = { type = relation which = CHC value = -20 }
 		
 		command = { type = end_trades which = SOV where = CHI }
 		command = { type = end_trades which = SOV where = CHC }
@@ -5553,39 +5637,8 @@ event = {
 		command = { trigger = { flag = OperationZ } type = event 	which = 1011 where = CHC when = 1 }
 		command = { trigger = { flag = OperationZ } type = clrflag 	which = OperationZ }
 		
-
-		command = { type = relation which = JAP value =  50 }
-		command = { type = relation which = CHI value = -10 }
-		command = { type = relation which = CHC value = -10 }
 		command = { type = non_aggression which = JAP where = SOV when = 1800 } #5 years
 		command = { type = setflag which = JAP_SOV_NAP }
-	}
-	action = {
-		name = "Not interested"
-		ai_chance = 100
-		trigger = {  
-			OR = {
-				NOT = { ai = SOV }
-				NOT = {
-					event = 2011016 #Khalkin Ghol - Japanese Victory
-					NOT = { flag = OperationZ }
-					NOT = { war = { country = JAP country = CHI } }
-					NOT = { alliance = { country = CHC country = CHI } }
-					flag = NewFourthArmyIncident
-					lost_national = { country = SOV value = 10 }
-					war = { country = SOV country = GER }
-					event = { id = 2002008 days = 180 } #~6 months since the fall of France. The USSR is getting worried about the looming German invasion
-				}
-			}
-		}
-
-		command = { type = relation which = JAP value = -50 }
-		command = { type = relation which = CHI value = 10 }
-		command = { type = relation which = CHC value = 10 }
-		command = { trigger = { non_aggression = { country = SOV country = MAN } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
-		command = { type = end_non_aggression which = SOV where = MAN }
-		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -5 }
-		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_clrflag which = dissentReduce5 }
 	}
 }
 
@@ -5662,7 +5715,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 60
+	offset = 20
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -5889,8 +5942,6 @@ event = {
 		trigger = {
 			OR = { flag = ENG_Lend_Lease_to_CHI0 flag = ENG_Lend_Lease_to_CHI1 flag = ENG_Lend_Lease_to_CHI2 flag = ENG_Lend_Lease_to_CHI3 flag = ENG_Lend_Lease_to_CHI4 }
 			OR = {
-				#temporarily disable free player choice
-				#ai = no
 				NOT = { war = { country = JAP country = CHI } }
 				lost_national = { value = 10 }
 			}
@@ -6737,7 +6788,7 @@ event = {
 		command = { trigger = { flag = USA_Lend_Lease_to_SOV4 } type = relation 	which = GER value =  60 }
 		command = { trigger = { flag = USA_Lend_Lease_to_SOV4 } type = clrflag 		which = USA_Lend_Lease_to_SOV4 }
 		
-		command = { type = trade which = USA where = SOV energy = -25 metal = -15 oil = -25 rare_materials = 3 money = 0.6	supplies = -150	value = 1 } 
+		command = { type = trade which = USA where = SOV energy = -25 metal = -25 oil = -25 rare_materials = 5 money = 0.6	supplies = -150	value = 1 } 
 		command = { 											type = belligerence value = 2   }
 		command = { 											type = free_ic  	value = -10 }
 		command = { 											type = extra_tc 	value = -50 }
@@ -6792,7 +6843,7 @@ event = {
 		command = { trigger = { flag = USA_Lend_Lease_to_SOV4 } type = clrflag 		which = USA_Lend_Lease_to_SOV4 }
 		
 		
-		command = { type = trade which = USA where = SOV energy = -50 metal = -30 oil = -50 rare_materials = 5 money = 0.8	supplies = -300	value = 1 } 
+		command = { type = trade which = USA where = SOV energy = -50 metal = -50 oil = -50 rare_materials = 10 money = 0.8	supplies = -300	value = 1 } 
 		command = { 											type = belligerence value = 4    }
 		command = { 											type = free_ic  	value = -20  }
 		command = { 											type = extra_tc 	value = -100 }
@@ -6847,7 +6898,7 @@ event = {
 		command = { trigger = { flag = USA_Lend_Lease_to_SOV4 } type = clrflag 		which = USA_Lend_Lease_to_SOV4 }
 		
 		
-		command = { type = trade which = USA where = SOV energy = -75 metal = -45 oil = -75 rare_materials = 7 money = 1.0	supplies = -450	value = 1 } 
+		command = { type = trade which = USA where = SOV energy = -75 metal = -75 oil = -75 rare_materials = 15 money = 1.0	supplies = -450	value = 1 } 
 		command = { 											type = belligerence value = 6    }
 		command = { 											type = free_ic  	value = -30  }
 		command = { 											type = extra_tc 	value = -150 }
@@ -7198,7 +7249,7 @@ event = {
 		command = { trigger = { flag = ENG_Lend_Lease_to_SOV4 } type = relation 	which = GER value =  60 }
 		command = { trigger = { flag = ENG_Lend_Lease_to_SOV4 } type = clrflag 		which = ENG_Lend_Lease_to_SOV4 }
 		
-		command = { type = trade which = ENG where = SOV energy = -25 metal = -15 	rare_materials = 2 money = 0.2	supplies = -40	value = 1 } 
+		command = { type = trade which = ENG where = SOV energy = -25 metal = -25 	rare_materials = 5 money = 0.2	supplies = -40	value = 1 } 
 		command = { 											type = belligerence value = 2   }
 		command = { 											type = free_ic  	value = -10 }
 		command = { 											type = extra_tc 	value = -50 }
@@ -7254,7 +7305,7 @@ event = {
 		command = { trigger = { flag = ENG_Lend_Lease_to_SOV4 } type = clrflag 		which = ENG_Lend_Lease_to_SOV4 }
 		
 		
-		command = { type = trade which = ENG where = SOV energy = -50 metal = -30 rare_materials = 3 money = 0.3	supplies = -60	value = 1 } 
+		command = { type = trade which = ENG where = SOV energy = -50 metal = -50 rare_materials = 10 money = 0.3	supplies = -60	value = 1 } 
 		command = { 											type = belligerence value = 4    }
 		command = { 											type = free_ic  	value = -20  }
 		command = { 											type = extra_tc 	value = -100 }
@@ -7310,7 +7361,7 @@ event = {
 		command = { trigger = { flag = ENG_Lend_Lease_to_SOV4 } type = clrflag 		which = ENG_Lend_Lease_to_SOV4 }
 		
 		
-		command = { type = trade which = ENG where = SOV energy = -75 metal = -45 rare_materials = 4 money = 0.4	supplies = -80	value = 1 } 
+		command = { type = trade which = ENG where = SOV energy = -75 metal = -75 rare_materials = 15 money = 0.4	supplies = -80	value = 1 } 
 		command = { 											type = belligerence value = 6    }
 		command = { 											type = free_ic  	value = -30  }
 		command = { 											type = extra_tc 	value = -150 }
@@ -7372,8 +7423,8 @@ event = {
 	tag = { SOV }
 	persistent = yes
 
-	name = "ENG adjusts Aid to USSR"
-	desc = "Given the changing circumstances on the ground, ENG has the option of adjusting or terminating the aid it is providing to USSR."
+	name = "UK adjusts Aid to USSR"
+	desc = "Given the changing circumstances on the ground, UK has the option of adjusting or terminating the aid it is providing to USSR."
 	style = 2
 
 	action = {
@@ -8033,7 +8084,7 @@ event = {
 #@ 1937-12-13
 #########################################################################
 event = {
-	id = 2049022
+	id = 2049222
 	random = no
 	country = USA
 	one_action = yes
@@ -8165,7 +8216,7 @@ event = {
 #@ 1945-04-12
 #########################################################################
 event = {
-	id = 2049033
+	id = 2045020
 	random = no
 	country = USA
 
@@ -8399,7 +8450,7 @@ event = {
 #  The Revolution has come!
 #########################################################################
 event = {
-	id = 2049041
+	id = 2049091
 	random = no
 	country = USA
 
@@ -8485,7 +8536,7 @@ event = {
 # USA controls Chinese army
 #######################################
 event = {
-	id = 2049042
+	id = 2049092
 	random = no
 	country = USA
 
@@ -8520,7 +8571,7 @@ event = {
 }
 
 event = {
-	id = 2049043
+	id = 2049093
 	random = no
 	country = USA
 
@@ -8554,7 +8605,7 @@ event = {
 # USA controls French army
 #######################################
 event = {
-	id = 2049044
+	id = 2049094
 	random = no
 	country = USA
 
@@ -8589,7 +8640,7 @@ event = {
 }
 
 event = {
-	id = 2049045
+	id = 2049095
 	random = no
 	country = USA
 
@@ -8624,7 +8675,7 @@ event = {
 # Surrender events
 ######################################################
 event = {
-	id = 2049046
+	id = 2049096
 	random = no
 	country = USA
 
@@ -8668,12 +8719,12 @@ event = {
 
 	action = {
 		name = "Inquire about their conditions"
-		command = { type = trigger which = 2049047 }
+		command = { type = trigger which = 2049097 }
 	}
 }
 
 event = {
-	id = 2049047
+	id = 2049097
 	random = no
 	country = JAP
 
@@ -8685,12 +8736,12 @@ event = {
 	action = {
 		ai_chance = 95
 		name = 130641c #End all Oversea Involvement
-		command = { type = trigger which = 2049048 }
+		command = { type = trigger which = 2049098 }
 	}
 	action = {
 		ai_chance = 5
 		name = 130641e #Total Conquest
-		command = { type = sleepevent which = 2049047 }
+		command = { type = sleepevent which = 2049097 }
 		command = { type = belligerence which = JAP value = 5 }
 		command = { type = belligerence which = GER value = 5 }
 		command = { type = dissent value = 5 }
@@ -8698,7 +8749,7 @@ event = {
 }
 
 event = {
-	id = 2049048
+	id = 2049098
 	random = no
 	country = USA
 
@@ -8788,7 +8839,7 @@ event = {
 # German-American Cold War
 ##################################
 event = {
-	id = 2049053
+	id = 2049150
 	random = no
 	country = GER
 
@@ -8830,11 +8881,11 @@ event = {
 
 	action = {
 		name = "Let's try to reach a compromise with the Americans"
-		command = { type = trigger which = 2049055 }
+		command = { type = trigger which = 2049151 }
 	}
 }
 event = {
-	id = 2049055
+	id = 2049151
 	random = no
 	country = USA
 
@@ -8878,19 +8929,19 @@ event = {
 		command = { type = secederegion which = GER value = "Horn of Africa" 		when = 1 }
 		command = { type = secederegion which = GER value = "North Solomon Islands" when = 1 }
 		
-		command = { type = trigger which = 2049114 }
+		command = { type = trigger which = 2049152 }
 	}
 	action = {
 		ai_chance = 0
 		name = ACTINUTILE
 		command = { type = dissent value = 5 }
-		command = { type = sleepevent which = 2049054 }
+		command = { type = sleepevent which = 2049153 }
 	}
 }
 
 
 event = {
-	id = 2049114
+	id = 2049152
 	random = no
 	country = GER
 	
@@ -8909,7 +8960,7 @@ event = {
 
 ###### A war for revenge
 event = {
-	id = 2049054
+	id = 2049153
 	random = no
 	country = USA
 
@@ -8919,10 +8970,10 @@ event = {
 	picture = "news_paper"
 
 	decision = {
-		event = 2049114
+		event = 2049152
 	}
 	trigger = {
-		event = 2049114
+		event = 2049152
 		NOT = { 
 			ispuppet = USA
 			alliance = { country = USA country = GER }

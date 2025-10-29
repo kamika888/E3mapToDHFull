@@ -42,7 +42,7 @@ event = {
 
 	action = {
 		name = "The Liberation Campaign of the Red Army starts today"
-		command = { type = dissent value = -1 }
+		command = { type = dissent value = 1 }
 		command = { type = war which = POL }
 		command = { type = belligerence value = 5 }
 		command = { type = setflag which = SOVPolAttack }
@@ -78,6 +78,8 @@ event = {
 				war = { country = GER country = POL }
 			}
 		type = event which = 2007019 where = ENG when = 0 }
+		
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } } type = event which = 8300105 where = -1 when = 0 } #Partial mobilization
 	}
 }
 
@@ -371,7 +373,13 @@ event = {
 		}
 	}
 	decision_trigger = {
-		belligerence = { country = GER value = 80 }
+		OR = {
+			belligerence = { country = GER value = 100 } 
+			AND = {
+				NOT = { non_aggression = { country = SOV country = GER } }
+				belligerence = { country = GER value = 70 } 
+			}
+		}
 	}
 	trigger = { 
 		NOT = { 
@@ -387,7 +395,13 @@ event = {
 			control = { province = 485 data = GER }
 			alliance = { country = GER country = POL }
 		}
-		belligerence = { country = GER value = 80 }
+		OR = {
+			belligerence = { country = GER value = 100 } 
+			AND = {
+				NOT = { non_aggression = { country = SOV country = GER } }
+				belligerence = { country = GER value = 70 } 
+			}
+		}
 		
 		control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
 	
@@ -466,90 +480,6 @@ event = {
 }
 
 
-
-#########################################################################
-#  Manchurian Operation
-#########################################################################
-event = {
-	id = 3183025
-	random = no
-	country = SOV
-	
-	name = "Manchurian Operation" 
-	desc = "With Japan distracted and preoccupied with threats elsewhere, now is a good time to invade Manchuria and crush the Japanese threat once and for all."
-	style = 2
-	picture = "Marco_Polo_bridge"
-	
-	decision = {
-		NOT = { war = { country = JAP }	}
-		OR = {
-			control = { province = 2241 data = -3  } # Warzaw
-			control = { province = 2241 data = JAP }
-			alliance = { country = JAP country = MAN }
-		}
-	}
-	decision_trigger = {
-		belligerence = { country = JAP value = 80 }
-	}
-	trigger = { 
-		NOT = { 
-			#war = { country = GER }
-			war = { country = JAP }
-			war = { country = ENG }
-			#war = { country = FIN }
-			#war = { country = SWE }
-			#war = { country = ROM }
-		}
-		OR = {
-			control = { province = 2241 data = -3  } # Warzaw
-			control = { province = 2241 data = JAP }
-			alliance = { country = JAP country = MAN }
-		}
-		belligerence = { country = JAP value = 80 }
-		#control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
-	
-		NOT = { lost_VP = { country = SOV value = 10 } }
-		OR = {
-			NOT = { war = { country = GER } }
-			# Finished reogranization of the Red Army (Nov 1942) and ready to strike
-			event = { id = 2007030 days = 30 } 
-		}
-		#Japan has almost no defenses on the border. Unfortunately, cannot count allied troops, counting only Japanese
-		NOT = { ai = JAP }
-		NOT = { garrison = { country = JAP province = 1379 type = land size = 12 area = 3 } } #Manchuria
-		NOT = { garrison = { country = JAP province = 1199 type = land size = 10 area = 2 } } #Korea
-		war = { country = JAP country = ENG } #Japan distracted
-		war = { country = JAP country = USA }
-		war = { country = JAP country = CHI }
-		#USSR has plenty of troops on the border
-		garrison = { country = SOV province = 1525 type = land size = 15 area = 2 }
-	}
-	
-	date = { day = 0 month = january year = 1936 }
-	offset = 10
-	deathdate = { day = 28 month = january year = 1943 }
-
-	action = {
-		name = "evt_4700a"
-		#Leaving net +3 dissent if there was a non-aggression pact. Otherwise, no dissent.
-		command = { trigger = { non_aggression = { country = SOV country = JAP } } type = local_setflag which = NAPDissent }
-		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = SOV where = JAP } #will give 5 dissent
-		command = { trigger = { local_flag = NAPDissent } type = dissent value = -3 }
-		command = { trigger = { local_flag = NAPDissent } type = belligerence which = SOV	value = 20  }
-		command = { trigger = { local_flag = NAPDissent } type = belligerence which = JAP	value = -20 }
-		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
-		
-		#manchuria may also have NAP, removing it in full
-		command = { trigger = { non_aggression = { country = SOV country = MAN } } type = local_setflag which = NAPDissent }
-		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = SOV where = MAN } #will give 5 dissent
-		command = { trigger = { local_flag = NAPDissent } type = dissent value = -5 }
-		command = { trigger = { local_flag = NAPDissent } type = belligerence which = SOV	value = 5  }
-		command = { trigger = { local_flag = NAPDissent } type = belligerence which = MAN	value = -5 }
-		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
-		
-		command = { type = war which = JAP } 
-	}
-}
 
 #########################################################################
 #  Baltic states after end of Poland and Finnish Winter War
@@ -758,10 +688,11 @@ event = {
 		name = ACTION_NAME_GREAT
 		command = { type = make_puppet which = EST }
 		command = { type = event which = 2400537 where = EST when = 0 } #medium-strong puppet
-		command = { type = demobilize which = garrison when = 0 where = 1 value = -1 }
+		command = { type = demobilize which = militia when = 0 where = 1 value = -1 }
 		command = { type = add_corps which = "Group of Forces in Estonia" value = land where = 194 }
 		command = { type = activate_division which = 10848 value = 8601 where = 194 when = 0 }
-		command = { type = trigger which = 3183015 }
+		command = { trigger = { ai = no } type = unlock_division which = 10848 value = 8601 }
+		command = { type = event which = 3183015 where = EST when = 0 }
 	}
 }
 
@@ -779,9 +710,11 @@ event = {
 		name = ACTION_NAME_GREAT
 		command = { type = make_puppet which = LAT }
 		command = { type = event which = 2400537 where = LAT when = 0 } #medium-strong puppet
+		command = { type = demobilize which = militia when = 0 where = 1 value = -1 }
 		command = { type = add_corps which = "Group of Forces in Latvia" value = land where = 197 }
 		command = { type = activate_division which = 10848 value = 8602 where = 197 when = 0 }
-		command = { type = trigger which = 3183016 }
+		command = { trigger = { ai = no } type = unlock_division which = 10848 value = 8602 }
+		command = { type = event which = 3183016 where = LAT when = 0 }
 	}
 }
 
@@ -799,9 +732,11 @@ event = {
 		name = ACTION_NAME_OK
 		command = { type = make_puppet which = LIT }
 		command = { type = event which = 2400537 where = LIT when = 0 } #medium-strong puppet
-		command = { trigger = { ai = yes } type = add_corps which = "Group of Forces in Lithuania" value = land where = 207 }
-		command = { trigger = { ai = yes } type = activate_division which = 10848 value = 8603 where = 207 when = 0 }
-		command = { type = trigger which = 3183017 }
+		command = { type = demobilize which = militia when = 0 where = 1 value = -1 }
+		command = { type = add_corps which = "Group of Forces in Lithuania" value = land where = 207 }
+		command = { type = activate_division which = 10848 value = 8603 where = 207 when = 0 }
+		command = { trigger = { ai = no } type = unlock_division which = 10848 value = 8603 }
+		command = { type = event which = 3183017 where = LIT when = 0 }
 	}
 }
 
@@ -818,7 +753,7 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		command = { type = dissent value = 5 }
-		command = { type = leave_alliance }
+		command = { type = leave_alliance when = 1 }
 		command = { type = access which = SOV }
 		command = { type = set_domestic which = political_left value = 5 }
 		command = { type = secedearea		which = EST value = "Estonia"	when = 2 }
@@ -839,7 +774,7 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		command = { type = dissent value = 5 }
-		command = { type = leave_alliance }
+		command = { type = leave_alliance when = 1 }
 		command = { type = access which = SOV }
 		command = { type = set_domestic which = political_left value = 5 }
 		command = { type = secedearea		which = LAT value = "Latvia"	when = 2 }
@@ -859,7 +794,7 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		command = { type = dissent value = 5 }
-		command = { type = leave_alliance }
+		command = { type = leave_alliance when = 1 }
 		command = { type = access which = SOV }
 		command = { type = set_domestic which = political_left value = 5 }
 		command = { type = secedearea		which = LIT value = "Lithuania"	when = 2 }
@@ -890,7 +825,7 @@ event = {
 		OR = { 
 			control = { province = 56 data = GER } # Paris is in German hands
 			alliance = { country = VIC country = GER }
-			event = { id = 2003025 days = 360 } # Baltic recognized as Soviet territory by Germany in Mol-Rib Pact
+			event = { id = 2003025 days = 540 } # Baltic recognized as Soviet territory by Germany in Mol-Rib Pact
 			war = { country = SOV country = GER }
 		} 
 		control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
@@ -928,7 +863,7 @@ event = {
 		name = "Accept"
 		ai_chance = 99
 		command = { type = demobilize which = land when = 0 where = 0 value = -2 }
-		command = { trigger = { ai = yes } type = unlock_division which = 10848 value = 8601 }
+		command = { type = unlock_division which = 10848 value = 8601 }
 		command = { type = trigger which = 3183034 }
 	}
 	action = {
@@ -936,7 +871,7 @@ event = {
 		ai_chance = 1
 		command = { type = war which = SOV }
 		command = { type = event which = 2400530 where = -1 when = 0 } #legit indie
-		command = { trigger = { ai = yes } type = unlock_division which = 10848 value = 8601 }
+		command = { type = unlock_division which = 10848 value = 8601 }
 		command = { type = domestic which = political_left value = -2 }
 	}
 }
@@ -955,7 +890,7 @@ event = {
 		name = "Accept"
 		ai_chance = 99
 		command = { type = demobilize which = land when = 0 where = 0 value = -2 }
-		command = { trigger = { ai = yes } type = unlock_division which = 10848 value = 8602 }
+		command = { type = unlock_division which = 10848 value = 8602 }
 		command = { type = trigger which = 3183035 }
 	}
 	action = {
@@ -963,7 +898,7 @@ event = {
 		ai_chance = 1
 		command = { type = war which = SOV }
 		command = { type = event which = 2400530 where = -1 when = 0 } #legit indie
-		command = { trigger = { ai = yes } type = unlock_division which = 10848 value = 8602 }
+		command = { type = unlock_division which = 10848 value = 8602 }
 		command = { type = domestic which = political_left value = -2 }
 	}
 }
@@ -982,7 +917,7 @@ event = {
 		name = "Accept"
 		ai_chance = 99
 		command = { type = demobilize which = land when = 0 where = 0 value = -2 }
-		command = { trigger = { ai = yes } type = unlock_division which = 10848 value = 8603 }
+		command = { type = unlock_division which = 10848 value = 8603 }
 		command = { type = trigger which = 3183036 }
 	}
 	action = {
@@ -990,7 +925,7 @@ event = {
 		ai_chance = 1
 		command = { type = war which = SOV }
 		command = { type = event which = 2400530 where = -1 when = 0 } #legit indie
-		command = { trigger = { ai = yes } type = unlock_division which = 10848 value = 8603 }
+		command = { type = unlock_division which = 10848 value = 8603 }
 		command = { type = domestic which = political_left value = -2 }
 	}
 }
@@ -1151,6 +1086,8 @@ event = {
 						war = { country = ENG country = SOV }
 					} }  type = war which = SOV }
 		#command = { type = domestic which = political_left value = -1 }
+		command = { type = local_setflag which = inMajorWar	}
+		command = { trigger = { ai = yes } type = event which = 2401802 where = -1 when = 30 }
 	}
 }
 
@@ -1172,6 +1109,107 @@ event = {
 		command = { type = belligerence value = 5 }
 	}
 }
+
+
+event = {
+	id = 3183040
+	random = no
+	country = SOV
+	persistent = yes
+	
+	name = "Sanctions Imposed"
+	desc = "The response from England and France to the Soviet invasion of Finland was unusually sharp compared to how they handled its earlier invasion of Poland. Though weaker than the total blockade of Germany, Britain and France quickly moved to apply economic measures against the USSR, banning the import of Soviet products (notably timber, oil products, and grain), and the export of war materiel and certain strategic goods to the USSR. The UK went so far as to start detaining and extensively searching Soviet merchant ships, though most were eventually released unless they were found to be headed to or from Germany."
+	style = 2
+
+	trigger = {
+		NOT = { local_flag = SanctionsEvt }
+		#England will do only if not isolated
+		OR = {
+			alliance = { country = ENG country = VIC }
+			alliance = { country = ENG country = USA }
+		}
+		OR = {
+			war = { country = FIN }
+			#war = { country = EST }
+			#war = { country = LAT }
+			#war = { country = LIT }
+			war = { country = ROM }
+		}
+		NOT = {
+			war = { country = GER }
+			war = { country = ITA }
+			war = { country = JAP }
+			war = { country = ENG }
+			war = { country = USA }
+		}
+	}
+	
+	date = { day = 0 month = january year = 1938 }
+	offset = 10
+	deathdate = { day = 0 month = december year = 1945 }	
+
+	action = {
+		name = "ACTION_NAME_DAMN"
+		command = { 															type = local_setflag 		which = SanctionsEvt  }
+		command = { 															type = embargo which = ENG 	where = SOV value = 1 }
+		command = { trigger = { alliance = { country = ENG country = VIC } } 	type = embargo which = VIC 	where = SOV value = 1 }
+
+		command = { trigger = { NOT = { local_flag = Sanctions    } } 			type = industrial_modifier	which = ic value = -8 }
+		command = { trigger = { NOT = { local_flag = Sanctions    } } 			type = local_setflag 		which = Sanctions	  }
+	}
+}
+
+event = {
+	id = 3183041
+	random = no
+	country = SOV
+	persistent = yes
+	
+	name = "Sanctions Lifted"
+	desc = "Once Finland made peace, England and France quietly dropped the sanctions against the USSR in the spring of 1940 and concentrated on their war against Germany. By June 1940, when the USSR occupied the Baltic States and parts of Romania, the Western powers were already collapsing under German attack and made no new sanctions."
+	style = 2
+
+	trigger = {
+		local_flag = SanctionsEvt
+		NOT = {
+			AND = {
+				OR = {
+					alliance = { country = ENG country = VIC }
+					alliance = { country = ENG country = USA }
+				}
+				OR = {
+					war = { country = FIN }
+					#war = { country = EST }
+					#war = { country = LAT }
+					#war = { country = LIT }
+					war = { country = ROM }
+				}
+				NOT = {
+					war = { country = GER }
+					war = { country = ITA }
+					war = { country = JAP }
+					war = { country = ENG }
+					war = { country = USA }
+				}
+			}
+		}
+	}
+	
+	date = { day = 0 month = january year = 1938 }
+	offset = 10
+	deathdate = { day = 0 month = december year = 1945 }	
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { 															type = local_clrflag 		which = SanctionsEvt   }
+		command = { 															type = embargo which = ENG 	where = SOV value = -1 }
+		command = { trigger = { alliance = { country = ENG country = VIC } } 	type = embargo which = VIC 	where = SOV value = -1 }
+
+		command = { trigger = { local_flag = Sanctions } 						type = industrial_modifier	which = ic value = 8   }
+		command = { trigger = { local_flag = Sanctions }			 			type = local_clrflag 		which = Sanctions	   }
+	}
+}
+
 
 
 #########################################################################
@@ -1513,6 +1551,8 @@ event = {
 		command = { type = local_setflag which = FrontAILock }
 		
 		command = { trigger = { NOT = { ai = GER } } type = military_control which = GER where = FIN value = 1 }
+		command = { type = local_setflag which = inMajorWar	}
+		command = { trigger = { ai = yes } type = event which = 2401802 where = -1 when = 30 }
 	}
 	action = {
 		name = "ACTIONNAME3200B" # Fold to Russian Pressure
@@ -1596,6 +1636,7 @@ event = {
 		command = { trigger = { country = ITA } type = trade which = ITA where = FIN supplies = -5	money = 0.1 value = 1 } 
 		command = { type = local_setflag which = assistFIN }
 		command = { type = local_setflag which = 2030010 }
+		
 		command = { type = event which = 2030012 where = FIN when = 0 }
 	}
 	action = {
@@ -1747,6 +1788,11 @@ event = {
 		command = { type = relation which = ENG value = -10 }
 		command = { type = relation which = SWE value = -15 }
 		command = { type = relation which = NOR value = -10 }
+		#Separate event
+		#command = { type = local_setflag which = SanctionsEvt }
+		#command = { type = embargo which = ENG where = SOV value = 1 }
+		#command = { type = embargo which = VIC where = SOV value = 1 }
+		
 		command = { type = event which = 2007140 where = SOV when = 30 }
 		command = { type = event which = 2009003 where = SWE when = 4  }
 	}
@@ -1995,13 +2041,6 @@ event = {
 	random = no
 	country = SOV
 
-	decision = {
-		war = { country = FIN } 
-		NOT = { 
-			war = { country = GER }
-			war = { country = ENG }
-		}
-	}
 	trigger = { 
 		war = { country = FIN } 
 		NOT = { 
@@ -2037,8 +2076,8 @@ event = {
 		name = "ACTIONNAME2627B" # Let's bring them Socialism!
 		ai_chance = 0
 		command = { type = dissent value = 5 } # Casualties are too high
-		command = { type = war which = ENG }
-		command = { type = war which = SWE }
+		#command = { type = war which = ENG }
+		#command = { type = war which = SWE }
 		command = { type = relation which = FIN value = -150 }
 		command = { type = relation which = ENG value = -100 }
 		command = { type = relation which = VIC value = -100 }
@@ -2138,7 +2177,7 @@ event = {
 	action_a = {
 		name = "ACTION_NAME_GOOD" # Good!
 		command = { type = peace which = FIN value = 0 }
-		command = { type = dissent value = -5 }
+		command = { type = dissent value = -4 }
 		command = { type = non_aggression which = SOV where = FIN when = 360 } #1 year non-aggression
 		
 		command = { type = province_manpower 				which = 145 value = -1 }
@@ -2585,13 +2624,13 @@ event = {
 
 	action = {
 		name = 2611a
-		ai_chance = 95
+		ai_chance = 99
 		command = { type = dissent value = -2 }
 		command = { type = local_setflag which = SOVMoscow }
 	}
 	action = {
 		name = 2611b
-		ai_chance = 5
+		ai_chance = 1
 		command = { type = capital which = 1830 } # Kubyschiev
 		command = { type = supplies value = -1500 } 
 		command = { type = construct which = infrastructure where = 175 value = -10 }
@@ -3836,13 +3875,14 @@ event = {
 		command = { type = armamentminister which = 30076 } #Stalin replaces Tymoshenko as Minister of Defense
 		command = { type = local_setflag which = inMajorWar	}
 		
-		command = { trigger = { ai = yes } type = embargo which = -1 where = JAP value = 1  } #stop selling oil to japan damnit
-		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
+		#Delayed
+		#command = { trigger = { ai = yes } type = embargo which = -1 where = JAP value = 1  } #stop selling oil to japan damnit
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
 		
-		#Gearing up 8
-		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 8 } } NOT = { local_flag = WAR_change } } type = event which = 2028 where = -1 when = 0  }
-		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 8 } }			local_flag = WAR_change   } type = local_setflag which = WAR_manual when = 0 value = 1	}
-		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 8 } }			local_flag = WAR_change   } type = event which = 2028 where = -1 when = 0  }
+		#Gearing up 9
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 9 } } NOT = { local_flag = WAR_change } } type = event which = 2029 where = -1 when = 0  }
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 9 } }			local_flag = WAR_change   } type = local_setflag which = WAR_manual when = 0 value = 1	}
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 9 } }			local_flag = WAR_change   } type = event which = 2029 where = -1 when = 0  }
 		
 		command = { trigger = { ai = SIK } 	type = event 	which = 2400040 where = SIK when = 0 } #0 exp
 		command = { trigger = { ai = SOV } 	type = event 	which = 2400047 where = SOV when = 0 } #70 exp
@@ -3852,259 +3892,6 @@ event = {
 	}
 }
 
-#########################################################################
-# Manchuria to Mao
-#########################################################################
-event = {
-	id = 20070500
-	random = no
-	country = SOV
-
-	trigger = {
-		event = 2011028
-		OR = {
-			event = { id = 2011028 days = 360 } #A year since japanese surrender
-			war = { country = CHI country = CHC } #Civil war resumed
-		}
-		
-		OR = {
-			event = 2007011 # Japan surrendered to SOV
-			event = 2049003 # Japan surrendered to USA
-			NOT = {
-				exists = JAP
-			}
-		}
-		region = { region = "China" country = -1 data = 1 value = 1 } #at least 1 Chinese province controlled by SOV
-		NOT = { war = { country = SOV country = CHC } }
-		NOT = { war = { country = SOV country = CHI } }
-	}
-
-	name = "EVT_3812_NAME"
-	desc = "EVT_3812_DESC"
-	style = 2
-	picture = "news_paper"
-
-	date = { day = 0 month = january year = 1939 }
-	offset = 10
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action = {
-		name = "EVT_3812_ACTA" #
-		command = { type = secedeprovince which = CHI value = 1397 }
-		command = { type = secedeprovince which = CHI value = 2317 }
-		command = { type = secedeprovince which = CHI value = 1396 }
-		command = { type = secedeprovince which = CHI value = 3755 }
-		command = { type = secedeprovince which = CHI value = 2347 }
-		command = { type = secedeprovince which = CHI value = 2348 }
-		command = { type = secedeprovince which = CHI value = 1395 }
-		command = { type = secedeprovince which = CHI value = 2337 }
-		command = { type = secedeprovince which = CHI value = 2344 }
-		
-		command = { type = secedearea which = CHC value = "Heilongjiang" }
-		command = { type = secedearea which = CHC value = "Jilin" }
-		command = { type = secedearea which = CHC value = "Liaoning" }
-		command = { type = secedearea which = CHC value = "Rehe" }
-		command = { type = secedearea which = CHC value = "Chahar" }
-		command = { type = secedearea which = CHC value = "Hebei" }
-		command = { type = secedearea which = CHC value = "Shanxi" }
-		command = { type = secedearea which = CHC value = "Shaanxi" }
-		command = { type = secedearea which = CHC value = "Gansu" }
-		command = { type = secedearea which = CHC value = "Suiyuan_Ningxia" }
-		command = { type = secedearea which = CHC value = "Xinjiang" }
-		command = { type = secedearea which = CHC value = "Qinghai" }
-		command = { type = secedearea which = CHC value = "Tibet" }
-		command = { type = secedearea which = CHC value = "Xikang" }
-		command = { type = secedearea which = CHC value = "Sichuan" }
-		command = { type = secedearea which = CHC value = "Guizhou" }
-		command = { type = secedearea which = CHC value = "Hunan" }
-		command = { type = secedearea which = CHC value = "Hubei" }
-		command = { type = secedearea which = CHC value = "Henan" }
-		command = { type = secedearea which = CHC value = "Shandong" }
-		command = { type = secedearea which = CHC value = "Jiangsu" }
-		command = { type = secedearea which = CHC value = "Anhui" }
-		command = { type = secedearea which = CHC value = "Zhejiang" }
-		command = { type = secedearea which = CHC value = "Jiangxi" }
-		command = { type = secedearea which = CHC value = "Fujian" }
-		command = { type = secedearea which = CHC value = "Taiwan" }
-		command = { type = secedearea which = CHC value = "Guangdong" }
-		command = { type = secedearea which = CHC value = "Yunnan" }
-		command = { type = secedearea which = CHC value = "Guangxi" }
-		
-		command = { type = secedearea which = CHI value = "Heilongjiang" }
-		command = { type = secedearea which = CHI value = "Jilin" }
-		command = { type = secedearea which = CHI value = "Liaoning" }
-		command = { type = secedearea which = CHI value = "Rehe" }
-		command = { type = secedearea which = CHI value = "Chahar" }
-		command = { type = secedearea which = CHI value = "Hebei" }
-		command = { type = secedearea which = CHI value = "Shanxi" }
-		command = { type = secedearea which = CHI value = "Shaanxi" }
-		command = { type = secedearea which = CHI value = "Gansu" }
-		command = { type = secedearea which = CHI value = "Suiyuan_Ningxia" }
-		command = { type = secedearea which = CHI value = "Xinjiang" }
-		command = { type = secedearea which = CHI value = "Qinghai" }
-		command = { type = secedearea which = CHI value = "Tibet" }
-		command = { type = secedearea which = CHI value = "Xikang" }
-		command = { type = secedearea which = CHI value = "Sichuan" }
-		command = { type = secedearea which = CHI value = "Guizhou" }
-		command = { type = secedearea which = CHI value = "Hunan" }
-		command = { type = secedearea which = CHI value = "Hubei" }
-		command = { type = secedearea which = CHI value = "Henan" }
-		command = { type = secedearea which = CHI value = "Shandong" }
-		command = { type = secedearea which = CHI value = "Jiangsu" }
-		command = { type = secedearea which = CHI value = "Anhui" }
-		command = { type = secedearea which = CHI value = "Zhejiang" }
-		command = { type = secedearea which = CHI value = "Jiangxi" }
-		command = { type = secedearea which = CHI value = "Fujian" }
-		command = { type = secedearea which = CHI value = "Taiwan" }
-		command = { type = secedearea which = CHI value = "Guangdong" }
-		command = { type = secedearea which = CHI value = "Yunnan" }
-		command = { type = secedearea which = CHI value = "Guangxi" }
-		
-		command = { type = secedeprovince which = SOV value = 3090 when = 2 }
-		command = { type = secedeprovince which = SOV value = 1202 when = 2 }
-		
-		command = { trigger = { exists = CHC } type = event which = 20070501 where = CHC when = 0 }
-		command = { trigger = { exists = CHC } type = event which = 20070502 where = CHI when = 0 }
-	}
-}
-
-event = {
-	id = 20070501
-	random = no
-	country = CHC
-
-	name = "EVT_3812_NAME"
-	desc = "EVT_3812_DESC"
-	style = 2
-	picture = "news_paper"
-
-	action = {
-		name = "The Manchurian partisans join our cause"
-		command = { type = add_corps value = land where = 5626 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 1206 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 2318 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 2349 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 2340 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 2345 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 1389 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 5657 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 5658 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 5633 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 5635 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 1388 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 3090 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 1202 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 2241 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 1379 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 1394 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 1378 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 2281 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 1380 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 1382 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 3753 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = transport_pool which = CHC value = 200 }
-		
-		command = { type = local_clrflag which = AllDefense }
-	}
-}
-
-
-event = {
-	id = 20070502
-	random = no
-	country = CHI
-
-	name = "EVT_3812_NAME"
-	desc = "EVT_3812_DESC"
-	style = 2
-	picture = "news_paper"
-
-	action = {
-		name = "The Manchurian partisans join our cause"
-		command = { type = add_corps value = land where = 1397 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 2317 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 1396 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 3755 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 2347 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 2348 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 1395 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 2337 }
-		command = { type = add_division value = militia when = 6 }
-		
-		command = { type = add_corps value = land where = 2344 }
-		command = { type = add_division value = militia when = 6 }
-	}
-}
 
 #########################################################################
 #  Xinjiang switches sides
@@ -4221,7 +4008,6 @@ event = {
 		name = "We will return"
 		command = { type = end_mastery which = SIK }
 		command = { type = event which = 203113 where = SIK when = 0 }
-		command = { type = event which = 2400040 where = SIK when = 0 } #0 exp
 		command = { type = remove_division which = 25600 value = 43 } #soviet advisers
 		command = { type = remove_division which = 25600 value = 40 } #white russian cavalry
 		command = { type = add_corps value = land where = 3505 }
@@ -4248,6 +4034,7 @@ event = {
 		command = { type = peace which = CHI value = 1 }
 		command = { type = alliance which = CHI when = 2 }
 		command = { type = flag_ext where = SIK which = "_1942" }
+		command = { type = event which = 2400041 where = SIK when = 0 } #10 exp
 		command = { type = event which = 203114 where = CHI when = 0 }
 	}
 }
@@ -4294,7 +4081,7 @@ event = {
 
 
 #####################################
-# Vlassov defects
+# Vlasov defects
 #####################################
 event = {
 	id = 2003041
@@ -4303,7 +4090,7 @@ event = {
 
 	trigger = {
 		war = { country = SOV }
-		lost_national = { country = SOV value = 10 }
+		lost_national = { country = SOV value = 6 }
 	}
 
 	name = "EVT_2036_NAME"
@@ -4312,13 +4099,13 @@ event = {
   	picture = "Vlassov"
 	
 	date = { day = 0 month = january year = 1938 }
-	offset = 30 
+	offset = 10 
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
 		name = "ACTION_NAME_ACCEPT"
 		command = { type = manpowerpool value = 200 } #Soviet collaborators
-		command = { type = wakeleader which = 576 } #Vlassov
+		command = { type = wakeleader which = 576 } #Vlasov
 		command = { type = wakeleader which = 1007 } #Zverev
 		command = { type = wakeleader which = 1008 } #Budyho
 		command = { type = trigger which = 2007051 }
@@ -4464,8 +4251,9 @@ event = {
 	picture = "finnish_reinforcements"
 
 	trigger = {
-		war = { country = GER country = SOV }
+		participant = { value = 2 }
 		war = { country = FIN country = SOV }
+		event = 2007041
 		OR = {
 			event = { id = 2007041 days = 720 } # Two years since the war started
 			lost_VP = { country = FIN value = 50 }
@@ -4476,6 +4264,8 @@ event = {
 			control = { province = 141 data = SOV } #Turku
 			control = { province = 142 data = SOV } #Helsingfors
 			lost_national = { country = FIN value = 15 }
+			lost_national = { country = GER value = 30 }
+			NOT = { war = { country = GER country = SOV } }
 		}
 		OR = {
 			policy = { type = professional_army value = 9 } #Extended mob, running out of MP
@@ -4486,13 +4276,13 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1941 }
-	offset = 15
+	offset = 10
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
 		name = "Inquire about their conditions"
 		ai_chance = 100
-		command = { type = event which = 2030026 where = SOV when = 10 }
+		command = { type = event which = 2030026 where = SOV when = 5 }
 	}
 	action = {
 		name = "Keep fighting"
@@ -4580,43 +4370,81 @@ event = {
 	action = {
 		name = ACTION_NAME_SIGN
 		ai_chance = 100
-		command = { trigger = { control = { province = 123 	data = -3 } }	type = secedeprovince which = GER value = 123 	when = 1 }
-		command = { trigger = { control = { province = 145 	data = -3 } }	type = secedeprovince which = GER value = 145 	when = 1 }
-		command = { trigger = { control = { province = 146 	data = -3 } }	type = secedeprovince which = GER value = 146 	when = 1 }
-		command = { trigger = { control = { province = 150 	data = -3 } }	type = secedeprovince which = GER value = 150 	when = 1 }
-		command = { trigger = { control = { province = 151 	data = -3 } }	type = secedeprovince which = GER value = 151 	when = 1 }
-		command = { trigger = { control = { province = 152 	data = -3 } }	type = secedeprovince which = GER value = 152 	when = 1 }
-		command = { trigger = { control = { province = 183 	data = -3 } }	type = secedeprovince which = GER value = 183 	when = 1 }
-		command = { trigger = { control = { province = 184 	data = -3 } }	type = secedeprovince which = GER value = 184 	when = 1 }
-		command = { trigger = { control = { province = 3323 data = -3 } }	type = secedeprovince which = GER value = 3323 	when = 1 }
-		command = { trigger = { control = { province = 3344 data = -3 } }	type = secedeprovince which = GER value = 3344 	when = 1 }
-		command = { trigger = { control = { province = 3345 data = -3 } }	type = secedeprovince which = GER value = 3345 	when = 1 }
-		command = { trigger = { control = { province = 3346 data = -3 } }	type = secedeprovince which = GER value = 3346 	when = 1 }
-		command = { trigger = { control = { province = 3347 data = -3 } }	type = secedeprovince which = GER value = 3347 	when = 1 }
-		command = { trigger = { control = { province = 3348 data = -3 } }	type = secedeprovince which = GER value = 3348 	when = 1 }
-		command = { trigger = { control = { province = 3349 data = -3 } }	type = secedeprovince which = GER value = 3349 	when = 1 }
-		command = { trigger = { control = { province = 7156 data = -3 } }	type = secedeprovince which = GER value = 7156 	when = 1 }
-		command = { trigger = { control = { province = 7992 data = -3 } }	type = secedeprovince which = GER value = 7992 	when = 1 }
-		command = { trigger = { control = { province = 7003 data = -3 } }	type = secedeprovince which = GER value = 7003 	when = 1 }
-		
 		command = { trigger = { ai = yes } type = event which = 2400040 where = FIN when = 0 } #Exp_0
 		command = { trigger = { ai = yes } type = event which = 2400055 where = FIN when = 0 } #Exp_0_enforce
 		command = { trigger = { ai = yes } type = local_setflag which = ControlDeny }
 		command = { type = military_control which = GER where = FIN value = 0 }
 		
 		#finland needs to actually quit alliance before going to war against GER, otherwise finnish forces in the middle of germany will revolt.
+		
+		#Lapland
+		command = { trigger = { control = { province = 137	data = -2 } }	type = secedeprovince which = SOV value = 137	when = 1 }
+		command = { trigger = { control = { province = 136	data = -2 } }	type = secedeprovince which = SOV value = 136	when = 1 }
+		command = { trigger = { control = { province = 3336	data = -2 } }	type = secedeprovince which = SOV value = 3336	when = 1 }
+		command = { trigger = { control = { province = 3339	data = -2 } }	type = secedeprovince which = SOV value = 3339	when = 1 }
+		command = { trigger = { control = { province = 3340	data = -2 } }	type = secedeprovince which = SOV value = 3340	when = 1 }
+		command = { trigger = { control = { province = 3338	data = -2 } }	type = secedeprovince which = SOV value = 3338	when = 1 }
+		command = { trigger = { control = { province = 7152	data = -2 } }	type = secedeprovince which = SOV value = 7152	when = 1 }
+		command = { trigger = { control = { province = 7153	data = -2 } }	type = secedeprovince which = SOV value = 7153	when = 1 }
+		command = { trigger = { control = { province = 130	data = -2 } }	type = secedeprovince which = SOV value = 130	when = 1 }
+		command = { trigger = { control = { province = 2631	data = -2 } }	type = secedeprovince which = SOV value = 2631	when = 1 }
+		command = { trigger = { control = { province = 131	data = -2 } }	type = secedeprovince which = SOV value = 131	when = 1 }
+		command = { trigger = { control = { province = 7154	data = -2 } }	type = secedeprovince which = SOV value = 7154	when = 1 }
+		command = { trigger = { control = { province = 7155	data = -2 } }	type = secedeprovince which = SOV value = 7155	when = 1 }
+		command = { trigger = { control = { province = 3337	data = -2 } }	type = secedeprovince which = SOV value = 3337	when = 1 }
+		#command = { trigger = { control = { province = 3335 data = -2 } ai = GER }	type = secedeprovince which = SOV value = 3335	when = 1 }
+		#command = { trigger = { control = { province = 149  data = -2 } ai = GER }	type = secedeprovince which = SOV value = 149	when = 1 }
+		#command = { trigger = { control = { province = 3333 data = -2 } ai = GER }	type = secedeprovince which = SOV value = 3333	when = 1 }
+		
+		command = { trigger = { control = { province = 137	data = -3 } }	type = secedeprovince which = GER value = 137	when = 1 }
+		command = { trigger = { control = { province = 136	data = -3 } }	type = secedeprovince which = GER value = 136	when = 1 }
+		command = { trigger = { control = { province = 3336	data = -3 } }	type = secedeprovince which = GER value = 3336	when = 1 }
+		command = { trigger = { control = { province = 3339	data = -3 } }	type = secedeprovince which = GER value = 3339	when = 1 }
+		command = { trigger = { control = { province = 3340	data = -3 } }	type = secedeprovince which = GER value = 3340	when = 1 }
+		command = { trigger = { control = { province = 3338	data = -3 } }	type = secedeprovince which = GER value = 3338	when = 1 }
+		command = { trigger = { control = { province = 7152	data = -3 } }	type = secedeprovince which = GER value = 7152	when = 1 }
+		command = { trigger = { control = { province = 7153	data = -3 } }	type = secedeprovince which = GER value = 7153	when = 1 }
+		command = { trigger = { control = { province = 130	data = -3 } }	type = secedeprovince which = GER value = 130	when = 1 }
+		command = { trigger = { control = { province = 2631	data = -3 } }	type = secedeprovince which = GER value = 2631	when = 1 }
+		command = { trigger = { control = { province = 131	data = -3 } }	type = secedeprovince which = GER value = 131	when = 1 }
+		command = { trigger = { control = { province = 7154	data = -3 } }	type = secedeprovince which = GER value = 7154	when = 1 }
+		command = { trigger = { control = { province = 7155	data = -3 } }	type = secedeprovince which = GER value = 7155	when = 1 }
+		command = { trigger = { control = { province = 3337	data = -3 } }	type = secedeprovince which = GER value = 3337	when = 1 }
+		#command = { trigger = { control = { province = 3335 data = -3 } ai = GER }	type = secedeprovince which = GER value = 3335	when = 1 }
+		#command = { trigger = { control = { province = 149  data = -3 } ai = GER }	type = secedeprovince which = GER value = 149	when = 1 }
+		#command = { trigger = { control = { province = 3333 data = -3 } ai = GER }	type = secedeprovince which = GER value = 3333	when = 1 }
+		
+		#Soviet Karelia
+		command = { trigger = { control = { province = 123 	data = -3 } }	type = secedeprovince which = FIN value = 123 	when = 2 }
+		command = { trigger = { control = { province = 145 	data = -3 } }	type = secedeprovince which = FIN value = 145 	when = 2 }
+		command = { trigger = { control = { province = 146 	data = -3 } }	type = secedeprovince which = FIN value = 146 	when = 2 }
+		command = { trigger = { control = { province = 3344 data = -3 } }	type = secedeprovince which = FIN value = 3344 	when = 2 }
+		command = { trigger = { control = { province = 150 	data = -3 } }	type = secedeprovince which = GER value = 150 	when = 1 }
+		command = { trigger = { control = { province = 151 	data = -3 } }	type = secedeprovince which = GER value = 151 	when = 1 }
+		command = { trigger = { control = { province = 152 	data = -3 } }	type = secedeprovince which = GER value = 152	when = 1 }
+		command = { trigger = { control = { province = 183 	data = -3 } }	type = secedeprovince which = GER value = 183	when = 1 }
+		command = { trigger = { control = { province = 184 	data = -3 } }	type = secedeprovince which = GER value = 184	when = 1 }
+		command = { trigger = { control = { province = 3323 data = -3 } }	type = secedeprovince which = GER value = 3323	when = 1 }
+		command = { trigger = { control = { province = 3345 data = -3 } }	type = secedeprovince which = GER value = 3345 	when = 1 }
+		command = { trigger = { control = { province = 3346 data = -3 } }	type = secedeprovince which = GER value = 3346 	when = 1 }
+		command = { trigger = { control = { province = 3347 data = -3 } }	type = secedeprovince which = GER value = 3347 	when = 1 }
+		command = { trigger = { control = { province = 3348 data = -3 } }	type = secedeprovince which = GER value = 3348 	when = 1 }
+		command = { trigger = { control = { province = 3349 data = -3 } }	type = secedeprovince which = GER value = 3349 	when = 1 }
+		command = { trigger = { control = { province = 7156 data = -3 } }	type = secedeprovince which = GER value = 7156 	when = 1 }
+		command = { trigger = { control = { province = 7992 data = -3 } }	type = secedeprovince which = GER value = 7992	when = 1 }
+		command = { trigger = { control = { province = 7003 data = -3 } }	type = secedeprovince which = GER value = 7003	when = 1 }
 
+		command = { type = local_setflag which = noChange }
 		command = { type = leave_alliance when =  1 } # separate peace, pull out of alliance
 		command = { type = peace which = SOV value = 1 } 
 		command = { type = peace which = ENG value = 1 } 
 		command = { type = peace which = USA value = 1 } 
+		command = { type = peace which = U33 value = 1 } 
 		command = { type = access which = GER }
 		command = { type = access which = ITA }
 		command = { type = access which = SOV }
 		
 		command = { type = dissent value = 5  } #defeat
-		
-		command = { type = trade which = SOV where = FIN supplies = 5 when = 2160 value = 1 }
 		
 		#Finnish population evacuated/expelled
 		command = { type = removecore 	which = 123  }
@@ -4647,11 +4475,11 @@ event = {
 		command = { type = secedeprovince which = FIN value = 3324	when = 2  }
 		command = { type = secedeprovince which = FIN value = 2305 	when = 2  } #Hanko returned to Finland
 		
-		command = { trigger = { owned = { province = 123 } }	type = secedeprovince which = SOV value = 123 	when = 2  }
+		#command = { trigger = { owned = { province = 123 } }	type = secedeprovince which = SOV value = 123 	when = 2  }
+		#command = { trigger = { owned = { province = 145 } }	type = secedeprovince which = SOV value = 145 	when = 2  }
+		#command = { trigger = { owned = { province = 146 } }	type = secedeprovince which = SOV value = 146 	when = 2  }
+		#command = { trigger = { owned = { province = 3344 } }	type = secedeprovince which = SOV value = 3344 	when = 2  }
 		command = { trigger = { owned = { province = 143 } }	type = secedeprovince which = SOV value = 143 	when = 2  }
-		command = { trigger = { owned = { province = 145 } }	type = secedeprovince which = SOV value = 145 	when = 2  }
-		command = { trigger = { owned = { province = 146 } }	type = secedeprovince which = SOV value = 146 	when = 2  }
-		command = { trigger = { owned = { province = 3344 } }	type = secedeprovince which = SOV value = 3344 	when = 2  }
 		command = { trigger = { owned = { province = 3323 } }	type = secedeprovince which = SOV value = 3323 	when = 2  }
 		command = { trigger = { owned = { province = 2630 } }	type = secedeprovince which = SOV value = 2630 	when = 2  } #Porkkala
 		command = { trigger = { owned = { province = 132 } }	type = secedeprovince which = SOV value = 132 	when = 2  } #Petsamo
@@ -4659,8 +4487,8 @@ event = {
 		command = { type = secederegion which = SOV value = "White Sea Tundra" 	when = 1 } #Karelia
 		command = { type = secederegion which = SOV value = "Russia" 			when = 1 }
 		command = { type = secederegion which = SOV value = "Northern Russia" 	when = 1 }
-		command = { type = secederegion which = SOV value = "Western Russia" 	when = 1 }		
-		command = { type = secederegion which = SOV value = "Baltic States" 	when = 1 }	
+		command = { type = secederegion which = SOV value = "Western Russia" 	when = 1 }
+		command = { type = secederegion which = SOV value = "Baltic States" 	when = 1 }
 		
 		#Destroyed by fighting
 		command = { type = construct which = land_fort 		where = 145  value = -1 }
@@ -4690,13 +4518,19 @@ event = {
 		command = { type = chiefofnavy 			which = 145111 } #Eero Rahola
 		command = { type = chiefofair 			which = 145115 } #Toivo Somerto	
 		
+		#In peace treaty
+		#command = { type = trade which = SOV where = FIN supplies = 5 when = 2160 value = 1 }
 		#will be handled in post-war settlement event
 		#command = { type = local_setflag	when = 0	which = RepPay3	value = 6 } #6 years worth of reparation payments to USSR
 		#command = { type = setflag 		when = 0	which = RepPec	value = 6 }
 		#command = { type = event 			when = 0	which = 3021	where = SOV }
 		
-		#command = { type = event which = 2030023 where = FIN when = 12 }
-		command = { type = event which = 2030023 where = FIN when = 20 }
+		command = { type = ai which = "redeploy90.ai" }
+		command = { type = ai which = "nations\FIN_Allied.ai" }
+		
+		#command = { type = event which = 2030023 where = GER when = 12 }
+		command = { type = event which = 2030023 where = GER when = 30 }
+		command = { type = event which = 2030024 where = FIN when = 30 } #in case Germany dies or is already dead
 	}
 	action = {
 		name = "Keep fighting"
@@ -4705,8 +4539,55 @@ event = {
 	}
 }
 
+
 event = {
 	id = 2030023
+	random = no
+	country = GER
+
+	name = "The Lapland War"
+	desc = "The Moscow Armistice was signed between Finland on one side and the Soviet Union and United Kingdom on the other, ending the Continuation War. The Armistice restored the Moscow Peace Treaty of 1940, with a number of modifications. One of the conditions of the armistice stated that Finland had to take every measure to expell the remaining German troops from its territory. The Wehrmacht had anticipated this turn of events and planned an organised withdrawal to German-occupied Norway, as part of Operation Birch. Despite a failed offensive landing operation by Germany in the Gulf of Finland, the evacuation proceeded peacefully at first. The Finns escalated the situation into warfare on 28 September after Soviet pressure to adhere to the terms of the armistice."
+	style = 2
+	picture = "finnish_reinforcements"
+
+	action = {
+		name = "Traitors and cowards!"
+		command = { trigger = { ai = no }	type = add_corps value = land where = 130 }
+		command = { trigger = { ai = no }	type = add_division value = garrison when = 6 }
+
+		command = { trigger = { ai = yes }	type = remove_division which = "2. Gebirgs-Division" value = GER }
+		command = { trigger = { ai = yes }	type = remove_division which = "3. Gebirgs-Division" value = GER }
+		command = { trigger = { ai = yes }	type = remove_division which = "SS-Gebirgs-Division 'Nord'" value = GER }
+		
+		command = { trigger = { ai = yes }	type = add_corps which = "XIX Mountain Corps" value = land when = 49 where = 7152 }  # Dietl 
+		command = { trigger = { ai = yes }	type = add_division which = "2. Gebirgs-Division" value = bergsjaeger when = 9 }
+		command = { trigger = { ai = yes }	type = add_division which = "3. Gebirgs-Division" value = bergsjaeger when = 9 }
+		
+		command = { trigger = { ai = yes }	type = add_corps which = "XVIII Mountain Corps" value = land where = 7154 } 
+		command = { trigger = { ai = yes }	type = add_division which = "SS-Gebirgs-Division 'Nord'" value = bergsjaeger when = 9 }
+		
+		#Lapland
+		command = { trigger = { control = { province = 137	data = -3 } }	type = secedeprovince which = FIN value = 137	}
+		command = { trigger = { control = { province = 136	data = -3 } }	type = secedeprovince which = FIN value = 136	}
+		command = { trigger = { control = { province = 3336	data = -3 } }	type = secedeprovince which = FIN value = 3336	}
+		command = { trigger = { control = { province = 3339	data = -3 } }	type = secedeprovince which = FIN value = 3339	}
+		command = { trigger = { control = { province = 3340	data = -3 } }	type = secedeprovince which = FIN value = 3340	}
+		command = { trigger = { control = { province = 3338	data = -3 } }	type = secedeprovince which = FIN value = 3338	}
+		command = { trigger = { control = { province = 7152	data = -3 } }	type = secedeprovince which = FIN value = 7152	}
+		command = { trigger = { control = { province = 7153	data = -3 } }	type = secedeprovince which = FIN value = 7153	}
+		command = { trigger = { control = { province = 130	data = -3 } }	type = secedeprovince which = FIN value = 130	}
+		command = { trigger = { control = { province = 2631	data = -3 } }	type = secedeprovince which = FIN value = 2631	}
+		command = { trigger = { control = { province = 131	data = -3 } }	type = secedeprovince which = FIN value = 131	}
+		command = { trigger = { control = { province = 7154	data = -3 } }	type = secedeprovince which = FIN value = 7154	}
+		command = { trigger = { control = { province = 7155	data = -3 } }	type = secedeprovince which = FIN value = 7155	}
+		command = { trigger = { control = { province = 3337	data = -3 } }	type = secedeprovince which = FIN value = 3337	}
+		command = { trigger = { control = { province = 3335 data = -3 } }	type = secedeprovince which = FIN value = 3335	}
+		command = { trigger = { control = { province = 149  data = -3 } }	type = secedeprovince which = FIN value = 149	}
+	}
+}
+
+event = {
+	id = 2030024
 	random = no
 	country = FIN
 
@@ -4719,11 +4600,20 @@ event = {
 
 	action = {
 		name = "We do what we must"
+		command = { type = local_clrflag which = noChange }
 		command = { type = leave_alliance when =  1 } # separate peace, pull out of alliance
+		command = { trigger = { owned = { province = 123 } }	type = secedeprovince which = SOV value = 123 	when = 2  }
+		command = { trigger = { owned = { province = 143 } }	type = secedeprovince which = SOV value = 143 	when = 2  }
+		command = { trigger = { owned = { province = 145 } }	type = secedeprovince which = SOV value = 145 	when = 2  }
+		command = { trigger = { owned = { province = 146 } }	type = secedeprovince which = SOV value = 146 	when = 2  }
+		command = { trigger = { owned = { province = 3344 } }	type = secedeprovince which = SOV value = 3344 	when = 2  }
+		command = { trigger = { owned = { province = 3323 } }	type = secedeprovince which = SOV value = 3323 	when = 2  }
+		command = { trigger = { owned = { province = 2630 } }	type = secedeprovince which = SOV value = 2630 	when = 2  } #Porkkala
+		command = { trigger = { owned = { province = 132 } }	type = secedeprovince which = SOV value = 132 	when = 2  } #Petsamo
 		
-		command = { type = dissent value = 2 }
+		command = { trigger = { exists = GER } type = dissent value = 2 }
+		command = { trigger = { exists = GER } type = war which = GER }
 		#command = { type = alliance which = SOV when = 1 }
-		command = { type = war which = GER }
 		command = { type = local_setflag which = joinAlliance }
 		command = { type = control which = GER value = 137  }
 		command = { type = control which = GER value = 136  }
@@ -4741,40 +4631,6 @@ event = {
 		command = { type = control which = GER value = 3337 }
 		
 		command = { type = setflag which = FinAllies }
-		
-		command = { type = trigger which = 2030024 }
-	}
-}
-
-event = {
-	id = 2030024
-	random = no
-	country = GER
-
-	name = "The Lapland War"
-	desc = "The Moscow Armistice was signed between Finland on one side and the Soviet Union and United Kingdom on the other, ending the Continuation War. The Armistice restored the Moscow Peace Treaty of 1940, with a number of modifications. One of the conditions of the armistice stated that Finland had to take every measure to expell the remaining German troops from its territory. The Wehrmacht had anticipated this turn of events and planned an organised withdrawal to German-occupied Norway, as part of Operation Birch. Despite a failed offensive landing operation by Germany in the Gulf of Finland, the evacuation proceeded peacefully at first. The Finns escalated the situation into warfare on 28 September after Soviet pressure to adhere to the terms of the armistice."
-	style = 2
-	picture = "finnish_reinforcements"
-
-	action = {
-		name = "Traitors and cowards!"
-		trigger = { ai = no } 
-		command = { type = add_corps value = land where = 130 }
-		command = { type = add_division value = garrison when = 6 }
-	}
-	action = {
-		name = "Traitors and cowards!"
-		trigger = { ai = yes } 
-		command = { type = remove_division which = "2. Gebirgs-Division" value = GER }
-		command = { type = remove_division which = "3. Gebirgs-Division" value = GER }
-		command = { type = remove_division which = "SS-Gebirgs-Division 'Nord'" value = GER }
-		
-		command = { type = add_corps which = "XIX Mountain Corps" value = land when = 49 where = 7152 }  # Dietl 
-		command = { type = add_division which = "2. Gebirgs-Division" value = bergsjaeger when = 9 }
-		command = { type = add_division which = "3. Gebirgs-Division" value = bergsjaeger when = 9 }
-		
-		command = { type = add_corps which = "XVIII Mountain Corps" value = land where = 7154 } 
-		command = { type = add_division which = "SS-Gebirgs-Division 'Nord'" value = bergsjaeger when = 9 }
 	}
 }
 
@@ -4803,6 +4659,40 @@ event = {
 	}
 }
 
+event = {
+	id = 2030027
+	random = no
+	country = SOV
+
+	name = "Finland in peril"
+	desc = "After Finland signed the Moscow Armistice, the Germans swiftly moved in and tried to occupy strategic points throughout Finland, catching the Finnish forces unprepared and unable to resist the onslaught. However, the good news is that this gives a perfect pretext for the Red Army to move in and take firmer control over Finland."
+	style = 2
+	picture = "finnish_reinforcements"
+
+	trigger = {
+		war = { country = GER country = SOV }
+		war = { country = GER country = FIN }
+		NOT = { puppet = { country = FIN } }
+		OR = {
+			NOT = { region = { region = "Finland" country = FIN value = 15 } } #~7 provinces
+			NOT = { control = { province = 142	data = FIN } }
+			NOT = { vp = { country = FIN value = 4 } }
+		}
+	}
+
+	date = { day = 0 month = january year = 1940 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "More work for us"
+		command = { type = remove_claim_region 		which = "Finland" 	 }
+		command = { type = make_puppet 				which = FIN 		 }
+		command = { type = event which = 2400536	where = FIN when = 0 } #medium puppet
+		command = { type = military_control			which = SOV where = FIN value = 1 }
+	}
+}
+
 
 #########################################################################
 # 3183000 - 3183999	USSR events
@@ -4814,7 +4704,7 @@ event = {
 	country = SOV
 
 	trigger = {
-		month = 9
+		month = 8 #September
 		day = 1
 	}
    
@@ -4823,7 +4713,7 @@ event = {
 	style = 2
 	
 	date = { day = 1 month = january year = 1908 }
-	offset = 15
+	offset = 10
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -5028,6 +4918,8 @@ event = {
 		
 		command = { type = belligerence which = SOV value = 1 }
 		
+		command = { type = local_setflag which = SOV_penalty when = 1 value = 1 }
+		
 		command = { type = local_setflag which = "SOVterror1" }
 		command = { type = local_setflag which = "noWarningsSOV" }
 		command = { type = trigger which = 2007039 }
@@ -5085,6 +4977,8 @@ event = {
 		command = { type = surprise 			which = air 	value = 2     }
 		
 		command = { type = belligerence which = SOV value = 1 }
+		
+		command = { type = local_setflag which = SOV_penalty when = 1 value = 1 }
 		
 		command = { type = local_setflag which = "SOVterror2" }
 		command = { type = trigger which = 2007039 }
@@ -5161,6 +5055,8 @@ event = {
 		
 		command = { type = belligerence which = SOV value = 3 } #Soviet reputation abroad is ruined
 		command = { type = money value = -100 }
+		
+		command = { type = local_setflag which = SOV_penalty when = 1 value = 3 }
 		
 		# Remove Leningrad HQ:
 		command = { type = remove_division which = 10848 value = 9 } #Leningradskyi Voennyi Okrug
@@ -5413,21 +5309,21 @@ event = {
 	country = SOV
 	save_date = yes
 
-	decision = {
-		OR = {
-			local_flag = SOVterror1
-			local_flag = SOVterror2
-			local_flag = SOVterror3
-		}
-	}
-	decision_trigger = {
-		OR = {
-			month = 10 #November 1938
-			year = 1939
-			war = { country = GER }
-			event = 2007047 #GPW
-		}
-	}
+	#decision = {
+	#	OR = {
+	#		local_flag = SOVterror1
+	#		local_flag = SOVterror2
+	#		local_flag = SOVterror3
+	#	}
+	#}
+	#decision_trigger = {
+	#	OR = {
+	#		month = 10 #November 1938
+	#		year = 1939
+	#		war = { country = GER }
+	#		event = 2007047 #GPW
+	#	}
+	#}
 	trigger = {
 		OR = {
 			local_flag = SOVterror1
@@ -5448,7 +5344,7 @@ event = {
   	picture = "sov_purge4"
 
 	date = { day = 1 month = january year = 1938 }
-	offset = 15
+	offset = 5
 	deathdate = { day = 29 month = december year = 1939 }
 
 
@@ -5469,36 +5365,22 @@ event = {
 	country = SOV
 	save_date = yes
 
-	decision = {
-		OR = {
-			AND = {
-				local_flag = SOVterror1
-				local_flag = SOVterror2
-			}
-			local_flag = SOVterror3
-		}
-		event = { id = 2007026 days = 30 } #No less than 30 days from the previous, even if other conditions met
-	}
-	decision_trigger = {
-		OR = {
-			event = { id = 2007026 days = 180 } #~May 1939
-			war = { country = GER }
-			event = 2007047 #GPW
-		}
-	}
 	trigger = {
-		OR = {
-			AND = {
-				local_flag = SOVterror1
-				local_flag = SOVterror2
-			}
-			local_flag = SOVterror3
-		}
+		local_flag = { which = SOV_penalty when = 1 value = 1 }
 		event = { id = 2007026 days = 30 } #No less than 30 days from the previous, even if other conditions met
 		OR = {
-			event = { id = 2007026 days = 180 } #~May 1939
+			event = { id = 2007026 days = 870 } #~April 1941
+			AND = {
+				local_flag = { which = FIN_dissent when = 1 value = 2 } #Finnish war going on for at least 2 months
+				losses = { country = FIN value = 100000 data = 1 } #Finns inflicted over 100,000 losses
+				event = { id = 2007026 days = 510 } #~April 1940
+			}
+			AND = {
+				ai = yes
+				event = { id = 2007026 days = 510 } #~April 1940
+			}
 			war = { country = GER }
-			event = 2007047 #GPW
+			#event = 2007047 #GPW
 		}
 	}
 
@@ -5508,8 +5390,8 @@ event = {
   	picture = "news_paper"
 
 	date = { day = 1 month = january year = 1938 }
-	offset = 15
-	deathdate = { day = 29 month = december year = 1940 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1945 }
 
 
 	action = {
@@ -5520,6 +5402,7 @@ event = {
 		command = { type = max_organization 	which = land value = 5    }
 		
 		command = { type = wakeleader which = 30053 } # Bogdanov S.I. is released from prison
+		command = { type = local_setflag which = SOV_penalty when = 1 value = -1 }
 		command = { type = trigger which = 2007040 }
 	}
 }
@@ -5530,30 +5413,16 @@ event = {
 	country = SOV
 	save_date = yes
 
-	decision = {
-		local_flag = SOVterror3
-		event = { id = 2007027 days = 30 } #No less than 30 days from the previous, even if other conditions met
-	}
-	decision_trigger = {
-		OR = {
-			event = { id = 2007027 days = 355 } #~May 1940
-			AND = {
-				war = { country = GER }
-				event = { id = 2007027 days = 180 }
-			}
-			event = 2007047 #GPW
-		}
-	}
 	trigger = {
+		local_flag = { which = SOV_penalty when = 1 value = 1 }
 		event = { id = 2007027 days = 30 } #No less than 30 days from the previous, even if other conditions met
-		local_flag = SOVterror3
 		OR = {
-			event = { id = 2007027 days = 355 } #~May 1940
+			event = { id = 2007027 days = 355 } #~April 1941
 			AND = {
 				war = { country = GER }
 				event = { id = 2007027 days = 180 }
 			}
-			event = 2007047 #GPW
+			#event = 2007047 #GPW
 		}
 	}
 
@@ -5563,8 +5432,8 @@ event = {
   	picture = "news_paper"
 
 	date = { day = 1 month = january year = 1938 }
-	offset = 15
-	deathdate = { day = 29 month = december year = 1941 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1945 }
 
 
 	action = {
@@ -5576,6 +5445,7 @@ event = {
 		
 		command = { type = wakeleader which = 30437 } #Rokossovsky is released from prison
 		command = { type = wakeleader which = 30624 } #Kolostyakov is released from prison 
+		command = { type = local_setflag which = SOV_penalty when = 1 value = -1 }
 		command = { type = trigger which = 2007040 }
 	}
 }
@@ -5586,38 +5456,16 @@ event = {
 	country = SOV
 	save_date = yes
 
-	decision = {
-		OR = {
-			local_flag = SOVterror1
-			local_flag = SOVterror2
-		}
-		local_flag = SOVterror3
-		event = { id = 2007028 days = 30 } #No less than 30 days from the previous, even if other conditions met
-	}
-	decision_trigger = {
-		OR = {
-			event = { id = 2007028 days = 355 } #~May 1941
-			AND = {
-				war = { country = GER }
-				event = { id = 2007028 days = 180 }
-			}
-			event = 2007047 #GPW
-		}
-	}
 	trigger = {
-		OR = {
-			local_flag = SOVterror1
-			local_flag = SOVterror2
-		}
-		local_flag = SOVterror3
+		local_flag = { which = SOV_penalty when = 1 value = 1 }
 		event = { id = 2007028 days = 30 } #No less than 30 days from the previous, even if other conditions met
 		OR = {
-			event = { id = 2007028 days = 355 } #~May 1941
+			event = { id = 2007028 days = 355 } #~April 1942
 			AND = {
 				war = { country = GER }
 				event = { id = 2007028 days = 180 }
 			}
-			event = 2007047 #GPW
+			#event = 2007047 #GPW
 		}
 	}
 
@@ -5627,8 +5475,8 @@ event = {
   	picture = "news_paper"
 
 	date = { day = 1 month = january year = 1938 }
-	offset = 15
-	deathdate = { day = 29 month = december year = 1942 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1945 }
 
 
 	action = {
@@ -5640,6 +5488,7 @@ event = {
 		
 		command = { type = wakeleader which = 30154 } # Gorbatov is released from prison
 		command = { type = wakeleader which = 30319 } # Meretskov is released from prison
+		command = { type = local_setflag which = SOV_penalty when = 1 value = -1 }
 		command = { type = trigger which = 2007040 }
 	}
 }
@@ -5650,34 +5499,16 @@ event = {
 	country = SOV
 	save_date = yes
 
-	decision = {
-		local_flag = SOVterror1
-		local_flag = SOVterror2
-		local_flag = SOVterror3
-		event = { id = 2007029 days = 30 } #No less than 30 days from the previous, even if other conditions met
-	}
-	decision_trigger = {
-		OR = {
-			event = { id = 2007029 days = 355 } #~May 1942
-			AND = {
-				war = { country = GER }
-				event = { id = 2007029 days = 180 } #->Nov 1941
-			}
-			event = 2007047 #GPW
-		}
-	}
 	trigger = {
-		local_flag = SOVterror1
-		local_flag = SOVterror2
-		local_flag = SOVterror3
+		local_flag = { which = SOV_penalty when = 1 value = 1 }
 		event = { id = 2007029 days = 30 } #No less than 30 days from the previous, even if other conditions met
 		OR = {
-			event = { id = 2007029 days = 355 } #~May 1942
+			event = { id = 2007029 days = 355 } #~April 1943
 			AND = {
 				war = { country = GER }
-				event = { id = 2007029 days = 180 } #->Nov 1941
+				event = { id = 2007029 days = 180 } #->Oct 1942
 			}
-			event = 2007047 #GPW
+			#event = 2007047 #GPW
 		}
 	}
 
@@ -5687,8 +5518,8 @@ event = {
   	picture = "news_paper"
 
 	date = { day = 1 month = january year = 1938 }
-	offset = 15
-	deathdate = { day = 29 month = december year = 1943 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1945 }
 
 
 	action = {
@@ -5697,6 +5528,7 @@ event = {
 		command = { type = defensiveness 		which = land value = -3   }
 		command = { type = toughness 			which = land value = -3   }
 		command = { type = max_organization 	which = land value = 5    }
+		command = { type = local_setflag which = SOV_penalty when = 1 value = -1 }
 		command = { type = trigger which = 2007040 }
 	}
 }
@@ -5707,34 +5539,16 @@ event = {
 	country = SOV
 	save_date = yes
 
-	decision = {
-		local_flag = SOVterror1
-		local_flag = SOVterror2
-		local_flag = SOVterror3
-		event = { id = 2007030 days = 30 } #No less than 30 days from the previous, even if other conditions met
-	}
-	decision_trigger = {
-		OR = {
-			event = { id = 2007030 days = 355 } #~May 1943
-			AND = {
-				war = { country = GER }
-				event = { id = 2007030 days = 180 } #->May 1942
-			}
-			event = 2007047 #GPW
-		}
-	}
 	trigger = {
-		local_flag = SOVterror1
-		local_flag = SOVterror2
-		local_flag = SOVterror3
+		local_flag = { which = SOV_penalty when = 1 value = 1 }
 		event = { id = 2007030 days = 30 } #No less than 30 days from the previous, even if other conditions met
 		OR = {
-			event = { id = 2007030 days = 355 } #~May 1943
+			event = { id = 2007030 days = 355 } #~April 1944
 			AND = {
 				war = { country = GER }
-				event = { id = 2007030 days = 180 } #->May 1942
+				event = { id = 2007030 days = 180 } #->Oct 1943
 			}
-			event = 2007047 #GPW
+			#event = 2007047 #GPW
 		}
 	}
 
@@ -5744,8 +5558,8 @@ event = {
   	picture = "news_paper"
 
 	date = { day = 1 month = january year = 1938 }
-	offset = 15
-	deathdate = { day = 29 month = december year = 1943 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1945 }
 
 
 	action = {
@@ -5754,6 +5568,7 @@ event = {
 		command = { type = defensiveness 		which = land value = -3   }
 		command = { type = toughness 			which = land value = -3   }
 		command = { type = max_organization 	which = land value = 5    }
+		command = { type = local_setflag which = SOV_penalty when = 1 value = -1 }
 		command = { type = trigger which = 2007040 }
 	}
 }
@@ -5826,9 +5641,9 @@ event = {
 	trigger = {
 		policy = { type = professional_army value = 6 }
 		OR = {
-			lost_national = { value = 15 }
-			lost_VP = { value = 20 }
-			lost_IC = { value = 15 }
+			lost_national 	= { value = 10 }
+			lost_VP 		= { value = 15 }
+			lost_IC 		= { value = 12 }
 		}
 	}
 
@@ -5845,11 +5660,11 @@ event = {
 	action = {
 		name = "ACTION_NAME_GREAT" # Great!
 		command = { type = dissent value = -10 }
-		command = { type = local_setflag which = inMajorWar	}
+		#command = { type = local_setflag which = inMajorWar	}
 		command = { type = local_setflag which = popularMobilization }
 		
 		#GPW-specific bonuses (will last for 5 years with purges, 1 year without purges)
-		command = { type = repair_mod 			value = 15 } #reinforcement efficiency
+		command = { type = repair_mod 			value = 10 } #reinforcement efficiency
 		command = { type = morale which = land 	value = 5  }
 		
 		#Gearing up 10
@@ -5860,6 +5675,8 @@ event = {
 		command = { trigger = { NOT = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 } }	type = event which = 2007050 where = SOV when = 365  }  #War Enthusiasm Wanes - 1 year
 		command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 }			type = event which = 2007050 where = SOV when = 1825 }	#War Enthusiasm Wanes - 5 years
 		
+		command = { trigger = { NOT = { technology = 6320 } } type = gain_tech which = 6320 }
+		command = { trigger = { NOT = { technology = 6330 } } type = gain_tech which = 6330 }
 		command = { trigger = { NOT = { technology = 6340 } } type = gain_tech which = 6340 }
 		command = { trigger = { NOT = { technology = 6350 } } type = gain_tech which = 6350 }
 		command = { trigger = { NOT = { technology = 6370 } } type = gain_tech which = 6370 }
@@ -5878,7 +5695,7 @@ event = {
 
 	action = {
 		name = ACTION_NAME_DAMN
-		command = { type = local_clrflag which = inMajorWar	}
+		#command = { type = local_clrflag which = inMajorWar	}
 		command = { type = local_clrflag which = popularMobilization }
 		
 		command = { type = repair_mod 			value = -15 }
@@ -5902,7 +5719,7 @@ event = {
 	style = 2
 
 	date = { day = 1 month = october year = 1936 }
-	offset = 15
+	offset = 5
 	deathdate = { day = 29 month = october year = 1949 }
 
 	action = {
@@ -5966,18 +5783,33 @@ event = {
 		command = { trigger = { NOT = { local_flag = SOVterror3 } } type = dissent value = 3 }
 		
 		command = { type = event which = 2400151 where = -1 when = 1   } #initial confusion
+		#command = { type = event which = 2400152 where = -1 when = 1   } #initial confusion
 		
 		#More purges - longer period before recovery
 		#No purges - recovery in 1 month. Full purges - recovery in 6 months.
 		
-		command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 } 						type = event which = 2400161 where = -1 when = 60 } #recovery in 60 days YYY
-		command = { trigger = { NOT = { local_flag = SOVterror1 } local_flag = SOVterror2 local_flag = SOVterror3 } 			type = event which = 2400161 where = -1 when = 50 } #recovery in 50 days XYY
-		command = { trigger = { local_flag = SOVterror1 NOT = { local_flag = SOVterror2 } local_flag = SOVterror3 } 			type = event which = 2400161 where = -1 when = 50 } #recovery in 50 days YXY
-		command = { trigger = { NOT = { local_flag = SOVterror1 } NOT = { local_flag = SOVterror2 } local_flag = SOVterror3 }	type = event which = 2400161 where = -1 when = 40 } #recovery in 40 days XXY
-		command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 NOT = { local_flag = SOVterror3 } } 			type = event which = 2400161 where = -1 when = 30 } #recovery in 30 days YYX
-		command = { trigger = { NOT = { local_flag = SOVterror1 } local_flag = SOVterror2 NOT = { local_flag = SOVterror3 } } 	type = event which = 2400161 where = -1 when = 20 } #recovery in 20 days XYX
-		command = { trigger = { local_flag = SOVterror1 NOT = { local_flag = SOVterror2 } NOT = { local_flag = SOVterror3 } } 	type = event which = 2400161 where = -1 when = 20 } #recovery in 20 days YXX
-		command = { trigger = { NOT = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 } } 			type = event which = 2400161 where = -1 when = 10 } #recovery in 10 days XXX
+		command = { trigger = { local_flag = { which = SOV_penalty when = 1 value = 5 } } 										type = event which = 2400161 where = -1 when = 80 } #recovery in 80 days
+		command = { trigger = { local_flag = { which = SOV_penalty when = 0 value = 4 } } 										type = event which = 2400161 where = -1 when = 70 } #recovery in 70 days
+		command = { trigger = { local_flag = { which = SOV_penalty when = 0 value = 3 } } 										type = event which = 2400161 where = -1 when = 60 } #recovery in 60 days #typical at May 1941
+		command = { trigger = { local_flag = { which = SOV_penalty when = 0 value = 2 } } 										type = event which = 2400161 where = -1 when = 50 } #recovery in 50 days
+		command = { trigger = { local_flag = { which = SOV_penalty when = 0 value = 1 } } 										type = event which = 2400161 where = -1 when = 40 } #recovery in 40 days
+		command = { trigger = { local_flag = { which = SOV_penalty when = 0 value = 0 } } 										type = event which = 2400161 where = -1 when = 30 } #recovery in 30 days
+			
+		#command = { trigger = { local_flag = { which = SOV_penalty when = 1 value = 5 } } 										type = event which = 2400162 where = -1 when = 80 } #recovery in 80 days
+		#command = { trigger = { local_flag = { which = SOV_penalty when = 0 value = 4 } } 										type = event which = 2400162 where = -1 when = 70 } #recovery in 70 days
+		#command = { trigger = { local_flag = { which = SOV_penalty when = 0 value = 3 } } 										type = event which = 2400162 where = -1 when = 60 } #recovery in 60 days #typical at May 1941
+		#command = { trigger = { local_flag = { which = SOV_penalty when = 0 value = 2 } } 										type = event which = 2400162 where = -1 when = 50 } #recovery in 50 days
+		#command = { trigger = { local_flag = { which = SOV_penalty when = 0 value = 1 } } 										type = event which = 2400162 where = -1 when = 40 } #recovery in 40 days
+		#command = { trigger = { local_flag = { which = SOV_penalty when = 0 value = 0 } } 										type = event which = 2400162 where = -1 when = 30 } #recovery in 30 days
+		
+		#command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 } 						type = event which = 2400162 where = -1 when = 60 } #recovery in 60 days YYY
+		#command = { trigger = { NOT = { local_flag = SOVterror1 } local_flag = SOVterror2 local_flag = SOVterror3 } 			type = event which = 2400162 where = -1 when = 50 } #recovery in 50 days XYY
+		#command = { trigger = { local_flag = SOVterror1 NOT = { local_flag = SOVterror2 } local_flag = SOVterror3 } 			type = event which = 2400162 where = -1 when = 50 } #recovery in 50 days YXY
+		#command = { trigger = { NOT = { local_flag = SOVterror1 } NOT = { local_flag = SOVterror2 } local_flag = SOVterror3 }	type = event which = 2400162 where = -1 when = 40 } #recovery in 40 days XXY
+		#command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 NOT = { local_flag = SOVterror3 } } 			type = event which = 2400162 where = -1 when = 30 } #recovery in 30 days YYX
+		#command = { trigger = { NOT = { local_flag = SOVterror1 } local_flag = SOVterror2 NOT = { local_flag = SOVterror3 } } 	type = event which = 2400162 where = -1 when = 20 } #recovery in 20 days XYX
+		#command = { trigger = { local_flag = SOVterror1 NOT = { local_flag = SOVterror2 } NOT = { local_flag = SOVterror3 } } 	type = event which = 2400162 where = -1 when = 20 } #recovery in 20 days YXX
+		#command = { trigger = { NOT = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 } } 			type = event which = 2400162 where = -1 when = 10 } #recovery in 10 days XXX
 		
 		command = { type = damage_division which = -1 where = 50 }
 		command = { type = damage_division which = -1 where = 50 }
@@ -7576,11 +7408,1365 @@ event = {
 	}
 }
 
+
+##########################################################
+# Destruction of Soviet Airforce
+##########################################################
+event = {
+	id = 23126520
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Kaunas }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 207 }
+		
+		building = { province = 207 	type = air_base value = 2 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 207		type = air_base value = 1 when = now } }
+		}
+	}
+	
+	name = "Kaunas air base bombed"
+	desc = "Kaunas air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Kaunas value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Kaunas value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Kaunas value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Kaunas value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126521
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Riga }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 197 }
+		
+		building = { province = 197 	type = air_base value = 1 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 197		type = air_base value = 0.5 when = now } }
+		}
+	}
+	
+	name = "Riga air base bombed"
+	desc = "Riga air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Riga value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Riga value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Riga value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Riga value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126522
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Brest }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 503 }
+		
+		building = { province = 503 	type = air_base value = 2 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 503		type = air_base value = 1 when = now } }
+		}
+	}
+	
+	name = "Brest air base bombed"
+	desc = "Brest air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Brest value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Brest value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Brest value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Brest value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126523
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Ternopol }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 229 }
+		
+		building = { province = 229 	type = air_base value = 4 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 229		type = air_base value = 2 when = now } }
+		}
+	}
+	
+	name = "Ternopol air base bombed"
+	desc = "Ternopol air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Ternopol value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Ternopol value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Ternopol value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Ternopol value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126524
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Lyuban }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 273 }
+		
+		building = { province = 273 	type = air_base value = 2 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 273		type = air_base value = 1 when = now } }
+		}
+	}
+	
+	name = "Lyuban air base bombed"
+	desc = "Lyuban air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Lyuban value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Lyuban value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Lyuban value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Lyuban value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126525
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Mogilev }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 220 }
+		
+		building = { province = 220 	type = air_base value = 8 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 220		type = air_base value = 4 when = now } }
+		}
+	}
+	
+	name = "Mogilev air base bombed"
+	desc = "Mogilev air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Mogilev value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Mogilev value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Mogilev value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Mogilev value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126526
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Vitebsk }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 217 }
+		
+		building = { province = 217 	type = air_base value = 2 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 217		type = air_base value = 1 when = now } }
+		}
+	}
+	
+	name = "Vitebsk air base bombed"
+	desc = "Vitebsk air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Vitebsk value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Vitebsk value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Vitebsk value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Vitebsk value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126527
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Zhitomir }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 227 }
+		
+		building = { province = 227 	type = air_base value = 1 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 227		type = air_base value = 0.5 when = now } }
+		}
+	}
+	
+	name = "Zhitomir air base bombed"
+	desc = "Zhitomir air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Zhitomir value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Zhitomir value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Zhitomir value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Zhitomir value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126528
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Kiev }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 238 }
+		
+		building = { province = 238 	type = air_base value = 8 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 238		type = air_base value = 4 when = now } }
+		}
+	}
+	
+	name = "Kiev air base bombed"
+	desc = "Kiev air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Kiev value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Kiev value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Kiev value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Kiev value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126529
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Kirovograd }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 236 }
+		
+		building = { province = 236 	type = air_base value = 2 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 236		type = air_base value = 1 when = now } }
+		}
+	}
+	
+	name = "Kirovograd air base bombed"
+	desc = "Kirovograd air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Kirovograd value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Kirovograd value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Kirovograd value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Kirovograd value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126530
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Odessa }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 233 }
+		
+		building = { province = 233 	type = air_base value = 4 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 233		type = air_base value = 2 when = now } }
+		}
+	}
+	
+	name = "Odessa air base bombed"
+	desc = "Odessa air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Odessa value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Odessa value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Odessa value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Odessa value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126531
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Sevastopol }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 253 }
+		
+		building = { province = 253 	type = air_base value = 6 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 253		type = air_base value = 3 when = now } }
+		}
+	}
+	
+	name = "Sevastopol air base bombed"
+	desc = "Sevastopol air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Sevastopol value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Sevastopol value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Sevastopol value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Sevastopol value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126532
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Dzakoj }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 1827 }
+		
+		building = { province = 1827 	type = air_base value = 2 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 1827		type = air_base value = 1 when = now } }
+		}
+	}
+	
+	name = "Dzakoj air base bombed"
+	desc = "Dzakoj air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Dzakoj value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Dzakoj value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Dzakoj value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Dzakoj value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126533
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Zaporozhye }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 249 }
+		
+		building = { province = 249 	type = air_base value = 2 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 249		type = air_base value = 1 when = now } }
+		}
+	}
+	
+	name = "Zaporozhye air base bombed"
+	desc = "Zaporozhye air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Zaporozhye value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Zaporozhye value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Zaporozhye value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Zaporozhye value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126534
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Tallinn }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 194 }
+		
+		building = { province = 194 	type = air_base value = 2 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 194		type = air_base value = 1 when = now } }
+		}
+	}
+	
+	name = "Tallinn air base bombed"
+	desc = "Tallinn air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Tallinn value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Tallinn value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Tallinn value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Tallinn value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126535
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Pskov }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 201 }
+		
+		building = { province = 201 	type = air_base value = 2 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 201		type = air_base value = 1 when = now } }
+		}
+	}
+	
+	name = "Pskov air base bombed"
+	desc = "Pskov air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Pskov value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Pskov value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Pskov value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Pskov value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126536
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Leningrad }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 187 }
+		
+		building = { province = 187 	type = air_base value = 10 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 187		type = air_base value = 5 when = now } }
+		}
+	}
+	
+	name = "Leningrad air base bombed"
+	desc = "Leningrad air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Leningrad value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Leningrad value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Leningrad value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Leningrad value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126537
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Murmansk }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 133 }
+		
+		building = { province = 133 	type = air_base value = 4 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 133		type = air_base value = 2 when = now } }
+		}
+	}
+	
+	name = "Murmansk air base bombed"
+	desc = "Murmansk air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Murmansk value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Murmansk value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Murmansk value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Murmansk value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+event = {
+	id = 23126538
+	random = no
+	country = SOV
+	persistent = yes
+	one_action = yes
+
+	trigger = {
+		NOT = { local_flag = SAD_Borovici }
+		war = { country = GER }
+		OR = {
+			local_flag = disOrgGeneric_1
+			local_flag = disOrgGeneric_2
+			NOT = { local_flag = war_preparedness }
+			AND = {
+				local_flag = war_preparedness
+				local_flag = war_preparedness_debuff
+			}
+		}
+		control = { province = 190 }
+		
+		building = { province = 190 	type = air_base value = 2 }
+		OR = {
+			AND = {
+				ai = GER
+				random = 5
+			}
+			NOT = { building = { province = 190		type = air_base value = 1 when = now } }
+		}
+	}
+	
+	name = "Borovici air base bombed"
+	desc = "Borovici air base bombed - air losses"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Huge losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.06 } 
+		command = { type = local_setflag which = SAD_Borovici value = 4 }
+	}
+	action = {
+		name = "Significant losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.05 } 
+		command = { type = local_setflag which = SAD_Borovici value = 3 }
+	}
+	action = {
+		name = "Some losses"
+		ai_chance = 20
+		command = { type = strength which = air when = 1 where = 0 value = -0.04 } 
+		command = { type = local_setflag which = SAD_Borovici value = 2 }
+	}
+	action = {
+		name = "Minimal losses"
+		trigger = { NOT = { ai = GER } ai = SOV }
+		ai_chance = 40
+		command = { type = strength which = air when = 1 where = 0 value = -0.02 } 
+		command = { type = local_setflag which = SAD_Borovici value = 1 }
+	}
+	action = { #Trying to add randomness, since "random=5" is not good enough. Not sure if it will actually work
+		name = "No losses"
+		trigger = { ai = GER }
+		ai_chance = 40
+	}
+}
+
+
 #####################################################################################
 # Moscow surrounded (needed to prevent starvation from capital enriclement)
 #####################################################################################
 event = { 
-	id = 23126530
+	id = 23126540
 	random = no
 	country = SOV
 
@@ -7618,7 +8804,7 @@ event = {
 # Moscow recaptured
 #####################################################################################
 event = { 
-	id = 23126532
+	id = 23126542
 	random = no
 	country = SOV
 
@@ -7645,6 +8831,121 @@ event = {
 		name = ACTION_NAME_OK
 		command = { type = capital which = 175 }
 		command = { type = dissent value = -2 }
+	}
+}
+
+event = { 
+	id = 23126543
+	random = no
+	country = SOV
+	persistent = yes
+
+	decision = {
+		puppet = { country = U58 }
+		NOT = { military_control = { country = SOV country = U58 } }
+	}
+	decision_trigger = {
+	}	
+	trigger= { 
+		ai = no
+	}
+
+	name = "Control the AJVA"
+	desc = "Officially, the Anti-Japanese Volunteer Army was led by the Chinese Communist Party. In reality, it did not directly report to the CCP center in Yan'an due to geographical separation. Its only contact with the CCP in was through the CCP representatives in the Communist International in Moscow, Kang Sheng, and Wang Ming. The Army was supported and instructed by the USSR, which aimed to tie up the forces of its potential Japanese enemy. Their uniforms were copies of the uniform of the Soviet Red Army."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 30
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = military_control which = SOV where = U58 value = 1 }
+	}
+}
+
+event = { 
+	id = 23126544
+	random = no
+	country = SOV
+	persistent = yes
+
+	decision = {
+		puppet = { country = SIK }
+		NOT = { military_control = { country = SOV country = SIK } }
+	}
+	decision_trigger = {
+	}	
+	trigger= { 
+		ai = no
+	}
+
+	name = "Control the Xinjiang Army"
+	desc = "Officially, the Xinjiang province remained part of the Republic of China, but de-facto its warlord Sheng Shicai ran a local administration as a puppet of Moscow. His army was staffed with Soviet advisers and relied heavily on Soviet aid."
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 30
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = military_control which = SOV where = SIK value = 1 }
+	}
+}
+
+event = { 
+	id = 23126546
+	random = no
+	persistent = yes
+
+	decision = {
+	}
+	trigger= { 
+		ai = no
+	}
+
+	name = "GDE"
+	desc = "GDE"
+	style = 2
+
+	#date = { day = 1 month = january year = 1936 }
+	#offset = 1
+	#deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "Up 10"
+		command = { type = ground_def_eff		when  = 1 					value = 0.10  }
+	}
+	action = {
+		name = "Down 10"
+		command = { type = ground_def_eff		when  = 1 					value = -0.10 }
+	}
+}
+
+
+event = { 
+	id = 23126547
+	random = no
+	country = SPA
+
+	trigger = {
+		ai = yes
+	}
+
+	name = "GDE"
+	desc = "GDE"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 1
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = "OK"
+		command = { trigger = { ai = yes } type = ai which = "airStrat.ai" }
+		command = { trigger = { ai = yes } type = ai which = "buildLand5_6.ai" }
+		command = { trigger = { ai = yes } type = local_setflag	which = AI1936_land  value = 6  }
 	}
 }
 

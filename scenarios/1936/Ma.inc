@@ -10,7 +10,7 @@ country =
   ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   intrinsic_gov_type     = paternal_autocrat
   extra_tc               = 2
-  dissent				 = 15
+  dissent				 = 10
   puppet                 = CHI
   # Resource Reserves
   energy                 = 200

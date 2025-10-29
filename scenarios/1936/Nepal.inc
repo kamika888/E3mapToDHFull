@@ -25,7 +25,7 @@ country =
      free_market       = 1
      professional_army = 2 
      defense_lobby     = 3 
-     interventionism   = 3 
+     interventionism   = 6 
   }
   SpyInfo                = { country = "NEP" NumberOfSpies = 1 }
   nationalprovinces      = { 1473 2953 5177 5178 5179 6923 7912 7913 7919 7920 7921 1456 5206 5197 5207 5210 5211 1472 6922 7193 5224 5223 5222 2043

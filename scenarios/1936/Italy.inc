@@ -5,7 +5,7 @@
 country =
 { tag                    = ITA
 	#Italy just barely misses normal requirements to stay mobilized after the end of Ethiopia (MIL5 instead of MIL6), so using do_not_demob flag.
-	ai_settings			 = { flags = { WARDebt = 9 SanctionsEvt = 1 ideology = 2 war_preparedness = 5 do_not_demob = 1 ETH_dissent = 1 } }
+	ai_settings			 = { flags = { WARDebt = 9 Sanctions = 1 SanctionsEvt = 1 ideology = 2 war_preparedness = 5 do_not_demob = 1 ETH_dissent = 1 } }
 	manpower               = 714 #was 460
 	# Resource Reserves
 	energy                 = 26000 
