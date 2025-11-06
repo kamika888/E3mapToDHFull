@@ -238,7 +238,7 @@ country =
 	# Great War Land Doctrines (central powers)
 	6500 6510 6530 6550 6590 6600 6620 6650 6670 6610 6680 6690 6700 6710 6910
 	# WW2 Land Doctrines
-	6210 6220 6230 6250 6900
+	6210 6220
 	#Great War Hospital System 
 	14000 14010 14020
 
@@ -264,7 +264,7 @@ country =
 }
 
 inventions = { 3000027 3000028 }
-blueprints = { 6240 6260 6270 7560 } # Elastic Defense, Combined Arms Off. and Kampfgruppe doctrines
+blueprints = { 6230 6250 6900 }
   policy =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 1 
@@ -272,7 +272,7 @@ blueprints = { 6240 6260 6270 7560 } # Elastic Defense, Combined Arms Off. and K
      free_market       = 3
      freedom           = 8 
      professional_army = 3 
-     defense_lobby     = 5 
+     defense_lobby     = 4 
      interventionism   = 8
   }
    headofstate            = {  type = 9 id = 1  } 

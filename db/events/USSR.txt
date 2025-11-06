@@ -1524,7 +1524,7 @@ event = {
 		name = "ACTIONNAME3200A" # Let them come if they dare!
 		ai_chance = 99
 		command = { type = dissent value = -10 }
-		command = { type = event which = 2007127 where = SOV when = 3 }
+		command = { type = event which = 2007127 where = SOV when = 0 }
 		command = { type = chiefofstaff which = 145102 }
 		command = { type = chiefofarmy which = 145107 }
 		command = { type = domestic which = political_left value = -1 } #to Conservative
@@ -1532,9 +1532,14 @@ event = {
 		command = { type = relation which = SWE value = 5 }
 		command = { type = relation which = NOR value = 5 }
 		
-		command = { trigger = { ai = yes } type = local_setflag which = do_not_demob } #not necessary?
-		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = trigger which = 8300105 }  #partial Mobilization
-		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = event which = 13500053 where = FIN when = 720 } #allow AI demob
+		command = { type = local_setflag which = do_not_demob } #not necessary?
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 6 } } NOT = { local_flag = demob } } type = event which = 13500053 where = FIN when = 720 } #allow AI demob
+		
+		#Gearing up 7
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 7 } } NOT = { local_flag = WAR_change } } type = event which = 2027 where = -1 when = 0  }
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 7 } }			local_flag = WAR_change   } type = local_setflag which = WAR_manual when = 0 value = 1	}
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 7 } }			local_flag = WAR_change   } type = event which = 2027 where = -1 when = 0  }
 		
 		command = { type = headofgovernment 		which = 145028 } #Ryti
 		command = { type = foreignminister 			which = 145038 }
@@ -1549,6 +1554,21 @@ event = {
 		command = { type = local_clrflag which = FrontAIVeryAggressive }
 		command = { type = local_clrflag which = FrontAIHyper }
 		command = { type = local_setflag which = FrontAILock }
+		
+		
+		command = { type = add_corps value = land where = 7153	  }
+		command = { type = add_division value = garrison when = 5 }
+		command = { type = add_corps value = land where = 138	  }
+		command = { type = add_division value = garrison when = 5 }
+		command = { type = add_corps value = land where = 3329	  }
+		command = { type = add_division value = garrison when = 5 }
+		command = { type = add_corps value = land where = 140	  }
+		command = { type = add_division value = garrison when = 5 }
+		command = { type = add_corps value = land where = 103	  }
+		command = { type = add_division value = garrison when = 5 }
+		
+		command = { type = morale 	which = land value = 60 }
+		command = { type = event which = 2030005 where = -1 when = 90 }
 		
 		command = { trigger = { NOT = { ai = GER } } type = military_control which = GER where = FIN value = 1 }
 		command = { type = local_setflag which = inMajorWar	}
@@ -1667,7 +1687,10 @@ event = {
 		local_flag = assistFIN
 		OR = {
 			NOT = { war = { country = FIN country = SOV } }
-			war = { country = GER country = SOV }
+			AND = {
+				war = { country = GER country = SOV }
+				NOT = { war = { country = SOV } }
+			}
 			war = { country = FIN }
 			war = { country = ENG }
 			lost_national = { value = 5 }
@@ -1754,6 +1777,7 @@ event = {
 		command = { type = supplies value = 500 }
 		command = { type = gain_tech which = -1 }
 		command = { type = gain_tech which = -2 }
+		command = { type = extra_tc value = 10  }
 	}
 }
 
@@ -1777,12 +1801,12 @@ event = {
 		name = ACTION_NAME_OK # This means War!
 		command = { type = war which = FIN }
 		command = { type = dissent value = 1 } #not a very popular war
-		command = { type = ai which = "frontAIveryAggressive.ai" }
+		command = { type = ai which = "frontAIhyper.ai" }
 		command = { type = local_clrflag which = FrontAICautious }
 		command = { type = local_clrflag which = FrontAINormal }
 		command = { type = local_clrflag which = FrontAIAggressive }
-		command = { type = local_setflag which = FrontAIVeryAggressive }
-		command = { type = local_clrflag which = FrontAIHyper }
+		command = { type = local_clrflag which = FrontAIVeryAggressive }
+		command = { type = local_setflag which = FrontAIHyper }
 		command = { type = local_setflag which = FrontAILock }
 		command = { type = belligerence which = SOV value = 5 }
 		command = { type = relation which = ENG value = -10 }
@@ -2013,7 +2037,7 @@ event = {
 	
 	action = {
 		name = "EVT_2030097_ACTIONA" #Recall the reserve (partial mobilization)
-		command = { type = belligerence value = 5 }
+		command = { type = belligerence value = 1 }
 		command = { type = relation which = SOV value = -10 }
 		command = { type = activate_division which = 32000 value = 400 where = 145 when = 0 }
 		command = { type = activate_division which = 32000 value = 401 where = 146 when = 0 }
@@ -2024,6 +2048,7 @@ event = {
 		command = { type = activate_division which = 32000 value = 406 where = 7155 when = 0 }
 		command = { type = activate_division which = 32000 value = 407 where = 3337 when = 0 }
 		command = { type = activate_division which = 32000 value = 408 where = 2631 when = 0 }
+		
 		command = { type = local_setflag which = popularMobilization } 
 		#command = { trigger = { ai = yes } type = local_setflag which = do_not_demob } #not necessary?
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = trigger which = 8300105 }  #partial Mobilization
@@ -2156,6 +2181,23 @@ event = {
 		command = { type = relation which = GER value = 50 }
 	}
 }
+
+event = {
+	id = 2030005
+	random = no
+
+	name = "Morale falters"
+	desc = "The initial Soviet invasion led to a great outburst of patriotism and unification of the Finnish society, previously plagued by deep fissures. The resounding Finnish victories of the early war against thoroughly unprepared Soviet troops, the outpouring of international support and promises of imminent Anglo-French intervention greatly boosted the morale of the Finnish troops. But as the conflict appeared to settle into a war of attrition and casualties began to mount, and as the promised Anglo-French intervention failed to materialize, the Finns had to grapple with the harsh reality of the conflict, and morale started to falter once again. Without direct Western intervention, the Finns simply had no answer to the massive preponderance of Soviet artillery and air power, and its seemingly infinite manpower."
+	style = 2
+	picture = "news_paper"
+	
+	action = {
+		name = "ACTION_NAME_DAMN"
+		command = { type = morale  which = land value = -60 }
+		command = { type = dissent value = 1 } 
+	}
+}
+
 
 
 #########################################################################
@@ -2361,7 +2403,10 @@ event = {
 		command = { type = dissent value = -1 }
 		command = { trigger = { control = { province = 141 data = -3 } } type = add_corps which = "Swedish Volunteer Corps" value = land where = 141 }
 		command = { type = add_division which = "Swedish Volunteer Division"	value = infantry 	when = 10	where = -10 }
-		command = { type = add_division 										value = interceptor when = 8	where = -80 } #supplies from abroad will slowly reinforce the unit to full strength
+		command = { type = add_division 										value = interceptor when = 8	where = -10 }
+		command = { type = add_brigade value = anti_air 	when = 3 }
+		command = { type = add_brigade value = anti_air 	when = 3 }
+		command = { type = add_brigade value = artillery 	when = 4 }
 		command = { type = supplies value = 1000 }
 	}
 }
@@ -4901,7 +4946,7 @@ event = {
 		
 		command = { type = ministerofsecurity which = 30026 } #Yezhov
 		
-		command = { type = ground_def_eff 		when  = 1	 	value = -0.03 }
+		command = { type = ground_def_eff 		when  = 1	 	value = -0.05 }
 		command = { type = defensiveness 		which = land 	value = 3     } #positive is bad
 		command = { type = toughness 			which = land 	value = 3     }
 		command = { type = max_organization 	which = land 	value = -5    }
@@ -4961,7 +5006,7 @@ event = {
 		command = { type = dissent value = -5 }
 		command = { type = manpowerpool value = -100 }
 		
-		command = { type = ground_def_eff 		when  = 1	 	value = -0.03 }
+		command = { type = ground_def_eff 		when  = 1	 	value = -0.05 }
 		command = { type = defensiveness 		which = land 	value = 3     } #positive is bad
 		command = { type = toughness 			which = land 	value = 3     }
 		command = { type = max_organization 	which = land 	value = -5    }
@@ -5022,7 +5067,7 @@ event = {
 		command = { type = dissent 		value = -10  }
 		command = { type = manpowerpool value = -200 }
 		
-		command = { type = ground_def_eff 		when  = 1	 	value = -0.09 }
+		command = { type = ground_def_eff 		when  = 1	 	value = -0.15 }
 		command = { type = defensiveness 		which = land 	value = 9     } #positive is bad
 		command = { type = toughness 			which = land 	value = 9     }
 		command = { type = max_organization 	which = land 	value = -15   }
@@ -5038,7 +5083,7 @@ event = {
 		command = { type = surprise 			which = air 	value = 6     }
 		
 		#total
-		#command = { type = ground_def_eff 		when  = 1	 	value = -0.15 }
+		#command = { type = ground_def_eff 		when  = 1	 	value = -0.25 }
 		#command = { type = defensiveness 		which = land 	value = 15    }
 		#command = { type = toughness 			which = land 	value = 15    }
 		#command = { type = max_organization 	which = land 	value = -25   }
@@ -5396,7 +5441,7 @@ event = {
 
 	action = {
 		name = "ACTION_NAME_GREAT" # Great!
-		command = { type = ground_def_eff 		when  = 1	 value = 0.03 }
+		command = { type = ground_def_eff 		when  = 1	 value = 0.05 }
 		command = { type = defensiveness 		which = land value = -3   }
 		command = { type = toughness 			which = land value = -3   }
 		command = { type = max_organization 	which = land value = 5    }
@@ -5438,7 +5483,7 @@ event = {
 
 	action = {
 		name = "ACTION_NAME_GREAT" # Great!
-		command = { type = ground_def_eff 		when  = 1	 value = 0.03 }
+		command = { type = ground_def_eff 		when  = 1	 value = 0.05 }
 		command = { type = defensiveness 		which = land value = -3   }
 		command = { type = toughness 			which = land value = -3   }
 		command = { type = max_organization 	which = land value = 5    }
@@ -5481,7 +5526,7 @@ event = {
 
 	action = {
 		name = "ACTION_NAME_GREAT" # Great!
-		command = { type = ground_def_eff 		when  = 1	 value = 0.03 }
+		command = { type = ground_def_eff 		when  = 1	 value = 0.05 }
 		command = { type = defensiveness 		which = land value = -3   }
 		command = { type = toughness 			which = land value = -3   }
 		command = { type = max_organization 	which = land value = 5    }
@@ -5524,7 +5569,7 @@ event = {
 
 	action = {
 		name = "ACTION_NAME_GREAT" # Great!
-		command = { type = ground_def_eff 		when  = 1	 value = 0.03 }
+		command = { type = ground_def_eff 		when  = 1	 value = 0.05 }
 		command = { type = defensiveness 		which = land value = -3   }
 		command = { type = toughness 			which = land value = -3   }
 		command = { type = max_organization 	which = land value = 5    }
@@ -5564,7 +5609,7 @@ event = {
 
 	action = {
 		name = "ACTION_NAME_GREAT" # Great!
-		command = { type = ground_def_eff 		when  = 1	 value = 0.03 }
+		command = { type = ground_def_eff 		when  = 1	 value = 0.05 }
 		command = { type = defensiveness 		which = land value = -3   }
 		command = { type = toughness 			which = land value = -3   }
 		command = { type = max_organization 	which = land value = 5    }
@@ -8893,59 +8938,3 @@ event = {
 		command = { type = military_control which = SOV where = SIK value = 1 }
 	}
 }
-
-event = { 
-	id = 23126546
-	random = no
-	persistent = yes
-
-	decision = {
-	}
-	trigger= { 
-		ai = no
-	}
-
-	name = "GDE"
-	desc = "GDE"
-	style = 2
-
-	#date = { day = 1 month = january year = 1936 }
-	#offset = 1
-	#deathdate = { day = 29 month = december year = 1999 }
-
-	action = {
-		name = "Up 10"
-		command = { type = ground_def_eff		when  = 1 					value = 0.10  }
-	}
-	action = {
-		name = "Down 10"
-		command = { type = ground_def_eff		when  = 1 					value = -0.10 }
-	}
-}
-
-
-event = { 
-	id = 23126547
-	random = no
-	country = SPA
-
-	trigger = {
-		ai = yes
-	}
-
-	name = "GDE"
-	desc = "GDE"
-	style = 2
-
-	date = { day = 1 month = january year = 1936 }
-	offset = 1
-	deathdate = { day = 29 month = december year = 1999 }
-
-	action = {
-		name = "OK"
-		command = { trigger = { ai = yes } type = ai which = "airStrat.ai" }
-		command = { trigger = { ai = yes } type = ai which = "buildLand5_6.ai" }
-		command = { trigger = { ai = yes } type = local_setflag	which = AI1936_land  value = 6  }
-	}
-}
-

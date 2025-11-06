@@ -151,8 +151,8 @@ country =
 
 # Great War Land Doctrines (entente)
 6500 6510 6530 6580 6600 6610 6680 6620 6630 6640 6650 6660 6670 6540 6910
-#Land Doctrines
-6560 6030
+# Land Doctrines (Light Infantry line)
+6390 6400 6420
 
 #Naval Doctrines
 # Theories
@@ -226,6 +226,8 @@ inventions = { 3000027 }
 	   strength   = 5
        type          = infantry 
        model         = 7 
+       extra = anti_air 
+	   brigade_model = 2
       } 
      Division = 
      {  id            = {  type = 32000 id = 6  } 
@@ -240,6 +242,8 @@ inventions = { 3000027 }
 	   strength   = 5
        type          = infantry 
        model         = 6 
+       extra = anti_air 
+	   brigade_model = 2
       } 
     } 
    landunit = 
@@ -270,6 +274,8 @@ inventions = { 3000027 }
 	   strength   = 30
        type  = bergsjaeger 
        model = 6
+       extra = anti_air 
+	   brigade_model = 2
       } 
     } 
    landunit = 
@@ -303,6 +309,8 @@ inventions = { 3000027 }
 	   strength   = 5
        type  = infantry 
        model = 6
+       extra = anti_air 
+	   brigade_model = 2
       } 
      Division = 
      {  id    = {  type = 32000 id = 17  } 
@@ -310,6 +318,8 @@ inventions = { 3000027 }
 	   strength   = 5
        type  = infantry 
        model = 6
+       extra = anti_air 
+	   brigade_model = 2
       } 
     } 
    landunit = 
@@ -329,6 +339,8 @@ inventions = { 3000027 }
 	   strength   = 5
        type  = infantry 
        model = 7 
+       extra = anti_air 
+	   brigade_model = 2
       } 
     } 
    landunit = 
@@ -367,6 +379,8 @@ inventions = { 3000027 }
 	   strength   = 5
        type  = infantry 
        model = 6 
+       extra = anti_air 
+	   brigade_model = 2
       } 
     } 
    landunit = 
@@ -386,6 +400,8 @@ inventions = { 3000027 }
 	   strength   = 5	   
        type  = infantry 
        model = 6 
+       extra = anti_air 
+	   brigade_model = 2
       } 
     } 
 
@@ -447,7 +463,7 @@ inventions = { 3000027 }
 			} 
 		} 
 landdivision = { dormant = yes id = { type = 32000 id = 400 }  name = "Ryhmä Talvela"  type = infantry model = 7 extra  = artillery brigade_model = 9 strength = 100 }
-landdivision = { dormant = yes id = { type = 32000 id = 401 }  name = "Ahvenanmaa Prikaati"  type = garrison model = 4 strength = 30 max_strength = 30 }
+landdivision = { dormant = yes id = { type = 32000 id = 401 }  name = "Ahvenanmaa Prikaati"  type = militia model = 4 strength = 50 max_strength = 50 }
 landdivision = { dormant = yes id = { type = 32000 id = 402 }  name = "Ryhmä Pohjois-Suomen"  type = infantry model = 8 extra  = engineer brigade_model = 3 strength = 80 max_strength = 80 }
 landdivision = { dormant = yes id = { type = 32000 id = 403 }  name = "Ryhmä Räsänen"  type = infantry model = 7 extra  = artillery brigade_model = 9 strength = 60 max_strength = 60 }
 landdivision = { dormant = yes id = { type = 32000 id = 404 }  name = "Ryhmä Rautu"  type = infantry model = 7 extra  = artillery brigade_model = 9 strength = 80 max_strength = 80 }

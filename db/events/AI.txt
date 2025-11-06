@@ -6586,6 +6586,87 @@ event = {
 	}
 }
 
+#Consider early Barb if the Soviets left their border practically undefended
+
+
+event = {
+	id = 2401215
+	random = no 
+	country = GER
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		exists = SOV
+		NOT = {	war = { country = SOV }	}
+		OR = {
+			control = { province = 485 data = -3 } # Warzaw
+			control = { province = 485 data = SOV }
+			alliance = { country = SOV country = POL }
+		}
+		NOT = { ai = SOV }
+		OR = {
+			war = { country = FIN country = SOV }
+			war = { country = EST country = SOV }
+			war = { country = LAT country = SOV }
+			war = { country = LIT country = SOV }
+			war = { country = ROM country = SOV }
+			war = { country = JAP country = SOV }
+		}
+		NOT = { garrison = { country = SOV province = 503  type = land size = 40 area = 2 } }
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = ai which = "nations\GER_SOV.ai" }
+		command = { type = local_setflag which = early_Barb }
+	}
+}
+
+event = {
+	id = 2401216
+	random = no 
+	country = GER
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		local_flag = early_Barb
+		NOT = {	war = { country = SOV }	}
+		OR = {
+			AND = {
+				month = June
+				NOT = { month = September }
+			}
+			NOT = {
+				war = { country = FIN country = SOV }
+				war = { country = EST country = SOV }
+				war = { country = LAT country = SOV }
+				war = { country = LIT country = SOV }
+				war = { country = ROM country = SOV }
+				war = { country = JAP country = SOV }
+			}
+		}
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = ai which = "nations\GER_FRA.ai" }
+		command = { type = local_clrflag which = early_Barb }
+	}
+}
+
+
 #Ger temporarily lower PanicRatio in response to invasions and rebellions
 
 event = {
@@ -8611,7 +8692,7 @@ event = {
 
 
 ###############################################
-# VIC / FRA
+# FRA / VIC
 ###############################################
 
 event = {
@@ -8664,9 +8745,9 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		command = { type = local_clrflag which = garSpec 		}
-		command = { type = local_setflag which = gar value = 30 }
-		command = { type = ai which = "garrison30.ai" }
+		command = { type = local_setflag which = garSpec 		}
+		command = { type = local_setflag which = gar value = 15 }
+		command = { type = ai which = "garrison15.ai" }
 		command = { type = ai which = "nations\FRA_GER.ai" }
 	}
 }
@@ -9837,6 +9918,28 @@ event = {
 }
 
 event = {
+	id = 2401729
+	random = no 
+	country = ENG
+
+	trigger = {		
+		ai = yes
+		local_flag = AllInit
+		war = { country = ITA }
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = event which = 2401705 where = ENG when = 60 }
+	}
+}
+
+event = {
 	id = 2401730
 	random = no 
 	persistent = yes
@@ -9976,6 +10079,8 @@ event = {
 	id = 2401802
 	random = no 
 	country = FIN
+	
+	name = "AI_EVENT"
 
 	action = {
 		command = { type = ai which = "nations\FIN_SOV.ai" }

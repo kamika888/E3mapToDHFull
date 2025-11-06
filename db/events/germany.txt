@@ -6,16 +6,16 @@ event = {
 	random = no
 	country = GER
 
-	#decision = {
-	#	NOT = {
-	#		war = { country = GER country = VIC }
-	#		alliance = { country = GER country = VIC }
-	#	}
-	#}
+	decision = {
+		NOT = {
+			war = { country = GER country = VIC }
+			alliance = { country = GER country = VIC }
+		}
+	}
 
-	#decision_trigger = {
-	#	garrison = { country = GER province = 1016 type = land size = 3 area = 1 }
-	#}
+	decision_trigger = {
+		garrison = { country = GER province = 1016 type = land size = 3 area = 1 }
+	}
 
 	trigger = {
 		NOT = {
@@ -556,7 +556,6 @@ event = {
 		command = { type = clrflag which = ausmob }
 		
 		command = { type = belligerence which = GER value = -1 }
-		command = { type = dissent value = 3 }
 
 		command = { type = clrflag which = Anschluss }
 		command = { type = setflag which = Munich }
@@ -2024,6 +2023,7 @@ event = {
 	action = {
 		name = "ACTIONNAME2018A"
 		ai_chance = 100
+		command = { type = dissent value = -5 }
 		command = { type = trigger which = 2007042 }
 	}
 	
@@ -2037,9 +2037,7 @@ event = {
 		command = { type = belligerence which = SOV	value = -10 }
 		command = { type = belligerence which = GER	value = 10  }
 		
-		#10 dissent total
 		command = { type = end_non_aggression which = GER where = SOV } #Will give 5 dissent
-		command = { type = dissent value = 5 }
 		
 		command = { type = war which = SOV }
 	}
@@ -2187,7 +2185,7 @@ event = {
 		#command = { type = ai_prepare_war which = BEL }
 		#command = { type = ai_prepare_war which = HOL }
 		#command = { type = ai_prepare_war which = LUX }
-		command = { type = ai which = "nations\GER_BEL.ai" }
+		command = { type = ai which = "nations\GER_FRA.ai" }
 		
 		command = { type = province_revoltrisk which = 504	value = 5  }
 		command = { type = province_revoltrisk which = 3270	value = 5  }
@@ -3141,6 +3139,7 @@ event = {
 		exists = BEL
 		control = { province = 485 data = -3 } # Warzaw
 		NOT = { control = { province = 68 data = -1 } } #Liege
+		NOT = { local_flag = early_Barb }
 		OR = { 
 			NOT = { control = { province = 51 data = -1 } } # Brussels
 			NOT = { control = { province = 47 data = -1 } } # Amsterdam
@@ -3183,8 +3182,7 @@ event = {
 			war = { country = HOL }
 			region = { region = "Benelux" country = GER data = 1 value = 20 }
 		}
-	 	#garrison = { country = -3 province = 66 type = land size = 12 area = 3 } # Aachen
-        #garrison = { country = -3 province = 81 type = land size = 3 area = 3 } # Munster +	
+	 	garrison = { country = -3 province = 75 type = land size = 60 area = 1 } # Cologne
 		
 		#no uprisings going on in poland
 		NOT = {
@@ -3281,10 +3279,14 @@ event = {
 			control = { province = 485 data = SOV }
 			alliance = { country = SOV country = POL }
 		}
-		NOT = { control = { province = 56 data = -2 } } # Paris
+		OR = {
+			NOT = { control = { province = 56 data = -2 } } # Paris
+			local_flag = early_Barb
+		}
 		month = May
 		NOT = { month = October }
 		OR = {
+			atwar = SOV
 			random = 4
 			AND = {
 				NOT = { month = June }
@@ -3305,6 +3307,7 @@ event = {
 			}
 		}
 		OR = {
+			local_flag = early_Barb
 			event = { id = 2002004 days = 150 } #at least 5 months after the defeat of France
 			AND = {
 				region = { region = "France" country = -3 value = 90 }
@@ -3318,7 +3321,6 @@ event = {
 				NOT = { war = { country = BEL } }
 				NOT = { war = { country = SCH } }
 			}
-			NOT = { war = { country = ENG } } #finished war in the west, or England never guaranteed Poland
 		}
 		OR = {
 			NOT = { flag = ENG_invaded }
@@ -3400,6 +3402,10 @@ event = {
 		command = { trigger = { war = { country = LAT country = SOV } NOT = { alliance = { country = LAT country = ENG } } } type = alliance which = LAT }
 		command = { trigger = { war = { country = LIT country = SOV } NOT = { alliance = { country = LIT country = ENG } } } type = alliance which = LIT }
 		command = { trigger = { war = { country = FIN country = SOV } NOT = { alliance = { country = FIN country = ENG } } } type = alliance which = FIN }
+		command = { trigger = { war = { country = ROM country = SOV } NOT = { alliance = { country = ROM country = ENG } } } type = alliance which = ROM }
+		command = { trigger = { puppet = { country = EST country = SOV } } type = war which = EST } 
+		command = { trigger = { puppet = { country = LAT country = SOV } } type = war which = LAT } 
+		command = { trigger = { puppet = { country = LIT country = SOV } } type = war which = LIT } 
 	}
 }
 ############################################

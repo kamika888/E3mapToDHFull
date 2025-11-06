@@ -215,7 +215,7 @@ event = {
 		#command = { trigger = { ai = yes control = { province = 1046 data = -3 } } type = supplies value = -5000 				}
 		#command = { trigger = { ai = yes control = { province = 1046 data = -3 } } type = supplies value =  5000 where = 1046 	} #Stockpile for the east african campaign
 		
-		command = { type = ai which = "nations\ITA_war.ai" }
+		command = { trigger = { ai = ITA } type = ai which = "nations\ITA_war.ai" }
 	}
 }
 
@@ -233,11 +233,13 @@ event = {
 		name = "ACTION_NAME_GREAT" # Great! 
 		command = { type = dissent value = -1 } 
 		command = { type = relation which = ITA value = 50 }
-		command = { type = alliance which = GER when = 1 }
-		command = { trigger = { puppet = { country = U41 country = ITA } } type = alliance 			which = U41 }
-		command = { trigger = { puppet = { country = U49 country = ITA } } type = alliance 			which = U49 }
-		command = { trigger = { puppet = { country = U41 country = ITA } } type = military_control	which = ITA where = U41 value = 1 }
-		command = { trigger = { puppet = { country = U49 country = ITA } } type = military_control	which = ITA where = U49 value = 1 }
+		command = { trigger = { puppet = { country = U41 country = ITA } } 											type = alliance 			which = U41 }
+		command = { trigger = { puppet = { country = U49 country = ITA } } 											type = alliance 			which = U49 }
+		command = { trigger = { puppet = { country = U41 country = ITA } NOT = { ai = ITA } }						type = military_control	which = ITA where = U41 value = 1 }
+		command = { trigger = { puppet = { country = U49 country = ITA } NOT = { ai = ITA } } 						type = military_control	which = ITA where = U49 value = 1 }
+		
+		command = { trigger = { NOT = { ai = GER } ai = ITA } 														type = military_control which = GER where = ITA value = 1 }
+		command = { trigger = { trigger = { puppet = { country = U49 country = ITA } NOT = { ai = GER } ai = ITA } 	type = military_control which = GER where = U49 value = 1 }
 	}
 }
 

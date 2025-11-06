@@ -3488,7 +3488,7 @@ province = { id = 145   # Viipuri - Karelia - Finland
  
 province = { id = 146   # Sortavala - Karelia - Finland
    anti_air = 2 
-   landfort = 1 
+   landfort = 2 
    coastalfort = 1
  }  
  
