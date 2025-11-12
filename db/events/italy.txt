@@ -233,13 +233,13 @@ event = {
 		name = "ACTION_NAME_GREAT" # Great! 
 		command = { type = dissent value = -1 } 
 		command = { type = relation which = ITA value = 50 }
-		command = { trigger = { puppet = { country = U41 country = ITA } } 											type = alliance 			which = U41 }
-		command = { trigger = { puppet = { country = U49 country = ITA } } 											type = alliance 			which = U49 }
-		command = { trigger = { puppet = { country = U41 country = ITA } NOT = { ai = ITA } }						type = military_control	which = ITA where = U41 value = 1 }
-		command = { trigger = { puppet = { country = U49 country = ITA } NOT = { ai = ITA } } 						type = military_control	which = ITA where = U49 value = 1 }
+		command = { trigger = { puppet = { country = U41 country = ITA } } 									type = alliance 			which = U41 }
+		command = { trigger = { puppet = { country = U49 country = ITA } } 									type = alliance 			which = U49 }
+		command = { trigger = { puppet = { country = U41 country = ITA } NOT = { ai = ITA } }				type = military_control	which = ITA where = U41 value = 1 }
+		command = { trigger = { puppet = { country = U49 country = ITA } NOT = { ai = ITA } } 				type = military_control	which = ITA where = U49 value = 1 }
 		
-		command = { trigger = { NOT = { ai = GER } ai = ITA } 														type = military_control which = GER where = ITA value = 1 }
-		command = { trigger = { trigger = { puppet = { country = U49 country = ITA } NOT = { ai = GER } ai = ITA } 	type = military_control which = GER where = U49 value = 1 }
+		command = { trigger = { NOT = { ai = GER } ai = ITA } 												type = military_control which = GER where = ITA value = 1 }
+		command = { trigger = { puppet = { country = U49 country = ITA } NOT = { ai = GER } ai = ITA }		type = military_control which = GER where = U49 value = 1 }
 	}
 }
 
@@ -1979,6 +1979,9 @@ event = {
 		#command = { trigger = { NOT = { ai = ITA } } type = military_control which = ITA where = U49 value = 1 }
 		command = { type = military_control which = ITA where = U49 value = 1 }
 		
+		command = { trigger = { ai = ITA } type = add_corps 	value = land 	where = 1033 }
+		command = { trigger = { ai = ITA } type = add_division	value = militia when = 5 }
+		
 		command = { trigger = { ai = ITA } type = supplies value = -5000 }
 	}
 }
@@ -2006,14 +2009,17 @@ event = {
 		command = { type = set_domestic which = democratic			value = 1 }
 		command = { type = set_domestic which = professional_army	value = 3 }
 		
-		command = { type = add_corps which = "Italian East Africa Army" value = land where = 1046 }
-		command = { type = add_division which = "1st Oromo Askari"	value = militia when = 5 }
-		command = { type = add_division which = "2nd Sidama Askari"	value = militia when = 5 }
-		command = { type = add_division which = "3rd Ogaden Askari"	value = militia when = 5 }
+		command = { trigger = { puppet = { country = U41 country = ITA } } type = inherit 	which = U41 value = 1 }
+		
+		command = { type = add_corps value = land where = 1043 } #Gonder
+		command = { type = add_division which = "1st Askari Oromo"	value = militia when = 5 }
+		command = { type = add_division which = "2nd Askari Sidama"	value = militia when = 5 }
+		command = { type = add_corps value = land where = 4660 } #Jigjiga
+		command = { type = add_division which = "3rd Askari Ogaden"	value = militia when = 5 }
 		
 		#will also gain 2 extra militia for a total of about 50,000 troops
 		
-		command = { type = manpowerpool value = 30  }
+		command = { type = manpowerpool value = 40  }
 		command = { type = supplies 	value = 300 }
 		
 		command = { type = remove_core_region 	which = "Ethiopia" 			where = U49 }
@@ -2025,6 +2031,8 @@ event = {
 		command = { type = secedeprovince which = ITA value = 7935 when = 2 } #so that units stay under Italy
 		
 		command = { trigger = { ai = ITA control = { province = 1046 data = -3 } } type = supplies value =  5000 }
+		
+		command = { type = event which = 9000081 where = -1 when = 0 } #switch to partisan mode
 	}
 }
 
@@ -2131,7 +2139,7 @@ event = {
 		command = { trigger = { puppet = { country = U41 country = ITA } } type = war which = U41 }
 		command = { trigger = { puppet = { country = U49 country = ITA } } type = war which = U49 }
 		
-		command = { type = manpowerpool value = 30  }
+		command = { type = manpowerpool value = 40  }
 		command = { type = supplies 	value = 500 }
 		
 		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = ETH value = 1 }

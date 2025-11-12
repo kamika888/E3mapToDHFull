@@ -299,9 +299,6 @@ event = {
 				region = { region = "Romania"	country = -3 value = 40 }
 				random = 10
 			}
-			NOT = { control = { province = 417 data = -2 } } #Sofia
-			NOT = { control = { province = 422 data = -3 } } #Burgas
-			lost_national = { country = BUL value = 25 }
 		}
 		event = { id = 2003250 days = 360 }
 	}
@@ -348,9 +345,26 @@ event = {
 			}
 		}
 	}
+	decision_trigger = {
+	}
 	trigger = {
+		NOT = { flag = BulgariaFullAxis }
+		NOT = { flag = BulgariaUnderAttack }
+		alliance = { country = GER }
+		OR = {
+			non_aggression = { country = BUL country = ENG } 
+			AND = {
+				war = { country = GER country = SOV }
+				NOT = { war = { country = SOV } }
+			}
+		}
 		war = { country = GER country = SOV }
-		NOT = { under_attack = SOV }
+		OR = {
+			NOT = { under_attack = SOV }
+			NOT = { control = { province = 417 data = BUL } } #Sofia
+			NOT = { control = { province = 422 data = BUL } } #Burgas
+			lost_national = { country = BUL value = 25 }
+		}
 	}
 
 	date = { day = 0 month = january year = 1938 }

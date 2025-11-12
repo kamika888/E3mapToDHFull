@@ -700,6 +700,7 @@ province = { id = 1025 points = 1 }
 province = { id = 1030 points = 1 }
 province = { id = 1033 points = 1 }
 province = { id = 1037 points = 1 }
+province = { id = 1043 points = 1 }
 province = { id = 1046 points = 3 }
 province = { id = 1047 points = 1 }
 province = { id = 1050 points = 1 }

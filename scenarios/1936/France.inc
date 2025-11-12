@@ -1938,8 +1938,8 @@ landunit =
 	
 	#After vichy is formed
 	landdivision = { dormant = yes id = { type = 13500 id = 2034 } 	name = "Legion etrangere 5e REI" 			type = infantry model = 10 experience = 60 									locked = yes }
-	landdivision = { dormant = yes id = { type = 13500 id = 2035 } 	name = "Division du Annam-Laos" 			type = garrison model = 6 													locked = yes }
-	landdivision = { dormant = yes id = { type = 13500 id = 2036 } 	name = "Division du Tonkin"  				type = garrison model = 6 													locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2035 } 	name = "Division du Annam-Laos" 			type = infantry model = 10 													locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2036 } 	name = "Division du Tonkin"  				type = infantry model = 10 													locked = yes }
 	landdivision = { dormant = yes id = { type = 13500 id = 2037 } 	name = "Division du Cochinchina-Cambodia" 	type = infantry model = 10 extra = artillery brigade_model = 8 				locked = yes }
 	landdivision = { dormant = yes id = { type = 13500 id = 2038 } 	name = "8e Division d'Infanterie" 			type = infantry model = 10 extra = light_armor_brigade brigade_model = 6 	locked = yes }
 	landdivision = { dormant = yes id = { type = 13500 id = 2039 } 	name = "6e Division d'Infanterie" 			type = infantry model = 10 												 	locked = yes }
