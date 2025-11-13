@@ -4337,7 +4337,7 @@ event = {
 	deathdate = { day = 3 month = january year = 1999 }
 
 	name = "The Anglo - German naval treaty 1935"
-	desc = "In 1935 Germany and UK signed a naval treaty which limited the German navy to 35 per cent of the British navy. Your ship caps are 6 (Battleships + Battlecruisers), 8 Heavy Cruisers and 2 (normal + light) Carriers. You may substitute the (light) Carriers for Heavy Cruisers if you wish to, allowing you 10 of them in total. Please note that ships in the build queue are counted as well. Additionally, your total fleet size cannot be over 35 percent of the English fleet size. Only finished ships are counted for this purpose. You can hover over the conditions for this decision to check how close you currently are to matching 35 percent of UK's naval force. You can also see your intelligence briefing for a more detailed breakdown. This treaty will become politically easier to terminate if England guarantees Poland, or if there is a war between our countries."
+	desc = "In 1935 Germany and UK signed a naval treaty which limited the German navy to 35 per cent of the British navy. Our ship caps are 6 (Battleships + Battlecruisers), 8 Heavy Cruisers and 2 (normal + light) Carriers. We may substitute the (light) Carriers for Heavy Cruisers, allowing for 10 of them in total. Please note that ships in the build queue are counted as well. Also, our maximum fleet size cannot be over 35 percent of the English fleet size. Only finished ships are counted for this purpose. Hover over the conditions for this decision to check how close we currently are to matching 35 percent of UK's naval force. We can also see the intelligence briefing for a more detailed breakdown. This treaty will become politically easier to terminate if England acts aggressively, guarantees Poland, or if there is a war between our countries."
 	decision_picture = "decision_naval_treaty"
 	picture = "event_naval_treaty"
 
@@ -4348,10 +4348,10 @@ event = {
 	}
 	action = {
 		name = "Withdraw from the treaty"
-		command = { trigger = { NOT = { war = { country = ENG } } }					type = belligerence	value =  2.0 }
-		command = { trigger = { NOT = { event = 2001028 } }							type = belligerence	value =  4.0 }
-		command = { trigger = { NOT = { war = { country = ENG } event = 2001028 } }	type = dissent		value =  1.0 }
-		command = { trigger = { war = { country = ENG } 						  }	type = dissent		value = -0.2 }
+		command = { trigger = { NOT = { war = { country = ENG } } }																type = belligerence	value =  2.0 }
+		command = { trigger = { NOT = { event = 2001028 belligerence = { country = ENG value = 50 } } }							type = belligerence	value =  4.0 }
+		command = { trigger = { NOT = { war = { country = ENG } event = 2001028 belligerence = { country = ENG value = 50 } } }	type = dissent		value =  1.0 }
+		command = { trigger = { war = { country = ENG } 						 											  }	type = dissent		value = -0.2 }
 		
 		command = { type = relation 	which = ENG value = -20 }
 		command = { type = relation 	which = VIC value = -10 }
@@ -4485,7 +4485,7 @@ event = {
 	deathdate = { day = 29 month = december year = 1999 }
 
 	name = "Naval Treaty Violation"
-	desc = "You have exceeded your 1935 naval treaty caps which are 6 (Battleships + Battlecruisers), 8 Heavy Cruisers and 2 (normal + light) Carriers. You may substitute the (light) Carriers for Heavy Cruisers if you wish to, allowing you 10 of them in total. Please note that ships in the build queue are counted as well. Also, your maximum fleet size cannot be over 35 percent of the English fleet size. Only finished ships are counted for this purpose."
+	desc = "We have exceeded the 1935 naval treaty caps which are 6 (Battleships + Battlecruisers), 8 Heavy Cruisers and 2 (normal + light) Carriers. We may substitute the (light) Carriers for Heavy Cruisers, allowing for 10 of them in total. Please note that ships in the build queue are counted as well. Also, our maximum fleet size cannot be over 35 percent of the English fleet size. Only finished ships are counted for this purpose."
 	style = 2
 	picture = "event_naval_treaty"
 
@@ -4511,9 +4511,10 @@ event = {
 	}
 	action = {
 		name = "Withdraw from the treaty"
-		command = { trigger = { NOT = { war = { country = ENG } } }					type = belligerence	value = 2.0 }
-		command = { trigger = { NOT = { event = 2001028 } }							type = belligerence	value = 4.0 }
-		command = { trigger = { NOT = { war = { country = ENG } event = 2001028 } }	type = dissent		value = 1.0 }
+		command = { trigger = { NOT = { war = { country = ENG } } }																type = belligerence	value =  2.0 }
+		command = { trigger = { NOT = { event = 2001028 belligerence = { country = ENG value = 50 } } }							type = belligerence	value =  4.0 }
+		command = { trigger = { NOT = { war = { country = ENG } event = 2001028 belligerence = { country = ENG value = 50 } } }	type = dissent		value =  1.0 }
+		command = { trigger = { war = { country = ENG } 						 											  }	type = dissent		value = -0.2 }
 		
 		command = { type = relation 	which = ENG value = -20 }
 		command = { type = relation 	which = VIC value = -10 }
@@ -5281,5 +5282,402 @@ event = {
 		command = { type = removeclaim	which = 396  }
 		command = { type = removeclaim	which = 7320 }
 		command = { type = removeclaim	which = 563  }
+	}
+}
+
+
+#North Ireland
+
+event = {
+    id = 2001199
+    random = no
+	country = IRE
+	
+	trigger = {
+		exists = U71
+		NOT = { war = { country = U71 } }
+	}
+	
+    name = "Unification of Ireland"
+    desc = "The anti-British revolt in Northern Ireland made it possible to finally reunify the northern and southern part of the island."
+    style = 2
+    picture = "news_paper"
+
+    date = { day = 0 month = july year = 1936 }
+    offset = 10
+    deathdate = { day = 29 month = december year = 1999 }
+
+    action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = inherit which = U71 value = 1 }
+		command = { type = dissent value = -5 }
+		command = { type = secederegion value = "Ireland" which = IRE when = 2 } 
+    }
+} 
+
+#################################################
+# Blockade and Strat bombing effects
+#################################################
+
+event = { 
+	id = 2001200
+	random = no
+	#country = ENG
+	persistent = yes
+	
+	name = "Food shortage"
+	desc = "At the beginning of WW2, UK imported 70 percent of its food from overseas, which put it in a uniquely vulnerable position compared with all other combatants. Agricultural imports were so vital that Germany's U-boat campaign aimed primarily to starve Britain into submission by sinking these convoys. Since agriculture is not represented in the game, the rare material stockpile is tracked for the purpose of gauging UK's ability to sustain imports. As our rare materials stockpile is running low, a food crisis is rapidly approaching. We have 15 days to fix the problem and procure at least 1000 rare materials in our stockpile, or we may face a humanitarian catastrophe of unprecedented proportions."
+	style = 2
+	
+	trigger = {	
+		country = ENG
+		local_flag = AllInit
+		NOT = { local_flag = shortagesFood }
+		NOT = { rare_materials = 500 }
+	}
+
+	date = { day = 0 month = february year = 1936 }
+	offset = 3
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "The rations are getting smaller and smaller..."
+		command = { type = local_setflag which = shortagesFood }
+		command = { type = event which = 2001201 where = -1 when = 15 }
+		command = { type = event which = 2001202 where = -1 when = 15 }
+	}
+}
+
+event = {
+	id = 2001201
+	random = no
+	persistent = yes
+	#visible
+	TAG = { ENG }
+	
+	name = "Food shortages worsen"
+	desc = "We have been unable to replenish our food reserves in a timely manner. Hunger, fear, and desperation is spreading across the populace like a wildfire as people find themselves suddenly unable to feed their families. Food riots are breaking out, gangs are attempting to raid bakeries, and people have been spotted eating animal corpses and dead relatives. People are slaughtering their remaining livestock just to remain alive, contributing to an even greater collapse in agricultural output. The overall humanitarian, security, and medical situation is collapsing across the country, and the morale of our troops is collapsing with it."
+	style = 2
+	
+	action = {
+		name = "Where's the food!?!"
+		trigger = {
+			NOT = { rare_materials = 1000 }
+		}
+		command = { type = dissent value = 2 }
+		command = { type = strength which = land 	when = 1 where = 1 value = -0.01 } #MP is not added back to MP pool
+		command = { type = strength which = naval 	when = 1 where = 1 value = -0.01 } #MP is not added back to MP pool
+		command = { type = strength which = air 	when = 1 where = 1 value = -0.01 } #MP is not added back to MP pool
+		
+		command = { type = manpowerpool	value = -0.50 when = 1 }
+				
+		command = { type = local_setflag which = shortagesFoodCounter when = 1 value = 1 }
+		command = { type = local_setflag which = shortagesFood }
+		
+		command = { trigger = {
+						OR = {
+							local_flag = { which = shortagesFoodCounter when = 0 value = 10  }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 20  }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 30  }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 40  }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 50  }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 60  }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 70  }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 80  }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 90  }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 100 }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 110 }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 120 }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 130 }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 140 }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 150 }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 160 }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 170 }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 180 }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 190 }
+							local_flag = { which = shortagesFoodCounter when = 0 value = 200 }
+						}
+					} type = province_manpower which = -1 value = -1 }
+		
+		command = { type = event which = 2001201 where = -1 when = 15 }
+		command = { type = event which = 2001202 where = -1 when = 15 }
+	}
+}
+event = {
+	id = 2001202
+	random = no
+	persistent = yes
+	#visible
+	TAG = { ENG }
+	
+	name = "Food situation improves"
+	desc = "We were able to just barely replenish our food reserves in a timely manner. Rations remain at a bare minimum, but the situation appears to be gradually recovering."
+	style = 2
+	
+	action = {
+		name = "The situation stabilizes, for now"
+		trigger = {
+			local_flag = shortagesFood
+			rare_materials = 1000
+		}
+		command = { type = local_clrflag which = shortagesFood }
+	}
+}
+
+event = { 
+	id = 2001210
+	random = no
+	country = ENG
+	persistent = yes
+	
+	name = "Enemy bombing takes a toll"
+	desc = "Our defenses are proving to be woefully inadequate for dealing with the enemy strategic bombing campaign. Our once beautiful cities are rapidly turning into ruins, our industry is brought to a standstill, and our civilian population is dying in horrendous numbers with no end in sight. This war is proving to be way too costly, and we cannot continue like this forever. We need to find a way to end this conflict before our entire country turns into wasteland."
+	style = 2
+	
+	trigger = {	
+		country = ENG
+		local_flag = AllInit
+		
+		OR = {
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 10  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 10  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 20  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 20  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 30  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 30  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 40  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 40  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 50  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 50  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 60  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 60  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 70  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 70  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 80  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 80  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 90  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 90  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 100  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 100  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 110  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 110  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 120  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 120  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 130  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 130  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 140  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 140  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 150  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 150  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 160  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 160  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 170  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 170  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 180  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 180  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 190  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 190  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 200  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 200  } }
+			}
+		}
+	}
+
+	date = { day = 0 month = february year = 1936 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "We've got to stop them!"
+		command = { type = dissent value = 1 }
+		command = { type = manpowerpool	value = -0.50 when = 1 }
+		
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 10  } } type = local_setflag which = ENG_Ruin_react value = 10  }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 20  } } type = local_setflag which = ENG_Ruin_react value = 20  }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 30  } } type = local_setflag which = ENG_Ruin_react value = 30  }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 40  } } type = local_setflag which = ENG_Ruin_react value = 40  }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 50  } } type = local_setflag which = ENG_Ruin_react value = 50  }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 60  } } type = local_setflag which = ENG_Ruin_react value = 60  }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 70  } } type = local_setflag which = ENG_Ruin_react value = 70  }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 80  } } type = local_setflag which = ENG_Ruin_react value = 80  }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 90  } } type = local_setflag which = ENG_Ruin_react value = 90  }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 100 } } type = local_setflag which = ENG_Ruin_react value = 100 }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 110 } } type = local_setflag which = ENG_Ruin_react value = 110 }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 120 } } type = local_setflag which = ENG_Ruin_react value = 120 }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 130 } } type = local_setflag which = ENG_Ruin_react value = 130 }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 140 } } type = local_setflag which = ENG_Ruin_react value = 140 }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 150 } } type = local_setflag which = ENG_Ruin_react value = 150 }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 160 } } type = local_setflag which = ENG_Ruin_react value = 160 }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 170 } } type = local_setflag which = ENG_Ruin_react value = 170 }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 180 } } type = local_setflag which = ENG_Ruin_react value = 180 }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 190 } } type = local_setflag which = ENG_Ruin_react value = 190 }
+		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 200 } } type = local_setflag which = ENG_Ruin_react value = 200 }
+	}
+}
+
+###########################################
+# Negotiated peace that recognizes German supremacy in Europe
+###########################################
+
+event = {
+	id = 2001250
+	random = no
+	country = ENG
+
+	name = "Negotiated peace"
+	desc = "The war has taken a severe toll on our country, and the enemy appears to be gaining the upper hand. Hitler, however, might still be willing to offer us an olive branch, provided, of course, that we recognize the German supremacy in Europe. While this would undoubtedly be a long term challenge for England, continuing the war now may precipitate an actual disaster for the Empire. More and more voices in Parliament are calling for H.M. government to open up a dialogue with the enemy in order to find a way out while Britain still has cards on the table."
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		war = { country = GER }
+		OR = {
+			control = { province = 56 data = -2 } #Paris is controlled by GER or ally
+			NOT = {	war = { country = VIC country = GER } }
+		}
+		OR = {
+			NOT = { war = { country = USA country = GER } }
+			lost_VP = { country = USA value = 40 }
+		}
+		OR = {
+			NOT = { war = { country = SOV country = GER } }
+			lost_VP = { country = SOV value = 40 }
+		}
+		NOT = { lost_national = { country = GER value = 15 } }
+		
+		#Germany definitely won't accept as it feels it has too much of an advantage now
+		NOT = {
+			flag = ENG_invaded
+			nuked = { country = ENG data = -2 } #nuked twice
+		}
+		
+		OR = {
+			local_flag = { which = shortagesFoodCounter	when = 1 value = 10 }
+			local_flag = { which = ENG_Ruin_react		when = 1 value = 50 }
+			dissent = 20
+		}
+		#at least 1 strategic province lost
+		OR = {
+			control = { province = 900  data = -2 } #Suez
+			control = { province = 31   data = -2 } #Malta
+			control = { province = 348  data = -2 } #Gibraltar
+			control = { province = 1353 data = -2 } #Singapore
+			control = { province = 1727 data = -2 } #Canberra
+			control = { province = 1871 data = -2 } #Wellington
+			control = { province = 1469 data = -2 } #Delhi
+			control = { province = 588  data = -2 } #Ottawa
+			control = { province = 1116 data = -2 } #Cape Town
+		}
+	}
+
+	date = { day = 0 month = january year = 1939 }
+	offset = 30
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "It's time to talk"
+		ai_chance = 98
+		command = { type = trigger which = 2001251 }
+	}
+	action = {
+		name = "We would rather talk to Satan than Hitler"
+		ai_chance = 2
+		command = { type = dissent value = 5 }
+		command = { type = belligerence which = GER value = -1 }
+	}
+}
+
+event = {
+	id = 2001251
+	random = no
+	country = GER
+
+	name = "England sues for peace!"
+	desc = "The English government, realizing its weakness, and sensing that the war is turning against them, is now practically begging us to conclude an 'honorable peace'. They promise to recognize our supremacy in Europe and conclude a non-aggression pact, provided that we cease our operations against them and return to status quo with the Empire. However, it is pretty apparent that all they are really doing is just trying to buy themselves some time and reprieve until they are more prepared to face us once more. Furthermore, concluding a 'white peace' now would be very difficult from a political standpoint, as it would likely upset our allies and our own populace who are expecting serious concessions from the English. Even Hitler, once a great admirer of England, is reluctant to spare them this time."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "Seize this opportunity to end the war"	
+		ai_chance = 1
+		command = { type = dissent value = 10 }
+		command = { type = belligerence which = GER value = -10 }
+		command = { type = relation 	which = ITA value = -50 }
+		command = { type = relation 	which = JAP value = -50 }
+		command = { type = trigger which = 2001252 }
+	}
+	action = {
+		name = "They should have thought of this much sooner"	
+		ai_chance = 99
+		command = { }
+		command = { type = belligerence which = GER value = 1  }
+		command = { type = belligerence which = ENG value = -1 }
+	}
+}
+
+event = {
+	id = 2001252
+	random = no
+	persistent = yes
+	all = yes
+
+	name = "Germany accepts our offer"
+	desc = "To the surprise and great relief of the British people, Hitler decided to officially accept our offer of unconditional peace and cessation of hostilities. Germany will keep its gains in Europe, but all British colonies will be returned to London and the two sides will sign a 10 year non-aggression pact."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		trigger = {
+			OR = {
+				country = ENG
+				puppet = { country = -1 country = ENG }
+			}
+		}
+		command = { type = leave_alliance 		when  =  1 }
+		command = { type = peace which = GER	value =  1 }
+		command = { type = dissent 				value = -1 }
+		
+		command = { type = set_relation		which = GER value = 0 }
+		command = { type = non_aggression 	which = GER where = ENG when = 3600 }
 	}
 }

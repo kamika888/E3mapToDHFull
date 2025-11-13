@@ -1528,6 +1528,11 @@ event = {
 		command = { type = chiefofstaff which = 145102 }
 		command = { type = chiefofarmy which = 145107 }
 		command = { type = domestic which = political_left value = -1 } #to Conservative
+		command = { type = relation which = GER value = 10 }
+		command = { type = relation which = ITA value = 20 }
+		command = { type = relation which = ENG value = 20 }
+		command = { type = relation which = VIC value = 20 }
+		command = { type = relation which = USA value = 20 }
 		command = { type = relation which = SOV value = -10 }
 		command = { type = relation which = SWE value = 5 }
 		command = { type = relation which = NOR value = 5 }
@@ -1628,7 +1633,7 @@ event = {
 		NOT = { war = { country = FIN } }
 		NOT = { local_flag = assistFIN }
 		NOT = { local_flag = 2030010 }
-		NOT = { war = { country = ENG } } #Italy will not do this if it's already in the war. Germany will not do in general
+		#NOT = { war = { country = ENG } }
 	}
 
 	name = "Material assistance to Finland"
@@ -1642,6 +1647,7 @@ event = {
 
 	action = {
 		name = "Send assistance"
+		trigger = { OR = { ai = no NOT = { country = GER } } }
 		ai_chance = 100
 		command = { type = money 	value = 50   }
 		command = { type = supplies value = -500 }
@@ -1655,16 +1661,23 @@ event = {
 		command = { trigger = { country = VIC } type = trade which = VIC where = FIN supplies = -10	money = 0.2 value = 1 } 
 		command = { trigger = { country = ITA } type = trade which = ITA where = FIN supplies = -5	money = 0.1 value = 1 } 
 		command = { type = local_setflag which = assistFIN }
-		command = { type = local_setflag which = 2030010 }
+		command = { type = local_setflag which = 2030010   }
+		
+		command = { trigger = { country = GER non_aggression = { country = GER country = SOV } } type = local_setflag which = NAP }
+		command = { trigger = { local_flag = NAP } type = end_non_aggression which = GER where = SOV } #will give 5 dissent
+		command = { trigger = { local_flag = NAP } type = dissent value = -4 }
+		command = { trigger = { local_flag = NAP } type = belligerence which = GER	value =  10 } #gross violation of the NAP
+		command = { trigger = { local_flag = NAP } type = belligerence which = SOV	value = -10 }
+		command = { trigger = { local_flag = NAP } type = local_clrflag which = NAP }
 		
 		command = { type = event which = 2030012 where = FIN when = 0 }
 	}
 	action = {
 		name = "None of our business"
+		trigger = { OR = { ai = no country = GER } }
 		ai_chance = 0
 		command = { type = relation which = FIN value =  -5 }
 		command = { trigger = { country = SWE } type = dissent value = 2   }
-		command = { trigger = { country = GER } type = dissent value = 1   }
 		command = { trigger = { country = ENG } type = dissent value = 1   }
 		command = { trigger = { country = VIC } type = dissent value = 1   }
 		command = { trigger = { country = ITA } type = dissent value = 0.5 }
@@ -1939,7 +1952,9 @@ event = {
 		
 		command = { trigger = { ai = yes } type = event which = 2400009 where = FIN when = 0 }
 		
-		command = { type = set_relation which = SOV value = 10 }
+		command = { type = relation which = GER value = 30 }
+		
+		command = { type = set_relation which = SOV value = -30 }
 		command = { type = event which = 20070280 where = SOV when = 1 }
 	}
 	action = {
