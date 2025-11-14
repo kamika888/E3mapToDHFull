@@ -4348,8 +4348,9 @@ event = {
 	}
 	action = {
 		name = "Withdraw from the treaty"
-		command = { trigger = { NOT = { war = { country = ENG } } }																type = belligerence	value =  2.0 }
-		command = { trigger = { NOT = { event = 2001028 belligerence = { country = ENG value = 50 } } }							type = belligerence	value =  4.0 }
+		command = { 																											type = belligerence	value =  5.0 }
+		command = { trigger = { NOT = { war = { country = ENG } } }																type = belligerence	value =  4.0 }
+		command = { trigger = { NOT = { event = 2001028 belligerence = { country = ENG value = 50 } } }							type = belligerence	value =  6.0 }
 		command = { trigger = { NOT = { war = { country = ENG } event = 2001028 belligerence = { country = ENG value = 50 } } }	type = dissent		value =  1.0 }
 		command = { trigger = { war = { country = ENG } 						 											  }	type = dissent		value = -0.2 }
 		
@@ -4511,8 +4512,9 @@ event = {
 	}
 	action = {
 		name = "Withdraw from the treaty"
-		command = { trigger = { NOT = { war = { country = ENG } } }																type = belligerence	value =  2.0 }
-		command = { trigger = { NOT = { event = 2001028 belligerence = { country = ENG value = 50 } } }							type = belligerence	value =  4.0 }
+		command = { 																											type = belligerence	value =  5.0 }
+		command = { trigger = { NOT = { war = { country = ENG } } }																type = belligerence	value =  4.0 }
+		command = { trigger = { NOT = { event = 2001028 belligerence = { country = ENG value = 50 } } }							type = belligerence	value =  6.0 }
 		command = { trigger = { NOT = { war = { country = ENG } event = 2001028 belligerence = { country = ENG value = 50 } } }	type = dissent		value =  1.0 }
 		command = { trigger = { war = { country = ENG } 						 											  }	type = dissent		value = -0.2 }
 		
@@ -5575,7 +5577,7 @@ event = {
 			NOT = {	war = { country = VIC country = GER } }
 		}
 		OR = {
-			NOT = { war = { country = USA country = GER } }
+			NOT = { alliance = { country = USA } }
 			lost_VP = { country = USA value = 40 }
 		}
 		OR = {
@@ -5632,7 +5634,7 @@ event = {
 	country = GER
 
 	name = "England sues for peace!"
-	desc = "The English government, realizing its weakness, and sensing that the war is turning against them, is now practically begging us to conclude an 'honorable peace'. They promise to recognize our supremacy in Europe and conclude a non-aggression pact, provided that we cease our operations against them and return to status quo with the Empire. However, it is pretty apparent that all they are really doing is just trying to buy themselves some time and reprieve until they are more prepared to face us once more. Furthermore, concluding a 'white peace' now would be very difficult from a political standpoint, as it would likely upset our allies and our own populace who are expecting serious concessions from the English. Even Hitler, once a great admirer of England, is reluctant to spare them this time."
+	desc = "The English, realizing their weakness, and sensing that the war is turning against them, are now practically begging us to conclude an 'honorable peace'. They promise to recognize our supremacy in Europe and conclude a non-aggression pact, provided that we cease our operations against them and return to status quo with the Empire. However, it is pretty apparent that all they are really doing is just trying to buy themselves some time and reprieve until they are more prepared to face us once more. Furthermore, concluding a 'white peace' now would be very difficult from a political standpoint, as it would likely upset our allies and our own populace who are expecting serious concessions from the English. Even Hitler, once a great admirer of England, is reluctant to spare them this time."
 	style = 2
 	picture = "news_paper"
 
@@ -5643,7 +5645,7 @@ event = {
 		command = { type = belligerence which = GER value = -10 }
 		command = { type = relation 	which = ITA value = -50 }
 		command = { type = relation 	which = JAP value = -50 }
-		command = { type = trigger which = 2001252 }
+		command = { type = event which = 2001252 where = ENG when = 0 }
 	}
 	action = {
 		name = "They should have thought of this much sooner"	
@@ -5658,6 +5660,157 @@ event = {
 	id = 2001252
 	random = no
 	persistent = yes
+
+	name = "Germany accepts our offer"
+	desc = "To the surprise and great relief of the British people, Hitler decided to officially accept our offer of unconditional peace and cessation of hostilities. Germany will keep its gains in Europe, but all British colonies will be returned to London and the two sides will sign a 10 year non-aggression pact."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { trigger = { puppet = { country = HOL } }						type = event			where = HOL which = 2400530 when = 0 } #indie
+		command = { trigger = { puppet = { country = BEL } }						type = event			where = BEL which = 2400530 when = 0 } #indie
+		command = { trigger = { puppet = { country = NOR } }						type = event			where = NOR which = 2400530 when = 0 } #indie
+		command = { trigger = { puppet = { country = U01 } }						type = event			where = U01 which = 2400530 when = 0 } #indie
+		command = { trigger = { puppet = { country = U36 } }						type = event			where = U36 which = 2400530 when = 0 } #indie
+		command = { trigger = { puppet = { country = PER } }						type = event			where = PER which = 2400530 when = 0 } #indie
+		command = { trigger = { puppet = { country = HOL } }						type = end_mastery		which = HOL }
+		command = { trigger = { puppet = { country = BEL } }						type = end_mastery		which = BEL }
+		command = { trigger = { puppet = { country = NOR } }						type = end_mastery		which = NOR }
+		command = { trigger = { puppet = { country = U01 } }						type = end_mastery		which = U01 }
+		command = { trigger = { puppet = { country = U36 } }						type = end_mastery		which = U36 }
+		command = { trigger = { puppet = { country = PER } }						type = end_mastery		which = PER }
+		
+		command = { trigger = { puppet = { country = POL } }						type = free_ic value = 5 }
+		
+		command = { trigger = { puppet = { country = ETH } }						type = inherit which = ETH value = 1 }
+		command = { trigger = { puppet = { country = POL } }						type = inherit which = POL value = 1 }
+		
+		command = { type = end_trades which = ETH where = ENG }
+		command = { type = end_trades which = POL where = ENG }
+		command = { type = end_trades which = VIC where = ENG }
+		
+		
+		command = { type = leave_alliance 		when  =  1 }
+		command = { type = peace which = GER	value =  1 }
+		command = { type = dissent 				value = -1 }
+		
+		command = { type = set_relation		which = GER value = 0 }
+		command = { type = non_aggression 	which = GER where = ENG when = 3600 }
+		
+		command = { trigger = { NOT = { puppet = { country = EGY } } } 				type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = EGY } }	type = secedeprovince	which = -3	value = 903 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = independence		which = EGY value = 1 }
+		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = EGY }
+		command = { trigger = { local_flag = makePuppet }							type = event			where = EGY which = 2400535 when = 0 } #med puppet
+		command = { trigger = { local_flag = makePuppet }							type = event			where = EGY which = 112		when = 0 } #start dev
+		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
+		
+		command = { trigger = { NOT = { puppet = { country = IRQ } } } 				type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = IRQ } }	type = secedeprovince	which = -3	value = 1865 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = independence		which = IRQ value = 1 }
+		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = IRQ }
+		command = { trigger = { local_flag = makePuppet }							type = event			where = IRQ which = 2400535 when = 0 } #med puppet
+		command = { trigger = { local_flag = makePuppet }							type = event			where = IRQ which = 112		when = 0 } #start dev
+		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
+		
+		command = { trigger = { NOT = { puppet = { country = YEM } } } 				type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = YEM } }	type = secedeprovince	which = -3	value = 1812 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = independence		which = YEM value = 1 }
+		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = YEM }
+		command = { trigger = { local_flag = makePuppet }							type = event			where = YEM which = 2400535 when = 0 } #med puppet
+		command = { trigger = { local_flag = makePuppet }							type = event			where = YEM which = 112		when = 0 } #start dev
+		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
+		
+		command = { trigger = { NOT = { puppet = { country = OMN } } } 				type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = OMN } }	type = secedeprovince	which = -3	value = 1819 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = independence		which = OMN value = 1 }
+		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = OMN }
+		command = { trigger = { local_flag = makePuppet }							type = event			where = OMN which = 2400535 when = 0 } #med puppet
+		command = { trigger = { local_flag = makePuppet }							type = event			where = OMN which = 112		when = 0 } #start dev
+		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
+		
+		command = { trigger = { NOT = { puppet = { country = AST } } } 				type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = AST } }	type = secedeprovince	which = -3	value = 1727 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = independence		which = AST value = 1 }
+		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = AST }
+		command = { trigger = { local_flag = makePuppet }							type = event			where = AST which = 2400539 when = 0 } #med puppet
+		command = { trigger = { local_flag = makePuppet }							type = event			where = AST which = 120		when = 0 } #start dev
+		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
+		
+		command = { trigger = { NOT = { puppet = { country = NZL } } } 				type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = NZL } }	type = secedeprovince	which = -3	value = 1871 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = independence		which = NZL value = 1 }
+		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = NZL }
+		command = { trigger = { local_flag = makePuppet }							type = event			where = NZL which = 2400539 when = 0 } #med puppet
+		command = { trigger = { local_flag = makePuppet }							type = event			where = NZL which = 120		when = 0 } #start dev
+		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
+		
+		command = { trigger = { NOT = { puppet = { country = CAN } } } 				type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = CAN } }	type = secedeprovince	which = -3	value = 588 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = independence		which = CAN value = 1 }
+		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = CAN }
+		command = { trigger = { local_flag = makePuppet }							type = event			where = CAN which = 2400539 when = 0 } #med puppet
+		command = { trigger = { local_flag = makePuppet }							type = event			where = CAN which = 119		when = 0 } #start dev
+		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
+		
+		command = { trigger = { NOT = { puppet = { country = SAF } } } 				type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = SAF } }	type = secedeprovince	which = -3	value = 1120 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = independence		which = SAF value = 1 }
+		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = SAF }
+		command = { trigger = { local_flag = makePuppet }							type = event			where = SAF which = 2400538 when = 0 } #med puppet
+		command = { trigger = { local_flag = makePuppet }							type = event			where = SAF which = 115		when = 0 } #start dev
+		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
+		
+		command = { trigger = { NOT = { puppet = { country = U02 } } } 				type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = U02 } }	type = secedeprovince	which = -3	value = 1469 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = independence		which = U02 value = 1 }
+		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = U02 }
+		command = { trigger = { local_flag = makePuppet }							type = event			where = U02 which = 2400535 when = 0 } #med puppet
+		command = { trigger = { local_flag = makePuppet }							type = event			where = U02 which = 112		when = 0 } #start dev
+		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
+		
+		command = { trigger = { NOT = { puppet = { country = NEP } } } 				type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = NEP } }	type = secedeprovince	which = -3	value = 1473 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = independence		which = NEP value = 1 }
+		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = NEP }
+		command = { trigger = { local_flag = makePuppet }							type = event			where = NEP which = 2400536 when = 0 } #med puppet
+		command = { trigger = { local_flag = makePuppet }							type = event			where = NEP which = 112		when = 0 } #start dev
+		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
+		
+		command = { trigger = { NOT = { puppet = { country = BHU } } } 				type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = BHU } }	type = secedeprovince	which = -3	value = 1455 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = independence		which = BHU value = 1 }
+		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = BHU }
+		command = { trigger = { local_flag = makePuppet }							type = event			where = BHU which = 2400536 when = 0 } #med puppet
+		command = { trigger = { local_flag = makePuppet }							type = event			where = BHU which = 112		when = 0 } #start dev
+		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
+		
+		#command = { type = secedearea												which = ENG value = "New Foundland"	when = 2 }
+		command = { trigger = { exists = U49 } 			 type = secederegion		which = U49 value = "Ethiopia"		when = 2 }
+		command = { trigger = { NOT = { exists = U49 } } type = secederegion		which = ITA value = "Ethiopia"		when = 2 }
+		command = { type = secederegion												which = PER value = "Persia"		when = 1 }
+		command = { type = secederegion												which = EGY value = "Egypt"			when = 2 }
+		command = { type = secedearea												which = IRQ value = "Iraq"			when = 2 }
+		command = { type = secedearea												which = U01 value = "Lebanon_Syria"	when = 1 }
+		command = { type = secedearea												which = VIC value = "Lebanon_Syria"	when = 1 }
+		command = { type = secedearea												which = GER value = "Lebanon_Syria"	when = 1 }
+		command = { type = secederegion												which = ITA value = "Balkan"		when = 1 }
+		command = { type = secederegion												which = ITA value = "Libya"			when = 1 }
+		command = { type = secedeprovince											which = ENG	value = 348				when = 2 }
+		command = { type = secedeprovince											which = ENG	value = 31				when = 2 }
+		command = { type = secedeprovince											which = ENG	value = 900				when = 2 }
+		command = { type = secedeprovince											which = ENG	value = 7131			when = 2 }
+		command = { type = secedeprovince											which = ENG	value = 1720			when = 2 }
+		
+		command = { type = trigger which = 2001253 }
+	}
+}
+
+event = {
+	id = 2001253
+	random = no
+	persistent = yes
 	all = yes
 
 	name = "Germany accepts our offer"
@@ -5669,15 +5822,16 @@ event = {
 		name = "ACTION_NAME_GREAT"
 		trigger = {
 			OR = {
-				country = ENG
 				puppet = { country = -1 country = ENG }
+				puppet = { country = -1 country = U02 }
 			}
 		}
 		command = { type = leave_alliance 		when  =  1 }
 		command = { type = peace which = GER	value =  1 }
 		command = { type = dissent 				value = -1 }
 		
+		command = { type = alliance which = ENG }
+		
 		command = { type = set_relation		which = GER value = 0 }
-		command = { type = non_aggression 	which = GER where = ENG when = 3600 }
 	}
 }
