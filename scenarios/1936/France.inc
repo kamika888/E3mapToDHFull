@@ -7,14 +7,14 @@ country =
   ai_settings			 = { flags = { WARDebt = 21 ideology = 6 } }
   capital                = 56
 	# Resource Reserves 
-	energy                 = 44400
+	energy                 = 24400
 	metal                  = 17200
-	rare_materials         = 12600
+	rare_materials         = 5600
 	oil                    = 4000 
 	supplies               = 500 
 	money                  = 50 
 	manpower               = 380 
-	transports             = 570 
+	transports             = 670 
 	escorts                = 60
 	dissent 			   = 13
   SpyInfo                = { country = "VIC" NumberOfSpies = 5 }

@@ -2867,6 +2867,7 @@ event = {
 	action = {
 		name = "4702a"
 		command = { type = money value = -1000 }
+		command = { trigger = { ai = yes } type = money	value = 10 }
 	}
 }
 
@@ -5335,7 +5336,7 @@ event = {
 		country = ENG
 		local_flag = AllInit
 		NOT = { local_flag = shortagesFood }
-		NOT = { rare_materials = 500 }
+		NOT = { rare_materials = 1000 }
 	}
 
 	date = { day = 0 month = february year = 1936 }
@@ -5405,6 +5406,7 @@ event = {
 		command = { type = event which = 2001202 where = -1 when = 15 }
 	}
 }
+
 event = {
 	id = 2001202
 	random = no
@@ -5423,6 +5425,123 @@ event = {
 			rare_materials = 1000
 		}
 		command = { type = local_clrflag which = shortagesFood }
+	}
+}
+
+event = { 
+	id = 2001203
+	random = no
+	persistent = yes
+	
+	name = "Food consumption"
+	desc = "At the beginning of WW2, UK imported 70 percent of its food from overseas, which put it in a uniquely vulnerable position compared with all other combatants. Agricultural imports were so vital that Germany's U-boat campaign aimed primarily to starve Britain into submission by sinking these convoys. Since agriculture is not represented in the game, the rare material stockpile is tracked for the purpose of gauging UK's ability to sustain imports."
+	style = 2
+	
+	trigger = {	
+		country = ENG
+		local_flag = AllInit
+		OR = {
+			AND = { 
+				ai = yes
+				difficulty = 0
+				NOT = { difficulty = 1 } 
+				NOT = { local_flag = { which = ENG_rare when = 0 value = 1 } }
+			}
+			AND = { 
+				ai = yes
+				difficulty = 1
+				NOT = { difficulty = 2 } 
+				NOT = { local_flag = { which = ENG_rare when = 0 value = 2 } }
+			}
+			AND = { 
+				ai = yes
+				difficulty = 2
+				NOT = { difficulty = 3 } 
+				NOT = { local_flag = { which = ENG_rare when = 0 value = 3 } }
+			}
+			AND = { 
+				ai = yes
+				difficulty = 3
+				NOT = { difficulty = 4 } 
+				NOT = { local_flag = { which = ENG_rare when = 0 value = 4 } }
+			}
+			AND = { 
+				ai = yes
+				difficulty = 4
+				NOT = { difficulty = 5 } 
+				NOT = { local_flag = { which = ENG_rare when = 0 value = 5 } }
+			}
+			AND = { 
+				ai = no
+				difficulty = 0
+				NOT = { difficulty = 1 } 
+				NOT = { local_flag = { which = ENG_rare when = 0 value = 6 } }
+			}
+			AND = { 
+				ai = no
+				difficulty = 1
+				NOT = { difficulty = 2 } 
+				NOT = { local_flag = { which = ENG_rare when = 0 value = 7 } }
+			}
+			AND = { 
+				ai = no
+				difficulty = 2
+				NOT = { difficulty = 3 } 
+				NOT = { local_flag = { which = ENG_rare when = 0 value = 8 } }
+			}
+			AND = { 
+				ai = no
+				difficulty = 3
+				NOT = { difficulty = 4 } 
+				NOT = { local_flag = { which = ENG_rare when = 0 value = 9 } }
+			}
+			AND = { 
+				ai = no
+				difficulty = 4
+				NOT = { difficulty = 5 } 
+				NOT = { local_flag = { which = ENG_rare when = 0 value = 10 } }
+			}
+		}
+	}
+
+	date = { day = 0 month = february year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "ACTION_NAME_OK"
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 1  } } type = free_rare_materials value = 320 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 2  } } type = free_rare_materials value = 360 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 3  } } type = free_rare_materials value = 400 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 4  } } type = free_rare_materials value = 480 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 5  } } type = free_rare_materials value = 560 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 6  } } type = free_rare_materials value = 560 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 7  } } type = free_rare_materials value = 480 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 8  } } type = free_rare_materials value = 400 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 9  } } type = free_rare_materials value = 320 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 10 } } type = free_rare_materials value = 240 }
+		
+		command = { trigger = { country = ENG ai = yes	difficulty = 0 NOT = { difficulty = 1 } } type = local_setflag which = ENG_rare when = 0 value = 1  }
+		command = { trigger = { country = ENG ai = yes	difficulty = 1 NOT = { difficulty = 2 } } type = local_setflag which = ENG_rare when = 0 value = 2  }
+		command = { trigger = { country = ENG ai = yes	difficulty = 2 NOT = { difficulty = 3 } } type = local_setflag which = ENG_rare when = 0 value = 3  }
+		command = { trigger = { country = ENG ai = yes	difficulty = 3 NOT = { difficulty = 4 } } type = local_setflag which = ENG_rare when = 0 value = 4  }
+		command = { trigger = { country = ENG ai = yes	difficulty = 4 NOT = { difficulty = 5 } } type = local_setflag which = ENG_rare when = 0 value = 5  }
+		command = { trigger = { country = ENG ai = no	difficulty = 0 NOT = { difficulty = 1 } } type = local_setflag which = ENG_rare when = 0 value = 6  }
+		command = { trigger = { country = ENG ai = no	difficulty = 1 NOT = { difficulty = 2 } } type = local_setflag which = ENG_rare when = 0 value = 7  }
+		command = { trigger = { country = ENG ai = no	difficulty = 2 NOT = { difficulty = 3 } } type = local_setflag which = ENG_rare when = 0 value = 8  }
+		command = { trigger = { country = ENG ai = no	difficulty = 3 NOT = { difficulty = 4 } } type = local_setflag which = ENG_rare when = 0 value = 9  }
+		command = { trigger = { country = ENG ai = no	difficulty = 4 NOT = { difficulty = 5 } } type = local_setflag which = ENG_rare when = 0 value = 10 }
+		
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 1  } } type = free_rare_materials value = -320 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 2  } } type = free_rare_materials value = -360 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 3  } } type = free_rare_materials value = -400 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 4  } } type = free_rare_materials value = -480 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 5  } } type = free_rare_materials value = -560 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 6  } } type = free_rare_materials value = -560 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 7  } } type = free_rare_materials value = -480 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 8  } } type = free_rare_materials value = -400 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 9  } } type = free_rare_materials value = -320 }
+		command = { trigger = { local_flag = { which = ENG_rare when = 0 value = 10 } } type = free_rare_materials value = -240 }
 	}
 }
 
@@ -5521,6 +5640,126 @@ event = {
 				flag = { which = ENG_Ruin when = 1 value = 200  }
 				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 200  } }
 			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 210  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 210  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 220  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 220  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 230  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 230  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 240  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 240  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 250  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 250  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 260  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 260  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 270  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 270  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 280  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 280  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 290  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 290  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 300  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 300  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 310  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 310  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 320  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 320  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 330  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 330  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 340  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 340  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 350  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 350  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 360  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 360  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 370  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 370  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 380  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 380  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 390  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 390  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 400  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 400  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 410  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 410  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 420  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 420  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 430  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 430  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 440  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 440  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 450  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 450  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 460  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 460  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 470  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 470  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 480  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 480  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 490  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 490  } }
+			}
+			AND = {
+				flag = { which = ENG_Ruin when = 1 value = 500  }
+				NOT = { local_flag = { which = ENG_Ruin_react when = 1 value = 500  } }
+			}
 		}
 	}
 
@@ -5530,29 +5769,59 @@ event = {
 
 	action = {
 		name = "We've got to stop them!"
-		command = { type = dissent value = 1 }
+		command = { type = dissent value = 0.8 }
 		command = { type = manpowerpool	value = -0.50 when = 1 }
 		
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 10  } } type = local_setflag which = ENG_Ruin_react value = 10  }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 20  } } type = local_setflag which = ENG_Ruin_react value = 20  }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 30  } } type = local_setflag which = ENG_Ruin_react value = 30  }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 40  } } type = local_setflag which = ENG_Ruin_react value = 40  }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 50  } } type = local_setflag which = ENG_Ruin_react value = 50  }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 60  } } type = local_setflag which = ENG_Ruin_react value = 60  }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 70  } } type = local_setflag which = ENG_Ruin_react value = 70  }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 80  } } type = local_setflag which = ENG_Ruin_react value = 80  }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 90  } } type = local_setflag which = ENG_Ruin_react value = 90  }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 100 } } type = local_setflag which = ENG_Ruin_react value = 100 }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 110 } } type = local_setflag which = ENG_Ruin_react value = 110 }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 120 } } type = local_setflag which = ENG_Ruin_react value = 120 }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 130 } } type = local_setflag which = ENG_Ruin_react value = 130 }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 140 } } type = local_setflag which = ENG_Ruin_react value = 140 }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 150 } } type = local_setflag which = ENG_Ruin_react value = 150 }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 160 } } type = local_setflag which = ENG_Ruin_react value = 160 }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 170 } } type = local_setflag which = ENG_Ruin_react value = 170 }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 180 } } type = local_setflag which = ENG_Ruin_react value = 180 }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 190 } } type = local_setflag which = ENG_Ruin_react value = 190 }
-		command = { trigger = { local_flag = { which = ENG_Ruin when = 1 value = 200 } } type = local_setflag which = ENG_Ruin_react value = 200 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 10  } } type = local_setflag which = ENG_Ruin_react value = 10  }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 20  } } type = local_setflag which = ENG_Ruin_react value = 20  }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 30  } } type = local_setflag which = ENG_Ruin_react value = 30  }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 40  } } type = local_setflag which = ENG_Ruin_react value = 40  }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 50  } } type = local_setflag which = ENG_Ruin_react value = 50  }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 60  } } type = local_setflag which = ENG_Ruin_react value = 60  }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 70  } } type = local_setflag which = ENG_Ruin_react value = 70  }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 80  } } type = local_setflag which = ENG_Ruin_react value = 80  }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 90  } } type = local_setflag which = ENG_Ruin_react value = 90  }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 100 } } type = local_setflag which = ENG_Ruin_react value = 100 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 110 } } type = local_setflag which = ENG_Ruin_react value = 110 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 120 } } type = local_setflag which = ENG_Ruin_react value = 120 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 130 } } type = local_setflag which = ENG_Ruin_react value = 130 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 140 } } type = local_setflag which = ENG_Ruin_react value = 140 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 150 } } type = local_setflag which = ENG_Ruin_react value = 150 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 160 } } type = local_setflag which = ENG_Ruin_react value = 160 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 170 } } type = local_setflag which = ENG_Ruin_react value = 170 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 180 } } type = local_setflag which = ENG_Ruin_react value = 180 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 190 } } type = local_setflag which = ENG_Ruin_react value = 190 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 200 } } type = local_setflag which = ENG_Ruin_react value = 200 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 210 } } type = local_setflag which = ENG_Ruin_react value = 210 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 220 } } type = local_setflag which = ENG_Ruin_react value = 220 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 230 } } type = local_setflag which = ENG_Ruin_react value = 230 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 240 } } type = local_setflag which = ENG_Ruin_react value = 240 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 250 } } type = local_setflag which = ENG_Ruin_react value = 250 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 260 } } type = local_setflag which = ENG_Ruin_react value = 260 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 270 } } type = local_setflag which = ENG_Ruin_react value = 270 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 280 } } type = local_setflag which = ENG_Ruin_react value = 280 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 290 } } type = local_setflag which = ENG_Ruin_react value = 290 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 300 } } type = local_setflag which = ENG_Ruin_react value = 300 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 310 } } type = local_setflag which = ENG_Ruin_react value = 310 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 320 } } type = local_setflag which = ENG_Ruin_react value = 320 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 330 } } type = local_setflag which = ENG_Ruin_react value = 330 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 340 } } type = local_setflag which = ENG_Ruin_react value = 340 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 350 } } type = local_setflag which = ENG_Ruin_react value = 350 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 360 } } type = local_setflag which = ENG_Ruin_react value = 360 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 370 } } type = local_setflag which = ENG_Ruin_react value = 370 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 380 } } type = local_setflag which = ENG_Ruin_react value = 380 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 390 } } type = local_setflag which = ENG_Ruin_react value = 390 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 400 } } type = local_setflag which = ENG_Ruin_react value = 400 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 410 } } type = local_setflag which = ENG_Ruin_react value = 410 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 420 } } type = local_setflag which = ENG_Ruin_react value = 420 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 430 } } type = local_setflag which = ENG_Ruin_react value = 430 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 440 } } type = local_setflag which = ENG_Ruin_react value = 440 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 450 } } type = local_setflag which = ENG_Ruin_react value = 450 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 460 } } type = local_setflag which = ENG_Ruin_react value = 460 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 470 } } type = local_setflag which = ENG_Ruin_react value = 470 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 480 } } type = local_setflag which = ENG_Ruin_react value = 480 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 490 } } type = local_setflag which = ENG_Ruin_react value = 490 }
+		command = { trigger = { flag = { which = ENG_Ruin when = 1 value = 500 } } type = local_setflag which = ENG_Ruin_react value = 500 }
 	}
 }
 
@@ -5593,9 +5862,15 @@ event = {
 		}
 		
 		OR = {
-			local_flag = { which = shortagesFoodCounter	when = 1 value = 10 }
-			local_flag = { which = ENG_Ruin_react		when = 1 value = 50 }
-			dissent = 20
+			local_flag = { which = shortagesFoodCounter	when = 1 value = 10  }
+			local_flag = { which = ENG_Ruin_react		when = 1 value = 300 }
+			dissent = 25
+			AND = {
+				losses = 2000000
+				NOT = { losses = { country = GER value = 1000000 } }
+			}
+			NOT = { naval_percentage = { country = GER value = 0.5 } } 	#less than half the navy of GER
+			NOT = { air_percentage   = { country = GER value = 0.2 } } 	#less than fifth of the air of GER
 		}
 		#at least 1 strategic province lost
 		OR = {
@@ -5624,7 +5899,7 @@ event = {
 		name = "We would rather talk to Satan than Hitler"
 		ai_chance = 2
 		command = { type = dissent value = 5 }
-		command = { type = belligerence which = GER value = -1 }
+		command = { type = belligerence which = GER value = -2 }
 	}
 }
 
@@ -5651,8 +5926,8 @@ event = {
 		name = "They should have thought of this much sooner"	
 		ai_chance = 99
 		command = { }
-		command = { type = belligerence which = GER value = 1  }
-		command = { type = belligerence which = ENG value = -1 }
+		command = { type = belligerence which = GER value = 20 }
+		command = { type = belligerence which = ENG value = -5 }
 	}
 }
 

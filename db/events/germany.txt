@@ -1890,17 +1890,69 @@ event = {
 		#command = { type = ai_prepare_war which = POL }
 		command = { type = ai which = "nations\GER_POL.ai" }
 		
-		command = { trigger = { exists = U06 } type = make_puppet which = U06 }
-		command = { trigger = { exists = U06 } type = event which = 2400539 where = U06 when = 0 } #strong puppet		
-		command = { trigger = { exists = U06 } type = trigger which = 2189001 }
+		command = { trigger = { exists = U06 } type = trigger which = 2189002 }
 	}
 }
 
 #########################################################################
 # Danzig coup
 #########################################################################
+
 event = {
 	id = 2189001
+	random = no
+	country = U06
+	
+	name = 2002name
+	desc = 2002desc
+	style = 2
+	picture = "Danzig_coup"
+	
+	trigger = {
+		NOT = { puppet = { country = U06 country = GER } }
+		OR = {
+			control = { province = 303 data = REB }
+			NOT = { puppet = { country = U06 country = POL } }
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 3
+	deathdate = { day = 12 month = march year = 1940 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = remove_units which = all where = REB when = 0 value = 303 }
+		command = { type = secedeprovince 			which = U06 value = 303 when = 2 }
+		command = { trigger = { NOT = { army = 2 } } type = add_corps 	 value = land where = 303 }
+		command = { trigger = { NOT = { army = 2 } } type = add_division value = militia when = 4 }
+		command = { trigger = { NOT = { army = 2 } } type = add_division value = militia when = 4 }
+		command = { type = trigger which = 2189002 }
+	}
+}
+
+event = {
+	id = 2189002
+	random = no
+	country = GER
+	
+	name = 2002name
+	desc = 2002desc
+	style = 2
+	picture = "Danzig_coup"
+
+	action_a = {
+		name = ACTION_NAME_OK
+    	command = { type = dissent value = -2 }
+		command = { type = belligerence which = GER value = 1 }
+		command = { type = make_puppet which = U06 }
+		command = { type = event which = 2400539 where = U06 when = 0 } #strong puppet		
+		command = { type = trigger which = 2189003 }
+	}
+}
+
+event = {
+	id = 2189003
 	random = no
 	country = U06
 	
@@ -1915,12 +1967,11 @@ event = {
 		command = { type = set_domestic which = political_left value = 1 }
 		command = { type = set_relation which = POL value = -150 }
 		command = { type = set_relation which = GER value = 150 }
-		command = { type = dissent value = 20 }
+		command = { type = dissent value = -100 }
 		command = { type = headofstate which = 845017 } #Albert Forster
 		command = { type = headofgovernment which = 845018 } #Albert Forster
 		command = { type = foreignminister which = 845019 } #Albert Forster
 		command = { type = sleepminister which = 845001 } #Arthur Greisner
-		command = { type = trigger which = 2003110 }
 		command = { type = trigger which = 2013006 }
 	}
 }
@@ -1938,26 +1989,8 @@ event = {
 
 	action_a = {
 		name = ACTION_NAME_OK
-		command = { type = dissent value = 3 }
+		command = { type = dissent value = 2 }
 		#command = { type = end_mastery which = U06 }
-	}
-}
-
-# Danzig coup
-event = {
-	id = 2003110
-	random = no
-	country = GER
-	
-	name = 2002name
-	desc = 2002desc
-	style = 2
-	picture = "Danzig_coup"
-
-	action_a = {
-		name = ACTION_NAME_OK
-    	command = { type = dissent value = -2 }
-		command = { type = belligerence which = GER value = 1 }
 	}
 }
 
@@ -3453,6 +3486,7 @@ event = {
 		ai_chance = 100
 		name = "4702a"
 		command = { type = money value = -1000 }
+		command = { trigger = { ai = yes } type = money	value = 10 }
 		command = { type = relation which = SOV value = -20 }
 	}
 }
@@ -3714,6 +3748,7 @@ event = {
 		command = { type = dissent value = 1 }
 		#Investment into Spain. Will pay off after a year
 		command = { type = money value = -500 } #effort involved in investment/factory relocation
+		command = { trigger = { ai = yes } type = money	value = 10 }
 		command = { type = construct which = ic where = -4 value = -1 }
 		command = { type = construct which = ic where = -4 value = -1 }
 		

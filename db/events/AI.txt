@@ -519,6 +519,7 @@ event = {
 		OR = {
 			atwar = yes
 			policy = { type = professional_army value = 5 }
+			local_flag = demilitarized
 		}
 		NOT = { local_flag = reinf }
 	}
@@ -547,6 +548,7 @@ event = {
 		NOT = {
 			atwar = yes
 			policy = { type = professional_army value = 5 }
+			local_flag = demilitarized
 		}
 		NOT = { local_flag = noreinf }
 	}
@@ -6093,7 +6095,7 @@ event = {
 	name = "AI_EVENT"
 	
 	date = { day = 1 month = january year = 1937 }
-	offset = 15
+	offset = 10
 	deathdate = { day = 29 month = december year = 1939 }
 
 	action = {
@@ -6123,7 +6125,7 @@ event = {
 	name = "AI_EVENT"
 	
 	date = { day = 1 month = january year = 1937 }
-	offset = 15
+	offset = 10
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -8949,7 +8951,7 @@ event = {
 		puppet = { country = VIC country = GER }
 		NOT = { alliance = { country = GER } }
 		ai = VIC
-		ai = GER
+		#ai = GER
 	}
 
 	name = "AI_EVENT"
@@ -8979,7 +8981,7 @@ event = {
 				puppet = { country = VIC country = GER }
 				NOT = { alliance = { country = GER } }
 				ai = VIC
-				ai = GER
+				#ai = GER
 			}
 		}
 	}
@@ -8994,6 +8996,70 @@ event = {
 		command = { type = industrial_modifier which = total	value = 15		} #oil shortage IC mod
 		command = { type = free_oil 							value = -80		}
 		command = { type = local_clrflag 						which = VICoil	}
+	}
+}
+
+#using only convoy system when at war. Trade system is preferable when at peace in order to help balance the world market (trade AI doesn't understand puppet convoys)
+
+event = {
+	id = 2401516
+	random = no 
+	country = REB
+	
+	trigger = {	
+		atwar = U03
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = end_trades which = U03 where = VIC }
+	}
+}
+
+event = {
+	id = 2401517
+	random = no 
+	country = REB
+	
+	trigger = {	
+		atwar = U36
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = end_trades which = U36 where = HOL }
+	}
+}
+
+#remove demilitarized flag from vichy if no longer a puppet of ger
+event = {
+	id = 2401519
+	random = no 
+	country = VIC
+	
+	trigger = {	
+		local_flag = demilitarized
+		NOT = { puppet = { country = VIC country = GER } }
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = local_clrflag which = demilitarized }
 	}
 }
 

@@ -22,7 +22,8 @@
    SpyInfo                = { country = "U06" NumberOfSpies = 1 }
   diplomacy = 
    {   
-   relation = {  tag = GER value = 80 access = no  }  
+   relation = {  tag = GER value = 80 access = no }  
+   relation = {  tag = POL value = 80 access = no }  
     } 
   
     

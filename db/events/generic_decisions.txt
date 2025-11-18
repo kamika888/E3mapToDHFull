@@ -1139,36 +1139,17 @@ event = {
 	trigger = {
 		local_flag = AllInit
 		NOT = { local_flag = issue_currency }
-		OR = {
-			AND = {
-				IC = 200
-				NOT = { money = -6400 }
-			}
-			AND = {
-				IC = 100 NOT = { IC = 200 }
-				NOT = { money = -3200 }
-			}
-			AND = {
-				IC = 50  NOT = { IC = 100 }
-				NOT = { money = -1600 }
-			}
-			AND = {
-				IC = 25  NOT = { IC = 50  }
-				NOT = { money =  -800 }
-			}
-			AND = {
-				IC = 12  NOT = { IC = 25  }
-				NOT = { money =  -400 }
-			}
-			AND = {
-				NOT = { IC = 12  }
-				NOT = { money =  -200 }
-			}
-			AND = {
-				ai = yes
-				NOT = { money = 1 }
-			}
-		}
+		NOT = { money = 1 }
+		#OR = {
+		#	AND = {
+		#		ai = no
+		#		NOT = { money = -1 }
+		#	}
+		#	AND = {
+		#		ai = yes
+		#		NOT = { money = 1 }
+		#	}
+		#}
 	}
    
 	name = "Financial crisis"
@@ -1226,29 +1207,30 @@ event = {
 		local_flag = AllInit
 	}
 	decision_trigger = {
-		OR = {
-			money = 6400
-			AND = {
-				NOT = { IC = 200 }
-				money = 3200
-			}
-			AND = {
-				NOT = { IC = 100 }
-				money = 1600
-			}
-			AND = {
-				NOT = { IC = 50 }
-				money = 800
-			}
-			AND = {
-				NOT = { IC = 25 }
-				money = 400
-			}
-			AND = {
-				NOT = { IC = 12 }
-				money = 200
-			}	
-		}
+		#Will trigger a financial crisis if you go negative
+		#OR = {
+		#	money = 6400
+		#	AND = {
+		#		NOT = { IC = 200 }
+		#		money = 3200
+		#	}
+		#	AND = {
+		#		NOT = { IC = 100 }
+		#		money = 1600
+		#	}
+		#	AND = {
+		#		NOT = { IC = 50 }
+		#		money = 800
+		#	}
+		#	AND = {
+		#		NOT = { IC = 25 }
+		#		money = 400
+		#	}
+		#	AND = {
+		#		NOT = { IC = 12 }
+		#		money = 200
+		#	}	
+		#}
 	}
 
 	trigger = {
@@ -2274,7 +2256,8 @@ event = {
 
 	decision_trigger = {
 		manpower = 10
-		money = 4000
+		#Will trigger a financial crisis if you go negative
+		#money = 4000
 	}
 
 	trigger = {
@@ -2504,7 +2487,8 @@ event = {
 
 	decision_trigger = {
 		manpower = 10
-		money = 1500
+		#Will trigger a financial crisis if you go negative
+		#money = 1500
 	}
 
 	trigger = {
@@ -2683,20 +2667,38 @@ event = {
 	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
 
 	decision = { 
-		energy = 5000
-		NOT = { rare_materials = 10000 }
-		NOT = { local_flag = ersatz_conversion }
 	}
 
 	decision_trigger = {
-		energy = 20000
-		NOT = { rare_materials = 10000 }
 	}
 
 	trigger = {
-		NOT = { rare_materials = 1000 }
-		NOT = { local_flag = ersatz_conversion }
-		energy = 21000
+		OR = {
+			atwar = yes
+			local_flag = Sanctions
+		}
+		OR = {
+			AND = {
+				NOT = { local_flag = ersatz_conversion }
+				energy = 5000
+				NOT = { rare_materials = 5000 }
+				NOT = { resource_shortage = energy } 
+				OR = {
+					resource_shortage = rare_materials
+					NOT = { rare_materials = 200 }
+				}
+			}
+			AND = {
+				local_flag = ersatz_conversion
+				OR = {
+					NOT = { energy = 5000 }
+					AND = {
+						NOT = { resource_shortage = rare_materials }
+						rare_materials = 5000
+					}
+				}
+			}
+		}
 	}
    
 	name = "9000029name"
@@ -2706,30 +2708,119 @@ event = {
 	decision_picture = "decision_ersatz_conversion"
 
 	date = { day = 1 month = january year = 1914 }
-	offset = 120
+	offset = 10
 	deathdate = { day = 30 month = december year = 1999 }
 
 	action = {
-		name = "9000029text"
-		command = { type = energypool value = -20000 }
-		command = { type = event which = 9000029 where = -1 when = 15 }
-		command = { type = local_setflag which = ersatz_conversion }
+		name = "Convert 10"
+		trigger = { 
+			NOT = { local_flag = { which = ersatz_conversion when = 0 value = 1 } } 
+			OR = {
+				ai = no
+				NOT = { IC = { value = 100 } }
+			}
+		}
+		
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 1 } }	type = free_rare_materials 	value =  -10 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 1 } }	type = free_energy		 	value =  100 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 1 } }	type = free_money		 	value =  1.0 }
+		
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 2 } }	type = free_rare_materials 	value =  -25 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 2 } }	type = free_energy		 	value =  250 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 2 } }	type = free_money		 	value =  2.5 }
+		
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 3 } }	type = free_rare_materials 	value =  -50 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 3 } }	type = free_energy		 	value =  500 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 3 } }	type = free_money		 	value =  5.0 }
+		
+		command = { type = free_rare_materials 	value =   10 }
+		command = { type = free_energy 			value = -100 }
+		command = { type = free_money 			value = -1.0 }
+		command = { type = local_setflag which = ersatz_conversion value = 1 }
 	}
-}
-event = {
-	id = 9000029
-	random = no
-	persistent = yes
-	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
-
-	name = "9000029name"
-	desc = "9000029desc" 
-	style = 2
-	picture = "ersatz_conversion"
-
 	action = {
-		name = ACTION_NAME_EXCELLENT
-		command = { type = rarematerialspool value = 2500 }
+		name = "Convert 25"
+		trigger = { 
+			NOT = { local_flag = { which = ersatz_conversion when = 0 value = 2 } } 
+			OR = {
+				ai = no
+				AND = {
+					IC = { value = 100 }
+					NOT = { IC = { value = 200 } }
+				}
+			}
+		}
+		
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 1 } }	type = free_rare_materials 	value =  -10 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 1 } }	type = free_energy		 	value =  100 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 1 } }	type = free_money		 	value =  1.0 }
+		
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 2 } }	type = free_rare_materials 	value =  -25 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 2 } }	type = free_energy		 	value =  250 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 2 } }	type = free_money		 	value =  2.5 }
+		
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 3 } }	type = free_rare_materials 	value =  -50 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 3 } }	type = free_energy		 	value =  500 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 3 } }	type = free_money		 	value =  5.0 }
+		
+		command = { type = free_rare_materials 	value =   25 }
+		command = { type = free_energy 			value = -250 }
+		command = { type = free_money 			value = -2.5 }
+		command = { type = local_setflag which = ersatz_conversion value = 2 }
+	}
+	action = {
+		name = "Convert 50"
+		trigger = { 
+			NOT = { local_flag = { which = ersatz_conversion when = 0 value = 3 } } 
+			OR = {
+				ai = no
+				IC = { value = 200 }
+			}
+		}
+		
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 1 } }	type = free_rare_materials 	value =  -10 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 1 } }	type = free_energy		 	value =  100 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 1 } }	type = free_money		 	value =  1.0 }
+		
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 2 } }	type = free_rare_materials 	value =  -25 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 2 } }	type = free_energy		 	value =  250 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 2 } }	type = free_money		 	value =  2.5 }
+		
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 3 } }	type = free_rare_materials 	value =  -50 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 3 } }	type = free_energy		 	value =  500 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 3 } }	type = free_money		 	value =  5.0 }
+		
+		command = { type = free_rare_materials 	value =   50 }
+		command = { type = free_energy 			value = -500 }
+		command = { type = free_money 			value = -5.0 }
+		command = { type = local_setflag which = ersatz_conversion value = 3 }
+	}
+	action = {
+		name = "End conversion"
+		trigger = { 
+			local_flag = ersatz_conversion
+			OR = {
+				ai = no
+				NOT = { energy = 5000 }
+				AND = {
+					NOT = { resource_shortage = rare_materials }
+					rare_materials = 5000
+				}
+			}
+		}
+		
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 1 } }	type = free_rare_materials 	value =  -10 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 1 } }	type = free_energy		 	value =  100 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 1 } }	type = free_money		 	value =  1.0 }
+		
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 2 } }	type = free_rare_materials 	value =  -25 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 2 } }	type = free_energy		 	value =  250 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 2 } }	type = free_money		 	value =  2.5 }
+		
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 3 } }	type = free_rare_materials 	value =  -50 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 3 } }	type = free_energy		 	value =  500 }
+		command = { trigger = { local_flag = { which = ersatz_conversion when = 0 value = 3 } }	type = free_money		 	value =  5.0 }
+		
 		command = { type = local_clrflag which = ersatz_conversion }
 	}
 }
@@ -2898,6 +2989,7 @@ event = {
 		convoypool 	= 100
 	}
 	decision_trigger = { 
+		#Will trigger a financial crisis if you go negative
 		money = 200
 	}
 	trigger = { 
@@ -2990,7 +3082,8 @@ event = {
 		IC = 30
 	}
 	decision_trigger = { 
-		money = 200
+		#Will trigger a financial crisis if you go negative
+		#money = 200
 	}
 	trigger = { 
 		#ai will not do this, it will simply build new air transports
@@ -3056,7 +3149,8 @@ event = {
 		transport_plane = { value = 1 when = now }
 	}
 	decision_trigger = { 
-		money = 200
+		#Will trigger a financial crisis if you go negative
+		#money = 200
 	}
 	trigger = { 
 		ai = no
@@ -3298,7 +3392,7 @@ event = {
 			policy = { type = professional_army value = 10 }
 			AND = {
 				policy = { type = professional_army value = 9 }
-				NOT = { year = 1925 }
+				ispuppet = yes
 			}
 			#AND = {
 			#	policy = { type = professional_army value = 5 }
@@ -3323,7 +3417,7 @@ event = {
 	action = {
 		name = "Disband one division"
 		ai_chance = 5
-		trigger = { army = 2 }
+		trigger = { army = 3 }
 
 		command = { type = demobilize which = land when = 0 where = 0 value = -1 }
 		command = { type = local_setflag which = cannibilize_division_count when = 1 value = 1 }
@@ -3331,7 +3425,7 @@ event = {
 	action = {
 		name = "Disband two divisions"
 		ai_chance = 5
-		trigger = { army = 3 }
+		trigger = { army = 4 }
 
 		command = { type = demobilize which = land when = 0 where = 0 value = -2 }
 		command = { type = local_setflag which = cannibilize_division_count when = 1 value = 2 }
@@ -3339,7 +3433,7 @@ event = {
 	action = {
 		name = "Disband three divisions"
 		ai_chance = 90
-		trigger = { army = 4 }
+		trigger = { army = 5 }
 
 		command = { type = demobilize which = land when = 0 where = 0 value = -3 }
 		command = { type = local_setflag which = cannibilize_division_count when = 1 value = 3 }
@@ -3358,29 +3452,30 @@ event = {
 		NOT = { lost_national = { value = 90 } }
 	}
 	decision_trigger = {
-		OR = {
-			money = 6400
-			AND = {
-				NOT = { IC = 200 }
-				money = 3200
-			}
-			AND = {
-				NOT = { IC = 100 }
-				money = 1600
-			}
-			AND = {
-				NOT = { IC = 50 }
-				money = 800
-			}
-			AND = {
-				NOT = { IC = 25 }
-				money = 400
-			}
-			AND = {
-				NOT = { IC = 12 }
-				money = 200
-			}	
-		}
+		#Will trigger a financial crisis if you go negative
+		#OR = {
+		#	money = 6400
+		#	AND = {
+		#		NOT = { IC = 200 }
+		#		money = 3200
+		#	}
+		#	AND = {
+		#		NOT = { IC = 100 }
+		#		money = 1600
+		#	}
+		#	AND = {
+		#		NOT = { IC = 50 }
+		#		money = 800
+		#	}
+		#	AND = {
+		#		NOT = { IC = 25 }
+		#		money = 400
+		#	}
+		#	AND = {
+		#		NOT = { IC = 12 }
+		#		money = 200
+		#	}	
+		#}
 	}
 
 	trigger = {
@@ -3704,6 +3799,7 @@ event = {
 		command = { type = demobilize which = air	 			when = 0 where = 0 value = 0  }
 		command = { type = demobilize which = naval	 			when = 0 where = 0 value = 1  }  #1 TP
 		
+		command = { type = attrition_mod 									value = 20	  }
 		command = { type = extra_tc 										value = 20	  }
 		
 		command = { type = industrial_modifier 	which = total				value = -50   }
@@ -3749,7 +3845,7 @@ event = {
 		command = { type = defensiveness 		which = marine				value = -20	  }
 		command = { type = defensiveness 		which = hq					value = -5	  }
 		
-		command = { type = plain_defense 		which = land 				value = -120  }
+		command = { type = plain_defense 		which = land 				value = -100  }
 		command = { type = plain_attack 		which = land 				value = -60	  }
 		command = { type = hill_defense 		which = land 				value = -60	  }
 		command = { type = hill_attack 			which = land 				value = -30	  }
@@ -3943,6 +4039,7 @@ event = {
 	action = {
 		name = "ACTION_NAME_OK"
 		trigger = { local_flag = partisan_mode }
+		command = { type = attrition_mod 									value = -20	  }
 		command = { type = extra_tc 										value = -20	  }
 		
 		command = { type = industrial_modifier 	which = total				value = 50    }
@@ -3986,7 +4083,7 @@ event = {
 		command = { type = defensiveness 		which = marine				value = 20	  }
 		command = { type = defensiveness 		which = hq					value = 5	  }
 		
-		command = { type = plain_defense 		which = land 				value = 120   }
+		command = { type = plain_defense 		which = land 				value = 100   }
 		command = { type = plain_attack 		which = land 				value = 60	  }
 		command = { type = hill_defense 		which = land 				value = 60	  }
 		command = { type = hill_attack 			which = land 				value = 30	  }

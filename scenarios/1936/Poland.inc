@@ -30,6 +30,7 @@ country =
     relation = { tag = HUN value = 50 }
     relation = { tag = LAT value = 75 }
     relation = { tag = LIT value = -75 }
+	relation = { tag = U06 value = 80 access = yes } 
     relation =
     { tag        = ROM
       value      = 40
