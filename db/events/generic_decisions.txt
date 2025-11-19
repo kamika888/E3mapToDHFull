@@ -1115,8 +1115,10 @@ event = {
 
 	action = {
 		name = "9000022text"
-		command = { type = dissent value = 2 }
-		command = { type = industrial_modifier which = total value = -3 }
+		command = { 																					type = dissent value = 0.5 }
+		command = { trigger = { NOT = { local_flag = { which = WAR_level 	 when = 1 value = 7 } } }	type = dissent value = 1.5 }
+		
+		command = { type = industrial_modifier which = IC value = -3 }
 		command = { trigger = { IC = 200 } 						type = money value = 6400 }
 		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = 3200 }
 		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = 1600 }
@@ -1139,7 +1141,7 @@ event = {
 	trigger = {
 		local_flag = AllInit
 		NOT = { local_flag = issue_currency }
-		NOT = { money = 1 }
+		NOT = { money = 10 }
 		#OR = {
 		#	AND = {
 		#		ai = no
@@ -1158,14 +1160,15 @@ event = {
 	picture = "issue_currency"
 
 	date = { day = 1 month = january year = 1914 }
-	offset = 15
+	offset = 1
 	deathdate = { day = 30 month = december year = 1999 }
 
 	action = {
 		name = "Where did the gold go?!"
-		#command = { type = dissent value = 3 } #worse than manual - it's best not to wait for a bank run
-		command = { type = dissent value = 2 }
-		command = { type = industrial_modifier which = total value = -3 }
+		command = { 																					type = dissent value = 0.5 }
+		command = { trigger = { NOT = { local_flag = { which = WAR_level 	 when = 1 value = 7 } } }	type = dissent value = 1.5 }
+
+		command = { type = industrial_modifier which = IC value = -3 }
 		command = { trigger = { IC = 200 } 						type = money value = 6400 }
 		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = 3200 }
 		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = 1600 }
@@ -1192,9 +1195,327 @@ event = {
 
 	action = {
 		name = "9000022text"
-		command = { type = dissent value = -1 }
-		command = { type = industrial_modifier which = total value = 1 }
+		command = { trigger = { NOT = { local_flag = { which = WAR_level 	 when = 1 value = 7 } } }	type = dissent value = -1.0 }
+		command = { type = industrial_modifier which = IC value = 1 }
 		command = { type = local_clrflag which = issue_currency }
+	}
+}
+
+event = {
+	id = 9000025
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
+	random = no
+	persistent = yes
+
+	decision = { 
+		local_flag = AllInit
+	}
+
+	decision_trigger = {
+	}
+
+	trigger = {
+		local_flag = AllInit
+		OR = {
+			AND = {
+				NOT = { local_flag = deficit_spend }
+				OR = {
+					atwar = yes
+					local_flag = { which = WAR_level when = 1 value = 5 }
+				}
+				NOT = { resource_shortage = money } 
+				energy			= 400
+				metal			= 400
+				rare_materials	= 400
+				money			= 400
+			}
+			AND = {
+				local_flag = { which = deficit_spend when = 0 value = 1 } 
+				local_flag = { which = WAR_level 	 when = 1 value = 7 }
+				NOT = {
+					AND = {
+						resource_shortage = money
+						NOT = { money = 200 }
+						local_flag = { which = issue_currency_a_count when = 1 value = 4 }
+					}
+				}
+			}
+			AND = {
+				local_flag = deficit_spend
+				OR = {
+					NOT = {
+						atwar = yes
+						local_flag = { which = WAR_level when = 1 value = 5 }
+					}
+					AND = {
+						NOT = { local_flag = { which = WAR_level 	 when = 1 value = 7 } }
+						resource_shortage = money
+						NOT = { money = 400 }
+					}
+					AND = {
+						local_flag = { which = WAR_level 	 when = 1 value = 7 }
+						resource_shortage = money
+						NOT = { money = 200 }
+						local_flag = { which = issue_currency_a_count when = 1 value = 4 }
+					}
+				}
+			}
+		}
+	}
+   
+	name = "Deficit Spending"
+	desc = "In case of emergency, we can ramp up our military expenditures by engaging in deficit spending. This will boost our economic output, but dwindle our financial reserves. Should our monetary cushioun run low, we may face a financial crisis and be forced to print extra cash." 
+	style = 2
+	picture = "issue_currency"
+	decision_picture = "decision_issue_currency"
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 15
+	deathdate = { day = 30 month = december year = 1999 }
+
+	#Industrial modifiers ic/money are much preferable to free_ic/money values, but money modifier can only decrease money income but it will never actually decrease the money stockpile on its own
+	#Thereofore have to throw in free_money as well. This has the unintentional effect of making it easier for larger countries to engage in deficit spending, but this may have some real world justification
+
+	action = {
+		name = "Deficit Spending 1"
+		trigger = { 
+			NOT = { local_flag = { which = deficit_spend when = 0 value = 1 } } 
+			OR = {
+				ai = no
+				AND = {
+					NOT = { local_flag = deficit_spend }
+					OR = {
+						atwar = yes
+						local_flag = { which = WAR_level when = 1 value = 5 }
+					}
+					NOT = { resource_shortage = money } 
+					energy			= 400
+					metal			= 400
+					rare_materials	= 400
+					money			= 400
+				}
+			}
+		}
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = free_money							value =   1 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = industrial_modifier which = money	value =  10 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = industrial_modifier which = ic		value =  -5 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = free_money							value =   2 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = industrial_modifier which = money	value =  20 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = industrial_modifier which = ic		value = -10 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = free_money							value =   3 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = industrial_modifier which = money	value =  30 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = industrial_modifier which = ic		value = -15 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = free_money							value =   4 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = industrial_modifier which = money	value =  40 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = industrial_modifier which = ic		value = -20 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = free_money							value =   5 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = industrial_modifier which = money	value =  50 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = industrial_modifier which = ic		value = -25 }
+		
+
+		command = { type = free_money 							value =  -1 }
+		command = { type = industrial_modifier which = money	value = -10 }
+		command = { type = industrial_modifier which = ic		value =   5 }
+		
+		command = { type = local_setflag which = deficit_spend	value = 1 	}
+	}
+	action = {
+		name = "Deficit Spending 2"
+		trigger = { 
+			NOT = { local_flag = { which = deficit_spend when = 0 value = 2 } } 
+			OR = {
+				ai = no
+				AND = {
+					local_flag = { which = deficit_spend when = 0 value = 1 } 
+					local_flag = { which = WAR_level 	 when = 1 value = 7 }
+					NOT = {
+						AND = {
+							resource_shortage = money
+							NOT = { money = 200 }
+							local_flag = { which = issue_currency_a_count when = 1 value = 4 }
+						}
+					}
+				}
+			}
+		}
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = free_money							value =   1 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = industrial_modifier which = money	value =  10 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = industrial_modifier which = ic		value =  -5 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = free_money							value =   2 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = industrial_modifier which = money	value =  20 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = industrial_modifier which = ic		value = -10 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = free_money							value =   3 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = industrial_modifier which = money	value =  30 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = industrial_modifier which = ic		value = -15 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = free_money							value =   4 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = industrial_modifier which = money	value =  40 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = industrial_modifier which = ic		value = -20 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = free_money							value =   5 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = industrial_modifier which = money	value =  50 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = industrial_modifier which = ic		value = -25 }
+		
+
+		command = { type = free_money 							value =  -2 }
+		command = { type = industrial_modifier which = money	value = -20 }
+		command = { type = industrial_modifier which = ic		value =  10 }
+		
+		command = { type = local_setflag which = deficit_spend	value = 2 	}
+	}
+	action = {
+		name = "Deficit Spending 3"
+		trigger = { 
+			NOT = { local_flag = { which = deficit_spend when = 0 value = 3 } } 
+			ai = no
+		}
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = free_money							value =   1 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = industrial_modifier which = money	value =  10 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = industrial_modifier which = ic		value =  -5 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = free_money							value =   2 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = industrial_modifier which = money	value =  20 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = industrial_modifier which = ic		value = -10 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = free_money							value =   3 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = industrial_modifier which = money	value =  30 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = industrial_modifier which = ic		value = -15 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = free_money							value =   4 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = industrial_modifier which = money	value =  40 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = industrial_modifier which = ic		value = -20 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = free_money							value =   5 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = industrial_modifier which = money	value =  50 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = industrial_modifier which = ic		value = -25 }
+		
+
+		command = { type = free_money 							value =  -3 }
+		command = { type = industrial_modifier which = money	value = -30 }
+		command = { type = industrial_modifier which = ic		value =  15 }
+		
+		command = { type = local_setflag which = deficit_spend	value = 3 	}
+	}
+	action = {
+		name = "Deficit Spending 4"
+		trigger = { 
+			NOT = { local_flag = { which = deficit_spend when = 0 value = 4 } } 
+			ai = no
+		}
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = free_money							value =   1 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = industrial_modifier which = money	value =  10 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = industrial_modifier which = ic		value =  -5 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = free_money							value =   2 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = industrial_modifier which = money	value =  20 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = industrial_modifier which = ic		value = -10 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = free_money							value =   3 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = industrial_modifier which = money	value =  30 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = industrial_modifier which = ic		value = -15 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = free_money							value =   4 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = industrial_modifier which = money	value =  40 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = industrial_modifier which = ic		value = -20 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = free_money							value =   5 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = industrial_modifier which = money	value =  50 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = industrial_modifier which = ic		value = -25 }
+		
+
+		command = { type = free_money 							value =  -4 }
+		command = { type = industrial_modifier which = money	value = -40 }
+		command = { type = industrial_modifier which = ic		value =  20 }
+		
+		command = { type = local_setflag which = deficit_spend	value = 4 	}
+	}
+	action = {
+		name = "Deficit Spending 5"
+		trigger = { 
+			NOT = { local_flag = { which = deficit_spend when = 0 value = 5 } } 
+			ai = no
+		}
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = free_money							value =   1 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = industrial_modifier which = money	value =  10 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = industrial_modifier which = ic		value =  -5 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = free_money							value =   2 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = industrial_modifier which = money	value =  20 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = industrial_modifier which = ic		value = -10 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = free_money							value =   3 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = industrial_modifier which = money	value =  30 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = industrial_modifier which = ic		value = -15 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = free_money							value =   4 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = industrial_modifier which = money	value =  40 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = industrial_modifier which = ic		value = -20 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = free_money							value =   5 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = industrial_modifier which = money	value =  50 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = industrial_modifier which = ic		value = -25 }
+		
+
+		command = { type = free_money 							value =  -5 }
+		command = { type = industrial_modifier which = money	value = -50 }
+		command = { type = industrial_modifier which = ic		value =  25 }
+		
+		command = { type = local_setflag which = deficit_spend	value = 5 	}
+	}
+	action = {
+		name = "No Deficit Spending"
+		trigger = { 
+			local_flag = deficit_spend
+			OR = {
+				ai = no
+				AND = {
+					NOT = { local_flag = { which = WAR_level 	 when = 1 value = 7 } }
+					OR = {
+						NOT = {
+							atwar = yes
+							local_flag = { which = WAR_level when = 1 value = 5 }
+						}
+						AND = {
+							resource_shortage = money
+							NOT = { money = 400 }
+						}
+					}
+				}
+			}
+		}
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = free_money							value =   1 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = industrial_modifier which = money	value =  10 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 1 } }	type = industrial_modifier which = ic		value =  -5 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = free_money							value =   2 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = industrial_modifier which = money	value =  20 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 2 } }	type = industrial_modifier which = ic		value = -10 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = free_money							value =   3 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = industrial_modifier which = money	value =  30 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 3 } }	type = industrial_modifier which = ic		value = -15 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = free_money							value =   4 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = industrial_modifier which = money	value =  40 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 4 } }	type = industrial_modifier which = ic		value = -20 }
+		
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = free_money							value =   5 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = industrial_modifier which = money	value =  50 }
+		command = { trigger = { local_flag = { which = deficit_spend when = 0 value = 5 } }	type = industrial_modifier which = ic		value = -25 }
+		
+		command = { type = local_clrflag which = deficit_spend }
 	}
 }
 
@@ -2667,19 +2988,21 @@ event = {
 	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
 
 	decision = { 
+		local_flag = AllInit
 	}
 
 	decision_trigger = {
 	}
 
 	trigger = {
-		OR = {
-			atwar = yes
-			local_flag = Sanctions
-		}
+		local_flag = AllInit
 		OR = {
 			AND = {
 				NOT = { local_flag = ersatz_conversion }
+				OR = {
+					atwar = yes
+					local_flag = Sanctions
+				}
 				energy = 5000
 				NOT = { rare_materials = 5000 }
 				NOT = { resource_shortage = energy } 
@@ -2691,6 +3014,10 @@ event = {
 			AND = {
 				local_flag = ersatz_conversion
 				OR = {
+					NOT = {
+						atwar = yes
+						local_flag = Sanctions
+					}
 					NOT = { energy = 5000 }
 					AND = {
 						NOT = { resource_shortage = rare_materials }
