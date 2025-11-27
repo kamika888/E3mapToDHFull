@@ -21,7 +21,7 @@ country =
 	ic = 2
 	money = 2
   }
-  SpyInfo                = { country = "ENG" NumberOfSpies = 5 }
+  SpyInfo                = { country = "ENG" NumberOfSpies = 4 }
   diplomacy =
   { relation =
     { tag        = AFG

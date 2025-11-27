@@ -22,7 +22,7 @@ country =
 	free = {
 		supplies = -20			 #from japChi = 15 (global flag)
 	}
-  SpyInfo                = { country = "JAP" NumberOfSpies = 5 }
+  SpyInfo                = { country = "JAP" NumberOfSpies = 7 }
   diplomacy =
   { relation = { tag = BEL value = -25 }
     relation = { tag = CGX value = -75 }

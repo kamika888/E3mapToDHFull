@@ -17,7 +17,7 @@ country =
 	transports             = 670 
 	escorts                = 60
 	dissent 			   = 13
-  SpyInfo                = { country = "VIC" NumberOfSpies = 5 }
+  SpyInfo                = { country = "VIC" NumberOfSpies = 6 }
   diplomacy =
   { relation = { tag = AST value = 150 }
     relation = { tag = AUS value = -10 }

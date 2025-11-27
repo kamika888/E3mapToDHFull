@@ -20,7 +20,7 @@ country =
 	dissent                = 12 
 	transports             = 300 
 	escorts                = 20 
-  SpyInfo                = { country = "SOV" NumberOfSpies = 5 }
+  SpyInfo                = { country = "SOV" NumberOfSpies = 8 }
   diplomacy =
   { relation =
     { tag        = AFG

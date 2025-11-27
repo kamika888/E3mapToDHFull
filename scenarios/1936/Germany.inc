@@ -22,7 +22,7 @@ country =
 	oil                    = 4000  
 	supplies               = 500 
 	money                  = 70 
-  SpyInfo                = { country = "GER" NumberOfSpies = 5 }
+  SpyInfo                = { country = "GER" NumberOfSpies = 8 }
   diplomacy =
   { relation = { tag = ARG value = 75 }
     relation = { tag = AST value = 1 }

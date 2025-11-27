@@ -18,7 +18,7 @@ country =
 	dissent                = 10
   capital                  = 606
   industrial_modifier 	   = 0.74 # depression - effective 0.80
-  SpyInfo                = { country = "USA" NumberOfSpies = 5 }
+  SpyInfo                = { country = "USA" NumberOfSpies = 4 }
   diplomacy =
   { relation =
     { tag        = ARG

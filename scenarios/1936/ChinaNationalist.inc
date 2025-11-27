@@ -17,7 +17,7 @@ country =
 	dissent                = 10
 	transports             = 50 
 	escorts                = 2 
-  SpyInfo                = { country = "CHI" NumberOfSpies = 1 }
+  SpyInfo                = { country = "CHI" NumberOfSpies = 2 }
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CGX value = 200 }

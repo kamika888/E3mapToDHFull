@@ -22,7 +22,7 @@ country =
 		ic = -8 #SanctionsEvt, will be lifted when Italy defeats Ethiopia
 	}
   # Illyrian Coast
-  SpyInfo                = { country = "ITA" NumberOfSpies = 5 }
+  SpyInfo                = { country = "ITA" NumberOfSpies = 6 }
   diplomacy =
   { relation = { tag = AFG value = 50 }
     relation =
