@@ -97,7 +97,8 @@ country =
 5600 5610
 #Land Doctrines WWI - Entente line
 6500 6510 6530 6580 6600 6610 6680 6620 6630 6640 6650 6660 6670 6540 6910
-#Landdoctrine ww2 - none
+# Land Doctrines WWII (Light Infantry line to match Japan)
+6390
 
 #Air Doctrines - ww2 techs
 27480 27490 27500 27510 27520 27530 27540 27550 27570 27580 27590 27600 9030 9020 27560 27460 27470 9010

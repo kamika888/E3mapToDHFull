@@ -157,10 +157,6 @@ event = {
 		command = { type = trigger which = 2011001 }
 
 		command = { type = secedeprovince which = U87 value = 1203 when = 1 }
-		#command = { type = secedeprovince which = MEN value = 1206 when = 1 }
-		#command = { type = secedeprovince which = MEN value = 5626 when = 1 }
-		command = { type = secedeprovince which = CHC value = 1206 when = 2 }
-		command = { type = secedeprovince which = CHC value = 5626 when = 2 }
 		command = { type = removeclaim which = 1203 }
 		command = { type = removeclaim which = 1206 }
 		command = { type = removeclaim which = 5626 }
@@ -172,16 +168,13 @@ event = {
 		command = { type = relation which = CGX value = -50 }
         command = { type = relation which = CYN value = -50 }
 		command = { type = trigger which = 2012016 } # Chinese unified front
-		
-		#command = { type = remove_units which = land where = U58 when = 1 value = "Chahar" }
-		#command = { type = remove_units which = land where = U58 when = 1 value = "Suiyuan_Ningxia" }
-		#command = { type = remove_units which = land where = U58 when = 1 value = "Shanxi" }
-		command = { type = damage_division 			which = 22302 value = 3 where = 90  } 
-		command = { type = damage_division 			which = 22302 value = 4 where = 90  } 
-		command = { type = damage_division 			which = 22302 value = 5 where = 90  } 
-		command = { type = disorg_division 			which = 22302 value = 3 where = 100 }
-		command = { type = disorg_division 			which = 22302 value = 4 where = 100 }
-		command = { type = disorg_division 			which = 22302 value = 5 where = 100 }
+	
+		#command = { type = damage_division 			which = 22302 value = 3 where = 90  } 
+		#command = { type = damage_division 			which = 22302 value = 4 where = 90  } 
+		#command = { type = damage_division 			which = 22302 value = 5 where = 90  } 
+		#command = { type = disorg_division 			which = 22302 value = 3 where = 100 }
+		#command = { type = disorg_division 			which = 22302 value = 4 where = 100 }
+		#command = { type = disorg_division 			which = 22302 value = 5 where = 100 }
 		
 		command = { type = ai which = "nations\JAP_CHI.ai" }
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = trigger which = 8300105 }  #partial Mobilization
@@ -2912,7 +2905,13 @@ event = {
 			AND = {
 				garrison = { country = -3 province = 3086 type = land size = 25 area = 0 } #ai stacked up for auto-invasions
 				
-				event = { id = 560 days = 90 } #Oil embargo
+				OR = {
+					event = { id = 560 days = 90 } #Oil embargo
+					AND = {
+						event = 560
+						year = 1942
+					}
+				}
 				NOT = { event = 2011012 } #JAP The Fading Sun
 				NOT = { event = 2011028 } #JAP Japanese surrender negotiations	
 				#policy = { type = interventionism value = 9 }

@@ -286,16 +286,16 @@ event = {
 	action = {
 		name = "ACTION_NAME_GREAT" #Great
 		command = { type = dissent value = -1 }
-		command = { type = add_division which = "Courbet" value = battleship when = 2 }
-		command = { type = add_division which = "Paris" value = battleship when = 2 }
-		command = { type = add_division which = "Pluton" value = light_cruiser when = 3 }
-		command = { type = add_division which = "Jeanne d'Arc" value = light_cruiser when = 3 }
-		command = { type = add_division which = "4ème Flottille de Contre-Torpilleurs" value = destroyer when = 0 }
-		command = { type = add_division which = "5ème Flottille de Contre-Torpilleurs" value = destroyer when = 0 }
-		command = { type = add_division which = "1ère Flottille de Sous-Marins" value = submarine when = 5 }
-		command = { type = add_division which = "2ème Flottille de Sous-Marins" value = submarine when = 5 }
-		command = { type = add_division which = "1ère Flottille de Convoi" value = transport when = 0 }
-		command = { type = add_division which = "2ème Flottille de Convoi" value = transport when = 0 }
+		command = { type = add_division which = "Courbet"		value = battleship 		when = 2 }
+		command = { type = add_division which = "Paris"			value = battleship 		when = 2 }
+		command = { type = add_division which = "Pluton"		value = light_cruiser 	when = 5 }
+		command = { type = add_division which = "Jeanne d'Arc"	value = light_cruiser 	when = 4 }
+		command = { type = add_division 						value = destroyer 		when = 5 }
+		command = { type = add_division 						value = destroyer 		when = 5 }
+		command = { type = add_division 						value = submarine 		when = 5 }
+		command = { type = add_division							value = submarine 		when = 5 }
+		command = { type = add_division							value = transport 		when = 2 }
+		command = { type = add_division							value = transport 		when = 2 }
     } 
 }
 
@@ -848,6 +848,8 @@ event = {
 		
 		command = { type = event which = 2002032 where = VIC when = 0  }
 		command = { type = event which = 2002033 where = VIC when = 15 }
+		
+		command = { trigger = { ai = SIA NOT = { policy = { country = SIA type = professional_army value = 5 } } } type = event which = 8300105 where = SIA when = 5 } #Partial mobilization
     } 
 }
 
@@ -1689,8 +1691,8 @@ event = {
 	offset = 3
 	deathdate = { day = 29 month = december year = 1963 }
 	
-	name = EVT_2011040_NAME
-	desc = EVT_2011040_DESC
+	name = "EVT_3803_NAME"
+	desc = "EVT_3803_DESC"
 	picture = "Petain"
 	style = 2
 	
@@ -1710,8 +1712,8 @@ event = {
 	random = no
 	country = VIC
 
-	name = "EVT_2002010_NAME"
-	desc = "EVT_2002010_DESC"
+	name = EVT_2002010_NAME
+	desc = EVT_2002010_DESC
 	picture = "Petain"
 	style = 2
 
@@ -1749,8 +1751,8 @@ event = {
 
    # Triggered by VIC 2002010
 
-	name = "EVT_2002010_NAME"
-	desc = "EVT_2002010_DESC"
+	name = EVT_2002010_NAME
+	desc = EVT_2002010_DESC
 	picture = "Petain"
 	style = 2
 
@@ -1782,16 +1784,13 @@ event = {
 
 	# Triggered by VIC 2186001
 
-	name = "EVT_2002010_NAME"
-	desc = "13064002_DESC"
+	name = EVT_2002010_NAME
+	desc = EVT_2011002_DESC
 	picture = "Petain"
 	style = 2
 
 	action = {
-		name = "ACTION_NAME_ACCEPT" # Accept
-		#command = { type = inherit which = U03 value = 1 }
-		#command = { type = event which = 2400537 where = U03 when = 0 }
-		
+		name = "ACTION_NAME_GREAT" # Accept
 		command = { type = belligerence value = 5 } 
 		
 		command = { type = addclaim which = 2949 } 
@@ -1888,9 +1887,12 @@ event = {
 		command = { type = relation which = JAP value = -10 }
 		command = { type = relation which = USA value = -10 }
 		command = { type = relation which = ENG value = -10 }
-		command = { type = trigger which = 2002041 }
+		command = { type = event which = 2002041 where = VIC when = 0 }
+		command = { type = event which = 2002047 where = U03 when = 0 }
 		command = { type = ai which = "invasionNo.ai" }
 		command = { type = local_setflag which = do_not_demob }
+		
+		command = { trigger = { OR = { ai = SIA } } type = non_aggression which = U03 where = VIC when = 2 }
 	}
 }
 
@@ -1912,11 +1914,26 @@ event = {
 		command = { type = unlock_division which = 13500 value = 2023 }
 		command = { type = unlock_division which = 13500 value = 2037 }
 		
-		command = { type = ai which = "nations\FRA_FTW.ai" } #allow exp to U03
-
-		command = { trigger = { OR = { ai = SIA ai = VIC } } type = non_aggression which = U03 where = SIA when = 7 } 
+		command = { type = ai which = "nations\FRA_FTW.ai" } #allow exp to U03 
 	}
 }
+
+event = { 
+	id = 2002047
+	random = no
+	
+	name = EVT_2002041_NAME
+	desc = EVT_2002041_DESC
+	picture = "Petain"
+	style = 2
+	
+	action = {
+		name = EVT_2002041_ACTA
+		command = { type = dissent value = 1 }
+		command = { trigger = { NOT = { local_flag = war_preparedness_debuff } } type = local_clrflag which = war_preparedness }
+	}
+}
+
 
 event = { 
 	id = 2002042
@@ -2201,7 +2218,7 @@ event = {
 		command = { type = trigger which = 2002052 }
 	}
 	action = {
-		name = EVT_2002050_ACTB
+		name = EVT_2002051_ACTB
 		ai_chance = 0
 		command = { type = war which = JAP }  
 		command = { type = dissent value = 3 } 
@@ -2293,8 +2310,8 @@ event = {
 
 	# Triggered by VIC 2186001
 
-	name = "EVT_2002010_NAME"
-	desc = "13064002_DESC"
+	name = EVT_2002050_NAME
+	desc = EVT_2002050_DESC
 	picture = "Petain"
 	style = 2
 
@@ -2836,544 +2853,544 @@ event = {
 		command = { trigger = { country = UGS } type = non_aggression which = VIC where = UGS }
 		command = { trigger = { country = UPE } type = non_aggression which = VIC where = UPE }
 		command = { trigger = { country = UTC } type = non_aggression which = VIC where = UTC }
-		command = { trigger = { country = AFG puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = AFG }
-		command = { trigger = { country = ALB puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = ALB }
-		command = { trigger = { country = ALG puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = ALG }
-		command = { trigger = { country = ANG puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = ANG }
-		command = { trigger = { country = ARA puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = ARA }
-		command = { trigger = { country = ARG puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = ARG }
-		command = { trigger = { country = ARM puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = ARM }
-		command = { trigger = { country = AST puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = AST }
-		command = { trigger = { country = AUS puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = AUS }
-		command = { trigger = { country = AZB puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = AZB }
-		command = { trigger = { country = BEL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = BEL }
-		command = { trigger = { country = BEN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = BEN }
-		command = { trigger = { country = BHU puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = BHU }
-		command = { trigger = { country = BLR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = BLR }
-		command = { trigger = { country = BOL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = BOL }
-		command = { trigger = { country = BOS puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = BOS }
-		command = { trigger = { country = BRA puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = BRA }
-		command = { trigger = { country = BRU puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = BRU }
-		command = { trigger = { country = BUL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = BUL }
-		command = { trigger = { country = BUR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = BUR }
-		command = { trigger = { country = CAL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CAL }
-		command = { trigger = { country = CAM puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CAM }
-		command = { trigger = { country = CAN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CAN }
-		command = { trigger = { country = CGX puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CGX }
-		command = { trigger = { country = CHC puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CHC }
-		command = { trigger = { country = CHI puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CHI }
-		command = { trigger = { country = CHL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CHL }
-		command = { trigger = { country = CMB puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CMB }
-		command = { trigger = { country = COL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = COL }
-		command = { trigger = { country = CON puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CON }
-		command = { trigger = { country = COS puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = COS }
-		command = { trigger = { country = CRO puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CRO }
-		command = { trigger = { country = CSA puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CSA }
-		command = { trigger = { country = CSX puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CSX }
-		command = { trigger = { country = CUB puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CUB }
-		command = { trigger = { country = CXB puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CXB }
-		command = { trigger = { country = CYN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CYN }
-		command = { trigger = { country = CYP puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CYP }
-		command = { trigger = { country = CZE puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = CZE }
-		command = { trigger = { country = DDR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = DDR }
-		command = { trigger = { country = DEN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = DEN }
-		command = { trigger = { country = DFR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = DFR }
-		command = { trigger = { country = DOM puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = DOM }
-		command = { trigger = { country = EAF puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = EAF }
-		command = { trigger = { country = ECU puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = ECU }
-		command = { trigger = { country = EGY puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = EGY }
-		command = { trigger = { country = ENG puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = ENG }
-		command = { trigger = { country = EQA puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = EQA }
-		command = { trigger = { country = EST puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = EST }
-		command = { trigger = { country = ETH puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = ETH }
-		command = { trigger = { country = EUS puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = EUS }
-		command = { trigger = { country = FIN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = FIN }
-		command = { trigger = { country = FLA puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = FLA }
-		command = { trigger = { country = U03 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U03 }
-		command = { trigger = { country = GAB puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = GAB }
-		command = { trigger = { country = GEO puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = GEO }
-		command = { trigger = { country = GER puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = GER }
-		command = { trigger = { country = GLD puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = GLD }
-		command = { trigger = { country = GRE puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = GRE }
-		command = { trigger = { country = GUA puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = GUA }
-		command = { trigger = { country = GUI puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = GUI }
-		command = { trigger = { country = GUY puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = GUY }
-		command = { trigger = { country = HAI puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = HAI }
-		command = { trigger = { country = HOL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = HOL }
-		command = { trigger = { country = HON puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = HON }
-		command = { trigger = { country = HUN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = HUN }
-		command = { trigger = { country = ICL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = ICL }
-		command = { trigger = { country = IDC puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = IDC }
-		command = { trigger = { country = IND puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = IND }
-		command = { trigger = { country = INO puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = INO }
-		command = { trigger = { country = IRE puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = IRE }
-		command = { trigger = { country = IRQ puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = IRQ }
-		command = { trigger = { country = ISR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = ISR }
-		command = { trigger = { country = ITA puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = ITA }
-		command = { trigger = { country = JAP puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = JAP }
-		command = { trigger = { country = JOR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = JOR }
-		command = { trigger = { country = KAZ puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = KAZ }
-		command = { trigger = { country = KOR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = KOR }
-		command = { trigger = { country = KUR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = KUR }
-		command = { trigger = { country = KYG puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = KYG }
-		command = { trigger = { country = LAO puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = LAO }
-		command = { trigger = { country = LAT puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = LAT }
-		command = { trigger = { country = LBY puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = LBY }
-		command = { trigger = { country = LEB puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = LEB }
-		command = { trigger = { country = LIB puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = LIB }
-		command = { trigger = { country = LIT puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = LIT }
-		command = { trigger = { country = LUX puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = LUX }
-		command = { trigger = { country = MAD puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = MAD }
-		command = { trigger = { country = MAL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = MAL }
-		command = { trigger = { country = MAN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = MAN }
-		command = { trigger = { country = MEN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = MEN }
-		command = { trigger = { country = MEX puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = MEX }
-		command = { trigger = { country = MLY puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = MLY }
-		command = { trigger = { country = MON puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = MON }
-		command = { trigger = { country = MOR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = MOR }
-		command = { trigger = { country = MOZ puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = MOZ }
-		command = { trigger = { country = MTN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = MTN }
-		command = { trigger = { country = NAM puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = NAM }
-		command = { trigger = { country = NEP puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = NEP }
-		command = { trigger = { country = NIC puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = NIC }
-		command = { trigger = { country = NIG puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = NIG }
-		command = { trigger = { country = NOR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = NOR }
-		command = { trigger = { country = NZL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = NZL }
-		command = { trigger = { country = OMN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = OMN }
-		command = { trigger = { country = OTT puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = OTT }
-		command = { trigger = { country = PAK puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = PAK }
-		command = { trigger = { country = PAL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = PAL }
-		command = { trigger = { country = PAN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = PAN }
-		command = { trigger = { country = PAR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = PAR }
-		command = { trigger = { country = PER puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = PER }
-		command = { trigger = { country = PHI puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = PHI }
-		command = { trigger = { country = POL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = POL }
-		command = { trigger = { country = POR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = POR }
-		command = { trigger = { country = PRI puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = PRI }
-		command = { trigger = { country = PRK puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = PRK }
-		command = { trigger = { country = PRU puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = PRU }
-		command = { trigger = { country = QUE puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = QUE }
-		command = { trigger = { country = RHO puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = RHO }
-		command = { trigger = { country = ROM puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = ROM }
-		command = { trigger = { country = RSI puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = RSI }
-		command = { trigger = { country = RUS puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = RUS }
-		command = { trigger = { country = SAF puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SAF }
-		command = { trigger = { country = SAL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SAL }
-		command = { trigger = { country = SAR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SAR }
-		command = { trigger = { country = SAU puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SAU }
-		command = { trigger = { country = SCA puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SCA }
-		command = { trigger = { country = SCH puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SCH }
-		command = { trigger = { country = SCO puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SCO }
-		command = { trigger = { country = SER puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SER }
-		command = { trigger = { country = SIA puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SIA }
-		command = { trigger = { country = SIB puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SIB }
-		command = { trigger = { country = SIE puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SIE }
-		command = { trigger = { country = SIK puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SIK }
-		command = { trigger = { country = SLO puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SLO }
-		command = { trigger = { country = SLV puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SLV }
-		command = { trigger = { country = SOM puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SOM }
-		command = { trigger = { country = SOV puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SOV }
-		command = { trigger = { country = SPA puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SPA }
-		command = { trigger = { country = SPR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SPR }
-		command = { trigger = { country = SUD puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SUD }
-		command = { trigger = { country = SWE puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SWE }
-		command = { trigger = { country = SYR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = SYR }
-		command = { trigger = { country = TAJ puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = TAJ }
-		command = { trigger = { country = TAN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = TAN }
-		command = { trigger = { country = TEX puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = TEX }
-		command = { trigger = { country = TIB puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = TIB }
-		command = { trigger = { country = TRA puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = TRA }
-		command = { trigger = { country = TRK puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = TRK }
-		command = { trigger = { country = TUN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = TUN }
-		command = { trigger = { country = TUR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = TUR }
-		command = { trigger = { country = UKR puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = UKR }
-		command = { trigger = { country = URU puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = URU }
-		command = { trigger = { country = USA puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = USA }
-		command = { trigger = { country = UZB puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = UZB }
-		command = { trigger = { country = VEN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = VEN }
-		command = { trigger = { country = VIE puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = VIE }
-		command = { trigger = { country = WLL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = WLL }
-		command = { trigger = { country = YEM puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = YEM }
-		command = { trigger = { country = YUG puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = YUG }
-		command = { trigger = { country = U01 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U01 }
-		command = { trigger = { country = U02 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U02 }
-		command = { trigger = { country = U03 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U03 }
-		command = { trigger = { country = U04 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U04 }
-		command = { trigger = { country = U05 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U05 }
-		command = { trigger = { country = U06 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U06 }
-		command = { trigger = { country = U08 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U08 }
-		command = { trigger = { country = U09 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U09 }
-		command = { trigger = { country = U10 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U10 }
-		command = { trigger = { country = U11 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U11 }
-		command = { trigger = { country = U12 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U12 }
-		command = { trigger = { country = U13 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U13 }
-		command = { trigger = { country = U14 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U14 }
-		command = { trigger = { country = U15 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U15 }
-		command = { trigger = { country = U16 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U16 }
-		command = { trigger = { country = U17 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U17 }
-		command = { trigger = { country = U18 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U18 }
-		command = { trigger = { country = U19 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U19 }
-		command = { trigger = { country = U20 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U20 }
-		command = { trigger = { country = U21 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U21 }
-		command = { trigger = { country = U22 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U22 }
-		command = { trigger = { country = U23 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U23 }
-		command = { trigger = { country = U24 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U24 }
-		command = { trigger = { country = U25 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U25 }
-		command = { trigger = { country = U26 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U26 }
-		command = { trigger = { country = U27 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U27 }
-		command = { trigger = { country = U28 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U28 }
-		command = { trigger = { country = U29 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U29 }
-		command = { trigger = { country = U30 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U30 }
-		command = { trigger = { country = U31 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U31 }
-		command = { trigger = { country = U32 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U32 }
-		command = { trigger = { country = U33 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U33 }
-		command = { trigger = { country = U34 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U34 }
-		command = { trigger = { country = U35 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U35 }
-		command = { trigger = { country = U36 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U36 }
-		command = { trigger = { country = U37 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U37 }
-		command = { trigger = { country = U39 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U39 }
-		command = { trigger = { country = U40 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U40 }
-		command = { trigger = { country = U41 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U41 }
-		command = { trigger = { country = U42 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U42 }
-		command = { trigger = { country = U43 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U43 }
-		command = { trigger = { country = U44 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U44 }
-		command = { trigger = { country = U45 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U45 }
-		command = { trigger = { country = U46 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U46 }
-		command = { trigger = { country = U47 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U47 }
-		command = { trigger = { country = U48 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U48 }
-		command = { trigger = { country = U49 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U49 }
-		command = { trigger = { country = U50 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U50 }
-		command = { trigger = { country = U51 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U51 }
-		command = { trigger = { country = U52 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U52 }
-		command = { trigger = { country = U53 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U53 }
-		command = { trigger = { country = U54 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U54 }
-		command = { trigger = { country = U55 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U55 }
-		command = { trigger = { country = U56 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U56 }
-		command = { trigger = { country = U57 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U57 }
-		command = { trigger = { country = U58 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U58 }
-		command = { trigger = { country = U59 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U59 }
-		command = { trigger = { country = U60 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U60 }
-		command = { trigger = { country = U61 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U61 }
-		command = { trigger = { country = U62 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U62 }
-		command = { trigger = { country = U63 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U63 }
-		command = { trigger = { country = U64 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U64 }
-		command = { trigger = { country = U65 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U65 }
-		command = { trigger = { country = U66 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U66 }
-		command = { trigger = { country = U67 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U67 }
-		command = { trigger = { country = U68 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U68 }
-		command = { trigger = { country = U69 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U69 }
-		command = { trigger = { country = U70 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U70 }
-		command = { trigger = { country = U71 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U71 }
-		command = { trigger = { country = U72 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U72 }
-		command = { trigger = { country = U73 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U73 }
-		command = { trigger = { country = U74 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U74 }
-		command = { trigger = { country = U75 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U75 }
-		command = { trigger = { country = U76 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U76 }
-		command = { trigger = { country = U77 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U77 }
-		command = { trigger = { country = U78 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U78 }
-		command = { trigger = { country = U79 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U79 }
-		command = { trigger = { country = U80 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U80 }
-		command = { trigger = { country = U81 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U81 }
-		command = { trigger = { country = U82 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U82 }
-		command = { trigger = { country = U83 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U83 }
-		command = { trigger = { country = U84 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U84 }
-		command = { trigger = { country = U85 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U85 }
-		command = { trigger = { country = U86 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U86 }
-		command = { trigger = { country = U87 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U87 }
-		command = { trigger = { country = U88 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U88 }
-		command = { trigger = { country = U89 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U89 }
-		command = { trigger = { country = U90 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U90 }
-		command = { trigger = { country = U91 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U91 }
-		command = { trigger = { country = U92 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U92 }
-		command = { trigger = { country = U93 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U93 }
-		command = { trigger = { country = U94 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U94 }
-		command = { trigger = { country = U95 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U95 }
-		command = { trigger = { country = U96 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U96 }
-		command = { trigger = { country = U97 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U97 }
-		command = { trigger = { country = U98 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U98 }
-		command = { trigger = { country = U99 puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = U99 }
-		command = { trigger = { country = USN puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = USN }
-		command = { trigger = { country = UIC puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = UIC }
-		command = { trigger = { country = UTL puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = UTL }
-		command = { trigger = { country = UAU puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = UAU }
-		command = { trigger = { country = UPS puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = UPS }
-		command = { trigger = { country = UCH puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = UCH }
-		command = { trigger = { country = UBO puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = UBO }
-		command = { trigger = { country = UCS puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = UCS }
-		command = { trigger = { country = URO puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = URO }
-		command = { trigger = { country = UER puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = UER }
-		command = { trigger = { country = UGS puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = UGS }
-		command = { trigger = { country = UPE puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = UPE }
-		command = { trigger = { country = UTC puppet = { country = U03 country = VIC } } type = non_aggression which = U03 where = UTC }
-		command = { trigger = { country = AFG puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = AFG }
-		command = { trigger = { country = ALB puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = ALB }
-		command = { trigger = { country = ALG puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = ALG }
-		command = { trigger = { country = ANG puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = ANG }
-		command = { trigger = { country = ARA puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = ARA }
-		command = { trigger = { country = ARG puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = ARG }
-		command = { trigger = { country = ARM puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = ARM }
-		command = { trigger = { country = AST puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = AST }
-		command = { trigger = { country = AUS puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = AUS }
-		command = { trigger = { country = AZB puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = AZB }
-		command = { trigger = { country = BEL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = BEL }
-		command = { trigger = { country = BEN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = BEN }
-		command = { trigger = { country = BHU puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = BHU }
-		command = { trigger = { country = BLR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = BLR }
-		command = { trigger = { country = BOL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = BOL }
-		command = { trigger = { country = BOS puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = BOS }
-		command = { trigger = { country = BRA puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = BRA }
-		command = { trigger = { country = BRU puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = BRU }
-		command = { trigger = { country = BUL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = BUL }
-		command = { trigger = { country = BUR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = BUR }
-		command = { trigger = { country = CAL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CAL }
-		command = { trigger = { country = CAM puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CAM }
-		command = { trigger = { country = CAN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CAN }
-		command = { trigger = { country = CGX puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CGX }
-		command = { trigger = { country = CHC puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CHC }
-		command = { trigger = { country = CHI puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CHI }
-		command = { trigger = { country = CHL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CHL }
-		command = { trigger = { country = CMB puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CMB }
-		command = { trigger = { country = COL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = COL }
-		command = { trigger = { country = CON puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CON }
-		command = { trigger = { country = COS puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = COS }
-		command = { trigger = { country = CRO puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CRO }
-		command = { trigger = { country = CSA puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CSA }
-		command = { trigger = { country = CSX puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CSX }
-		command = { trigger = { country = CUB puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CUB }
-		command = { trigger = { country = CXB puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CXB }
-		command = { trigger = { country = CYN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CYN }
-		command = { trigger = { country = CYP puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CYP }
-		command = { trigger = { country = CZE puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = CZE }
-		command = { trigger = { country = DDR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = DDR }
-		command = { trigger = { country = DEN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = DEN }
-		command = { trigger = { country = DFR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = DFR }
-		command = { trigger = { country = DOM puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = DOM }
-		command = { trigger = { country = EAF puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = EAF }
-		command = { trigger = { country = ECU puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = ECU }
-		command = { trigger = { country = EGY puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = EGY }
-		command = { trigger = { country = ENG puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = ENG }
-		command = { trigger = { country = EQA puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = EQA }
-		command = { trigger = { country = EST puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = EST }
-		command = { trigger = { country = ETH puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = ETH }
-		command = { trigger = { country = EUS puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = EUS }
-		command = { trigger = { country = FIN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = FIN }
-		command = { trigger = { country = FLA puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = FLA }
-		command = { trigger = { country = U04 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U04 }
-		command = { trigger = { country = GAB puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = GAB }
-		command = { trigger = { country = GEO puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = GEO }
-		command = { trigger = { country = GER puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = GER }
-		command = { trigger = { country = GLD puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = GLD }
-		command = { trigger = { country = GRE puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = GRE }
-		command = { trigger = { country = GUA puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = GUA }
-		command = { trigger = { country = GUI puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = GUI }
-		command = { trigger = { country = GUY puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = GUY }
-		command = { trigger = { country = HAI puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = HAI }
-		command = { trigger = { country = HOL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = HOL }
-		command = { trigger = { country = HON puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = HON }
-		command = { trigger = { country = HUN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = HUN }
-		command = { trigger = { country = ICL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = ICL }
-		command = { trigger = { country = IDC puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = IDC }
-		command = { trigger = { country = IND puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = IND }
-		command = { trigger = { country = INO puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = INO }
-		command = { trigger = { country = IRE puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = IRE }
-		command = { trigger = { country = IRQ puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = IRQ }
-		command = { trigger = { country = ISR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = ISR }
-		command = { trigger = { country = ITA puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = ITA }
-		command = { trigger = { country = JAP puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = JAP }
-		command = { trigger = { country = JOR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = JOR }
-		command = { trigger = { country = KAZ puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = KAZ }
-		command = { trigger = { country = KOR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = KOR }
-		command = { trigger = { country = KUR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = KUR }
-		command = { trigger = { country = KYG puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = KYG }
-		command = { trigger = { country = LAO puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = LAO }
-		command = { trigger = { country = LAT puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = LAT }
-		command = { trigger = { country = LBY puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = LBY }
-		command = { trigger = { country = LEB puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = LEB }
-		command = { trigger = { country = LIB puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = LIB }
-		command = { trigger = { country = LIT puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = LIT }
-		command = { trigger = { country = LUX puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = LUX }
-		command = { trigger = { country = MAD puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = MAD }
-		command = { trigger = { country = MAL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = MAL }
-		command = { trigger = { country = MAN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = MAN }
-		command = { trigger = { country = MEN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = MEN }
-		command = { trigger = { country = MEX puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = MEX }
-		command = { trigger = { country = MLY puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = MLY }
-		command = { trigger = { country = MON puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = MON }
-		command = { trigger = { country = MOR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = MOR }
-		command = { trigger = { country = MOZ puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = MOZ }
-		command = { trigger = { country = MTN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = MTN }
-		command = { trigger = { country = NAM puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = NAM }
-		command = { trigger = { country = NEP puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = NEP }
-		command = { trigger = { country = NIC puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = NIC }
-		command = { trigger = { country = NIG puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = NIG }
-		command = { trigger = { country = NOR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = NOR }
-		command = { trigger = { country = NZL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = NZL }
-		command = { trigger = { country = OMN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = OMN }
-		command = { trigger = { country = OTT puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = OTT }
-		command = { trigger = { country = PAK puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = PAK }
-		command = { trigger = { country = PAL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = PAL }
-		command = { trigger = { country = PAN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = PAN }
-		command = { trigger = { country = PAR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = PAR }
-		command = { trigger = { country = PER puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = PER }
-		command = { trigger = { country = PHI puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = PHI }
-		command = { trigger = { country = POL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = POL }
-		command = { trigger = { country = POR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = POR }
-		command = { trigger = { country = PRI puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = PRI }
-		command = { trigger = { country = PRK puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = PRK }
-		command = { trigger = { country = PRU puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = PRU }
-		command = { trigger = { country = QUE puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = QUE }
-		command = { trigger = { country = RHO puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = RHO }
-		command = { trigger = { country = ROM puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = ROM }
-		command = { trigger = { country = RSI puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = RSI }
-		command = { trigger = { country = RUS puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = RUS }
-		command = { trigger = { country = SAF puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SAF }
-		command = { trigger = { country = SAL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SAL }
-		command = { trigger = { country = SAR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SAR }
-		command = { trigger = { country = SAU puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SAU }
-		command = { trigger = { country = SCA puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SCA }
-		command = { trigger = { country = SCH puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SCH }
-		command = { trigger = { country = SCO puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SCO }
-		command = { trigger = { country = SER puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SER }
-		command = { trigger = { country = SIA puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SIA }
-		command = { trigger = { country = SIB puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SIB }
-		command = { trigger = { country = SIE puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SIE }
-		command = { trigger = { country = SIK puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SIK }
-		command = { trigger = { country = SLO puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SLO }
-		command = { trigger = { country = SLV puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SLV }
-		command = { trigger = { country = SOM puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SOM }
-		command = { trigger = { country = SOV puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SOV }
-		command = { trigger = { country = SPA puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SPA }
-		command = { trigger = { country = SPR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SPR }
-		command = { trigger = { country = SUD puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SUD }
-		command = { trigger = { country = SWE puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SWE }
-		command = { trigger = { country = SYR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = SYR }
-		command = { trigger = { country = TAJ puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = TAJ }
-		command = { trigger = { country = TAN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = TAN }
-		command = { trigger = { country = TEX puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = TEX }
-		command = { trigger = { country = TIB puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = TIB }
-		command = { trigger = { country = TRA puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = TRA }
-		command = { trigger = { country = TRK puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = TRK }
-		command = { trigger = { country = TUN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = TUN }
-		command = { trigger = { country = TUR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = TUR }
-		command = { trigger = { country = UKR puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = UKR }
-		command = { trigger = { country = URU puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = URU }
-		command = { trigger = { country = USA puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = USA }
-		command = { trigger = { country = UZB puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = UZB }
-		command = { trigger = { country = VEN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = VEN }
-		command = { trigger = { country = VIE puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = VIE }
-		command = { trigger = { country = WLL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = WLL }
-		command = { trigger = { country = YEM puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = YEM }
-		command = { trigger = { country = YUG puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = YUG }
-		command = { trigger = { country = U01 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U01 }
-		command = { trigger = { country = U02 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U02 }
-		command = { trigger = { country = U04 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U04 }
-		command = { trigger = { country = U04 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U04 }
-		command = { trigger = { country = U05 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U05 }
-		command = { trigger = { country = U06 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U06 }
-		command = { trigger = { country = U08 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U08 }
-		command = { trigger = { country = U09 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U09 }
-		command = { trigger = { country = U10 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U10 }
-		command = { trigger = { country = U11 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U11 }
-		command = { trigger = { country = U12 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U12 }
-		command = { trigger = { country = U13 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U13 }
-		command = { trigger = { country = U14 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U14 }
-		command = { trigger = { country = U15 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U15 }
-		command = { trigger = { country = U16 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U16 }
-		command = { trigger = { country = U17 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U17 }
-		command = { trigger = { country = U18 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U18 }
-		command = { trigger = { country = U19 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U19 }
-		command = { trigger = { country = U20 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U20 }
-		command = { trigger = { country = U21 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U21 }
-		command = { trigger = { country = U22 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U22 }
-		command = { trigger = { country = U23 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U23 }
-		command = { trigger = { country = U24 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U24 }
-		command = { trigger = { country = U25 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U25 }
-		command = { trigger = { country = U26 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U26 }
-		command = { trigger = { country = U27 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U27 }
-		command = { trigger = { country = U28 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U28 }
-		command = { trigger = { country = U29 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U29 }
-		command = { trigger = { country = U30 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U30 }
-		command = { trigger = { country = U31 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U31 }
-		command = { trigger = { country = U32 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U32 }
-		command = { trigger = { country = U33 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U33 }
-		command = { trigger = { country = U34 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U34 }
-		command = { trigger = { country = U35 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U35 }
-		command = { trigger = { country = U36 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U36 }
-		command = { trigger = { country = U37 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U37 }
-		command = { trigger = { country = U39 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U39 }
-		command = { trigger = { country = U40 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U40 }
-		command = { trigger = { country = U41 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U41 }
-		command = { trigger = { country = U42 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U42 }
-		command = { trigger = { country = U43 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U43 }
-		command = { trigger = { country = U44 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U44 }
-		command = { trigger = { country = U45 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U45 }
-		command = { trigger = { country = U46 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U46 }
-		command = { trigger = { country = U47 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U47 }
-		command = { trigger = { country = U48 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U48 }
-		command = { trigger = { country = U49 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U49 }
-		command = { trigger = { country = U50 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U50 }
-		command = { trigger = { country = U51 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U51 }
-		command = { trigger = { country = U52 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U52 }
-		command = { trigger = { country = U53 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U53 }
-		command = { trigger = { country = U54 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U54 }
-		command = { trigger = { country = U55 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U55 }
-		command = { trigger = { country = U56 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U56 }
-		command = { trigger = { country = U57 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U57 }
-		command = { trigger = { country = U58 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U58 }
-		command = { trigger = { country = U59 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U59 }
-		command = { trigger = { country = U60 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U60 }
-		command = { trigger = { country = U61 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U61 }
-		command = { trigger = { country = U62 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U62 }
-		command = { trigger = { country = U63 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U63 }
-		command = { trigger = { country = U64 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U64 }
-		command = { trigger = { country = U65 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U65 }
-		command = { trigger = { country = U66 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U66 }
-		command = { trigger = { country = U67 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U67 }
-		command = { trigger = { country = U68 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U68 }
-		command = { trigger = { country = U69 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U69 }
-		command = { trigger = { country = U70 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U70 }
-		command = { trigger = { country = U71 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U71 }
-		command = { trigger = { country = U72 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U72 }
-		command = { trigger = { country = U73 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U73 }
-		command = { trigger = { country = U74 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U74 }
-		command = { trigger = { country = U75 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U75 }
-		command = { trigger = { country = U76 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U76 }
-		command = { trigger = { country = U77 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U77 }
-		command = { trigger = { country = U78 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U78 }
-		command = { trigger = { country = U79 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U79 }
-		command = { trigger = { country = U80 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U80 }
-		command = { trigger = { country = U81 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U81 }
-		command = { trigger = { country = U82 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U82 }
-		command = { trigger = { country = U83 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U83 }
-		command = { trigger = { country = U84 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U84 }
-		command = { trigger = { country = U85 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U85 }
-		command = { trigger = { country = U86 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U86 }
-		command = { trigger = { country = U87 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U87 }
-		command = { trigger = { country = U88 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U88 }
-		command = { trigger = { country = U89 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U89 }
-		command = { trigger = { country = U90 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U90 }
-		command = { trigger = { country = U91 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U91 }
-		command = { trigger = { country = U92 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U92 }
-		command = { trigger = { country = U93 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U93 }
-		command = { trigger = { country = U94 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U94 }
-		command = { trigger = { country = U95 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U95 }
-		command = { trigger = { country = U96 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U96 }
-		command = { trigger = { country = U97 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U97 }
-		command = { trigger = { country = U98 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U98 }
-		command = { trigger = { country = U99 puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = U99 }
-		command = { trigger = { country = USN puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = USN }
-		command = { trigger = { country = UIC puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = UIC }
-		command = { trigger = { country = UTL puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = UTL }
-		command = { trigger = { country = UAU puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = UAU }
-		command = { trigger = { country = UPS puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = UPS }
-		command = { trigger = { country = UCH puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = UCH }
-		command = { trigger = { country = UBO puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = UBO }
-		command = { trigger = { country = UCS puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = UCS }
-		command = { trigger = { country = URO puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = URO }
-		command = { trigger = { country = UER puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = UER }
-		command = { trigger = { country = UGS puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = UGS }
-		command = { trigger = { country = UPE puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = UPE }
-		command = { trigger = { country = UTC puppet = { country = U04 country = VIC } } type = non_aggression which = U04 where = UTC }
+		command = { trigger = { country = AFG alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = AFG }
+		command = { trigger = { country = ALB alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = ALB }
+		command = { trigger = { country = ALG alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = ALG }
+		command = { trigger = { country = ANG alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = ANG }
+		command = { trigger = { country = ARA alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = ARA }
+		command = { trigger = { country = ARG alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = ARG }
+		command = { trigger = { country = ARM alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = ARM }
+		command = { trigger = { country = AST alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = AST }
+		command = { trigger = { country = AUS alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = AUS }
+		command = { trigger = { country = AZB alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = AZB }
+		command = { trigger = { country = BEL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = BEL }
+		command = { trigger = { country = BEN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = BEN }
+		command = { trigger = { country = BHU alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = BHU }
+		command = { trigger = { country = BLR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = BLR }
+		command = { trigger = { country = BOL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = BOL }
+		command = { trigger = { country = BOS alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = BOS }
+		command = { trigger = { country = BRA alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = BRA }
+		command = { trigger = { country = BRU alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = BRU }
+		command = { trigger = { country = BUL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = BUL }
+		command = { trigger = { country = BUR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = BUR }
+		command = { trigger = { country = CAL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CAL }
+		command = { trigger = { country = CAM alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CAM }
+		command = { trigger = { country = CAN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CAN }
+		command = { trigger = { country = CGX alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CGX }
+		command = { trigger = { country = CHC alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CHC }
+		command = { trigger = { country = CHI alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CHI }
+		command = { trigger = { country = CHL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CHL }
+		command = { trigger = { country = CMB alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CMB }
+		command = { trigger = { country = COL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = COL }
+		command = { trigger = { country = CON alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CON }
+		command = { trigger = { country = COS alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = COS }
+		command = { trigger = { country = CRO alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CRO }
+		command = { trigger = { country = CSA alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CSA }
+		command = { trigger = { country = CSX alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CSX }
+		command = { trigger = { country = CUB alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CUB }
+		command = { trigger = { country = CXB alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CXB }
+		command = { trigger = { country = CYN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CYN }
+		command = { trigger = { country = CYP alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CYP }
+		command = { trigger = { country = CZE alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = CZE }
+		command = { trigger = { country = DDR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = DDR }
+		command = { trigger = { country = DEN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = DEN }
+		command = { trigger = { country = DFR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = DFR }
+		command = { trigger = { country = DOM alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = DOM }
+		command = { trigger = { country = EAF alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = EAF }
+		command = { trigger = { country = ECU alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = ECU }
+		command = { trigger = { country = EGY alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = EGY }
+		command = { trigger = { country = ENG alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = ENG }
+		command = { trigger = { country = EQA alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = EQA }
+		command = { trigger = { country = EST alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = EST }
+		command = { trigger = { country = ETH alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = ETH }
+		command = { trigger = { country = EUS alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = EUS }
+		command = { trigger = { country = FIN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = FIN }
+		command = { trigger = { country = FLA alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = FLA }
+		command = { trigger = { country = U03 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U03 }
+		command = { trigger = { country = GAB alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = GAB }
+		command = { trigger = { country = GEO alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = GEO }
+		command = { trigger = { country = GER alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = GER }
+		command = { trigger = { country = GLD alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = GLD }
+		command = { trigger = { country = GRE alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = GRE }
+		command = { trigger = { country = GUA alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = GUA }
+		command = { trigger = { country = GUI alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = GUI }
+		command = { trigger = { country = GUY alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = GUY }
+		command = { trigger = { country = HAI alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = HAI }
+		command = { trigger = { country = HOL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = HOL }
+		command = { trigger = { country = HON alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = HON }
+		command = { trigger = { country = HUN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = HUN }
+		command = { trigger = { country = ICL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = ICL }
+		command = { trigger = { country = IDC alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = IDC }
+		command = { trigger = { country = IND alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = IND }
+		command = { trigger = { country = INO alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = INO }
+		command = { trigger = { country = IRE alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = IRE }
+		command = { trigger = { country = IRQ alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = IRQ }
+		command = { trigger = { country = ISR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = ISR }
+		command = { trigger = { country = ITA alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = ITA }
+		command = { trigger = { country = JAP alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = JAP }
+		command = { trigger = { country = JOR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = JOR }
+		command = { trigger = { country = KAZ alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = KAZ }
+		command = { trigger = { country = KOR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = KOR }
+		command = { trigger = { country = KUR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = KUR }
+		command = { trigger = { country = KYG alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = KYG }
+		command = { trigger = { country = LAO alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = LAO }
+		command = { trigger = { country = LAT alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = LAT }
+		command = { trigger = { country = LBY alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = LBY }
+		command = { trigger = { country = LEB alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = LEB }
+		command = { trigger = { country = LIB alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = LIB }
+		command = { trigger = { country = LIT alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = LIT }
+		command = { trigger = { country = LUX alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = LUX }
+		command = { trigger = { country = MAD alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = MAD }
+		command = { trigger = { country = MAL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = MAL }
+		command = { trigger = { country = MAN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = MAN }
+		command = { trigger = { country = MEN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = MEN }
+		command = { trigger = { country = MEX alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = MEX }
+		command = { trigger = { country = MLY alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = MLY }
+		command = { trigger = { country = MON alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = MON }
+		command = { trigger = { country = MOR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = MOR }
+		command = { trigger = { country = MOZ alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = MOZ }
+		command = { trigger = { country = MTN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = MTN }
+		command = { trigger = { country = NAM alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = NAM }
+		command = { trigger = { country = NEP alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = NEP }
+		command = { trigger = { country = NIC alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = NIC }
+		command = { trigger = { country = NIG alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = NIG }
+		command = { trigger = { country = NOR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = NOR }
+		command = { trigger = { country = NZL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = NZL }
+		command = { trigger = { country = OMN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = OMN }
+		command = { trigger = { country = OTT alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = OTT }
+		command = { trigger = { country = PAK alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = PAK }
+		command = { trigger = { country = PAL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = PAL }
+		command = { trigger = { country = PAN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = PAN }
+		command = { trigger = { country = PAR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = PAR }
+		command = { trigger = { country = PER alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = PER }
+		command = { trigger = { country = PHI alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = PHI }
+		command = { trigger = { country = POL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = POL }
+		command = { trigger = { country = POR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = POR }
+		command = { trigger = { country = PRI alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = PRI }
+		command = { trigger = { country = PRK alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = PRK }
+		command = { trigger = { country = PRU alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = PRU }
+		command = { trigger = { country = QUE alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = QUE }
+		command = { trigger = { country = RHO alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = RHO }
+		command = { trigger = { country = ROM alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = ROM }
+		command = { trigger = { country = RSI alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = RSI }
+		command = { trigger = { country = RUS alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = RUS }
+		command = { trigger = { country = SAF alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SAF }
+		command = { trigger = { country = SAL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SAL }
+		command = { trigger = { country = SAR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SAR }
+		command = { trigger = { country = SAU alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SAU }
+		command = { trigger = { country = SCA alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SCA }
+		command = { trigger = { country = SCH alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SCH }
+		command = { trigger = { country = SCO alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SCO }
+		command = { trigger = { country = SER alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SER }
+		command = { trigger = { country = SIA alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SIA }
+		command = { trigger = { country = SIB alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SIB }
+		command = { trigger = { country = SIE alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SIE }
+		command = { trigger = { country = SIK alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SIK }
+		command = { trigger = { country = SLO alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SLO }
+		command = { trigger = { country = SLV alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SLV }
+		command = { trigger = { country = SOM alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SOM }
+		command = { trigger = { country = SOV alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SOV }
+		command = { trigger = { country = SPA alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SPA }
+		command = { trigger = { country = SPR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SPR }
+		command = { trigger = { country = SUD alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SUD }
+		command = { trigger = { country = SWE alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SWE }
+		command = { trigger = { country = SYR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = SYR }
+		command = { trigger = { country = TAJ alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = TAJ }
+		command = { trigger = { country = TAN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = TAN }
+		command = { trigger = { country = TEX alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = TEX }
+		command = { trigger = { country = TIB alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = TIB }
+		command = { trigger = { country = TRA alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = TRA }
+		command = { trigger = { country = TRK alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = TRK }
+		command = { trigger = { country = TUN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = TUN }
+		command = { trigger = { country = TUR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = TUR }
+		command = { trigger = { country = UKR alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = UKR }
+		command = { trigger = { country = URU alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = URU }
+		command = { trigger = { country = USA alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = USA }
+		command = { trigger = { country = UZB alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = UZB }
+		command = { trigger = { country = VEN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = VEN }
+		command = { trigger = { country = VIE alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = VIE }
+		command = { trigger = { country = WLL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = WLL }
+		command = { trigger = { country = YEM alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = YEM }
+		command = { trigger = { country = YUG alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = YUG }
+		command = { trigger = { country = U01 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U01 }
+		command = { trigger = { country = U02 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U02 }
+		command = { trigger = { country = U03 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U03 }
+		command = { trigger = { country = U04 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U04 }
+		command = { trigger = { country = U05 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U05 }
+		command = { trigger = { country = U06 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U06 }
+		command = { trigger = { country = U08 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U08 }
+		command = { trigger = { country = U09 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U09 }
+		command = { trigger = { country = U10 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U10 }
+		command = { trigger = { country = U11 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U11 }
+		command = { trigger = { country = U12 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U12 }
+		command = { trigger = { country = U13 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U13 }
+		command = { trigger = { country = U14 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U14 }
+		command = { trigger = { country = U15 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U15 }
+		command = { trigger = { country = U16 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U16 }
+		command = { trigger = { country = U17 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U17 }
+		command = { trigger = { country = U18 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U18 }
+		command = { trigger = { country = U19 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U19 }
+		command = { trigger = { country = U20 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U20 }
+		command = { trigger = { country = U21 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U21 }
+		command = { trigger = { country = U22 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U22 }
+		command = { trigger = { country = U23 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U23 }
+		command = { trigger = { country = U24 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U24 }
+		command = { trigger = { country = U25 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U25 }
+		command = { trigger = { country = U26 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U26 }
+		command = { trigger = { country = U27 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U27 }
+		command = { trigger = { country = U28 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U28 }
+		command = { trigger = { country = U29 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U29 }
+		command = { trigger = { country = U30 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U30 }
+		command = { trigger = { country = U31 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U31 }
+		command = { trigger = { country = U32 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U32 }
+		command = { trigger = { country = U33 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U33 }
+		command = { trigger = { country = U34 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U34 }
+		command = { trigger = { country = U35 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U35 }
+		command = { trigger = { country = U36 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U36 }
+		command = { trigger = { country = U37 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U37 }
+		command = { trigger = { country = U39 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U39 }
+		command = { trigger = { country = U40 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U40 }
+		command = { trigger = { country = U41 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U41 }
+		command = { trigger = { country = U42 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U42 }
+		command = { trigger = { country = U43 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U43 }
+		command = { trigger = { country = U44 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U44 }
+		command = { trigger = { country = U45 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U45 }
+		command = { trigger = { country = U46 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U46 }
+		command = { trigger = { country = U47 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U47 }
+		command = { trigger = { country = U48 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U48 }
+		command = { trigger = { country = U49 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U49 }
+		command = { trigger = { country = U50 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U50 }
+		command = { trigger = { country = U51 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U51 }
+		command = { trigger = { country = U52 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U52 }
+		command = { trigger = { country = U53 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U53 }
+		command = { trigger = { country = U54 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U54 }
+		command = { trigger = { country = U55 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U55 }
+		command = { trigger = { country = U56 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U56 }
+		command = { trigger = { country = U57 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U57 }
+		command = { trigger = { country = U58 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U58 }
+		command = { trigger = { country = U59 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U59 }
+		command = { trigger = { country = U60 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U60 }
+		command = { trigger = { country = U61 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U61 }
+		command = { trigger = { country = U62 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U62 }
+		command = { trigger = { country = U63 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U63 }
+		command = { trigger = { country = U64 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U64 }
+		command = { trigger = { country = U65 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U65 }
+		command = { trigger = { country = U66 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U66 }
+		command = { trigger = { country = U67 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U67 }
+		command = { trigger = { country = U68 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U68 }
+		command = { trigger = { country = U69 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U69 }
+		command = { trigger = { country = U70 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U70 }
+		command = { trigger = { country = U71 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U71 }
+		command = { trigger = { country = U72 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U72 }
+		command = { trigger = { country = U73 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U73 }
+		command = { trigger = { country = U74 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U74 }
+		command = { trigger = { country = U75 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U75 }
+		command = { trigger = { country = U76 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U76 }
+		command = { trigger = { country = U77 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U77 }
+		command = { trigger = { country = U78 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U78 }
+		command = { trigger = { country = U79 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U79 }
+		command = { trigger = { country = U80 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U80 }
+		command = { trigger = { country = U81 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U81 }
+		command = { trigger = { country = U82 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U82 }
+		command = { trigger = { country = U83 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U83 }
+		command = { trigger = { country = U84 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U84 }
+		command = { trigger = { country = U85 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U85 }
+		command = { trigger = { country = U86 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U86 }
+		command = { trigger = { country = U87 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U87 }
+		command = { trigger = { country = U88 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U88 }
+		command = { trigger = { country = U89 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U89 }
+		command = { trigger = { country = U90 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U90 }
+		command = { trigger = { country = U91 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U91 }
+		command = { trigger = { country = U92 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U92 }
+		command = { trigger = { country = U93 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U93 }
+		command = { trigger = { country = U94 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U94 }
+		command = { trigger = { country = U95 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U95 }
+		command = { trigger = { country = U96 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U96 }
+		command = { trigger = { country = U97 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U97 }
+		command = { trigger = { country = U98 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U98 }
+		command = { trigger = { country = U99 alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = U99 }
+		command = { trigger = { country = USN alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = USN }
+		command = { trigger = { country = UIC alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = UIC }
+		command = { trigger = { country = UTL alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = UTL }
+		command = { trigger = { country = UAU alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = UAU }
+		command = { trigger = { country = UPS alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = UPS }
+		command = { trigger = { country = UCH alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = UCH }
+		command = { trigger = { country = UBO alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = UBO }
+		command = { trigger = { country = UCS alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = UCS }
+		command = { trigger = { country = URO alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = URO }
+		command = { trigger = { country = UER alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = UER }
+		command = { trigger = { country = UGS alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = UGS }
+		command = { trigger = { country = UPE alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = UPE }
+		command = { trigger = { country = UTC alliance = { country = U03 country = VIC } } type = non_aggression which = U03 where = UTC }
+		command = { trigger = { country = AFG alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = AFG }
+		command = { trigger = { country = ALB alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = ALB }
+		command = { trigger = { country = ALG alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = ALG }
+		command = { trigger = { country = ANG alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = ANG }
+		command = { trigger = { country = ARA alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = ARA }
+		command = { trigger = { country = ARG alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = ARG }
+		command = { trigger = { country = ARM alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = ARM }
+		command = { trigger = { country = AST alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = AST }
+		command = { trigger = { country = AUS alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = AUS }
+		command = { trigger = { country = AZB alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = AZB }
+		command = { trigger = { country = BEL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = BEL }
+		command = { trigger = { country = BEN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = BEN }
+		command = { trigger = { country = BHU alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = BHU }
+		command = { trigger = { country = BLR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = BLR }
+		command = { trigger = { country = BOL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = BOL }
+		command = { trigger = { country = BOS alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = BOS }
+		command = { trigger = { country = BRA alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = BRA }
+		command = { trigger = { country = BRU alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = BRU }
+		command = { trigger = { country = BUL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = BUL }
+		command = { trigger = { country = BUR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = BUR }
+		command = { trigger = { country = CAL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CAL }
+		command = { trigger = { country = CAM alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CAM }
+		command = { trigger = { country = CAN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CAN }
+		command = { trigger = { country = CGX alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CGX }
+		command = { trigger = { country = CHC alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CHC }
+		command = { trigger = { country = CHI alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CHI }
+		command = { trigger = { country = CHL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CHL }
+		command = { trigger = { country = CMB alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CMB }
+		command = { trigger = { country = COL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = COL }
+		command = { trigger = { country = CON alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CON }
+		command = { trigger = { country = COS alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = COS }
+		command = { trigger = { country = CRO alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CRO }
+		command = { trigger = { country = CSA alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CSA }
+		command = { trigger = { country = CSX alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CSX }
+		command = { trigger = { country = CUB alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CUB }
+		command = { trigger = { country = CXB alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CXB }
+		command = { trigger = { country = CYN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CYN }
+		command = { trigger = { country = CYP alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CYP }
+		command = { trigger = { country = CZE alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = CZE }
+		command = { trigger = { country = DDR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = DDR }
+		command = { trigger = { country = DEN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = DEN }
+		command = { trigger = { country = DFR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = DFR }
+		command = { trigger = { country = DOM alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = DOM }
+		command = { trigger = { country = EAF alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = EAF }
+		command = { trigger = { country = ECU alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = ECU }
+		command = { trigger = { country = EGY alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = EGY }
+		command = { trigger = { country = ENG alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = ENG }
+		command = { trigger = { country = EQA alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = EQA }
+		command = { trigger = { country = EST alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = EST }
+		command = { trigger = { country = ETH alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = ETH }
+		command = { trigger = { country = EUS alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = EUS }
+		command = { trigger = { country = FIN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = FIN }
+		command = { trigger = { country = FLA alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = FLA }
+		command = { trigger = { country = U04 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U04 }
+		command = { trigger = { country = GAB alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = GAB }
+		command = { trigger = { country = GEO alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = GEO }
+		command = { trigger = { country = GER alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = GER }
+		command = { trigger = { country = GLD alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = GLD }
+		command = { trigger = { country = GRE alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = GRE }
+		command = { trigger = { country = GUA alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = GUA }
+		command = { trigger = { country = GUI alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = GUI }
+		command = { trigger = { country = GUY alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = GUY }
+		command = { trigger = { country = HAI alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = HAI }
+		command = { trigger = { country = HOL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = HOL }
+		command = { trigger = { country = HON alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = HON }
+		command = { trigger = { country = HUN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = HUN }
+		command = { trigger = { country = ICL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = ICL }
+		command = { trigger = { country = IDC alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = IDC }
+		command = { trigger = { country = IND alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = IND }
+		command = { trigger = { country = INO alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = INO }
+		command = { trigger = { country = IRE alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = IRE }
+		command = { trigger = { country = IRQ alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = IRQ }
+		command = { trigger = { country = ISR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = ISR }
+		command = { trigger = { country = ITA alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = ITA }
+		command = { trigger = { country = JAP alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = JAP }
+		command = { trigger = { country = JOR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = JOR }
+		command = { trigger = { country = KAZ alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = KAZ }
+		command = { trigger = { country = KOR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = KOR }
+		command = { trigger = { country = KUR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = KUR }
+		command = { trigger = { country = KYG alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = KYG }
+		command = { trigger = { country = LAO alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = LAO }
+		command = { trigger = { country = LAT alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = LAT }
+		command = { trigger = { country = LBY alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = LBY }
+		command = { trigger = { country = LEB alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = LEB }
+		command = { trigger = { country = LIB alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = LIB }
+		command = { trigger = { country = LIT alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = LIT }
+		command = { trigger = { country = LUX alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = LUX }
+		command = { trigger = { country = MAD alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = MAD }
+		command = { trigger = { country = MAL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = MAL }
+		command = { trigger = { country = MAN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = MAN }
+		command = { trigger = { country = MEN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = MEN }
+		command = { trigger = { country = MEX alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = MEX }
+		command = { trigger = { country = MLY alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = MLY }
+		command = { trigger = { country = MON alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = MON }
+		command = { trigger = { country = MOR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = MOR }
+		command = { trigger = { country = MOZ alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = MOZ }
+		command = { trigger = { country = MTN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = MTN }
+		command = { trigger = { country = NAM alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = NAM }
+		command = { trigger = { country = NEP alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = NEP }
+		command = { trigger = { country = NIC alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = NIC }
+		command = { trigger = { country = NIG alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = NIG }
+		command = { trigger = { country = NOR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = NOR }
+		command = { trigger = { country = NZL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = NZL }
+		command = { trigger = { country = OMN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = OMN }
+		command = { trigger = { country = OTT alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = OTT }
+		command = { trigger = { country = PAK alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = PAK }
+		command = { trigger = { country = PAL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = PAL }
+		command = { trigger = { country = PAN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = PAN }
+		command = { trigger = { country = PAR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = PAR }
+		command = { trigger = { country = PER alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = PER }
+		command = { trigger = { country = PHI alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = PHI }
+		command = { trigger = { country = POL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = POL }
+		command = { trigger = { country = POR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = POR }
+		command = { trigger = { country = PRI alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = PRI }
+		command = { trigger = { country = PRK alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = PRK }
+		command = { trigger = { country = PRU alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = PRU }
+		command = { trigger = { country = QUE alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = QUE }
+		command = { trigger = { country = RHO alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = RHO }
+		command = { trigger = { country = ROM alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = ROM }
+		command = { trigger = { country = RSI alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = RSI }
+		command = { trigger = { country = RUS alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = RUS }
+		command = { trigger = { country = SAF alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SAF }
+		command = { trigger = { country = SAL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SAL }
+		command = { trigger = { country = SAR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SAR }
+		command = { trigger = { country = SAU alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SAU }
+		command = { trigger = { country = SCA alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SCA }
+		command = { trigger = { country = SCH alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SCH }
+		command = { trigger = { country = SCO alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SCO }
+		command = { trigger = { country = SER alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SER }
+		command = { trigger = { country = SIA alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SIA }
+		command = { trigger = { country = SIB alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SIB }
+		command = { trigger = { country = SIE alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SIE }
+		command = { trigger = { country = SIK alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SIK }
+		command = { trigger = { country = SLO alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SLO }
+		command = { trigger = { country = SLV alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SLV }
+		command = { trigger = { country = SOM alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SOM }
+		command = { trigger = { country = SOV alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SOV }
+		command = { trigger = { country = SPA alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SPA }
+		command = { trigger = { country = SPR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SPR }
+		command = { trigger = { country = SUD alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SUD }
+		command = { trigger = { country = SWE alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SWE }
+		command = { trigger = { country = SYR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = SYR }
+		command = { trigger = { country = TAJ alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = TAJ }
+		command = { trigger = { country = TAN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = TAN }
+		command = { trigger = { country = TEX alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = TEX }
+		command = { trigger = { country = TIB alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = TIB }
+		command = { trigger = { country = TRA alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = TRA }
+		command = { trigger = { country = TRK alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = TRK }
+		command = { trigger = { country = TUN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = TUN }
+		command = { trigger = { country = TUR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = TUR }
+		command = { trigger = { country = UKR alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = UKR }
+		command = { trigger = { country = URU alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = URU }
+		command = { trigger = { country = USA alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = USA }
+		command = { trigger = { country = UZB alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = UZB }
+		command = { trigger = { country = VEN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = VEN }
+		command = { trigger = { country = VIE alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = VIE }
+		command = { trigger = { country = WLL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = WLL }
+		command = { trigger = { country = YEM alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = YEM }
+		command = { trigger = { country = YUG alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = YUG }
+		command = { trigger = { country = U01 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U01 }
+		command = { trigger = { country = U02 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U02 }
+		command = { trigger = { country = U04 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U04 }
+		command = { trigger = { country = U04 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U04 }
+		command = { trigger = { country = U05 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U05 }
+		command = { trigger = { country = U06 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U06 }
+		command = { trigger = { country = U08 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U08 }
+		command = { trigger = { country = U09 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U09 }
+		command = { trigger = { country = U10 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U10 }
+		command = { trigger = { country = U11 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U11 }
+		command = { trigger = { country = U12 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U12 }
+		command = { trigger = { country = U13 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U13 }
+		command = { trigger = { country = U14 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U14 }
+		command = { trigger = { country = U15 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U15 }
+		command = { trigger = { country = U16 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U16 }
+		command = { trigger = { country = U17 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U17 }
+		command = { trigger = { country = U18 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U18 }
+		command = { trigger = { country = U19 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U19 }
+		command = { trigger = { country = U20 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U20 }
+		command = { trigger = { country = U21 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U21 }
+		command = { trigger = { country = U22 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U22 }
+		command = { trigger = { country = U23 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U23 }
+		command = { trigger = { country = U24 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U24 }
+		command = { trigger = { country = U25 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U25 }
+		command = { trigger = { country = U26 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U26 }
+		command = { trigger = { country = U27 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U27 }
+		command = { trigger = { country = U28 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U28 }
+		command = { trigger = { country = U29 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U29 }
+		command = { trigger = { country = U30 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U30 }
+		command = { trigger = { country = U31 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U31 }
+		command = { trigger = { country = U32 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U32 }
+		command = { trigger = { country = U33 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U33 }
+		command = { trigger = { country = U34 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U34 }
+		command = { trigger = { country = U35 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U35 }
+		command = { trigger = { country = U36 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U36 }
+		command = { trigger = { country = U37 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U37 }
+		command = { trigger = { country = U39 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U39 }
+		command = { trigger = { country = U40 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U40 }
+		command = { trigger = { country = U41 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U41 }
+		command = { trigger = { country = U42 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U42 }
+		command = { trigger = { country = U43 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U43 }
+		command = { trigger = { country = U44 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U44 }
+		command = { trigger = { country = U45 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U45 }
+		command = { trigger = { country = U46 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U46 }
+		command = { trigger = { country = U47 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U47 }
+		command = { trigger = { country = U48 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U48 }
+		command = { trigger = { country = U49 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U49 }
+		command = { trigger = { country = U50 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U50 }
+		command = { trigger = { country = U51 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U51 }
+		command = { trigger = { country = U52 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U52 }
+		command = { trigger = { country = U53 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U53 }
+		command = { trigger = { country = U54 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U54 }
+		command = { trigger = { country = U55 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U55 }
+		command = { trigger = { country = U56 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U56 }
+		command = { trigger = { country = U57 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U57 }
+		command = { trigger = { country = U58 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U58 }
+		command = { trigger = { country = U59 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U59 }
+		command = { trigger = { country = U60 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U60 }
+		command = { trigger = { country = U61 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U61 }
+		command = { trigger = { country = U62 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U62 }
+		command = { trigger = { country = U63 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U63 }
+		command = { trigger = { country = U64 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U64 }
+		command = { trigger = { country = U65 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U65 }
+		command = { trigger = { country = U66 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U66 }
+		command = { trigger = { country = U67 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U67 }
+		command = { trigger = { country = U68 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U68 }
+		command = { trigger = { country = U69 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U69 }
+		command = { trigger = { country = U70 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U70 }
+		command = { trigger = { country = U71 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U71 }
+		command = { trigger = { country = U72 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U72 }
+		command = { trigger = { country = U73 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U73 }
+		command = { trigger = { country = U74 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U74 }
+		command = { trigger = { country = U75 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U75 }
+		command = { trigger = { country = U76 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U76 }
+		command = { trigger = { country = U77 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U77 }
+		command = { trigger = { country = U78 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U78 }
+		command = { trigger = { country = U79 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U79 }
+		command = { trigger = { country = U80 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U80 }
+		command = { trigger = { country = U81 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U81 }
+		command = { trigger = { country = U82 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U82 }
+		command = { trigger = { country = U83 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U83 }
+		command = { trigger = { country = U84 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U84 }
+		command = { trigger = { country = U85 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U85 }
+		command = { trigger = { country = U86 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U86 }
+		command = { trigger = { country = U87 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U87 }
+		command = { trigger = { country = U88 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U88 }
+		command = { trigger = { country = U89 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U89 }
+		command = { trigger = { country = U90 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U90 }
+		command = { trigger = { country = U91 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U91 }
+		command = { trigger = { country = U92 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U92 }
+		command = { trigger = { country = U93 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U93 }
+		command = { trigger = { country = U94 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U94 }
+		command = { trigger = { country = U95 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U95 }
+		command = { trigger = { country = U96 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U96 }
+		command = { trigger = { country = U97 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U97 }
+		command = { trigger = { country = U98 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U98 }
+		command = { trigger = { country = U99 alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = U99 }
+		command = { trigger = { country = USN alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = USN }
+		command = { trigger = { country = UIC alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = UIC }
+		command = { trigger = { country = UTL alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = UTL }
+		command = { trigger = { country = UAU alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = UAU }
+		command = { trigger = { country = UPS alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = UPS }
+		command = { trigger = { country = UCH alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = UCH }
+		command = { trigger = { country = UBO alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = UBO }
+		command = { trigger = { country = UCS alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = UCS }
+		command = { trigger = { country = URO alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = URO }
+		command = { trigger = { country = UER alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = UER }
+		command = { trigger = { country = UGS alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = UGS }
+		command = { trigger = { country = UPE alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = UPE }
+		command = { trigger = { country = UTC alliance = { country = U04 country = VIC } } type = non_aggression which = U04 where = UTC }
 	}
 }
 
@@ -3596,6 +3613,7 @@ event = {
 		command = { type = end_non_aggression which = VIC where = U34 }
 		command = { type = end_non_aggression which = VIC where = U35 }
 		command = { type = end_non_aggression which = VIC where = U36 }
+		command = { type = end_non_aggression which = VIC where = U37 }
 		command = { type = end_non_aggression which = VIC where = U39 }
 		command = { type = end_non_aggression which = VIC where = U40 }
 		command = { type = end_non_aggression which = VIC where = U41 }
@@ -3681,7 +3699,7 @@ event = {
 	country = U03
 
 	trigger = {
-		war 	 				= { country = ENG } 
+		#war 	 				= { country = ENG } 
 		event					= { id = 2002011 days = 30 } #Attack on Mers-el-Kebir
 		OR = {
 			NOT = { non_aggression	= { country = ENG } }
@@ -3726,7 +3744,7 @@ event = {
 		command = { type = end_non_aggression which = U03 where = CAN }
 		command = { type = end_non_aggression which = U03 where = CGX }
 		command = { type = end_non_aggression which = U03 where = CHC }
-		command = { type = end_non_aggression which = U03 where = CHI }
+		#command = { type = end_non_aggression which = U03 where = CHI }
 		command = { type = end_non_aggression which = U03 where = CHL }
 		command = { type = end_non_aggression which = U03 where = CMB }
 		command = { type = end_non_aggression which = U03 where = COL }
@@ -3895,6 +3913,7 @@ event = {
 		command = { type = end_non_aggression which = U03 where = U34 }
 		command = { type = end_non_aggression which = U03 where = U35 }
 		command = { type = end_non_aggression which = U03 where = U36 }
+		command = { type = end_non_aggression which = U03 where = U37 }
 		command = { type = end_non_aggression which = U03 where = U39 }
 		command = { type = end_non_aggression which = U03 where = U40 }
 		command = { type = end_non_aggression which = U03 where = U41 }
@@ -3980,7 +3999,7 @@ event = {
 	country = U04
 
 	trigger = {
-		war 	 				= { country = ENG } 
+		#war 	 				= { country = ENG } 
 		event					= { id = 2002011 days = 30 } #Attack on Mers-el-Kebir
 		OR = {
 			NOT = { non_aggression	= { country = ENG } }
@@ -4194,6 +4213,7 @@ event = {
 		command = { type = end_non_aggression which = U04 where = U34 }
 		command = { type = end_non_aggression which = U04 where = U35 }
 		command = { type = end_non_aggression which = U04 where = U36 }
+		command = { type = end_non_aggression which = U04 where = U37 }
 		command = { type = end_non_aggression which = U04 where = U39 }
 		command = { type = end_non_aggression which = U04 where = U40 }
 		command = { type = end_non_aggression which = U04 where = U41 }
@@ -4500,13 +4520,13 @@ event = {
 				alliance = { country = ENG country = USA }
 				NOT = { flag = debuff_USA }
 			}
-			event = { id = 2002011 days = 1095 } #3 years since attack on Mers-el-Kebir - UK goes alone
+			event = { id = 2002011 days = 1080 } #3 years since attack on Mers-el-Kebir - UK goes alone
 		}
 		OR = {
 			region = { region = "Libya" country = -3 value = 20 } #Advancing in Libya
 			control = { province = 515 data = -3 } #Took Rome
 			AND = {
-				event = { id = 2002011 days = 1095 } #3 years since attack on Mers-el-Kebir
+				event = { id = 2002011 days = 720 } #2 years since attack on Mers-el-Kebir
 				alliance = { country = ENG country = USA }
 				NOT = { flag = debuff_USA }
 			}
@@ -4557,9 +4577,9 @@ event = {
 
 	action = {
 		name = EVT_961_ACTA
-		command = { type = access which = GER }
-		command = { type = access which = ITA }
-		command = { type = access which = JAP }
+		#command = { type = access which = GER }
+		#command = { type = access which = ITA }
+		#command = { type = access which = JAP }
 		
 		command = { type = end_non_aggression which = VIC where = AFG }
 		command = { type = end_non_aggression which = VIC where = ALB }
@@ -4755,6 +4775,7 @@ event = {
 		command = { type = end_non_aggression which = VIC where = U34 }
 		command = { type = end_non_aggression which = VIC where = U35 }
 		command = { type = end_non_aggression which = VIC where = U36 }
+		command = { type = end_non_aggression which = VIC where = U37 }
 		command = { type = end_non_aggression which = VIC where = U39 }
 		command = { type = end_non_aggression which = VIC where = U40 }
 		command = { type = end_non_aggression which = VIC where = U41 }
@@ -5048,6 +5069,7 @@ event = {
 	action = {
 		name = EVT_976_ACTA
 		ai_chance = 90
+		trigger = { money = 500 }
 		command = { type = money		value = -500  }
 		command = { trigger = { ai = yes } type = money	value = 10 }
 		command = { type = manpowerpool	value = -1    }
@@ -5057,6 +5079,7 @@ event = {
 	action = {
 		name = EVT_976_ACTB
 		ai_chance = 10
+		trigger = { money = 500 }
 		command = { type = money		value = -500  }
 		command = { trigger = { ai = yes } type = money	value = 10 }
 		#about half the cost of 1 modern mult_role for advanced countries
@@ -5204,6 +5227,12 @@ event = {
 		command = { type = demobilize which = land	when = 0 where = 0 value = -1 } #Approximately 10,000 troops refused to join the Allies and melted away
 		
 		command = { type = demobilize which = naval	when = 1 where = 0 value = 10 } #Scuttle most of the navy
+		command = { type = remove_division which = 13500 value = 302 }
+		command = { type = remove_division which = 13500 value = 303 }
+		command = { type = remove_division which = 13500 value = 306 }
+		command = { type = remove_division which = 13500 value = 314 }
+		command = { type = remove_division which = 13500 value = 137 }
+
 		
 		command = { type = leave_alliance when = 1 }
 		command = { type = peace which = ENG value = 1 }
@@ -5320,9 +5349,20 @@ event = {
 		
 		command = { trigger = { event = 981 } type = trigger which = 983 }
 		
+		command = { type = add_division which = "Richelieu" 		value = battleship 		when = 7 }
+		command = { type = add_division which = "Georges Leygues"	value = heavy_cruiser 	when = 5 }
+		command = { type = add_division which = "Montcalm" 			value = light_cruiser 	when = 5 }
+		command = { type = add_division which = "Gloire" 			value = light_cruiser 	when = 5 }
+		command = { type = add_division which = "Jeanne d'Arc" 		value = light_cruiser 	when = 4 }
+		command = { type = add_division 							value = destroyer 		when = 5 }
+		command = { type = add_division 							value = destroyer 		when = 5 }
+		command = { type = add_division								value = submarine 		when = 4 }
+		command = { type = add_division 							value = transport 		when = 2 }
+		command = { type = add_division 							value = transport 		when = 2 }
+		command = { type = add_division 							value = transport 		when = 2 }
+		
 		command = { type = event which = 2002017 where = U55 when = 1 }
 		command = { type = event which = 2002017 where = U57 when = 1 }
-		
 	}
 }
 
@@ -5345,7 +5385,7 @@ event = {
 		command = { type = add_division which = "Milice francaise 1" value = militia when = 6 }
 		command = { type = add_division which = "Milice francaise 2" value = garrison when = 5 }
 		command = { type = add_division which = "Milice francaise 3" value = garrison when = 5 }
-		
+
 		#### Italy gets some French provinces if allied (historical)
 		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 367 when = 1 } #Corsica +
 		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 3060 when = 1 } #Corsica +
@@ -5373,10 +5413,9 @@ event = {
 		#command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 364 when = 1 } #Marseille+
 		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 3135 when = 1 } #+
 		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 2509 when = 1 } #+
-		
+
 		command = { trigger = { NOT = { ispuppet = U03 } war = { country = U03 country = ENG } } type = make_puppet which = U03 } #will also auto-cancel non-aggression (should be puppet of Japan at this point)
 		command = { trigger = { NOT = { ispuppet = U04 } war = { country = U04 country = ENG } } type = make_puppet which = U04 } #will also auto-cancel non-aggression
-		
 	}
 }
 
@@ -5809,7 +5848,7 @@ event = {
 	action = {
 		name = ACTION_NAME_CURSES
 		command = { type = setflag 	which = FraReturn }
-		command = { trigger = { war = { country = JAP } puppet = { country = U03 country = JAP } } type = event which = 991 where = U03 when = 1 }
+		command = { trigger = { war = { country = JAP } alliance = { country = U03 country = JAP } } type = event which = 991 where = U03 when = 1 }
 	}
 }
 
@@ -6339,6 +6378,9 @@ event = {
 		
 		command = { type = event which = 2002085 where = GER when = 0  }
 		command = { type = event which = 2002086 where = U01 when = 0  }
+		
+		command = { type = dissent value = 1 }
+		command = { trigger = { NOT = { local_flag = war_preparedness_debuff } } type = local_clrflag which = war_preparedness }
 		
 		#command = { trigger = { ai = VIC OR = { division_exists = { type = 13500 id = 2024 } division_exists = { type = 13500 id = 2038 } } control = { province = 1792 data = U04 } } type = local_setflag which = fra_div8 }
 		#command = { trigger = { ai = VIC OR = { division_exists = { type = 13500 id = 2025 } division_exists = { type = 13500 id = 2039 } } control = { province = 1862 data = U04 } } type = local_setflag which = fra_div6 }

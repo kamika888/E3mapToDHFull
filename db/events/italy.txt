@@ -1316,8 +1316,8 @@ event = {
 	country = GRE
 	style = 2
 
-	name = EVT_14000021	# The Italian ultimatum_NAME
-	desc = EVT_14000021	# The Italian ultimatum_DESC
+	name = EVT_14000021_NAME
+	desc = EVT_14000021_DESC
 
 	action = {
 		name = EVT_14000021_ACTA
@@ -1410,8 +1410,6 @@ event = {
 		command = { type = belligerence which = ITA value = 5 }
 		
 		command = { type = ai which = "nations\ITA_GRE.ai" }
-		command = { type = local_setflag which = gar value = 50 }
-		command = { type = ai which = "garrison50.ai" }
 	}
 }
 
@@ -2528,14 +2526,16 @@ event = {
 
 	trigger = {
 		war = { country = ENG }
-		#Should Sardinia count or not? Probably should.
+		#Should Sardinia count or not? Probably shouldn't on its own.
 		OR = {
-			region 	= { region = "Italy" 			country = -2 value = 8   } #74*0.08=5.9 (6, from which 2 can be Malta and Pantelleria)
-			area 	= { area = "Sicilian Gap" 		country = -2 value = 80  } #7 *0.8 =5.6 (6, from which 2 can be Malta and Pantelleria)
-		}
-		NOT = {
-			region 	= { region = "Italy" 			country = REB	value = 1   } 
-			area 	= { area = "Sicilian Gap" 		country = REB	value = 20  }
+			AND = {
+				region 	= { region = "Italy" 			country = -2 	value = 12  } #74*0.12=8.8 (9, from which 2 can be Malta and Pantelleria, 5 can be from Sardinia, at least 2 extra)
+				NOT = { region 	= { region = "Italy" 	country = REB	value = 2 } }
+			}
+			AND = {
+				area 	= { area = "Sicilian Gap" 		country = -2 	value = 80  } #7 *0.80=5.6 (6, from which 2 can be Malta and Pantelleria)
+				area 	= { area = "Sicilian Gap" 		country = REB	value = 20  }
+			}
 		}
 	}
 
