@@ -4715,46 +4715,18 @@ event = {
 	id = 9000100
 	random = no
 	persistent = yes
+	one_action = yes
 	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
 
 	decision = {
-		atwar = yes
-		submarine = { value = 1 when = now }
+		submarine = { value = 5 when = now }
+		NOT = { local_flag = USW_change }
 	}
 	decision_trigger = {
 	}
 	trigger = { 
-		atwar = yes
-		submarine = { value = 1 when = now }
-		OR = {
-			AND = {
-				NOT = { local_flag = USW }
-				#AI will always do if at war with a great power
-				OR = {
-					war = { country = ENG }
-					war = { country = VIC }
-					war = { country = FRA }
-					war = { country = GER }
-					war = { country = JAP }
-					war = { country = USA }
-					war = { country = ITA }
-					war = { country = SOV }
-				}
-			}
-			AND = {
-				local_flag = USW
-				NOT = {
-					war = { country = ENG }
-					war = { country = VIC }
-					war = { country = FRA }
-					war = { country = GER }
-					war = { country = JAP }
-					war = { country = USA }
-					war = { country = ITA }
-					war = { country = SOV }
-				}
-			}
-		}
+		local_flag = NOUSW
+		NOT = { local_flag = USW_change }
 	}
 
 	name = EVT_9000100_NAME
@@ -4769,8 +4741,36 @@ event = {
 	
 	action = {
 		name = EVT_9000100_ACTA
-		trigger = { NOT = { local_flag = USW } }
-		command = { type = belligerence value = 5 }
+		trigger = { local_flag = NOUSW }
+		command = { type = local_setflag which = USW_change }
+		
+		command = { type = event which = 9000101 where = -1 when = 30 }
+	}
+	action = {
+		name = EVT_9000100_ACTB
+		trigger = { NOT = { local_flag = NOUSW } }
+		command = { type = local_setflag which = USW_change }
+		
+		command = { type = event which = 9000101 where = -1 when = 30 }
+	}
+}
+
+event = {
+	id = 9000101
+	random = no
+	persistent = yes
+	one_action = yes
+
+	name = EVT_9000101_NAME
+	desc = EVT_9000101_DESC
+	style = 2
+	picture = "prize_rules2"
+	
+	action = {
+		name = ACTION_NAME_GREAT
+		trigger = { local_flag = NOUSW }
+		
+		command = { type = belligerence value = 2 }
 		
 		#visibility adjustment by event is, like many things, borked
 		#command = { type = visibility 					which = submarine			value = -2.00  }
@@ -4788,19 +4788,22 @@ event = {
 		command = { trigger = { NOT = { country = USA war = { country = USA } } } type = relation which = USA value = -30 }
 		command = { trigger = { NOT = { country = ENG war = { country = ENG } } } type = relation which = ENG value = -30 }
 		
-		command = { type = local_setflag which = USW }
-		command = { trigger = { country = GER } type = setflag which = USW_GER }
-		command = { trigger = { country = ITA } type = setflag which = USW_ITA }
-		command = { trigger = { country = JAP } type = setflag which = USW_JAP }
-		command = { trigger = { country = VIC } type = setflag which = USW_VIC }
-		command = { trigger = { country = ENG } type = setflag which = USW_ENG }
-		command = { trigger = { country = USA } type = setflag which = USW_USA }
-		command = { trigger = { country = SOV } type = setflag which = USW_SOV }
+		command = { type = local_clrflag which = NOUSW }
+		command = { trigger = { country = GER } type = clrflag which = NOUSW_GER }
+		command = { trigger = { country = ITA } type = clrflag which = NOUSW_ITA }
+		command = { trigger = { country = JAP } type = clrflag which = NOUSW_JAP }
+		command = { trigger = { country = VIC } type = clrflag which = NOUSW_VIC }
+		command = { trigger = { country = ENG } type = clrflag which = NOUSW_ENG }
+		command = { trigger = { country = USA } type = clrflag which = NOUSW_USA }
+		command = { trigger = { country = SOV } type = clrflag which = NOUSW_SOV }
+		
+		command = { type = local_clrflag which = USW_change }
 	}
 	action = {
-		name = EVT_9000100_ACTB
-		trigger = { local_flag = USW }
-		command = { type = belligerence value = -4 }
+		name = ACTION_NAME_GREAT
+		trigger = { NOT = { local_flag = NOUSW } }
+		
+		command = { type = belligerence value = -1.5 }
 		
 		#command = { type = visibility 					which = submarine			value = 2.00   }
 		command = { type = convoy_attack 				which = submarine			value = -4.00  }
@@ -4817,114 +4820,113 @@ event = {
 		command = { trigger = { NOT = { country = USA war = { country = USA } } } type = relation which = USA value = 20 }
 		command = { trigger = { NOT = { country = ENG war = { country = ENG } } } type = relation which = ENG value = 20 }
 		
-		command = { type = local_clrflag which = USW }
-		command = { trigger = { country = GER } type = clrflag which = USW_GER }
-		command = { trigger = { country = ITA } type = clrflag which = USW_ITA }
-		command = { trigger = { country = JAP } type = clrflag which = USW_JAP }
-		command = { trigger = { country = VIC } type = clrflag which = USW_VIC }
-		command = { trigger = { country = ENG } type = clrflag which = USW_ENG }
-		command = { trigger = { country = USA } type = clrflag which = USW_USA }
-		command = { trigger = { country = SOV } type = clrflag which = USW_SOV }
+		command = { type = local_setflag which = NOUSW }
+		command = { trigger = { country = GER } type = setflag which = NOUSW_GER }
+		command = { trigger = { country = ITA } type = setflag which = NOUSW_ITA }
+		command = { trigger = { country = JAP } type = setflag which = NOUSW_JAP }
+		command = { trigger = { country = VIC } type = setflag which = NOUSW_VIC }
+		command = { trigger = { country = ENG } type = setflag which = NOUSW_ENG }
+		command = { trigger = { country = USA } type = setflag which = NOUSW_USA }
+		command = { trigger = { country = SOV } type = setflag which = NOUSW_SOV }
+		
+		command = { type = local_clrflag which = USW_change }
 	}
 }
 
-		#command = { trigger = { submarine = 5		} type = belligerence value = 1.0 }	#1.0
-		#command = { trigger = { submarine = 20		} type = belligerence value = 0.9 }	#1.9
-		#command = { trigger = { submarine = 40		} type = belligerence value = 0.8 }	#2.7
-		#command = { trigger = { submarine = 60		} type = belligerence value = 0.7 }	#3.4
-		#command = { trigger = { submarine = 80		} type = belligerence value = 0.6 }	#4.0
-		#command = { trigger = { submarine = 100	} type = belligerence value = 0.5 }	#4.5
-		#command = { trigger = { submarine = 120	} type = belligerence value = 0.4 }	#4.9
-		#command = { trigger = { submarine = 140	} type = belligerence value = 0.3 }	#5.2
-		#command = { trigger = { submarine = 160	} type = belligerence value = 0.2 }	#5.4
-		#command = { trigger = { submarine = 180	} type = belligerence value = 0.1 }	#5.5
-		#command = { trigger = { submarine = 200	} type = belligerence value = 0.1 }	#5.6
-
 event = {
-	id = 9000101
+	id = 9000102
 	random = no
 	persistent = yes
-	one_action = yes
 	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UPE UTC }
 
-	trigger = { 	
-		local_flag = USW
-		atwar = yes
-		
+	trigger = { 
+		local_flag = NOUSW
 		OR = {
-			submarine = { value = 200 when = now }
+			war = { country = ENG }
+			war = { country = VIC }
+			war = { country = FRA }
+			war = { country = GER }
+			war = { country = JAP }
+			war = { country = USA }
+			war = { country = ITA }
+			war = { country = SOV }
+		}
+		submarine = { value = 5 when = now }
+		OR = {
 			AND = {
-				submarine = { value = 180 when = now }
-				random = 90
+				 local_flag = { which = MOB_level when = 1 value = 1 }
+				 belligerence = { value = 1  } #0
 			}
 			AND = {
-				submarine = { value = 160 when = now }
-				random = 80
+				 local_flag = { which = MOB_level when = 1 value = 2 }
+				 belligerence = { value = 3  } #1
 			}
 			AND = {
-				submarine = { value = 140 when = now }
-				random = 70
+				 local_flag = { which = MOB_level when = 1 value = 3 }
+				 belligerence = { value = 7  } #2
 			}
 			AND = {
-				submarine = { value = 120 when = now }
-				random = 60
+				 local_flag = { which = MOB_level when = 1 value = 4 }
+				 belligerence = { value = 13 } #3
 			}
 			AND = {
-				submarine = { value = 100 when = now }
-				random = 50
+				 local_flag = { which = MOB_level when = 1 value = 5 }
+				 belligerence = { value = 34 } #4
 			}
 			AND = {
-				submarine = { value = 80 when = now }
-				random = 40
+				 local_flag = { which = MOB_level when = 1 value = 6 }
+				 belligerence = { value = 50 } #5
 			}
 			AND = {
-				submarine = { value = 60 when = now }
-				random = 30
+				 local_flag = { which = MOB_level when = 1 value = 7 }
+				 belligerence = { value = 61 } #6
 			}
 			AND = {
-				submarine = { value = 40 when = now }
-				random = 20
+				 local_flag = { which = MOB_level when = 1 value = 8 }
+				 belligerence = { value = 70 } #7
 			}
 			AND = {
-				submarine = { value = 20 when = now }
-				random = 10
+				 local_flag = { which = MOB_level when = 1 value = 9 }
+				 belligerence = { value = 77 } #8
 			}
 			AND = {
-				submarine = { value = 5 when = now }
-				random = 5
-			}
-			AND = {
-				submarine = { value = 1 when = now }
-				random = 1
+				 local_flag = { which = MOB_level when = 1 value = 10 }
+				 belligerence = { value = 82 } #9
 			}
 		}
-    }
+	}
 
-	name = EVT_9000101_NAME
-	desc = EVT_9000101_DESC
+	name = EVT_9000102_NAME
+	desc = EVT_9000102_DESC
 	style = 2
 	picture = "prize_rules2"
-
+	
 	date = { day = 1 month = january year = 1936 }
-	offset = 10
-	deathdate = { day = 1 month = april year = 1969 }
+	offset = 30
+	deathdate = { day = 1 month = april year = 1956 }	
 	
 	action = {
-		name = EVT_9000101_ACTA
-		ai_chance = 30
-		command = { type = belligerence										value = 2 }
-		command = { type = local_setflag when = 1	which = USW_SunkCount 	value = 3 }
-	}
-	action = {
-		name = EVT_9000101_ACTB
-		ai_chance = 40
-		command = { type = belligerence										value = 2 }
-		command = { type = local_setflag when = 1	which = USW_SunkCount	value = 2 }
-	}
-	action = {
-		name = EVT_9000101_ACTC
-		ai_chance = 30
-		command = { type = belligerence										value = 1 }
-		command = { type = local_setflag when = 1	which = USW_SunkCount	value = 1 }
+		name = ACTION_NAME_GREAT
+		command = { trigger = { 										 NOT = { submarine = { value = 10	when = now } } } type = belligerence value = -0.4 }
+		command = { trigger = { submarine = { value = 10	when = now } NOT = { submarine = { value = 20	when = now } } } type = belligerence value = -0.6 }
+		command = { trigger = { submarine = { value = 20	when = now } NOT = { submarine = { value = 30	when = now } } } type = belligerence value = -0.8 }
+		command = { trigger = { submarine = { value = 30	when = now } NOT = { submarine = { value = 40	when = now } } } type = belligerence value = -1.0 }
+		command = { trigger = { submarine = { value = 40	when = now } NOT = { submarine = { value = 50	when = now } } } type = belligerence value = -1.2 }
+		command = { trigger = { submarine = { value = 50	when = now } NOT = { submarine = { value = 60	when = now } } } type = belligerence value = -1.4 }
+		command = { trigger = { submarine = { value = 60	when = now } NOT = { submarine = { value = 70	when = now } } } type = belligerence value = -1.6 }
+		command = { trigger = { submarine = { value = 70	when = now } NOT = { submarine = { value = 80	when = now } } } type = belligerence value = -1.8 }
+		command = { trigger = { submarine = { value = 80	when = now } NOT = { submarine = { value = 90	when = now } } } type = belligerence value = -2.0 }
+		command = { trigger = { submarine = { value = 90	when = now } NOT = { submarine = { value = 100	when = now } } } type = belligerence value = -2.2 }
+		command = { trigger = { submarine = { value = 100	when = now } NOT = { submarine = { value = 110	when = now } } } type = belligerence value = -2.4 }
+		command = { trigger = { submarine = { value = 110	when = now } NOT = { submarine = { value = 120	when = now } } } type = belligerence value = -2.6 }
+		command = { trigger = { submarine = { value = 120	when = now } NOT = { submarine = { value = 130	when = now } } } type = belligerence value = -2.8 }
+		command = { trigger = { submarine = { value = 130	when = now } NOT = { submarine = { value = 140	when = now } } } type = belligerence value = -3.0 }
+		command = { trigger = { submarine = { value = 140	when = now } NOT = { submarine = { value = 150	when = now } } } type = belligerence value = -3.2 }
+		command = { trigger = { submarine = { value = 150	when = now } NOT = { submarine = { value = 160	when = now } } } type = belligerence value = -3.4 }
+		command = { trigger = { submarine = { value = 160	when = now } NOT = { submarine = { value = 170	when = now } } } type = belligerence value = -3.6 }
+		command = { trigger = { submarine = { value = 170	when = now } NOT = { submarine = { value = 180	when = now } } } type = belligerence value = -3.8 }
+		command = { trigger = { submarine = { value = 180	when = now } NOT = { submarine = { value = 190	when = now } } } type = belligerence value = -4.0 }
+		command = { trigger = { submarine = { value = 190	when = now } NOT = { submarine = { value = 200	when = now } } } type = belligerence value = -4.2 }
+		command = { trigger = { submarine = { value = 200	when = now }												   } type = belligerence value = -4.4 }
 	}
 }
