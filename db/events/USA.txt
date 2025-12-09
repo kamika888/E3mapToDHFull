@@ -1996,8 +1996,16 @@ event = {
 				belligerence = { country = JAP value = 70 } 
 			}
 		}
-		NOT = { belligerence = { country = ENG value = 160 } }
 		OR = {
+			NOT = { belligerence = { country = ENG value = 160 } }
+			war = { country = GER country = ENG }
+			event = 2003202 #Potsdam
+		}
+		OR = {
+			#japan is close to surrender
+			nuked = { country = JAP data = -2 }
+			lost_national = { country = JAP value = 20 } 
+		
 			belligerence = { country = JAP value = 280 } 
 			#Japan getting close to victory in China despite the aid
 			flag = { which = japChi when = 1 value = 55  }
@@ -2018,7 +2026,7 @@ event = {
 			}
 		}
 		
-		control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
+		#control = { province = 123 data = SOV } #Terijoki (Finland defeated OR gave in)
 		NOT = { 
 			#war = { country = GER }
 			war = { country = JAP }
@@ -2043,38 +2051,71 @@ event = {
 	action = {
 		name = EVT_590_ACTA
 		command = { 														   type = dissent value = 0.5 } #Foreign adventure, not a clear existential threat
-		command = { trigger = { belligerence = { country = ENG value =  80 } } type = dissent value = 2  }
-		command = { trigger = { belligerence = { country = ENG value =  90 } } type = dissent value = 2  }
-		command = { trigger = { belligerence = { country = ENG value = 100 } } type = dissent value = 2  }
-		command = { trigger = { belligerence = { country = ENG value = 110 } } type = dissent value = 2  }
-		command = { trigger = { belligerence = { country = ENG value = 120 } } type = dissent value = 2  }
-		command = { trigger = { belligerence = { country = ENG value = 130 } } type = dissent value = 2  }
-		command = { trigger = { belligerence = { country = ENG value = 140 } } type = dissent value = 2  }
-		command = { trigger = { belligerence = { country = ENG value = 150 } } type = dissent value = 2  }
-		command = { trigger = { belligerence = { country = ENG value = 160 } } type = dissent value = 2  }
-		command = { trigger = { belligerence = { country = ENG value = 170 } } type = dissent value = 2  }
+		command = { trigger = { belligerence = { country = ENG value =  80 } NOT = { war = { country = GER country = ENG } event = 2003202 } } type = dissent value = 2  }
+		command = { trigger = { belligerence = { country = ENG value =  90 } NOT = { war = { country = GER country = ENG } event = 2003202 } } type = dissent value = 2  }
+		command = { trigger = { belligerence = { country = ENG value = 100 } NOT = { war = { country = GER country = ENG } event = 2003202 } } type = dissent value = 2  }
+		command = { trigger = { belligerence = { country = ENG value = 110 } NOT = { war = { country = GER country = ENG } event = 2003202 } } type = dissent value = 2  }
+		command = { trigger = { belligerence = { country = ENG value = 120 } NOT = { war = { country = GER country = ENG } event = 2003202 } } type = dissent value = 2  }
+		command = { trigger = { belligerence = { country = ENG value = 130 } NOT = { war = { country = GER country = ENG } event = 2003202 } } type = dissent value = 2  }
+		command = { trigger = { belligerence = { country = ENG value = 140 } NOT = { war = { country = GER country = ENG } event = 2003202 } } type = dissent value = 2  }
+		command = { trigger = { belligerence = { country = ENG value = 150 } NOT = { war = { country = GER country = ENG } event = 2003202 } } type = dissent value = 2  }
+		command = { trigger = { belligerence = { country = ENG value = 160 } NOT = { war = { country = GER country = ENG } event = 2003202 } } type = dissent value = 2  }
+		command = { trigger = { belligerence = { country = ENG value = 170 } NOT = { war = { country = GER country = ENG } event = 2003202 } } type = dissent value = 2  }
 		
 		command = { type = belligerence value = 1 }
 		
-		#Leaving net +3 dissent if there was a non-aggression pact. Otherwise, no dissent.
-		command = { trigger = { non_aggression = { country = SOV country = JAP } } type = local_setflag which = NAPDissent }
-		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = SOV where = JAP } #will give 5 dissent
-		command = { trigger = { local_flag = NAPDissent } type = dissent value = -3 }
-		command = { trigger = { local_flag = NAPDissent } type = belligerence which = SOV	value = 20  }
-		command = { trigger = { local_flag = NAPDissent } type = belligerence which = JAP	value = -20 }
-		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
-		
-		#manchuria may also have NAP, removing it in full
-		command = { trigger = { non_aggression = { country = SOV country = MAN } } type = local_setflag which = NAPDissent }
-		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = SOV where = MAN } #will give 5 dissent
-		command = { trigger = { local_flag = NAPDissent } type = dissent value = -5 }
-		command = { trigger = { local_flag = NAPDissent } type = belligerence which = SOV	value = 5  }
-		command = { trigger = { local_flag = NAPDissent } type = belligerence which = MAN	value = -5 }
-		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
-		
 		command = { type = clrflag which = JAP_SOV_NAP }
 		
-		command = { type = war which = JAP } 
+		#Will give net +1 dissent if there was a non-aggression pact. Otherwise, no dissent.
+		command = { trigger = { non_aggression = { country = JAP country = SOV } } type = local_setflag which = JapSovNAP }
+		command = { trigger = { local_flag = JapSovNAP } type = end_non_aggression which = SOV where = JAP } #will give 5 dissent
+		command = { trigger = { local_flag = JapSovNAP } type = dissent value = -4 }
+		command = { trigger = { local_flag = JapSovNAP } type = belligerence which = SOV	value = 5  }
+		command = { trigger = { local_flag = JapSovNAP } type = belligerence which = JAP	value = -5 }
+		command = { trigger = { local_flag = JapSovNAP } type = local_clrflag which = JapSovNAP }
+		
+		command = { trigger = { non_aggression = { country = MAN country = SOV } } type = local_setflag which = JapSovNAP }
+		command = { trigger = { local_flag = JapSovNAP } type = end_non_aggression which = SOV where = MAN } #will give 5 dissent
+		command = { trigger = { local_flag = JapSovNAP } type = dissent value = -5 }
+		command = { trigger = { local_flag = JapSovNAP } type = local_clrflag which = JapSovNAP }
+		
+		command = { trigger = { non_aggression = { country = MEN country = SOV } } type = local_setflag which = JapSovNAP }
+		command = { trigger = { local_flag = JapSovNAP } type = end_non_aggression which = SOV where = MEN } #will give 5 dissent
+		command = { trigger = { local_flag = JapSovNAP } type = dissent value = -5 }
+		command = { trigger = { local_flag = JapSovNAP } type = local_clrflag which = JapSovNAP }
+		
+		command = { trigger = { non_aggression = { country = U87 country = SOV } } type = local_setflag which = JapSovNAP }
+		command = { trigger = { local_flag = JapSovNAP } type = end_non_aggression which = SOV where = U87 } #will give 5 dissent
+		command = { trigger = { local_flag = JapSovNAP } type = dissent value = -5 }
+		command = { trigger = { local_flag = JapSovNAP } type = local_clrflag which = JapSovNAP }
+		
+		command = { type = end_trades which = SOV where = JAP }
+		
+		
+		#For some mysterious reason this counts as a manual declaration of war, resulting in additional +11.5 dissent.
+		command = { trigger = { atwar = yes }			type = local_setflag which = atWarSov }
+		command = { 									type = war 		which = JAP }
+		command = { 									type = dissent 	value = -11.5 }
+		command = { trigger = { local_flag = atWarSov } type = war 		which = MAN }
+		command = { trigger = { local_flag = atWarSov } type = war 		which = MEN }
+		command = { trigger = { local_flag = atWarSov } type = war 		which = U87 }
+		command = { trigger = { local_flag = atWarSov } type = dissent	value = -34.5 }
+		
+		command = { type = add_claim_area	which = "Jilin"				where = SOV }
+		command = { type = add_claim_area	which = "Heilongjiang"		where = SOV }
+		command = { type = add_claim_area	which = "Liaoning"			where = SOV }
+		command = { type = add_claim_area	which = "Rehe"				where = SOV }
+		command = { type = add_claim_area	which = "Chahar"			where = SOV }
+		command = { type = add_claim_area	which = "Suiyuan_Ningxia"	where = SOV }
+		command = { type = add_claim_area	which = "Rehe"				where = SOV }
+		command = { type = add_claim_area	which = "Pyongyang"			where = SOV }
+		command = { type = add_claim_area	which = "Seoul"				where = SOV }
+		
+		command = { trigger = { ai = yes } type = local_clrflag which = do_not_demob }
+		
+		command = { trigger = { ai = yes } type = non_aggression which = MON where = MEN when = 14 } 
+		command = { trigger = { ai = yes } type = non_aggression which = MON where = U87 when = 14 } 
+		command = { trigger = { ai = yes } type = non_aggression which = MON where = MAN when = 14 } 
 		
 		command = { type = relation which = CHI value =  10 }
 		command = { type = relation which = CHC value =  10 }
@@ -2734,8 +2775,8 @@ event = {
 			AND = {
 				event = { id = 630 days = 210 } #7 months after Lend-Lease
 				OR = {
-					flag = USW_GER
-					flag = USW_ITA
+					NOT = { flag = NOUSW_GER }
+					NOT = { flag = NOUSW_ITA }
 					#roughly everything west of the 26th meridian
 					garrison = { country = GER province = 6580 type = naval size = 3 area = 2 } 
 					garrison = { country = GER province = 6576 type = naval size = 3 area = 2 } 

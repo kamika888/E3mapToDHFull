@@ -361,6 +361,10 @@ event = {
 		
 		command = { type = supplies value = 1000 }
 		
+		command = { type = add_corps 	value = land 		where = 3890 }
+		command = { type = add_division value = garrison	when  = 4 }
+		command = { type = add_division value = garrison	when  = 4 }
+		
 		#may consider temporary annexation by uk
 		
 		command = { type = trigger which = 2001037 } 
@@ -475,6 +479,10 @@ event = {
 		command = { type = secedearea which = GER value = Wallonia when = 1 }
 		
 		command = { type = supplies value = 1000 }
+		
+		command = { type = add_corps 	value = land 		where = 1095 }
+		command = { type = add_division value = garrison	when  = 4 }
+		command = { type = add_division value = garrison	when  = 4 }
 		
 		#may consider temporary annexation by uk
 
@@ -2288,12 +2296,21 @@ event = {
 event = { 
 	id = 2001052
 	random = no 
-	country = ENG
+	tag = { ENG USA }
 	save_date = yes
-
+	
 	decision = {
+		OR = {
+			AND = {
+				country = ENG
+				alliance = { country = USA }
+			}
+			AND = {
+				country = USA
+				alliance = { country = ENG }
+			}
+		}
 		war = { country = GER }
-		alliance = { country = USA }
 		control = { province = 56 data = -3 } # Paris
 	}
 	decision_trigger = {
@@ -2303,8 +2320,16 @@ event = {
 		money = 1000
 	}
 	trigger = {
-		control = { province = 56 data = -3 } # Paris
-		alliance = { country = USA }
+		OR = {
+			AND = {
+				country = ENG
+				alliance = { country = USA }
+			}
+			AND = {
+				country = USA
+				alliance = { country = ENG }
+			}
+		}
 		war = { country = GER }
 		event = { id = 2003036 days = 500 } # Danzig or war
 		control = { province = 56 data = -3 } # Paris
@@ -2841,20 +2866,37 @@ event = {
 event = { 
 	id = 2001059
 	random = no 
-	country = ENG
+	tag = { ENG USA }
 	save_date = yes
 	
 	decision = {
-		alliance = { country = USA }
+		OR = {
+			AND = {
+				country = ENG
+				alliance = { country = USA }
+			}
+			AND = {
+				country = USA
+				alliance = { country = ENG }
+			}
+		}
 		war = { country = GER }
 	}
 	decision_trigger = {
-		alliance = { country = USA }
 		money = 1000
 	}
 	trigger = {
 		random = 30
-		alliance = { country = USA }
+		OR = {
+			AND = {
+				country = ENG
+				alliance = { country = USA }
+			}
+			AND = {
+				country = USA
+				alliance = { country = ENG }
+			}
+		}
 		war = { country = GER }
 	}
 
@@ -3006,6 +3048,12 @@ event = {
 	}
 	decision_trigger = {
 		OR = {
+			belligerence = { country = GER value = 230 } 
+			flag = ENG_invaded
+			NOT = { flag = NOUSW_GER }
+			NOT = { flag = NOUSW_ITA }
+		}
+		OR = {
 			control = { province = 56 data = -3 } # Paris
 			lost_national = { country = GER value = 5 }
 			event = { id = 2001059 days = 240 } #8 months
@@ -3023,6 +3071,12 @@ event = {
 			alliance = { country = BRA country = JAP }
 			war = { country = BRA country = ENG }
 			ispuppet = BRA
+		}
+		OR = {
+			belligerence = { country = GER value = 230 } 
+			flag = ENG_invaded
+			NOT = { flag = NOUSW_GER }
+			NOT = { flag = NOUSW_ITA }
 		}
 		OR = {
 			control = { province = 56 data = -3 } # Paris

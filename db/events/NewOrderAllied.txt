@@ -402,7 +402,7 @@ event = {
 		command = { type = event which = 3140 where = -1 when = 0 } #Grant Military Access to allies
 		
 		command = { type = setflag which = FraReturn }
-		command = { type = trigger which = 2003214 }
+		command = { type = trigger which = 2003290 }
     }
     action = {
         name = EVT_2003200_ACTB
@@ -412,7 +412,7 @@ event = {
 }
 
 event = { 
-	id = 2003214 
+	id = 2003290 
 	random = no 
 	persistent = yes
 	all = yes
@@ -509,7 +509,7 @@ event = {
 
 	}
 	action = {
-		name = EVT_2003214_ACTA
+		name = EVT_2003290_ACTA
 		#Japan and whoever else is left
 		trigger = { OR = { alliance = { country = GER } war = { country = ENG } war = { country = SOV } } }
 		
@@ -526,6 +526,109 @@ event = {
 		command = { type = relation which = VIC value = 10 }
 	}
 }
+
+event = { 
+	id = 2003291 
+	random = no 
+	persistent = yes
+	all = yes
+
+	name = EVT_2001014_NAME
+	desc = EVT_2001014_DESC
+	style = 2
+  	picture = "ita_surrender"	
+	
+	action = {
+		name = "ACTION_NAME_HURRAH"
+		#Big Four only
+		trigger = { OR = { country = USA country = SOV country = ENG country = VIC } }
+		
+		command = { type = dissent	  value = -1 }
+		
+		#Italian blueprints fall into Allied hands and scientists are won over by the Allies
+		command = { type = steal_tech which = ITA }
+		command = { type = steal_tech which = ITA }
+		command = { type = steal_tech which = ITA }
+		command = { type = steal_tech which = ITA }
+		command = { type = steal_tech which = ITA }
+		
+		#Italian scientists contribute to research
+		command = { type = gain_tech which = -1  }
+
+	}
+	action = {
+		name = EVT_2003290_ACTA
+		#Japan and whoever else is left
+		trigger = { OR = { alliance = { country = GER } war = { country = ENG } war = { country = SOV } } }
+		
+		command = { type = dissent	  value = 1   }
+	}
+	action = {
+		name = "ACTION_NAME_GREAT"
+		#Everyone else
+		trigger = { NOT = { country = USA country = SOV country = ENG country = VIC alliance = { country = GER } war = { country = ENG } war = { country = SOV } } }
+		
+		command = { type = relation which = USA value = 10 }
+		command = { type = relation which = SOV value = 10 }
+		command = { type = relation which = ENG value = 10 }
+		command = { type = relation which = VIC value = 10 }
+	}
+}
+
+event = { 
+	id = 2003292 
+	random = no 
+	persistent = yes
+	all = yes
+
+	name = EVT_43_NAME
+	desc = EVT_43_DESC
+	style = 2
+  	picture = "jap_surrender"	
+	
+	action = {
+		name = "ACTION_NAME_HURRAH"
+		#Big Four only
+		trigger = { OR = { country = USA country = SOV country = ENG country = VIC country = CHI country = CHC } }
+		
+		command = { type = dissent	  value = -1 }
+		
+		#Japanese blueprints fall into Allied hands and scientists are won over by the Allies
+		command = { type = steal_tech which = JAP }
+		command = { type = steal_tech which = JAP }
+		command = { type = steal_tech which = JAP }
+		command = { type = steal_tech which = JAP }
+		command = { type = steal_tech which = JAP }
+		command = { type = steal_tech which = JAP }
+		command = { type = steal_tech which = JAP }
+		command = { type = steal_tech which = JAP }
+		command = { type = steal_tech which = JAP }
+		command = { type = steal_tech which = JAP }
+		
+		#Japanese scientists contribute to research
+		command = { type = gain_tech which = -1   }
+		command = { type = gain_tech which = -1   }
+	}
+	action = {
+		name = EVT_2003290_ACTA
+		#Japan and whoever else is left
+		trigger = { OR = { alliance = { country = GER } war = { country = ENG } war = { country = SOV } } }
+		
+		command = { type = dissent	  value = 1   }
+	}
+	action = {
+		name = "ACTION_NAME_GREAT"
+		#Everyone else
+		trigger = { NOT = { country = USA country = SOV country = ENG country = VIC country = CHI country = CHC alliance = { country = GER } war = { country = ENG } war = { country = SOV } } }
+		
+		command = { type = relation which = USA value = 10 }
+		command = { type = relation which = SOV value = 10 }
+		command = { type = relation which = ENG value = 10 }
+		command = { type = relation which = VIC value = 10 }
+	}
+}
+
+
 
 event = {
     id = 2003201
@@ -1367,6 +1470,10 @@ event = {
 			}
 		}
 		
+		command = { type = dissent value = 0.5 } #Foreign adventure, not a clear existential threat
+		
+		command = { type = belligerence value = 1 }
+		
 		command = { type = clrflag which = JAP_SOV_NAP }
 		
 		#Will give net +1 dissent if there was a non-aggression pact. Otherwise, no dissent.
@@ -1395,14 +1502,14 @@ event = {
 		command = { type = end_trades which = SOV where = JAP }
 		
 		
-		#For some mysterious reason this counts as a manual declaration of war, resulting in additional +7.5 dissent.
+		#For some mysterious reason this counts as a manual declaration of war, resulting in additional +11.5 dissent.
 		command = { trigger = { atwar = yes }			type = local_setflag which = atWarSov }
-		command = { 									type = dissent 	value = -7.5 }
 		command = { 									type = war 		which = JAP }
+		command = { 									type = dissent 	value = -11.5 }
 		command = { trigger = { local_flag = atWarSov } type = war 		which = MAN }
 		command = { trigger = { local_flag = atWarSov } type = war 		which = MEN }
 		command = { trigger = { local_flag = atWarSov } type = war 		which = U87 }
-		command = { trigger = { local_flag = atWarSov } type = dissent	value = -22 }
+		command = { trigger = { local_flag = atWarSov } type = dissent	value = -34.5 }
 		
 		command = { type = add_claim_area	which = "Jilin"				where = SOV }
 		command = { type = add_claim_area	which = "Heilongjiang"		where = SOV }
@@ -1420,7 +1527,14 @@ event = {
 		command = { trigger = { ai = yes } type = non_aggression which = MON where = U87 when = 14 } 
 		command = { trigger = { ai = yes } type = non_aggression which = MON where = MAN when = 14 } 
 		
-		command = { type = trigger which = 2003218 }
+		command = { type = relation which = CHI value =  10 }
+		command = { type = relation which = CHC value =  10 }
+		command = { type = relation which = ENG value =  10 }
+		command = { type = relation which = JAP value = -10 }
+
+		command = { type = event which = 591 where = CHI when = 0  }
+		command = { type = event which = 591 where = CHC when = 0  }
+		command = { type = trigger which = 592 }
 	}
 }
 
@@ -2215,7 +2329,7 @@ event = {
 	name = EVT_43_NAME
 	desc = EVT_43_DESC
 	style = 2
-	picture = "news_paper"
+	picture = "jap_surrender"
 
 	trigger = {
 		OR = {
@@ -2460,6 +2574,8 @@ event = {
 		command = { trigger = { flag = JAP_CHC_WAR } type = event which = 2049004 where = CHC when = 1 } #Japan Surrenders     
 		command = { trigger = { flag = JAP_USA_WAR } type = event which = 2049005 where = USA when = 1 } #Japan Surrenders     
 		command = { trigger = { flag = JAP_SOV_WAR } type = event which = 2007011 where = SOV when = 1 } #Japan Surrenders  
+		
+		command = { type = trigger which = 2003292 }
 	}
 	action_b = {
 		ai_chance = 1
@@ -3495,7 +3611,7 @@ event = {
 	name = EVT_44_NAME
 	desc = EVT_44_DESC
 	style = 2
-	picture = "news_paper"
+	picture = "jap_surrender"
 
 	# triggered by Japanese event 2011028
 
@@ -3528,7 +3644,7 @@ event = {
 	name = EVT_45_NAME
 	desc = EVT_45_DESC
 	style = 2
-	picture = "news_paper"
+	picture = "jap_surrender"
 
 	# triggered by Japanese event 2011028
 
@@ -3548,7 +3664,7 @@ event = {
 	name = EVT_45_NAME
 	desc = EVT_45_DESC
 	style = 2
-	picture = "news_paper"
+	picture = "jap_surrender"
 
 	# triggered by Japanese event 2011028
 
@@ -3569,7 +3685,7 @@ event = {
 	name = EVT_45_NAME
 	desc = EVT_45_DESC
 	style = 2
-	picture = "news_paper"
+	picture = "jap_surrender"
 
 	# triggered by Japanese event 2011028
 
