@@ -1119,47 +1119,35 @@ event = {
 
 	action = {
 		name = "9000022text"
-		command = { trigger = { IC = 200 } 						type = money value = 6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = 3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = 1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = 800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = 400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = 200  }
+		command = { trigger = { NOT = { local_flag = exchange_rate 							} } 		type = resource			which = money		value = 30000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 1 	} } 		type = resource			which = money		value = 29000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 2 	} } 		type = resource			which = money		value = 28000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 3 	} } 		type = resource			which = money		value = 27000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 4 	} } 		type = resource			which = money		value = 26000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 5 	} }			type = resource			which = money		value = 25000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 6 	} } 		type = resource			which = money		value = 24000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 7 	} } 		type = resource			which = money		value = 23000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 8 	} } 		type = resource			which = money		value = 22000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 9 	} } 		type = resource			which = money		value = 21000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 10 	} } 		type = resource			which = money		value = 20000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 11	} } 		type = resource			which = money		value = 19000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 12	} } 		type = resource			which = money		value = 18000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 13	} } 		type = resource			which = money		value = 17000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 14	} } 		type = resource			which = money		value = 16000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 15	} } 		type = resource			which = money		value = 15000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 16	} } 		type = resource			which = money		value = 14000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 17	} } 		type = resource			which = money		value = 13000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 18	} } 		type = resource			which = money		value = 12000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 19	} } 		type = resource			which = money		value = 11000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource			which = money		value = 10000  }
 		
-		#Eventually need to transition to a multiplier model rather than fixed tiers. Challenge: the current max daily gain estimate is not modified by the efficiency but IS modified by war_level, which is the opposite of what is actually needed. Possible solution: move the CG to money modifier from the war_level slider itself to the corresponding event, that way it should be ignored in calculations?
-		#command = { trigger = { NOT = { local_flag = exchange_rate 						} } 		type = resource				which = money	value = 30000  }
-		#command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource				which = money	value = 10000  }
+		command = { 																					type = industrial_modifier 	which = IC 		value = -3  } #1 is temp
+		command = { 																					type = industrial_modifier	which = money	value = -3	}
+		command = { 																					type = dissent 								value = 0.5 }
+		command = { trigger = { NOT = { local_flag = { which = WAR_level 	 when = 1 value = 7 } } }	type = dissent 								value = 1.5 }
 		
-		#Each monney issue devaluates the local currency, making it less valuable. To compensate and get the same amount in 'international dollars', more local currency has to be printed each time.
-		#Theoretically devaluation should also make local investments cheaper as well, but this is difficult to implement.
-		
-		command = { 																					type = industrial_modifier 	which = IC 		value = -3   } #1 is temp
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 1 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 2 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 3 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 4 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 5 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 6 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 7 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 8 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 9 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 10 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 11 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 12 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 13 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 14 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 15 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 16 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 17 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 18 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 19 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20 	} }			type = industrial_modifier 	which = IC 		value = -0.2 } #-7 max
-		command = { 																					type = industrial_modifier	which = money	value = -3	 }
-		command = { 																					type = dissent 								value = 0.5  }
-		command = { trigger = { NOT = { local_flag = { which = WAR_level 	 when = 1 value = 7 } } }	type = dissent 								value = 1.5  }
-		
-		command = { type = local_setflag which = exchange_rate 			when = 1 value = 1 }
-		
+		command = { type = local_setflag which = exchange_rate when = 1 value = 1 }
+
 		command = { type = local_setflag which = issue_currency }
 		command = { type = local_setflag which = issue_currency_m_count when = 1 value = 1 }
 		command = { type = event which = 9000022 where = -1 when = 60 }
@@ -1200,46 +1188,34 @@ event = {
 
 	action = {
 		name = EVT_9000021_ACTA
-		command = { trigger = { IC = 200 } 						type = money value = 6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = 3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = 1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = 800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = 400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = 200  }
+		command = { trigger = { NOT = { local_flag = exchange_rate 							} } 		type = resource			which = money		value = 30000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 1 	} } 		type = resource			which = money		value = 29000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 2 	} } 		type = resource			which = money		value = 28000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 3 	} } 		type = resource			which = money		value = 27000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 4 	} } 		type = resource			which = money		value = 26000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 5 	} }			type = resource			which = money		value = 25000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 6 	} } 		type = resource			which = money		value = 24000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 7 	} } 		type = resource			which = money		value = 23000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 8 	} } 		type = resource			which = money		value = 22000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 9 	} } 		type = resource			which = money		value = 21000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 10 	} } 		type = resource			which = money		value = 20000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 11	} } 		type = resource			which = money		value = 19000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 12	} } 		type = resource			which = money		value = 18000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 13	} } 		type = resource			which = money		value = 17000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 14	} } 		type = resource			which = money		value = 16000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 15	} } 		type = resource			which = money		value = 15000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 16	} } 		type = resource			which = money		value = 14000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 17	} } 		type = resource			which = money		value = 13000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 18	} } 		type = resource			which = money		value = 12000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 19	} } 		type = resource			which = money		value = 11000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource			which = money		value = 10000  }
 		
-		#Eventually need to transition to a multiplier model rather than fixed tiers. Challenge: the current max daily gain estimate is not modified by the efficiency but IS modified by war_level, which is the opposite of what is actually needed. Possible solution: move the CG to money modifier from the war_level slider itself to the corresponding event, that way it should be ignored in calculations?
-		#command = { trigger = { NOT = { local_flag = exchange_rate 						} } 		type = resource				which = money	value = 30000  }
-		#command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource				which = money	value = 10000  }
+		command = { 																					type = industrial_modifier 	which = IC 		value = -3  } #1 is temp
+		command = { 																					type = industrial_modifier	which = money	value = -2	}
+		command = { 																					type = dissent 								value = 0.5 }
+		command = { trigger = { NOT = { local_flag = { which = WAR_level 	 when = 1 value = 7 } } }	type = dissent 								value = 1.5 }
 		
-		#Each monney issue devaluates the local currency, making it less valuable. To compensate and get the same amount in 'international dollars', more local currency has to be printed each time.
-		#Theoretically devaluation should also make local investments cheaper as well, but this is difficult to implement.
-		
-		command = { 																					type = industrial_modifier 	which = IC 		value = -3   } #1 is temp
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 1 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 2 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 3 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 4 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 5 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 6 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 7 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 8 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 9 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 10 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 11 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 12 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 13 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 14 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 15 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 16 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 17 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 18 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 19 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
-		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20 	} }			type = industrial_modifier 	which = IC 		value = -0.2 } #-7 max
-		command = { 																					type = industrial_modifier	which = money	value = -3	 }
-		command = { 																					type = dissent 								value = 0.5  }
-		command = { trigger = { NOT = { local_flag = { which = WAR_level 	 when = 1 value = 7 } } }	type = dissent 								value = 1.5  }
-		
-		command = { type = local_setflag which = exchange_rate 			when = 1 value = 1 }
+		command = { type = local_setflag which = exchange_rate when = 1 value = 1 }
 		
 		command = { type = local_setflag which = issue_currency }
 		command = { type = local_setflag which = issue_currency_a_count when = 1 value = 1 }
@@ -1402,7 +1378,7 @@ event = {
 				#0 to 1
 				AND = {
 					NOT = { local_flag = deficit_spend }
-					ic = 20
+					ic = 10
 					OR = {
 						atwar = yes
 						local_flag = { which = WAR_level when = 1 value = 5 }
@@ -1476,7 +1452,7 @@ event = {
 				AND = {
 					local_flag = { which = deficit_spend when = 0 value = 1 } 
 					local_flag = { which = WAR_level 	 when = 1 value = 7 }
-					ic = 50
+					ic = 30
 					NOT = { local_flag = partisan_mode }
 					NOT = { resource_shortage = money }
 					energy			= 200
@@ -1840,12 +1816,27 @@ event = {
 		}
 		ai_chance = 10
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { NOT = { local_flag = exchange_rate 							} } 		type = resource			which = money		value = -30000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 1 	} } 		type = resource			which = money		value = -29000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 2 	} } 		type = resource			which = money		value = -28000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 3 	} } 		type = resource			which = money		value = -27000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 4 	} } 		type = resource			which = money		value = -26000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 5 	} }			type = resource			which = money		value = -25000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 6 	} } 		type = resource			which = money		value = -24000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 7 	} } 		type = resource			which = money		value = -23000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 8 	} } 		type = resource			which = money		value = -22000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 9 	} } 		type = resource			which = money		value = -21000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 10 	} } 		type = resource			which = money		value = -20000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 11	} } 		type = resource			which = money		value = -19000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 12	} } 		type = resource			which = money		value = -18000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 13	} } 		type = resource			which = money		value = -17000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 14	} } 		type = resource			which = money		value = -16000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 15	} } 		type = resource			which = money		value = -15000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 16	} } 		type = resource			which = money		value = -14000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 17	} } 		type = resource			which = money		value = -13000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 18	} } 		type = resource			which = money		value = -12000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 19	} } 		type = resource			which = money		value = -11000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource			which = money		value = -10000  }
 		command = { type = local_setflag which = invest_warprop }
 		command = { type = local_setflag which = invest_warprop_count when = 1 value = 1 }
 		command = { type = event which = 9000040 where = -1 when = 180 }
@@ -1876,12 +1867,27 @@ event = {
 		}
 		ai_chance = 15
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { NOT = { local_flag = exchange_rate 							} } 		type = resource			which = money		value = -30000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 1 	} } 		type = resource			which = money		value = -29000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 2 	} } 		type = resource			which = money		value = -28000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 3 	} } 		type = resource			which = money		value = -27000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 4 	} } 		type = resource			which = money		value = -26000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 5 	} }			type = resource			which = money		value = -25000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 6 	} } 		type = resource			which = money		value = -24000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 7 	} } 		type = resource			which = money		value = -23000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 8 	} } 		type = resource			which = money		value = -22000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 9 	} } 		type = resource			which = money		value = -21000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 10 	} } 		type = resource			which = money		value = -20000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 11	} } 		type = resource			which = money		value = -19000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 12	} } 		type = resource			which = money		value = -18000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 13	} } 		type = resource			which = money		value = -17000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 14	} } 		type = resource			which = money		value = -16000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 15	} } 		type = resource			which = money		value = -15000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 16	} } 		type = resource			which = money		value = -14000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 17	} } 		type = resource			which = money		value = -13000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 18	} } 		type = resource			which = money		value = -12000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 19	} } 		type = resource			which = money		value = -11000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource			which = money		value = -10000  }
 		command = { type = local_setflag which = invest_industry }
 		command = { type = local_setflag which = invest_industry_count when = 1 value = 1 }
 		command = { type = event which = 9000041 where = -1 when = 180 }
@@ -1911,12 +1917,27 @@ event = {
 		}
 		ai_chance = 15
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { NOT = { local_flag = exchange_rate 							} } 		type = resource			which = money		value = -30000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 1 	} } 		type = resource			which = money		value = -29000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 2 	} } 		type = resource			which = money		value = -28000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 3 	} } 		type = resource			which = money		value = -27000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 4 	} } 		type = resource			which = money		value = -26000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 5 	} }			type = resource			which = money		value = -25000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 6 	} } 		type = resource			which = money		value = -24000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 7 	} } 		type = resource			which = money		value = -23000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 8 	} } 		type = resource			which = money		value = -22000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 9 	} } 		type = resource			which = money		value = -21000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 10 	} } 		type = resource			which = money		value = -20000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 11	} } 		type = resource			which = money		value = -19000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 12	} } 		type = resource			which = money		value = -18000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 13	} } 		type = resource			which = money		value = -17000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 14	} } 		type = resource			which = money		value = -16000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 15	} } 		type = resource			which = money		value = -15000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 16	} } 		type = resource			which = money		value = -14000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 17	} } 		type = resource			which = money		value = -13000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 18	} } 		type = resource			which = money		value = -12000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 19	} } 		type = resource			which = money		value = -11000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource			which = money		value = -10000  }
 		command = { type = local_setflag which = invest_infra }
 		command = { type = local_setflag which = invest_infra_count when = 1 value = 1 }
 		command = { type = event which = 9000042 where = -1 when = 180 }
@@ -1946,12 +1967,27 @@ event = {
 		}
 		ai_chance = 15
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { NOT = { local_flag = exchange_rate 							} } 		type = resource			which = money		value = -30000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 1 	} } 		type = resource			which = money		value = -29000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 2 	} } 		type = resource			which = money		value = -28000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 3 	} } 		type = resource			which = money		value = -27000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 4 	} } 		type = resource			which = money		value = -26000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 5 	} }			type = resource			which = money		value = -25000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 6 	} } 		type = resource			which = money		value = -24000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 7 	} } 		type = resource			which = money		value = -23000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 8 	} } 		type = resource			which = money		value = -22000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 9 	} } 		type = resource			which = money		value = -21000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 10 	} } 		type = resource			which = money		value = -20000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 11	} } 		type = resource			which = money		value = -19000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 12	} } 		type = resource			which = money		value = -18000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 13	} } 		type = resource			which = money		value = -17000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 14	} } 		type = resource			which = money		value = -16000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 15	} } 		type = resource			which = money		value = -15000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 16	} } 		type = resource			which = money		value = -14000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 17	} } 		type = resource			which = money		value = -13000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 18	} } 		type = resource			which = money		value = -12000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 19	} } 		type = resource			which = money		value = -11000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource			which = money		value = -10000  }
 		command = { type = local_setflag which = invest_research }
 		command = { type = local_setflag which = invest_research_count when = 1 value = 1 }
 		command = { type = event which = 9000043 where = -1 when = 180 }	
@@ -1982,12 +2018,27 @@ event = {
 		}
 		ai_chance = 15
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { NOT = { local_flag = exchange_rate 							} } 		type = resource			which = money		value = -30000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 1 	} } 		type = resource			which = money		value = -29000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 2 	} } 		type = resource			which = money		value = -28000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 3 	} } 		type = resource			which = money		value = -27000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 4 	} } 		type = resource			which = money		value = -26000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 5 	} }			type = resource			which = money		value = -25000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 6 	} } 		type = resource			which = money		value = -24000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 7 	} } 		type = resource			which = money		value = -23000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 8 	} } 		type = resource			which = money		value = -22000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 9 	} } 		type = resource			which = money		value = -21000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 10 	} } 		type = resource			which = money		value = -20000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 11	} } 		type = resource			which = money		value = -19000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 12	} } 		type = resource			which = money		value = -18000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 13	} } 		type = resource			which = money		value = -17000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 14	} } 		type = resource			which = money		value = -16000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 15	} } 		type = resource			which = money		value = -15000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 16	} } 		type = resource			which = money		value = -14000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 17	} } 		type = resource			which = money		value = -13000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 18	} } 		type = resource			which = money		value = -12000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 19	} } 		type = resource			which = money		value = -11000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource			which = money		value = -10000  }
 		command = { type = local_setflag which = invest_wargames }
 		command = { type = local_setflag which = invest_wargames_count when = 1 value = 1 }
 		command = { type = event which = 9000044 where = -1 when = 180 }
@@ -2018,12 +2069,27 @@ event = {
 		}
 		ai_chance = 15
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { NOT = { local_flag = exchange_rate 							} } 		type = resource			which = money		value = -30000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 1 	} } 		type = resource			which = money		value = -29000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 2 	} } 		type = resource			which = money		value = -28000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 3 	} } 		type = resource			which = money		value = -27000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 4 	} } 		type = resource			which = money		value = -26000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 5 	} }			type = resource			which = money		value = -25000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 6 	} } 		type = resource			which = money		value = -24000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 7 	} } 		type = resource			which = money		value = -23000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 8 	} } 		type = resource			which = money		value = -22000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 9 	} } 		type = resource			which = money		value = -21000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 10 	} } 		type = resource			which = money		value = -20000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 11	} } 		type = resource			which = money		value = -19000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 12	} } 		type = resource			which = money		value = -18000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 13	} } 		type = resource			which = money		value = -17000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 14	} } 		type = resource			which = money		value = -16000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 15	} } 		type = resource			which = money		value = -15000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 16	} } 		type = resource			which = money		value = -14000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 17	} } 		type = resource			which = money		value = -13000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 18	} } 		type = resource			which = money		value = -12000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 19	} } 		type = resource			which = money		value = -11000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource			which = money		value = -10000  }
 		command = { type = local_setflag which = invest_recruitment }
 		command = { type = local_setflag which = invest_recruitment_count when = 1 value = 1 }
 		command = { type = event which = 9000045 where = -1 when = 180 }
@@ -2054,12 +2120,27 @@ event = {
 		}
 		ai_chance = 5
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { NOT = { local_flag = exchange_rate 							} } 		type = resource			which = money		value = -30000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 1 	} } 		type = resource			which = money		value = -29000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 2 	} } 		type = resource			which = money		value = -28000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 3 	} } 		type = resource			which = money		value = -27000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 4 	} } 		type = resource			which = money		value = -26000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 5 	} }			type = resource			which = money		value = -25000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 6 	} } 		type = resource			which = money		value = -24000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 7 	} } 		type = resource			which = money		value = -23000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 8 	} } 		type = resource			which = money		value = -22000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 9 	} } 		type = resource			which = money		value = -21000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 10 	} } 		type = resource			which = money		value = -20000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 11	} } 		type = resource			which = money		value = -19000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 12	} } 		type = resource			which = money		value = -18000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 13	} } 		type = resource			which = money		value = -17000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 14	} } 		type = resource			which = money		value = -16000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 15	} } 		type = resource			which = money		value = -15000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 16	} } 		type = resource			which = money		value = -14000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 17	} } 		type = resource			which = money		value = -13000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 18	} } 		type = resource			which = money		value = -12000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 19	} } 		type = resource			which = money		value = -11000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource			which = money		value = -10000  }
 		command = { type = local_setflag which = invest_diplomacy }
 		command = { type = local_setflag which = invest_diplomacy_count when = 1 value = 1 }
 		command = { type = event which = 9000046 where = -1 when = 180 }
@@ -2092,12 +2173,27 @@ event = {
 		}
 		ai_chance = 10
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { NOT = { local_flag = exchange_rate 							} } 		type = resource			which = money		value = -30000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 1 	} } 		type = resource			which = money		value = -29000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 2 	} } 		type = resource			which = money		value = -28000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 3 	} } 		type = resource			which = money		value = -27000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 4 	} } 		type = resource			which = money		value = -26000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 5 	} }			type = resource			which = money		value = -25000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 6 	} } 		type = resource			which = money		value = -24000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 7 	} } 		type = resource			which = money		value = -23000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 8 	} } 		type = resource			which = money		value = -22000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 9 	} } 		type = resource			which = money		value = -21000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 10 	} } 		type = resource			which = money		value = -20000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 11	} } 		type = resource			which = money		value = -19000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 12	} } 		type = resource			which = money		value = -18000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 13	} } 		type = resource			which = money		value = -17000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 14	} } 		type = resource			which = money		value = -16000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 15	} } 		type = resource			which = money		value = -15000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 16	} } 		type = resource			which = money		value = -14000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 17	} } 		type = resource			which = money		value = -13000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 18	} } 		type = resource			which = money		value = -12000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 19	} } 		type = resource			which = money		value = -11000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource			which = money		value = -10000  }
 		command = { type = local_setflag which = invest_medicine }
 		command = { type = local_setflag which = invest_medicine_count when = 1 value = 1 }
 		command = { type = event which = 9000047 where = -1 when = 180 }
@@ -2127,12 +2223,27 @@ event = {
 		}
 		ai_chance = 5
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { NOT = { local_flag = exchange_rate 							} } 		type = resource			which = money		value = -30000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 1 	} } 		type = resource			which = money		value = -29000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 2 	} } 		type = resource			which = money		value = -28000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 3 	} } 		type = resource			which = money		value = -27000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 4 	} } 		type = resource			which = money		value = -26000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 5 	} }			type = resource			which = money		value = -25000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 6 	} } 		type = resource			which = money		value = -24000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 7 	} } 		type = resource			which = money		value = -23000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 8 	} } 		type = resource			which = money		value = -22000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 9 	} } 		type = resource			which = money		value = -21000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 10 	} } 		type = resource			which = money		value = -20000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 11	} } 		type = resource			which = money		value = -19000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 12	} } 		type = resource			which = money		value = -18000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 13	} } 		type = resource			which = money		value = -17000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 14	} } 		type = resource			which = money		value = -16000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 15	} } 		type = resource			which = money		value = -15000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 16	} } 		type = resource			which = money		value = -14000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 17	} } 		type = resource			which = money		value = -13000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 18	} } 		type = resource			which = money		value = -12000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 19	} } 		type = resource			which = money		value = -11000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource			which = money		value = -10000  }
 		
 		command = {	type = local_setflag which = WARDebt when = 1 value = -4 }
 		#Each WARDebt is equivalent to 0.5 GDP, so 4 WARDebt is 2 GDP. Effectively this is almost same as "invest in growth", except this will:
@@ -2158,12 +2269,27 @@ event = {
 		}
 		ai_chance = 10
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { NOT = { local_flag = exchange_rate 							} } 		type = resource			which = money		value = -30000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 1 	} } 		type = resource			which = money		value = -29000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 2 	} } 		type = resource			which = money		value = -28000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 3 	} } 		type = resource			which = money		value = -27000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 4 	} } 		type = resource			which = money		value = -26000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 5 	} }			type = resource			which = money		value = -25000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 6 	} } 		type = resource			which = money		value = -24000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 7 	} } 		type = resource			which = money		value = -23000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 8 	} } 		type = resource			which = money		value = -22000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 9 	} } 		type = resource			which = money		value = -21000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 10 	} } 		type = resource			which = money		value = -20000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 11	} } 		type = resource			which = money		value = -19000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 12	} } 		type = resource			which = money		value = -18000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 13	} } 		type = resource			which = money		value = -17000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 14	} } 		type = resource			which = money		value = -16000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 15	} } 		type = resource			which = money		value = -15000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 16	} } 		type = resource			which = money		value = -14000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 17	} } 		type = resource			which = money		value = -13000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 18	} } 		type = resource			which = money		value = -12000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 19	} } 		type = resource			which = money		value = -11000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource			which = money		value = -10000  }
 		command = { type = local_setflag which = invest_supplies }
 		command = { type = local_setflag which = invest_supplies_count when = 1 value = 1 }
 		command = { type = event which = 9000048 where = -1 when = 180 }
@@ -2184,12 +2310,27 @@ event = {
 		}
 		ai_chance = 10
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { NOT = { local_flag = exchange_rate 							} } 		type = resource			which = money		value = -30000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 1 	} } 		type = resource			which = money		value = -29000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 2 	} } 		type = resource			which = money		value = -28000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 3 	} } 		type = resource			which = money		value = -27000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 4 	} } 		type = resource			which = money		value = -26000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 5 	} }			type = resource			which = money		value = -25000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 6 	} } 		type = resource			which = money		value = -24000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 7 	} } 		type = resource			which = money		value = -23000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 8 	} } 		type = resource			which = money		value = -22000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 9 	} } 		type = resource			which = money		value = -21000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 10 	} } 		type = resource			which = money		value = -20000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 11	} } 		type = resource			which = money		value = -19000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 12	} } 		type = resource			which = money		value = -18000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 13	} } 		type = resource			which = money		value = -17000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 14	} } 		type = resource			which = money		value = -16000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 15	} } 		type = resource			which = money		value = -15000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 16	} } 		type = resource			which = money		value = -14000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 17	} } 		type = resource			which = money		value = -13000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 18	} } 		type = resource			which = money		value = -12000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 0 value = 19	} } 		type = resource			which = money		value = -11000  }
+		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource			which = money		value = -10000  }
 		command = { type = local_setflag which = invest_exchangerate }
 		command = { type = local_setflag which = invest_exchangerate when = 1 value = 1 }
 		command = { type = event which = 9000049 where = -1 when = 180 }
@@ -2209,7 +2350,7 @@ event = {
 
 	action = {
 		name = "9000028text"
-		#Printing money gives +1 dissent but also depresses the economy by -2
+		#Printing money gives +1 dissent but also depresses the economy by -2 AND drops the exchange rate
 		command = { type = dissent value = -3 }
 		command = { type = local_clrflag which = invest_warprop }
 	}
@@ -2258,7 +2399,7 @@ event = {
 	action = {
 		name = ACTION_NAME_EXCELLENT
 		command = { type = industrial_modifier which = total value = 0.50 }
-		command = { type = tc_mod 							 value = 2.00 }	
+		command = { type = tc_mod 							 value = 0.50 }	
 		command = { trigger = { 		 } type = construct which = infrastructure where = -4 value = 10 }
 		command = { trigger = { vp = 25  } type = construct which = infrastructure where = -4 value = 10 }
 		command = { trigger = { vp = 50  } type = construct which = infrastructure where = -4 value = 10 }
@@ -2287,7 +2428,7 @@ event = {
 	action = {
 		name = ACTION_NAME_EXCELLENT
 		command = { type = industrial_modifier which = total value = 0.50 }
-		command = { type = research_mod 					 value = 1.00 }
+		command = { type = research_mod 					 value = 0.50 }
 		command = { type = local_clrflag which = invest_research }
 	}
 }
@@ -2337,8 +2478,7 @@ event = {
 	
 	action = {
 		name = "ACTION_NAME_GREAT"
-		#Over 200 IC country with no conscription gets +35.5 MP or around 2-3 infantry divisions
-		#Less than 12 IC country with no conscription gets +7.0 MP or about half of 1 infantry division
+		#Foreign volunteers up to 3 MP, the rest is a percentage of local MP
 		
 		command = { trigger = { IC = { value = 200 } 													 		} 	type = manpowerpool value = 0.5 }
 		command = { trigger = { IC = { value = 100 } 	 														} 	type = manpowerpool value = 0.5 }
@@ -2347,69 +2487,25 @@ event = {
 		command = { trigger = { IC = { value = 12  }  															} 	type = manpowerpool value = 0.5 }
 		command = { trigger = { 			 																	} 	type = manpowerpool value = 0.5 }
 		
+		
+		#local recruitment becomes much harder at higher mobilization levels. The pool of possible volunteers shrinks with mobilization and you have to offer much bigger incentives for people to even consider volunteering
+		
 		#general mobilization C
-		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 9 } } } type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { 						NOT = { policy = { type = professional_army value = 9 } } } type = manpowerpool value = 0.5 }
-		
+		command = { 									NOT = { policy = { type = professional_army value = 9 } } } type = manpowerpool	value = 0.50 	when = 1 }
 		#general mobilization B
-		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 8 } } } type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { 						NOT = { policy = { type = professional_army value = 8 } } } type = manpowerpool value = 0.5 }
-		
+		command = { 									NOT = { policy = { type = professional_army value = 8 } } } type = manpowerpool	value = 0.50 	when = 1 }
 		#general mobilization A
-		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 7 } } } type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
-		command = { trigger = { 						NOT = { policy = { type = professional_army value = 7 } } } type = manpowerpool value = 0.5 }
-		
+		command = { 									NOT = { policy = { type = professional_army value = 7 } } } type = manpowerpool	value = 0.50 	when = 1 }
 		#partial mobilization
-		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 6 } } } type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { 						NOT = { policy = { type = professional_army value = 6 } } } type = manpowerpool value = 1.0 }
-		
+		command = { 									NOT = { policy = { type = professional_army value = 6 } } } type = manpowerpool	value = 0.50 	when = 1 }
 		#2 year conscription
-		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 5 } } } type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { 						NOT = { policy = { type = professional_army value = 5 } } } type = manpowerpool value = 1.0 }
-		
+		command = { 									NOT = { policy = { type = professional_army value = 5 } } } type = manpowerpool	value = 0.50 	when = 1 }
 		#1 year conscription
-		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 4 } } } type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { 						NOT = { policy = { type = professional_army value = 4 } } } type = manpowerpool value = 1.0 }
-		
+		command = { 									NOT = { policy = { type = professional_army value = 4 } } } type = manpowerpool	value = 0.50 	when = 1 }
 		#selective conscription
-		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 3 } } } type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { 						NOT = { policy = { type = professional_army value = 3 } } } type = manpowerpool value = 1.0 }
-		
-		#no conscription
-		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 2 } } } type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 2 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 2 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 25  } 	NOT = { policy = { type = professional_army value = 2 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 2 } } }	type = manpowerpool value = 1.0 }
-		command = { trigger = { 						NOT = { policy = { type = professional_army value = 2 } } } type = manpowerpool value = 1.0 }
+		command = { 									NOT = { policy = { type = professional_army value = 3 } } } type = manpowerpool	value = 0.50 	when = 1 }
+		#volunteer army
+		command = { 									NOT = { policy = { type = professional_army value = 2 } } } type = manpowerpool	value = 0.50 	when = 1 }
 		
 		command = { type = industrial_modifier which = total value = 0.10 } #recruitment spending is actually a form of economic stimulus as well
 					
@@ -2739,13 +2835,8 @@ event = {
 
 	action = {
 		name = "9000033text"
-		command = { trigger = { IC = 200 }	type = supplies value = 12800 } #6400 money -> 12800 supplies
-		command = { trigger = { IC = 100 } 	type = supplies value = 6400 }	#3200 money -> 6400  supplies
-		command = { trigger = { IC = 50  } 	type = supplies value = 3200 }	#1600 money -> 3200  supplies
-		command = { trigger = { IC = 25  }	type = supplies value = 1600 }	#800  money -> 1600  supplies
-		command = { trigger = { IC = 12  }	type = supplies value = 800 }	#400  money -> 800   supplies
-		command = { trigger = {          }	type = supplies value = 400 }	#200  money -> 400   supplies
-		command = { type = local_clrflag which = invest_supplies }
+		command = { type = resource			which = supplies  		value = 1000 } #10 times max daily gain
+		command = { type = local_clrflag 	which = invest_supplies }
 	}
 }
 

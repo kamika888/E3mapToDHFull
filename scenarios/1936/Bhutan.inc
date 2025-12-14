@@ -7,7 +7,7 @@ country =
 { tag                    = BHU
   control				 = ENG
   puppet                 = ENG
-  ai_settings			 = { flags = { puppetLevel7 = 1 ideoology = 4 } }
+  ai_settings			 = { flags = { puppetLevel5 = 1 ideoology = 4 } }
 	manpower               = 5 
 	# Resource Reserves 
 	energy                 = 180

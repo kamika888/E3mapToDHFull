@@ -18,7 +18,7 @@ country =
 	oil                    = 100 
 	supplies               = 800 
 	money                  = 50 
-    manpower               = 120
+    manpower               = 160
   SpyInfo                = { country = "MEN" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = -100 }

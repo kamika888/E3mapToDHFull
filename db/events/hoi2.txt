@@ -2994,22 +2994,24 @@ event = {
 		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 414   when = 2 }
 		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 3397  when = 2 }
 		
-		command = { trigger = { NOT = { exists = CRO } } type = local_setflag which = CROindGER }
+		command = { trigger = { NOT = { exists = CRO } } 							  type = manpowerpool value = 15 } # Croats in the Wehrmacht
+		command = { trigger = { NOT = { exists = CRO } alliance = { country = ITA } } type = event   which = 203123 where = ITA when = 0 }
+		command = { trigger = { NOT = { exists = CRO alliance = { country = ITA } } } type = local_setflag which = CROindGER }
 		command = { trigger = { local_flag = CROindGER } type = secedeprovince which = GER value = 382 when = 2 }
 		command = { trigger = { local_flag = CROindGER } type = independence which = CRO value = 1 }
 		command = { trigger = { local_flag = CROindGER } type = make_puppet  which = CRO }
-		command = { trigger = { local_flag = CROindGER } type = event   which = 2400535 where = CRO when = 0 } #medium puppet		
+		command = { trigger = { local_flag = CROindGER } type = event   which = 2400536 where = CRO when = 0 } #medium puppet		
 		command = { trigger = { local_flag = CROindGER } type = trigger which = 203121 } # CRO
-		command = { trigger = { local_flag = CROindGER } type = manpowerpool value = 15 } # Croats in the Wehrmacht
 		command = { trigger = { local_flag = CROindGER } type = belligerence value = 5 } # something is borked.
 		command = { trigger = { local_flag = CROindGER NOT = { ai = GER } } type = military_control which = GER where = CRO value = 1 }
+		command = { trigger = { local_flag = CROindGER NOT = { ai = ITA } } type = military_control which = ITA where = CRO value = 1 }
 		command = { trigger = { local_flag = CROindGER } type = local_clrflag which = CROindGER }
 		
 		command = { trigger = { NOT = { exists = SER } } type = local_setflag which = SERindGER }
 		command = { trigger = { local_flag = SERindGER } type = secedeprovince which = GER value = 453 when = 2 }
 		command = { trigger = { local_flag = SERindGER } type = independence which = SER value = 1 }
 		command = { trigger = { local_flag = SERindGER } type = make_puppet  which = SER }
-		command = { trigger = { local_flag = SERindGER } type = event   which = 2400532 where = SER when = 0 } #weak puppet	
+		command = { trigger = { local_flag = SERindGER } type = event   which = 2400533 where = SER when = 0 } #weak puppet	
 		command = { trigger = { local_flag = SERindGER } type = trigger which = 203122 } # SER
 		command = { trigger = { local_flag = SERindGER } type = belligerence value = 5 } # something is borked.
 		command = { trigger = { local_flag = SERindGER NOT = { ai = GER } } type = military_control which = GER where = SER value = 1 }
@@ -3020,13 +3022,12 @@ event = {
 #########################################################################
 #  Independent Croatia
 #########################################################################
+
+#Formally, NDH was a protectorate of Italy, not Germany
 event = { 
-	id = 203121
+	id = 203123
 	random = no
-	country = CRO
-	#persistent = yes
-	
-	#Triggered by GER2031
+	country = ITA
 	
 	name = "EVT_2032_NAME"
 	desc = "EVT_2032_DESC"
@@ -3034,7 +3035,31 @@ event = {
 	style = 0
 
 	action = {
-		name = "ACTIONNAME2032A"
+		name = "ACTION_NAME_GREAT"
+		command = { type = secedeprovince which = ITA value = 382 when = 2 }
+		command = { type = independence which = CRO value = 1 }
+		command = { type = make_puppet  which = CRO }
+		command = { type = event   which = 2400536 where = CRO when = 0 } #medium puppet		
+		command = { type = trigger which = 203121 } # CRO
+		command = { type = belligerence value = 5 } # something is borked.
+		command = { trigger = { NOT = { ai = GER } } type = military_control which = GER where = CRO value = 1 }
+		command = { trigger = { NOT = { ai = ITA } } type = military_control which = ITA where = CRO value = 1 }
+	}
+}
+
+event = { 
+	id = 203121
+	random = no
+	country = CRO
+	#persistent = yes
+	
+	name = "EVT_2032_NAME"
+	desc = "EVT_2032_DESC"
+    picture = "independent_croatia"
+	style = 0
+
+	action = {
+		name = "ACTION_NAME_GREAT"
 		command = { type = manpowerpool	value = 20  }
 		command = { type = supplies		value = 200 }
 		
@@ -3082,7 +3107,7 @@ event = {
 	style = 0
 
 	action = {
-		name = "ACTIONNAME2032A"
+		name = "ACTION_NAME_GREAT"
 		command = { type = set_domestic which = political_left 	value = 2 }
 		command = { type = set_domestic which = interventionism value = 5 }
 		command = { type = set_domestic which = freedom 		value = 3 }
@@ -3106,13 +3131,13 @@ event = {
 
 ###### Partitioning of Greece
 event = {
-	id = 2022023
+	id = 2022025
 	random = no
 	country = GER
 	save_date = yes
 	
-	name = "EVT_2022023_NAME" #Partitioning of Greece
-	desc = "EVT_2022023_DESC"
+	name = "EVT_2022025_NAME" #Partitioning of Greece
+	desc = "EVT_2022025_DESC"
 	style = 2
 	picture = "news_paper"
 
@@ -3135,7 +3160,7 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = EVT_3059015_ACTA
+		name = EVT_2022025_ACTA
 		ai_chance = 5
 		command = { type = extra_tc					value = -30 }
 		command = { type = addclaim which = 401 	where = GER }
@@ -3216,7 +3241,7 @@ event = {
 		command = { trigger = { alliance = { country = BUL } } type = secedeprovince which = BUL value = 410   when = 2 }
 	}
 	action = {
-		name = EVT_3059015_ACTB
+		name = EVT_2022025_ACTB
 		ai_chance = 95
 		command = { type = addclaim which = 401 	where = ITA }
 		command = { type = addclaim which = 405 	where = ITA }

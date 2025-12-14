@@ -13,7 +13,7 @@ country =
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 15 
-	manpower 			  = 46
+	manpower 			  = 346
   capital                = 453
   SpyInfo                = { country = "YUG" NumberOfSpies = 1 }
   diplomacy =
@@ -130,7 +130,7 @@ country =
      political_left    = 3 
      freedom           = 3
      free_market       = 2
-     professional_army = 4 
+     professional_army = 3 
      defense_lobby     = 3 
      interventionism   = 4 
   }
@@ -160,6 +160,27 @@ inventions = { 3000027 }
        extra    = artillery 
 	   brigade_model = 6
       } 
+     Division = 
+     {  id       = {  type = 19800 id = 117  } 
+       name     = "17. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 118  } 
+       name     = "18. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 119  } 
+       name     = "19. Rezervna Divizija" 
+       strength = 20
+       type     = cavalry 
+	   model    = 5
+      } 
     } 
    landunit = 
    {  id       = {  type = 19800 id = 3  } 
@@ -188,6 +209,27 @@ inventions = { 3000027 }
        type     = cavalry 
 	   model    = 7
       } 
+     Division = 
+     {  id       = {  type = 19800 id = 114  } 
+       name     = "14. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 115  } 
+       name     = "15. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 116  } 
+       name     = "16. Rezervna Divizija" 
+       strength = 20
+       type     = cavalry 
+	   model    = 5
+      } 
     } 
    landunit = 
    {  id       = {  type = 19800 id = 7  } 
@@ -208,6 +250,27 @@ inventions = { 3000027 }
        strength = 50 # 70
        type     = cavalry 
 	   model    = 6
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 111  } 
+       name     = "11. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 112  } 
+       name     = "12. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 113  } 
+       name     = "13. Rezervna Divizija" 
+       strength = 20
+       type     = cavalry 
+	   model    = 5
       } 
     } 
    landunit = 
@@ -230,6 +293,20 @@ inventions = { 3000027 }
        type     = infantry 
 	   model    = 7
       } 
+     Division = 
+     {  id       = {  type = 19800 id = 109  } 
+       name     = "9. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 110  } 
+       name     = "10. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
     } 
    landunit = 
    {  id       = {  type = 19800 id = 13  } 
@@ -248,6 +325,20 @@ inventions = { 3000027 }
        strength = 50 # 70
        type     = infantry 
 	   model    = 7
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 107  } 
+       name     = "7. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 108  } 
+       name     = "8. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
       } 
     } 
    landunit = 
@@ -277,6 +368,20 @@ inventions = { 3000027 }
        type     = infantry 
 	   model    = 7
       } 
+     Division = 
+     {  id       = {  type = 19800 id = 105  } 
+       name     = "5. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 106  } 
+       name     = "6. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
     } 
    landunit = 
    {  id       = {  type = 19800 id = 20  } 
@@ -305,6 +410,20 @@ inventions = { 3000027 }
        type     = cavalry 
 	   model    = 6
       } 
+     Division = 
+     {  id       = {  type = 19800 id = 103  } 
+       name     = "3. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 104  } 
+       name     = "4. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
     } 
    landunit = 
    {  id       = {  type = 19800 id = 24  } 
@@ -323,7 +442,20 @@ inventions = { 3000027 }
        strength = 50 # 70
        type     = cavalry
 	   model    = 7
-	   
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 101  } 
+       name     = "1. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
+      } 
+     Division = 
+     {  id       = {  type = 19800 id = 102  } 
+       name     = "2. Rezervna Divizija" 
+       strength = 20
+       type     = infantry 
+	   model    = 5
       } 
     } 
    # ########################## 

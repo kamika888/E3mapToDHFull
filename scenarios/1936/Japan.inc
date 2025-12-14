@@ -8,7 +8,7 @@ country =
   belligerence           = 3
   ai					 = "EXP_0_01.ai"
   capital                = 1184
-	manpower               = 3171
+	manpower               = 1317
 	# Resource Reserves 
 	energy                 = 46000 
 	metal                  = 28000 

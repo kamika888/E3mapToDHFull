@@ -9525,18 +9525,6 @@ event = {
 }
 
 event = {
-	id = 2401705
-	random = no 
-	persistent = yes
-
-	name = "AI_EVENT"
-	
-	action = {
-		command = { type = ai which = "nations\ENG_ITA.ai" }
-	}
-}
-
-event = {
 	id = 2401706
 	random = no 
 	country = ENG
@@ -9797,6 +9785,7 @@ event = {
 		NOT = { flag = ENG_invaded }
 		local_flag = garSpec
 		army = 200
+		NOT = { army = 250 }
 	}
 
 	name = "AI_EVENT"
@@ -9824,6 +9813,7 @@ event = {
 		NOT = { flag = ENG_invaded }
 		local_flag = garSpec
 		army = 250
+		NOT = { army = 300 }
 	}
 
 	name = "AI_EVENT"
@@ -9851,6 +9841,7 @@ event = {
 		NOT = { flag = ENG_invaded }
 		local_flag = garSpec
 		army = 300
+		NOT = { army = 350 }
 	}
 
 	name = "AI_EVENT"
@@ -9878,6 +9869,7 @@ event = {
 		NOT = { flag = ENG_invaded }
 		local_flag = garSpec
 		army = 350
+		NOT = { army = 400 }
 	}
 
 	name = "AI_EVENT"
@@ -9905,6 +9897,7 @@ event = {
 		NOT = { flag = ENG_invaded }
 		local_flag = garSpec
 		army = 400
+		NOT = { army = 450 }
 	}
 
 	name = "AI_EVENT"
@@ -9932,6 +9925,7 @@ event = {
 		NOT = { flag = ENG_invaded }
 		local_flag = garSpec
 		army = 450
+		NOT = { army = 500 }
 	}
 
 	name = "AI_EVENT"
@@ -9959,6 +9953,7 @@ event = {
 		NOT = { flag = ENG_invaded }
 		local_flag = garSpec
 		army = 500
+		NOT = { army = 550 }
 	}
 
 	name = "AI_EVENT"
@@ -10018,7 +10013,7 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		command = { type = event which = 2401705 where = ENG when = 60 }
+		command = { type = event which = 2401738 where = ENG when = 60 }
 	}
 }
 
@@ -10108,6 +10103,36 @@ event = {
 		command = { type = local_setflag which = gar value = 30 }
 		command = { type = ai which = "garrison30.ai" }
 		command = { type = ai which = "home_1.ai"     }
+	}
+}
+
+event = {
+	id = 2401737
+	random = no 
+	persistent = yes
+
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = non_aggression which = ENG where = ITA when = 1 } 
+		command = { type = ai which = "nations\ENG_U04.ai" }
+		command = { type = event which = 2401738 where = ENG when = 30 }
+		
+		#alt, just panic ratio. doesn't work as well
+		#command = { trigger = { ai = ENG } type = ai which = "nations\ENG_U04_alt.ai" }
+		#command = { trigger = { ai = ENG } type = event which = 2401738 where = ENG when = 10 }
+	}
+}
+
+event = {
+	id = 2401738
+	random = no 
+	persistent = yes
+
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = ai which = "nations\ENG_ITA.ai" }
 	}
 }
 
@@ -10696,7 +10721,11 @@ event = {
 		alliance = { country = ITA }
 		control = { province = 401 data = -3 } #Athens
 		area = { area = "Attica" country = -3 data = 1 value = 90 }
-		NOT = { control = { province = 396 data = -3 } } #563, 7320
+		OR = { 
+			control = { province = 396  data = -2 }
+			control = { province = 563  data = -2 }
+			control = { province = 7320 data = -2 }
+		}
 		NOT = { garrison = { country = -2 province = 396 type = land size = 6 area = 1 } } #5 or less
 	}
 
