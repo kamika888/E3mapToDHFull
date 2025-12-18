@@ -4307,8 +4307,16 @@ event = {
 			local_flag = AllDefenseSpecJungle
 			#local_flag = AllDefenseSpecDesert
 		}
-		NOT 	= { IC = 20    }
-		lost_IC = { value = 70 }
+		OR = {
+			AND = {
+				OR = { country = CHI country = CHC }
+				flag = { which = japChi when = 1	value = 45 }
+			}
+			AND = {
+				NOT 	= { IC = 20    }
+				lost_IC = { value = 70 }
+			}
+		}
 		manpower = 200
 	}
    
@@ -4324,6 +4332,7 @@ event = {
 
 	action = {
 		name = EVT_9000080_ACTA
+		trigger = { NOT = { country = CHI country = CHC } }
 		#This is never a popular choice, especially since it means populated areas are being abandoned to enemy occupation without a fight
 		command = { 																	type = dissent value = 10 } 
 		command = { trigger = { OR = { IC = 20 NOT = { lost_IC = { value = 70 } } } }	type = dissent value = 10 } 
@@ -4332,6 +4341,20 @@ event = {
 		command = { trigger = { OR = { IC = 80 NOT = { lost_IC = { value = 10 } } } }	type = dissent value = 10 } 
 		command = { type = local_setflag which = partisan_mode_init }
 		command = { type = event which = 9000081 where = -1 when = 60 }
+	}
+	action = {
+		name = EVT_9000080_ACTA
+		trigger = { OR = { country = CHI country = CHC } }
+		#This is never a popular choice, especially since it means populated areas are being abandoned to enemy occupation without a fight
+		command = { trigger = { flag = { which = japChi when = -2	value = 50 } } 		type = dissent value = 5 } 
+		command = { trigger = { flag = { which = japChi when = -2	value = 45 } } 		type = dissent value = 5 } 
+		command = { trigger = { flag = { which = japChi when = -2	value = 40 } } 		type = dissent value = 5 } 
+		command = { trigger = { flag = { which = japChi when = -2	value = 35 } } 		type = dissent value = 5 } 
+		command = { trigger = { flag = { which = japChi when = -2	value = 30 } } 		type = dissent value = 5 } 
+		command = { trigger = { flag = { which = japChi when = -2	value = 25 } } 		type = dissent value = 5 } 
+		command = { trigger = { flag = { which = japChi when = -2	value = 20 } } 		type = dissent value = 5 } 
+		command = { type = local_setflag which = partisan_mode_init }
+		command = { type = event which = 9000081 where = -1 when = 30 }
 	}
 }
 
