@@ -211,7 +211,7 @@ country =
   { date              = { year = 0 month = january day = 0 }
      democratic        = 5 
      political_left    = 3 
-     freedom           = 6
+     freedom           = 7
      free_market       = 5
      professional_army = 5  
      defense_lobby     = 6 
@@ -1132,7 +1132,7 @@ landunit =
 			id = { type = 13016 id = 175 } 
 			name = "Akagi" 
 			type = carrier 
-			model = 0 
+			model = 1 
 			extra1 = cag 
 			brigade_model1 = 2 
 		} 
@@ -1140,7 +1140,7 @@ landunit =
 			id = { type = 13016 id = 177 } 
 			name = "Kaga" 
 			type = carrier 
-			model = 0 
+			model = 1 
 			extra1 = cag 
 			brigade_model1 = 2 
 		} 
@@ -2330,6 +2330,17 @@ landunit =
 		date = { year = 1936 month = may day = 1 }
 		cost = 0.1
 	}
+	division_development = {  
+		name  = "Hiryu" 
+		type  = carrier 
+		model = 2 
+		cost  = 2.5
+		id    = {  type = 13016 id = 273  } 
+		date  = {  year = 1938 month = july day = 20  } 
+		extra = cag 
+		brigade_model = 2 
+		new_model = no
+	} 
 	convoy_development = { 
 		id = { type = 13016 id = 545 } 
 		cost = 0.1
