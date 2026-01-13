@@ -1714,4 +1714,6 @@ landunit =
 	landdivision = { dormant = yes id = { type = 23500 id = 1000 }  name = "52a Divisione" locked = yes	type = garrison			model = 5	}
 
 	landdivision = { dormant = yes id = { type = 23500 id = 11165 } name = "50a Divisione 'Regina'" 	type = infantry			model = 10	}
+	
+	landdivision = { dormant = yes id = { type = 23500 id = 11174 } name = "1a Divisione 'Superga'" 	type = infantry			model = 10	extra    = artillery	brigade_model    = 2 }
 }

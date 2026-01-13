@@ -2267,16 +2267,16 @@ landunit =
 	landdivision = { dormant = yes id = { type = 12700 id = 10017 }  name = "17. Home Guard"  type = garrison model = 5 extra = artillery brigade_model = 9 }
 	landdivision = { dormant = yes id = { type = 12700 id = 10018 }  name = "18. Home Guard"  type = garrison model = 5 extra = artillery brigade_model = 9 }
 	
-	#2401800 Wilfred
+	#2405000 Wilfred
 	landdivision = { dormant = yes id = { type = 12700 id = 10020 }  name = "5th 'Globe Trotters' Division" 	type = infantry 	model = 10 											}
 	landdivision = { dormant = yes id = { type = 12700 id = 10021 }  name = "49th 'West Riding' Division"  		type = infantry 	model = 10 											}
 	landdivision = { dormant = yes id = { type = 12700 id = 10022 }  name = "1st Infantry Division"  			type = infantry 	model = 10 											}
 	
-	#2401830 Torch
+	#2405030 Torch
 	landdivision = { dormant = yes id = { type = 14800 id = 807 }	 name = "78th 'Battleaxe' Division" 		type = infantry 	model = 10	extra = engineer  brigade_model = 4 	} 
 	landdivision = { dormant = yes id = { type = 14800 id = 808 }	 name = "1st/3rd Special Service Brigades" 	type = marine 		model = 4	strength = 80							} 
 	
-	#2401840 Overlord
+	#2405040 Overlord
 	landdivision = { dormant = yes id = { type = 14800 id = 832 }  name = "21st Army Group HQ" 					type = hq 			model = 4										 	}
 	landdivision = { dormant = yes id = { type = 14800 id = 833 }  name = "50th 'Northumbrian' Division" 		type = infantry 	model = 11	extra = medium_armor brigade_model = 5 	}
 	landdivision = { dormant = yes id = { type = 14800 id = 834 }  name = "7th 'Desert Rats' Division"			type = armor 		model = 2	 									 	}
@@ -2286,9 +2286,9 @@ landunit =
 	landdivision = { dormant = yes id = { type = 14800 id = 838 }  name = "6th Airborne Division" 				type = paratrooper	model = 2									 		}
 	landdivision = { dormant = yes id = { type = 14800 id = 839 }  name = "79th 'Funnies' Division" 			type = armor 		model = 2	 									 	}
 	
-	#2401850 Dragoon (did not participate)
+	#2405050 Dragoon (did not participate)
 	
-	#2401860 Husky
+	#2405060 Husky
 	landdivision = { dormant = yes id = { type = 14800 id = 878 }  name = "8th Army Group HQ" 					type = hq 			model = 4										 	}
 	landdivision = { dormant = yes id = { type = 14800 id = 879 }  name = "1st/4th Special Service Brigades"	type = marine 		model = 5	strength = 80							} 
 	landdivision = { dormant = yes id = { type = 14800 id = 880 }  name = "5th 'Globe Trotters' Division" 		type = infantry 	model = 11 	extra = artillery brigade_model = 10 	} 
@@ -2335,5 +2335,9 @@ landunit =
 	landdivision = { dormant = yes id = { type = 14800 id = 937 }  name = "70th Division"						type = infantry		model = 10 	strength = 40 extra = medium_armor brigade_model = 5 	} #ENG
 	landdivision = { dormant = yes id = { type = 14800 id = 938 }  name = "9th Division"						type = infantry		model = 10 	strength = 40 										} #AST
 	landdivision = { dormant = yes id = { type = 14800 id = 939 }  name = "5th Division"						type = infantry		model = 9 	strength = 40 										} #U02
+	
+	#2405140 Climate
+	landdivision = { dormant = yes id = { type = 14800 id = 893 }  name = "78th 'Battleaxe' Division" 			type = infantry model = 11										 		} 
+	landdivision = { dormant = yes id = { type = 14800 id = 894 }  name = "36th Infantry Brigade" 				type = militia	model = 5										 		} 
   } 
  

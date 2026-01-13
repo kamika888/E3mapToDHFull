@@ -1594,4 +1594,10 @@ landdivision = { dormant = yes id = { type = 14500 id = 11161 }  name = "6. Gebi
 landdivision = { dormant = yes id = { type = 14500 id = 11162 }  name = "8. Panzer-Division"		type = light_armor		model = 2												  }
 landdivision = { dormant = yes id = { type = 14500 id = 11163 }  name = "5. Gebirgs-Division" 		type = bergsjaeger		model = 10												  }
 
+#Braun
+landdivision = { dormant = yes id = { type = 14500 id = 11170 }  name = "10. Panzer-Division"	 	type = armor			model = 1												  }
+landdivision = { dormant = yes id = { type = 14500 id = 11171 }  name = "334. Infanterie-Division"	type = infantry			model = 10												  }
+landdivision = { dormant = yes id = { type = 14500 id = 11172 }  name = "Division von Broich"		type = militia			model = 5												  }
+landdivision = { dormant = yes id = { type = 14500 id = 11173 }  name = "Legion imperiale francaise" type = militia			model = 5												  }
+
 } 

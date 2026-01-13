@@ -1948,7 +1948,7 @@ landunit =
 	landdivision = { dormant = yes id = { type = 13501 id = 2038 } name = "8e Division d'Infanterie" 			type = infantry model = 10 extra = light_armor_brigade brigade_model = 6	locked = no }
 	landdivision = { dormant = yes id = { type = 13501 id = 2039 } name = "6e Division d'Infanterie" 			type = infantry model = 10 													locked = no }
 	
-	#after vichy collapse, for operation bright moon. Since free france inherits Vichy, it should inherit the dormand divisions as well
+	#after vichy collapse, for operation bright moon. Since free france inherits Vichy, it should inherit the dormant divisions as well
 	landdivision = { dormant = yes id = { type = 13500 id = 2040 } 	name = "Legion etrangere 5e REI" 			type = infantry model = 11 experience = 60 									locked = no }
 	landdivision = { dormant = yes id = { type = 13500 id = 2041 } 	name = "Division du Annam-Laos" 			type = infantry model = 10 													locked = no }
 	landdivision = { dormant = yes id = { type = 13500 id = 2042 } 	name = "Division du Tonkin"  				type = infantry model = 10 													locked = no }
@@ -1956,6 +1956,7 @@ landunit =
 	#landdivision = { dormant = yes id = { type = 13500 id = 2044 } name = "8e Division d'Infanterie" 			type = infantry model = 11 extra = light_armor_brigade brigade_model = 7 	locked = no }
 	#landdivision = { dormant = yes id = { type = 13500 id = 2045 } name = "6e Division d'Infanterie" 			type = infantry model = 11 												 	locked = no }
 	
+	#2401850 Dragoon
 	landdivision = { dormant = yes id = { type = 14800 id = 855 }  	name = "First Army HQ"  					type = hq 		model = 4	extra = anti_air 		brigade_model = 4	}
 	landdivision = { dormant = yes id = { type = 14800 id = 857 }  	name = "1st Infantry Division"			  	type = infantry model = 11	extra = artillery 		brigade_model = 10  } 	
 	landdivision = { dormant = yes id = { type = 14800 id = 856 }  	name = "1st Armored Division"		 		type = armor	model = 2										 		} 
@@ -1963,5 +1964,7 @@ landunit =
 	landdivision = { dormant = yes id = { type = 14800 id = 859 }  	name = "9th Colonial Infantry Division"  	type = militia	model = 6	extra = engineer  		brigade_model = 4  	} 
 	landdivision = { dormant = yes id = { type = 14800 id = 860 }  	name = "2nd Colonial Infantry Division"  	type = militia	model = 6												} 
 
+	#2405140 Climate
+	landdivision = { dormant = yes id = { type = 14800 id = 895 }  name = "19th Infantry Division" 				type = infantry model = 11										 		} 
 } 
  

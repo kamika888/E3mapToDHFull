@@ -1850,7 +1850,7 @@ inventions = { 3000027 }
 		date  = {  year = 1936 month = june day = 1  }  
 	}
 
-	#2401830 Torch
+	#2405030 Torch
 	landdivision = { dormant = yes id = { type = 14800 id = 800 }  name = "9th 'Varsity' Division" 				type = infantry model = 10	extra = engineer  		brigade_model = 4  	} 
 	landdivision = { dormant = yes id = { type = 14800 id = 801 }  name = "3rd 'Rock of the Marne' Division"  	type = infantry model = 10	extra = artillery 		brigade_model = 9  	} 
 	landdivision = { dormant = yes id = { type = 14800 id = 802 }  name = "2nd 'Hell on Wheels' Division" 		type = armor 	model = 1										 		} 
@@ -1859,7 +1859,7 @@ inventions = { 3000027 }
 	landdivision = { dormant = yes id = { type = 14800 id = 805 }  name = "1st 'Old Ironsides' Division"		type = armor 	model = 1										 		} 
 	landdivision = { dormant = yes id = { type = 14800 id = 806 }  name = "34th 'Red Bull' Division"  			type = infantry model = 10	extra = artillery 		brigade_model = 9  	} 
 	
-	#2401840 Overlord
+	#2405040 Overlord
 	landdivision = { dormant = yes id = { type = 14800 id = 820 }  name = "SHAEF HQ"  							type = hq 		model = 4										 		} 
 	landdivision = { dormant = yes id = { type = 14800 id = 821 }  name = "1st 'Big Red One' Division"  		type = infantry model = 11	extra = artillery 		brigade_model = 10 	} 
 	landdivision = { dormant = yes id = { type = 14800 id = 822 }  name = "29th 'Blue and Gray' Division"  		type = infantry model = 11										 		} 
@@ -1873,14 +1873,14 @@ inventions = { 3000027 }
 	landdivision = { dormant = yes id = { type = 14800 id = 830 }  name = "101st 'Screaming Eagles' Division" 	type = paratrooper model = 2									 		}
 	landdivision = { dormant = yes id = { type = 14800 id = 831 }  name = "90th 'Tough Ombres' Division" 		type = infantry model = 11	extra = cavalry_brigade brigade_model = 12 	}
 	
-	#2401850 Dragoon
+	#2405050 Dragoon
 	landdivision = { dormant = yes id = { type = 14800 id = 850 }  name = "Seventh Army HQ"  					type = hq 		model = 4	extra = anti_air 		brigade_model = 4	} 
 	landdivision = { dormant = yes id = { type = 14800 id = 851 }  name = "1st Airborne Task Force"		 		type = paratrooper model = 2									 		}
 	landdivision = { dormant = yes id = { type = 14800 id = 852 }  name = "3rd 'Rock of the Marne' Division"  	type = infantry model = 11	extra = artillery 		brigade_model = 10  } 
 	landdivision = { dormant = yes id = { type = 14800 id = 853 }  name = "45th 'Thunderbird' Division"		  	type = infantry model = 11	extra = medium_armor 	brigade_model = 5	} 
 	landdivision = { dormant = yes id = { type = 14800 id = 854 }  name = "36th 'Arrowhead' Division"  			type = infantry model = 11	extra = engineer  		brigade_model = 4  	} 
 	
-	#2401860 Husky
+	#2405060 Husky
 	landdivision = { dormant = yes id = { type = 14800 id = 870 }  name = "9th 'Varsity' Division" 				type = infantry model = 11	extra = medium_armor	brigade_model = 5  	} 
 	landdivision = { dormant = yes id = { type = 14800 id = 871 }  name = "82nd 'All American' Division" 		type = paratrooper model = 1									 		}
 	landdivision = { dormant = yes id = { type = 14800 id = 873 }  name = "7th Army HQ" 						type = hq 		model = 3	extra = anti_air 		brigade_model = 4	} 
@@ -1888,5 +1888,13 @@ inventions = { 3000027 }
 	landdivision = { dormant = yes id = { type = 14800 id = 875 }  name = "3rd 'Rock of the Marne' Division"  	type = infantry model = 11	extra = artillery 		brigade_model = 9  	} 
 	landdivision = { dormant = yes id = { type = 14800 id = 876 }  name = "1st 'Big Red One' Division"  		type = infantry model = 11	extra = artillery 		brigade_model = 10 	} 
 	landdivision = { dormant = yes id = { type = 14800 id = 877 }  name = "45th 'Thunderbird' Division"		  	type = infantry model = 11	extra = medium_armor 	brigade_model = 5	} 
+	
+	#2405140 Climate
+	landdivision = { dormant = yes id = { type = 14800 id = 890 }  name = "1st 'Big Red One' Division" 			type = infantry model = 11	extra = artillery 		brigade_model = 10 	} 
+	landdivision = { dormant = yes id = { type = 14800 id = 891 }  name = "9th 'Varsity' Division" 				type = infantry model = 11	extra = engineer  		brigade_model = 4  	} 
+	landdivision = { dormant = yes id = { type = 14800 id = 892 }  name = "1st 'Old Ironsides' Division" 		type = armor 	model = 1										 		} 
+	#landdivision = { dormant = yes id = { type = 14800 id = 893 }  name = "78th 'Battleaxe' Division" 			type = infantry model = 11										 		} 
+	#landdivision = { dormant = yes id = { type = 14800 id = 894 }  name = "36th Infantry Brigade" 				type = militia	model = 5										 		} 
+	#landdivision = { dormant = yes id = { type = 14800 id = 895 }  name = "19th Division" 						type = infantry model = 11										 		} 
 }  
   
