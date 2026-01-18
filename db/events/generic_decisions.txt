@@ -1078,7 +1078,12 @@ event = { #apply sturdyequip boni
 }
 
 ####################################################################################################
-# Issue currency prints the exact amount of money that government investment decision requires
+# Issue currency
+# Currency issue effectively extracts resources from the civilian economy to facilitate government spending.
+# In DH, all money is worth the same, meaning it can be understood as "international dollars".
+# Each money issue devaluates the local currency, making it worth less internationally, therefore it yields less "international dollars" each time.
+# Instead of yielding less money, trying to get the same amount in "international dollars" by printing more local currency, i.e. extracting more from the civilian economy each time.
+# Theoretically, devaluation should also make local investments cheaper as well as they are also valued in local currency, but this is difficult to implement.
 ####################################################################################################
 	
 #### Issue Currency
@@ -1129,9 +1134,6 @@ event = {
 		#Eventually need to transition to a multiplier model rather than fixed tiers. Challenge: the current max daily gain estimate is not modified by the efficiency but IS modified by war_level, which is the opposite of what is actually needed. Possible solution: move the CG to money modifier from the war_level slider itself to the corresponding event, that way it should be ignored in calculations?
 		#command = { trigger = { NOT = { local_flag = exchange_rate 						} } 		type = resource				which = money	value = 30000  }
 		#command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource				which = money	value = 10000  }
-		
-		#Each monney issue devaluates the local currency, making it less valuable. To compensate and get the same amount in 'international dollars', more local currency has to be printed each time.
-		#Theoretically devaluation should also make local investments cheaper as well, but this is difficult to implement.
 		
 		command = { 																					type = industrial_modifier 	which = IC 		value = -3   } #1 is temp
 		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 1 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
@@ -1210,9 +1212,6 @@ event = {
 		#Eventually need to transition to a multiplier model rather than fixed tiers. Challenge: the current max daily gain estimate is not modified by the efficiency but IS modified by war_level, which is the opposite of what is actually needed. Possible solution: move the CG to money modifier from the war_level slider itself to the corresponding event, that way it should be ignored in calculations?
 		#command = { trigger = { NOT = { local_flag = exchange_rate 						} } 		type = resource				which = money	value = 30000  }
 		#command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 20	} } 		type = resource				which = money	value = 10000  }
-		
-		#Each monney issue devaluates the local currency, making it less valuable. To compensate and get the same amount in 'international dollars', more local currency has to be printed each time.
-		#Theoretically devaluation should also make local investments cheaper as well, but this is difficult to implement.
 		
 		command = { 																					type = industrial_modifier 	which = IC 		value = -3   } #1 is temp
 		command = { trigger = { local_flag = { which = exchange_rate when = 1 value = 1 	} }			type = industrial_modifier 	which = IC 		value = -0.2 }
@@ -1808,7 +1807,7 @@ event = {
 		}
 	}
    
-	name = "Budget Spending - General"
+	name = EVT_9000023_NAME
 	desc = EVT_9000023_DESC
 	style = 2
 	picture = "money_devaluation"
@@ -2139,9 +2138,9 @@ event = {
 		#Take effect in December rather than in a month
 		#Reduce possible interest payments that would normally happen in December, in this sense it may be a better long term option compared to "invest in growth"
 	}
-#	In theory this should not be necessary since supplies can typically be traded for money on the market, however:
+#	In theory this should not be necessary since supplies can typically be traded for money on the market unless they are blockaded, however:
 #	In practice most AI countries are extremely reluctant to trade away supplies especially for money
-#	Also, even blockaded countries usually can smuggle in some amount of supplies, assuming they are willing to pay in disproportionately large quantities of gold.
+#	Also, even blockaded countries can usually smuggle in some amount of supplies, assuming they are willing to pay disproportionately large quantities of gold.
 	action = {
 		name = EVT_9000030_ACTJ
 		trigger = { 
@@ -2259,6 +2258,8 @@ event = {
 		name = ACTION_NAME_EXCELLENT
 		command = { type = industrial_modifier which = total value = 0.50 }
 		command = { type = tc_mod 							 value = 2.00 }	
+		command = { type = tc_occupied_mod 					 value = 1.00 }
+		command = { type = supply_dist_mod 					 value = 1.00 }
 		command = { trigger = { 		 } type = construct which = infrastructure where = -4 value = 10 }
 		command = { trigger = { vp = 25  } type = construct which = infrastructure where = -4 value = 10 }
 		command = { trigger = { vp = 50  } type = construct which = infrastructure where = -4 value = 10 }
@@ -2347,7 +2348,7 @@ event = {
 		command = { trigger = { IC = { value = 12  }  															} 	type = manpowerpool value = 0.5 }
 		command = { trigger = { 			 																	} 	type = manpowerpool value = 0.5 }
 		
-		#general mobilization C
+		#general mobilization C or below
 		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 9 } } } type = manpowerpool value = 0.5 }
 		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
 		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
@@ -2355,7 +2356,7 @@ event = {
 		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 9 } } }	type = manpowerpool value = 0.5 }
 		command = { trigger = { 						NOT = { policy = { type = professional_army value = 9 } } } type = manpowerpool value = 0.5 }
 		
-		#general mobilization B
+		#general mobilization B or below
 		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 8 } } } type = manpowerpool value = 0.5 }
 		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
 		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
@@ -2363,7 +2364,7 @@ event = {
 		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 8 } } }	type = manpowerpool value = 0.5 }
 		command = { trigger = { 						NOT = { policy = { type = professional_army value = 8 } } } type = manpowerpool value = 0.5 }
 		
-		#general mobilization A
+		#general mobilization A or below
 		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 7 } } } type = manpowerpool value = 0.5 }
 		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
 		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
@@ -2371,7 +2372,7 @@ event = {
 		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 7 } } }	type = manpowerpool value = 0.5 }
 		command = { trigger = { 						NOT = { policy = { type = professional_army value = 7 } } } type = manpowerpool value = 0.5 }
 		
-		#partial mobilization
+		#partial mobilization or below
 		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 6 } } } type = manpowerpool value = 1.0 }
 		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
 		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
@@ -2379,7 +2380,7 @@ event = {
 		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 6 } } }	type = manpowerpool value = 1.0 }
 		command = { trigger = { 						NOT = { policy = { type = professional_army value = 6 } } } type = manpowerpool value = 1.0 }
 		
-		#2 year conscription
+		#2 year conscription or below
 		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 5 } } } type = manpowerpool value = 1.0 }
 		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
 		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
@@ -2387,7 +2388,7 @@ event = {
 		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 5 } } }	type = manpowerpool value = 1.0 }
 		command = { trigger = { 						NOT = { policy = { type = professional_army value = 5 } } } type = manpowerpool value = 1.0 }
 		
-		#1 year conscription
+		#1 year conscription or below
 		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 4 } } } type = manpowerpool value = 1.0 }
 		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
 		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
@@ -2395,7 +2396,7 @@ event = {
 		command = { trigger = { IC = { value = 12  } 	NOT = { policy = { type = professional_army value = 4 } } }	type = manpowerpool value = 1.0 }
 		command = { trigger = { 						NOT = { policy = { type = professional_army value = 4 } } } type = manpowerpool value = 1.0 }
 		
-		#selective conscription
+		#selective conscription or below
 		command = { trigger = { IC = { value = 200 } 	NOT = { policy = { type = professional_army value = 3 } } } type = manpowerpool value = 1.0 }
 		command = { trigger = { IC = { value = 100 } 	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
 		command = { trigger = { IC = { value = 50  } 	NOT = { policy = { type = professional_army value = 3 } } }	type = manpowerpool value = 1.0 }
@@ -2721,7 +2722,7 @@ event = {
 
 	action = {
 		name = ACTION_NAME_EXCELLENT
-		command = { type = attrition_mod 	value = 1 }
+		command = { type = attrition_mod 	value = 2 }
 		command = { type = trickleback_mod 	value = 1 } 
 		command = { type = industrial_modifier which = total value = 0.10 } #healthier workers, healthier economy
 		command = { type = local_clrflag which = invest_medicine }
@@ -3657,7 +3658,7 @@ event = {
 	deathdate = { day = 30 month = december year = 1999 }
 	
 	action = {
-		name = EVT_9000052_ACTA
+		name = EVT_9000053_ACTA
 		command = { type = money 							value = -200 }
 		command = { type = free_ic 							value = -1   }
 		command = { type = extra_tc 						value = -20  }
