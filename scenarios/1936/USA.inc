@@ -6,9 +6,9 @@ country =
 { tag                    = USA
   ai_settings			 = { flags = { Depression = 6 WARDebt = 7 ideology = 6 } }
 	# Resource Reserves   
-	energy                 = 30060
-	metal                  = 15030
-	rare_materials         = 7515  
+	energy                 = 130060
+	metal                  = 65030
+	rare_materials         = 17515  
 	oil                    = 5000   
 	supplies               = 5000   
 	money                  = 100   
