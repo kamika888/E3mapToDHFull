@@ -230,7 +230,7 @@ blueprints = {
      free_market       = 1
      freedom           = 2 
      professional_army = 5 
-     defense_lobby     = 4 
+     defense_lobby     = 8
      interventionism   = 3
   }
    headofstate            = {  type = 9 id = 260848  } 

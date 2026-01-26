@@ -24,7 +24,7 @@ country =
      freedom           = 2 
      free_market       = 1
      professional_army = 2 
-     defense_lobby     = 3 
+     defense_lobby     = 4 
      interventionism   = 6 
   }
   SpyInfo                = { country = "NEP" NumberOfSpies = 1 }

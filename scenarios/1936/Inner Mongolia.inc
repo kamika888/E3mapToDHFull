@@ -125,7 +125,7 @@ country =
      freedom           = 2 
      free_market       = 1
      professional_army = 5 
-     defense_lobby     = 5 
+     defense_lobby     = 4 
      interventionism   = 4 
   }
    headofstate            = {  type = 9 id = 700001 } 
