@@ -1908,6 +1908,7 @@ event = {
 	id = 2141010
 	random = no
 	country = JAP
+	persistent = yes
 
 	name = EVT_2141010_NAME
 	desc = EVT_2141010_DESC
@@ -1950,12 +1951,61 @@ event = {
 	
 	action = {
 		name = "ACTION_NAME_DAMN"
+		command = { type = event 	which = 2141011 where = -1 when = 3 }
+	}
+}
+
+event = { 
+	id = 2141011
+	random = no
+	country = JAP
+	persistent = yes
+
+	name = EVT_2141010_NAME
+	desc = EVT_2141011_DESC
+	style = 2
+ 	picture = "news_paper"
+	
+	action = {
+		name = "ACTION_NAME_DAMN"
+		trigger = {
+			ai = no
+			NOT = { war = { country = CHI } }
+			OR = {
+				control = { province = 2520 data = -3 }
+				control = { province = 1271 data = -3 }
+				control = { province = 3751 data = -3 }
+				control = { province = 1272 data = -3 }
+				control = { province = 1273 data = -3 }
+				control = { province = 5624 data = -3 }
+				control = { province = 2518 data = -3 }
+				flag 	= { which = japChi when = 1  value = 20 }
+				AND = {
+							army	= { size = 20	type = 0 when = 0 where = 0 which = 0 country = MEN }
+					NOT = {	army	= { size = 20	type = 0 when = 0 where = 1 which = 0 country = MEN } } 
+				}
+				air		= { size = 6	type = 0 when = 0 where = 0 which = 0 country = MEN }
+				AND = {
+							army	= { size = 12	type = 0 when = 0 where = 0 which = 0 country = MEN }
+					NOT = {	army	= { size = 12	type = 0 when = 0 where = 1 which = 0 country = MEN } } 
+					NOT = { event = 2141008 } #defeat event. If defeated, allow bigger deployment to stabilize the front
+				}
+				AND = {
+							army	= { size = 15	type = 0 when = 0 where = 0 which = 0 country = U87 }
+					NOT = {	army	= { size = 15	type = 0 when = 0 where = 1 which = 0 country = U87 } }
+				}
+				air		= { size = 4	type = 0 when = 0 where = 0 which = 0 country = U87 }
+			}
+		}
 		command = { type = dissent 		value = 2 }
 		command = { type = belligerence value = 5 } 
 		command = { type = war 			which = CHI }
 		#command = { type = event 	which = 2012016 where = CHI when = 2 } #give a couple of days to prepare
+		command = { type = sleepevent which = 2141010 }
+		command = { type = sleepevent which = 2141011 }
 	}
 }
+
 
 #########################################################################
 #  Xinjiang campaign
@@ -2345,6 +2395,51 @@ event = {
 	
 	action = {
 		name = "ACTION_NAME_DAMN"
+		command = { type = event 	which = 2012083 where = -1 when = 3 }
+	}
+}
+
+event = { 
+	id = 2012083
+	random = no
+	country = SOV
+
+	name = EVT_2012077_NAME
+	desc = EVT_2012083_DESC
+	style = 2
+ 	picture = "news_paper"
+	
+	action = {
+		name = "ACTION_NAME_DAMN"
+		trigger = {
+			ai = no
+			NOT = { war = { country = CHI } }
+			OR = {
+				control = { province = 3750 data = -3 }
+				control = { province = 1441 data = -3 }
+				control = { province = 5542 data = -3 }
+				control = { province = 5543 data = -3 }
+				control = { province = 5529 data = -3 }
+				control = { province = 1442 data = -3 }
+				control = { province = 5540 data = -3 }
+				region = { region = "China" country = -3 value = 20 } #Sinkiang+Mongolia+Tuva together are about 15, with starting volunteer armies ~17%
+				AND = {
+							army	= { size = 25	type = 0 when = 0 where = 0 which = 0 country = SIK }
+					NOT = {	army	= { size = 25	type = 0 when = 0 where = 1 which = 0 country = SIK } } 
+				}
+				air		= { size = 6	type = 0 when = 0 where = 0 which = 0 country = SIK }
+				AND = {
+							army	= { size = 40	type = 0 when = 0 where = 0 which = 0 country = SIK }
+					NOT = {	army	= { size = 40	type = 0 when = 0 where = 1 which = 0 country = SIK } } 
+					NOT = { event = 2401065 } #ai defeat event. If defeated, allow bigger deployment to stabilize the front
+				}
+				#AND = {
+				#			army	= { size = 20	type = 0 when = 0 where = 0 which = 0 country = U58 }
+				#	NOT = {	army	= { size = 20	type = 0 when = 0 where = 1 which = 0 country = U58 } }
+				#}
+				#air		= { size = 4	type = 0 when = 0 where = 0 which = 0 country = U58 }
+			}
+		}
 		command = { type = dissent 		value = 2 }
 		command = { type = belligerence value = 5 } 
 		command = { type = war 			which = CHI }
