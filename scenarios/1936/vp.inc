@@ -815,7 +815,7 @@ province = { id = 1294 points = 1 }
 province = { id = 1299 points = 2 }
 province = { id = 1300 points = 2 }
 province = { id = 1307 points = 3 }
-province = { id = 1309 points = 1 }
+province = { id = 1319 points = 1 }
 province = { id = 1313 points = 2 }
 province = { id = 1315 points = 5 }
 province = { id = 1316 points = 1 }
