@@ -1600,4 +1600,47 @@ landdivision = { dormant = yes id = { type = 14500 id = 11171 }  name = "334. In
 landdivision = { dormant = yes id = { type = 14500 id = 11172 }  name = "Division von Broich"		type = militia			model = 5												  }
 landdivision = { dormant = yes id = { type = 14500 id = 11173 }  name = "Legion imperiale francaise" type = militia			model = 5												  }
 
+
+#Forced garrisons
+landdivision = { dormant = yes id = { type = 14500 id = 12001 } name = "1. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12002 } name = "2. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12003 } name = "3. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12004 } name = "4. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12005 } name = "5. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12006 } name = "6. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12007 } name = "7. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12008 } name = "8. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12009 } name = "9. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12010 } name = "10. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12011 } name = "11. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12012 } name = "12. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12013 } name = "13. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12014 } name = "14. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12015 } name = "15. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12016 } name = "16. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12017 } name = "17. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12018 } name = "18. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12019 } name = "19. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12020 } name = "20. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12021 } name = "21. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12022 } name = "22. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12023 } name = "23. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12024 } name = "24. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12025 } name = "25. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12026 } name = "26. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12027 } name = "27. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12028 } name = "28. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12029 } name = "29. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12030 } name = "30. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12031 } name = "31. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12032 } name = "32. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12033 } name = "33. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12034 } name = "34. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12035 } name = "35. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12036 } name = "36. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12037 } name = "37. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12038 } name = "38. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12039 } name = "39. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = police		brigade_model = 2	 }
+landdivision = { dormant = yes id = { type = 14500 id = 12040 } name = "40. Sicherungs-Division" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+
 } 
