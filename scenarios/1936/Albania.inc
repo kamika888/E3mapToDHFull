@@ -4,6 +4,7 @@
 
 country =
 { tag                    = ALB
+  regular_id			 = ITA #to make sure italy inherits Albanian army after annexation
   puppet				 = ITA
   ai_settings			 = { flags = { puppetLevel6 = 1 ideology = 4 } }
 	manpower               	= -20

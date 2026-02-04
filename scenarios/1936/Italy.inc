@@ -18,9 +18,8 @@ country =
 	capital                = 515
 	transports             = 700
 	escorts                = 100
-	free = {
-		ic = -8 #SanctionsEvt, will be lifted when Italy defeats Ethiopia
-	}
+	#SanctionsEvt, will be lifted when Italy defeats Ethiopia
+	ic_modifier            = 0.92
   # Illyrian Coast
   SpyInfo                = { country = "ITA" NumberOfSpies = 6 }
   diplomacy =
@@ -870,7 +869,7 @@ landunit =
          }
         Division =
         {  id       = {  type = 23500 id = 80  }
-          name     = "Divisione 'Libia'"
+          name     = "1a Divisione 'Libia'"
           type     = infantry
           model    = 6
          strength = 100
@@ -1596,7 +1595,15 @@ landunit =
         }
 
 
-
+	division_development = { 
+		id    = { type = 23500 id = 311 } 
+		name  = "2a Divisione libica 'Pescatori'" 
+		type  = infantry 
+		model = 8 
+		cost  = 2
+		date  = { year = 1936 month = february day = 16 }
+		new_model = no
+	}
 	division_development = { 
 		id    = { type = 23500 id = 301 } 
 		name  = "RN Eugenio di Savoia" 
