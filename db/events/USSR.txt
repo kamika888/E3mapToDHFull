@@ -1987,7 +1987,7 @@ event = {
 		
 		command = { type = belligerence which = SOV value = 3 }
 		
-		command = { type = ai which = "nations\SOV_GER.ai" }
+		command = { type = ai which = "nations\SOV_GER_prep.ai" }
 		command = { type = local_clrflag which = FrontAILock }
 	}
 }
@@ -2246,7 +2246,7 @@ event = {
 		command = { type = addcore which = 3347 }
 		command = { type = addcore which = 7156 }
 		command = { type = addcore which = 2305 } #Base area, too small to have a resistance movement and local population is expelled
-		command = { type = ai which = "nations\SOV_GER.ai" }
+		command = { type = ai which = "nations\SOV_GER_prep.ai" }
 		command = { type = local_clrflag which = FrontAILock }
 	}
 }
@@ -4291,6 +4291,50 @@ event = {
 		command = { type = relation which = CHI value = -10 } # an insult to China
 		command = { type = relation which = CHC value = -10 } # an insult to China
 		command = { type = relation which = MON value = -20 } # Mongolia had its eyes on this land
+	}
+}
+
+########################################
+# The Continuation War
+########################################
+
+event = {
+	id = 2030019
+	random = no
+	country = FIN
+
+	name = "The Continuation War"
+	desc = "Following the defeat in Winter War, much of the Finnish population favored the government's policy of pursuing the reconquest of the territory ceded to the Soviet Union. However, the Finns were simultaneously weary of joining a clearly offensive war against the Soviet Union on the German side without a clear cause, as the continued war would inevitably put significant strain on Finland's modest economy and demography, and even more so, because joining this war would put Finland firmly in the German camp and therefore make it an enemy of Great Britain and other Allied powers. In attempt to alleviate those fears, the Finnish Army deliberately abstained from joining the German offensive operations for the first couple of weeks of the war, effectively allowing the USSR to make the first move. Only after the Soviets had repeatedly bombed Finnish cities and caused significant civilian losses, and as the German invasion clearly showed signs of early success, the Finns decided to declare war and commence offensive operations of their own."
+	style = 2
+	picture = "finnish_reinforcements"
+
+	trigger = {
+		participant = { value = 2 }
+		war = { country = FIN country = SOV }
+		under_attack = SOV
+		owned = { province = 123 data = SOV }
+	}
+
+	date = { day = 0 month = january year = 1939 }
+	offset = 1
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Let them make the first move"
+		ai_chance = 99
+		command = { type = dissent 				value =  -3 }
+		command = { type = belligerence 		value =  -2 }
+		command = { type = local_setflag which = popularMobilization }
+		
+		command = { type = local_clrflag which = war_preparedness } #It will take the finns approximately a couple of weeks to be ready for the offensive
+	}
+	action = {
+		name = "Attack immediately to catch them off guard!"
+		ai_chance = 1
+		command = { type = dissent 				value =   2 }
+		command = { type = belligerence 		value =   5 }
+		command = { type = relation which = GER value =  10 }
+		command = { type = relation which = ENG value = -20 }
 	}
 }
 
@@ -8990,3 +9034,29 @@ event = {
 		  command = { type = fuel_consumption which = armor				value = -1.00 }
 	}
 }
+
+
+event = { 
+	id = 23126546
+	random = no
+	country = ARG
+	persistent = yes
+
+	decision = {}
+	trigger= { 
+	}
+
+	name = "Take control USSR"
+	desc = "Take control USSR"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 1
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = military_control which = ARG where = SOV value = 1 }
+	}
+}
+
