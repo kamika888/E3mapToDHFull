@@ -2755,5 +2755,9 @@ airunit = {
 	landdivision = { dormant = yes id = { type = 10848 id = 8602 }	name = "Latvia garrison"					type = garrison 	model = 5	locked = yes }
 	landdivision = { dormant = yes id = { type = 10848 id = 8603 }	name = "Lithuania garrison"					type = garrison 	model = 5	locked = yes }
 	
+	landdivision = { dormant = yes id = { type = 10848 id = 8605 }	name = "1-ya Leningradskaya Diviziya"		type = garrison 	model = 5	locked = yes }
+	landdivision = { dormant = yes id = { type = 10848 id = 8606 }	name = "2-ya Leningradskaya Diviziya"		type = garrison 	model = 5	locked = yes }
+	landdivision = { dormant = yes id = { type = 10848 id = 8607 }	name = "3-ya Tankovaya Diviziya"			type = light_armor 	model = 2	locked = yes }
+	
 	airdivision  = { dormant = yes id = { type = 10848 id = 8610 }	name = "E. de ch. 1/30 Normandie-Niemen"	type = interceptor	model = 9	strength = 10 experience = 90 }
  }	
