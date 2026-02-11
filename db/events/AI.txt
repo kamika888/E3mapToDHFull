@@ -8832,6 +8832,7 @@ event = {
 	}
 }
 
+#No longer needed?
 event = {
 	id = 2401406
 	random = no 
@@ -8851,9 +8852,9 @@ event = {
 
 	name = "AI_EVENT"
 	
-	date = { day = 1 month = january year = 1936 }
-	offset = 15
-	deathdate = { day = 29 month = december year = 1963 }
+	#date = { day = 1 month = january year = 1936 }
+	#offset = 15
+	#deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
 		command = { type = ai which = "nations\SOV_FIN_low.ai" }
@@ -9228,12 +9229,90 @@ event = {
 	action = {
 		command = { type = demobilize which = garrison		when = 0 where = 0 value = -2 }
 		command = { type = demobilize which = light_armor	when = 0 where = 0 value = -1 }
-		command = { type = activate_division which = 10848 value = 8605 when = 0 where = 7003 }
-		command = { type = activate_division which = 10848 value = 8606 when = 0 where = 7003 }
-		command = { type = activate_division which = 10848 value = 8607 when = 0 where = 7003 }
-		command = { type = disorg_division   which = 10848 value = 8605 where = -100 }
-		command = { type = disorg_division   which = 10848 value = 8606 where = -100 }
-		command = { type = disorg_division   which = 10848 value = 8607 where = -100 }
+		command = { type = activate_division which = 10848 value = 8620 when = 0 where = 7003 }
+		command = { type = activate_division which = 10848 value = 8621 when = 0 where = 7003 }
+		command = { type = activate_division which = 10848 value = 8622 when = 0 where = 7003 }
+		command = { type = disorg_division   which = 10848 value = 8620 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8621 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8622 where = -100 }
+	}
+}
+
+event = {
+	id = 2401431
+	random = no 
+	country = SOV
+	#persistent = yes
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		war = { country = GER }
+		bergsjaeger = 3
+		light_armor = 1
+		control = { province = 3341	data = -1 }
+		control = { province = 135	data = -1 }
+		control = { province = 132	data = -2 }
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 7
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = demobilize which = bergsjaeger	when = 0 where = 0 value = -3 }
+		command = { type = demobilize which = garrison		when = 0 where = 0 value = -1 }
+		command = { type = demobilize which = light_armor	when = 0 where = 0 value = -1 }
+		command = { type = activate_division which = 10848 value = 8625 when = 0 where = 3341 }
+		command = { type = activate_division which = 10848 value = 8626 when = 0 where = 3341 }
+		command = { type = activate_division which = 10848 value = 8627 when = 0 where = 3341 }
+		command = { type = activate_division which = 10848 value = 8628 when = 0 where = 3341 }
+		command = { type = activate_division which = 10848 value = 8629 when = 0 where = 3341 }
+		command = { type = disorg_division   which = 10848 value = 8625 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8626 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8627 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8628 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8629 where = -100 }
+	}
+}
+
+event = {
+	id = 2401432
+	random = no 
+	country = SOV
+	#persistent = yes
+	
+	trigger = {	
+		event = 2401431
+		OR = {
+			ai = no
+			NOT = { war = { country = FIN } }
+			NOT = { war = { country = GER } }
+			control = { province = 135	data = -2 }
+			AND = {
+				garrison = { country = SOV province = 3341 type = land size = 20 area = 0 }
+				NOT = {
+					local_flag = disOrgGeneric_1
+					local_flag = disOrgGeneric_2
+				}
+			}
+		}
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = unlock_division	which = 10848 value = 8625 }
+		command = { type = unlock_division	which = 10848 value = 8626 }
+		command = { type = unlock_division	which = 10848 value = 8627 }
+		command = { type = unlock_division	which = 10848 value = 8628 }
+		command = { type = unlock_division	which = 10848 value = 8629 }
 	}
 }
 
@@ -13935,13 +14014,21 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		command = { type = remove_division which = 23500 value = 12 } 			#1. Divisione 'Superga'
+		command = { type = demobilize 											which = infantry	when = 1 where = 1 value = -2 }
+		command = { type = demobilize 											which = armor		when = 1 where = 1 value = -1 }
 		
-		command = { type = add_corps 	which = "1. Divisione 'Superga'" 		value = land 		where = 940 	when = 25093	} #	Dante Lorenzelli
+		command = { type = add_corps 	which = "I. ITALIANISCHE ARMEE" 		value = land 		where = 940 	when = 25103	} #	Giovanni Messe
 		command = { type = activate_division which = 23500 						value = 11174 		where = 940		when = 1 		} #	1. Divisione 'Superga'
+		command = { type = activate_division which = 23500 						value = 11175 		where = 940		when = 1 		} #131. Divisione 'Centauro'
+		
+		command = { type = add_corps 	which = "XXI. CORPO D'ARMATA" 			value = land 		where = 934 	when = 25493	} #	Paolo Berardi
+		command = { type = activate_division which = 23500 						value = 11176 		where = 934		when = 1 		} #	101. Divisione 'Trieste'
+		command = { type = activate_division which = 23500 						value = 11177 		where = 934		when = 1 		} # 80. Divisione 'La Spezia'
 		
 		command = { type = disorg_division   which = 23500 						value = 11174 		where = -100 }
-
-		#command = { type = non_aggression which = ITA where = ENG when = 1 } 
+		command = { type = disorg_division   which = 23500 						value = 11175 		where = -100 }
+		command = { type = disorg_division   which = 23500 						value = 11176 		where = -100 }
+		command = { type = disorg_division   which = 23500 						value = 11177 		where = -100 }
 	}
 }
 

@@ -2755,9 +2755,15 @@ airunit = {
 	landdivision = { dormant = yes id = { type = 10848 id = 8602 }	name = "Latvia garrison"					type = garrison 	model = 5	locked = yes }
 	landdivision = { dormant = yes id = { type = 10848 id = 8603 }	name = "Lithuania garrison"					type = garrison 	model = 5	locked = yes }
 	
-	landdivision = { dormant = yes id = { type = 10848 id = 8605 }	name = "1-ya Leningradskaya Diviziya"		type = garrison 	model = 5	locked = yes }
-	landdivision = { dormant = yes id = { type = 10848 id = 8606 }	name = "2-ya Leningradskaya Diviziya"		type = garrison 	model = 5	locked = yes }
-	landdivision = { dormant = yes id = { type = 10848 id = 8607 }	name = "3-ya Tankovaya Diviziya"			type = light_armor 	model = 2	locked = yes }
-	
 	airdivision  = { dormant = yes id = { type = 10848 id = 8610 }	name = "E. de ch. 1/30 Normandie-Niemen"	type = interceptor	model = 9	strength = 10 experience = 90 }
+	
+	landdivision = { dormant = yes id = { type = 10848 id = 8620 }	name = "1-ya Leningradskaya Diviziya"		type = garrison 	model = 5	locked = yes experience = 80 extra = artillery		brigade_model = 9 }
+	landdivision = { dormant = yes id = { type = 10848 id = 8621 }	name = "2-ya Leningradskaya Diviziya"		type = garrison 	model = 5	locked = yes experience = 80 extra = artillery		brigade_model = 9 }
+	landdivision = { dormant = yes id = { type = 10848 id = 8622 }	name = "3-ya Len. Tankovaya Diviziya"		type = light_armor 	model = 2	locked = yes experience = 80 extra = heavy_armor	brigade_model = 1 }
+	
+	landdivision = { dormant = yes id = { type = 10848 id = 8625 }	name = "1-ya Severnaya Diviziya"			type = bergsjaeger 	model = 10	locked = yes experience = 80 extra = artillery		brigade_model = 9 }
+	landdivision = { dormant = yes id = { type = 10848 id = 8626 }	name = "2-ya Severnaya Diviziya"			type = bergsjaeger 	model = 10	locked = yes experience = 80 extra = artillery		brigade_model = 9 }
+	landdivision = { dormant = yes id = { type = 10848 id = 8627 }	name = "3-ya Severnaya Diviziya"			type = bergsjaeger 	model = 10	locked = yes experience = 80 extra = armored_car	brigade_model = 4 }
+	landdivision = { dormant = yes id = { type = 10848 id = 8628 }	name = "4-ya Severnaya Diviziya"			type = garrison 	model = 5	locked = yes experience = 80 }
+	landdivision = { dormant = yes id = { type = 10848 id = 8629 }	name = "5-ya Sev. Tankovaya Diviziya"		type = light_armor 	model = 2	locked = yes experience = 80 extra = heavy_armor	brigade_model = 1 }
  }	
