@@ -240,6 +240,7 @@ blueprints = {
    headofgovernment       = {  type = 9 id = 585002  } 
    foreignminister        = {  type = 9 id = 585003  } 
    armamentminister       = {  type = 9 id = 585004  } 
+   ministerofsecurity     = {  type = 9 id = 585104  } 
    ministerofintelligence = {  type = 9 id = 585006  } 
    chiefofstaff           = {  type = 9 id = 585007  } 
    chiefofarmy            = {  type = 9 id = 585009  } 

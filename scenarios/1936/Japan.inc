@@ -15,14 +15,14 @@ country =
 	rare_materials         = 14000 
 	oil                    = 4000 
 	supplies               = 500 
-	money                  = 100 
+	money                  = 1000 
 	transports             = 600 
 	escorts                = 100 
 	extra_tc               = -20 #from japChi = 15 (global flag)
 	free = {
 		supplies = -20			 #from japChi = 15 (global flag)
 	}
-  SpyInfo                = { country = "JAP" NumberOfSpies = 7 }
+  SpyInfo                = { country = "JAP" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = BEL value = -25 }
     relation = { tag = CGX value = -75 }
@@ -40,6 +40,7 @@ country =
     relation = { tag = HOL value = -50 }
     relation = { tag = MAN value = 200 access = yes }
 	relation = { tag = U87 value = 200 access = yes }
+	relation = { tag = U61 value = 80 } 
     relation = { tag = PHI value = 1 }
     relation = { tag = SIA value = 75 }
     relation = { tag = SOV value = -10 }

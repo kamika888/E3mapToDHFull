@@ -70,6 +70,299 @@ event = {
 }
 
 #########################################################################
+#  Hebei Question
+#########################################################################
+
+event = { 
+	id = 2011050
+	random = no
+	country = JAP
+	
+	decision = {
+		exists = U61
+		NOT = { event = 2011000 }
+		NOT = { 
+			puppet = { country = U61 country = JAP }
+			war = { country = CHI }
+			war = { country = U61 }
+		}
+	}
+	decision_trigger = {
+		money = 2000
+		relation = { which = U61 value = 100 }
+		OR = {
+			war = { country = CHI country = CHC }
+			war = { country = CHI country = CGX }
+		}
+		OR = {
+			#Japan assasinated Xiao Zhenying
+			AND = {
+				NOT = { minister = 1146103 }
+				NOT = { incabinet = 1146103 } #for the tooltip
+			}
+			#Hebei somehow broke free, for example CHI tried to abolish Hebei autonomy too early
+			NOT = { puppet = { country = U61 country = CHI } }
+			#Chiang defeated in the Liangguang incident and forced to resign
+			event = 2012039
+			#Xi'an incident drastically escalated
+			event = 2012061
+			#Communists are gaining ground and Chiang is not able to contain them
+			region = { region = "China" country = CHC data = 1 value = 5 } #27 provinces
+			#Defeat in Suiyuan and Chiang chose not to escalate
+			AND = {
+				event = 2141006 
+				flag = CHI_passive
+			}
+		}
+	}
+	trigger = {
+		exists = U61
+		NOT = { event = 2011000 }
+		NOT = { 
+			puppet = { country = U61 country = JAP }
+			war = { country = CHI }
+			war = { country = U61 }
+		}
+		OR = {
+			war = { country = CHI country = CHC }
+			war = { country = CHI country = CGX }
+		}
+		OR = {
+			NOT = { minister = 1146103 }
+			NOT = { puppet = { country = U61 country = CHI } }
+			event = 2012039
+			event = 2012061
+			region = { region = "China" country = CHC data = 1 value = 5 } #27 provinces
+			AND = {
+				event = 2141006 
+				flag = CHI_passive
+			}
+		}
+	}
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	name = EVT_2011050_NAME
+	desc = EVT_2011050_DESC
+	style = 2
+ 	picture = "news_paper"
+	
+	action = {
+		name = EVT_2011050_ACTA
+		command = { type = belligerence	value = 3 }
+		command = { type = dissent		value = 1 }
+		command = { type = money 		value = -2000 }
+		command = { trigger = { ai = yes } type = money	value = 10 }
+		command = { type = construct which = ic where = 1186  value = -1 }
+		command = { type = event which = 2011051 where = U61 when = 3 }
+		command = { type = event which = 2011051 where = U87 when = 3 }
+		command = { type = event which = 2011051 where = CHI when = 3 }
+		command = { type = event which = 2011051 where = CHC when = 3 }
+	}
+}
+
+event = { 
+	id = 2011051
+	random = no
+	persistent = yes
+	
+	name = EVT_2011050_NAME
+	desc = EVT_2011050_DESC
+	style = 2
+ 	picture = "news_paper"
+	
+	action = {
+		name = EVT_2011051_ACTA
+		trigger = { country = U61 }
+		command = { type = sleepminister 	which = 1146103 } #Xiao Zhenying
+		command = { type = foreignminister	which = 1146112 } #Qin Dechun temporarily
+		
+		command = { type = dissent value = 10 }
+		command = { type = event which = 2011052 where = U61 when = 2 }
+		command = { type = event which = 2011052 where = U87 when = 2 }
+		command = { type = event which = 2011052 where = CHI when = 2 }
+		command = { type = event which = 2011052 where = CHC when = 2 }
+		command = { type = event which = 2011052 where = JAP when = 2 }
+	}
+	action = {
+		name = EVT_2011051_ACTA
+		trigger = { NOT = { country = U61 } }
+		command = { type = dissent value = 1 }
+	}
+}
+
+event = { 
+	id = 2011052
+	random = no
+	persistent = yes
+	
+	name = EVT_2011052_NAME
+	desc = EVT_2011052_DESC
+	style = 2
+ 	picture = "news_paper"
+	
+	action = {
+		name = EVT_2011052_ACTA
+		trigger = { country = U61 }
+		ai_chance = 95
+		command = { type = end_puppet }
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = JAP value = 1 }
+		command = { type = peace which = CHI value = 1 }
+		command = { type = peace which = CHC value = 1 }
+		command = { type = peace which = SIK value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		command = { type = access which = JAP }
+		command = { type = access which = MAN }
+		command = { type = access which = MEN }
+		command = { type = access which = U87 }
+		
+		command = { type = event which = 2400530 where = U61 when = 0 } #legit indie
+		command = { type = construct which = infrastructure where = -4 		value = 10 }
+		command = { type = construct which = infrastructure where = -4 		value = 10 }
+		command = { type = construct which = ic 			where = 1205	value =  1 }
+		
+		command = { type = relation which = JAP value = 100 }
+		command = { type = relation which = CHI value = -50 }
+		command = { type = relation which = CHC value = -50 }
+		command = { type = set_domestic which = political_left value = 2 } #Fascist
+		
+		command = { type = headofgovernment			which = 1146111 } #Wang Kemin
+		command = { type = foreignminister			which = 1146114	} #Yuan Liang
+		command = { type = armamentminister			which = 1146115 } #Gao Lingwei
+		#command = { type = ministerofsecurity		which = 		} #
+		#command = { type = ministerofintelligence	which =  		} #
+		#command = { type = chiefofstaff			which =  		} #
+		command = { type = chiefofarmy				which = 1146118 } #Yin Tong
+		command = { type = chiefofnavy				which = 1146119 } #Yin Tong
+		command = { type = chiefofair				which = 1146120	} #Yin Tong
+		
+		command = { type = switch_allegiance which = -1 where = CHI }
+		command = { type = switch_allegiance which = -1 where = CHI }
+		
+		command = { type = secedeprovince which = U63 value = 5637	when = 2 }
+		
+		command = { type = event which = 2011053 where = U87 when = 3 }
+		command = { type = event which = 2011054 where = CHI when = 6 }
+		command = { type = event which = 2011054 where = JAP when = 6 }
+	}
+	action = {
+		name = EVT_2011052_ACTB
+		trigger = { country = U61 }
+		ai_chance = 5
+		command = { type = dissent value = 20 }
+		
+		command = { type = war which = JAP }
+		command = { type = peace which = CHI value = 1 }
+		command = { type = peace which = CHC value = 1 }
+		command = { type = peace which = SIK value = 1 }
+		command = { type = peace which = SOV value = 1 }
+		
+		command = { type = construct which = ic where = 1186  value = 1 }
+	
+		command = { type = relation which = JAP value = -50 }
+		command = { type = relation which = CHI value = 100 }
+		command = { type = relation which = CHC value = 100 }
+		command = { type = set_domestic which = political_left value = 3 } #Nationalist
+		
+		#command = { type = headofgovernment		which =  		} #
+		command = { type = foreignminister			which = 1146113	} #Zhang Zizhong
+		#command = { type = armamentminister		which =  		} #
+		command = { type = ministerofsecurity		which = 1146116 } #Tong Linge
+		command = { type = ministerofintelligence	which = 1146117	} #Song Zheyuan
+		#command = { type = chiefofstaff			which =  		} #
+		#command = { type = chiefofarmy				which = 		} #
+		#command = { type = chiefofnavy				which =  		} #
+		#command = { type = chiefofair				which =  		} #
+		
+		command = { type = switch_allegiance which = -1 where = U87 }
+		command = { type = switch_allegiance which = -1 where = U87 }
+		command = { type = switch_allegiance which = -1 where = U87 }
+		command = { type = switch_allegiance which = -1 where = U87 }
+		command = { type = switch_allegiance which = -1 where = U87 }
+		
+		command = { type = secedeprovince which = U87 value = 1204	when = 2 }
+		command = { type = secedeprovince which = U87 value = 1205	when = 2 }
+		command = { type = secedeprovince which = U87 value = 5626	when = 2 }
+		
+		command = { type = belligerence which = JAP value = 2 }
+	}
+	action = {
+		name = ACTION_NAME_DAMN
+		trigger = { NOT = { country = U61 } }
+		command = { }
+	}
+}
+
+event = { 
+	id = 2011053
+	random = no
+	country = U87
+	
+	name = EVT_2011053_NAME
+	desc = EVT_2011053_DESC
+	style = 2
+ 	picture = "news_paper"
+	
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { trigger = { NOT = { ai = U61 } } type = secedearea which = U61 value = "Hebei"	when = 2 }
+		command = { type = inherit which = U61 value = 1 }
+		command = { type = belligerence which = JAP value = 10 }
+		command = { type = dissent value = -5 }
+		
+		command = { type = capital which = 1205 } # Beijing
+
+		command = { type = headofstate which = 1250067 } #Wang Kemin
+		command = { type = headofgovernment which = 1250068 } #Tang Erho
+		command = { type = foreignminister which = 1250070 } #Dong Kang 
+		command = { type = armamentminister which = 1250069 } #Wang Yintai
+		command = { type = ministerofsecurity which = 1250050 } #Wang Yitang
+		command = { type = chiefofstaff which = 1250025 } #Qi Xieyuan	
+		command = { type = chiefofarmy	which = 1146118 } #Yin Tong
+		command = { type = chiefofnavy	which = 1250074 } #Song Zheyuan
+		command = { type = chiefofair	which = 1250075	} #Song Zheyuan
+	}
+}
+
+event = { 
+	id = 2011054
+	random = no
+	persistent = yes
+	
+	name = EVT_2011053_NAME
+	desc = EVT_2011053_DESC
+	style = 2
+ 	picture = "news_paper"
+	
+	action = {
+		name = EVT_2011054_ACTA
+		trigger = { country = CHI }
+		command = { type = dissent value = -5 }
+		command = { type = belligerence which = CHI value = 1 }
+		command = { type = revolt which = 1211 when = 1 }
+		command = { type = revolt which = 1211 when = 1 }
+		
+		command = { type = revolt which = 1212 when = 1 }
+		
+		command = { type = revolt which = 1205 when = 1 }
+		command = { type = revolt which = 1205 when = 1 }
+		command = { type = revolt which = 1205 when = 1 }
+		
+		command = { type = add_corps which = "29th Army" value = land where = 5637 }
+		command = { type = add_division value = militia when = 6 }
+		command = { type = add_division value = militia when = 6 }
+	}
+	action = {
+		name = ACTION_NAME_DAMN
+		trigger = { country = JAP }
+		command = { type = war which = CHI }
+	}
+}
+
+#########################################################################
 #  Marco Polo Bridge Incident (Japan, China)
 #########################################################################
 event = {
@@ -95,6 +388,10 @@ event = {
 			alliance = { country = CHI country = ENG }
 			event = 2011028 #JAP Japanese surrender negotiations
 			event = 2011012 #JAP The Fading Sun
+		}
+		OR = {
+			NOT = { event = 2011053 }
+			event = 2011054
 		}
 		OR = {
 			war = { country = CHI }
@@ -3662,7 +3959,10 @@ event = {
 	trigger = {
 		control = { province = 1205 data = U87 } #Beijing
 		flag = { which = japChi when = 1 value = 15  }
-		event = { id = 1330110081 days = 60 } #At least two months after the war began
+		OR = {
+			event = { id = 1330110081 days = 60 } #At least two months after the war began
+			event = 2011052
+		}
 	}
 	
 	date = { day = 1 month = january year = 1936 }

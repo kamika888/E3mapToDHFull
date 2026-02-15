@@ -1197,6 +1197,8 @@ event = {
 	action = {
 		name = EVT_27008_B
 		ai_chance = 100
+		command = { type = sleepminister which = 1146403 }
+		
 		command = { type = dissent value = 5 } #15-20 dissent
 		command = { type = leave_alliance when = 1 }
 		command = { type = end_puppet }
@@ -1225,6 +1227,8 @@ event = {
 	action = {
 		name = EVT_27008_A
 		ai_chance = 0
+		command = { type = sleepminister which = 1146403 }
+		
 		command = { type = trigger which = 2012027 } #CHI The Liangguang Incident
 		command = { type = non_aggression which = CSX where = CHC } #Yan uses the opportunity to conclude a secret pact with CCP
 	}
@@ -1845,6 +1849,8 @@ event = {
 		command = { type = sleepevent which = 2141005 }
 		command = { type = trigger which = 2141007 }
 		command = { type = trigger which = 2141009 }
+		
+		command = { type = setflag 	which = CHI_passive }
 		
 		#Will trigger the Xi'an incident shortly
 	}
@@ -2743,6 +2749,14 @@ event = {
 	action = {
 		name = EVT_2012041_ACTA
 		ai_chance = 99
+		trigger = { 
+			OR = { 
+				#Hebei can only be annexed after shandong and shanxi
+				ai = no
+				NOT = {	country = U61 }
+				NOT = { exists = CSX exists = U63 }
+			}
+		}
 		command = { type = addcore which = 2234 } #West Island
 		command = { type = event which = 2012042 where = CHI when = 0 }
 		

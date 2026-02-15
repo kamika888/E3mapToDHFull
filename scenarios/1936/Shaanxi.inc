@@ -20,7 +20,16 @@ country =
   capital                = 1267 
   manpower               = 300
   
-  headofstate            = {  type = 9 id = 55500  } 
+   headofstate            = {  type = 9 id = 1146601 } 
+   headofgovernment       = {  type = 9 id = 1146602 } 
+   foreignminister        = {  type = 9 id = 1146603 } 
+   armamentminister       = {  type = 9 id = 1146604 } 
+   ministerofsecurity     = {  type = 9 id = 1146605 } 
+   ministerofintelligence = {  type = 9 id = 1146606 } 
+   chiefofstaff           = {  type = 9 id = 1146607 } 
+   chiefofarmy            = {  type = 9 id = 1146608 } 
+   chiefofnavy            = {  type = 9 id = 1146609 } 
+   chiefofair             = {  type = 9 id = 1146610 }    
   
   SpyInfo                = { country = "U62" NumberOfSpies = 1 }
   diplomacy =
