@@ -4,7 +4,7 @@
 
 country =
 { tag                    = MEX
-  ai_settings			 = { flags = { ideology = 7 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 7 } }
 	# Resource Reserves 
 	energy                 = 1140
 	metal                  = 570
@@ -25,6 +25,15 @@ country =
      defense_lobby     = 1 
      interventionism   = 2 
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "MEX" NumberOfSpies = 1 }
   nationalprovinces      = { 
 756 755 754 753 752 751 750 747 749 745 742 741 744 743 740 739 737 738

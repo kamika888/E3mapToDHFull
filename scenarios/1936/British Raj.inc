@@ -12,7 +12,7 @@
    regular_id             = IND 
    puppet                 = ENG 
    capital                = 1469 
-   ai_settings			  = { flags = { puppetLevel6 = 1 ideology = 5 } }
+   ai_settings			  = { flags = { RESInit = 1 puppetLevel6 = 1 ideology = 5 } }
 
    
 	manpower               = 489 
@@ -30,7 +30,16 @@
 	escorts                = 20 
   
    
-   SpyInfo                = { country = "U02" NumberOfSpies = 1 }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
+  SpyInfo                = { country = "U02" NumberOfSpies = 1 }
   diplomacy = 
    {   
   relation = {  tag = ENG value = 50 access = yes  }  

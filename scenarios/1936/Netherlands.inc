@@ -4,7 +4,7 @@
 
 country =
 { tag                    = HOL
-  ai_settings			 = { flags = { ideology = 5 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 5 } }
   capital                = 47
 	manpower               = 4 
 	# Resource Reserves 
@@ -16,6 +16,15 @@ country =
 	money                  = 40 
 	transports             = 250 
 	escorts                = 21 
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "HOL" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = BEL value = 150 }

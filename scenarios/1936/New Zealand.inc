@@ -6,7 +6,7 @@ country =
 { tag                    = NZL
   puppet				 = ENG
   control				 = ENG
-  ai_settings	= { flags = { puppetLevel9 = 1 ideology = 7 } }
+  ai_settings	= { flags = { RESInit = 1 puppetLevel9 = 1 ideology = 7 } }
 	# Resource Reserves 
 	energy                 = 420
 	metal                  = 210
@@ -18,6 +18,15 @@ country =
 	escorts                = 15 
 	manpower               = 5 
   capital                = 1871
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "NZL" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = AST value = 200 } # was access = yes

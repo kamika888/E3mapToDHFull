@@ -4,7 +4,7 @@
 
 country =
 { tag                    = JAP
-  ai_settings			 = { flags = { ideology = 3 WARDebt = 3 war_preparedness = 10 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 3 WARDebt = 3 war_preparedness = 10 } }
   belligerence           = 3
   ai					 = "EXP_0_01.ai"
   capital                = 1184
@@ -18,10 +18,15 @@ country =
 	money                  = 1000 
 	transports             = 600 
 	escorts                = 100 
-	extra_tc               = -20 #from japChi = 15 (global flag)
-	free = {
-		supplies = -20			 #from japChi = 15 (global flag)
-	}
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = -19	 			 #from japChi = 15 (global flag) 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc               = -15 #from japChi = 15 (global flag)
   SpyInfo                = { country = "JAP" NumberOfSpies = 5 }
   diplomacy =
   { relation = { tag = BEL value = -25 }

@@ -4,7 +4,7 @@
 
 country =
 { tag                    = LAT
-  ai_settings			 = { flags = { ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 4 } }
 	energy                 = 420
 	metal                  = 210
 	rare_materials         = 105 
@@ -14,6 +14,15 @@ country =
 	money                  = 10 
 	manpower               = 1 
   capital                = 197
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "LAT" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = ENG value = 65 }

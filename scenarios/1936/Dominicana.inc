@@ -5,7 +5,7 @@
 country =
 { tag                    = DOM
   puppet				 = USA
-  ai_settings			 = { flags = { puppetLevel7 = 1 ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel7 = 1 ideology = 4 } }
   # Resource Reserves
   energy                 = 1000
   metal                  = 1000
@@ -25,6 +25,15 @@ country =
      defense_lobby     = 1
      interventionism   = 2
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "DOM" NumberOfSpies = 1 }
   nationalprovinces      = { 893 2674 4274 4275 4276
   }

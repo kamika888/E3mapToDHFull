@@ -4,7 +4,7 @@
 
 country =
 { tag                    = TUR
-  ai_settings			 = { flags = { ideology = 3 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 3 } }
 	# Resource Reserves 
 	energy                 = 1320
 	metal                  = 660
@@ -27,6 +27,15 @@ country =
      defense_lobby     = 3 
      interventionism   = 4
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "TUR" NumberOfSpies = 1 }
   nationalprovinces      = { 
 409 408 437 438 439 441 442 443 448 440 449 447 446 445 450 1852 1853 1855 2322

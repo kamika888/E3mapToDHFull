@@ -4,7 +4,7 @@
 
 country =
 { tag                    = SCH
-  ai_settings			 = { flags = { ideology = 5 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 5 } }
   capital                = 532
 	manpower               = 11
 	# Resource Reserves
@@ -25,6 +25,15 @@ country =
      defense_lobby     = 3 
      interventionism   = 4
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "SCH" NumberOfSpies = 1 }
   nationalprovinces      = { 532 530 533 372 3213 3214 3215 3216 6524 }
   ownedprovinces         = { 532 530 533 372 3213 3214 3215 3216 6524 }

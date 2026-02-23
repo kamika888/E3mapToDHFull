@@ -4,7 +4,7 @@
 
 country =
 { tag                    = PAR
-  ai_settings			 = { flags = { ideology = 5 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 5 } }
 	# Resource Reserves 
 	energy                 = 360
 	metal                  = 180
@@ -24,6 +24,15 @@ country =
      defense_lobby     = 4 
      interventionism   = 6
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "PAR" NumberOfSpies = 1 }
   nationalprovinces      = { 837 846 2991 2554 2931 3809 3810 3811 3812 3813 3814 3815 3816 3817 3818 3819
   3854 3855 3924 

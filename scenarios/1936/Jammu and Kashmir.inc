@@ -6,7 +6,7 @@
  {  tag                    = U80
     regular_id             = IND
 	puppet                 = U02
-	ai_settings			   = { flags = { puppetLevel6 = 1 ideology = 4 } }
+	ai_settings			   = { flags = { RESInit = 1 puppetLevel6 = 1 ideology = 4 } }
     capital                = 1474 
 
      # Resource Reserves 
@@ -23,7 +23,16 @@
    transports             = 50 
    escorts                = 0 
 
-   SpyInfo                = { country = "U80" NumberOfSpies = 1 }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
+  SpyInfo                = { country = "U80" NumberOfSpies = 1 }
   diplomacy = 
    {   
    relation = {  tag = ENG value = 80 access = no  }  

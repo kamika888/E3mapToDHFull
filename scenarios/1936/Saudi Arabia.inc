@@ -4,7 +4,7 @@
 
 country =
 { tag                    = SAU
-	ai_settings			 = { flags = { ideology = 4 } }
+	ai_settings			 = { flags = { RESInit = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 360
 	metal                  = 180
@@ -25,6 +25,15 @@ country =
      defense_lobby     = 3 
      interventionism   = 3
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "SAU" NumberOfSpies = 1 }
   nationalprovinces      = { 1821 1818 1809 1808 1807 1805 1804
 2856 2857 2858 2859 2861 2862 2863 2358 4197

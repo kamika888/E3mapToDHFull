@@ -7,7 +7,7 @@ country =
   regular_id             = CHI
   puppet                 = CHI
   control				 = CHI
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 5 ideology = 3 } }
   extra_tc               = 10
   dissent				 = 10
   # Resource Reserves
@@ -31,6 +31,15 @@ country =
    chiefofnavy            = {  type = 9 id = 1146109 } 
    chiefofair             = {  type = 9 id = 1146110 } 
   
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "U61" NumberOfSpies = 2 }
   diplomacy =
   { relation = { tag = CHC value = -200 }

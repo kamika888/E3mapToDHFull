@@ -4,7 +4,7 @@
 
 country =
 { tag                    = BRA
-  ai_settings			 = { flags = { ideology = 3 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 3 } }
 	# Resource Reserves 
 	energy                 = 2040
 	metal                  = 1020
@@ -25,6 +25,15 @@ country =
      defense_lobby     = 2 
      interventionism   = 3 
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "BRA" NumberOfSpies = 1 }
   claimedprovinces 		 = { 5422 5424 5425 3957 
 849 833 2960 3776 3777 3778 3779 3780
@@ -196,7 +205,6 @@ country =
     relation = { tag = USA value = 120 }
     relation = { tag = VEN value = 10 }
   }
-   SpyInfo                = {  country = "BRA" NumberOfSpies = 1  } 
    headofstate            = {  type = 9 id = 160001  } 
    headofgovernment       = {  type = 9 id = 160002  } 
    foreignminister        = {  type = 9 id = 160003  } 

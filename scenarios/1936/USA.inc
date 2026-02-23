@@ -4,7 +4,7 @@
 
 country =
 { tag                    = USA
-  ai_settings			 = { flags = { Depression = 6 WARDebt = 7 ideology = 6 } }
+  ai_settings			 = { flags = { RESInit = 1 Depression = 6 WARDebt = 7 ideology = 6 } }
 	# Resource Reserves   
 	energy                 = 130060
 	metal                  = 65030
@@ -18,6 +18,15 @@ country =
 	dissent                = 10
   capital                  = 606
   industrial_modifier 	   = 0.74 # depression - effective 0.80
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "USA" NumberOfSpies = 4 }
   diplomacy =
   { relation =
@@ -133,7 +142,6 @@ country =
     }
     relation = { tag = YEM value = 100 }
   }
-  SpyInfo                = { country = "PAN" NumberOfSpies = 1 }
   claimedprovinces      = { 
   #Internal
   6471 633 6469 6484 6481 619 6480 644 646 6478 6479 2711 6449 647 6443 6444 6436 672 6431 2255 6424 673 2259 6279 6427 675 6280 6276 682 6426 6427 6273 679 6271 6270 748 717 6268 2714 6269 6262 6263 6259 6261 6260 718 6178 6179 6147 6146 730 6155 6180 6181 6183 6150 6151 6182 6185 724 725 727 6184 6174 6169 6170 6121 6128 6158 6222 6200 6295 6297 6202 6096

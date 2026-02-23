@@ -5,7 +5,7 @@
 
 country =
 { tag                    = AFG
-  ai_settings			 = { flags = { ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 360
 	metal                  = 180
@@ -26,6 +26,15 @@ country =
      defense_lobby     = 3 
      interventionism   = 4
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "AFG" NumberOfSpies = 1 }
   nationalprovinces      = { 1486 1493 1492 1484
 2864 2865 2866 2867

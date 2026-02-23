@@ -4,7 +4,7 @@
 
 country =
 { tag                    = BUL
-  ai_settings			 = { flags = { ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 1500
 	metal                  = 750
@@ -30,6 +30,15 @@ country =
   # }
   transports             = 10
   escorts                = 4
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "BUL" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = ENG value = 20 }

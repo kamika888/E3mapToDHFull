@@ -7,7 +7,7 @@ country =
   regular_id             = MON
   puppet                 = JAP
   #control                = JAP
-  ai_settings			 = { flags = { puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 7 ideology = 2 AI1936_land = 2 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel7 = 1 do_not_demob = 1 war_preparedness = 7 ideology = 2 AI1936_land = 2 } }
   ai					 = "nations\MEN.ai"
   intrinsic_gov_type     = fascist
   capital                = 5629
@@ -19,6 +19,15 @@ country =
 	supplies               = 800 
 	money                  = 50 
     manpower               = 160
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "MEN" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = -100 }

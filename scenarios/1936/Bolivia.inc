@@ -4,7 +4,7 @@
 
 country =
 { tag                    = BOL
-  ai_settings			 = { flags = { ideology = 6 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 6 } }
 	manpower               = 23 
 	# Resource Reserves 
 	energy                 = 360
@@ -24,6 +24,15 @@ country =
      defense_lobby     = 2 
      interventionism   = 2 
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "BOL" NumberOfSpies = 1 }
   claimedprovinces 		 = { 3842 3841 2374 838 3857 7419 3851 7418 3858 3885 5449 5448 7428 7417 }
   nationalprovinces      = { 836 832 828 827 837 822 2375 3843 3844 3845 3846 3847 3848 3849 3850 3852 3853 3854 3855 3856 3967 840 3884 3812 3819 3818 3816 3815 3817 3814 5452 5453 5454 5455 5451 3983 5434 5433 7420 7422 3956 3961 3833 7427 2003 7421 7095 7096 7423 5447 }

@@ -4,7 +4,7 @@
 
 country =
 { tag                    = ECU
-  ai_settings			 = { flags = { ideology = 6 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 6 } }
 	# Resource Reserves 
 	energy                 = 360
 	metal                  = 180
@@ -25,6 +25,15 @@ country =
      defense_lobby     = 2 
      interventionism   = 3 
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "ECU" NumberOfSpies = 1 }
   claimedprovinces 		 = { 817 818 551 908 1835 3785 3786 3787 3824 3823 3820 2930 3822 3821 2738 3788 3789 3790 7430 7435 7434 }
   nationalprovinces      = { 3782 3783 814 7429 7433 3784 3781 815 7431 }

@@ -6,7 +6,7 @@
  { tag                    = U54 
    capital                = 2273 
    puppet				  = SCH
-   ai_settings			  = { flags = { puppetLevel9 = 1 demilitarized = 1 ideology = 5 } }
+   ai_settings			  = { flags = { RESInit = 1 puppetLevel9 = 1 demilitarized = 1 ideology = 5 } }
 
    # Resource Reserves 
    energy                 = 100 
@@ -20,7 +20,16 @@
    transports             = 50 
    escorts                = 0 
 
-   SpyInfo                = { country = "U54" NumberOfSpies = 1 }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
+  SpyInfo                = { country = "U54" NumberOfSpies = 1 }
   diplomacy = 
    {   
    relation = {  tag = GER value = 80 access = no  }  

@@ -6,7 +6,7 @@ country =
 { tag                    = OMN
   puppet                 = ENG
   control				 = ENG
-  ai_settings			 = { flags = { puppetLevel6 = 1 ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel6 = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 240
 	metal                  = 120
@@ -27,6 +27,15 @@ country =
      defense_lobby     = 3 
      interventionism   = 3 
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "OMN" NumberOfSpies = 1 }
   nationalprovinces      = { 1819 2460
 2854 4190 4191 4192 4193 4194 4195 4196

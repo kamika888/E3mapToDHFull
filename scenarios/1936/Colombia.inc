@@ -4,7 +4,7 @@
 
 country =
 { tag                    = COL
-  ai_settings			 = { flags = { ideology = 6 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 6 } }
 	# Resource Reserves 
 	energy                 = 660
 	metal                  = 330
@@ -25,6 +25,15 @@ country =
      defense_lobby     = 1 
      interventionism   = 2
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "COL" NumberOfSpies = 1 }
   claimedprovinces 		 = { 3875 3797 2675 3957 3964 3965 3954 2738 3788 3789 3792 3793 3791 3790 3821 2930 3820 3822 3787 
   889 888 723 4286 4287 4288 4289 }

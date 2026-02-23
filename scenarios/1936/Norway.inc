@@ -4,7 +4,7 @@
 
 country =
 { tag                    = NOR
-  ai_settings			 = { flags = { ideology = 7 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 7 } }
 	energy                 = 600
 	metal                  = 300
 	rare_materials         = 150
@@ -17,6 +17,15 @@ country =
    # Norwegian merchant marine is INSANE! 
    transports             = 200 
    escorts                = 5 
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "NOR" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = BEL value = 100 }

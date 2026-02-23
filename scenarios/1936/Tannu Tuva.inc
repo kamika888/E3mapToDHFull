@@ -8,7 +8,7 @@ country =
   puppet				 = SOV
   control				 = SOV
   ai                     = "exp_0.ai"
-  ai_settings			 = { flags = { puppetLevel9 = 1 ideology = 9 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel9 = 1 ideology = 9 } }
 	# Resource Reserves 
 	energy                 = 300
 	metal                  = 150
@@ -28,6 +28,15 @@ country =
      defense_lobby     = 3 
      interventionism   = 3
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "TAN" NumberOfSpies = 1 }
   nationalprovinces      = { 1418 3594 3595 3761 
   5472 5473 5474 5475

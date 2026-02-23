@@ -6,7 +6,7 @@ country =
 { tag                    = IRQ
   puppet                 = ENG
   control				 = ENG
-  ai_settings			 = { flags = { puppetLevel7 = 1 ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel7 = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 360
 	metal                  = 180
@@ -27,6 +27,15 @@ country =
      defense_lobby     = 3 
      interventionism   = 3
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "IRQ" NumberOfSpies = 1 }
   claimedprovinces		 = { 4213 4156 710 7977 4154 }
   nationalprovinces      = { 1860 1864 1865 1866 1790 1824 1823 1806 1791 2496 1498 1822 4153 4155 4157 4158 4159 4160 4161 4162 4163 4164 4165 4212 6499 7349 7350 }

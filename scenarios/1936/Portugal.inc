@@ -4,7 +4,7 @@
 
 country =
 { tag                    = POR
-  ai_settings			 = { flags = { ideology = 3 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 3 } }
 	# Resource Reserves 
 	energy                 = 1020
 	metal                  = 510
@@ -17,6 +17,15 @@ country =
 	escorts                = 7 
   capital                = 336
   # Azores
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "POR" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = BEL value = -20 }

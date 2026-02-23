@@ -7,7 +7,7 @@ country =
 { tag                    = NEP
   puppet                 = ENG
   control				 = ENG
-  ai_settings			 = { flags = { puppetLevel7 = 1 ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel7 = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 240
 	metal                  = 120
@@ -27,6 +27,15 @@ country =
      defense_lobby     = 4 
      interventionism   = 6 
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "NEP" NumberOfSpies = 1 }
   nationalprovinces      = { 1473 2953 5177 5178 5179 6923 7912 7913 7919 7920 7921 1456 5206 5197 5207 5210 5211 1472 6922 7193 5224 5223 5222 2043
   }

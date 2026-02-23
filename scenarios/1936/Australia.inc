@@ -6,7 +6,7 @@ country =
 { tag                    = AST
   puppet				 = ENG
   control				 = ENG
-  ai_settings			 = { flags = { puppetLevel9 = 1 ideology = 5 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel9 = 1 ideology = 5 } }
 	manpower               = 16 
    # Resource Reserves 
 	energy                 = 1620
@@ -29,6 +29,15 @@ country =
      defense_lobby     = 3 
      interventionism   = 2 
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "AST" NumberOfSpies = 1 }
   nationalprovinces      = { 1703 1704 1706 1707 1708 1709 1710 1711 1712 1713  1715 1716 1717 1718 1719   1722 1723 1724 1725 
                              1727  1729 1730  1732 1733 1693   1696 1697 1698  1700  1702 

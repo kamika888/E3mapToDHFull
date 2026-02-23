@@ -5,7 +5,7 @@
 
 country =
 { tag                    = TIB
-	ai_settings			 = { flags = { ideology = 4 } }
+	ai_settings			 = { flags = { RESInit = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 300
 	metal                  = 150
@@ -25,6 +25,15 @@ country =
      defense_lobby     = 3 
      interventionism   = 3 
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "TIB" NumberOfSpies = 1 }
   nationalprovinces      = { 1283 1448 1450 1451 1452 1453 1406 1444 1442 5205 1878 1877
 5505 5506 5507 5508 5509 5510 5511 5512 5513 5514 5515 5516 5517 5518 5519 5520 5521 5522 5523 5524 5525 5526

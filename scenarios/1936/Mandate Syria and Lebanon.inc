@@ -12,7 +12,7 @@
     capital                = 1794 #if capital is Damascus, for some reason the puppet auto-convoy system doesn't work. But it works if the capital is Beirut.
     puppet                 = VIC 
 	#control				  = VIC
-	ai_settings			   = { flags = { puppetLevel9 = 1 ideology = 5 } }
+	ai_settings			   = { flags = { RESInit = 1 puppetLevel9 = 1 ideology = 5 } }
 	# Resource Reserves 
 	energy                 = 60
 	metal                  = 30
@@ -24,7 +24,16 @@
 	transports             = 100 
 	escorts                = 10 
       
-   SpyInfo                = { country = "U04" NumberOfSpies = 1 }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
+  SpyInfo                = { country = "U04" NumberOfSpies = 1 }
   diplomacy = 
    {   
    relation = {  tag = VIC value = 50 access = yes  }  

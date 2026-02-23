@@ -4,7 +4,7 @@
 
 country =
 { tag                    = SIA
-	ai_settings			 = { flags = { ideology = 3 } }
+	ai_settings			 = { flags = { RESInit = 1 ideology = 3 } }
 	# Resource Reserves 
 	energy                 = 540
 	metal                  = 270
@@ -25,6 +25,15 @@ country =
      defense_lobby     = 3 
      interventionism   = 4 
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "SIA" NumberOfSpies = 1 }
   nationalprovinces      = { 1348 1347 1345 1343 1342 1331 1330 1344 1303 2951 3124 3125 3126 3127 3128 3130 3131
 7016 7017 7018 7019 7021 7023 7905 7915 7916 7022 3116 1305
@@ -111,7 +120,6 @@ inventions = { 3000027 }
      relation = {  tag = JAP value = 75  } 
      relation = {  tag = MAN value = 75  } 
     } 
-   SpyInfo                = {  country = "SIA" NumberOfSpies = 1  } 
    headofstate            = {  type = 9 id = 290001  } 
    headofgovernment       = {  type = 9 id = 290002  } 
    foreignminister        = {  type = 9 id = 290003  } 

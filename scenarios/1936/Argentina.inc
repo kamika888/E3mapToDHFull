@@ -4,7 +4,7 @@
 
 country =
 { tag                    = ARG
-  ai_settings			 = { flags = { ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 4 } }
 	manpower               = 28 
 	# Resource Reserves 
 	energy                 = 3620
@@ -25,6 +25,15 @@ country =
      defense_lobby     = 2 
      interventionism   = 3 
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "ARG" NumberOfSpies = 1 }
   claimedprovinces 		 = { 2959 3934 5448 5449 3902 3903 }
   nationalprovinces      = { 667 853 852 843 844 845 851 854 855 857 858 859 862 863 850 

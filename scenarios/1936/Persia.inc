@@ -4,7 +4,7 @@
 
 country =
 { tag                    = PER
-  ai_settings			 = { flags = { ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 540
 	metal                  = 270
@@ -25,6 +25,15 @@ country =
      defense_lobby     = 3 
      interventionism   = 2
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "PER" NumberOfSpies = 1 }
   nationalprovinces      = { 1859 1787 1503 1502 1789 1825 1498 1497 1499 1826 1501 1500 1496 1495
 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845 4198 4201 4202 4203 4204 4205 4206 4207 4208 

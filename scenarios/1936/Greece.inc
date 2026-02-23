@@ -4,7 +4,7 @@
 
 country =
 { tag                    = GRE
-  ai_settings			 = { flags = { ideology = 3 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 3 } }
 	manpower               = 20 
 	# Resource Reserves 
 	energy                 = 900
@@ -26,6 +26,15 @@ country =
      defense_lobby     = 3 
      interventionism   = 5 
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "GRE" NumberOfSpies = 1 }
   nationalprovinces      = { 392 393 394 395 396 400 401 402 403 405 412 398 399 444
 							2319 653 563

@@ -7,7 +7,7 @@ country =
   control                = USA
   puppet			     = USA
   #control				 = USA #AI will not autonomously suppress revolts otherwise
-  ai_settings			 = { flags = { puppetLevel6 = 1 ideology = 6 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel6 = 1 ideology = 6 } }
 	# Resource Reserves 
 	energy                 = 480
 	metal                  = 240
@@ -28,6 +28,15 @@ country =
     defense_lobby     = 3
     interventionism   = 1
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "PHI" NumberOfSpies = 1 }
   nationalprovinces      = { 
 1735 1736 1737 1738 1739 1740 1741 1742 1743 1744 1745 1746 1747 1748 1749 1750

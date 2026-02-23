@@ -5,7 +5,7 @@
 
 country =
 { tag                    = ETH
-    ai_settings			   = { flags = { war_preparedness = 6 ideology = 4 } }
+    ai_settings			   = { flags = { RESInit = 1 war_preparedness = 6 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 1060
 	metal                  = 1180
@@ -25,6 +25,15 @@ country =
      defense_lobby     = 6 
      interventionism   = 6
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "ETH" NumberOfSpies = 1 }
   claimedprovinces      = { 
   #Internal

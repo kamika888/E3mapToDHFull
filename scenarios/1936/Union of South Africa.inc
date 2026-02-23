@@ -7,7 +7,7 @@ country =
   puppet				 = ENG
   control				 = ENG
   dissent = 5
-  ai_settings			 = { flags = { puppetLevel8 = 1 ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel8 = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 720
 	metal                  = 360
@@ -18,6 +18,15 @@ country =
 	money                  = 10 
 	manpower               = 51 
   capital                = 1120
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "SAF" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = AST value = 200 } # was access = yes

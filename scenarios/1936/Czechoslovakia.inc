@@ -4,7 +4,7 @@
 
 country =
 { tag                    = CZE
-  ai_settings			 = { flags = { ideology = 5 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 5 } }
    # Resource Reserves 
 	energy                 = 2160
 	metal                  = 1080
@@ -14,6 +14,15 @@ country =
 	money                  = 20 
 	manpower               = 10 
   capital                = 469
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "CZE" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = ENG value = 125 }

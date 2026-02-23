@@ -8,7 +8,7 @@
     
       country =  
       {  tag               = EGY  
-	ai_settings			   = { flags = { puppetLevel5 = 1 ideology = 4 } }
+	ai_settings			   = { flags = { RESInit = 1 puppetLevel5 = 1 ideology = 4 } }
     capital                = 903 # Cairo / Al-Qahirah  
     puppet    = ENG # UK  
 	# Resource Reserves  

@@ -6,7 +6,7 @@ country =
 { tag                    = ALB
   regular_id			 = ITA #to make sure italy inherits Albanian army after annexation
   puppet				 = ITA
-  ai_settings			 = { flags = { puppetLevel6 = 1 ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel6 = 1 ideology = 4 } }
 	manpower               	= -20
 	# Resource Reserves 
 	energy                 = 240
@@ -27,6 +27,15 @@ country =
      defense_lobby     = 3 
      interventionism   = 3
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "ALB" NumberOfSpies = 1 }
   nationalprovinces      = { 390 391 415 665 664 1169 3372 3393 5465 5466 6562 413 7163 7961 7315 7936 }
   ownedprovinces         = { 390 391 665 664 5465 5466 7163 7961 }

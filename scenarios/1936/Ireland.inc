@@ -6,7 +6,7 @@ country =
 { tag                    = IRE
   name					 = IRE36
   puppet				 = ENG
-  ai_settings			 = { flags = { puppetLevel9 = 1 ideology = 6 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel9 = 1 ideology = 6 } }
 	manpower               = 0 
 	# Resource Reserves 
 	energy                 = 600
@@ -17,6 +17,15 @@ country =
 	supplies               = 500 
 	money                  = 10 
     capital                = 30
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "IRE" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = ARG value = 20 }

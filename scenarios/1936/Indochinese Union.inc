@@ -7,7 +7,7 @@
  { tag                    = U03 
    capital                = 1333 
    puppet                 = VIC 
-   ai_settings			 = { flags = { puppetLevel9 = 1 ideology = 6 } }
+   ai_settings			 = { flags = { RESInit = 1 puppetLevel9 = 1 ideology = 6 } }
 	# Resource Reserves 
 	energy                 = 420
 	metal                  = 210
@@ -19,7 +19,16 @@
 	transports             = 100 
 	escorts                = 10 
       
-   SpyInfo                = { country = "U03" NumberOfSpies = 1 }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
+  SpyInfo                = { country = "U03" NumberOfSpies = 1 }
   diplomacy = 
    {   
    relation = {  tag = VIC value = 50 access = yes  }  

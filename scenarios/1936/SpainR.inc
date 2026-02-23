@@ -5,7 +5,7 @@
 country =
 { tag                    = SPR
   regular_id             = SPA
-  ai_settings			 = { flags = { WARDebt = 5 ideology = 5 } }
+  ai_settings			 = { flags = { RESInit = 1 WARDebt = 5 ideology = 5 } }
   intrinsic_gov_type     = left_wing_radical
 	manpower               = 30 
 	# Resource Reserves 
@@ -21,6 +21,15 @@ country =
 	escorts                = 27 
   capital                = 341
   # Gibralter claim
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "SPR" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = ENG value = -10 }

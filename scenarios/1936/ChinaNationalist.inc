@@ -5,7 +5,7 @@
 country =
 { tag                    = CHI
   capital                = 1235 # Nanjing
-  ai_settings			 = { flags = { do_not_demob = 1 ideology = 3 } }
+  ai_settings			 = { flags = { RESInit = 1 do_not_demob = 1 ideology = 3 } }
 	# Resource Reserves 
 	energy                 = 30100
 	metal                  = 12050
@@ -17,6 +17,15 @@ country =
 	dissent                = 10
 	transports             = 50 
 	escorts                = 2 
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "CHI" NumberOfSpies = 2 }
   diplomacy =
   { relation = { tag = CHC value = -200 }

@@ -6,7 +6,7 @@ country =
 { tag                    = LIB
   puppet                 = USA
   control				 = USA
-  ai_settings			 = { flags = { puppetLevel7 = 1 ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel7 = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 120
 	metal                  = 60
@@ -27,6 +27,15 @@ country =
      defense_lobby     = 2 
      interventionism   = 1 
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "LIB" NumberOfSpies = 1 }
   nationalprovinces      = { 992
 2762

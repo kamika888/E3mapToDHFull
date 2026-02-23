@@ -8,7 +8,7 @@
    puppet				  = ENG
    name					  = MOR36
    flag_ext			      = _TIZ
-   ai_settings			  = { flags = { puppetLevel7 = 1 demilitarized = 1 ideology = 5 } }
+   ai_settings			  = { flags = { RESInit = 1 puppetLevel7 = 1 demilitarized = 1 ideology = 5 } }
 
    # Resource Reserves 
    energy                 = 100 
@@ -21,7 +21,16 @@
 
   
     
-   SpyInfo                = { country = "MOR" NumberOfSpies = 1 }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
+  SpyInfo                = { country = "MOR" NumberOfSpies = 1 }
   nationalprovinces      = {  2331  } 
    ownedprovinces         = {  2331  } 
    controlledprovinces    = {  2331  } 

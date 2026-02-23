@@ -4,7 +4,7 @@
 
 country =
 { tag                    = URU
-  ai_settings			 = { flags = { ideology = 5 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 5 } }
 	# Resource Reserves 
 	energy                 = 480
 	metal                  = 240
@@ -25,6 +25,15 @@ country =
      defense_lobby     = 1 
      interventionism   = 2 
   }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "URU" NumberOfSpies = 1 }
   nationalprovinces      = { 849 833 2960 3776 3777 3778 3779 3780 }
   ownedprovinces         = { 849 833 2960 3776 3777 3778 3779 3780 }

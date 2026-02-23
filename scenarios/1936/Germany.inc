@@ -7,7 +7,7 @@
 
 country =
 { tag                    = GER
-  ai_settings			 = { flags = { Depression = 6 ideology = 1 inDefault = 1 } }
+  ai_settings			 = { flags = { RESInit = 1 Depression = 6 ideology = 1 inDefault = 1 } }
   dissent				 = 8
   belligerence			 = 4
   capital                = 300
@@ -22,6 +22,15 @@ country =
 	oil                    = 4000  
 	supplies               = 500 
 	money                  = 70 
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "GER" NumberOfSpies = 8 }
   diplomacy =
   { relation = { tag = ARG value = 75 }

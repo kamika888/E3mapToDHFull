@@ -2,7 +2,7 @@ country =
 {
 	tag                    = U41
 	puppet				   = ETH
-    ai_settings			   = { flags = { ideology = 4 puppetLevel8 = 1 } }
+    ai_settings			   = { flags = { RESInit = 1 ideology = 4 puppetLevel8 = 1 } }
 	ai					   = "default.ai"
 	# Resource Reserves 
 	energy                 = 100

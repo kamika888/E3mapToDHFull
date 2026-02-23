@@ -6,7 +6,7 @@ country =
 { tag                    = SOV
   regular_id             = RUS
   intrinsic_gov_type     = leninist
-  ai_settings			 = { flags = { ideology = 9 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 9 } }
   ai					 = "EXP_0_01.ai"
   capital                = 175
 	# Resource Reserves 
@@ -20,6 +20,15 @@ country =
 	dissent                = 12 
 	transports             = 300 
 	escorts                = 20 
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "SOV" NumberOfSpies = 8 }
   diplomacy =
   { relation =

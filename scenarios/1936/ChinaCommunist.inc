@@ -8,7 +8,7 @@ country =
   intrinsic_gov_type     = leninist
   extra_tc               = 7
   capital                = 1270 # Yan'an
-  ai_settings			 = { flags = { ControlDeny = 1 do_not_demob = 1 ideology = 9 inMajorWar = 1 } }
+  ai_settings			 = { flags = { RESInit = 1 ControlDeny = 1 do_not_demob = 1 ideology = 9 inMajorWar = 1 } }
 	# Resource Reserves 
 	energy                 = 1240
 	metal                  = 520
@@ -17,12 +17,16 @@ country =
 	supplies               = 800 
 	money                  = 50 
     manpower               = 1000
-  free = {
-	energy = 5
-	metal = 3
+  free = { 
+	ic = 7 
+	energy = 7
+	metal = 4 
 	rare_materials = 2
-	ic = 5
-  }
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "CHC" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = JAP value = -200 }

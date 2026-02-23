@@ -4,7 +4,7 @@
 
 country =
 { tag                    = PRU
-  ai_settings			 = { flags = { ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 600
 	metal                  = 300
@@ -15,6 +15,15 @@ country =
 	money                  = 10 
 	manpower               = 167 
   capital                = 830
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "PRU" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = ARG value = 20 }

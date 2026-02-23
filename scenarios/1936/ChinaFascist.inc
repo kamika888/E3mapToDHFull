@@ -8,7 +8,7 @@ country =
   puppet                 = JAP
   control                = JAP
   name					 = U8736
-  ai_settings			 = { flags = { puppetLevel2 = 1 ideology = 2 japChi_local = 15 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel2 = 1 ideology = 2 japChi_local = 15 } }
   ai					 = "exp_0.ai"
   intrinsic_gov_type     = fascist
   dissent				 = 30
@@ -24,6 +24,15 @@ country =
 	transports             = 200 
 	escorts                = 5 
 	extra_tc               = 20 #from japChi = 15 (global flag)
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "U87" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = -100 }

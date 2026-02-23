@@ -5,7 +5,7 @@
 country =
 { tag                    = U58
   regular_id             = CHI
-  ai_settings			 = { flags = { puppetLevel9 = 1 inMajorWar = 1 war_preparedness = 5 ideology = 8 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel9 = 1 inMajorWar = 1 war_preparedness = 5 ideology = 8 } }
   ai					 = "nations\U58.ai"
   #puppet				 = CHC
   #Puppeting to CHC causes certain issues when retreating to Datong...
@@ -36,6 +36,15 @@ country =
    chiefofnavy            = {  type = 9 id = 1105009  } 
    chiefofair             = {  type = 9 id = 1105010  } 
   
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "U58" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = 200 access = yes }

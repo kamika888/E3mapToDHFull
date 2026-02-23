@@ -6,7 +6,7 @@ country =
 { tag                    = MON
   puppet                 = SOV
   control				 = SOV
-  ai_settings			 = { flags = { puppetLevel8 = 1 ideology = 9 } }
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel8 = 1 ideology = 9 } }
   ai                     = "exp_0.ai"
 	# Resource Reserves 
 	energy                 = 300
@@ -17,6 +17,15 @@ country =
 	money                  = 10 
 	manpower               = 73 
     capital                = 1404
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "MON" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = 25 }

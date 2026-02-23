@@ -7,7 +7,7 @@ country =
   regular_id             = CHI
   puppet                 = JAP
   control				 = JAP #AI will not autonomously suppress revolts otherwise
-  ai_settings			 = { flags = { puppetLevel5 = 1 war_preparedness = 7 ideology = 2 } } #min dissent 20-25
+  ai_settings			 = { flags = { RESInit = 1 puppetLevel5 = 1 war_preparedness = 7 ideology = 2 } } #min dissent 20-25
 	# Resource Reserves 
 	energy                 = 900
 	metal                  = 450
@@ -20,6 +20,15 @@ country =
 	dissent				   = 30
     capital                = 2241
     #free                   = { energy = 14 metal = 7 rare_materials = 4 }
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "MAN" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = -100 }

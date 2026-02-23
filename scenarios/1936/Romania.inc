@@ -4,7 +4,7 @@
 
 country =
 { tag                    = ROM
-  ai_settings			 = { flags = { ideology = 6 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 6 } }
   capital                = 424
 	manpower               = 48 
 	# Resource Reserves 
@@ -15,6 +15,15 @@ country =
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 15 
+  free = { 
+	ic = 2 
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "ROM" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = BUL value = 25 }

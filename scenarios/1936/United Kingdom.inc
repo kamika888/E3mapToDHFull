@@ -4,7 +4,7 @@
 
 country =
 { tag                    = ENG
-  ai_settings			 = { flags = { WARDebt = 20 ideology = 5 } }
+  ai_settings			 = { flags = { RESInit = 1 WARDebt = 20 ideology = 5 } }
   capital                = 19
 	manpower               = 20 
 	dissent 			   = 10
@@ -17,10 +17,16 @@ country =
 	transports             = 2200 
 	escorts                = 220 
   #Turkish straits
-  free = {
-	ic = 2
+  free = { 
+	ic = 4 
 	money = 2
-  }
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
   SpyInfo                = { country = "ENG" NumberOfSpies = 4 }
   diplomacy =
   { relation =
@@ -120,7 +126,6 @@ country =
       access     = yes
     }
   }
-  SpyInfo                = { country = "NOR" NumberOfSpies = 1 }
   # GREAT BRITAIN
   nationalprovinces      = { 19 3 6 7 1166 8 9 28 29 10 2245 11 13 12 1164 14 17 16 22 20 21 23 1160 15 1409 1720 2279
 3030 3031 3032 3033 3034 3035 3036 3037 3038 3039 3040 3041 3042 3043 3044 3045 3046 3047 3054 2634 348 6944

@@ -5,7 +5,7 @@
  country = 
  { tag                    = U56 
    capital                = 2300 
-   ai_settings			 = { flags = { demilitarized = 1 ideology = 4 } }
+   ai_settings			 = { flags = { RESInit = 1 demilitarized = 1 ideology = 4 } }
    # Resource Reserves 
    energy                 = 100 
    metal                  = 100 
@@ -18,11 +18,17 @@
    transports             = 50 
    escorts                = 0 
    
-   free = {
-		money = 1
-   }
-
-   SpyInfo                = { country = "U56" NumberOfSpies = 1 }
+  free = { 
+	ic = 2 
+	money = 1
+	energy = 2
+	metal = 1 
+	supplies = 1 
+	transport = 0.1500 
+	manpower = 0.0040 
+  } 
+  extra_tc = 5 
+  SpyInfo                = { country = "U56" NumberOfSpies = 1 }
   diplomacy = 
    {   
    relation = {  tag = GER value = 80 access = no  }  
