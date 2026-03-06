@@ -6,7 +6,7 @@
  {  tag                    = U37
     regular_id             = IND
 	puppet                 = U02
-	ai_settings			   = { flags = { RESInit = 1 puppetLevel6 = 1 ideology = 4 } }
+	ai_settings			   = { flags = { RESInit = 1 puppetLevel7 = 1 ideology = 4 } }
     capital                = 1507 
 
      # Resource Reserves 
@@ -18,7 +18,16 @@
    money                  = 50 
    manpower               = 200
    
-   headofstate            = {  type = 9 id = 55500  } 
+   headofstate            = {  type = 9 id = 1147001 } 
+   headofgovernment       = {  type = 9 id = 1147002 } 
+   foreignminister        = {  type = 9 id = 1147003 } 
+   armamentminister       = {  type = 9 id = 1147004 } 
+   ministerofsecurity     = {  type = 9 id = 1147005 } 
+   ministerofintelligence = {  type = 9 id = 1147006 } 
+   chiefofstaff           = {  type = 9 id = 1147007 } 
+   chiefofarmy            = {  type = 9 id = 1147008 } 
+   chiefofnavy            = {  type = 9 id = 1147009 } 
+   chiefofair             = {  type = 9 id = 1147010 }    
       
    transports             = 50 
    escorts                = 0 
@@ -39,9 +48,11 @@
     } 
   
     
-   nationalprovinces      = {  1507 702 5270 771 729 769 5269 5271 5268 697 5267 781  } 
+   nationalprovinces      = {  697 } 
    ownedprovinces         = {  1507 702 5270 771 729 769 5269 5271 5268 697 5267 781  } 
    controlledprovinces    = {  1507 702 5270 771 729 769 5269 5271 5268 697 5267 781  } 
+   claimedprovinces 	  = {  1507 702 5270 771 729 769 5269 5271 5268 5267 781 
+							   5272 5273 1462 }
    
   # VIC 1936 techs 
    # ###################### 

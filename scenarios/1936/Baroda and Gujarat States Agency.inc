@@ -18,7 +18,16 @@
    money                  = 50 
    manpower               = 200
    
-   headofstate            = {  type = 9 id = 55500  } 
+   headofstate            = {  type = 9 id = 1148001 } 
+   headofgovernment       = {  type = 9 id = 1148002 } 
+   foreignminister        = {  type = 9 id = 1148003 } 
+   armamentminister       = {  type = 9 id = 1148004 } 
+   ministerofsecurity     = {  type = 9 id = 1148005 } 
+   ministerofintelligence = {  type = 9 id = 1148006 } 
+   chiefofstaff           = {  type = 9 id = 1148007 } 
+   chiefofarmy            = {  type = 9 id = 1148008 } 
+   chiefofnavy            = {  type = 9 id = 1148009 } 
+   chiefofair             = {  type = 9 id = 1148010 } 
       
    transports             = 50 
    escorts                = 0 

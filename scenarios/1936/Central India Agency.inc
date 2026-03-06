@@ -18,8 +18,17 @@
    money                  = 50 
    manpower               = 200
    
-   headofstate            = {  type = 9 id = 55500  } 
-      
+   headofstate            = {  type = 9 id = 1148201 } 
+   headofgovernment       = {  type = 9 id = 1148202 } 
+   foreignminister        = {  type = 9 id = 1148203 } 
+   armamentminister       = {  type = 9 id = 1148204 } 
+   ministerofsecurity     = {  type = 9 id = 1148205 } 
+   ministerofintelligence = {  type = 9 id = 1148206 } 
+   chiefofstaff           = {  type = 9 id = 1148207 } 
+   chiefofarmy            = {  type = 9 id = 1148208 } 
+   chiefofnavy            = {  type = 9 id = 1148209 } 
+   chiefofair             = {  type = 9 id = 1148210 } 
+     
    transports             = 50 
    escorts                = 0 
 
@@ -39,9 +48,10 @@
     } 
   
     
-   nationalprovinces      = {  631 5264 5266 722 5263 5259 5258 1460 5257 } 
+   nationalprovinces      = {  631 5264 5266 5263 5259 5258 1460 5257 } 
    ownedprovinces         = {  631 5264 5266 722 5263 5259 5258 1460 5257 } 
-   controlledprovinces    = {  631 5264 5266 722 5263 5259 5258 1460 5257 } 
+   controlledprovinces    = {  631 5264 5266 722 5263 5259 5258 1460 5257 }
+   claimedprovinces 	  = {  722  }   
    
   # VIC 1936 techs 
    # ###################### 
