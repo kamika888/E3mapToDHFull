@@ -48,10 +48,10 @@
     } 
   
     
-   nationalprovinces      = {  697 } 
+   nationalprovinces      = {  1507 } 
    ownedprovinces         = {  1507 702 5270 771 729 769 5269 5271 5268 697 5267 781  } 
    controlledprovinces    = {  1507 702 5270 771 729 769 5269 5271 5268 697 5267 781  } 
-   claimedprovinces 	  = {  1507 702 5270 771 729 769 5269 5271 5268 5267 781 
+   claimedprovinces 	  = {  1507 702 5270 771 729 769 5269 5271 5268 697 5267 781 
 							   5272 5273 1462 }
    
   # VIC 1936 techs 

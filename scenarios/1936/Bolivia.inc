@@ -13,6 +13,7 @@ country =
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 10 
+	dissent				   = 25 #Post-Chaco war
   capital                = 832
   policy =
   { date              = { year = 0 month = january day = 0 }
@@ -22,7 +23,7 @@ country =
      freedom           = 4 
      professional_army = 4 
      defense_lobby     = 2 
-     interventionism   = 2 
+     interventionism   = 3 
   }
   free = { 
 	ic = 2 

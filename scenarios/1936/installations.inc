@@ -1612,8 +1612,8 @@ province = { id = 5354	province_revoltrisk = 9 }
 province = { id = 5355	province_revoltrisk = 9 } 
 province = { id = 5356	province_revoltrisk = 9 } 
 province = { id = 5357	province_revoltrisk = 9 } 
-province = { id = 5358	province_revoltrisk = 9 } 
-province = { id = 5359	province_revoltrisk = 9 } 
+province = { id = 5358	province_revoltrisk = 39 } 
+province = { id = 5359	province_revoltrisk = 39 } 
 province = { id = 5360	province_revoltrisk = 9 } 
 province = { id = 5361	province_revoltrisk = 9 } 
 province = { id = 5362	province_revoltrisk = 9 } 

@@ -21,7 +21,7 @@ event = {
 		command = { type = secedeprovince which = SOV value = 1173 when = 2 } # Cernauti - Romania +
 		command = { type = relation which = SOV value = -15 }
 		command = { type = relation which = GER value = 100 }
-		command = { type = set_domestic which = political_left value = 3 }
+		command = { type = dissent value = 3 }
 		command = { type = trigger which = 2007023 } # SOV
 	}
 	action = {
@@ -49,7 +49,7 @@ event = {
 		command = { type = secedeprovince which = SOV value = 1173 when = 2 } # Cernauti - Romania +
 		command = { type = relation which = SOV value = -15 }
 		command = { type = relation which = GER value = 100 }
-		command = { type = set_domestic which = political_left value = 3 }
+		command = { type = dissent value = 3 }
 		command = { type = trigger which = 2007023 } # SOV
 	}
 	action = {
@@ -99,6 +99,8 @@ event = {
 		command = { type = secedeprovince which = HUN value = 1899 when = 2 }
 		command = { type = secedeprovince which = HUN value = 7300 when = 2 }
 		command = { trigger = { flag = full_T_reverse } type = secedearea which = HUN value = "Transylvania" when = 2 }
+		command = { type = dissent value = 3 }
+		command = { trigger = { flag = full_T_reverse } type = dissent value = 3 }
 		command = { type = trigger which = 2022011 } # HUN
     }
 	action = {
@@ -200,7 +202,7 @@ event = {
 		command = { type = secedeprovince which = BUL value = 423 when = 2 } # Dobrici - Romania
 		command = { type = construct which = naval_base where = 3055 value = 1 }
 		command = { type = construct which = naval_base where = 423 value = -1 }
-		command = { type = dissent value = 2 }
+		command = { type = dissent value = 1 }
 		command = { type = manpowerpool value = -15 }
 		command = { type = trigger which = 2020003 } #bul
 	}
@@ -214,7 +216,7 @@ event = {
 		command = { type = peace which = VIC value = 1 }
 		command = { type = end_guarantee which = SOV where = ROM }
 		command = { type = end_guarantee which = GER where = ROM }
-		command = { type = dissent value = -5 }
+		command = { type = dissent value = -3 }
 		command = { trigger = { war = { country = GER country = ENG } } type = alliance which = ENG }
 		command = { type = war which = GER }
 		command = { type = war which = BUL }
@@ -488,5 +490,81 @@ event = {
 		command = { type = add_division value = infantry when = 10 where = -80 }
 		command = { type = add_division value = infantry when = 10 where = -80 }
 		command = { type = add_division value = infantry when = 10 where = -80 }
+	}
+}
+
+event = {
+	id = 2023006
+	random = no
+	country = ROM
+
+	trigger = { 
+		headofgovernment = 110025
+		event = 2500074 #coalition government
+		random = 20
+	}
+
+	name = EVT_2023006_NAME
+	desc = EVT_2023006_DESC
+	style = 2
+
+	date = { day = 24 month = october year = 1938 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1947 }
+
+	action = {
+		ai_chance = 98
+		name = EVT_2023006_ACTA
+		command = { type = dissent value = -1 }
+		command = { type = set_domestic which = political_left value = 3 }	# nationalist
+		#Iron guard revolt
+		command = { type = revolt which = 424	when = 1 }
+		command = { type = revolt which = 424	when = 1 }
+		command = { type = revolt which = 433	when = 1 }
+		command = { type = remove_division which = "1 Organizatia Legionara" value = ROM }
+		command = { type = remove_division which = "2 Organizatia Legionara" value = ROM }
+		command = { type = remove_division which = "3 Organizatia Legionara" value = ROM }
+		command = { type = remove_division which = "1 Organizatia Legionara" value = GER }
+		command = { type = remove_division which = "2 Organizatia Legionara" value = GER }
+		command = { type = remove_division which = "3 Organizatia Legionara" value = GER }
+		
+		command = { type = add_division value = infantry when = 9 where = -70 } #forming new infantry division from experienced cadres
+		
+		command = { type = headofstate which = 110013 				} # Mihai I 39 SC
+		command = { type = headofgovernment which = 110025 			} # Ion Antonescu 40 PA
+		command = { type = foreignminister which = 110043 			} # Mihai Antonescu PA
+		command = { type = armamentminister which = 110057 			} # Gheorghe Potopeanu PA
+		command = { type = ministerofsecurity which = 110215 		} # Dumitru I. Popescu PA
+		command = { type = chiefofstaff which = 110091 				} # Ion Antonescu 40 PA
+	}
+	action = {
+		ai_chance = 2
+		name = EVT_2023006_ACTB
+		command = { type = dissent value = 3 }
+		command = { type = set_domestic which = political_left value = 1 }	# national-socialist
+		#Army revolt
+		command = { type = revolt which = 424	when = 1 }
+		command = { type = revolt which = 424	when = 1 }
+		command = { type = revolt which = 424	when = 1 }
+		command = { type = revolt which = 424	when = 1 }
+		command = { type = revolt which = 433	when = 1 }
+		command = { type = revolt which = 433	when = 1 }
+		command = { type = demobilize which = infantry	when = 0 where = 1 value = -3  }
+		command = { type = regime_falls }
+		
+		command = { type = headofstate which = 110013 				} # Mihai I 39 SC
+		command = { type = headofgovernment which = 110030 			} # Horia Sima 40 NS
+		command = { type = foreignminister which = 110041 			} # Mihail Sturdza 40 NS
+		command = { type = armamentminister which = 110061 			} # Constantin Papanace 40 NS
+		command = { type = ministerofsecurity which = 110075 		} # Ion Petrovicescu 40 NS
+		command = { type = ministerofintelligence which = 110084 	} # Eugen Cristescu 40 NS
+		command = { type = chiefofstaff which = 110096 				} # Platon Chirnoaga 40 NS
+		command = { type = chiefofarmy which = 110106 				} # Alexandru Ioanitiu 40 NS
+		command = { type = chiefofair which = 110113 				} # Ermil Gheorghiu 40 FA
+		
+		#More Iron guard militia flock to join the government
+		command = { type = add_division which = "4 Organizatia Legionara" value = militia when = 5 }
+		command = { type = add_division which = "5 Organizatia Legionara" value = militia when = 5 }
+		command = { type = add_division which = "6 Organizatia Legionara" value = militia when = 5 }
 	}
 }
