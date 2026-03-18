@@ -2876,6 +2876,12 @@ landunit =
 	landdivision = { dormant = yes id = { type = 13016 id = 4028 } name = "28 IMB Guilin"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
 	landdivision = { dormant = yes id = { type = 13016 id = 4029 } name = "29 IMB Xian"			type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
 	landdivision = { dormant = yes id = { type = 13016 id = 4030 } name = "30 IMB Xian"			type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4031 } name = "31 IMB Shanghai"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4032 } name = "32 IMB Shanghai"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4033 } name = "33 IMB Hong Kong"	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4034 } name = "34 IMB Hong Kong"	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4035 } name = "35 IMB Qingdao"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4036 } name = "36 IMB Qingdao"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
 	
 	
 	#Philippines
