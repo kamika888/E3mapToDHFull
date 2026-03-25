@@ -9305,8 +9305,8 @@ event = {
 		ai = yes
 		local_flag = AllInit
 		war = { country = GER }
-		#garrison = 2 #can't measure garrison, but Soviets should almost certainly have more than 2 garrisons at this point
-		light_armor = 1
+		militia = 5
+		light_armor = 2
 		control = { province = 7003	data = -1 }
 	}
 
@@ -9317,19 +9317,87 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		command = { type = demobilize which = garrison		when = 0 where = 0 value = -2 }
-		command = { type = demobilize which = light_armor	when = 0 where = 0 value = -1 }
-		command = { type = activate_division which = 10848 value = 8620 when = 0 where = 7003 }
-		command = { type = activate_division which = 10848 value = 8621 when = 0 where = 7003 }
-		command = { type = activate_division which = 10848 value = 8622 when = 0 where = 7003 }
+		command = { type = demobilize which = militia		when = 0 where = 0 value = -5 }
+		command = { type = demobilize which = infantry		when = 0 where = 0 value = -2 }
+		command = { type = demobilize which = light_armor	when = 0 where = 0 value = -2 }
+		command = { type = add_corps which = "Leningradskiy Front 1" value = land when = 30394 where = 187  } #Popov M.M. 
+		command = { type = activate_division which = 10848 value = 8620 when = 0 where = 187  }
+		command = { type = activate_division which = 10848 value = 8621 when = 0 where = 187  }
+		command = { type = activate_division which = 10848 value = 8622 when = 0 where = 187  }
+		command = { type = activate_division which = 10848 value = 8623 when = 0 where = 187  }
+		command = { type = activate_division which = 10848 value = 8624 when = 0 where = 187  }
+		command = { type = activate_division which = 10848 value = 8625 when = 0 where = 187  }
+		command = { type = activate_division which = 10848 value = 8626 when = 0 where = 187  }
+		command = { type = activate_division which = 10848 value = 8627 when = 0 where = 187  }
+		command = { type = add_corps which = "Leningradskiy Front 2" value = land when = 30435 where = 7003 } #Rodin  G.S.
+		command = { type = activate_division which = 10848 value = 8628 when = 0 where = 7003 }
+		command = { type = activate_division which = 10848 value = 8629 when = 0 where = 7003 }
+		command = { type = activate_division which = 10848 value = 8630 when = 0 where = 7003 }
 		command = { type = disorg_division   which = 10848 value = 8620 where = -100 }
 		command = { type = disorg_division   which = 10848 value = 8621 where = -100 }
 		command = { type = disorg_division   which = 10848 value = 8622 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8623 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8624 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8625 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8626 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8627 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8628 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8629 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8630 where = -100 }
 	}
 }
 
 event = {
 	id = 2401431
+	random = no 
+	country = SOV
+	#persistent = yes
+	
+	trigger = {	
+		event = 2401431
+		OR = {
+			ai = no
+			NOT = { war = { country = FIN } }
+			NOT = { war = { country = GER } }
+			AND = {
+				control = { province = 186	data = -2 }
+				control = { province = 145	data = -2 }
+			}
+			AND = {
+				area = { area = "Leningrad" country = -3 value = 100 data = 1 } 
+				NOT = {
+					local_flag = disOrgGeneric_1
+					local_flag = disOrgGeneric_2
+					flag = SOV_penalty
+				}
+			}
+		}
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = unlock_division	which = 10848 value = 8620 }
+		command = { type = unlock_division	which = 10848 value = 8621 }
+		command = { type = unlock_division	which = 10848 value = 8622 }
+		command = { type = unlock_division	which = 10848 value = 8623 }
+		command = { type = unlock_division	which = 10848 value = 8624 }
+		command = { type = unlock_division	which = 10848 value = 8625 }
+		command = { type = unlock_division	which = 10848 value = 8626 }
+		command = { type = unlock_division	which = 10848 value = 8627 }
+		command = { type = unlock_division	which = 10848 value = 8628 }
+		command = { type = unlock_division	which = 10848 value = 8629 }
+		command = { type = unlock_division	which = 10848 value = 8630 }
+	}
+}
+
+
+event = {
+	id = 2401432
 	random = no 
 	country = SOV
 	#persistent = yes
@@ -9355,38 +9423,43 @@ event = {
 		command = { type = demobilize which = bergsjaeger	when = 0 where = 0 value = -3 }
 		command = { type = demobilize which = garrison		when = 0 where = 0 value = -1 }
 		command = { type = demobilize which = light_armor	when = 0 where = 0 value = -1 }
-		command = { type = activate_division which = 10848 value = 8625 when = 0 where = 3341 }
-		command = { type = activate_division which = 10848 value = 8626 when = 0 where = 3341 }
-		command = { type = activate_division which = 10848 value = 8627 when = 0 where = 3341 }
-		command = { type = activate_division which = 10848 value = 8628 when = 0 where = 3341 }
-		command = { type = activate_division which = 10848 value = 8629 when = 0 where = 3341 }
-		command = { type = disorg_division   which = 10848 value = 8625 where = -100 }
-		command = { type = disorg_division   which = 10848 value = 8626 where = -100 }
-		command = { type = disorg_division   which = 10848 value = 8627 where = -100 }
-		command = { type = disorg_division   which = 10848 value = 8628 where = -100 }
-		command = { type = disorg_division   which = 10848 value = 8629 where = -100 }
+		command = { type = activate_division which = 10848 value = 8631 when = 0 where = 3341 }
+		command = { type = activate_division which = 10848 value = 8632 when = 0 where = 3341 }
+		command = { type = activate_division which = 10848 value = 8633 when = 0 where = 3341 }
+		command = { type = activate_division which = 10848 value = 8634 when = 0 where = 3341 }
+		command = { type = activate_division which = 10848 value = 8635 when = 0 where = 3341 }
+		command = { type = disorg_division   which = 10848 value = 8631 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8632 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8633 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8634 where = -100 }
+		command = { type = disorg_division   which = 10848 value = 8635 where = -100 }
 	}
 }
 
 event = {
-	id = 2401432
+	id = 2401433
 	random = no 
 	country = SOV
 	#persistent = yes
 	
 	trigger = {	
-		event = 2401431
+		event = 2401432
 		OR = {
 			ai = no
 			NOT = { war = { country = FIN } }
 			NOT = { war = { country = GER } }
 			control = { province = 135	data = -2 }
+			NOT = {
+				local_flag = disOrgGeneric_1
+				local_flag = disOrgGeneric_2
+				flag = SOV_penalty
+			}
 			AND = {
-				garrison = { country = SOV province = 3341 type = land size = 20 area = 0 }
 				NOT = {
 					local_flag = disOrgGeneric_1
 					local_flag = disOrgGeneric_2
 				}
+				garrison = { country = SOV province = 3341 type = land size = 20 area = 0 }
 			}
 		}
 	}
@@ -9398,15 +9471,13 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		command = { type = unlock_division	which = 10848 value = 8625 }
-		command = { type = unlock_division	which = 10848 value = 8626 }
-		command = { type = unlock_division	which = 10848 value = 8627 }
-		command = { type = unlock_division	which = 10848 value = 8628 }
-		command = { type = unlock_division	which = 10848 value = 8629 }
+		command = { type = unlock_division	which = 10848 value = 8631 }
+		command = { type = unlock_division	which = 10848 value = 8632 }
+		command = { type = unlock_division	which = 10848 value = 8633 }
+		command = { type = unlock_division	which = 10848 value = 8634 }
+		command = { type = unlock_division	which = 10848 value = 8635 }
 	}
 }
-
-
 
 ###############################################
 # FRA / VIC

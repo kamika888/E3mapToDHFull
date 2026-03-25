@@ -4295,7 +4295,8 @@ province = { id = 154   # Arkhangelsk - Arkhangelsk - Northern Russia
  } 
  
 province = { id = 7003   # Kirjasali
-   landfort = 2 
+   landfort = 4 
+   anti_air = 4 
 } 
  
 province = { id = 188   # Kingisepp - Novgorod - Western Russia
@@ -4332,8 +4333,8 @@ province = { id = 3455   # Nevel - Western Russia
   
 province = { id = 187   # Leningrad - Leningrad - Russia
    anti_air = 6 
-   landfort = 5 
-   coastalfort = 5 
+   landfort = 7 
+   coastalfort = 3 
  } 
  
 province = { id = 191   # Staraya Russa - Pskov - Western Russia
@@ -4349,7 +4350,7 @@ province = { id = 201   # Pskov - Pskov - Western Russia
  } 
  
 province = { id = 175   # Moscow - Moscow - Russia
-   landfort = 5 
+   landfort = 7 
    anti_air = 4 
  } 
  

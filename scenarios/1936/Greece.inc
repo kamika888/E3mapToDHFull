@@ -238,6 +238,20 @@ inventions = { 3000027 }
        extra = artillery
        brigade_model = 5
       }
+     Division =
+     { id = { type = 15500 id = 38 }
+       name = "1. Monada Chorofylakis"
+       strength = 20
+       type = militia
+       model = 4
+      }
+     Division =
+     { id = { type = 15500 id = 39 }
+       name = "2. Monada Chorofylakis"
+       strength = 20
+       type = militia
+       model = 4
+      }
     }
    landunit =
    { id = { type = 15500 id = 5 }
@@ -259,6 +273,13 @@ inventions = { 3000027 }
        extra = anti_air
        brigade_model = 1
       }
+     #Division =
+     #{ id = { type = 15500 id = 38 }
+     #  name = "18. Merarchia Pezikou"
+     #  strength = 20
+     #  type = infantry
+     #  model = 7
+     # }
     }
    landunit =
    { id = { type = 15500 id = 8 }
@@ -315,6 +336,13 @@ inventions = { 3000027 }
        extra = artillery
        brigade_model = 0
       }
+     #Division =
+     #{ id = { type = 15500 id = 35 }
+     #  name = "15. Merarchia Pezikou"
+     #  strength = 20
+     #  type = infantry
+     #  model = 7
+     # }
     }
    landunit =
    { id = { type = 15500 id = 16 }
@@ -334,6 +362,13 @@ inventions = { 3000027 }
        type = infantry
        model = 7
       }
+     #Division =
+     #{ id = { type = 15500 id = 36 }
+     #  name = "16. Merarchia Pezikou"
+     #  strength = 20
+     #  type = infantry
+     #  model = 7
+     # }
     }
    landunit =
    { id = { type = 15500 id = 19 }
