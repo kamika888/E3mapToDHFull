@@ -7035,3 +7035,144 @@ event = {
 		command = { type = wakeleader which = 5208 } #Joseph Pouliquen VIC
 	}
 }
+
+#Fezzan campaign
+
+event = {
+	id = 2002075
+	random = no
+	tag = { U01 VIC }
+	style = 2
+
+	decision = {
+		alliance = { country = ENG }
+		control = { province = 2895	data = -2 } #Sabha is under enemy control
+		control = { province = 4517	data = -3 } #niger/algeria
+		militia = 1
+	}
+	decision_trigger = {
+		#Commanders would not approve a clearly suicidal mission
+		control = { province = 2891	data = -3 } #advancing from the east
+		control = { province = 4540	data = -3 } #advancing from the east
+	}
+	trigger = {
+		alliance = { country = ENG }
+		#war = { country = ITA }
+		control = { province = 949	data = -3 } #torch successful
+		control = { province = 4517	data = -3 } #niger/algeria
+		control = { province = 2891	data = -3 } #advancing from the east
+		control = { province = 4540	data = -3 } #advancing from the east
+		control = { province = 2895	data = -2 } #Sabha is under enemy control
+		militia = 1
+		NOT = { garrison = { province = 2895 country = -2 type = land size = 1 area = 1 } }
+	}
+
+	date = { year = 1936 month = december day = 12 }
+	offset = 15
+	deathdate = { year = 1956 month = december day = 13 }
+
+	name = EVT_2002075_NAME
+	desc = EVT_2002075_DESC
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = demobilize which = militia when = 0 where = 0 value = -1  }
+		
+		#reimbursing some supplies and manpower since the two new divs are both less than 1 full strength div and have no attachments
+		command = { type = supplies value = 600   }
+		command = { type = manpowerpool value = 4 } 
+
+		
+		command = { type = add_corps value = land where = 2895 } 
+		command = { type = add_division value = militia when = 5 where = -60 }
+		command = { type = add_division value = militia when = 5 where = -60 }
+		
+		command = { type = event which = 2002076 where = ITA when = 0 }
+	}
+}
+
+event = {
+	id = 2002076
+	random = no
+	style = 2
+
+	name = EVT_2002075_NAME
+	desc = EVT_2002075_DESC
+
+	action = {
+		name = ACTION_NAME_DAMN
+		trigger = { war = { country = VIC } }
+		command = { type = control which = VIC  value = 2895 }
+		command = { type = control which = VIC  value = 2894 }
+		command = { type = control which = VIC  value = 4551 }
+		command = { type = control which = VIC  value = 4554 }
+		command = { type = control which = VIC  value = 4553 }
+		command = { type = control which = VIC  value = 4552 }
+		command = { type = control which = VIC  value = 2896 }
+		command = { type = control which = VIC  value = 4547 }
+		command = { type = control which = VIC  value = 4550 }
+	}
+	action = {
+		name = ACTION_NAME_OK
+		trigger = { war = { country = U01 } }
+		command = { type = control which = U01  value = 2895 }
+		command = { type = control which = U01  value = 2894 }
+		command = { type = control which = U01  value = 4551 }
+		command = { type = control which = U01  value = 4554 }
+		command = { type = control which = U01  value = 4553 }
+		command = { type = control which = U01  value = 4552 }
+		command = { type = control which = U01  value = 2896 }
+		command = { type = control which = U01  value = 4547 }
+		command = { type = control which = U01  value = 4550 }
+	}
+}
+
+event = {
+	id = 2002077
+	random = no
+	tag = { U01 VIC }
+	style = 2
+
+	decision = {
+		event = 2002075
+		war = { country = ITA }
+		control = { province = 2895	data = -3 } #Sabha is under our control
+		garrison = { province = 2895 country = -1 type = land size = 1 area = 1 }
+	}
+	decision_trigger = {
+	}
+	trigger = {
+		ai = no
+		event = 2002075
+		war = { country = ITA }
+		control = { province = 2895	data = -3 } #Sabha is under our control
+		garrison = { province = 2895 country = -1 type = land size = 1 area = 1 }
+	}
+
+	date = { year = 1936 month = december day = 12 }
+	offset = 15
+	deathdate = { year = 1956 month = december day = 13 }
+
+	name = EVT_2002077_NAME
+	desc = EVT_2002077_DESC
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = remove_units which = land where = -1 when = 1 value = "Interior Libya" }
+		
+		command = { type = add_corps value = land where = 4595 } 
+		#assume losses
+		command = { type = add_division value = militia when = 5 where = -40 } 
+		command = { type = add_division value = militia when = 5 where = -40 }
+		
+		command = { type = control which = ITA  value = 2895 }
+		command = { type = control which = ITA  value = 2894 }
+		command = { type = control which = ITA  value = 4551 }
+		command = { type = control which = ITA  value = 4554 }
+		command = { type = control which = ITA  value = 4553 }
+		command = { type = control which = ITA  value = 4552 }
+		command = { type = control which = ITA  value = 2896 }
+		command = { type = control which = ITA  value = 4547 }
+		command = { type = control which = ITA  value = 4550 }
+	}
+}
