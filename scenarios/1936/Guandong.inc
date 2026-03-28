@@ -425,7 +425,7 @@ country =
      {  id           = {  type = 22400 id = 57  } 
        name         = "16/17/28/29. Squadrons" 
        type         = interceptor 
-       model        = 0
+       model        = 2
        strength     = 49 
       } 
 	}

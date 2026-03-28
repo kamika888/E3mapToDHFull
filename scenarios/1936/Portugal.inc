@@ -13,8 +13,8 @@ country =
 	supplies               = 500 
 	money                  = 15 
 	manpower               = 94 
-	transports             = 100 
-	escorts                = 7 
+	transports             = 700 
+	escorts                = 70 
   capital                = 336
   # Azores
   free = { 
