@@ -1172,6 +1172,7 @@ event = {
 		command = { type = local_setflag which = sliderSet }
 		command = { type = set_domestic which = freedom		 	value = 3  }
 		command = { type = set_domestic which = interventionism	value = 3  }
+		
 		command = { trigger = { country = IND } type = inherit which = U02 value = 1 }
 		command = { trigger = { country = IND } type = event which = 2400530 where = USN when = 0 }
 		command = { trigger = { country = IND } type = event which = 2400530 where = UIC when = 0 }
@@ -1188,6 +1189,9 @@ event = {
 		command = { trigger = { country = IND } type = event which = 2400530 where = UCS when = 0 }
 		command = { trigger = { country = IND } type = event which = 2400530 where = U68 when = 0 }
 		command = { trigger = { country = IND } type = event which = 2400530 where = U80 when = 0 }
+		
+		command = { trigger = { policy = { type = professional_army value = 6 } } type = event which = 8300113 where = -1 when = 1 } #End General Mob
+		
 		#TAG change mid game will:
 		#very likely CRASH MP game
 		#reset all triggered events without resetting the flags
@@ -1214,7 +1218,10 @@ event = {
 	
 	action = {
 		name = "ACTION_NAME_DAMN" #Great
-		command = { type = remove_units 		which = all where = REB when = 2 value = "India" }
+		command = { type = remove_units 		which = all where = REB when = 2 value = "India"	}
+		command = { type = remove_units 		which = all where = REB when = 1 value = "Poltava"	} #Kashmir
+		
+		command = { type = demobilize which = land when = 0 where = 0 value = 80 } #~40 divisions each
 		
 		command = { trigger = { country = U02 } type = set_domestic which = political_left value = 7 }
 		command = { trigger = { country = U02 } type = country which = IND }
@@ -1358,23 +1365,21 @@ event = {
 		command = { type = addclaim which = 1590 }
 		command = { type = addclaim which = 7305 }
 		
-		
-		#Helps to randomize the time
 		command = { type = event which = 2185005 where = USN when = 0 }
-		command = { type = event which = 2185005 where = UIC when = 1 }
-		command = { type = event which = 2185005 where = UTL when = 2 }
-		command = { type = event which = 2185005 where = UAU when = 3 }
-		command = { type = event which = 2185005 where = UPS when = 4 }
-		command = { type = event which = 2185005 where = UCH when = 5 }
-		command = { type = event which = 2185005 where = U37 when = 6 }
-		command = { type = event which = 2185005 where = URO when = 7 }
-		command = { type = event which = 2185005 where = UBO when = 8 }
-		command = { type = event which = 2185005 where = U40 when = 9 }
-		command = { type = event which = 2185005 where = UTC when = 10 }
-		command = { type = event which = 2185005 where = UGS when = 11 }
-		command = { type = event which = 2185005 where = UCS when = 12 }
-		command = { type = event which = 2185005 where = U68 when = 13 }
-		command = { type = event which = 2185005 where = U80 when = 14 }
+		command = { type = event which = 2185005 where = UIC when = 0 }
+		command = { type = event which = 2185005 where = UTL when = 0 }
+		command = { type = event which = 2185005 where = UAU when = 0 }
+		command = { type = event which = 2185005 where = UPS when = 0 }
+		command = { type = event which = 2185005 where = UCH when = 0 }
+		command = { type = event which = 2185005 where = U37 when = 0 }
+		command = { type = event which = 2185005 where = URO when = 0 }
+		command = { type = event which = 2185005 where = UBO when = 0 }
+		command = { type = event which = 2185005 where = U40 when = 0 }
+		command = { type = event which = 2185005 where = UTC when = 0 }
+		command = { type = event which = 2185005 where = UGS when = 0 }
+		command = { type = event which = 2185005 where = UCS when = 0 }
+		command = { type = event which = 2185005 where = U68 when = 0 }
+		command = { type = event which = 2185005 where = U80 when = 0 }
 		
 		command = { type = independence which = BUR value = 1 when = 1 }
 		command = { type = independence which = U83 value = 1 when = 1 }
@@ -1402,7 +1407,7 @@ event = {
 		command = { type = set_domestic which = interventionism		value = 3 }
 		command = { type = set_domestic which = freedom 			value = 3 }
 		command = { type = set_domestic which = free_market 		value = 2 }
-		command = { type = set_domestic which = defense_lobby		value = 6 }
+		command = { type = set_domestic which = defense_lobby		value = 5 }
 		command = { type = set_domestic which = democratic			value = 6 }
 		
 		command = { type = manpowerpool 			value = -3000 } #pakistan secession
@@ -1424,6 +1429,8 @@ event = {
 		command = { type = belligerence value = 16 }
 		command = { type = extra_tc 	value = 30 }
 		
+		command = { type = industrial_modifier which = ic  value = -15 } #Partition shock
+		
 		command = { type = local_setflag which = MOB_level when = 0 value = 4 }
 		command = { type = local_setflag which = MSB_level when = 0 value = 4 }
 		command = { type = local_setflag which = WAR_level when = 0 value = 6 }
@@ -1442,19 +1449,8 @@ event = {
 		command = { type = add_division value = transport 	when = 2 }
 		command = { type = add_division value = transport	when = 2 }
 		
-		command = { type = add_division value = hq			when = 3  }
-		command = { type = add_division value = hq			when = 3  }
-		#10. Will inherit more from the princely states
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
+		command = { type = add_division value = hq			when = 3 }
+		command = { type = add_division value = hq			when = 3 }
 		
 		command = { type = secedeprovince which = IND value = 1456 when = 2 }
 		command = { type = secedeprovince which = IND value = 5207 when = 2 }
@@ -1472,10 +1468,10 @@ event = {
 		
 		command = { type = capital which = 1469 } # New Delhi
 		
-		command = { type = secedeprovince which = PAK value = 1592 when = 2 }
-		command = { type = secedeprovince which = PAK value = 5344 when = 2 }
-		command = { type = secedeprovince which = PAK value = 5345 when = 2 }
-		command = { type = secedeprovince which = PAK value = 5375 when = 2 }
+		#command = { type = secedeprovince which = PAK value = 1592 when = 2 }
+		#command = { type = secedeprovince which = PAK value = 5344 when = 2 }
+		#command = { type = secedeprovince which = PAK value = 5345 when = 2 }
+		#command = { type = secedeprovince which = PAK value = 5375 when = 2 }
 		
 		command = { type = event which = 2001034 where = PAK when = 0 } 
 	}
@@ -1484,7 +1480,7 @@ event = {
 event = {
 	id = 2185005
 	random = no
-	tag = { USN UIC UTL UAU UPS UCH U37 U80 UBO U40 UTC UGS UCS U68 URO }
+	#tag = { USN UIC UTL UAU UPS UCH U37 U80 UBO U40 UTC UGS UCS U68 URO }
 	persistent = yes
 	
 	
@@ -1496,10 +1492,11 @@ event = {
 	action = {
 		name = "ACTION_NAME_GREAT" #Great
 		command = { type = leave_alliance when = 1 }
+		command = { type = local_setflag which = puppetLevel8 }
 		command = { type = ai which = "EXP_0.ai" }
-		command = { type = local_setflag which = minorLordsCheck }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = garrison	when = 5  }
+		
+		command = { type = demobilize which = land when = 0 where = 0 value = 8 }
+		command = { trigger = { policy = { type = professional_army value = 6 } } type = event which = 8300113 where = -1 when = 1 } #End General Mob
 	}
 }
 
@@ -1509,7 +1506,7 @@ event = {
 	country = PAK
 
 	name = EVT_66_NAME
-	desc = "The Pakistani people rejoice - the British Empire is finally over!"
+	desc = EVT_2001034_DESC
 	style = 2
 	picture = "news_paper"
 	
@@ -1519,10 +1516,10 @@ event = {
 		command = { type = leave_alliance when = 1 }
 		command = { type = event which = 2400530 where = PAK when = 0 } #legit indie
 		command = { type = set_domestic which = political_left 		value = 4 }
-		command = { type = set_domestic which = interventionism 	value = 5 }
-		command = { type = set_domestic which = freedom 			value = 3 }
+		command = { type = set_domestic which = interventionism 	value = 6 }
+		command = { type = set_domestic which = freedom 			value = 4 } #1 higher than India
 		command = { type = set_domestic which = free_market 		value = 2 }
-		command = { type = set_domestic which = defense_lobby		value = 6 }
+		command = { type = set_domestic which = defense_lobby		value = 5 }
 		command = { type = set_domestic which = democratic			value = 6 }
 		command = { type = set_domestic which = professional_army	value = 4 }
 		
@@ -1544,6 +1541,8 @@ event = {
 		command = { type = belligerence value = 16 }
 		command = { type = extra_tc 	value = 30 }
 		
+		command = { type = industrial_modifier which = ic  value = -10 } #Partition shock
+		
 		command = { type = local_setflag which = MOB_level when = 0 value = 4 }
 		command = { type = local_setflag which = MSB_level when = 0 value = 4 }
 		command = { type = local_setflag which = WAR_level when = 0 value = 6 }
@@ -1555,16 +1554,27 @@ event = {
 		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
 		command = { trigger = { ai = yes } type = ai which = "invasionNo.ai" }
 		command = { trigger = { ai = yes } type = ai which = "EXP_50.ai" }
+		command = { trigger = { ai = yes } type = event which = 2400013 where = -1 when = 0 } #gar30
 		command = { trigger = { ai = yes } type = ai which = "nations\INDPAK.ai" }
 		
-		command = { type = transport_pool which = PAK value = 150 }
+		command = { type = transport_pool	which = PAK value = 600 }
+		command = { type = escort_pool		which = PAK value = 200 }
+		
+		command = { type = construct which = land_fort	where = 1475 value = 3 } #Lahore
+		
+		command = { type = construct which = air_base	where = 1483 value = 3 } #Peshawar
+		command = { type = construct which = air_base	where = 1475 value = 1 } #Lahore
+		
+		command = { type = construct which = air_base	where = 1286 value = 2 } #Dhaka
+		command = { type = construct which = naval_base	where = 1288 value = 2 } #Chittagong
+		
 		
 		command = { type = peace which = IND value = 1 }
 		
-		command = { type = secedeprovince which = PAK value = 1592 when = 2 }
-		command = { type = secedeprovince which = PAK value = 5344 when = 2 }
-		command = { type = secedeprovince which = PAK value = 5345 when = 2 }
-		command = { type = secedeprovince which = PAK value = 5375 when = 2 }
+		#command = { type = secedeprovince which = PAK value = 1592 when = 2 }
+		#command = { type = secedeprovince which = PAK value = 5344 when = 2 }
+		#command = { type = secedeprovince which = PAK value = 5345 when = 2 }
+		#command = { type = secedeprovince which = PAK value = 5375 when = 2 }
 		
 		command = { type = add_division value = transport 	when = 2 }
 		command = { type = add_division value = transport 	when = 2 }
@@ -1572,48 +1582,33 @@ event = {
 		#west pakistan
 		command = { type = add_corps value = land 			where = 1482 }
 		command = { type = add_division value = hq			when = 3  }
-		#20
+		#10
+		command = { type = add_division value = infantry	when = 11 where = artillery }
 		command = { type = add_division value = infantry	when = 11 }
 		command = { type = add_division value = infantry	when = 11 }
 		command = { type = add_division value = infantry	when = 11 }
-		command = { type = add_division value = infantry	when = 11 }
-		command = { type = add_division value = infantry	when = 11 }
+		command = { type = add_division value = bergsjaeger when = 11 where = artillery }
+		command = { type = add_division value = bergsjaeger when = 11 }
+		command = { type = add_division value = bergsjaeger when = 11 }
+		command = { type = add_division value = militia		when = 6  where = artillery }
 		command = { type = add_division value = militia		when = 6  }
 		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		
+
 		#Bangladesh
 		command = { type = add_corps value = land 			where = 5198 }
 		command = { type = add_division value = hq			when = 3  }
-		#30 default
+		#20 default
+		command = { type = add_division value = infantry	when = 11 where = artillery }
 		command = { type = add_division value = infantry	when = 11 }
 		command = { type = add_division value = infantry	when = 11 }
 		command = { type = add_division value = infantry	when = 11 }
 		command = { type = add_division value = infantry	when = 11 }
-		command = { type = add_division value = infantry	when = 11 }
-		command = { type = add_division value = infantry	when = 11 }
-		command = { type = add_division value = infantry	when = 11 }
-		command = { type = add_division value = infantry	when = 11 }
-		command = { type = add_division value = infantry	when = 11 }
-		command = { type = add_division value = infantry	when = 11 }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
-		command = { type = add_division value = militia		when = 6  }
+		command = { type = add_division value = bergsjaeger when = 11 where = artillery }
+		command = { type = add_division value = bergsjaeger when = 11 }
+		command = { type = add_division value = bergsjaeger when = 11 }
+		command = { type = add_division value = bergsjaeger when = 11 }
+		command = { type = add_division value = bergsjaeger when = 11 }
+		command = { type = add_division value = militia		when = 6  where = artillery }
 		command = { type = add_division value = militia		when = 6  }
 		command = { type = add_division value = militia		when = 6  }
 		command = { type = add_division value = militia		when = 6  }
@@ -1628,110 +1623,120 @@ event = {
 		
 		command = { 													type = local_clrflag which = PAK_add }
 		command = { trigger = { army = { size = 5	country = UCS } }	type = local_setflag which = PAK_add }
+		command = { trigger = { local_flag = PAK_add } type = add_corps value = land 			where = 5198 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_corps value = land 			where = 1482 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 where = artillery }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { 													type = local_clrflag which = PAK_add }
 		command = { trigger = { army = { size = 10	country = UCS } }	type = local_setflag which = PAK_add }
+		command = { trigger = { local_flag = PAK_add } type = add_corps value = land 			where = 5198 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_corps value = land 			where = 1482 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 where = artillery }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { 													type = local_clrflag which = PAK_add }
 		command = { trigger = { army = { size = 15	country = UCS } }	type = local_setflag which = PAK_add }
+		command = { trigger = { local_flag = PAK_add } type = add_corps value = land 			where = 5198 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_corps value = land 			where = 1482 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 where = artillery }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { 													type = local_clrflag which = PAK_add }
 		command = { trigger = { army = { size = 20	country = UCS } }	type = local_setflag which = PAK_add }
+		command = { trigger = { local_flag = PAK_add } type = add_corps value = land 			where = 5198 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_corps value = land 			where = 1482 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 where = artillery }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { 													type = local_clrflag which = PAK_add }
 		command = { trigger = { army = { size = 25	country = UCS } }	type = local_setflag which = PAK_add }
+		command = { trigger = { local_flag = PAK_add } type = add_corps value = land 			where = 5198 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
-		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_corps value = land 			where = 1482 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 where = artillery }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = infantry	when = 11 }
+		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 where = artillery }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
 		command = { trigger = { local_flag = PAK_add } type = add_division value = militia	when = 11 }
@@ -2085,15 +2090,12 @@ event = {
 
 #minor lords
 event = {
-	id = 2001035
+	id = 2001300
 	random = no
-	tag = { USN UIC UTL UAU UPS UCH U37 U80 UBO U40 UTC UGS UCS U68 URO }
+	country = REB
 	persistent = yes
 
-	name = EVT_2001035_NAME
-	desc = EVT_2001035_DESC
-	style = 2
-	picture = "news_paper"
+	name = AI_EVENT
 
 	trigger = {
 		OR = {
@@ -2106,39 +2108,186 @@ event = {
 			ispuppet = PAK
 		}
 		OR = {
-			local_flag = minorLordsCheck
-			war = { country = IND country = PAK }
+			exists = USN
+			exists = UIC
+			exists = UTL
+			exists = UAU
+			exists = UPS
+			exists = UCH
+			exists = U37
+			exists = U80
+			exists = UBO
+			exists = U40
+			exists = UTC
+			exists = UGS
+			exists = UCS
+			exists = U68
+			exists = URO
 		}
-		NOT = { local_flag = minorLordsIndia }
-		random = 25
+		NOT = {
+			AND = {
+				flag = IND_USN
+				flag = IND_UIC
+				flag = IND_UTL
+				flag = IND_UAU
+				flag = IND_UPS
+				flag = IND_UCH
+				flag = IND_U37
+				flag = IND_U80
+				flag = IND_UBO
+				flag = IND_U40
+				flag = IND_UTC
+				flag = IND_UGS
+				flag = IND_UCS
+				flag = IND_U68
+				flag = IND_URO
+			}
+		}
 	}
 
-	date = { day = 0 month = january year = 1936 }
-	offset = 5
+	date = { day = 0 month = january year = 1940 }
+	offset = 3
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = EVT_2001035_ACTA	
+		trigger = { }
+		ai_chance = 15
+		command = { }
+ 	}
+	action = { #Kashmir (joined 2 months from independence)
+		trigger = { exists = U80 NOT = { local_flag = IND_U80 } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = U80 when = 0 }
+		command = { type = local_setflag which = IND_U80 }
+ 	}
+	action = { #Hyderabad (joined 14 months from independence)
+		trigger = { exists = U37 NOT = { local_flag = IND_U37 } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = U37 when = 0 }
+		command = { type = local_setflag which = IND_U37 }
+ 	}
+	action = { #Baluchistan (joined 8 months from independence)
+		trigger = { exists = USN NOT = { local_flag = IND_USN } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = USN when = 0 }
+		command = { type = local_setflag which = IND_USN }
+ 	}
+	action = { #Sikkim (joined 29 months from independence, becomes protectorate)
+		trigger = { exists = U68 NOT = { local_flag = IND_U68 } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = U68 when = 0 }
+		command = { type = local_setflag which = IND_U68 }
+ 	}
+	action = { #Travancore (joined within a month, declares independence then reverses)
+		trigger = { exists = UBO NOT = { local_flag = IND_UBO } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = UBO when = 0 }
+		command = { type = local_setflag which = IND_UBO }
+ 	}
+	action = { #Western India (including Junagadh, joined 1 month from independence, Jun joined pakistan)
+		trigger = { exists = URO NOT = { local_flag = IND_URO } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = URO when = 0 }
+		command = { type = local_setflag which = IND_URO }
+ 	}
+	action = { #Central India (including Bhopal, joined 21 months from independence)
+		trigger = { exists = UTL NOT = { local_flag = IND_UTL } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = UTL when = 0 }
+		command = { type = local_setflag which = IND_UTL }
+ 	}
+	action = { #Eastern India (including Maniput, Tripura, and Cooch Behar, joined 26 months from independence, Orissa states joined ~18 months from independence)
+		trigger = { exists = UPS NOT = { local_flag = IND_UPS } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = UPS when = 0 }
+		command = { type = local_setflag which = IND_UPS }
+ 	}
+	action = {
+		trigger = { exists = UIC NOT = { local_flag = IND_UIC } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = UIC when = 0 }
+		command = { type = local_setflag which = IND_UIC }
+ 	}
+	action = {
+		trigger = { exists = UAU NOT = { local_flag = IND_UAU } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = UAU when = 0 }
+		command = { type = local_setflag which = IND_UAU }
+ 	}
+	action = {
+		trigger = { exists = UCH NOT = { local_flag = IND_UCH } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = UCH when = 0 }
+		command = { type = local_setflag which = IND_UCH }
+ 	}
+	action = {
+		trigger = { exists = U40 NOT = { local_flag = IND_U40 } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = U40 when = 0 }
+		command = { type = local_setflag which = IND_U40 }
+ 	}
+	action = {
+		trigger = { exists = UTC NOT = { local_flag = IND_UTC } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = UTC when = 0 }
+		command = { type = local_setflag which = IND_UTC }
+ 	}
+	action = {
+		trigger = { exists = UGS NOT = { local_flag = IND_UGS } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = UGS when = 0 }
+		command = { type = local_setflag which = IND_UGS }
+ 	}
+	action = {
+		trigger = { exists = UCS NOT = { local_flag = IND_UCS } }
+		ai_chance = 5
+		command = { type = event which = 2001301 where = UCS when = 0 }
+		command = { type = local_setflag which = IND_UCS }
+ 	}
+}
+
+
+event = {
+	id = 2001301
+	random = no
+	tag = { USN UIC UTL UAU UPS UCH U37 U80 UBO U40 UTC UGS UCS U68 URO }
+	persistent = yes
+
+	name = EVT_2001301_NAME
+	desc = EVT_2001301_DESC
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = EVT_2001301_ACTA	#Join India
 		trigger = { 
 			OR = {
 				ai = no
-				country = UIC
-				country = UTL
-				country = UAU
-				country = UPS
-				country = UCH
-				#country = U37
-				country = U80
-				country = UBO
-				country = U40
-				country = UGS
-				country = UCS
-				#country = U68
-				country = URO
+				country = UIC #Baroda and Gujarat
+				#country = UTL #Central India
+				country = UAU #Deccan States
+				#country = UGS #Punjab States
+				#country = UPS #Eastern India
+				country = UCH #Gwalior
+				#country = U37 #Hyderabad
+				#country = U80 #Kashmir
+				#country = UBO #Travancore
+				country = U40 #Mysore
+				country = UCS #Rajputana
+				#country = U68 #Sikkim
+				country = URO #Western India
+				
+				AND = {
+					local_flag = IND_standstill
+					OR = {
+						country = U80 #Kashmir
+						country = UBO #Travancore
+						country = UTL #Central India
+						country = UPS #Eastern India
+					}
+				}
 			}
 		}
-		
-		command = { type = local_setflag which = minorLordsIndia }
 		
 		command = { type = leave_alliance 		when  = 1 }
 		command = { type = peace which = ENG 	value = 1 }
@@ -2150,7 +2299,15 @@ event = {
 		
 		command = { type = alliance which = IND }
 		
-		command = { trigger = {	OR = { country = USN country = UTC } }					type = war which = PAK }
+		command = { 
+			trigger = {	
+				OR = {
+					country = USN
+					country = UTC
+					country = UGS
+				}
+			}
+			type = war which = PAK }
 			
 		command = { trigger = {	OR = { country = USN country = UTC } }					type = switch_allegiance which = -1 where = PAK }
 		command = { trigger = {	OR = { country = USN country = UTC } }					type = switch_allegiance which = -1 where = PAK }
@@ -2182,20 +2339,19 @@ event = {
 		command = { trigger = {	country = URO } 										type = secedeprovince 	which = PAK value = 5327	when = 2 } 
 		
 		command = { type = addcore which = 5411 } #Port Mathurin
-		command = {	type = event which = 2001036 where = IND when = 1 }
+		command = {	type = event which = 2001302 where = IND when = 1 }
 	}
 	action = {
-		name = EVT_2001035_ACTB	
+		name = EVT_2001301_ACTB	#Join Pakistan
 		trigger = { 
 			OR = {
 				ai = no
-				#country = USN
-				country = UTC
-				#country = URO
+				#country = UGS #Punjab States
+				#country = USN #Baluchistan
+				country = UTC #North-West Frontier
+				#country = URO #Western India
 			}
 		}
-		
-		command = { type = local_setflag which = minorLordsIndia }
 		
 		command = { type = leave_alliance when = 1 }
 		command = { type = end_puppet }
@@ -2212,7 +2368,7 @@ event = {
 					country = UIC
 					country = UTL
 					country = UAU
-					country = UPS
+					#country = UPS
 					country = UCH
 					country = U37
 					country = UBO
@@ -2234,22 +2390,26 @@ event = {
 		command = { trigger = {	OR = { country = UIC country = UTL country = UAU country = UPS country = UCH country = U37 country = UBO country = U40 country = UGS country = UCS country = U68 country = URO country = U80 } }	type = switch_allegiance which = -3 where = IND }
 		
 		command = { type = addcore which = 1816 } #Port Victoria
-		command = {	type = event which = 2001036 where = PAK when = 1 }
+		command = {	type = event which = 2001302 where = PAK when = 1 }
 	}
 	action = {
-		name = "Thanks, but no"	
+		name = EVT_2001301_ACTC	#Full independence
 		trigger = { 
 			OR = {
 				ai = no
-				country = U37
-				country = USN
-				#country = U68
+				AND = {
+					local_flag = IND_standstill
+					OR = {
+						country = U37 #Hyderabad
+						country = USN #Baluchistan
+						#country = U68 #Sikkim
+					}
+				}
 			}
 		}
 		
-		command = { type = local_setflag which = minorLordsIndia }
-		
-		command = { type = dissent value = 15 }
+		command = { trigger = { NOT = { local_flag = IND_standstill } }	type = dissent value = 15 } 
+		command = { 													type = dissent value = 10 }
 		
 		command = { type = leave_alliance when = 1 }
 		command = { type = end_puppet }
@@ -2280,6 +2440,51 @@ event = {
 			
 		command = { trigger = {	OR = { country = UIC country = UTL country = UAU country = UPS country = UCH country = U37 country = UBO country = U40 country = UGS country = UCS country = URO country = U80 } }	type = switch_allegiance which = -1 where = IND }
 		
+		command = { trigger = {	country = UTL NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = { country = UTL NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 631		when = 2 } 
+		command = { trigger = { country = UTL NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 5264 	when = 2 } 
+		command = { trigger = { country = UTL NOT = { local_flag = IND_standstill } }	type = secedeprovince 	which = IND value = 5266	when = 2 } 
+		command = { trigger = { country = UTL NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 5263	when = 2 } 
+		command = { trigger = { country = UTL NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 5259	when = 2 } 
+		command = { trigger = { country = UTL NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 5258	when = 2 } 
+		command = { trigger = { country = UTL NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 1460	when = 2 } 
+		command = { trigger = { country = UTL NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 5257	when = 2 } 
+		command = { trigger = { country = UTL NOT = { local_flag = IND_standstill } } 	type = dissent 			value = -8 }
+		command = { trigger = {	country = UTL NOT = { local_flag = IND_standstill } } 	type = name 			where = UTL which = UTL_BHO }
+		
+		command = { trigger = {	country = UPS NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS NOT = { local_flag = IND_standstill } army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = { country = UPS NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 5283	when = 2 } 
+		command = { trigger = { country = UPS NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 5284 	when = 2 } 
+		command = { trigger = { country = UPS NOT = { local_flag = IND_standstill } }	type = secedeprovince 	which = IND value = 5285	when = 2 } 
+		command = { trigger = { country = UPS NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 2198	when = 2 } 
+		command = { trigger = { country = UPS NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 791		when = 2 } 
+		command = { trigger = { country = UPS NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 5275	when = 2 } 
+		command = { trigger = { country = UPS NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 5276	when = 2 } 
+		command = { trigger = { country = UPS NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 5277	when = 2 } 
+		command = { trigger = { country = UPS NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 5280	when = 2 } 
+		command = { trigger = { country = UPS NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 5288	when = 2 } 
+		command = { trigger = { country = UPS NOT = { local_flag = IND_standstill } } 	type = secedeprovince 	which = IND value = 635		when = 2 } 
+		command = { trigger = { country = UPS NOT = { local_flag = IND_standstill } } 	type = dissent 			value = -8 }
+		command = { trigger = {	country = UPS NOT = { local_flag = IND_standstill } } 	type = capital 			where = UPS which = 1287 }
+		
 		command = { 		
 			trigger = {	
 				OR = {
@@ -2297,16 +2502,89 @@ event = {
 		command = { trigger = {	country = USN } 										type = secedeprovince 	which = PAK value = 5371	when = 2 } 
 		command = { trigger = {	country = USN } 										type = secedeprovince 	which = PAK value = 5372	when = 2 } 
 		command = { trigger = {	country = USN } 										type = secedeprovince 	which = PAK value = 5373	when = 2 }
+		command = { trigger = {	country = USN }											type = non_aggression 	which = PAK where = USN 	when = 1 }
+		command = { trigger = {	country = USN } 										type = name 			where = USN which = USN_KAL }
 			
 		command = { trigger = {	OR = { country = USN country = UTC country = U80 } }	type = switch_allegiance which = -1 where = PAK }
 	}
 	action = {
-		name = "Retain protectorate status"	
+		name = EVT_2001301_ACTD	#Standstill Agreement
+		trigger = { 
+			NOT = { local_flag = IND_standstill }
+			OR = {
+				ai = no
+				country = UBO #Travancore
+				country = U80 #Kashmir
+				country = U37 #Hyderabad
+				country = USN #Baluchistan
+				country = UPS #Eastern India
+				country = UTL #Central India
+				country = U68 #Sikkim
+			}
+		}
+		command = { type = dissent value = 10 }
+		command = { type = local_setflag which = IND_standstill }
+		
+		command = { trigger = {	country = UTL army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UTL army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = { country = UTL } 	type = secedeprovince 	which = IND value = 631		when = 2 } 
+		command = { trigger = { country = UTL } 	type = secedeprovince 	which = IND value = 5264 	when = 2 } 
+		command = { trigger = { country = UTL } 	type = secedeprovince 	which = IND value = 5266	when = 2 } 
+		command = { trigger = { country = UTL } 	type = secedeprovince 	which = IND value = 5263	when = 2 } 
+		command = { trigger = { country = UTL } 	type = secedeprovince 	which = IND value = 5259	when = 2 } 
+		command = { trigger = { country = UTL } 	type = secedeprovince 	which = IND value = 5258	when = 2 } 
+		command = { trigger = { country = UTL } 	type = secedeprovince 	which = IND value = 1460	when = 2 } 
+		command = { trigger = { country = UTL } 	type = secedeprovince 	which = IND value = 5257	when = 2 } 
+		command = { trigger = { country = UTL } 	type = dissent 			value = -8 }
+		command = { trigger = {	country = UTL }		type = name 			where = UTL which = UTL_BHO }
+		
+		command = { trigger = {	country = UPS army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	country = UPS army = 4 }	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = { country = UPS } 	type = secedeprovince 	which = IND value = 5283	when = 2 } 
+		command = { trigger = { country = UPS } 	type = secedeprovince 	which = IND value = 5284 	when = 2 } 
+		command = { trigger = { country = UPS }		type = secedeprovince 	which = IND value = 5285	when = 2 } 
+		command = { trigger = { country = UPS } 	type = secedeprovince 	which = IND value = 2198	when = 2 } 
+		command = { trigger = { country = UPS } 	type = secedeprovince 	which = IND value = 791		when = 2 } 
+		command = { trigger = { country = UPS } 	type = secedeprovince 	which = IND value = 5275	when = 2 } 
+		command = { trigger = { country = UPS } 	type = secedeprovince 	which = IND value = 5276	when = 2 } 
+		command = { trigger = { country = UPS } 	type = secedeprovince 	which = IND value = 5277	when = 2 } 
+		command = { trigger = { country = UPS } 	type = secedeprovince 	which = IND value = 5280	when = 2 } 
+		command = { trigger = { country = UPS } 	type = secedeprovince 	which = IND value = 5288	when = 2 } 
+		command = { trigger = { country = UPS } 	type = secedeprovince 	which = IND value = 635		when = 2 } 
+		command = { trigger = { country = UPS } 	type = dissent 			value = -8 }
+		command = { trigger = {	country = UPS } 	type = capital 			where = UPS which = 1287 }
+		
+		command = { trigger = { NOT = { country = UBO country = U80 country = U37 country = USN country = UPS country = UTL country = U68 } } type = event which = 2001301 where = -1 when = 360 } #Default
+		command = { trigger = { country = UBO } type = event which = 2001301 where = -1 when = 30  } #1 month (internal coup)
+		command = { trigger = { country = U80 } type = event which = 2001301 where = -1 when = 60  } #2 months (internal coup & pakistani invasion)
+		command = { trigger = { country = U37 } type = event which = 2001301 where = -1 when = 360 } #12 months
+		command = { trigger = { country = USN } type = event which = 2001301 where = -1 when = 360 } #12 months
+		command = { trigger = { country = UPS } type = event which = 2001301 where = -1 when = 540 } #18 months
+		command = { trigger = { country = UTL } type = event which = 2001301 where = -1 when = 720 } #24 months
+		command = { trigger = { country = U68 } type = event which = 2001301 where = -1 when = 720 } #24 months
+	}
+	action = {
+		name = EVT_2001301_ACTE #Retain protectorate status
 		trigger = { 
 			country = U68 #only available to Sikkim
+			local_flag = IND_standstill
 		}
-		
-		command = { type = local_setflag which = minorLordsIndia }
 		
 		command = { type = dissent value = 5 }
 		
@@ -2316,21 +2594,53 @@ event = {
 		
 		command = { type = alliance which = IND }
 	}
+	action = {
+		name = EVT_2001301_ACTF #Split between India and Pakistan
+		trigger = { 
+			country = UGS #only available to Punjab
+		}
+		
+		command = { type = leave_alliance 		when  = 1 }
+		command = { type = peace which = ENG 	value = 1 }
+		command = { type = peace which = USA 	value = 1 }
+		command = { type = peace which = SOV 	value = 1 }
+		
+		command = { 						type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	army = 4 } 	type = switch_allegiance which = -1 where = IND }
+		command = { trigger = {	army = 4 } 	type = switch_allegiance which = -1 where = IND }
+		 
+		command = { type = secedeprovince 	which = IND value = 5256 	when = 2 }
+		command = { type = secedeprovince 	which = IND value = 6921 	when = 2 }
+		command = { type = secedeprovince 	which = IND value = 6922 	when = 2 }
+		command = { type = secedeprovince 	which = IND value = 5222 	when = 2 }
+		command = { type = secedeprovince 	which = IND value = 687 	when = 2 }
+		command = { type = secedeprovince 	which = IND value = 5251 	when = 2 }
+		command = { type = secedeprovince 	which = IND value = 5252 	when = 2 }
+		command = { type = secedeprovince 	which = IND value = 5253 	when = 2 }
+		
+		command = { type = end_puppet }
+		command = { type = event which = 2400530 where = -1 when = 0 } #independent state
+		
+		#command = { type = alliance which = PAK }
+		
+		command = { type = addcore which = 1816 } #Port Victoria
+		command = {	type = event which = 2001302 where = PAK when = 1 }
+	}
 }
 
 event = {
-	id = 2001036
+	id = 2001302
 	random = no
-	tag = { IND PAK }
+	#tag = { IND PAK }
 	persistent = yes
 
-	name = EVT_2001036_NAME
-	desc = EVT_2001036_DESC
+	name = EVT_2001302_NAME
+	desc = EVT_2001302_DESC
 	style = 2
 	picture = "news_paper"
 
 	action = {
-		name = EVT_2001036_ACTA
+		name = EVT_2001302_ACTA
 		trigger = { country = IND }
 		command = { type = dissent value = -1 }
 		command = { trigger = { core = { province = 5411 data = USN } } type = inherit which = USN value = 1 }
@@ -2353,7 +2663,7 @@ event = {
 		command = { trigger = { core = { province = 5411 data = U80 } } type = inherit which = U80 value = 1 }
 	}
 	action = {
-		name = EVT_2001036_ACTB
+		name = EVT_2001302_ACTB
 		trigger = { country = PAK }
 		command = { type = dissent value = -1 }
 		command = { trigger = { core = { province = 1816 data = USN } } type = inherit which = USN value = 1 }
@@ -2377,6 +2687,7 @@ event = {
 event = {
 	id = 2001130
 	random = no
+	save_date = yes
 	tag = { PAK }
 
 	name = EVT_2001130_NAME
@@ -2403,6 +2714,7 @@ event = {
 		command = { type = secedeprovince 	which = PAK value = 7904	when = 2 } 
 		command = { type = secedeprovince 	which = PAK value = 5342	when = 2 } 
 		command = { type = secedeprovince 	which = PAK value = 2828	when = 2 } 
+		command = { type = secedeprovince 	which = PAK value = 5338	when = 2 } 
 		#command = { type = secedeprovince 	which = PAK value = 5326	when = 2 } 
 		#command = { type = secedeprovince 	which = PAK value = 5327	when = 2 } 
 		
@@ -2415,9 +2727,14 @@ event = {
 		command = { type = add_division value = militia 	when = 6 }
 		command = { type = add_corps 	value = land 	where = 5342 }
 		command = { type = add_division value = militia 	when = 6 }
+		command = { type = add_corps 	value = land 	where = 5338 }
+		command = { type = add_division value = militia 	when = 6 }
 		
 		command = { type = add_corps 	value = land 	where = 5326 }
 		command = { type = add_division value = militia 	when = 6 }
+		
+		#command = { type = local_setflag which = inMajorWar	}
+		#command = { type = event which = 3130 where = -1 when = 1080 } #inMajorWar clear
 		
 		command = { type = non_aggression 	which = PAK where = IND when = 120 }
 	}
@@ -2569,6 +2886,90 @@ event = {
 	}
 }
 
+
+event = {
+	id = 2001140
+	random = no
+	country = IND
+
+	name = EVT_2001140_NAME
+	desc = EVT_2001140_DESC
+	style = 2
+	picture = "news_paper"
+	
+	trigger = {
+		war = { country = PAK }
+		event = { id = 2001130 days = 390 } 
+		control = { province = 1474 data = -3 }
+		area = { area = "Poltava" country = -2 data = 1 value = 1 }
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { type = dissent 		value = -1 }
+		command = { type = belligerence value = -1 }
+		
+		command = { type = event which = 2001141 where = PAK when = 1 }
+	}
+	action = {
+		name = "ACTION_NAME_REFUSE"
+		ai_chance = 0
+		command = { type = dissent 		value = 10 }
+		command = { type = belligerence value = 20 }
+		command = { type = local_setflag which = SanctionsEvt }
+	}
+}
+
+event = {
+	id = 2001141
+	random = no
+	country = PAK
+
+	name = EVT_2001140_NAME
+	desc = EVT_2001140_DESC
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { type = peace which = IND value = 0 }
+		command = { type = dissent 		value = 8  } #Partial Defeat
+		command = { type = belligerence value = -1 }
+		
+		command = { type = secedeprovince which = IND value = 5326	when = 2 }
+		command = { type = secedeprovince which = IND value = 5327	when = 2 }
+		
+		command = { type = secedeprovince which = IND value = 2835	when = 2 }
+		command = { type = secedeprovince which = IND value = 5336	when = 2 }
+		command = { type = secedeprovince which = IND value = 5337	when = 2 }
+		command = { type = secedeprovince which = IND value = 5338	when = 2 }
+		command = { type = secedeprovince which = IND value = 5339	when = 2 }
+		command = { type = secedeprovince which = IND value = 7192	when = 2 }
+		command = { type = secedeprovince which = IND value = 1474	when = 2 }
+		
+		command = { type = secedeprovince which = PAK value = 1731	when = 2 }
+		command = { type = secedeprovince which = PAK value = 7904	when = 2 }
+		command = { type = secedeprovince which = PAK value = 5341	when = 2 }
+		command = { type = secedeprovince which = PAK value = 2828	when = 2 }
+		command = { type = secedeprovince which = PAK value = 5342	when = 2 }
+		command = { type = secedeprovince which = PAK value = 5340	when = 2 }
+		command = { type = secedeprovince which = PAK value = 5343	when = 2 }
+		command = { type = secedeprovince which = PAK value = 6920	when = 2 }
+	}
+	action = {
+		name = "ACTION_NAME_REFUSE"
+		ai_chance = 0
+		command = { type = dissent 		value = 5  }
+		command = { type = belligerence value = 20 }
+		command = { type = local_setflag which = SanctionsEvt }
+	}
+}
 
 
 ############################################
@@ -4518,6 +4919,7 @@ event = {
 	action = {
 		name = EVT_2002111_ACTA
 		command = { type = local_setflag which = sliderSet }
+		command = { type = set_domestic which = free_market	 	value = 3 }
 		command = { type = set_domestic which = freedom		 	value = 5 }
 		command = { type = set_domestic which = interventionism	value = 5 }
 		
@@ -4531,7 +4933,7 @@ event = {
 		command = { type = add_corps value = land where = 8001 }
 		command = { type = activate_division which = 10848 value = 8600 where = 8001 when = 0 }
 
-		command = { trigger = { control = { province = 269 data = -3 } } 			type = add_corps value = land where = 3668 when = 975010 } #Buzuluk (Berling)
+		command = { trigger = { control = { province = 269 data = -3 } } 			type = add_corps value = land where = 3668 when = 975010 } #Buzuluk  (Berling)
 		command = { trigger = { NOT = { control = { province = 269 data = -3 } } }	type = add_corps value = land where = 1427 when = 975010 } #Tashkent (Berling)
 		command = { type = add_division which = "Polish People's Army" value = hq when = 3 where = -30 }
 		

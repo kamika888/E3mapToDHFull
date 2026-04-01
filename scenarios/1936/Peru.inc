@@ -101,7 +101,7 @@ country =
      freedom           = 5 
      free_market       = 4
      professional_army = 4 
-     defense_lobby     = 3 
+     defense_lobby     = 2 
      interventionism   = 3 
   }
 inventions = { 3000027 }

@@ -123,14 +123,9 @@ event = {
 	style = 2
 	picture = "news_paper"
 
-	decision = {
-		event = { id = 2012004 days = 720 } #2 years later
-		supplies = 1500
-		atwar = no
-	}
 	trigger = {
-		atwar = no
-		event = { id = 2012004 days = 3650 } #10 years later... 
+		NOT = { war = { country = JAP } }
+		event = { id = 2012004 days = 360 }
 		OR = {
 			control = { province = 1228 data = -1 }
 			control = { province = 2515 data = -1 }
@@ -141,7 +136,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1940 }
-	offset = 90
+	offset = 10
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -2961,24 +2956,23 @@ event = {
 	action = {
 		name = EVT_2053000_ACTA
 		command = { type = leave_alliance when = 1 }
-		command = { type = local_setflag which = popularMobilization }
 		command = { type = dissent 		value = -5 } # the time is ripe for the Revolution
-		command = { type = non_aggression which = CHI where = CHC when = 59 }
-		command = { type = event which = 2053001 where = CHI when = 60 }
+		command = { type = event which = 2053001 where = CHI when = 0 }
 		
 		#command = { type = capital which = 1379 }
-		command = { type = end_access which = CHI when = 1 }
-		command = { type = end_access which = CHI when = 0 }
 		
 		command = { trigger = { ai = yes } type = local_clrflag which = garSpec }
 		command = { trigger = { ai = yes } type = event which = 2400012 where = CHC when = 0 } #gar20
 		#Best to leave it on. CHC does some really dumb invasions, but turning it off would mean that CHI will have no reason to even garrison the beaches or Taiwan at all
+		#command = { type = local_clrflag which = InvShutOff }
 		#command = { trigger = { ai = yes } type = event which = 2400032 where = CHC when = 0 } #invasionOff
 		command = { trigger = { ai = CHI } type = event which = 2400012 where = CHI when = 0 } #gar20
 		command = { trigger = { ai = CHI } type = event which = 2400186 where = CHI when = 0 } #redeploy30
 		
-		command = { trigger = { NOT = { local_flag = war_preparedness } } type = local_setflag which = war_preparedness when = 0 value = 5  } #No war preparedness debuff		
-		command = { trigger = { ai = yes } type = ai which = "invasionNo.ai" }
+		command = { trigger = { NOT = { local_flag = war_preparedness } } type = local_setflag which = war_preparedness when = 0 value = 5  } #No war preparedness debuff	
+
+		command = { type = local_setflag 	which = inMajorWar	 }
+		command = { type = event which = 3130 where = -1 when = 1800 } #inMajorWar clear		
 	}
 }
 
@@ -2998,10 +2992,12 @@ event = {
 		name = EVT_2003234_ACTA
 		command = { trigger = { NOT = { local_flag = war_preparedness } } type = local_setflag which = war_preparedness when = 0 value = 5  } #No war preparedness debuff	
 		
-		command = { trigger = { NOT = { war = { country = CHC } } } type = leave_alliance when = 1 }
 		command = { type = war which = CHC }
 		command = { type = dissent value = 10 } # torn by civil war
 		command = { trigger = { ai = yes } type = ai which = "invasionNo.ai" }
+		
+		command = { type = local_setflag 	which = inMajorWar	 }
+		command = { type = event which = 3130 where = -1 when = 1800 } #inMajorWar clear
 	}
 }
 
@@ -3248,13 +3244,6 @@ event = {
 		command = { type = add_corps value = land where = 3754 }
 		command = { type = add_division value = infantry 	when = 11 }
 		command = { type = add_division value = militia 	when = 6  }
-		
-		command = { type = transport_pool which = CHC value = 200 }
-		
-		command = { type = add_division value = transport when = 2 }
-		command = { type = add_division value = transport when = 2 }
-		command = { type = add_division value = transport when = 2 }
-		command = { type = add_division value = destroyer when = 6 }
 		
 		command = { type = local_clrflag which = AllDefense }
 	}
@@ -3821,9 +3810,11 @@ event = {
 	action = {
 		name = EVT_2053052_ACTA
 		ai_chance = 100
-		command = { type = belligerence  		value = -1 }
-		command = { type = relation which = CHC value = 50 }
-		command = { type = event which = 2053053 where = CHC when = 0 }
+		command = { type = belligerence  		value = -1 		}
+		command = { type = relation which = CHC value = 50 		}
+		command = { type = make_puppet 			which = SIK 	}
+		command = { type = event which = 2400536 where = SIK when = 0 } #medium puppet
+		command = { type = event which = 2053053 where = CHC when = 1 }
 	}
 	action = {
 		name = EVT_2053052_ACTB
@@ -3909,6 +3900,7 @@ event = {
 		ai_chance = 100
 		command = { type = relation which = TIB value = 50 }
 		command = { type = make_puppet which = TIB }
+		command = { type = event which = 2400040 where = TIB when = 0 } #0 exp
 		command = { type = event which = 2400536 where = TIB when = 0 } #medium puppet
 		command = { type = event which = 2053057 where = REB when = 0 }
 	}

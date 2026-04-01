@@ -16,7 +16,7 @@
    oil                    = 50 
    supplies               = 100 
    money                  = 50 
-   manpower               = 200
+   manpower               = 20
    
    headofstate            = {  type = 9 id = 1147201 } 
    headofgovernment       = {  type = 9 id = 1147202 } 
@@ -113,7 +113,7 @@
      political_left    = 4 
      freedom           = 2 
      free_market       = 1
-     professional_army = 1 # no conscription 
+     professional_army = 4 
      defense_lobby     = 3 
      interventionism   = 3 
     } 
