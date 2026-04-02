@@ -1634,6 +1634,7 @@ event = {
 		command = { type = secederegion	which = USA value = "Austria"	when = 1 }
 		command = { type = remove_claim_region 		which = "Germany"			 }
 		command = { type = remove_claim_region 		which = "Austria"			 }
+		
 		command = { type = event which = 2003217 where = U01 when = 120 } #Trizone
 		command = { type = event which = 2003217 where = VIC when = 120 } #Trizone
 	}
@@ -1682,6 +1683,82 @@ event = {
 		command = { type = independence		which = U23 value = 1 }
 		command = { type = make_puppet		which = U23 }
 		command = {	type = event			where = U23 which = 2400536 when = 0 } #medium puppet
+	}
+	action = {
+		name = "ACTION_NAME_DECLINE"
+		ai_chance = 0
+		command = { type = leave_alliance when = 1 }
+		command = { type = dissent		value = 2  }
+		command = { type = belligerence value = 2  }
+		command = { type = relation which = USA value = -30 }
+	}
+}
+
+event = { 
+	id = 2003218
+	random = no 
+	country = ENG
+
+	name = EVT_2003218_NAME
+	desc = EVT_2003218_DESC
+  	style = 2
+	
+	action = {
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { type = belligerence value = -5  }
+		command = { type = money 		value = 900 }
+		command = { type = relation 	which = USA value = 15 }
+		
+		command = { type = secedeprovince	which = USA value = 1173				when = 2 }
+		#command = { type = secedeprovince	which = USA value = 1174				when = 2 }
+		command = { type = secedeprovince	which = USA value = 1188				when = 2 }
+		command = { type = secedeprovince	which = USA value = 1190				when = 2 }
+		command = { type = secedeprovince	which = USA value = 1191				when = 2 }
+		command = { type = secedeprovince	which = USA value = 3061				when = 2 }
+		command = { type = secedeprovince	which = USA value = 3062				when = 2 }
+		command = { type = secedeprovince	which = USA value = 3063				when = 2 }
+		command = { type = secedeprovince	which = USA value = 3065				when = 2 }
+		command = { type = secedeprovince	which = USA value = 3066				when = 2 }
+		command = { type = secedeprovince	which = USA value = 3067				when = 2 }
+		#command = { type = secedeprovince	which = USA value = 3068				when = 2 }
+		command = { type = secedeprovince	which = USA value = 7964				when = 2 }
+		command = { type = remove_claim_region which = "Japan" }
+		
+		command = { type = event which = 2003219 where = CHI when = 120 } #Trizone
+	}
+	action = {
+		name = "ACTION_NAME_DECLINE"
+		ai_chance = 0
+		command = { type = leave_alliance when = 1 }
+		command = { type = dissent		value = 2  }
+		command = { type = belligerence value = 2  }
+		command = { type = relation which = USA value = -30 }
+	}
+}
+
+event = { 
+	id = 2003219
+	random = no 
+	tag = { CHI }
+
+	name = EVT_2003219_NAME
+	desc = EVT_2003219_DESC
+  	style = 2
+	
+	action = {
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { type = dissent		value = 1   }
+		command = { type = belligerence value = -5  }
+		command = { type = money 		value = 900 }
+		command = { type = relation 	which = USA value = 15 }
+		command = { type = secedeprovince	which = USA value = 3064				when = 2 }
+		command = { type = secedeprovince	which = USA value = 1189				when = 2 }
+		command = { type = secedeprovince	which = USA value = 7962				when = 2 }
+		command = { type = secedeprovince	which = USA value = 3086				when = 2 }
+		command = { type = secedeprovince	which = USA value = 5655				when = 2 }
+		command = { type = remove_claim_region which = "Japan" }
 	}
 	action = {
 		name = "ACTION_NAME_DECLINE"
@@ -2540,6 +2617,12 @@ event = {
 		command = { trigger = { war = { country = SOV } } type = setflag which = JAP_SOV_WAR }
 		command = { trigger = { war = { country = CHI } } type = setflag which = JAP_CHI_WAR }
 		command = { trigger = { war = { country = CHC } } type = setflag which = JAP_CHC_WAR }
+		command = { trigger = { OR = {
+									area = { area = "Hokkaido"	country = SOV value = 25 }
+									area = { area = "Tohoku"	country = SOV value = 15 }
+									area = { area = "Honshu"	country = SOV value = 15 }
+								} }
+								type = setflag which = JAP_ZONES }
 		
 		command = { type = secedearea	which = -1 value = "Indochine" when = 0 }
 		command = { type = secederegion	which = -1 value = "Indonesia" when = 0 }
@@ -2803,6 +2886,25 @@ event = {
 		command = { type = add_division value = transport when = 3 }
 		command = { type = add_division value = transport when = 3 }
 		command = { type = add_division value = transport when = 3 }
+		
+		command = { trigger = { ai = yes } type = demobilize which = militia when = 0 where = 0 value = -10 }
+		
+		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 1323 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10001 where = 1323 when = 0 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10002 where = 1323 when = 0 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10003 where = 1323 when = 0 }
+		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 1923 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10004 where = 1923 when = 0 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10005 where = 1923 when = 0 }
+		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 1322 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10006 where = 1322 when = 0 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10007 where = 1322 when = 0 }
+		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 1324 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10008 where = 1324 when = 0 }
+		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 3133 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10009 where = 3133 when = 0 }
+		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 5652 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10010 where = 5652 when = 0 }
 	}
 }
 
@@ -2949,20 +3051,53 @@ event = {
 		command = { type = secedeprovince which = POR value = 1316 	when = 2 } # Macao - China
 		command = { type = secedeprovince which = VIC value = 696 	when = 2 } # Kouang - China
 		
-		command = { trigger = { flag = JAP_SOV_WAR } 		   type = secedearea 		which = SOV value = "Pyongyang"			when = 2 } # North Korea
-		command = { trigger = { flag = JAP_SOV_WAR } 		   type = secedearea		which = SOV value = "Sakhalin_Kuriles"	when = 2 }
-		command = { trigger = { flag = JAP_SOV_WAR } 		   type = secedearea 		which = SOV value = "Heilongjiang"		when = 2 }
-		command = { trigger = { flag = JAP_SOV_WAR } 		   type = secedearea 		which = SOV value = "Jilin"				when = 2 }
-		command = { trigger = { flag = JAP_SOV_WAR } 		   type = secedearea 		which = SOV value = "Liaoning"			when = 2 }
-		command = { trigger = { flag = JAP_SOV_WAR } 		   type = secedearea 		which = SOV value = "Rehe"				when = 2 }
-		command = { trigger = { flag = JAP_SOV_WAR } 		   type = secedearea 		which = SOV value = "Chahar"			when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR }			type = secedearea 		which = SOV value = "Pyongyang"			when = 2 } # North Korea
+		command = { trigger = { flag = JAP_SOV_WAR }			type = secedearea		which = SOV value = "Sakhalin_Kuriles"	when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR }			type = secedearea 		which = SOV value = "Heilongjiang"		when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR }			type = secedearea 		which = SOV value = "Jilin"				when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR }			type = secedearea 		which = SOV value = "Liaoning"			when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR }			type = secedearea 		which = SOV value = "Rehe"				when = 2 }
+		command = { trigger = { flag = JAP_SOV_WAR }			type = secedearea 		which = SOV value = "Chahar"			when = 2 }
 		
-		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } type = secedearea which = USA value = "Pyongyang"		when = 2 } # North Korea
-		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } type = secedearea which = CHI value = "Heilongjiang"		when = 1 }
-		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } type = secedearea which = CHI value = "Jilin"			when = 1 }
-		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } type = secedearea which = CHI value = "Liaoning"			when = 1 }
-		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } type = secedearea which = CHI value = "Rehe"				when = 1 }
-		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } type = secedearea which = CHI value = "Chahar"			when = 1 }
+		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } 	type = secedearea 		which = USA value = "Pyongyang"			when = 2 } # North Korea
+		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } 	type = secedearea 		which = CHI value = "Heilongjiang"		when = 1 }
+		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } 	type = secedearea 		which = CHI value = "Jilin"				when = 1 }
+		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } 	type = secedearea 		which = CHI value = "Liaoning"			when = 1 }
+		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } 	type = secedearea 		which = CHI value = "Rehe"				when = 1 }
+		command = { trigger = { NOT = { flag = JAP_SOV_WAR } } 	type = secedearea 		which = CHI value = "Chahar"			when = 1 }
+		
+		command = { trigger = { flag = JAP_ZONES }  			type = secedearea 		which = SOV value = "Hokkaido"			when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = SOV value = 3081				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = SOV value = 3082				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = SOV value = 1436				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = SOV value = 3080				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = SOV value = 1180				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = SOV value = 3079				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = SOV value = 7963				when = 2 }
+		
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 1173				when = 2 }
+		#command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 1174				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 1188				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 1190				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 1191				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 3061				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 3062				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 3063				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 3065				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 3066				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 3067				when = 2 }
+		#command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 3068				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 7964				when = 2 }
+		
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = CHI value = 3064				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = CHI value = 1189				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = CHI value = 7962				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = CHI value = 3086				when = 2 }
+		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = CHI value = 5655				when = 2 }
+		
+		command = { trigger = { flag = JAP_ZONES }  			type = add_claim_region	which = "Japan" where = CHI }
+		command = { trigger = { flag = JAP_ZONES }  			type = add_claim_region	which = "Japan" where = SOV }
+		command = { trigger = { flag = JAP_ZONES }  			type = add_claim_region	which = "Japan" where = ENG }
 		
 		command = { type = secederegion which = CHI value = "China" when = 1 }
 		
@@ -3045,6 +3180,9 @@ event = {
 		#command = { type = secederegion	which = AST value = "Australia"			when = 2 }
 		command = { type = secedearea		which = NZL value = "New Zealand" 		when = 2 }
 		
+		command = { type = secedeprovince	which = CHI	value = 696					when = 2 } #France relinguished ownership of Guangzhouwan immediately after Japanese surrender
+		
+		
 		command = { type = belligerence 	which = USA value = -100 }
 		command = { type = belligerence 	which = ENG value = -50  }
 		
@@ -3109,6 +3247,8 @@ event = {
 		command = { trigger = { NOT = { exists = PRK } } type = secedeprovince	which = -3	value = 2219 				when = 2 }
 		
 		command = { type = belligerence 	which = SOV value = -20 }
+		
+		command = { trigger = { flag = JAP_ZONES } type = event which = 2003218 where = ENG when = 120 } #Bizone Japan
     }
 }
 

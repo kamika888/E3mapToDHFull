@@ -2955,17 +2955,20 @@ event = {
 
 	action = {
 		name = EVT_2053000_ACTA
-		command = { type = leave_alliance when = 1 }
+		command = { trigger = { NOT = { war = { country = CHI } } } type = leave_alliance when = 1 }
 		command = { type = dissent 		value = -5 } # the time is ripe for the Revolution
 		command = { type = event which = 2053001 where = CHI when = 0 }
 		
 		#command = { type = capital which = 1379 }
 		
+		command = { trigger = { ai = yes } type = ai which = "nations\CHCCHI.ai" }
 		command = { trigger = { ai = yes } type = local_clrflag which = garSpec }
 		command = { trigger = { ai = yes } type = event which = 2400012 where = CHC when = 0 } #gar20
-		#Best to leave it on. CHC does some really dumb invasions, but turning it off would mean that CHI will have no reason to even garrison the beaches or Taiwan at all
-		#command = { type = local_clrflag which = InvShutOff }
-		#command = { trigger = { ai = yes } type = event which = 2400032 where = CHC when = 0 } #invasionOff
+		#The whole invasion thing is FUBAR
+		#CHC invasion AI makes it go insane. Hundreds of troops are staying on beaches waiting for transports, insanely dumb invasions everywhere, 100s of divisions are transported to islands and just sit there, etc.
+		#Meanwhile CHI fails to properly garrison beaches and Taiwan due to the "panic ratio" bug
+		command = { type = local_clrflag which = InvShutOff }
+		command = { trigger = { ai = yes } type = event which = 2400032 where = CHC when = 0 } #invasionOff
 		command = { trigger = { ai = CHI } type = event which = 2400012 where = CHI when = 0 } #gar20
 		command = { trigger = { ai = CHI } type = event which = 2400186 where = CHI when = 0 } #redeploy30
 		
@@ -2994,10 +2997,29 @@ event = {
 		
 		command = { type = war which = CHC }
 		command = { type = dissent value = 10 } # torn by civil war
+		
+		command = { trigger = { ai = yes } type = ai which = "nations\CHCCHI.ai" }
 		command = { trigger = { ai = yes } type = ai which = "invasionNo.ai" }
 		
 		command = { type = local_setflag 	which = inMajorWar	 }
 		command = { type = event which = 3130 where = -1 when = 1800 } #inMajorWar clear
+		
+		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 1323 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10001 where = 1323 when = 0 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10002 where = 1323 when = 0 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10003 where = 1323 when = 0 }
+		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 1923 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10004 where = 1923 when = 0 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10005 where = 1923 when = 0 }
+		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 1322 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10006 where = 1322 when = 0 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10007 where = 1322 when = 0 }
+		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 1324 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10008 where = 1324 when = 0 }
+		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 3133 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10009 where = 3133 when = 0 }
+		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 5652 }
+		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10010 where = 5652 when = 0 }
 	}
 }
 

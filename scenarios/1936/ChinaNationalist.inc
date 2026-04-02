@@ -1370,4 +1370,15 @@ inventions = { 3000027 }
 		id    = {  type = 22000 id = 148  } 
 		date  = {  year = 1936 month = july day = 1  } 
 	}
+	
+	landdivision = { dormant = yes id = { type = 22000 id = 10001 } name = "1. Taiwan Garrison" 	type = garrison model = 5 locked = yes											experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10002 } name = "2. Taiwan Garrison" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10003 } name = "3. Taiwan Garrison" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10004 } name = "4. Taiwan Garrison" 	type = garrison model = 5 locked = yes											experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10005 } name = "5. Taiwan Garrison" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10006 } name = "6. Taiwan Garrison" 	type = garrison model = 5 locked = yes											experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10007 } name = "7. Taiwan Garrison" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10008 } name = "8. Taiwan Garrison" 	type = garrison model = 5 locked = yes 											experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10009 } name = "9. Taiwan Garrison" 	type = garrison model = 5 locked = yes											experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10010 } name = "10. Taiwan Garrison" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	experience = 40 }
 }
