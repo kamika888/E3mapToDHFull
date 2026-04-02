@@ -4322,6 +4322,7 @@ province = { id = 231   # Mogilev-Podolsky
 province = { id = 233   # Odessa - Odessa - Ukraine
    anti_air = 3 
    landfort = 1 
+   naval_base = { size = 6 current_size = 6 }
  } 
  
 province = { id = 228   # Vinnitsa

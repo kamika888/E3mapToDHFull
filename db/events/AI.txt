@@ -4063,14 +4063,14 @@ event = {
 		OR = { 
 			army = { size = 500		type = 1 when = 0 where = 0 which = 0 }
 			AND = {
-				country = ENG #Gets stuck in North Africa
+				OR = { country = CHI country = CHC country = ENG }  #Gets stuck in North Africa
 				army = { size = 250	type = 1 when = 0 where = 0 which = 0 }
 			}
 		}
 		NOT = {
 			army = { size = 1000	type = 1 when = 0 where = 0 which = 0 }
 			AND = {
-				country = ENG #Gets stuck in North Africa
+				OR = { country = CHI country = CHC country = ENG }  #Gets stuck in North Africa
 				army = { size = 350	type = 1 when = 0 where = 0 which = 0 }
 			}
 		}
@@ -4106,7 +4106,7 @@ event = {
 		OR = { 
 			army = { size = 1000	type = 1 when = 0 where = 0 which = 0 }
 			AND = {
-				country = ENG #Gets stuck in North Africa
+				OR = { country = CHI country = CHC country = ENG }  #Gets stuck in North Africa
 				army = { size = 350	type = 1 when = 0 where = 0 which = 0 }
 			}
 		}
@@ -15174,5 +15174,188 @@ event = {
 		command = { trigger = { local_flag = { which = axisFra when = 1 value = 28	} } type = add_division									value = infantry when = 11 } 
 		command = { trigger = { local_flag = { which = axisFra when = 1 value = 29	} } type = add_division									value = infantry when = 11 } 
 		command = { trigger = { local_flag = { which = axisFra when = 1 value = 30	} } type = add_division									value = motorized when = 2 } 
+	}
+}
+
+#Soviet Hanko evacuation
+
+event = { 
+	id = 2405320
+	random = no 
+	country = SOV
+	
+	name = "AI_EVENT"
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		war = { country = GER }
+		war = { country = FIN }
+		control = { province = 2305	data = -3 }
+		control = { province = 142	data = -2 }
+		control = { province = 197	data = -2 }
+	}
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = september year = 1999 }
+	
+	action = {
+		name = AI_EVENT
+		command = { trigger = { garrison = { country = -1 province = 2305	type = land size = 1  area = 0 } }	type = local_setflag which = sovHan when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 2305	type = land size = 2  area = 0 } }	type = local_setflag which = sovHan when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 2305	type = land size = 3  area = 0 } }	type = local_setflag which = sovHan when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 2305	type = land size = 4  area = 0 } }	type = local_setflag which = sovHan when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 2305	type = land size = 5  area = 0 } }	type = local_setflag which = sovHan when = 1 value = 1  }
+		
+		command = { type = remove_units which = land where = -1 when = 0 value = 2305	}
+		
+		command = { trigger = { control = { province = 194 data = -3 } } type = add_corps value = land where = 194 }
+		command = { trigger = { local_flag = { which = sovHan when = 1 value = 1	} } type = add_division									value = marine   when = 4  } 
+		command = { trigger = { local_flag = { which = sovHan when = 1 value = 2	} } type = add_division									value = infantry when = 10 where = artillery } 
+		command = { trigger = { local_flag = { which = sovHan when = 1 value = 3	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovHan when = 1 value = 4	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovHan when = 1 value = 5	} } type = add_division									value = infantry when = 10 } 
+	}
+}
+
+#Estonia evacuation
+
+event = { 
+	id = 2405321
+	random = no 
+	country = SOV
+	
+	name = "AI_EVENT"
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		war = { country = GER }
+		OR = {
+			control = { province = 194	data = -3 }
+			control = { province = 195	data = -3 }
+			control = { province = 3286	data = -3 }
+			control = { province = 3394	data = -3 }
+		}
+		control = { province = 197		data = -2 }
+		OR = {
+			control = { province = 193	data = -2 }
+			control = { province = 3287	data = -2 }
+		}
+	}
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = september year = 1999 }
+	
+	action = {
+		name = AI_EVENT
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 1  area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 2  area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 3  area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 4  area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 5  area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 6  area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 7  area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 8  area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 9  area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 10 area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 11 area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 12 area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 13 area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 14 area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 194	type = land size = 15 area = 1 } }	type = local_setflag which = sovEst when = 1 value = 1  }
+		
+		command = { type = remove_units which = land where = -1 when = 1 value = "Estonia"	}
+		
+		command = { trigger = { control = { province = 187 data = -3 } } type = add_corps value = land where = 187 }
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 1	} } type = add_division									value = marine   when = 4  } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 2	} } type = add_division									value = infantry when = 10 where = artillery } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 3	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 4	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 5	} } type = add_division									value = armor	 when = 0  } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 6	} } type = add_division									value = infantry when = 10 where = artillery } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 7	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 8	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 9	} } type = add_division									value = armor	 when = 0  }
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 10	} } type = add_division									value = infantry when = 10 where = artillery } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 11	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 12	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 13	} } type = add_division									value = motorized when = 1 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 14	} } type = add_division									value = infantry when = 10 where = artillery } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 15	} } type = add_division									value = infantry when = 10 } 
+	}
+}
+
+#Odessa evacuation
+
+event = { 
+	id = 2405322
+	random = no 
+	country = SOV
+	
+	name = "AI_EVENT"
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		war = { country = GER }
+		OR = {
+			control = { province = 233	data = -3 }
+			control = { province = 1565	data = -3 }
+			control = { province = 3404	data = -3 }
+		}
+		control = { province = 3405		data = -2 }
+		OR = {
+			control = { province = 234	data = -2 }
+			control = { province = 1565	data = -2 }
+		}
+	}
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = september year = 1999 }
+	
+	action = {
+		name = AI_EVENT
+		command = { trigger = { garrison = { country = -1 province = 233	type = land size = 1  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 233	type = land size = 2  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 233	type = land size = 3  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 233	type = land size = 4  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 233	type = land size = 5  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		
+		command = { trigger = { garrison = { country = -1 province = 1565	type = land size = 1  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 1565	type = land size = 2  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 1565	type = land size = 3  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 1565	type = land size = 4  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 1565	type = land size = 5  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		
+		command = { trigger = { garrison = { country = -1 province = 3404	type = land size = 1  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 3404	type = land size = 2  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 3404	type = land size = 3  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 3404	type = land size = 4  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 3404	type = land size = 5  area = 0 } }	type = local_setflag which = sovOde when = 1 value = 1  }
+		
+		command = { type = remove_units which = land where = -1 when = 0 value = 233	}
+		command = { type = remove_units which = land where = -1 when = 0 value = 1565	}
+		command = { type = remove_units which = land where = -1 when = 0 value = 3404	}
+		
+		command = { trigger = { control = { province = 258 data = -3 } } type = add_corps value = land where = 258 }
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 1	} } type = add_division									value = motorized when = 1 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 2	} } type = add_division									value = infantry when = 10 where = artillery } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 3	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 4	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 5	} } type = add_division									value = armor	 when = 0  } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 6	} } type = add_division									value = infantry when = 10 where = artillery } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 7	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 8	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 9	} } type = add_division									value = armor	 when = 0  }
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 10	} } type = add_division									value = infantry when = 10 where = artillery } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 11	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 12	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 13	} } type = add_division									value = motorized when = 1 } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 14	} } type = add_division									value = infantry when = 10 where = artillery } 
+		command = { trigger = { local_flag = { which = sovEst when = 1 value = 15	} } type = add_division									value = infantry when = 10 } 
 	}
 }

@@ -3479,11 +3479,13 @@ event = {
 		command = { type = capital 									 which = 1433 } 
 		command = { type = event which = 2053022 			 where = SOV when = 0 }
 		command = { type = event which = 2053023 			 where = CHI when = 0 }
+		command = { type = local_clrflag	which = inMajorWar	}
 	}
 	action = {
 		name = EVT_2053021_ACTB
 		ai_chance = 0
 		command = { type = dissent 		value =  5  }
+		command = { type = local_clrflag	which = inMajorWar	}
 	}
 }
 
@@ -3518,6 +3520,7 @@ event = {
 		name = "ACTION_NAME_OK"
 		command = { type = leave_alliance 	when  = 1 	}
 		command = { type = alliance 		which = USA }
+		command = { type = local_clrflag	which = inMajorWar	}
 	}
 }
 
@@ -3624,11 +3627,13 @@ event = {
 		command = { type = capital 									 which = 1323 } 
 		command = { type = event which = 2053032 			 where = USA when = 0 }
 		command = { type = event which = 2053033 			 where = CHC when = 0 }
+		command = { type = local_clrflag	which = inMajorWar	}
 	}
 	action = {
 		name = EVT_2053031_ACTB
 		ai_chance = 0
 		command = { type = dissent 		value =  5  }
+		command = { type = local_clrflag	which = inMajorWar	}
 	}
 }
 
@@ -3663,6 +3668,7 @@ event = {
 		name = "ACTION_NAME_OK"
 		command = { type = leave_alliance 	when  = 1 	}
 		command = { type = alliance 		which = SOV }
+		command = { type = local_clrflag	which = inMajorWar	}
 	}
 }
 
@@ -3695,7 +3701,6 @@ event = {
 		command = { type = end_trades which = SOV where = CHC }
 	}
 }
-
 
 
 
@@ -3871,6 +3876,42 @@ event = {
 		ai_chance = 0
 		command = { type = belligerence  		value = 2       }
 		command = { type = relation which = SOV value = -400    }
+	}
+}
+
+event = {
+	id = 2053054
+	country = CHI
+
+	trigger = {
+		control = { province = 1323 data = CHI }
+		war = { country = CHC country = CHI }
+		NOT = { area = { area = "Hebei" 		country = CHI data = 1 value = 20 } }
+		NOT = { area = { area = "Shandong" 		country = CHI data = 1 value = 20 } }
+		NOT = { area = { area = "Jiangsu" 		country = CHI data = 1 value = 20 } }
+		NOT = { area = { area = "Zhejiang" 		country = CHI data = 1 value = 20 } }
+		OR = {
+			NOT = { area = { area = "Fujian" 		country = CHI data = 1 value = 10 } }
+			NOT = { region = { region = "China"		country = CHI data = 1 value = 30 } }
+		}
+		NOT = { government = communist }
+	}
+
+	name = EVT_2053054_NAME
+	desc = EVT_2053054_DESC
+	style = 2
+
+	date = { day = 0 month = january year = 1933 }
+	offset = 3
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = EVT_2053054_ACTA
+		command = { type = capital which = 1323 }
+	}
+	action = {
+		name = EVT_2053054_ACTB
+		command = { type = dissent value = -1   }
 	}
 }
 
