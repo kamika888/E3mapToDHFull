@@ -410,7 +410,11 @@ event = {
 	action = {
 		name = EVT_2038005_ACTB
 		ai_chance = 0
-		command = { type = dissent value = 25 }
+		command = { type = end_non_aggression which = ECU where = USA }
+		command = { type = dissent 		value = 10 }
+		command = { type = belligerence value = 20 }
+		command = { type = war which = COL } 
+		command = { type = local_setflag which = SanctionsEvt }
 	}
 }
 
@@ -440,11 +444,11 @@ event = {
 	action = {
 		name = EVT_2038006_ACTB
 		ai_chance = 0
-		command = { type = dissent value = 5 }
-		command = { type = belligerence value = 10 } 
+		command = { type = end_non_aggression which = PRU where = USA }
+		command = { type = dissent 		value = 10 }
+		command = { type = belligerence value = 20 }
 		command = { type = war which = COL } 
-		command = { type = war which = BRA } 
-		command = { type = war which = BOL } 
+		command = { type = local_setflag which = SanctionsEvt }
 	}
 }
 
@@ -487,7 +491,11 @@ event = {
 	action = {
 		name = EVT_2038010_ACTB
 		ai_chance = 0
-		command = { type = dissent value = 25 }
+		command = { type = end_non_aggression which = PRU where = USA }
+		command = { type = dissent 		value = 10 }
+		command = { type = belligerence value = 20 }
+		command = { type = war which = COL } 
+		command = { type = local_setflag which = SanctionsEvt }
 	}
 }
 
@@ -518,11 +526,11 @@ event = {
 	action = {
 		name = EVT_2038011_ACTB
 		ai_chance = 0
-		command = { type = dissent value = 5 }
-		command = { type = belligerence value = 10 } 
+		command = { type = end_non_aggression which = ECU where = USA }
+		command = { type = dissent 		value = 10 }
+		command = { type = belligerence value = 20 }
 		command = { type = war which = COL } 
-		command = { type = war which = BRA } 
-		command = { type = war which = BOL } 
+		command = { type = local_setflag which = SanctionsEvt }
 	}
 }
 
@@ -3605,5 +3613,94 @@ event = {
 		command = { type = free_ic  	value = -5 }
 		command = { type = free_money 	value = -2 }
 		command = { type = local_clrflag which = TurkishStraitsController }
+    }
+} 
+
+#End of Chaco war
+
+event = {
+	id = 2001190
+    random = no
+    country = PAR
+
+    trigger = {
+		war = { country = BOL }
+		NOT = {
+			participant = { country = PAR value = 4 }
+			participant = { country = BOL value = 4 }
+		}
+		OR = {
+			NOT = { non_aggression = { country = PAR country = BOL } }
+			AND = {
+				year = 1938
+				month = July
+			}
+		}
+    }
+
+	name = EVT_2001190_NAME
+	desc = EVT_2001190_DESC
+    style = 2
+    picture = "news_paper"
+
+    date = { day = 0 month = january year = 1936 }
+    offset = 10
+    deathdate = { day = 29 month = december year = 1936 }
+
+    action = {
+		name = EVT_2001190_ACTA #Sign the treaty
+		command = { type = dissent value = -2 }
+		command = { type = trigger which = 2001191 }
+	}
+    action = {
+		name = EVT_2001190_ACTB #Resume the war
+		command = { type = end_non_aggression which = PAR where = BOL }
+		command = { type = end_non_aggression which = PAR where = USA }
+		command = { type = dissent 		value = 10 }
+		command = { type = belligerence value = 20 }
+		command = { type = war which = ARG } 
+		command = { type = local_setflag which = SanctionsEvt }
+    }
+} 
+
+event = {
+	id = 2001191
+    random = no
+    country = BOL
+
+	name = EVT_2001190_NAME
+	desc = EVT_2001190_DESC
+    style = 2
+    picture = "news_paper"
+
+    action = {
+		name = EVT_2001190_ACTA #Sign the treaty
+		command = { type = dissent value = -2 }
+		command = { type = peace which = PAR value = 0 } 
+		command = { type = secedeprovince which = PAR value = 837	when = 2 }
+		command = { type = secedeprovince which = PAR value = 3814	when = 2 }
+		command = { type = secedeprovince which = PAR value = 5451	when = 2 }
+		command = { type = secedeprovince which = PAR value = 3817	when = 2 }
+		command = { type = secedeprovince which = PAR value = 3815	when = 2 }
+		command = { type = secedeprovince which = PAR value = 3812	when = 2 }
+		command = { type = secedeprovince which = PAR value = 3819	when = 2 }
+		command = { type = secedeprovince which = PAR value = 3816	when = 2 }
+		command = { type = secedeprovince which = PAR value = 3818	when = 2 }
+		command = { type = secedeprovince which = BOL value = 5452	when = 2 }
+		command = { type = secedeprovince which = BOL value = 3854	when = 2 }
+		command = { type = secedeprovince which = BOL value = 3850	when = 2 }
+		command = { type = secedeprovince which = BOL value = 3855	when = 2 }
+		command = { type = secedeprovince which = BOL value = 5453	when = 2 }
+		command = { type = secedeprovince which = BOL value = 2375	when = 2 }
+		command = { type = non_aggression which = BOL where = PAR when = 1800 }
+	}
+    action = {
+		name = EVT_2001190_ACTB #Resume the war
+		command = { type = end_non_aggression which = BOL where = PAR }
+		command = { type = end_non_aggression which = BOL where = USA }
+		command = { type = dissent 		value = 10 }
+		command = { type = belligerence value = 20 }
+		command = { type = war which = ARG } 
+		command = { type = local_setflag which = SanctionsEvt }
     }
 } 

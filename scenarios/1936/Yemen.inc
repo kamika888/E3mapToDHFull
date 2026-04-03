@@ -5,9 +5,7 @@
 
 country =
 { tag                    = YEM
-  puppet                 = ENG
-  control				 = ENG
-  ai_settings			 = { flags = { RESInit = 1 puppetLevel6 = 1 ideology = 4 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 4 } }
 	# Resource Reserves 
 	energy                 = 240
 	metal                  = 120
