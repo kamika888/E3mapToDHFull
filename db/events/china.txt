@@ -222,7 +222,7 @@ event = {
 		ai_chance = 0
 		command = { type = dissent value = 5 }
 		command = { type = event which = 2012060 where = U62 when = 5 }
-		command = { type = event which = 2400055 where = U62 when = 0 }
+		command = { type = event which = 2400058 where = U62 when = 0 }
 	}
 }
 
@@ -409,7 +409,7 @@ event = {
 		ai_chance = 0
 		command = { type = dissent value = 5 }
 		command = { type = event which = 2400040 where = U62 when = 0 } #0exp
-		command = { type = event which = 2400055 where = U62 when = 0 } #noExp
+		command = { type = event which = 2400058 where = U62 when = 0 } #noExp
 		command = { type = event which = 2012060 where = U62 when = 1 }
 		command = { type = war which = CSX }
 		command = { type = domestic which = political_left value = -1 } #Fascist
@@ -1501,7 +1501,7 @@ event = {
 		command = { type = access	which = U05 }
 		
 		command = { type = event	which = 2400040 where = U59 when = 0 }
-		command = { type = event	which = 2400055 where = U59 when = 0 } #noExp
+		command = { type = event	which = 2400058 where = U59 when = 0 } #noExp
 		
 		command = { type = peace	which = CGX value = 1 }
 		
@@ -2959,6 +2959,8 @@ event = {
 		command = { type = dissent 		value = -5 } # the time is ripe for the Revolution
 		command = { type = event which = 2053001 where = CHI when = 0 }
 		
+		command = { type = construct which = air_base where = 2340 value = 3 }
+		
 		#command = { type = capital which = 1379 }
 		
 		command = { trigger = { ai = yes } type = ai which = "nations\CHCCHI.ai" }
@@ -2975,6 +2977,7 @@ event = {
 		command = { trigger = { NOT = { local_flag = war_preparedness } } type = local_setflag which = war_preparedness when = 0 value = 5  } #No war preparedness debuff	
 
 		command = { type = local_setflag 	which = inMajorWar	 }
+		command = { type = local_clrflag	which = do_not_demob }
 		command = { type = event which = 3130 where = -1 when = 1800 } #inMajorWar clear		
 	}
 }
@@ -3002,6 +3005,7 @@ event = {
 		command = { trigger = { ai = yes } type = ai which = "invasionNo.ai" }
 		
 		command = { type = local_setflag 	which = inMajorWar	 }
+		command = { type = local_clrflag	which = do_not_demob }
 		command = { type = event which = 3130 where = -1 when = 1800 } #inMajorWar clear
 		
 		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 1323 }
@@ -3480,6 +3484,9 @@ event = {
 		command = { type = event which = 2053022 			 where = SOV when = 0 }
 		command = { type = event which = 2053023 			 where = CHI when = 0 }
 		command = { type = local_clrflag	which = inMajorWar	}
+		
+		command = { type = manpowerpool 	value = -50000 } 
+		command = { type = manpowerpool 	value =   1000 } 
 	}
 	action = {
 		name = EVT_2053021_ACTB
@@ -3521,6 +3528,9 @@ event = {
 		command = { type = leave_alliance 	when  = 1 	}
 		command = { type = alliance 		which = USA }
 		command = { type = local_clrflag	which = inMajorWar	}
+		
+		command = { type = belligerence 	which = CHC value = -200 }
+		command = { type = belligerence 	which = CHC value =  110 } #reset belligerence to about 110
 	}
 }
 
@@ -3628,6 +3638,9 @@ event = {
 		command = { type = event which = 2053032 			 where = USA when = 0 }
 		command = { type = event which = 2053033 			 where = CHC when = 0 }
 		command = { type = local_clrflag	which = inMajorWar	}
+		
+		command = { type = manpowerpool 	value = -50000 } 
+		command = { type = manpowerpool 	value =   1000 } 
 	}
 	action = {
 		name = EVT_2053031_ACTB
@@ -3652,6 +3665,9 @@ event = {
 		command = { type = make_puppet 			which = CHI     }
 		command = { type = event which = 2400538 where = CHI when = 0 } #strong puppet
 		command = { type = trade which = USA where = CHI supplies = -10 value = 1 } 
+		
+		#Need to reset their sliders
+		#command = { type = set_domestic which = political_left value = 3 }
 	}
 }
 
@@ -3669,6 +3685,11 @@ event = {
 		command = { type = leave_alliance 	when  = 1 	}
 		command = { type = alliance 		which = SOV }
 		command = { type = local_clrflag	which = inMajorWar	}
+		
+		command = { type = belligerence 	which = CHC value = -200 }
+		command = { type = belligerence 	which = CHC value =  110 } #reset belligerence to about 110
+		command = { trigger = { policy = { type = professional_army value = 6 } } type = manpowerpool 	value = 22000 } 
+		command = { type = demobilize 		which = militia	when = 0 where = 0	value = 100 } #Demobilize some militias
 	}
 }
 
@@ -3702,7 +3723,261 @@ event = {
 	}
 }
 
+event = {
+	id = 2053035
+	random = no
+	country = CHC
 
+	trigger = {
+		NOT = { war = { country = CHI country = CHC } }
+		#Civil war ended decisively
+		OR = {
+			event = 2053023
+			event = 2053033
+		}
+		flag = { which = CHC_partisan_count when = 1 value = 1 }
+	}
+
+	name = AI_EVENT
+	style = 2
+  	picture = "spread_revolution"
+
+	date = { day = 0 month = january year = 1939 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 1 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 2 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 3 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 4 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 5 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 6 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 7 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 8 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 9 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 10 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 11 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 12 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 13 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 14 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 15 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 16 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 17 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 18 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 19 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 20 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 21 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 22 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 23 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 24 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 25 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 26 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 27 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 28 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 29 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 30 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 31 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 32 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 33 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 34 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 35 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 36 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 37 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 38 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 39 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 40 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 41 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 42 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 43 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 44 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 45 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 46 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 47 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 48 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 49 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 50 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 51 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 52 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 53 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 54 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 55 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 56 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 57 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 58 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 59 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 60 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 61 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 62 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 63 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 64 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 65 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 66 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 67 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 68 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 69 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 70 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 71 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 72 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 73 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 74 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 75 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 76 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 77 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 78 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 79 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 80 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 81 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 82 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 83 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 84 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 85 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 86 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 87 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 88 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 89 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 90 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 91 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 92 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 93 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 94 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 95 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 96 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 97 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 98 } }	type = free_supplies value = -0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 99 } }	type = free_supplies value = -0.4 }
+	}
+}
+
+event = {
+	id = 2053036
+	random = no
+	country = CHI
+
+	trigger = {
+		NOT = { war = { country = CHI country = CHC } }
+		#Civil war ended decisively
+		OR = {
+			event = 2053023
+			event = 2053033
+		}
+		flag = { which = CHC_partisan_count when = 1 value = 1 }
+	}
+
+	name = AI_EVENT
+	style = 2
+  	picture = "spread_revolution"
+
+	date = { day = 0 month = january year = 1939 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 1 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 2 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 3 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 4 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 5 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 6 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 7 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 8 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 9 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 10 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 11 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 12 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 13 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 14 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 15 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 16 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 17 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 18 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 19 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 20 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 21 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 22 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 23 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 24 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 25 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 26 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 27 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 28 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 29 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 30 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 31 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 32 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 33 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 34 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 35 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 36 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 37 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 38 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 39 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 40 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 41 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 42 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 43 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 44 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 45 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 46 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 47 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 48 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 49 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 50 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 51 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 52 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 53 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 54 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 55 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 56 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 57 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 58 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 59 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 60 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 61 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 62 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 63 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 64 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 65 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 66 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 67 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 68 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 69 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 70 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 71 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 72 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 73 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 74 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 75 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 76 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 77 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 78 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 79 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 80 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 81 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 82 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 83 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 84 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 85 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 86 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 87 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 88 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 89 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 90 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 91 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 92 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 93 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 94 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 95 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 96 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 97 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 98 } }	type = free_supplies value = 0.4 }
+		command = { trigger = { flag = { which = CHC_partisan_count when = 1 value = 99 } }	type = free_supplies value = 0.4 }
+		
+		command = { type = industrial_modifier which = ic	  value = 12 }
+	}
+}
 
 event = {
 	id = 2053050
@@ -4421,7 +4696,7 @@ event = {
 						war = { country = U87 }
 						war = { country = MAN }
 					} }											type = event which = 1330110104 where = JAP when = 0  } #Partisans
-		command = { trigger = { war = { country = CHI } } 		type = event which = 1330110105 where = CHI when = 0  } #Partisans
+		command = { trigger = { ispuppet = CHI } 				type = event which = 1330110105 where = CHI when = 0  } #Partisans
 		command = { trigger = { war = { country = U87 } } 		type = event which = 1330110106 where = U87 when = 0  } #Partisans
 		command = { trigger = { war = { country = MAN }	} 		type = event which = 1330110107 where = MAN when = 0  } #Partisans
 		command = { 											type = event which = 1330110101 where = CHC when = 90 }
@@ -4474,7 +4749,7 @@ event = {
 						war = { country = U87 }
 						war = { country = MAN }
 					} }											type = event which = 1330110104 where = JAP when = 0  } #Partisans
-		command = { trigger = { war = { country = CHI } } 		type = event which = 1330110105 where = CHI when = 0  } #Partisans
+		command = { trigger = { ispuppet = CHI }		 		type = event which = 1330110105 where = CHI when = 0  } #Partisans
 		command = { trigger = { war = { country = U87 } } 		type = event which = 1330110106 where = U87 when = 0  } #Partisans
 		command = { trigger = { war = { country = MAN } } 		type = event which = 1330110107 where = MAN when = 0  } #Partisans
 		command = { 											type = event which = 1330110101 where = CHC when = 90 }
@@ -4542,27 +4817,27 @@ event = {
 		command = { type = manpowerpool  value = -2   }
 		command = { type = supplies 	 value = -200 }
 		
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 5   }	}	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 10  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 15  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 20  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 25  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 30  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 35  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 40  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 45  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 50  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 55  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 60  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 65  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 70  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 75  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 80  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 85  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 90  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 95  } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 100 } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { region = { region = "China" country = -1 data = 1 value = 100 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 5   } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 10  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 15  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 20  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 25  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 30  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 35  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 40  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 45  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 50  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 55  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 60  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 65  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 70  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 75  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 80  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 85  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 90  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 95  } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 100 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { region = { region = "China" country = -1 data = 1 value = 100 } }	type = revolt which = -3 when = 1 }
 	}
 }
 
@@ -4582,28 +4857,27 @@ event = {
 		command = { type = manpowerpool  value = -2   }
 		command = { type = supplies 	 value = -200 }
 		
-		#command = { trigger = { 		 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 5	 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 10  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 15  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 20  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 25  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 30  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 35  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 40  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 45  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 50  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 55  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 60  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 65  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 70  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 75  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 80  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 85  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 90  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 95  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 100 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 100 }	type = revolt which = -3 when = 1 }
+		command = { trigger = { 		 					  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 5	NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 10  					  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 15 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 20  					  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 25 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 30  					  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 35 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 40  					  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 45 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 50  					  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 55 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 60  					  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 65 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 70  					  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 75 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 80  					  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 85 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 90  					  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 95 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 100 					  }	type = revolt which = -3 when = 1 }
 		
 		command = { trigger = { random = 5 				 } type = switch_allegiance which = -1	where = CHC } #small chance of unit defections
 		command = { trigger = { dissent = 10 random = 10 } type = switch_allegiance which = -1	where = CHC } #small chance of unit defections
@@ -4626,37 +4900,37 @@ event = {
 		command = { type = manpowerpool  value = -2   }
 		command = { type = supplies 	 value = -200 }
 		
-		#command = { trigger = { 		 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 5	 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 10  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 15  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 20  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 25  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 30  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 35  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 40  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 45  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 50  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 55  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 60  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 65  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 70  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 75  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 80  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 85  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 90  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 95  }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 100 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 105 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 110 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 115 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 120 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 125 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 130 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 135 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 140 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 145 }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { IC = 150 }	type = revolt which = -3 when = 1 }
+		command = { trigger = { 		 					   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 5	NOT = { year = 1942 }  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 10 					   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 15 NOT = { year = 1942 }  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 20						   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 25 NOT = { year = 1942 }  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 30						   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 35 NOT = { year = 1942 }  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 40						   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 45 NOT = { year = 1942 }  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 50						   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 55 NOT = { year = 1942 }  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 60						   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 65 NOT = { year = 1942 }  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 70						   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 75 NOT = { year = 1942 }  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 80						   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 85 NOT = { year = 1942 }  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 90						   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 95 NOT = { year = 1942 }  }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 100					   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 105 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 110					   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 115 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 120					   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 125 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 130					   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 135 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 140					   }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 145 NOT = { year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { IC = 150					   }	type = revolt which = -3 when = 1 }
 	}
 }
 
@@ -4676,11 +4950,11 @@ event = {
 		command = { type = manpowerpool  value = -2   }
 		command = { type = supplies 	 value = -200 }
 		
-		#command = { trigger = { NOT = { flag = { which = japChi when = 1 value = 15  } } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { NOT = { flag = { which = japChi when = 1 value = 20  } } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { NOT = { flag = { which = japChi when = 1 value = 25  } } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { NOT = { flag = { which = japChi when = 1 value = 30  } } }	type = revolt which = -3 when = 1 }
-		#command = { trigger = { NOT = { flag = { which = japChi when = 1 value = 35  } } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { NOT = { AND = { ai = JAP NOT = { year = 1938 } } flag = { which = japChi when = 1 value = 15  } year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { NOT = { AND = { ai = JAP NOT = { year = 1938 } } flag = { which = japChi when = 1 value = 20  } year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { NOT = { AND = { ai = JAP NOT = { year = 1938 } } flag = { which = japChi when = 1 value = 25  } year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { NOT = { AND = { ai = JAP NOT = { year = 1938 } } flag = { which = japChi when = 1 value = 30  } year = 1942 } }	type = revolt which = -3 when = 1 }
+		command = { trigger = { NOT = { AND = { ai = JAP NOT = { year = 1938 } } flag = { which = japChi when = 1 value = 35  } year = 1942 } }	type = revolt which = -3 when = 1 }
 	}
 }
 
@@ -6443,7 +6717,7 @@ event = {
 				war = { country = U87 }
 				war = { country = MAN }
 			} }													type = event which = 1330110104 where = JAP when = 0  } #Partisans
-		command = { trigger = { war = { country = CHI } } 		type = event which = 1330110105 where = CHI when = 0  } #Partisans
+		command = { trigger = { ispuppet = CHI } 				type = event which = 1330110105 where = CHI when = 0  } #Partisans
 		command = { trigger = { war = { country = U87 } } 		type = event which = 1330110106 where = U87 when = 0  } #Partisans
 		command = { trigger = { war = { country = MAN }	} 		type = event which = 1330110107 where = MAN when = 0  } #Partisans
 
@@ -6916,7 +7190,7 @@ event = {
 		command = { trigger = { puppet = { country = U05 country = CHI } } type = event which = 1330110193 where = U05 when = 3 } 
 		
 		command = { type = event which = 2400040 where = CSX when = 0 }
-		command = { type = event which = 2400055 where = CSX when = 0 }
+		command = { type = event which = 2400058 where = CSX when = 0 }
 	}
 }
 
@@ -6991,7 +7265,7 @@ event = {
 		command = { type = add_leader_skill value = 1 	which = 260016 } #Xu Haidong
 		command = { type = add_leader_skill value = 1	which = 260026 } #Liu Zhidan
 		
-		command = { trigger = { war = { country = CHI } } 		type = event which = 1330110105 where = CHI when = 0  } #Partisans
+		#command = { trigger = { war = { country = CHI } } 		type = event which = 1330110105 where = CHI when = 0  } #Partisans
 	}
 	action = {
 		name = EVT_1330110193_ACTB
@@ -7003,7 +7277,7 @@ event = {
 		command = { type = war which = CSX }
 		command = { type = event which = 2400530 where = CSX when = 0 } #independent state
 		command = { type = event which = 2400040 where = U62 when = 0 } #0exp
-		command = { type = event which = 2400055 where = U62 when = 0 } #noExp
+		command = { type = event which = 2400058 where = U62 when = 0 } #noExp
 		command = { type = event which = 2012060 where = U62 when = 10 }
 	}
 	action = {

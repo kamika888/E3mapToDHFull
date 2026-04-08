@@ -4,7 +4,7 @@
 
 country =
 { tag                    = PAR
-  ai_settings			 = { flags = { RESInit = 1 ideology = 5 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 5 war_preparedness = 7 } }
 	# Resource Reserves 
 	energy                 = 360
 	metal                  = 180
@@ -12,7 +12,7 @@ country =
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 10 
-	manpower               = 1 
+	manpower               = 150 
 	dissent				   = 10 #Post-Chaco war
   capital                = 846
   policy =
@@ -21,7 +21,7 @@ country =
      political_left    = 5 
      freedom           = 7 
      free_market       = 5
-     professional_army = 4 
+     professional_army = 5 
      defense_lobby     = 5 
      interventionism   = 7
   }
@@ -119,17 +119,102 @@ landunit =
      name     = "Ejercito de Paraguay" 
      location = 846 
      Division = 
-     {  id       = {  type = 15600 id = 6000  } 
-       name     = "I División de Infantería" 
-       strength   = 50 
-	   max_strength = 50
+     {  id       = {  type = 15600 id = 6001  } 
+       name     = "1 División de Infantería" 
+       strength   = 100 
+       type     = infantry 
+	   model    = 6
+       extra         = artillery 
+       brigade_model = 5
+      } 
+     Division = 
+     {  id       = {  type = 15600 id = 6002  } 
+       name     = "2 División de Infantería" 
+       strength   = 100 
        type     = infantry 
 	   model    = 6
       } 
      Division = 
-     {  id       = {  type = 15600 id = 6001  } 
+     {  id       = {  type = 15600 id = 6003  } 
+       name     = "3 División de Infantería" 
+       strength   = 100 
+       type     = infantry 
+	   model    = 6
+      } 
+     Division = 
+     {  id       = {  type = 15600 id = 6004  } 
+       name     = "4 División de Infantería" 
+       strength   = 100 
+       type     = infantry 
+	   model    = 6
+      } 
+     Division = 
+     {  id       = {  type = 15600 id = 6005  } 
+       name     = "5 División de Infantería" 
+       strength   = 100 
+       type     = infantry 
+	   model    = 6
+      } 
+     Division = 
+     {  id       = {  type = 15600 id = 6006  } 
+       name     = "6 División de Infantería" 
+       strength   = 100 
+       type     = infantry 
+	   model    = 6
+      } 
+     Division = 
+     {  id       = {  type = 15600 id = 6007  } 
+       name     = "7 División de Infantería" 
+       strength   = 100 
+       type     = militia 
+	   model    = 4
+      } 
+     Division = 
+     {  id       = {  type = 15600 id = 6008  } 
+       name     = "8 División de Infantería" 
+       strength   = 100 
+       type     = militia 
+	   model    = 4
+      } 
+     Division = 
+     {  id       = {  type = 15600 id = 6009  } 
+       name     = "9 División de Infantería" 
+       strength   = 100 
+       type     = militia 
+	   model    = 4
+      } 
+     Division = 
+     {  id       = {  type = 15600 id = 6010  } 
+       name     = "10 División de Infantería" 
+       strength   = 100 
+       type     = militia 
+	   model    = 4
+      } 
+     Division = 
+     {  id       = {  type = 15600 id = 6011  } 
+       name     = "11 División de Infantería" 
+       strength   = 100 
+       type     = militia 
+	   model    = 4
+      } 
+     Division = 
+     {  id       = {  type = 15600 id = 6012  } 
+       name     = "1. Brigada de Caballería" 
+       strength = 100 
+       type     = cavalry 
+       model    = 7
+      } 
+     Division = 
+     {  id       = {  type = 15600 id = 6013  } 
+       name     = "2. Brigada de Caballería" 
+       strength = 100 
+       type     = cavalry 
+       model    = 7
+      } 
+     Division = 
+     {  id       = {  type = 15600 id = 6050  } 
        name     = "CVI Brigada de Policia Nacional" 
-       strength   = 60 
+       strength   = 100 
        type     = militia 
 	   model    = 3
       } 

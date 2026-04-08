@@ -4,8 +4,8 @@
 
 country =
 { tag                    = BOL
-  ai_settings			 = { flags = { RESInit = 1 ideology = 6 } }
-	manpower               = 23 
+  ai_settings			 = { flags = { RESInit = 1 ideology = 6 war_preparedness = 3 } }
+	manpower               = 250 
 	# Resource Reserves 
 	energy                 = 360
 	metal                  = 180
@@ -21,7 +21,7 @@ country =
      political_left    = 6 
      free_market       = 3
      freedom           = 4 
-     professional_army = 4 
+     professional_army = 5 
      defense_lobby     = 5 
      interventionism   = 3 
   }
@@ -118,7 +118,7 @@ landunit =
      Division = 
      {  id       = {  type = 17000 id = 4000  } 
        name     = "1. Brigada de Infantería 'Bolivar'" 
-       strength = 30 
+       strength = 100 
        type     = infantry 
        model    = 5
        extra    = artillery 
@@ -127,41 +127,153 @@ landunit =
      Division = 
      {  id       = {  type = 17000 id = 4001  } 
        name     = "2. Brigada de Infantería" 
-       strength = 30 
+       strength = 100 
        type     = infantry 
        model    = 5
       } 
      Division = 
      {  id       = {  type = 17000 id = 4002  } 
        name     = "3. Brigada de Infantería" 
-       strength = 30 
+       strength = 100 
        type     = infantry 
        model    = 5
       } 
      Division = 
      {  id       = {  type = 17000 id = 4003  } 
        name     = "1. Brigada de Caballería 'Chaco'" 
-       strength = 20 
+       strength = 100 
        type     = cavalry 
        model    = 6
       } 
      Division = 
      {  id       = {  type = 17000 id = 4004  } 
        name     = "2. Brigada de Caballería" 
-       strength = 20 
+       strength = 100 
        type     = cavalry 
        model    = 6
-      } 	  
+      } 
+     Division = 
+     {  id       = {  type = 17000 id = 4005  } 
+       name     = "4. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      } 
+     Division = 
+     {  id       = {  type = 17000 id = 4006  } 
+       name     = "5. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      } 
+     Division = 
+     {  id       = {  type = 17000 id = 4007  } 
+       name     = "6. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      } 
+     Division = 
+     {  id       = {  type = 17000 id = 4008  } 
+       name     = "7. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      } 
+     Division = 
+     {  id       = {  type = 17000 id = 4009  } 
+       name     = "8. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      } 
+     Division = 
+     {  id       = {  type = 17000 id = 4010  } 
+       name     = "9. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      } 
+     Division = 
+     {  id       = {  type = 17000 id = 4011  } 
+       name     = "10. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      }
+     Division = 
+     {  id       = {  type = 17000 id = 4012  } 
+       name     = "11. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      }
+     Division = 
+     {  id       = {  type = 17000 id = 4013  } 
+       name     = "12. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      }
+     Division = 
+     {  id       = {  type = 17000 id = 4014  } 
+       name     = "13. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      }
+     Division = 
+     {  id       = {  type = 17000 id = 4015  } 
+       name     = "14. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      }
+     Division = 
+     {  id       = {  type = 17000 id = 4016  } 
+       name     = "15. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      }
+     Division = 
+     {  id       = {  type = 17000 id = 4017  } 
+       name     = "16. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      }
+     Division = 
+     {  id       = {  type = 17000 id = 4018  } 
+       name     = "17. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      }
+     Division = 
+     {  id       = {  type = 17000 id = 4019  } 
+       name     = "18. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      }
+     Division = 
+     {  id       = {  type = 17000 id = 4020  } 
+       name     = "19. Brigada de Infantería" 
+       strength = 100 
+       type     = militia 
+       model    = 3
+      }
     }
    airunit = 
-   {  id       = {  type = 12000 id = 4005  } 
+   {  id       = {  type = 12000 id = 4050  } 
      name     = "Aviación del Ejército" 
      location = 832 
      base     = 832 
      Division = 
-     {  id       = {  type = 12000 id = 4006  } 
+     {  id       = {  type = 12000 id = 4051  } 
        name     = "Grupo Aérea Nro. 1" 
-       strength = 20 
+       strength = 100 
        type     = interceptor 
        model    = 6
       } 

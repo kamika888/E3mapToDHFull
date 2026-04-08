@@ -36,8 +36,8 @@ country =
   extra_tc = 5 
   SpyInfo                = { country = "BRA" NumberOfSpies = 1 }
   claimedprovinces 		 = { 5422 5424 5425 3957 
-849 833 2960 3776 3777 3778 3779 3780
-
+#Cisplatina
+#849 833 2960 3776 3777 3778 3779 3780
   }
   nationalprovinces      = { 848 847 835 834 825 823 820 872 824 826 878 
 876 877 879 883 887 886 885 884 882 880 881 2027

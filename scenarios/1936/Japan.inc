@@ -408,6 +408,24 @@ landunit =
 	   brigade_model = 1
 	   locked   = yes
       } 
+     Division = 
+     {  id       = {  type = 13016 id = 422  } 
+       name     = "Dai 6 Taiwan Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+	   locked   = yes
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 423  } 
+       name     = "Dai 7 Taiwan Shubitai" 
+       strength  = 60 
+       type     = infantry 
+       model    = 8
+       extra    = artillery 
+	   brigade_model = 5
+	   locked   = yes
+      } 
 }
 landunit = 
    {  id       = {  type = 13016 id = 402  }
@@ -424,6 +442,24 @@ landunit =
 	   brigade_model = 1
 	   locked   = yes
       } 
+     Division = 
+     {  id       = {  type = 13016 id = 424  } 
+       name     = "Dai 8 Taiwan Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+	   locked   = yes
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 425  } 
+       name     = "Dai 9 Taiwan Shubitai" 
+       strength  = 60 
+       type     = infantry 
+       model    = 8
+       extra    = artillery 
+	   brigade_model = 5
+	   locked   = yes
+      } 
 }
 landunit = 
    {  id       = {  type = 13016 id = 404  }
@@ -438,6 +474,24 @@ landunit =
        model    = 4
        extra    = anti_air 
 	   brigade_model = 1
+	   locked   = yes
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 420  } 
+       name     = "Dai 4 Taiwan Shubitai" 
+       strength  = 60 
+       type     = garrison 
+       model    = 4
+	   locked   = yes
+      } 
+     Division = 
+     {  id       = {  type = 13016 id = 421  } 
+       name     = "Dai 5 Taiwan Shubitai" 
+       strength  = 60 
+       type     = infantry 
+       model    = 8
+       extra    = artillery 
+	   brigade_model = 5
 	   locked   = yes
       } 
 }

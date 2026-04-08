@@ -520,6 +520,7 @@ event = {
 			atwar = yes
 			policy = { type = professional_army value = 5 }
 			local_flag = demilitarized
+			lost_VP	= { value = 1 }
 		}
 		NOT = { local_flag = reinf }
 	}
@@ -549,6 +550,7 @@ event = {
 			atwar = yes
 			policy = { type = professional_army value = 5 }
 			local_flag = demilitarized
+			NOT = { lost_VP	= { value = 1 } }
 		}
 		NOT = { local_flag = noreinf }
 	}
@@ -813,13 +815,39 @@ event = {
 	name = "AI_EVENT"
 
 	action = {
+		command = { type = local_setflag which = exp value = 3 }
+		command = { type = ai which = "EXP_0_03.ai" }
+	}
+}
+
+event = {
+	id = 2400054
+	random = no
+	persistent = yes
+
+	name = "AI_EVENT"
+
+	action = {
+		command = { type = local_setflag which = exp value = 4 }
+		command = { type = ai which = "EXP_0_04.ai" }
+	}
+}
+
+event = {
+	id = 2400055
+	random = no
+	persistent = yes
+
+	name = "AI_EVENT"
+
+	action = {
 		command = { type = local_setflag which = exp value = 5 }
 		command = { type = ai which = "EXP_0_05.ai" }
 	}
 }
 
 event = {
-	id = 2400054
+	id = 2400057
 	random = no
 	persistent = yes
 
@@ -832,7 +860,7 @@ event = {
 }
 
 event = {
-	id = 2400055
+	id = 2400058
 	random = no
 	persistent = yes
 
@@ -845,7 +873,7 @@ event = {
 }
 
 event = {
-	id = 2400056
+	id = 2400059
 	random = no
 	persistent = yes
 
@@ -9479,6 +9507,211 @@ event = {
 	}
 }
 
+#Post-war demob
+event = {
+	id = 2401450
+	random = no 
+	#tag = { SOV CHC }
+	persistent = yes
+	
+	trigger = {	
+		ai = yes
+		NOT = { local_flag = armyReduction }
+		event = 2003202 #Potsdam
+		policy = { type = professional_army value = 5 }
+		NOT = { policy = { type = professional_army value = 6 } } #Removed General Mob
+		NOT = { 
+			war = { country = SOV }
+			war = { country = ENG }
+			war = { country = USA }
+			war = { country = JAP }
+			war = { country = CHI }
+			war = { country = CHC }
+			war = { country = JAP country = ENG }
+		}
+		OR = {
+			AND = {
+				NOT = {	country = CHI }
+				NOT = {	country = CHC }
+			}
+			event = 2053023
+			event = 2053033
+		}
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = local_setflag which = armyReduction	}
+		command = { type = dissent value = -1 }
+		
+		command = { trigger = { NOT = { country = CHI country = CHC } }	type = demobilize which = militia 	when = 0 where = 0 value =  50 }
+		command = { trigger = { OR = { country = CHI country = CHC } }	type = demobilize which = militia 	when = 0 where = 0 value = 100 }
+		command = { 													type = demobilize which = cavalry 	when = 0 where = 0 value =  20 }
+		
+		#keep disbanding infantry until there is at least some manpower reserve
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		command = { 										type = strength 	which = all 	when = 1 where = 0 value =   1 } 
+		command = { trigger = { NOT = { manpower = 200 } }	type = demobilize which = infantry	when = 0 where = 0 value = -10 }
+		
+		command = { trigger = { NOT = { army = 1000 } }		type = demobilize which = hq		when = 0 where = 0 value =  50 }
+		command = { trigger = { NOT = { army =  900 } }		type = demobilize which = hq		when = 0 where = 0 value =  45 }
+		command = { trigger = { NOT = { army =  800 } }		type = demobilize which = hq		when = 0 where = 0 value =  40 }
+		command = { trigger = { NOT = { army =  700 } }		type = demobilize which = hq		when = 0 where = 0 value =  35 }
+		command = { trigger = { NOT = { army =  600 } }		type = demobilize which = hq		when = 0 where = 0 value =  30 }
+		command = { trigger = { NOT = { army =  500 } }		type = demobilize which = hq		when = 0 where = 0 value =  25 }
+		command = { trigger = { NOT = { army =  400 } }		type = demobilize which = hq		when = 0 where = 0 value =  20 }
+		command = { trigger = { NOT = { army =  300 } }		type = demobilize which = hq		when = 0 where = 0 value =  15 }
+		command = { trigger = { NOT = { army =  200 } }		type = demobilize which = hq		when = 0 where = 0 value =  10 }
+		command = { trigger = { NOT = { army =  100 } }		type = demobilize which = hq		when = 0 where = 0 value =   5 }
+	}
+}
+
+#Berlin "blockade"
+event = {
+	id = 2401460
+	random = no 
+	country = SOV
+	persistent = yes
+	
+	trigger = {	
+		ai = yes
+		event = { id = 2003202 days = 360 } #Potsdam
+		NOT = { war = { country = USA }	}
+		NOT = { war = { country = USA country = JAP } }
+		control = { province = 300	data = USA }
+		control = { province = 7266	data = SOV }
+		#access = { country = SOV country = USA }
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1944 }
+	offset = 5
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = access which = USA }
+		#days to resupply over air
+		command = { trigger = { NOT = { ai = USA } } type = event which = 2401461 where = SOV when = 1 } #1 day
+		command = { trigger = { 		ai = USA   } type = event which = 2401461 where = SOV when = 2 } #2 days
+	}
+}
+
+event = {
+	id = 2401461
+	random = no 
+	country = SOV
+	persistent = yes
+
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = end_access which = USA when = 0 }
+	}
+}
+
 ###############################################
 # FRA / VIC
 ###############################################
@@ -10074,7 +10307,7 @@ event = {
 	name = "AI_EVENT"
 	
 	date = { day = 1 month = january year = 1936 }
-	offset = 20
+	offset = 10
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -11305,6 +11538,52 @@ event = {
 
 	action = {
 		command = { type = clrflag which = WarInAmerica }
+	}
+}
+
+#####################################################################
+#PRK/KOR
+#####################################################################
+
+event = {
+	id = 2402000
+	random = no 
+	country = KOR
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = ai which = "nations\PRKKOR.ai" }
+	}
+}
+
+event = {
+	id = 2402001
+	random = no 
+	country = PRK
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = ai which = "nations\PRKKOR.ai" }
 	}
 }
 
@@ -13095,7 +13374,6 @@ event = {
 	
 	trigger = {
 		ai = yes
-		ai = ENG
 		flag = LustreENG
 		war = { country = GER }
 		control = { province = 911 data = -3 } #do not deploy if Alexandria is threatened
@@ -13176,11 +13454,6 @@ event = {
 		command = { type = event which = 2405083 where = POL when = 0 }
 		command = { type = event which = 2405084 where = SAF when = 0 }
 		command = { type = event which = 2405085 where = U02 when = 0 }
-	}
-	action = {
-		name = ACTION_NAME_OK
-		trigger = { NOT = { alliance = { country = GRE } } }
-		command = { type = ai which = "nations\ENG_GRE_cancel.ai" }
 	}
 }
 
@@ -13272,6 +13545,35 @@ event = {
 		
 		command = { type = disorg_division   which = 14800 value = 925 where = -100 }
 		command = { type = disorg_division   which = 14800 value = 929 where = -100 }
+	}
+}
+
+event = { 
+	id = 2405086
+	random = no 
+	country = ENG
+	
+	trigger = {
+		ai = yes
+		flag = LustreENG
+		NOT = {
+			AND = {
+				war = { country = GER }
+				alliance = { country = GRE }
+				control = { province = 401 data = -3 }
+			}
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 10
+	deathdate = { day = 29 month = january year = 1960 }
+	
+	name = "AI_EVENT"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = ai which = "nations\ENG_GRE_cancel.ai" }
 	}
 }
 
@@ -14066,7 +14368,501 @@ event = {
 	}
 }
 
+#########################
+#Korea initial US response
+#########################
 
+event = { 
+	id = 2405150
+	random = no 
+	tag = { USA }
+	
+	name = "AI_EVENT"
+	
+	action = {
+		trigger = {
+			ai = yes
+			alliance 	= { country = KOR }
+			war		 	= { country = PRK }
+			control = { province = 3109 data = -3  }
+		}
+		#24th Infantry Division
+		#25th Infantry Division
+		#1st Cavalry Division
+		#2nd Infantry Division
+		#1st Marine Division
+	
+		#command = { type = remove_division which = "24th Infantry Division 'Victory'" value = USA }
+		command = { type = demobilize	which = infantry when = 1 where = 1 value = -1 }
+		
+		command = { type = add_corps 			value = land where = 3109 }
+		command = { type = add_division	which = "24th Infantry Division 'Victory'"		value = infantry 		when = 13  where = artillery } 
+		
+		command = { type = event which = 2405151 where = USA when = 10 }
+	}
+}
+
+event = { 
+	id = 2405151
+	random = no 
+	tag = { USA }
+
+	name = "AI_EVENT"
+	
+	action = {
+		trigger = {
+			ai = yes
+			alliance 	= { country = KOR }
+			war		 	= { country = PRK }
+			control = { province = 3109 data = -3  }
+		}
+		#command = { type = remove_division which = "25th Infantry Division 'Tropic Lightning'" value = USA }
+		command = { type = demobilize	which = infantry when = 1 where = 1 value = -1 }
+		
+		command = { type = add_corps 			value = land where = 3109 }
+		command = { type = add_division	which = "25th Infantry Division 'Tropic Lightning'"	value = infantry 	when = 13 } 
+		
+		command = { type = event which = 2405152 where = USA when = 10 }
+	}
+}
+
+event = { 
+	id = 2405152
+	random = no 
+	tag = { USA }
+
+	name = "AI_EVENT"
+	
+	action = {
+		trigger = {
+			ai = yes
+			alliance 	= { country = KOR }
+			war		 	= { country = PRK }
+			control = { province = 3109 data = -3  }
+		}
+		#command = { type = remove_division which = "1st Cavalry 'The 1st Team' Div." value = USA }
+		command = { trigger = { division_exists = { type = 14800 id = 628 } }			type = remove_division	which = 14800 value = 628 }
+		command = { trigger = { NOT = { division_exists = { type = 14800 id = 628 } } }	type = demobilize		which = cavalry when = 1 where = 1 value = -1 }
+		
+		command = { type = add_corps 			value = land where = 3109 }
+		command = { type = add_division	which = "1st Cavalry 'The 1st Team' Div."		value = cavalry 		when = 13  where = armored_car } 
+		
+		command = { type = event which = 2405153 where = USA when = 10 }
+	}
+}
+
+event = { 
+	id = 2405153
+	random = no 
+	tag = { USA }
+
+	name = "AI_EVENT"
+	
+	action = {
+		trigger = {
+			ai = yes
+			alliance 	= { country = KOR }
+			war		 	= { country = PRK }
+			control = { province = 3109 data = -3  }
+		}
+		#command = { type = remove_division which = "2nd 'Indianhead' Division" value = USA }
+		command = { trigger = { division_exists = { type = 14800 id = 627 } }			type = remove_division	which = 14800 value = 627 }
+		command = { trigger = { division_exists = { type = 14800 id = 824 } }			type = remove_division	which = 14800 value = 824 }
+		command = { trigger = { 
+						NOT = { division_exists = { type = 14800 id = 627 }
+								division_exists = { type = 14800 id = 627 }
+						} }																type = demobilize		which = infantry when = 1 where = 1 value = -1 }
+		
+		command = { type = add_corps 			value = land where = 3109 }
+		command = { type = add_division	which = "2nd 'Indianhead' Division"				value = infantry 		when = 13  where = artillery } 
+		
+		command = { type = event which = 2405154 where = USA when = 10 }
+	}
+}
+
+event = { 
+	id = 2405154
+	random = no 
+	tag = { USA }
+
+	name = "AI_EVENT"
+	
+	action = {
+		trigger = {
+			ai = yes
+			alliance 	= { country = KOR }
+			war		 	= { country = PRK }
+			control = { province = 3109 data = -3  }
+		}
+		#command = { type = remove_division which = "1st US Marine 'The Old Breed' Div." value = USA }
+		command = { trigger = { division_exists = { type = 14800 id = 642 } }			type = remove_division	which = 14800 value = 642 }
+		command = { trigger = { NOT = { division_exists = { type = 14800 id = 642 }	} }	type = demobilize		which = marine when = 1 where = 1 value = -1 }
+		
+		command = { type = add_corps 			value = land where = 3109 }
+		command = { type = add_division	which = "1st US Marine 'The Old Breed' Div."	value = marine			when = 7 } 
+	}
+}
+
+#Chromite (Inchon)
+
+event = { 
+	id = 2405155
+	random = no 
+	tag = { USA }
+	
+	trigger = {
+		ai = yes
+		event = 2405154
+		war = { country = PRK }
+		control = { province = 1199 data = -2  }
+		control = { province = 3102 data = -2  }
+		garrison = { province = 1197 type = land country = -3 size = 25 area = 2 }
+		
+		NOT = {
+			AND = {
+				garrison = { province = 3099 type = land country = -2 size = 2 area = 0 }
+				garrison = { province = 3103 type = land country = -2 size = 2 area = 0 }
+				garrison = { province = 3104 type = land country = -2 size = 2 area = 0 }
+				garrison = { province = 2231 type = land country = -2 size = 2 area = 0 }
+				garrison = { province = 7034 type = land country = -2 size = 2 area = 0 }
+			}
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = january year = 1960 }
+	
+	name = "AI_EVENT"
+	
+	action = {
+		#7th Infantry Division + artillery
+		#1st Marine Division
+		#KATUSA 1st Infantry Division
+		#ROK Army 17th Infantry Division
+	
+		command = { type = remove_division which = "1st US Marine 'The Old Breed' Div." value = USA }
+		command = { type = demobilize	which = infantry when = 0 where = 1 value = -2 }
+		
+		command = { trigger = { NOT = { garrison = { province = 3099 type = land country = -2 size = 2 area = 0 } } }	type = add_corps value = land where = 3099 when = 240246 }
+		command = { trigger = { garrison = { province = 3099 type = land country = -2 size = 2 area = 0 }
+								NOT = { garrison = { province = 3103 type = land country = -2 size = 2 area = 0 } } }	type = add_corps value = land where = 3103 when = 240246 }
+		command = { trigger = { garrison = { province = 3099 type = land country = -2 size = 2 area = 0 }
+								garrison = { province = 3103 type = land country = -2 size = 2 area = 0 }
+								NOT = { garrison = { province = 3104 type = land country = -2 size = 2 area = 0 } } }	type = add_corps value = land where = 3103 when = 240246 }
+		command = { trigger = { garrison = { province = 3099 type = land country = -2 size = 2 area = 0 }
+								garrison = { province = 3103 type = land country = -2 size = 2 area = 0 }
+								garrison = { province = 3104 type = land country = -2 size = 2 area = 0 }
+								NOT = { garrison = { province = 2231 type = land country = -2 size = 2 area = 0 } } }	type = add_corps value = land where = 2231 when = 240246 }
+		command = { trigger = { garrison = { province = 3099 type = land country = -2 size = 2 area = 0 }
+								garrison = { province = 3103 type = land country = -2 size = 2 area = 0 }
+								garrison = { province = 3104 type = land country = -2 size = 2 area = 0 }
+								garrison = { province = 2231 type = land country = -2 size = 2 area = 0 }
+								NOT = { garrison = { province = 7034 type = land country = -2 size = 2 area = 0 } } }	type = add_corps value = land where = 7034 when = 240246 }
+		
+		command = { type = add_division	which = "7th Infantry Division"					value = infantry 		when = 13  where = artillery } 
+		command = { type = add_division	which = "1st US Marine 'The Old Breed' Div."	value = marine			when = 7  }
+		command = { type = add_division	which = "KATUSA 1st Infantry Division"			value = infantry 		when = 13 } 
+		
+		command = { trigger = { NOT = { local_flag = exp } } type = event which = 2400041 where = -1 when = 0 } #exp10
+		
+		command = { type = event which = 2405156 where = KOR when = 0 }
+	}
+}
+
+event = { 
+	id = 2405156
+	random = no 
+	tag = { KOR }
+	
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = demobilize	which = infantry when = 0 where = 1 value = -1 }
+		
+		command = { trigger = { NOT = { garrison = { province = 3099 type = land country = -2 size = 2 area = 0 } } }	type = add_corps value = land where = 3099 when = 265011 }
+		command = { trigger = { garrison = { province = 3099 type = land country = -2 size = 2 area = 0 }
+								NOT = { garrison = { province = 3103 type = land country = -2 size = 2 area = 0 } } }	type = add_corps value = land where = 3103 when = 265011 }
+		command = { trigger = { garrison = { province = 3099 type = land country = -2 size = 2 area = 0 }
+								garrison = { province = 3103 type = land country = -2 size = 2 area = 0 }
+								NOT = { garrison = { province = 3104 type = land country = -2 size = 2 area = 0 } } }	type = add_corps value = land where = 3103 when = 265011 }
+		command = { trigger = { garrison = { province = 3099 type = land country = -2 size = 2 area = 0 }
+								garrison = { province = 3103 type = land country = -2 size = 2 area = 0 }
+								garrison = { province = 3104 type = land country = -2 size = 2 area = 0 }
+								NOT = { garrison = { province = 2231 type = land country = -2 size = 2 area = 0 } } }	type = add_corps value = land where = 2231 when = 265011 }
+		command = { trigger = { garrison = { province = 3099 type = land country = -2 size = 2 area = 0 }
+								garrison = { province = 3103 type = land country = -2 size = 2 area = 0 }
+								garrison = { province = 3104 type = land country = -2 size = 2 area = 0 }
+								garrison = { province = 2231 type = land country = -2 size = 2 area = 0 }
+								NOT = { garrison = { province = 7034 type = land country = -2 size = 2 area = 0 } } }	type = add_corps value = land where = 7034 when = 265011 }
+		
+		command = { type = add_division	which = "17th Infantry Division"				value = infantry 		when = 13  where = artillery } 
+	}
+}
+
+
+event = { 
+	id = 2405157
+	random = no 
+	tag = { USA }
+	persistent = yes
+	
+	trigger = {
+		ai = yes
+		alliance 	= { country = KOR }
+		war		 	= { country = PRK }
+		event = 2405155 #Chromite
+		NOT = { local_flag = { which = AI_F_Chromite when = 1 value = 10 } }
+		OR = { 
+			NOT = { control = { province = 3102 data = -3 } }
+			NOT = { control = { province = 1198 data = -3 } }
+		} 
+		OR = {
+			control = { province = 3099	data = -3  }
+			control = { province = 3103	data = -3  }
+			control = { province = 3104	data = -3  }
+			control = { province = 2231	data = -3  }
+			control = { province = 7034	data = -3  }
+		}
+		garrison = { country = -3	province = 608 type = land size = 1  area = 0 }
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = january year = 1960 }
+	
+	name = "AI_EVENT"
+	
+	action = {
+		name = ACTION_NAME_OK
+		command = { trigger = { country = USA garrison = { country = -3 province = 608 type = land size = 1  area = 0 } }	type = setflag which = allCHR when = 0 value = 1  }
+		command = { trigger = { country = USA garrison = { country = -3 province = 608 type = land size = 2  area = 0 } }	type = setflag which = allCHR when = 0 value = 2  }
+		command = { trigger = { country = USA garrison = { country = -3 province = 608 type = land size = 3  area = 0 } }	type = setflag which = allCHR when = 0 value = 3  }
+		command = { trigger = { country = USA garrison = { country = -3 province = 608 type = land size = 4  area = 0 } }	type = setflag which = allCHR when = 0 value = 4  }
+		command = { trigger = { country = USA garrison = { country = -3 province = 608 type = land size = 5  area = 0 } }	type = setflag which = allCHR when = 0 value = 5  }
+		command = { trigger = { country = USA garrison = { country = -3 province = 608 type = land size = 6  area = 0 } }	type = setflag which = allCHR when = 0 value = 6  }
+		command = { trigger = { country = USA garrison = { country = -3 province = 608 type = land size = 7  area = 0 } }	type = setflag which = allCHR when = 0 value = 7  }
+		command = { trigger = { country = USA garrison = { country = -3 province = 608 type = land size = 8  area = 0 } }	type = setflag which = allCHR when = 0 value = 8  }
+		command = { trigger = { country = USA garrison = { country = -3 province = 608 type = land size = 9  area = 0 } }	type = setflag which = allCHR when = 0 value = 9  }
+		command = { trigger = { country = USA garrison = { country = -3 province = 608 type = land size = 10 area = 0 } }	type = setflag which = allCHR when = 0 value = 10 }
+		
+		command = { trigger = { country = USA } type = remove_units which = land where = -3 when = 0 value = 608 }
+
+		command = { trigger = { control = { province = 3099 data = -3 } }			type = add_corps value = land where = 3099 }
+		command = { trigger = { NOT = { control = { province = 3099 data = -3 } }
+								control = { province = 3103 data = -3 } }			type = add_corps value = land where = 3103 }
+		command = { trigger = { NOT = { control = { province = 3099 data = -3 } }
+								NOT = { control = { province = 3103 data = -3 } }
+								control = { province = 3104 data = -3 } }			type = add_corps value = land where = 3103 }
+		command = { trigger = { NOT = { control = { province = 3099 data = -3 } }
+								NOT = { control = { province = 3103 data = -3 } }
+								NOT = { control = { province = 3104 data = -3 } }
+								control = { province = 2231 data = -3 } }			type = add_corps value = land where = 2231 }
+		command = { trigger = { NOT = { control = { province = 3099 data = -3 } }
+								NOT = { control = { province = 3103 data = -3 } }
+								NOT = { control = { province = 3104 data = -3 } }
+								NOT = { control = { province = 2231 data = -3 } }
+								control = { province = 7034 data = -3 } } 			type = add_corps value = land where = 7034 }
+		
+		
+		#random is calculated once per event. "random = 60" means generate a number from 0 to 100 and check if it is less than or equal to 60
+		#NOT = { x <= 50 }
+		#AND = { x <= 50 NOT = { x <= 20  } }
+		#AND = { x <= 20 }
+		command = { trigger = { flag = { which = allCHR when = 1 value = 1 } NOT = { random = 50 					   } }	type = add_division	value = infantry	when = 10 } 
+		command = { trigger = { flag = { which = allCHR when = 1 value = 1 } AND = { random = 50 NOT = { random = 20 } } }	type = add_division	value = motorized	when = 2  } 
+		command = { trigger = { flag = { which = allCHR when = 1 value = 1 } AND = { random = 20 }						 }	type = add_division	value = armor		when = 1  } 
+		command = { trigger = { flag = { which = allCHR when = 1 value = 2 } }												type = add_division	value = infantry 	when = 10 } 	
+		command = { trigger = { flag = { which = allCHR when = 1 value = 3 } }												type = add_division	value = infantry 	when = 10 } 	
+		command = { trigger = { flag = { which = allCHR when = 1 value = 4 } }												type = add_division	value = infantry 	when = 10 } 
+		command = { trigger = { flag = { which = allCHR when = 1 value = 5 } }												type = add_division	value = infantry 	when = 10 } 
+		command = { trigger = { flag = { which = allCHR when = 1 value = 6 } }												type = add_division	value = infantry 	when = 10 } 
+		command = { trigger = { flag = { which = allCHR when = 1 value = 7 } }												type = add_division	value = infantry 	when = 10 } 
+		command = { trigger = { flag = { which = allCHR when = 1 value = 8 } }												type = add_division	value = infantry 	when = 10 } 
+		command = { trigger = { flag = { which = allCHR when = 1 value = 9 } }												type = add_division	value = infantry 	when = 10 } 
+		command = { trigger = { flag = { which = allCHR when = 1 value = 10 } }												type = add_division	value = infantry 	when = 10 } 
+		
+		command = { trigger = { flag = { which = allCHR when = 1 value = 1 } }								type = local_setflag when = 1	which = chromiteCount	value = 1 }
+		command = { trigger = { flag = { which = allCHR when = 1 value = 2 } }								type = local_setflag when = 1	which = chromiteCount	value = 1 }
+		command = { trigger = { flag = { which = allCHR when = 1 value = 3 } }								type = local_setflag when = 1	which = chromiteCount	value = 1 }
+		command = { trigger = { flag = { which = allCHR when = 1 value = 4 } }								type = local_setflag when = 1	which = chromiteCount	value = 1 }
+		command = { trigger = { flag = { which = allCHR when = 1 value = 5 } }								type = local_setflag when = 1	which = chromiteCount	value = 1 }
+		command = { trigger = { flag = { which = allCHR when = 1 value = 6 } }								type = local_setflag when = 1	which = chromiteCount	value = 1 }
+		command = { trigger = { flag = { which = allCHR when = 1 value = 7 } }								type = local_setflag when = 1	which = chromiteCount	value = 1 }
+		command = { trigger = { flag = { which = allCHR when = 1 value = 8 } }								type = local_setflag when = 1	which = chromiteCount	value = 1 }
+		command = { trigger = { flag = { which = allCHR when = 1 value = 9 } }								type = local_setflag when = 1	which = chromiteCount	value = 1 }
+		command = { trigger = { flag = { which = allCHR when = 1 value = 10 } }								type = local_setflag when = 1	which = chromiteCount	value = 1 }
+		
+		command = { 																						type = local_setflag when = 1	which = AI_F_Chromite	value = 1 }
+		
+		command = { type = clrflag which = allCHR }
+	}
+}
+
+#PVA deployment based on number of US troops on the peninsula
+
+event = { 
+	id = 2405158
+	random = no 
+	tag = { PRK }
+	persistent = yes
+
+	trigger = {
+		ai = yes
+		ai = CHC
+		war	= { country = KOR }
+		event = 2049624
+	}
+
+	date = { day = 0 month = january year = 1944 }
+	offset = 15
+	deathdate = { day = 29 month = january year = 1965 }
+	
+	name = "AI_EVENT"
+	
+	action = {
+		trigger = { 
+				NOT = { local_flag = { which = PVA_STR when = 0 value = 1 } }
+				NOT = { garrison = { country = -2 province = 1197 type = land size = 10  area = 2 } }
+		}
+		command = { type = event 		which = 2400041 where = CHC when = 0 } #Exp_10
+		command = { type = local_setflag which = PVA_STR when = 0  value = 1 }
+	}
+	action = {
+		trigger = { 
+				NOT = { local_flag = { which = PVA_STR when = 0 value = 2 } }
+						garrison = { country = -2 province = 1197 type = land size = 10  area = 2 }
+				NOT = { garrison = { country = -2 province = 1197 type = land size = 21  area = 2 } }
+		}
+		command = { type = event 		which = 2400042 where = CHC when = 0 } #Exp_20
+		command = { type = event 		which = 2400040 where = SOV when = 0 } #Exp_00
+		command = { type = local_setflag which = PVA_STR when = 0  value = 2 }
+	}
+	action = {
+		trigger = { 
+				NOT = { local_flag = { which = PVA_STR when = 0 value = 3 } }
+						garrison = { country = -2 province = 1197 type = land size = 21  area = 2 }
+				NOT = { garrison = { country = -2 province = 1197 type = land size = 37  area = 2 } }
+		}
+		command = { type = event 		which = 2400043 where = CHC when = 0 } #Exp_30
+		command = { type = local_setflag which = PVA_STR when = 0  value = 3 }
+	}
+	action = {
+		trigger = { 
+				NOT = { local_flag = { which = PVA_STR when = 0 value = 4 } }
+						garrison = { country = -2 province = 1197 type = land size = 37  area = 2 }
+				NOT = { garrison = { country = -2 province = 1197 type = land size = 58  area = 2 } }
+		}
+		command = { type = event 		which = 2400044 where = CHC when = 0 } #Exp_40
+		command = { type = event 		which = 2400051 where = SOV when = 0 } #Exp_001
+		command = { type = local_setflag which = PVA_STR when = 0  value = 4 }
+	}
+	action = {
+		trigger = { 
+				NOT = { local_flag = { which = PVA_STR when = 0 value = 5 } }
+						garrison = { country = -2 province = 1197 type = land size = 58  area = 2 }
+				NOT = { garrison = { country = -2 province = 1197 type = land size = 84  area = 2 } }
+		}
+		command = { type = event 		which = 2400045 where = CHC when = 0 } #Exp_50
+		command = { type = local_setflag which = PVA_STR when = 0  value = 5 }
+	}
+	action = {
+		trigger = { 
+				NOT = { local_flag = { which = PVA_STR when = 0 value = 6 } }
+						garrison = { country = -2 province = 1197 type = land size = 84  area = 2 }
+				NOT = { garrison = { country = -2 province = 1197 type = land size = 115 area = 2 } }
+		}
+		command = { type = event 		which = 2400046 where = CHC when = 0 } #Exp_60
+		command = { type = event 		which = 2400052 where = SOV when = 0 } #Exp_002
+		command = { type = local_setflag which = PVA_STR when = 0  value = 6 }
+	}
+	action = {
+		trigger = { 
+				NOT = { local_flag = { which = PVA_STR when = 0 value = 7 } }
+						garrison = { country = -2 province = 1197 type = land size = 115 area = 2 }
+				NOT = { garrison = { country = -2 province = 1197 type = land size = 151 area = 2 } }
+		}
+		command = { type = event 		which = 2400047 where = CHC when = 0 } #Exp_70
+		command = { type = local_setflag which = PVA_STR when = 0  value = 7 }
+	}
+	action = {
+		trigger = { 
+				NOT = { local_flag = { which = PVA_STR when = 0 value = 8 } }
+						garrison = { country = -2 province = 1197 type = land size = 151 area = 2 }
+				NOT = { garrison = { country = -2 province = 1197 type = land size = 192 area = 2 } }
+		}
+		command = { type = event 		which = 2400048 where = CHC when = 0 } #Exp_80
+		command = { type = event 		which = 2400053 where = SOV when = 0 } #Exp_003
+		command = { type = local_setflag which = PVA_STR when = 0  value = 8 }
+	}
+	action = {
+		trigger = { 
+				NOT = { local_flag = { which = PVA_STR when = 0 value = 9 } }
+						garrison = { country = -2 province = 1197 type = land size = 192 area = 2 }
+		}
+		command = { type = event 		which = 2400049 where = CHC when = 0 } #Exp_90
+		command = { type = event 		which = 2400055 where = SOV when = 0 } #Exp_005
+		command = { type = local_setflag which = PVA_STR when = 0  value = 9 }
+	}
+}
+
+#USA regulate aggressiveness in order to reduce casualty rate. Can't afford to waste manpower like China does
+
+event = { 
+	id = 2405159
+	random = no 
+	tag = { USA }
+	persistent = yes
+
+	trigger = {
+		ai = yes
+		war	= { country = PRK }
+		event = 2049624
+	}
+
+	date = { day = 0 month = january year = 1944 }
+	offset = 15
+	deathdate = { day = 29 month = january year = 1965 }
+	
+	name = "AI_EVENT"
+	
+	action = {
+		trigger = { 
+				NOT = { local_flag = FrontAICautious }
+				NOT = { war = { country = SOV } }
+				control = { province = 1199	data = -3 }
+				control = { province = 1198	data = -3 }
+				control = { province = 3100	data = -3 }
+		}
+		command = { type = ai which = "nations\PassiveAsia.ai"	  		}
+		command = { type = ai which = "frontAIcautious.ai" 				}
+		command = { type = local_setflag which = FrontAILock			}
+		command = { type = local_setflag which = FrontAICautious		}
+		command = { type = local_clrflag which = FrontAINormal			}
+		command = { type = local_clrflag which = FrontAIAggressive		}
+		command = { type = local_clrflag which = FrontAIVeryAggressive	}
+		command = { type = local_clrflag which = FrontAIHyper			}
+	}
+	action = {
+		trigger = { 
+			local_flag = FrontAICautious
+			OR = {
+				war = { country = SOV }
+				NOT = { control = { province = 1199	data = -3 } }
+				NOT = { control = { province = 1198	data = -3 } }
+				NOT = { control = { province = 3100	data = -3 } }
+			}
+		}
+		command = { type = ai which = "nations\PassiveDisable.ai"  		}
+		command = { type = ai which = "frontAIaggressive.ai"			}
+		command = { type = local_clrflag which = FrontAILock			}
+		command = { type = local_clrflag which = FrontAICautious		}
+		command = { type = local_clrflag which = FrontAINormal			}
+		command = { type = local_setflag which = FrontAIAggressive		}
+		command = { type = local_clrflag which = FrontAIVeryAggressive	}
+		command = { type = local_clrflag which = FrontAIHyper			}
+	}
+}
 
 #########################
 # JAPAN
@@ -15207,6 +16003,11 @@ event = {
 		command = { trigger = { garrison = { country = -1 province = 2305	type = land size = 3  area = 0 } }	type = local_setflag which = sovHan when = 1 value = 1  }
 		command = { trigger = { garrison = { country = -1 province = 2305	type = land size = 4  area = 0 } }	type = local_setflag which = sovHan when = 1 value = 1  }
 		command = { trigger = { garrison = { country = -1 province = 2305	type = land size = 5  area = 0 } }	type = local_setflag which = sovHan when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 2305	type = land size = 6  area = 0 } }	type = local_setflag which = sovHan when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 2305	type = land size = 7  area = 0 } }	type = local_setflag which = sovHan when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 2305	type = land size = 8  area = 0 } }	type = local_setflag which = sovHan when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 2305	type = land size = 9  area = 0 } }	type = local_setflag which = sovHan when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 2305	type = land size = 10 area = 0 } }	type = local_setflag which = sovHan when = 1 value = 1  }
 		
 		command = { type = remove_units which = land where = -1 when = 0 value = 2305	}
 		
@@ -15216,6 +16017,11 @@ event = {
 		command = { trigger = { local_flag = { which = sovHan when = 1 value = 3	} } type = add_division									value = infantry when = 10 } 
 		command = { trigger = { local_flag = { which = sovHan when = 1 value = 4	} } type = add_division									value = infantry when = 10 } 
 		command = { trigger = { local_flag = { which = sovHan when = 1 value = 5	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovHan when = 1 value = 6	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovHan when = 1 value = 7	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovHan when = 1 value = 8	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovHan when = 1 value = 9	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovHan when = 1 value = 10	} } type = add_division									value = infantry when = 10 } 
 	}
 }
 
@@ -15342,20 +16148,20 @@ event = {
 		command = { type = remove_units which = land where = -1 when = 0 value = 3404	}
 		
 		command = { trigger = { control = { province = 258 data = -3 } } type = add_corps value = land where = 258 }
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 1	} } type = add_division									value = motorized when = 1 } 
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 2	} } type = add_division									value = infantry when = 10 where = artillery } 
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 3	} } type = add_division									value = infantry when = 10 } 
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 4	} } type = add_division									value = infantry when = 10 } 
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 5	} } type = add_division									value = armor	 when = 0  } 
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 6	} } type = add_division									value = infantry when = 10 where = artillery } 
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 7	} } type = add_division									value = infantry when = 10 } 
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 8	} } type = add_division									value = infantry when = 10 } 
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 9	} } type = add_division									value = armor	 when = 0  }
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 10	} } type = add_division									value = infantry when = 10 where = artillery } 
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 11	} } type = add_division									value = infantry when = 10 } 
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 12	} } type = add_division									value = infantry when = 10 } 
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 13	} } type = add_division									value = motorized when = 1 } 
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 14	} } type = add_division									value = infantry when = 10 where = artillery } 
-		command = { trigger = { local_flag = { which = sovEst when = 1 value = 15	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 1	} } type = add_division									value = motorized when = 1 } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 2	} } type = add_division									value = infantry when = 10 where = artillery } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 3	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 4	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 5	} } type = add_division									value = armor	 when = 0  } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 6	} } type = add_division									value = infantry when = 10 where = artillery } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 7	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 8	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 9	} } type = add_division									value = armor	 when = 0  }
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 10	} } type = add_division									value = infantry when = 10 where = artillery } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 11	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 12	} } type = add_division									value = infantry when = 10 } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 13	} } type = add_division									value = motorized when = 1 } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 14	} } type = add_division									value = infantry when = 10 where = artillery } 
+		command = { trigger = { local_flag = { which = sovOde when = 1 value = 15	} } type = add_division									value = infantry when = 10 } 
 	}
 }
