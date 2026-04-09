@@ -1904,5 +1904,10 @@ inventions = { 3000027 }
 	#landdivision = { dormant = yes id = { type = 14800 id = 893 }  name = "78th 'Battleaxe' Division" 			type = infantry model = 11										 		} 
 	#landdivision = { dormant = yes id = { type = 14800 id = 894 }  name = "36th Infantry Brigade" 				type = militia	model = 5										 		} 
 	#landdivision = { dormant = yes id = { type = 14800 id = 895 }  name = "19th Division" 						type = infantry model = 11										 		} 
+	
+	#2049603 KOR HQ and Jeju garrisons
+	landdivision = { dormant = yes id = { type = 14800 id = 2000 }  name = "Korean Military Advisory Group" 	type = hq		model = 4	strength = 10 								locked = yes } #500 at start
+	landdivision = { dormant = yes id = { type = 14800 id = 2001 }  name = "2nd Infantry Division" 				type = infantry model = 11	extra = armored_car		brigade_model = 5 	locked = yes } 
+	landdivision = { dormant = yes id = { type = 14800 id = 2002 }  name = "Northwest Youth League" 			type = militia	model = 6	extra = police	 		brigade_model = 2  	locked = yes } 
 }  
   

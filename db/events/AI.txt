@@ -4904,6 +4904,19 @@ event = {
 	}
 }
 
+#execute Grand Offensive
+event = {
+	id = 2400190
+	random = no 
+	persistent = yes
+	
+	name = "AI_EVENT"
+
+	action = {
+		command = { type = local_setflag 	which = grand_off_start }
+	}
+}
+
 
 
 ###############################################
@@ -11074,6 +11087,9 @@ event = {
 	action = {
 		command = { type = setflag which = ENG_invaded }
 		command = { trigger = { ai = ENG } type = event which = 2401735 where = ENG when = 0 }
+		
+		command = { trigger = { ai = ENG } type = event which = 2400190 where = ENG when = 0 } #Grand offensive
+		command = { trigger = { ai = GER } type = event which = 2400190 where = GER when = 0 } #Grand offensive
 	}
 }
 
@@ -12221,6 +12237,9 @@ event = {
 		command = { type = disorg_division   which = 14800 value = 831 where = -100 }
 		
 		command = { type = event which = 2405042 where = ENG when = 0 }	
+		
+		command = { trigger = { ai = USA } type = event which = 2400190 where = USA when = 0 } #Grand offensive
+		command = { trigger = { ai = ENG } type = event which = 2400190 where = ENG when = 0 } #Grand offensive
 	}
 }
 
@@ -12734,6 +12753,9 @@ event = {
 		
 		command = { trigger = { alliance = { country = VIC } } type = event which = 2405052 where = VIC when = 0 }	
 		command = { trigger = { alliance = { country = U01 } } type = event which = 2405052 where = U01 when = 0 }	#TBD
+		
+		command = { trigger = { ai = USA } type = event which = 2400190 where = USA when = 0 } #Grand offensive
+		command = { trigger = { ai = VIC } type = event which = 2400190 where = VIC when = 0 } #Grand offensive
 	}
 }
 
@@ -12996,6 +13018,9 @@ event = {
 		command = { type = disorg_division   which = 14800 value = 877 where = -100 }
 		
 		command = { type = event which = 2405061 where = ENG when = 0 }	
+		
+		command = { trigger = { ai = USA } type = event which = 2400190 where = USA when = 0 } #Grand offensive
+		command = { trigger = { ai = ENG } type = event which = 2400190 where = ENG when = 0 } #Grand offensive
 	}
 }
 
@@ -13761,6 +13786,8 @@ event = {
 		command = { type = add_division which = "21. Panzer-Division"			value = armor 		when = 1 where = sp_artillery 	} #277	Bismarck
 		
 		command = { type = trade which = GER where = ITA supplies = -8 money = 0.4 value = 1 } 
+		
+		command = { trigger = { ai = ITA } type = event which = 2400190 where = ITA when = 0 } #Grand offensive
 	}
 	action = {
 		name = ACTION_NAME_OK # Benghazi
@@ -13779,6 +13806,8 @@ event = {
 		command = { type = add_division which = "21. Panzer-Division"			value = armor 		when = 1 where = sp_artillery 	} #277	Bismarck
 		
 		command = { type = trade which = GER where = ITA supplies = -8 money = 0.4 value = 1 } 
+		
+		command = { trigger = { ai = ITA } type = event which = 2400190 where = ITA when = 0 } #Grand offensive
 	}
 	action = {
 		name = ACTION_NAME_OK # Tripoli
@@ -13797,6 +13826,8 @@ event = {
 		command = { type = add_division which = "21. Panzer-Division"			value = armor 		when = 1 where = sp_artillery 	} #277	Bismarck
 		
 		command = { type = trade which = GER where = ITA supplies = -8 money = 0.4 value = 1 } 
+		
+		command = { trigger = { ai = ITA } type = event which = 2400190 where = ITA when = 0 } #Grand offensive
 	}
 }
 
@@ -14380,12 +14411,6 @@ event = {
 	name = "AI_EVENT"
 	
 	action = {
-		trigger = {
-			ai = yes
-			alliance 	= { country = KOR }
-			war		 	= { country = PRK }
-			control = { province = 3109 data = -3  }
-		}
 		#24th Infantry Division
 		#25th Infantry Division
 		#1st Cavalry Division
@@ -14465,16 +14490,12 @@ event = {
 			war		 	= { country = PRK }
 			control = { province = 3109 data = -3  }
 		}
-		#command = { type = remove_division which = "2nd 'Indianhead' Division" value = USA }
-		command = { trigger = { division_exists = { type = 14800 id = 627 } }			type = remove_division	which = 14800 value = 627 }
-		command = { trigger = { division_exists = { type = 14800 id = 824 } }			type = remove_division	which = 14800 value = 824 }
-		command = { trigger = { 
-						NOT = { division_exists = { type = 14800 id = 627 }
-								division_exists = { type = 14800 id = 627 }
-						} }																type = demobilize		which = infantry when = 1 where = 1 value = -1 }
+		#command = { type = remove_division which = "1st US Marine 'The Old Breed' Div." value = USA }
+		command = { trigger = { division_exists = { type = 14800 id = 642 } }			type = remove_division	which = 14800 value = 642 }
+		command = { trigger = { NOT = { division_exists = { type = 14800 id = 642 }	} }	type = demobilize		which = marine when = 1 where = 1 value = -1 }
 		
 		command = { type = add_corps 			value = land where = 3109 }
-		command = { type = add_division	which = "2nd 'Indianhead' Division"				value = infantry 		when = 13  where = artillery } 
+		command = { type = add_division	which = "1st US Marine 'The Old Breed' Div."	value = marine			when = 7 } 
 		
 		command = { type = event which = 2405154 where = USA when = 10 }
 	}
@@ -14494,12 +14515,16 @@ event = {
 			war		 	= { country = PRK }
 			control = { province = 3109 data = -3  }
 		}
-		#command = { type = remove_division which = "1st US Marine 'The Old Breed' Div." value = USA }
-		command = { trigger = { division_exists = { type = 14800 id = 642 } }			type = remove_division	which = 14800 value = 642 }
-		command = { trigger = { NOT = { division_exists = { type = 14800 id = 642 }	} }	type = demobilize		which = marine when = 1 where = 1 value = -1 }
+		#command = { type = remove_division which = "2nd 'Indianhead' Division" value = USA }
+		command = { trigger = { division_exists = { type = 14800 id = 627 } }			type = remove_division	which = 14800 value = 627 }
+		command = { trigger = { division_exists = { type = 14800 id = 824 } }			type = remove_division	which = 14800 value = 824 }
+		command = { trigger = { 
+						NOT = { division_exists = { type = 14800 id = 627 }
+								division_exists = { type = 14800 id = 627 }
+						} }																type = demobilize		which = infantry when = 1 where = 1 value = -1 }
 		
 		command = { type = add_corps 			value = land where = 3109 }
-		command = { type = add_division	which = "1st US Marine 'The Old Breed' Div."	value = marine			when = 7 } 
+		command = { type = add_division	which = "2nd 'Indianhead' Division"				value = infantry 		when = 13  where = artillery } 
 	}
 }
 
@@ -14512,11 +14537,18 @@ event = {
 	
 	trigger = {
 		ai = yes
-		event = 2405154
+		event = 2405153
 		war = { country = PRK }
+		alliance = { country = KOR }
 		control = { province = 1199 data = -2  }
 		control = { province = 3102 data = -2  }
-		garrison = { province = 1197 type = land country = -3 size = 25 area = 2 }
+		OR = {
+			garrison = { province = 1197 type = land country = -3 size = 25 area = 2 }
+			AND = {
+				control = { province = 3109 data = -2  }
+				#control = { province = 1197 data = -2  }
+			}
+		}
 		
 		NOT = {
 			AND = {
@@ -14530,7 +14562,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 15
+	offset = 10
 	deathdate = { day = 29 month = january year = 1960 }
 	
 	name = "AI_EVENT"
@@ -14567,6 +14599,10 @@ event = {
 		command = { trigger = { NOT = { local_flag = exp } } type = event which = 2400041 where = -1 when = 0 } #exp10
 		
 		command = { type = event which = 2405156 where = KOR when = 0 }
+		
+		#Grand offensive
+		command = { type = event which = 2400190 where = USA when = 0 }
+		command = { type = event which = 2400190 where = KOR when = 0 }
 	}
 }
 

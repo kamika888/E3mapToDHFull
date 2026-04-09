@@ -17,12 +17,17 @@ event = {
 	}
 
 	trigger = {
-		atwar = yes
 		NOT = { local_flag = grand_offensive }
 		NOT = { local_flag = partisan_mode   }
 		
+		OR = {
+			local_flag = grand_off_start #force start by event
+			atwar = yes
+		}
+		
 		#majors should not waste it on non-majors
 		OR = {
+			local_flag = grand_off_start #force start by event
 			major = no
 			war = { country = ENG }
 			war = { country = VIC }
@@ -34,6 +39,25 @@ event = {
 			war = { country = SOV }
 		}
 		OR = {
+			local_flag = grand_off_start #force start by event
+			#If invaded, every summer afterwards until the motherland is freed
+			AND = {	
+				NOT = { 
+					country = SOV #SOV do this in winter instead
+					AND = {
+						local_flag = asiaPassive
+						OR = {
+							country = CHI
+							country = CHC
+						}
+					}
+				}
+				supplies = 3000
+				lost_national = { value = 10 }
+				month = May
+				NOT = { month = October }
+				random = 20
+			}
 			AND = {
 				#Every winter on the anniversary of the revolution :X, until the motherland is freed
 				country = SOV
@@ -46,66 +70,11 @@ event = {
 				country = GER
 				supplies = 5000
 				OR = {
-					#Once at Fall gelb
-					AND = {
-						war = { country = VIC }
-						war = { country = BEL }
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
-					}
-					#Landed in England
-					AND = {
-						flag = ENG_invaded
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
-					}
+					#Fall Gelb
+					#ENG_invaded
 					#Every summer while at war with the Soviets
 					AND = {
 						war = { country = SOV }
-						month = May
-						NOT = { month = October }
-						random = 20
-					}
-					#Germany invaded, need to expel the enemy ASAP
-					AND = {	
-						lost_national = { value = 5 }
-						random = 20
-					}
-				}
-			}
-			AND = {
-				country = VIC
-				supplies = 3000
-				OR = {
-					#Fall gelb (regardless of when Germany chose to start it) and every summer afterwards until the motherland is freed
-					AND = {
-						war = { country = GER }
-						alliance = { country = BEL }
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
-					}
-					AND = {	
-						lost_national = { value = 5 }
-						month = May
-						NOT = { month = October }
-						random = 20
-					}
-				}
-			}
-			AND = {
-				country = ITA
-				supplies = 3000
-				OR = {
-					#Once at war entry, once at operation sunflower, and every summer if invaded
-					AND = {
-						alliance = { country = GER }
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
-					}
-					AND = {	
-						alliance = { country = GER }
-						event = 2405100 #afrika korps
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
-						random = 20
-					}
-					AND = {	
-						lost_national = { value = 5 }
 						month = May
 						NOT = { month = October }
 						random = 20
@@ -116,129 +85,13 @@ event = {
 				country = ENG
 				supplies = 3000
 				OR = {
-					#Once for husky and once (twice if no husky) for operation overlord/dragoon
-					AND = {	
-						event = 2405060
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
-					}
-					AND = {	
-						OR = {
-							event = 2405040
-							event = 2405050
-						}
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
-					}
-					#Also once if enemy landed, and every summer afterwards until the motherland is freed
-					AND = {
-						flag = ENG_invaded
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
-					}
+					#Husky
+					#Overlord
+					#Dragoon
+					#ENG_invaded immediate
+					#Every summer special
 					AND = {	
 						flag = ENG_invaded
-						month = May
-						NOT = { month = October }
-						random = 20
-					}
-				}
-			}
-			AND = {
-				country = USA
-				supplies = 3000
-				OR = {
-					#Once for husky and once (twice if no husky) for operation overlord/dragoon
-					AND = {	
-						event = 2405060
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
-					}
-					AND = {	
-						OR = {
-							event = 2405040
-							event = 2405050
-						}
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
-					}
-					#Also once if enemy landed, and every summer afterwards until the motherland is freed
-					AND = {
-						lost_national = { value = 5 }
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
-					}
-					AND = {	
-						lost_national = { value = 5 }
-						month = May
-						NOT = { month = October }
-						random = 20
-					}
-				}
-			}
-			AND = {
-				country = JAP
-				supplies = 3000
-				OR = {
-					#Once after Marco Polo, once at the start of the Pacific War/Soviet War, and every summer if invaded
-					AND = {
-						war = { country = CHI }
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
-					}
-					AND = {
-						OR = {
-							war = { country = USA }
-							war = { country = ENG }
-						}
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
-					}
-					AND = {
-						war = { country = SOV }
-						NOT = { non_aggression = { country = SOV } }
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
-					}
-					AND = {	
-						lost_national = { value = 5 }
-						month = May
-						NOT = { month = October }
-						random = 20
-					}
-				}
-			}
-			AND = {
-				country = CHI
-				supplies = 1500
-				OR = {
-					#Once after Marco Polo, and every summer if not at AsiaPassive until the motherland is freed
-					AND = {
-						war = { country = JAP }
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
-					}
-					AND = {	
-						NOT = { local_flag = asiaPassive }
-						lost_national = { value = 5 }
-						month = May
-						NOT = { month = October }
-						random = 20
-					}
-				}
-			}
-			AND = {
-				country = CHC
-				supplies = 300
-				OR = {
-					#Once at long march, once at 100 regiments offensive, and every summer if not at AsiaPassive until the motherland is freed
-					AND = {
-						war = { country = CHI }
-						local_flag = { which = longMarch_count when = 1 value = 1 }
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
-					}
-					AND = {
-						war = { country = JAP }
-						event = 1330110170
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 2 } }
-					}
-					AND = {	
-						NOT = { local_flag = asiaPassive }
-						OR = {
-							event = 1330110170
-							year = 1942
-						}
-						lost_national = { value = 5 }
 						month = May
 						NOT = { month = October }
 						random = 20
@@ -248,64 +101,56 @@ event = {
 			AND = {
 				country = SPA
 				supplies = 500
-				OR = {
-					AND = {
-						war = { country = SPR }
-						event = 2401602 #Treaty of munich
-						#repeatable, until SPR is destroyed
-					}
-					AND = {	
-						lost_national = { value = 30 }
-						month = May
-						NOT = { month = October }
-						random = 20
-					}
-				}
+				war = { country = SPR }
+				NOT = { war = { country = ENG } }
+				event = 2401602 #Treaty of munich
+				#repeatable, until SPR is destroyed
 			}
-			AND = {
-				country = SPR
-				supplies = 500
-				OR = {
-					AND = {	
-						lost_national = { value = 35 }
-						month = May
-						NOT = { month = October }
-						random = 20
-					}
-				}
-			}
-			AND = {
-				#all other countries
-				NOT = {
-					ispuppet = yes
-					major = yes
-					country = CHI
-					country = CHC
-					country = VIC
-					country = SPR
-					country = SPA
-				}
-				supplies = 500
-				OR = {
-					#Immediately if invaded or under attack, and then every summer until the motherland is freed
-					AND = {	
-						OR = {
-							lost_national = { value = 5 }
-							AND = {
-								under_attack = -1
-								country = FIN
-							}
-						}
-						NOT = { local_flag = { which = grand_offensiveCount when = 1 value = 1 } }
-					}
-					AND = {	
-						lost_national = { value = 5 }
-						month = May
-						NOT = { month = October }
-						random = 20
-					}
-				}
-			}
+			#AND = {
+			#	country = VIC
+			#	supplies = 3000
+			#	#Fall gelb
+			#	#Dragoon
+			#}
+			#AND = {
+			#	country = ITA
+			#	supplies = 3000
+			#	OR = {
+			#		#At war entry
+			#		#Operation sunflower
+			#	}
+			#}
+			#AND = {
+			#	country = USA
+			#	supplies = 3000
+			#	OR = {
+			#		#Husky
+			#		#Operation
+			#		#Dragoon
+			#		#Chromite
+			#	}
+			#}
+			#AND = {
+			#	country = JAP
+			#	supplies = 3000
+			#	OR = {
+			#		#Marco Polo
+			#		#Pearl Harbor, and every summer if invaded
+			#	}
+			#}
+			#AND = {
+			#	country = CHI
+			#	supplies = 1500
+			#	#Marco Polo
+			#}
+			#AND = {
+			#	country = CHC
+			#	supplies = 300
+			#	OR = {
+			#		#Long march
+			#		#100 regiments offensive
+			#	}
+			#}
 		}
 	}
 
@@ -321,6 +166,7 @@ event = {
 
 	action = {
 		name = "GrandOffensiveText"
+		command = { type = local_clrflag 						which = grand_off_start }
 		command = { type = local_setflag 						which = grand_offensive }
 		command = { type = local_setflag when = 1				which = grand_offensiveCount value = 1 }
 
