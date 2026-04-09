@@ -4684,8 +4684,8 @@ event = {
 	random = no
 	persistent = yes
 	
-	name = "Neutrality"
-	desc = "With the end of World War 2, most nations in Latin America returned back to their traditional neutrality. Many later joined the Non-Aligned Movement."
+	name = EVT_2049500_NAME #Neutrality
+	desc = EVT_2049500_DESC
 	style = 2
 	picture = "news_paper"
 	
@@ -4711,7 +4711,7 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = "Declare Neutrality"
+		name = EVT_2049500_ACTA #Declare Neutrality
 		ai_chance = 99
 		command = { type = dissent	  	value = -1 }
 		command = { type = belligerence value = -1 }
@@ -4719,9 +4719,9 @@ event = {
 		command = { type = local_setflag which = PostWarNeutrality }
 	}
 	action = {
-		name = "Stay with our friends"
+		name = EVT_2049500_ACTB #Stay engaged
 		ai_chance = 1
-		command = { type = dissent	  	value = 10 }
+		command = { type = dissent	  	value = 20 }
 		command = { type = belligerence value = 10 }
 		command = { type = local_setflag which = PostWarNeutrality }
 	}
@@ -4731,19 +4731,32 @@ event = {
 event = {
 	id = 2049501
 	random = no
-	tag = { IND U27 EGY }
-	persistent = yes
+	TAG = { IND U27 EGY }
 	
-	name = "Non-Aligned Movement"
-	desc = "Non-Aligned Movement"
+	name = EVT_2049501_NAME #Establish the Non-Aligned Movement
+	desc = EVT_2049501_DESC
 	style = 2
 	picture = "news_paper"
 	
-	trigger = {
-		OR = {
-			NOT = { axis = 1 }
-			flag = NAMO
+	decision = {
+		NOT = { axis = 1 }
+		exists = IND
+		exists = U27
+		exists = EGY
+	}
+	decision_trigger = {
+		NOT = {
+			atwar = IND
+			atwar = U27
+			atwar = EGY
+			ispuppet = IND
+			ispuppet = U27
+			ispuppet = EGY
+			participant = { value = 4 }
 		}
+	}
+	trigger = {
+		NOT = { axis = 1 }
 		exists = IND
 		exists = U27
 		exists = EGY
@@ -4756,7 +4769,6 @@ event = {
 			ispuppet = EGY
 			participant = { value = 4 }
 		}
-		NOT = { local_flag = NAMO }
 	}
 
 	date = { day = 0 month = january year = 1944 }
@@ -4764,32 +4776,112 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = "Join NAM"
+		name = EVT_2049501_ACTA #Establish NAM
 		ai_chance = 100
 		command = { }
 		command = { type = end_puppet }
 		command = { type = leave_alliance when = 1 }
 		
-		command = { trigger = { country = IND } type = alliance_name which = "NAMO" where = 1 }
-		command = { trigger = { country = IND } type = alliance_leader where = 1 }
+		command = { type = alliance_name which = "NAMO" where = 1 }
+		#command = { type = alliance_leader where = 1 }
 		
 		command = { type = alliance where = 1 }
 
 		command = { type = relation which = IND value = 100 }
 		command = { type = relation which = U27 value = 100 }
 		command = { type = relation which = EGY value = 100 }
+		command = { type = setflag  which = NAMO }
+	}
+}
+
+event = {
+	id = 2049502
+	random = no
+	persistent = yes
+	
+	name = EVT_2049502_NAME #Joining the NAM
+	desc = EVT_2049502_DESC
+	style = 2
+	picture = "news_paper"
+	
+	decision = {
+		flag = NAMO
+		NOT = { local_flag = NAMO }
+		axis = 1
+		NOT = {
+			country = ISR
+			country = U56
+			AND = {
+				continent = "Europe"
+				NOT = { country = U27 }
+			}
+		}
+	}
+	decision_trigger = {
+		NOT = {
+			atwar = yes
+			ispuppet = yes
+			participant = { value = 4 }
+		}
+	}
+	trigger = {
+		flag = NAMO
+		NOT = { local_flag = NAMO }
+		axis = 1
+		NOT = {
+			atwar = yes
+			ispuppet = yes
+			participant = { value = 4 }
+		}
+		NOT = {
+			country = ISR
+			country = U56
+		}
+		OR = {
+			#Initial members were almost all either socialists or Arabs or Arab socialists.
+			policy = { type = political_left value = 7 }
+			country = SAU
+			country = YEM
+			country = IRQ
+			country = EGY
+			country = LBY
+			country = TUN
+			country = ALG
+			country = MOR
+			country = SYR
+			country = LEB
+		}
+	}
+
+	date = { day = 0 month = january year = 1944 }
+	offset = 30
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = EVT_2049501_ACTA #Join NAM
+		ai_chance = 100
+		command = { type = leave_alliance when = 1 }
+		
+		command = { trigger = { country = IND } type = alliance_leader where = 1 } #India automatically becomes leader if it joins
+		
+		command = { type = alliance where = 1 }
+
+		command = { type = relation which = IND value = 100 }
+		command = { type = relation which = U27 value = 100 }
+		command = { type = relation which = EGY value = 100 }
+		
 		command = { type = local_setflag which = NAMO }
-		command = { type = setflag 		 which = NAMO }
 	}
 	action = {
-		name = "Stay out"
+		name = EVT_2049501_ACTB #Not interested (makes the decision go away)
 		ai_chance = 0
-		command = { }
-		command = { type = relation which = IND value = -30 }
-		command = { type = relation which = U27 value = -30 }
-		command = { type = relation which = EGY value = -30 }
 		command = { type = local_setflag which = NAMO }
+
+		command = { type = relation which = IND value = -10 }
+		command = { type = relation which = U27 value = -10 }
+		command = { type = relation which = EGY value = -10 }
 	}
+	
 }
 
 ####################################################################################
@@ -4801,8 +4893,8 @@ event = {
 	random = no
 	country = USA
 	
-	name = "Division of Korea"
-	desc = "Three years after the defeat of Japan, the two halves of the Korean peninsula held separate elections, following which, the occupation authorities were dissolved and foreign troops largely departed."
+	name = EVT_2049600_NAME #The Partition of Korea
+	desc = EVT_2049600_DESC
 	style = 2
 	picture = "news_paper"
 	
@@ -4827,8 +4919,8 @@ event = {
 	random = no
 	country = SOV
 	
-	name = "Division of Korea"
-	desc = "Three years after the defeat of Japan, the two halves of the Korean peninsula held separate elections, following which, the occupation authorities were dissolved and foreign troops largely departed."
+	name = EVT_2049600_NAME #The Partition of Korea
+	desc = EVT_2049600_DESC
 	style = 2
 	picture = "news_paper"
 	
@@ -4848,8 +4940,8 @@ event = {
 	random = no
 	country = KOR
 	
-	name = "Division of Korea"
-	desc = "Three years after the defeat of Japan, the two halves of the Korean peninsula held separate elections, following which, the occupation authorities were dissolved and foreign troops largely departed."
+	name = EVT_2049600_NAME #The Partition of Korea
+	desc = EVT_2049600_DESC
 	style = 2
 	picture = "news_paper"
 	
@@ -4880,7 +4972,6 @@ event = {
 		command = { type = add_division 			value = militia 	when = 6  }
 		command = { type = add_division 			value = militia 	when = 6  }
 		command = { type = add_division 			value = militia 	when = 6  }
-		command = { type = add_division 			value = militia 	when = 6  }
 		
 		command = { type = add_corps 				value = land 		where = 1194 }
 		command = { type = add_division 			value = garrison 	when = 6  }
@@ -4899,8 +4990,8 @@ event = {
 	random = no
 	country = PRK
 	
-	name = "Division of Korea"
-	desc = "Three years after the defeat of Japan, the two halves of the Korean peninsula held separate elections, following which, the occupation authorities were dissolved and foreign troops largely departed."
+	name = EVT_2049600_NAME #The Partition of Korea
+	desc = EVT_2049600_DESC
 	style = 2
 	picture = "news_paper"
 	
@@ -4938,7 +5029,6 @@ event = {
 		command = { type = chiefofair 				which = 735031 }
 		
 		command = { type = add_division 			value = infantry 	when = 10 }
-		command = { type = add_division 			value = militia 	when = 6  }
 		command = { type = add_division 			value = militia 	when = 6  }
 		command = { type = add_division 			value = militia 	when = 6  }
 		command = { type = add_division 			value = militia 	when = 6  }
@@ -5026,8 +5116,8 @@ event = {
 	random = no 
 	country = PRK
 
-	name = "Clashes on the Korean Peninsula"
-	desc = "Clashes on the Korean Peninsula began almost immediately after the establishment of the two Koreas, first as small patrol incidents and arrests, quickly escalating into large-scale, organized fighting within a year, especially after both occupation forces withdrew."
+	name = EVT_2049604_NAME #Clashes on the Korean Peninsula
+	desc = EVT_2049604_DESC
     style = 2
 	
 	action = {
@@ -5047,8 +5137,8 @@ event = {
 	random = no 
 	country = KOR
 
-	name = "Clashes on the Korean Peninsula"
-	desc = "Clashes on the Korean Peninsula began almost immediately after the establishment of the two Koreas, first as small patrol incidents and arrests, quickly escalating into large-scale, organized fighting within a year, especially after both occupation forces withdrew."
+	name = EVT_2049604_NAME #Clashes on the Korean Peninsula
+	desc = EVT_2049604_DESC
     style = 2
 	
 	action = {
@@ -5064,8 +5154,8 @@ event = {
 	persistent = yes
 	all = yes
 
-	name = "Clashes on the Korean Peninsula"
-	desc = "Clashes on the Korean Peninsula began almost immediately after the establishment of the two Koreas, first as small patrol incidents and arrests, quickly escalating into large-scale, organized fighting within a year, especially after both occupation forces withdrew."
+	name = EVT_2049604_NAME #Clashes on the Korean Peninsula
+	desc = EVT_2049604_DESC
     style = 2
 	
 	action = {
@@ -5089,12 +5179,12 @@ event = {
 
 
 event = {
-	id = 2049610
+	id = 2049607
 	random = no
 	country = SOV
 	
-	name = "The Korean Campaign"
-	desc = "Our brother Kim Il Sung of North Korea wants our help in reuniting his country. The South is more populous, but it is economically backward, politically unstable, and militarily weak. Kim promises a quick victory, but we should be cautious not to provoke World War 3."
+	name = EVT_2049607_NAME #The Korean Campaign
+	desc = EVT_2049607_DESC
 	style = 2
 	picture = "news_paper"
 	
@@ -5114,7 +5204,7 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = "Support Kim with weapons"
+		name = EVT_2049607_ACTA 
 		ai_chance = 100
 		command = { type = trade which = SOV where = PRK supplies = -16 oil = -2 value = 1  } 
 		command = { type = demobilize which = hq			when = 1 where = 1	value = -1  }
@@ -5124,10 +5214,10 @@ event = {
 		
 		command = { type = access which = PRK }
 		
-		command = { type = event which = 2049612 where = PRK when = 0 }
+		command = { type = event which = 2049609 where = PRK when = 0 }
 	}
 	action = {
-		name = "Don't get involved"
+		name = EVT_2049607_ACTB
 		ai_chance = 0
 		command = { type = dissent 		value = 1  }
 		command = { type = belligerence value = -1 }
@@ -5136,12 +5226,12 @@ event = {
 }
 
 event = {
-	id = 2049611
+	id = 2049608
 	random = no
 	country = CHC
 	
-	name = "The Korean Campaign"
-	desc = "Our brother Kim Il Sung of North Korea wants our help in reuniting his country. The South is more populous, but it is economically backward, politically unstable, and militarily weak. Kim promises a quick victory, but we should be cautious not to provoke World War 3."
+	name = EVT_2049607_NAME #The Korean Campaign
+	desc = EVT_2049607_DESC
 	style = 2
 	picture = "news_paper"
 	
@@ -5162,7 +5252,7 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = "Support Kim with weapons"
+		name = EVT_2049607_ACTA
 		ai_chance = 100
 		#CHC cannot trade directly to PRK
 		command = { type = trade which = CHC where = SOV supplies = -16 rare_materials = -2 value = 1 } 
@@ -5174,10 +5264,10 @@ event = {
 		
 		command = { trigger = { ai = yes } type = ai which = "nations\PRKCHC.ai" }
 		
-		command = { type = event which = 2049613 where = PRK when = 0 }
+		command = { type = event which = 2049610 where = PRK when = 0 }
 	}
 	action = {
-		name = "Don't get involved"
+		name = EVT_2049607_ACTB
 		ai_chance = 0
 		command = { type = dissent 		value = 2  }
 		command = { type = belligerence value = -2 }
@@ -5186,12 +5276,12 @@ event = {
 }
 
 event = {
-	id = 2049612
+	id = 2049609
 	random = no
 	country = PRK
 	
-	name = "The Korean Campaign"
-	desc = "We have requested help from USSR and China in reuniting our country. Our brother nations have promised assistance and sent us arms and advisers, as well whole divisions of ethnic Koreans who have served in their armies. These are very experienced troops and they will be undoubedly be invaluable for us in any upcoming campaign."
+	name = EVT_2049609_NAME
+	desc = EVT_2049609_DESC
 	style = 2
 	picture = "news_paper"
 
@@ -5212,13 +5302,13 @@ event = {
 }
 
 event = {
-	id = 2049613
+	id = 2049610
 	random = no
 	country = PRK
 	save_date = yes
 	
-	name = "The Korean Campaign"
-	desc = "We have requested help from USSR and China in reuniting our country. Our brother nations have promised assistance and sent us arms and advisers, as well whole divisions of ethnic Koreans who have served in their armies. These are very experienced troops and they will be undoubedly be invaluable for us in any upcoming campaign."
+	name = EVT_2049609_NAME
+	desc = EVT_2049609_DESC
 	style = 2
 	picture = "news_paper"
 
@@ -5238,37 +5328,53 @@ event = {
 }
 
 event = {
-	id = 2049615
+	id = 2049611
 	random = no
 	country = PRK
-	save_date = yes
 	
-	name = "The Korean War"
-	desc = "Before launching a full ground offensive, we should try a last ditch attempt to overthrow their government through internal uprising by our sympathizers. We have a lot of supporters in the south - particularly in Suncheon, Gyeongsang, and the Jeju Island."
+	name = EVT_2049611_NAME #The Korean War
+	desc = EVT_2049611_DESC
 	style = 2
 	picture = "news_paper"
 	
-	trigger = {
-		exists = KOR
-		OR = {
-			NOT = { war = { country = KOR } }
-			non_aggression = { country = PRK country = KOR }
+	decision = {
+		war = { country = PRK country = KOR }
+		non_aggression = { country = PRK country = KOR }
+		NOT = {
+			event = 2049653 #Ceasefire
+			event = 2049660 #Victory
 		}
-		event = { id = 2003036 days = 90 } 
+	}
+	decision_trigger = {
+		technology = { country = SOV value = 7180 } #Semi-fission bomb
+	}
+	trigger = {
+		war = { country = PRK country = KOR }
+		non_aggression = { country = PRK country = KOR }
+		NOT = {
+			event = 2049653 #Ceasefire
+			event = 2049660 #Victory
+		}
+		technology = { country = SOV value = 7180 } #Semi-fission bomb
+		event = { id = 2003036 days = 30  } 
+		event = { id = 2011028 days = 1440 } #+360 days since independence
 		month = June
 		NOT = { month = September }
+		land_percentage = { country = KOR value = 1.1 }
 	}
 
 	date = { day = 0 month = january year = 1944 }
-	#offset = 15
-	offset = 1
+	offset = 15
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = ACTION_NAME_OK
+		name = EVT_2049611_ACTA #Insurgency first
+		ai_chance = 100
 		command = { type = manpowerpool 		value = -10  }
 		command = { type = money 				value = -100 }
 		
+		#Revolts in Jeju island, Yeosu-Sucheon, and mountains of North Gyeongsang
+		#North Korea later recruited a "Volunteer Army" of about 30,000 South Koreans according to a CIA report
 		command = { type = revolt which = 3100	when = 1 }
 		command = { type = revolt which = 1195	when = 1 }
 		command = { type = revolt which = 3106	when = 1 }
@@ -5279,20 +5385,114 @@ event = {
 		command = { type = event which = 2049619 where = REB when =  9 }
 		command = { type = event which = 2049616 where = PRK when = 10 }
 	}
+	action = {
+		name = EVT_2049611_ACTB #Surprise them
+		ai_chance = 0
+		command = { trigger = { non_aggression = { country = KOR country = PRK } } type = local_setflag which = NAPDissent }
+		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = PRK where = KOR } #will give 5 dissent
+		command = { trigger = { local_flag = NAPDissent } type = dissent value = -5 }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = PRK	value = 5  }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = KOR	value = -2 }
+		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
+		
+		command = { type = setflag which = surpriseKOR }
+		command = { type = event which = 2049616 where = PRK when = 0 }
+	}
+}
+
+event = {
+	id = 2049612
+	random = no
+	country = KOR
+	
+	name = EVT_2049612_NAME
+	desc = EVT_2049612_DESC
+	style = 2
+	picture = "news_paper"
+	
+	decision = {
+		war = { country = PRK country = KOR }
+		non_aggression = { country = PRK country = KOR }
+		NOT = {
+			event = 2049653 #Ceasefire
+			event = 2049660 #Victory
+		}
+	}
+	decision_trigger = {
+		technology = { country = USA value = 7180 } #Semi-fission bomb
+	}
+	trigger = {
+		war = { country = PRK country = KOR }
+		non_aggression = { country = PRK country = KOR }
+		NOT = {
+			event = 2049653 #Ceasefire
+			event = 2049660 #Victory
+		}
+		technology = { country = usa value = 7180 } #Semi-fission bomb
+		event = { id = 2011028 days = 1440 } #+360 days since independence
+		month = June
+		NOT = { month = September }
+		land_percentage = { country = PRK value = 1.1 }
+	}
+
+	date = { day = 0 month = january year = 1944 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = EVT_2049612_ACTA
+		command = { trigger = { non_aggression = { country = KOR country = PRK } } type = local_setflag which = NAPDissent }
+		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = KOR where = PRK } #will give 5 dissent
+		command = { trigger = { local_flag = NAPDissent } type = dissent value = -5 }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = KOR	value = 5  }
+		command = { trigger = { local_flag = NAPDissent } type = belligerence which = PRK	value = -2 }
+		command = { trigger = { local_flag = NAPDissent } type = local_clrflag which = NAPDissent }
+		
+		command = { type = setflag which = surprisePRK }
+
+		command = { type = event which = 2049616 where = PRK when =  0 }
+	}
+}
+
+#Someone manually broke the NAP at the cost of +5 dissent
+event = {
+	id = 2049613
+	random = no
+	country = REB
+	
+	name = AI_EVENT
+	
+	trigger = {
+		war = { country = PRK country = KOR }
+		NOT = { non_aggression = { country = PRK country = KOR } }
+		NOT = {
+			event = 2049611 #PRK attacked
+			event = 2049612 #KOR attacked
+		}
+	}
+
+	date = { day = 0 month = january year = 1944 }
+	offset = 3
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = event which = 2049616 where = PRK when = 0 }
+	}
 }
 
 event = {
 	id = 2049616
 	random = no
 	country = PRK
+	save_date = yes
 	
-	name = "The Korean War"
-	desc = "The attempt to overthrow the government of South Korea through internal uprisings has failed with tens of thousands of our sympathizers brutally massaccared. This crime must not go unpunished. The time has come to crush the toadies of American imperialism in the south and reunite our motherland."
+	name = EVT_2049616_NAME
+	desc = EVT_2049616_DESC
 	style = 2
 	picture = "news_paper"
 	
 	action = {
-		name = "Let's go!"
+		name = EVT_2049616_ACTA #Let's go!
 		ai_chance = 100
 		command = { type = secedeprovince	which = KOR value = 1194		when = 1 }
 		command = { type = secedeprovince	which = KOR value = 1195		when = 1 }
@@ -5333,15 +5533,19 @@ event = {
 
 		command = { type = trigger	which = 2049617 }
 		command = { type = event which = 2049618 where = KOR when = 0  }
-		command = { type = event which = 2049618 where = USA when = 4  }
+		command = { trigger = { event = 2049611 } type = event which = 2049618 where = USA when = 4  }
+		command = { trigger = { event = 2049612 } type = event which = 2049618 where = USA when = 30 } #US much more reluctant to intervene if South Korea attacked first
 		
-		#command = { type = local_clrflag 	which = war_preparedness }
-		command = { type = local_setflag	which = inMajorWar		 }
-	}
-	action = {
-		name = "Back down"
-		ai_chance = 0
-		command = { type = dissent value = 5 }
+		command = { trigger = { flag = surprisePRK } type = local_clrflag 	which = war_preparedness }
+		command = { 								 type = local_setflag	which = inMajorWar		 }
+		
+		command = { trigger = { NOT = { event = 2049611 } } type = revolt which = 3100	when = 1 }
+		command = { trigger = { NOT = { event = 2049611 } } type = revolt which = 1195	when = 1 }
+		command = { trigger = { NOT = { event = 2049611 } } type = revolt which = 3106	when = 1 }
+		command = { trigger = { NOT = { event = 2049611 } } type = revolt which = 3106	when = 1 }
+		
+		command = { trigger = { NOT = { event = 2049611 } } type = revolt which = 1194	when = 1 }
+		command = { trigger = { NOT = { event = 2049611 } } type = event which = 2049619 where = REB when =  1 }
 	}
 }
 
@@ -5351,8 +5555,8 @@ event = {
 	persistent = yes
 	all = yes
 
-	name = "The Korean War"
-	desc = "Our comerade Kim Il Song of Korea has made a fateful decision to put an end to the brutal pro-imperialist regime of Syngman Rhee in the South. We will send him best wishes, but we should be careful not to get directly invovled."
+	name = EVT_2049617_NAME
+	desc = EVT_2049617_DESC
     style = 2
 	
 	action = {
@@ -5370,27 +5574,28 @@ event = {
 	persistent = yes
 	tag = { KOR USA }
 	
-	name = "The Korean War"
-	desc = "The bloodthirsty dictator of North Korea has made a fateful decision to try conquer the entire peninsula and spread his rule over all of Korea by force of arms. We must stop him in his tracks, or set a terrible precedent for the future."
+	name = EVT_2049616_NAME
+	desc = EVT_2049616_DESC
     style = 2
 	
 	action = {
 		name = "ACTION_NAME_DAMN"
 		trigger = { country = KOR }
 		command = { type = leave_alliance		when = 0 }
-		command = { type = alliance which = USA	when = 1 }
+		#command = { type = alliance which = USA	when = 1 }
 		command = { type = capital 				which = 1197 }
 		command = { type = dissent 				value = -10  }
 		command = { type = event	where = KOR which = 2400538 when = 0 } #strong puppet
 		
-		#command = { type = local_clrflag 	which = war_preparedness }
-		command = { type = local_setflag	which = inMajorWar		 }
+		command = { trigger = { flag = surpriseKOR } type = local_clrflag 	which = war_preparedness }
+		command = {									 type = local_setflag	which = inMajorWar		 }
 		
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
 	}
 	action = {
 		name = "ACTION_NAME_DAMN"
 		trigger = { country = USA }
+		command = { trigger = { event = 2049612 } type = dissent value = 2 }
 		command = { type = relation	which = PRK value = -10 }
 		command = { type = alliance which = KOR when = 1 }
 		command = { type = addclaim 					which = 3109	}
@@ -5406,7 +5611,7 @@ event = {
 		
 		command = { trigger = { ai = yes } type = ai which = "nations\PRKUSA.ai" }
 		
-		command = { trigger = { ai = USA } type = event which = 2405150 where = USA when = 5 }
+		command = { trigger = { ai = USA } type = event which = 2405150 where = USA when = 0 }
 	}
 }
 
@@ -5452,10 +5657,10 @@ event = {
 event = {
 	id = 2049620
 	random = no
-	country = SOV
+	country = PRK
 	
-	name = "Request Intervention"
-	desc = "Our military situation is getting increasingly dire, and if we do not receive urgent reinforecement from our allies, we will most likely lose our homeland. Should we request help from our brotherly neighbors?"
+	name = EVT_2049620_NAME
+	desc = EVT_2049620_DESC
 	style = 2
 	picture = "news_paper"
 	
@@ -5470,6 +5675,15 @@ event = {
 			NOT = { area = { area = "Pyongyang"	country = PRK data = 1 value = 70 } }
 			garrison = { country = -2 province = 1197 type = land size = 50 area = 2 } 
 			NOT = { army = 15 }
+			NOT = {
+				AND = {
+					control = { province = 1376 }
+					control = { province = 1391 }
+					control = { province = 1393 }
+					control = { province = 3092 }
+					control = { province = 3094 }
+				}
+			}
 		}
 	}
 
@@ -5478,7 +5692,7 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = "We need help!"
+		name = EVT_2049620_ACTA
 		command = { type = event which = 2049621 where = SOV when = 0 }
 	}
 }
@@ -5488,8 +5702,8 @@ event = {
 	random = no
 	country = SOV
 	
-	name = "Intervention in Korea"
-	desc = "Kim's hopes for Korea did not quite bear fruit. While the initial invasion was very successful, the direct American intervention saved the Rhee government from extinction and now the UN coalition forces have crossed the 38th parallel and are moving north towards our borders. If we do not intervene, it is almost certain that we will lose Korea entirely."
+	name = EVT_2049620_NAME
+	desc = EVT_2049620_DESC
 	style = 2
 	picture = "news_paper"
 	
@@ -5516,8 +5730,8 @@ event = {
 	random = no
 	country = CHC
 	
-	name = "Intervention in Korea"
-	desc = "Kim's hopes for Korea did not quite bear fruit. While the initial invasion was very successful, the direct American intervention saved the Rhee government from extinction and now the UN coalition forces have crossed the 38th parallel and are moving north towards our borders. If we do not intervene, it is almost certain that we will lose Korea entirely."
+	name = EVT_2049620_NAME
+	desc = EVT_2049620_DESC
 	style = 2
 	picture = "news_paper"
 
@@ -5611,8 +5825,8 @@ event = {
 	country = PRK
 	save_date = yes
 	
-	name = "The Korean Campaign"
-	desc = "We have requested help from USSR and China in reuniting our country. Our brother nations have promised assistance and sent us arms and advisers, as well whole divisions of ethnic Koreans who have served in their armies. These are very experienced troops and they will be undoubedly be invaluable for us in any upcoming campaign."
+	name = EVT_2049624_NAME
+	desc = EVT_2049624_DESC
 	style = 2
 	picture = "news_paper"
 
@@ -5701,126 +5915,21 @@ event = {
 	}
 }
 
-event = {
-	id = 2049626
-	random = no
-	persistent = yes
-	
-	name = "Intervention in Korea"
-	desc = "Kim's hopes for Korea did not quite bear fruit. While the initial invasion was very successful, the direct American intervention saved the Rhee government from extinction and now the UN coalition forces have crossed the 38th parallel and are moving north towards our borders. If we do not intervene, it is almost certain that we will lose Korea entirely."
-	style = 2
-	picture = "news_paper"
-	
-	trigger = {
-		country = USA
-		alliance = { country = KOR }
-		#region = { region = "Korea" country = -1 data = 1 value = 5 } #2 provs
-		OR = {
-			control = { province = 1194 data = -1 }
-			control = { province = 1195 data = -1 }
-			control = { province = 1196 data = -1 }
-			control = { province = 1197 data = -1 }
-			control = { province = 1198 data = -1 }
-			control = { province = 1199 data = -1 }
-			control = { province = 1201 data = -1 }
-			control = { province = 1376 data = -1 }
-			control = { province = 1391 data = -1 }
-			control = { province = 1393 data = -1 }
-			control = { province = 2226 data = -1 }
-			control = { province = 2231 data = -1 }
-			control = { province = 2236 data = -1 }
-			control = { province = 3091 data = -1 }
-			control = { province = 3092 data = -1 }
-			control = { province = 3093 data = -1 }
-			control = { province = 3094 data = -1 }
-			control = { province = 3095 data = -1 }
-			control = { province = 3096 data = -1 }
-			control = { province = 3098 data = -1 }
-			control = { province = 3099 data = -1 }
-			control = { province = 3101 data = -1 }
-			control = { province = 3102 data = -1 }
-			control = { province = 3103 data = -1 }
-			control = { province = 3104 data = -1 }
-			control = { province = 3105 data = -1 }
-			control = { province = 3106 data = -1 }
-			control = { province = 3107 data = -1 }
-			control = { province = 3108 data = -1 }
-			control = { province = 5654 data = -1 }
-			control = { province = 7034 data = -1 }
-			
-			control = { province = 1200 data = -1 }
-			control = { province = 1392 data = -1 }
-			control = { province = 2219 data = -1 }
-			control = { province = 3097 data = -1 }
-			#control = { province = 3100 data = -1 }
-			#control = { province = 3109 data = -1 }
-		}
-	}
-
-	date = { day = 0 month = january year = 1944 }
-	offset = 5
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action = {
-		name = ACTION_NAME_OK
-		#command = { type = secederegion		which = KOR value = "Korea"		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 1194		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 1195		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 1196		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 1197		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 1198		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 1199		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 1201		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 1376		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 1391		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 1393		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 2226		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 2231		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 2236		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3091		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3092		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3093		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3094		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3095		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3096		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3098		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3099		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3101		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3102		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3103		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3104		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3105		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3106		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3107		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3108		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 5654		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 7034		when = 1 }
-		
-		command = { type = secedeprovince		which = KOR value = 1200		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 1392		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 2219		when = 1 }
-		command = { type = secedeprovince		which = KOR value = 3097		when = 1 }
-		#command = { type = secedeprovince		which = KOR value = 3100		when = 1 }
-		#command = { type = secedeprovince		which = KOR value = 3109		when = 1 }
-	}
-}
-
-
 
 event = {
 	id = 2049650
 	random = no
 	country = USA
 	
-	name = "Ceasefire in the Korean War"
-	desc = "After a year of see-saw fighting, the war has reached an impasse. Fierce fighting continued between the UN and the PVA/KPA but little territory was exchanged. North Korea was being devastated by large scale bombing, but to little immediate effect since the real power behind the Communist effort remained untouched. Meanwhile the communist insurgency, reinvigorated by North Korean support and scattered bands of KPA stragglers, resurged in the south. Protracted armistice negotiations began in July 1951 and spanned over two years, with the most problematic aspect being the prisoner of war repatriation. Stalin died on 5 March 1953. The new Soviet leaders, engaged in their internal power struggle, had no desire to continue supporting China's efforts and called for an end to the hostilities. The armistice agreement was finally signed on 27 July 1953. The belligerents established the Korean Demilitarized Zone (DMZ) which mostly follows the 38th parallel, but no peace treaty was established."
+	name = EVT_2049650_NAME #Ceasefire in the Korean War
+	desc = EVT_2049650_DESC
 	style = 2
 	picture = "news_paper"
 	
 	trigger = {
 		exists = KOR
 		exists = PRK
-		event = { id = 2049615 days = 720 } 
+		event = { id = 2049616 days = 720 } 
 		NOT = {
 			war = { country = SOV }
 			war = { country = CHC }
@@ -5836,12 +5945,12 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = "Sign the armistice"
+		name = EVT_2049650_ACTA
 		ai_chance = 100
 		command = { type = event which = 2049651 where = CHC when = 0 }
 	}
 	action = {
-		name = "Refuse to sign"
+		name = EVT_2049650_ACTB
 		ai_chance = 0
 		command = { type = dissent value = 5 }
 		command = { type = belligerence value = 10  }
@@ -5853,18 +5962,18 @@ event = {
 	random = no
 	country = CHC
 	
-	name = "Ceasefire in the Korean War"
-	desc = "After a year of see-saw fighting, the war has reached an impasse. Fierce fighting continued between the UN and the PVA/KPA but little territory was exchanged. North Korea was being devastated by large scale bombing, but to little immediate effect since the real power behind the Communist effort remained untouched. Meanwhile the communist insurgency, reinvigorated by North Korean support and scattered bands of KPA stragglers, resurged in the south. Protracted armistice negotiations began in July 1951 and spanned over two years, with the most problematic aspect being the prisoner of war repatriation. Stalin died on 5 March 1953. The new Soviet leaders, engaged in their internal power struggle, had no desire to continue supporting China's efforts and called for an end to the hostilities. The armistice agreement was finally signed on 27 July 1953. The belligerents established the Korean Demilitarized Zone (DMZ) which mostly follows the 38th parallel, but no peace treaty was established."
+	name = EVT_2049650_NAME
+	desc = EVT_2049650_DESC
 	style = 2
 	picture = "news_paper"
 	
 	action = {
-		name = "Sign the armistice"
+		name = EVT_2049650_ACTA
 		ai_chance = 100
 		command = { type = event which = 2049652 where = KOR when = 0 }
 	}
 	action = {
-		name = "Refuse to sign"
+		name = EVT_2049650_ACTB
 		ai_chance = 0
 		command = { type = dissent value = 5 }
 		command = { type = belligerence	value = 10  }
@@ -5876,18 +5985,18 @@ event = {
 	random = no
 	country = KOR
 	
-	name = "Ceasefire in the Korean War"
-	desc = "After a year of see-saw fighting, the war has reached an impasse. Fierce fighting continued between the UN and the PVA/KPA but little territory was exchanged. North Korea was being devastated by large scale bombing, but to little immediate effect since the real power behind the Communist effort remained untouched. Meanwhile the communist insurgency, reinvigorated by North Korean support and scattered bands of KPA stragglers, resurged in the south. Protracted armistice negotiations began in July 1951 and spanned over two years, with the most problematic aspect being the prisoner of war repatriation. Stalin died on 5 March 1953. The new Soviet leaders, engaged in their internal power struggle, had no desire to continue supporting China's efforts and called for an end to the hostilities. The armistice agreement was finally signed on 27 July 1953. The belligerents established the Korean Demilitarized Zone (DMZ) which mostly follows the 38th parallel, but no peace treaty was established."
+	name = EVT_2049650_NAME
+	desc = EVT_2049650_DESC
 	style = 2
 	picture = "news_paper"
 	
 	action = {
-		name = "Sign the armistice"
+		name = EVT_2049650_ACTA
 		ai_chance = 100
 		command = { type = event which = 2049653 where = PRK when = 0 }
 	}
 	action = {
-		name = "Refuse to sign"
+		name = EVT_2049650_ACTB
 		ai_chance = 0
 		command = { type = dissent value = 10 } #Korean people are tired of war
 		command = { type = belligerence	value = 10  }
@@ -5899,13 +6008,13 @@ event = {
 	random = no
 	country = PRK
 	
-	name = "Ceasefire in the Korean War"
-	desc = "After a year of see-saw fighting, the war has reached an impasse. Fierce fighting continued between the UN and the PVA/KPA but little territory was exchanged. North Korea was being devastated by large scale bombing, but to little immediate effect since the real power behind the Communist effort remained untouched. Meanwhile the communist insurgency, reinvigorated by North Korean support and scattered bands of KPA stragglers, resurged in the south. Protracted armistice negotiations began in July 1951 and spanned over two years, with the most problematic aspect being the prisoner of war repatriation. Stalin died on 5 March 1953. The new Soviet leaders, engaged in their internal power struggle, had no desire to continue supporting China's efforts and called for an end to the hostilities. The armistice agreement was finally signed on 27 July 1953. The belligerents established the Korean Demilitarized Zone (DMZ) which mostly follows the 38th parallel, but no peace treaty was established."
+	name = EVT_2049650_NAME
+	desc = EVT_2049650_DESC
 	style = 2
 	picture = "news_paper"
 	
 	action = {
-		name = "Sign the armistice"
+		name = EVT_2049650_ACTA
 		ai_chance = 100
 		command = { type = peace which = USA value = 0 }
 		command = { type = peace which = KOR value = 0 }
@@ -6004,7 +6113,7 @@ event = {
 		command = { type = trigger which = 2049663 }
 	}
 	action = {
-		name = "Refuse to sign"
+		name = EVT_2049650_ACTB
 		ai_chance = 0
 		command = { type = dissent value = 10 } #Korean people are tired of war
 		command = { type = belligerence	value = 10  }
@@ -6017,8 +6126,8 @@ event = {
 	random = no
 	tag = { KOR PRK }
 	
-	name = "Victory the Korean War"
-	desc = "Despite the significant aid our enemy was getting from Great Powers abroad, we were able to decisively defeat the enemy and reunite the peninsula under our rule. This monumental victory will be remembered for generations to come."
+	name = EVT_2049660_NAME #Victory the Korean War
+	desc = EVT_2049660_DESC
 	style = 2
 	picture = "news_paper"
 	
@@ -6033,7 +6142,7 @@ event = {
 				NOT = { exists = KOR }
 			}
 		}
-		event = { id = 2049615 days = 180 } 
+		event = { id = 2049616 days = 180 } 
 		NOT = {
 			war = { country = SOV country = USA }
 			war = { country = CHC country = USA }
@@ -6167,8 +6276,8 @@ event = {
 	persistent = yes
 	all = yes
 
-	name = "The Korean War - Communist Victory"
-	desc = "The Korean War ended with a decisive victory of the Communist forces."
+	name = EVT_2049661_NAME #The Korean War - Communist Victory
+	desc = EVT_2049661_DESC
     style = 2
 	
 	action = {
@@ -6194,8 +6303,8 @@ event = {
 	persistent = yes
 	all = yes
 
-	name = "The Korean War - UN Victory"
-	desc = "The Korean War ended with a decisive victory of the anti-Communist forces."
+	name = EVT_2049662_NAME #The Korean War - UN Victory
+	desc = EVT_2049662_DESC
     style = 2
 	
 	action = {
@@ -6221,12 +6330,12 @@ event = {
 	persistent = yes
 	all = yes
 
-	name = "The Korean War - Ceasefire"
-	desc = "The Korean War ended with a ceasefire roughly corresponding to the original 38th parallel. The peninsula will remain divided for the forseeable future, but we can claim a partial victory nonetheless."
+	name = EVT_2049663_NAME #The Korean War - Ceasefire
+	desc = EVT_2049663_DESC
     style = 2
 	
 	action = {
-		name = "ACTION_NAME_DAMN"
+		name = "ACTION_NAME_OK"
 		trigger = { participant = { value = 1 } }
 		command = { type = dissent value = -0.5 }
 		command = { trigger = { country = USA } type = event which = 2400043 where = -1 when = 0 } #Exp_30
@@ -6235,7 +6344,7 @@ event = {
 		command = { trigger = { country = KOR } type = event which = 2400041 where = -1 when = 0 } #Exp_10
 	}
 	action = {
-		name = "ACTION_NAME_DAMN"
+		name = "ACTION_NAME_OK"
 		trigger = { participant = { value = 3 } }
 		command = { type = dissent value = -0.5 }
 		command = { type = event which = 2400046 where = -1 when = 0 } #Exp_60
