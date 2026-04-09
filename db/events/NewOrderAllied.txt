@@ -4985,6 +4985,8 @@ event = {
 		command = { trigger = { ai = yes } type = ai which = "nations\PRKKOR.ai" } #incl exp_0
 		
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } } type = event which = 8300105 where = -1 when = 0 } #Partial mobilization
+		
+		command = { trigger = { ai = KOR NOT = { ai = USA } } type = military_control which = USA where = KOR value = 1 }
 	}
 }
 
@@ -5045,6 +5047,10 @@ event = {
 		command = { trigger = { ai = yes } type = ai which = "nations\PRKKOR.ai" } #incl exp_0
 		command = { trigger = { ai = yes } type = ai which = "frontAIaggressive.ai" }
 		command = { trigger = { ai = yes } type = local_setflag which = FrontAIAggressive }
+		
+		#Just in case, force start one line of armor at normal cost.
+		#Disabled because too expensive to start with that right away
+		#command = { trigger = { ai = yes } type = build_division which = armor value = sp_artillery when = 15 cost = 50 where = 70 }
 		
 		#People's Volunteer Army
 		command = { type = sleepleader which = 735100 }
@@ -5111,6 +5117,8 @@ event = {
 		
 		command = { type = event	where = PRK which = 2049604 when = 3 }
 		#command = { type = event	where = PRK which = 2049604 when = 30 }
+		
+		command = { trigger = { ai = PRK NOT = { ai = SOV } } type = military_control which = SOV where = PRK value = 1 }
 	}
 }
 
@@ -5714,8 +5722,8 @@ event = {
 	random = no
 	country = SOV
 	
-	name = EVT_2049620_NAME
-	desc = EVT_2049620_DESC
+	name = EVT_2049621_NAME
+	desc = EVT_2049621_DESC
 	style = 2
 	picture = "news_paper"
 	
@@ -5742,8 +5750,8 @@ event = {
 	random = no
 	country = CHC
 	
-	name = EVT_2049620_NAME
-	desc = EVT_2049620_DESC
+	name = EVT_2049621_NAME
+	desc = EVT_2049621_DESC
 	style = 2
 	picture = "news_paper"
 
@@ -5781,6 +5789,12 @@ event = {
 		command = { trigger = { local_flag = CHC_Cession } type = secedeprovince	which = PRK value = 5683		when = 2 }
 		
 		command = { trigger = { local_flag = CHC_Cession } type = event which = 2049625 where = REB when = 90 }
+		
+		#If CHC is human but SOV is AI, CHC can manually send exp_forces to Korea
+		command = { trigger = { ai = PRK NOT = { ai = CHC } } type = military_control which = CHC where = PRK value = 1 }
+		
+		#If SOV is human but CHC is AI, SOV will have to either relinguish control of PRK or send its own troops to Korea, no other way.
+		#If PRK is human, it cannot receive exp forces. Thanks, devs.
 		
 		command = { type = event which = 2049624 where = PRK when = 0  }
 	}
@@ -5910,8 +5924,8 @@ event = {
 		command = { type = wakeleader which = 735143 }
 		
 		#Execute grand offensive once reinf arrived
-		command = { trigger = { ai = PRK } type = event which = 2400190 where = PRK when = 20  }
-		command = { trigger = { ai = CHC } type = event which = 2400190 where = CHC when = 20  }
+		command = { trigger = { ai = PRK } type = event which = 2400190 where = PRK when = 15  }
+		command = { trigger = { ai = CHC } type = event which = 2400190 where = CHC when = 15  }
 	}
 }
 
@@ -6375,5 +6389,6 @@ event = {
 		command = { trigger = { country = CHC event = 2049623 } type = extra_tc 	value = 300 }
 		command = { trigger = { country = CHC event = 2049623 } type = free_ic 		value = 20  }
 		command = { trigger = { country = SOV event = 2049624 } type = extra_tc 	value = 50  }
+		command = { trigger = { country = PRK } type = event which = 2400041 where = -1 when = 0 } #Exp_10
 	}
 }
