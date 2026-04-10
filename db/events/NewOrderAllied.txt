@@ -3924,7 +3924,7 @@ event = {
 event = {
 	id = 2049014
 	random = no
-	country = INO
+	country = PHI
 	
 	name = EVT_2049014_NAME
 	desc = EVT_2049014_DESC
@@ -4038,7 +4038,7 @@ event = {
 		command = { type = peace which = ENG value = 1 }
 		command = { type = peace which = SOV value = 1 }
 		command = { type = peace which = VIC value = 1 }
-		command = { type = dissent value = 20 }
+		command = { type = dissent value = 15 }
 		
 		command = { type = secedeprovince 	which = PHI value = 1737	when = 2 }
 		command = { type = secedeprovince 	which = PHI value = 1738	when = 2 }
@@ -4186,7 +4186,7 @@ event = {
 		name = "ACTION_NAME_GREAT"
 		command = { type = remove_claim_region which = "Philippines"	where = USA }
 		command = { type = make_puppet which = PHI }
-		command = { type = event which = 2400535 where = PHI when = 0 } #medium puppet
+		command = { type = event which = 2400538 where = PHI when = 0 } #strong puppet
 		#very rudimentary but it's late game so whatever
 		command = { trigger = { ai = yes } type = demobilize which = infantry	when = 1 where = 1 value = -3 }
 		command = { trigger = { ai = yes } type = demobilize which = motorized	when = 1 where = 1 value = -2 }
@@ -4968,10 +4968,6 @@ event = {
 		command = { type = local_setflag which = legitIndie }
 		command = { type = local_setflag which = sliderSet  }
 		
-		# Korean Military Advisory Group
-		command = { trigger = { ai = USA }	type = demobilize			which = hq			when = 1 where = 1 	  value = -1   }
-		command = { trigger = { ai = USA }	type = activate_division 	which = 14800 		when = 0 where = 1197 value = 2000 }		
-		
 		command = { 						type = add_division 		value = militia 	when = 6  }
 		command = { 						type = add_division 		value = militia 	when = 6  }
 		command = { trigger = { ai = yes }	type = add_corps 			which = "Jeju Constabulary" value = land where = 1194 }
@@ -4979,6 +4975,10 @@ event = {
 		command = { trigger = { ai = yes }	type = activate_division 	which = 14800 value = 2002 where = 1194 when = 0 }
 		command = { trigger = { ai = no  }	type = add_division 		value = infantry 	when = 10 }
 		command = { trigger = { ai = no  }	type = add_division 		value = militia 	when = 6  }
+		
+		# Korean Military Advisory Group
+		command = { trigger = { ai = USA }	type = demobilize			which = hq			when = 1 where = 1 	  value = -1   }
+		command = { trigger = { ai = USA }	type = activate_division 	which = 14800 		when = 0 where = 1197 value = 2000 }	
 		
 		command = { 						type = add_division 		value = transport	when = 2  }
 		
@@ -5493,6 +5493,228 @@ event = {
 	}
 }
 
+#Punish early unprovoked deployments to Korea
+
+event = {
+	id = 2049614
+	random = no
+	tag = { USA ENG SOV CHC }
+	persistent = yes
+	
+	name = EVT_2049614_NAME
+	desc = EVT_2049614_DESC
+	style = 2
+	picture = "news_paper"
+	
+	trigger = {
+		ai = no
+		event = 2049600 #Partition of Korea
+		event = { id = 2011028 days = 1260 } #+180 days since independence. Give some time to withdraw
+		OR = {
+			AND = {
+				country = USA
+				NOT = { flag = UN_Intervention_Korea }
+			}
+			AND = {
+				country = ENG
+				NOT = { flag = UN_Intervention_Korea }
+			}
+			AND = {
+				country = SOV
+				NOT = { event = 2049621 }
+			}
+			AND = {
+				country = CHC
+				NOT = { event = 2049622 }
+			}
+			#Fine to retain presense post ceasefire
+			#event = 2049653 #Ceasefire
+			#event = 2049660 #Victory/Defeat
+		}
+		OR = {
+			garrison = { province = 1199 type = land country = -1 size = 3 area = 2 }
+			AND = {
+				OR = {
+					country = USA
+					country = ENG
+				}
+				OR = {
+					AND = {
+								army = { country = KOR size = 10 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = KOR size = 10 type = 0 when = 0 where = 1 which = 0 } }
+					}
+					AND = {
+								army = { country = KOR size = 15 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = KOR size = 15 type = 0 when = 0 where = 1 which = 0 } }
+					}
+					AND = {
+								army = { country = KOR size = 20 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = KOR size = 20 type = 0 when = 0 where = 1 which = 0 } }
+					}
+					AND = {
+								army = { country = KOR size = 25 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = KOR size = 25 type = 0 when = 0 where = 1 which = 0 } }
+					}
+					AND = {
+								army = { country = KOR size = 30 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = KOR size = 30 type = 0 when = 0 where = 1 which = 0 } }
+					}
+				}
+			}
+			AND = {
+				OR = {
+					country = SOV
+					country = CHC
+				}
+				OR = {
+					AND = {
+								army = { country = PRK size = 20 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = PRK size = 20 type = 0 when = 0 where = 1 which = 0 } }
+					}
+					AND = {
+								army = { country = PRK size = 25 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = PRK size = 25 type = 0 when = 0 where = 1 which = 0 } }
+					}
+					AND = {
+								army = { country = PRK size = 30 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = PRK size = 30 type = 0 when = 0 where = 1 which = 0 } }
+					}
+					AND = {
+								army = { country = PRK size = 35 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = PRK size = 35 type = 0 when = 0 where = 1 which = 0 } }
+					}
+					AND = {
+								army = { country = PRK size = 40 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = PRK size = 40 type = 0 when = 0 where = 1 which = 0 } }
+					}
+					AND = {
+								army = { country = PRK size = 45 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = PRK size = 45 type = 0 when = 0 where = 1 which = 0 } }
+					}
+					AND = {
+								army = { country = PRK size = 50 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = PRK size = 50 type = 0 when = 0 where = 1 which = 0 } }
+					}
+					AND = {
+								army = { country = PRK size = 55 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = PRK size = 55 type = 0 when = 0 where = 1 which = 0 } }
+					}
+					AND = {
+								army = { country = PRK size = 60 type = 0 when = 0 where = 0 which = 0 }
+						NOT = { army = { country = PRK size = 60 type = 0 when = 0 where = 1 which = 0 } }
+					}
+				}
+			}
+		}
+	}
+
+	date = { day = 0 month = january year = 1944 }
+	offset = 2
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = EVT_2049614_ACTA
+		command = { type = event which = 2049615 where = -1 when = 1 } 
+	}
+}
+
+event = {
+	id = 2049615
+	random = no
+	tag = { USA ENG SOV CHC }
+	persistent = yes
+	
+	name = EVT_2049615_NAME
+	desc = EVT_2049615_DESC
+	style = 2
+	picture = "news_paper"
+	
+	action = {
+		name = ACTION_NAME_DAMN 
+		trigger = {
+			OR = {
+				garrison = { province = 1199 type = land country = -1 size = 3 area = 2 }
+				AND = {
+					OR = {
+						country = USA
+						country = ENG
+					}
+					OR = {
+						AND = {
+									army = { country = KOR size = 10 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = KOR size = 10 type = 0 when = 0 where = 1 which = 0 } }
+						}
+						AND = {
+									army = { country = KOR size = 15 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = KOR size = 15 type = 0 when = 0 where = 1 which = 0 } }
+						}
+						AND = {
+									army = { country = KOR size = 20 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = KOR size = 20 type = 0 when = 0 where = 1 which = 0 } }
+						}
+						AND = {
+									army = { country = KOR size = 25 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = KOR size = 25 type = 0 when = 0 where = 1 which = 0 } }
+						}
+						AND = {
+									army = { country = KOR size = 30 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = KOR size = 30 type = 0 when = 0 where = 1 which = 0 } }
+						}
+					}
+				}
+				AND = {
+					OR = {
+						country = SOV
+						country = CHC
+					}
+					OR = {
+						AND = {
+									army = { country = PRK size = 20 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = PRK size = 20 type = 0 when = 0 where = 1 which = 0 } }
+						}
+						AND = {
+									army = { country = PRK size = 25 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = PRK size = 25 type = 0 when = 0 where = 1 which = 0 } }
+						}
+						AND = {
+									army = { country = PRK size = 30 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = PRK size = 30 type = 0 when = 0 where = 1 which = 0 } }
+						}
+						AND = {
+									army = { country = PRK size = 35 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = PRK size = 35 type = 0 when = 0 where = 1 which = 0 } }
+						}
+						AND = {
+									army = { country = PRK size = 40 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = PRK size = 40 type = 0 when = 0 where = 1 which = 0 } }
+						}
+						AND = {
+									army = { country = PRK size = 45 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = PRK size = 45 type = 0 when = 0 where = 1 which = 0 } }
+						}
+						AND = {
+									army = { country = PRK size = 50 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = PRK size = 50 type = 0 when = 0 where = 1 which = 0 } }
+						}
+						AND = {
+									army = { country = PRK size = 55 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = PRK size = 55 type = 0 when = 0 where = 1 which = 0 } }
+						}
+						AND = {
+									army = { country = PRK size = 60 type = 0 when = 0 where = 0 which = 0 }
+							NOT = { army = { country = PRK size = 60 type = 0 when = 0 where = 1 which = 0 } }
+						}
+					}
+				}
+			}
+		}
+		
+		command = { type = dissent		value = 5 }
+		command = { type = belligerence	value = 5 }
+	}
+}
+
+
 event = {
 	id = 2049616
 	random = no
@@ -5631,6 +5853,8 @@ event = {
 		
 		command = { trigger = { ai = USA } type = event which = 2405150 where = USA when = 0 }
 		command = { type = strength_cap which = hq when = 0 where = 0 value = 100 }
+		
+		command = { type = setflag		  which = UN_Intervention_Korea }
 	}
 }
 
@@ -5644,7 +5868,7 @@ event = {
 	
 	action = {
 		trigger = { NOT = { exists = U67 } }
-		command = { trigger = { garrison = { country = REB province = 7937 	size = 1 } NOT = { garrison = { country = -2 province = 1194 type = land size = 4 } } }	type = secedeprovince which = REB value = 1194	when = 2 }
+		command = { trigger = { garrison = { country = REB province = 7937 	size = 1 } NOT = { garrison = { country = -2 province = 1194 type = land size = 2 } } }	type = secedeprovince which = REB value = 1194	when = 2 }
 		command = { trigger = { garrison = { country = REB province = 7937 	size = 1 } NOT = { garrison = { country = -2 province = 1195 type = land size = 4 } } }	type = secedeprovince which = REB value = 1195	when = 2 }
 		command = { trigger = { garrison = { country = REB province = 7937 	size = 1 } NOT = { garrison = { country = -2 province = 1196 type = land size = 4 } } }	type = secedeprovince which = REB value = 1196	when = 2 }
 		command = { trigger = { garrison = { country = REB province = 7937 	size = 1 } NOT = { garrison = { country = -2 province = 1197 type = land size = 4 } } }	type = secedeprovince which = REB value = 1197	when = 2 }
