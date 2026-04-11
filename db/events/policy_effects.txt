@@ -19202,6 +19202,7 @@ event = { #War duration #The Long War
 	
 	trigger = {	
 		NOT = { local_flag = warDuration }
+		NOT = { local_flag = partisan_mode } #Partisans do not get ticking war exhaustion
 		atwar = yes
 		NOT = {
 			AND = {
@@ -19254,6 +19255,7 @@ event = { #War duration
 		trigger = {	
 			local_flag = warDuration
 			atwar = yes
+			NOT = { local_flag = partisan_mode } #Partisans do not get ticking war exhaustion
 		}
 		
 		command = { trigger = { NOT = { local_flag = inMajorWar } }																		type = local_setflag which = regularWar	}
@@ -19398,10 +19400,20 @@ event = { #War duration
 		command = { type = event which = 3121 where = -1 when = 360 }
 	}
 	action = {
+		name = "No change this year"
+		trigger = {	
+			local_flag = warDuration
+			local_flag = partisan_mode
+		}		
+		
+		command = { trigger = { local_flag = { which = warDurationCount when = 1 value = 1 } } type = event which = 3121 where = -1 when = 360 }
+	}
+	action = {
 		name = "War exhaustion subsides"
 		trigger = {	
 			local_flag = warDuration
 			atwar = no
+			NOT = { local_flag = partisan_mode }
 		}
 		
 		command = { trigger = { local_flag = { which = warDurationCount when = 1 value = 1 } } type = local_setflag which = warDurationCount when = 1 value = -1 }
