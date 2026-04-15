@@ -107,13 +107,14 @@ country =
 7088 7089 2871
 950 949 945 2911 953 #Algeria
 52 65 7044 70 68 51 #Wallonia
-71 #Lux
 #Islands
 898 899 567 581 
 }
 
   claimedprovinces 		 = { 
 529 527 366 365 367 364 363 362 358 328 327 325 324 359 361 319 360 322 323 59 60 61 62 63 318 317 316 73 72 64 44 43 18 54 42 55 41 56 57 58 32 33 34 35 36 37 38 39 40 320 321 528 875 956 969 968 959 958 960 966 1013 943 942 945 944 946 947 949 948 951 950 953 935 934 936 938 937 939 940 941 1037 973 974 1083 1084 998 976 977 978 981 984 987 990 985 980 986 979 994 996 997 1005 1006 991 995 993 1088 1081 1080 1079 1086 1070 1078 1077 1087 1089 1092 1093 1075 1076 1134 1137 1135 1692 1691 1687 1690 1689 1688 1003 1004 2555 2514 2557 2509 2242 1676 1022 841 1643 1121 2021 2024 696 777 1761 1769 1770 1752 2028 2626 2638 2639 2640 2645 2646 2648 2745 2746 2747 2748 2749 2750 2761 2764 2780 2781 2784 2785 2786 2787 2788 2818 2819 2820 2821 2822 2823 2900 2901 2902 2903 2904 2905 2906 2907 2908 2909 2910 2911 2912 2913 2914 2915 2917 2918 2919 2920 3060 3134 3135 3136 3137 3138 3139 3140 3141 3142 3143 3144 3145 3146 3147 3148 3149 3150 3151 3152 3153 3154 3155 3156 3157 3158 3159 3160 3161 3162 3163 3164 3165 3166 3167 3168 3169 3170 3171 3172 3173 3174 3175 3176 3177 3892 4383 4391 4392 4393 4394 4395 4396 4397 4398 4399 4400 4401 4402 4403 4404 4405 4406 4407 4408 4409 4418 4419 4420 4421 4422 4423 4424 4425 4426 4427 4428 4429 4430 4431 4432 4433 4434 4435 4436 4437 4438 4439 4440 4441 4442 4443 4444 4445 4446 4447 4448 4449 4450 4451 4452 4453 4454 4455 4456 4457 4458 4459 4460 4461 4462 4465 4466 4467 4468 4469 4470 4471 4472 4479 4480 4481 4482 4483 4484 4485 4486 4487 4488 4489 4490 4491 4503 4504 4505 4506 4507 4508 4509 4510 4511 4512 4513 4514 4515 4516 4517 4518 4519 4520 4521 4522 4523 4524 4525 4526 4527 4528 4529 4530 4531 4532 4533 4534 4555 4556 4557 4558 4559 4560 4561 4562 4563 4564 4565 4566 4567 4568 4569 4570 4571 4572 4573 4574 4575 4576 4577 4578 4579 4580 4581 4582 4583 4584 4585 4586 4587 4588 4589 4590 4591 4592 4593 4594 4595 4596 4597 4598 4755 4756 4757 4758 4759 4760 4761 4762 4763 4803 4804 4805 4806 4807 4808 4809 4810 4811 4883 4884 4885 4886 4887 4888 4889 4890 4891 4892 4893 4894 4895 4896 4897 4898 4899 4901 4902 4903 4904 4905 4906 4907 4908 4909 4910 4911 4912 4913 5093 5094 5095 5420 6527 6556 6943 7088 7089 7173 7174 7207 7208 7209 7210 7211 7212 7213 7228 7229 7230 7231 7232 7233 7234 7235 7236 7237 7238 7296 7297 7321 7322 7323 7324 7325 7326 7327 7329 7330 7331 7332 7333 7339 7444 7897 7898 7899 7900 7902 7903 4599 4600 2581
+71 #Lux
+74 #Saar
   }
 
   ownedprovinces         = { 529  527  366  365  367  364  363  362  358  328  327  326  325  324  359  361  319  360  322  323  59   60   61   62  
@@ -1861,7 +1862,7 @@ landunit =
 	}
 	
 	landunit = {  
-		id = {  type = 13500 id = 2051  } 
+		id = {  type = 13500 id = 500  } 
 		location = 7025 
 		name = "Legion etrangere 5e REI"
 		Division = 
@@ -1874,7 +1875,7 @@ landunit =
 		} 
     }
 	landunit = {  
-		id = {  type = 13500 id = 2050  } 
+		id = {  type = 13500 id = 501  } 
 		location = 1337 
 		name = "Division du Annam-Laos"
 		Division = 
@@ -1887,7 +1888,7 @@ landunit =
 		} 
     }
 	landunit = {  
-		id = {  type = 13500 id = 2052  } 
+		id = {  type = 13500 id = 502  } 
 		location = 1333 
 		name = "Division du Tonkin"
 		Division = 
@@ -1900,7 +1901,7 @@ landunit =
 		} 
     }
 	landunit = {  
-		id = {  type = 13500 id = 2054  } 
+		id = {  type = 13500 id = 503  } 
 		location = 1339 
 		name = "Division du Cochinchina-Cambodia"
 		Division = 
@@ -1915,7 +1916,7 @@ landunit =
 		} 
     }
 	landunit = {  
-		id = {  type = 13500 id = 2055  } 
+		id = {  type = 13500 id = 504  } 
 		location = 1792
 		name = "Damascus Garrison"
 		Division = 
@@ -1930,7 +1931,7 @@ landunit =
 		} 
     }
 	landunit = {  
-		id = {  type = 13500 id = 2056  } 
+		id = {  type = 13500 id = 505  } 
 		location = 1862 
 		name = "Aleppo Garrison"
 		Division = 
@@ -1964,6 +1965,14 @@ landunit =
 	landdivision = { dormant = yes id = { type = 13500 id = 2043 } 	name = "Division du Cochinchina-Cambodia" 	type = infantry model = 11 extra = artillery brigade_model = 9 				locked = no }
 	#landdivision = { dormant = yes id = { type = 13500 id = 2044 } name = "8e Division d'Infanterie" 			type = infantry model = 11 extra = light_armor_brigade brigade_model = 7 	locked = no }
 	#landdivision = { dormant = yes id = { type = 13500 id = 2045 } name = "6e Division d'Infanterie" 			type = infantry model = 11 												 	locked = no }
+	
+	#For indochina war
+	landdivision = { dormant = yes id = { type = 13500 id = 2050 } 	name = "Legion etrangere 5e REI" 			type = infantry model = 12 experience = 60 									locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2051 } 	name = "Division du Annam-Laos" 			type = infantry model = 12 experience = 60									locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2052 } 	name = "Division du Tonkin"  				type = infantry model = 12 													locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2053 } 	name = "Division du Cochinchina-Cambodia" 	type = infantry model = 12 extra = artillery brigade_model = 8 				locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2054 } 	name = "8e Division d'Infanterie" 			type = infantry model = 12 extra = light_armor_brigade brigade_model = 7 	locked = yes }
+	landdivision = { dormant = yes id = { type = 13500 id = 2055 } 	name = "6e Division d'Infanterie" 			type = infantry model = 12 												 	locked = yes }
 	
 	#2401850 Dragoon
 	landdivision = { dormant = yes id = { type = 14800 id = 855 }  	name = "First Army HQ"  					type = hq 		model = 4	extra = anti_air 		brigade_model = 4	}

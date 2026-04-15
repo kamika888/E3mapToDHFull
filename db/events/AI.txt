@@ -580,7 +580,8 @@ event = {
 	name = "AI_EVENT"	
 
 	action = {
-		command = { type = local_setflag which = AI_Panic }
+		command = { type = local_setflag which = AI_Panic_Low  }
+		command = { type = local_clrflag which = AI_Panic_High }
 		command = { type = ai which = "panicRatioLow.ai" }
 	}
 }
@@ -597,13 +598,14 @@ event = {
 	name = "AI_EVENT"	
 
 	action = {
-		command = { type = local_clrflag which = AI_Panic }
+		command = { type = local_clrflag which = AI_Panic_Low  }
+		command = { type = local_clrflag which = AI_Panic_High }
 		command = { type = ai which = "panicRatioNormal.ai" }
 	}
 }
 
 ##########################
-# AllDefense set
+# High panic ratio
 ##########################
 
 event = {
@@ -614,23 +616,9 @@ event = {
 	name = "AI_EVENT"	
 
 	action = {
-		command = { type = local_setflag which = AllDefense }
-	}
-}
-
-##########################
-# AllDefense clear
-##########################
-
-event = {
-	id = 2400039
-	random = no 
-	persistent = yes
-	
-	name = "AI_EVENT"	
-
-	action = {
-		command = { type = local_clrflag which = AllDefense }
+		command = { type = local_clrflag which = AI_Panic_Low  }
+		command = { type = local_setflag which = AI_Panic_High }
+		command = { type = ai which = "panicRatioHigh.ai" }
 	}
 }
 
@@ -908,6 +896,38 @@ event = {
 
 	action = {
 		command = { type = ai which = "frontRatioDefault.ai" }
+	}
+}
+
+##########################
+# AllDefense set
+##########################
+
+event = {
+	id = 2400065
+	random = no 
+	persistent = yes
+	
+	name = "AI_EVENT"	
+
+	action = {
+		command = { type = local_setflag which = AllDefense }
+	}
+}
+
+##########################
+# AllDefense clear
+##########################
+
+event = {
+	id = 2400066
+	random = no 
+	persistent = yes
+	
+	name = "AI_EVENT"	
+
+	action = {
+		command = { type = local_clrflag which = AllDefense }
 	}
 }
 
@@ -6732,7 +6752,7 @@ event = {
 		ai = yes
 		local_flag = AllInit
 		year = 1942
-		NOT = { local_flag = AI_Panic }
+		NOT = { local_flag = AI_Panic_Low }
 		#try to avoid rebels triggering this too...
 		OR = {
 			AND = {
@@ -9721,6 +9741,7 @@ event = {
 	name = "AI_EVENT"
 	
 	action = {
+		trigger = { NOT = { event = { id = 2003202 days = 720 } } }
 		command = { type = end_access which = USA when = 0 }
 	}
 }
@@ -9871,7 +9892,7 @@ event = {
 		NOT = { local_flag = helpU04 }
 		puppet = { country = U04 country = VIC }
 		war = { country = U04 country = ENG }
-		army = { size = 15 type = 0 when = 0 where = 0 which = 1 country = U04 }	
+		army = { size = 15 type = 0 when = 0 where = 0 which = 0 country = U04 }	
 	}
 
 	name = EVT_2401510_NAME
@@ -9927,7 +9948,7 @@ event = {
 		local_flag = helpU04
 		OR = {
 			NOT = { puppet = { country = U04 country = VIC } }
-			NOT = { army = { size = 15 type = 0 when = 0 where = 0 which = 1 country = U04 } }
+			NOT = { army = { size = 15 type = 0 when = 0 where = 0 which = 0 country = U04 } }
 		}
 	}
 
@@ -10122,6 +10143,77 @@ event = {
 	}
 }
 
+#reset exp forces for war with indochina/indonesia
+
+event = {
+	id = 2401560
+	random = no 
+	persistent = yes
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		NOT = { local_flag = noExpFRAHOL }
+		NOT = { flag = ColdWarHot }
+		OR = {
+			AND = {
+				alliance = { country = VIC }
+				OR = {
+					war = { country = VIC country = U72 }
+					war = { country = VIC country = LAO }
+					war = { country = VIC country = CMB }
+				}
+				NOT = {
+					war = { country = U72 }
+					war = { country = LAO }
+					war = { country = CMB }
+				}
+			}
+			AND = {
+				alliance = { country = HOL }
+				war = { country = HOL country = INO }
+				NOT = {
+					war = { country = INO }
+				}
+			}
+		}
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	action = {
+		trigger = { NOT = { country = CHI country = KOR } }
+		
+		command = { type = ai which = "noExpFRA.ai" }
+		command = { type = ai which = "EXP_0.ai" }
+		command = { trigger = { OR = { country = PER country = TUR country = IRQ } }	type = event which = 2400041 where = -1 when = 7 }
+		command = { trigger = { OR = { country = AST country = NZL country = SAF } }	type = event which = 2400043 where = -1 when = 7 }
+		command = { trigger = { OR = { country = ENG country = CAN country = USA } }	type = event which = 2400045 where = -1 when = 7 }
+		command = { trigger = { NOT = { country = PER
+										country = TUR
+										country = IRQ
+										country = AST
+										country = NZL
+										country = SAF
+										country = ENG
+										country = CAN
+										country = USA
+										} } 											type = event which = 2400047 where = -1 when = 7 }
+										
+		command = { type = local_setflag which = noExpFRAHOL }
+	}
+	action = {
+		trigger = { OR = { country = CHI country = KOR } }
+		
+		command = { type = ai which = "noExpFRA.ai" }
+		command = { type = local_setflag which = noExpFRAHOL }
+	}
+	
+}
 
 
 ###############################################
@@ -12752,7 +12844,6 @@ event = {
 		command = { type = disorg_division   which = 14800 value = 854 where = -100 }
 		
 		command = { trigger = { alliance = { country = VIC } } type = event which = 2405052 where = VIC when = 0 }	
-		command = { trigger = { alliance = { country = U01 } } type = event which = 2405052 where = U01 when = 0 }	#TBD
 		
 		command = { trigger = { ai = USA } type = event which = 2400190 where = USA when = 0 } #Grand offensive
 		command = { trigger = { ai = VIC } type = event which = 2400190 where = VIC when = 0 } #Grand offensive
@@ -14354,7 +14445,6 @@ event = {
 		command = { type = disorg_division		which = 14800 					value = 892 		where = -100 }
 		
 		command = { trigger = { ai = ENG } 								type = event which = 2405141 where = ENG when = 0 }	
-		command = { trigger = { alliance = { country = U01 } ai = U01 } type = event which = 2405142 where = U01 when = 0 }	
 		command = { trigger = { alliance = { country = VIC } ai = VIC } type = event which = 2405142 where = VIC when = 0 }	
 	}
 }
@@ -14423,7 +14513,14 @@ event = {
 		command = { type = add_corps 			value = land where = 3109 }
 		command = { type = add_division	which = "24th Infantry Division 'Victory'"		value = infantry 		when = 13  where = artillery } 
 		
-		command = { type = event which = 2405151 where = USA when = 10 }
+		command = { type = add_corps 			value = naval where = 5653 }
+		command = { type = add_division 		value = transport when = 1 }
+		command = { type = add_division 		value = transport when = 1 }
+		
+		command = { type = transport_pool 		which = -1 value = -100 }
+		command = { type = money 				value = -400 }
+		
+		command = { type = event which = 2405151 where = USA when = 5 }
 	}
 }
 
@@ -14447,7 +14544,7 @@ event = {
 		command = { type = add_corps 			value = land where = 3109 }
 		command = { type = add_division	which = "25th Infantry Division 'Tropic Lightning'"	value = infantry 	when = 13 } 
 		
-		command = { type = event which = 2405152 where = USA when = 10 }
+		command = { type = event which = 2405152 where = USA when = 5 }
 	}
 }
 
@@ -14472,7 +14569,7 @@ event = {
 		command = { type = add_corps 			value = land where = 3109 }
 		command = { type = add_division	which = "1st Cavalry 'The 1st Team' Div."		value = cavalry 		when = 13  where = armored_car } 
 		
-		command = { type = event which = 2405153 where = USA when = 10 }
+		command = { type = event which = 2405153 where = USA when = 5 }
 	}
 }
 
@@ -14497,7 +14594,7 @@ event = {
 		command = { type = add_corps 			value = land where = 3109 }
 		command = { type = add_division	which = "1st US Marine 'The Old Breed' Div."	value = marine			when = 7 } 
 		
-		command = { type = event which = 2405154 where = USA when = 10 }
+		command = { type = event which = 2405154 where = USA when = 5 }
 	}
 }
 
@@ -14544,7 +14641,7 @@ event = {
 		OR = {
 			AND = {
 				event = 2405153
-				garrison = { province = 1197 type = land country = -3 size = 25 area = 2 }
+				garrison = { province = 1197 type = land country = -3 size = 26 area = 2 }
 			}
 			AND = {
 				control = { province = 3109 data = -2  }
@@ -14627,6 +14724,8 @@ event = {
 		command = { type = add_division	which = "KATUSA 1st Infantry Division"			value = infantry 		when = 13 } 
 
 		command = { trigger = { NOT = { local_flag = exp } } type = event which = 2400041 where = -1 when = 0 } #exp10
+		command = { type = ai which = "noExpFRA.ai" }
+		
 
 		command = { type = event which = 2405157 where = KOR when = 0 }
 
@@ -14767,16 +14866,18 @@ event = {
 		war = { country = KOR }
 		area = { area = "Seoul"		country = -3 data = 1 value = 30 }
 		control = { province = 2226 data = -3  }
+		control = { province = 3102 data = -3  }
 		OR = {
-			event = 2405155
+			#event = 2405155
 			control = { province = 3099 data = -2  }
 			control = { province = 3103 data = -2  }
-			control = { province = 3104 data = -2  }
+			#control = { province = 3104 data = -2  }
 			control = { province = 2231 data = -2  }
 		}
 		OR = {
-			control = { province = 3102 data = -3  }
-			control = { province = 3103 data = -3  }
+			control = { province = 3105 data = -3  }
+			control = { province = 3106 data = -3  }
+			control = { province = 1195 data = -3  }
 		}
 	}
 
@@ -14787,9 +14888,9 @@ event = {
 	name = "AI_EVENT"
 	
 	action = {
-		command = { type = ai which = "nations\PRKInchon.ai"	}
+		command = { type = ai which = "nations\PRKInchon.ai"   }
 		command = { type = local_clrflag which = AIfrontLeader }
-		command = { type = ai which = "front_leaderNo.ai" }
+		command = { type = ai which = "front_leaderNo.ai"	   }
 		
 		command = { type = event which = 2405160 where = PRK when = 15 }
 	}
@@ -14825,7 +14926,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1944 }
-	offset = 15
+	offset = 10
 	deathdate = { day = 29 month = january year = 1965 }
 	
 	name = "AI_EVENT"
@@ -14837,6 +14938,11 @@ event = {
 		}
 		command = { type = event 		which = 2400041 where = CHC when = 0 } #Exp_10
 		command = { type = local_setflag which = PVA_STR when = 0  value = 1 }
+		command = { type = end_trades which = SOV where = PRK }
+		command = { type = end_trades which = SOV where = CHC }
+		command = { type = trade which = SOV where = PRK supplies = -5 				oil = -10 value = 1 } 
+		command = { type = trade which = CHC where = SOV supplies = -50  rare_materials = -1  value = 1 } 
+		command = { type = trade which = SOV where = PRK supplies = -50  rare_materials = -1  value = 1 } 
 	}
 	action = {
 		trigger = { 
@@ -14847,6 +14953,11 @@ event = {
 		command = { type = event 		which = 2400042 where = CHC when = 0 } #Exp_20
 		command = { type = event 		which = 2400040 where = SOV when = 0 } #Exp_00
 		command = { type = local_setflag which = PVA_STR when = 0  value = 2 }
+		command = { type = end_trades which = SOV where = PRK }
+		command = { type = end_trades which = SOV where = CHC }
+		command = { type = trade which = SOV where = PRK supplies = -10 			oil = -20 value = 1 } 
+		command = { type = trade which = CHC where = SOV supplies = -100 rare_materials = -2  value = 1 } 
+		command = { type = trade which = SOV where = PRK supplies = -100 rare_materials = -2  value = 1 } 
 	}
 	action = {
 		trigger = { 
@@ -14856,6 +14967,11 @@ event = {
 		}
 		command = { type = event 		which = 2400043 where = CHC when = 0 } #Exp_30
 		command = { type = local_setflag which = PVA_STR when = 0  value = 3 }
+		command = { type = end_trades which = SOV where = PRK }
+		command = { type = end_trades which = SOV where = CHC }
+		command = { type = trade which = SOV where = PRK supplies = -15 			oil = -30 value = 1 } 
+		command = { type = trade which = CHC where = SOV supplies = -150 rare_materials = -3  value = 1 } 
+		command = { type = trade which = SOV where = PRK supplies = -150 rare_materials = -3  value = 1 } 
 	}
 	action = {
 		trigger = { 
@@ -14866,6 +14982,12 @@ event = {
 		command = { type = event 		which = 2400044 where = CHC when = 0 } #Exp_40
 		command = { type = event 		which = 2400051 where = SOV when = 0 } #Exp_001
 		command = { type = local_setflag which = PVA_STR when = 0  value = 4 }
+		
+		command = { type = end_trades which = SOV where = PRK }
+		command = { type = end_trades which = SOV where = CHC }
+		command = { type = trade which = SOV where = PRK supplies = -20 			oil = -40 value = 1 } 
+		command = { type = trade which = CHC where = SOV supplies = -200 rare_materials = -4  value = 1 } 
+		command = { type = trade which = SOV where = PRK supplies = -200 rare_materials = -4  value = 1 } 
 	}
 	action = {
 		trigger = { 
@@ -14880,6 +15002,11 @@ event = {
 		}
 		command = { type = event 		which = 2400045 where = CHC when = 0 } #Exp_50
 		command = { type = local_setflag which = PVA_STR when = 0  value = 5 }
+		command = { type = end_trades which = SOV where = PRK }
+		command = { type = end_trades which = SOV where = CHC }
+		command = { type = trade which = SOV where = PRK supplies = -25 			oil = -50 value = 1 } 
+		command = { type = trade which = CHC where = SOV supplies = -250 rare_materials = -5  value = 1 } 
+		command = { type = trade which = SOV where = PRK supplies = -250 rare_materials = -5  value = 1 } 
 	}
 	action = {
 		trigger = { 
@@ -14895,6 +15022,11 @@ event = {
 		command = { type = event 		which = 2400046 where = CHC when = 0 } #Exp_60
 		command = { type = event 		which = 2400052 where = SOV when = 0 } #Exp_002
 		command = { type = local_setflag which = PVA_STR when = 0  value = 6 }
+		command = { type = end_trades which = SOV where = PRK }
+		command = { type = end_trades which = SOV where = CHC }
+		command = { type = trade which = SOV where = PRK supplies = -30 			oil = -60 value = 1 } 
+		command = { type = trade which = CHC where = SOV supplies = -300 rare_materials = -6  value = 1 } 
+		command = { type = trade which = SOV where = PRK supplies = -300 rare_materials = -6  value = 1 } 
 	}
 	action = {
 		trigger = { 
@@ -14909,6 +15041,11 @@ event = {
 		}
 		command = { type = event 		which = 2400047 where = CHC when = 0 } #Exp_70
 		command = { type = local_setflag which = PVA_STR when = 0  value = 7 }
+		command = { type = end_trades which = SOV where = PRK }
+		command = { type = end_trades which = SOV where = CHC }
+		command = { type = trade which = SOV where = PRK supplies = -35 			oil = -70 value = 1 } 
+		command = { type = trade which = CHC where = SOV supplies = -350 rare_materials = -7  value = 1 } 
+		command = { type = trade which = SOV where = PRK supplies = -350 rare_materials = -7  value = 1 } 
 	}
 	action = {
 		trigger = { 
@@ -14924,6 +15061,11 @@ event = {
 		command = { type = event 		which = 2400048 where = CHC when = 0 } #Exp_80
 		command = { type = event 		which = 2400053 where = SOV when = 0 } #Exp_003
 		command = { type = local_setflag which = PVA_STR when = 0  value = 8 }
+		command = { type = end_trades which = SOV where = PRK }
+		command = { type = end_trades which = SOV where = CHC }
+		command = { type = trade which = SOV where = PRK supplies = -40 			oil = -80 value = 1 } 
+		command = { type = trade which = CHC where = SOV supplies = -400 rare_materials = -8  value = 1 } 
+		command = { type = trade which = SOV where = PRK supplies = -400 rare_materials = -8  value = 1 } 
 	}
 	action = {
 		trigger = { 
@@ -14938,6 +15080,11 @@ event = {
 		command = { type = event 		which = 2400049 where = CHC when = 0 } #Exp_90
 		command = { type = event 		which = 2400055 where = SOV when = 0 } #Exp_005
 		command = { type = local_setflag which = PVA_STR when = 0  value = 9 }
+		command = { type = end_trades which = SOV where = PRK }
+		command = { type = end_trades which = SOV where = CHC }
+		command = { type = trade which = SOV where = PRK supplies = -45 			oil = -90 value = 1 } 
+		command = { type = trade which = CHC where = SOV supplies = -450 rare_materials = -9  value = 1 } 
+		command = { type = trade which = SOV where = PRK supplies = -450 rare_materials = -9  value = 1 } 
 	}
 }
 

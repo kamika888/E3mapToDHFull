@@ -172,6 +172,7 @@ event = {  #partial mob for all nations
 
 	trigger = {
 		NOT = { local_flag = demilitarized }
+		NOT = { local_flag = exiled }
 		flag = theatsAssessed
 		local_flag = AllInit
 		NOT = { local_flag = demob }
@@ -205,16 +206,6 @@ event = {  #partial mob for all nations
 					war = { country = SOV }
 					war = { country = ENG }
 				}
-			}
-		}
-		NOT = {
-			AND = {
-				OR = {
-					country = VIC
-					country = U01
-				}
-				event = 2002008 #French State
-				NOT = { region = { region = "France" country = -1 data = 1 value = 80 } }
 			}
 		}
 	
@@ -334,6 +325,7 @@ event = {  #General Mob Group A
 
 	trigger = {
 		NOT = { local_flag = demilitarized }
+		NOT = { local_flag = exiled }
 		NOT = { 
 			AND = {
 				country = USA
@@ -431,14 +423,6 @@ event = {  #General Mob Group A
 			AND = {
 				country = ENG
 				control = { province = 56 data = -2 } #Paris fell
-			}
-			AND = {
-				OR = {
-					country = VIC
-					country = U01
-				}
-				event = 2002008 #French State
-				NOT = { region = { region = "France" country = -1 data = 1 value = 80 } }
 			}
 			AND = {
 				under_attack = -1
@@ -547,6 +531,8 @@ event = {  #General Mob Group B
 	}
 
 	trigger = {
+		NOT = { local_flag = demilitarized }
+		NOT = { local_flag = exiled }
 		flag = theatsAssessed
 		local_flag = AllInit
 		NOT = { local_flag = demob }
@@ -608,10 +594,24 @@ event = {  #General Mob Group B
 		}
 		OR = {
 			NOT = { manpower = 70 }
-			lost_national = { value = 50 }
 			AND = {
-				lost_national = { value = 25 }
-				NOT = { dissent = 10 }
+				NOT = {
+					AND = {
+						country = KOR
+						alliance = { country = USA }
+					}
+					AND = {
+						country = PRK
+						alliance = { country = CHC }
+					}
+				}
+				OR = {
+					lost_national = { value = 50 }
+					AND = {
+						lost_national = { value = 25 }
+						NOT = { dissent = 10 }
+					}
+				}
 			}
 		}
 	}
@@ -696,15 +696,31 @@ event = {  #General Mob Group C
 		}
 		OR = {
 			NOT = { manpower = 70 }
-			lost_national = { value = 50 }
 			AND = {
-				lost_national = { value = 25 }
-				NOT = { dissent = 10 }
+				NOT = {
+					AND = {
+						country = KOR
+						alliance = { country = USA }
+					}
+					AND = {
+						country = PRK
+						alliance = { country = CHC }
+					}
+				}
+				OR = {
+					lost_national = { value = 50 }
+					AND = {
+						lost_national = { value = 25 }
+						NOT = { dissent = 10 }
+					}
+				}
 			}
 		}
 	}
 
 	trigger = {
+		NOT = { local_flag = demilitarized }
+		NOT = { local_flag = exiled }
 		flag = theatsAssessed
 		local_flag = AllInit
 		NOT = { local_flag = demob }
@@ -815,6 +831,8 @@ event = {  #extended mob
 	}
 
 	trigger = {
+		NOT = { local_flag = demilitarized }
+		NOT = { local_flag = exiled }
 		flag = theatsAssessed
 		local_flag = AllInit
 		atwar = yes
@@ -874,6 +892,8 @@ event = {  #total mob
 	}
 
 	trigger = {
+		NOT = { local_flag = demilitarized }
+		NOT = { local_flag = exiled }
 		flag = theatsAssessed
 		local_flag = AllInit
 		atwar = yes

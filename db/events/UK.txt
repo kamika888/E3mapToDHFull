@@ -367,6 +367,9 @@ event = {
 		
 		command = { type = trigger which = 2001037 } 
 		command = { type = trigger which = 2003078 } 
+		
+		command = { type = ai which = "home_10.ai" }
+		command = { type = local_setflag which = exiled }
 	}
 }
 
@@ -486,6 +489,8 @@ event = {
 
 		command = { type = trigger which = 2001038 }
 		command = { type = trigger which = 2001045 }
+		
+		command = { type = local_setflag which = exiled }
 	}
 }
 
@@ -565,7 +570,10 @@ event = {
 	trigger = {
 		#owned = { province = 47 }
 		control = { province = 47 data = -3 }
-		NOT = { capital = { province = 47 } }
+		OR = {
+			NOT = { capital = { province = 47 } }
+			local_flag = exiled
+		}
 		NOT = { region = { region = "Benelux" country = -2 data = 1 value = 1 } }
 	}
 
@@ -577,6 +585,13 @@ event = {
 		name = ACTION_NAME_OK #
 		command = { type = secedeprovince which = HOL value = 47 when = 2 }
 		command = { type = capital which = 47 }
+		command = { type = local_clrflag which = exiled }
+
+		#Binnenlandse Strijdkrachten had about 150,000–200,000 members on paper
+		#Will give about 8 mil divs
+		command = { type = local_clrflag which = AllDefense	} 
+		
+		command = { type = transport_pool which = HOL value = 1000 }
 	}
 }
 
@@ -597,7 +612,10 @@ event = {
 	trigger = {
 		#owned = { province = 51 }
 		control = { province = 51 data = -3 }
-		NOT = { capital = { province = 51 } }
+		OR = {
+			NOT = { capital = { province = 51 } }
+			local_flag = exiled
+		}
 		NOT = { region = { region = "Benelux" country = -2 data = 1 value = 1 } }
 	}
 
@@ -609,6 +627,12 @@ event = {
 		name = ACTION_NAME_OK #
 		command = { type = secedeprovince which = BEL value = 51 when = 2 }
 		command = { type = capital which = 51 }
+		command = { type = local_clrflag which = exiled }
+		
+		#Will give about 8 mil divs
+		command = { type = local_clrflag which = AllDefense	} 
+		
+		command = { type = transport_pool which = BEL value = 1000 }
 	}
 }
 
@@ -1169,7 +1193,6 @@ event = {
 	
 	action = {
 		name = "ACTION_NAME_GREAT" #Great
-		command = { type = local_setflag which = sliderSet }
 		command = { type = set_domestic which = freedom		 	value = 3  }
 		command = { type = set_domestic which = interventionism	value = 3  }
 		
@@ -1197,12 +1220,17 @@ event = {
 		#reset all triggered events without resetting the flags
 		command = { type = end_puppet }
 		command = { type = leave_alliance when = 1 }
+		command = { type = local_setflag		 which = sliderSet }
+		command = { type = local_clrflag 		 which = puppetOf  }
 		command = { type = end_access 			 which = ENG when = 0  }
 		command = { type = end_access 			 which = ENG when = 1  }
+		command = { type = event which = 3143	 where = U02 when = 0  } #endwars
 		command = { type = event which = 2400530 where = U02 when = 0  } #legit indie
 		command = { type = event which = 2400040 where = U02 when = 0  } #exp_0
 		command = { type = event which = 2400058 where = U02 when = 0  } #noExpEnforce
 		command = { type = event which = 2185003 where = U02 when = 15 } #civil war PAK
+		
+		command = { trigger = { ai = VIC } type = event which = 2401703 where = VIC when = 0  } #frontLeader30
 	}
 }
 
@@ -1388,6 +1416,11 @@ event = {
 		
 		command = { type = civil_war which = PAK }
 		command = { type = event which = 2185004 where = IND when = 0 } 
+		
+		command = { type = local_clrflag which = warDuration	}
+		command = { type = local_clrflag which = MIL_Increasing	}
+		command = { type = local_clrflag which = WAR_change		}
+		command = { type = local_clrflag which = WAR_manual		}
 	}
 }
 
@@ -1407,8 +1440,8 @@ event = {
 		command = { type = set_domestic which = interventionism		value = 3 }
 		command = { type = set_domestic which = freedom 			value = 3 }
 		command = { type = set_domestic which = free_market 		value = 2 }
-		command = { type = set_domestic which = defense_lobby		value = 5 }
-		command = { type = set_domestic which = democratic			value = 6 }
+		command = { type = set_domestic which = defense_lobby		value = 4 }
+		command = { type = set_domestic which = democratic			value = 4 }
 		
 		command = { type = manpowerpool 			value = -3000 } #pakistan secession
 		command = { type = manpowerpool 			value = 300  }
@@ -1422,9 +1455,23 @@ event = {
 		command = { type = headofstate 				which = 250062 }
 		command = { type = headofgovernment			which = 250013 }
 		command = { type = foreignminister			which = 250018 }
-		command = { type = armamentminister			which = 250025 }
-		command = { type = ministerofsecurity		which = 250071 }
-		command = { type = ministerofintelligence	which = 250006 }
+		command = { type = armamentminister			which = 250025 } #250024?
+		command = { type = ministerofsecurity		which = 250071 } #250031?
+		command = { type = ministerofintelligence	which = 250006 } #825023?
+		#command = { type = chiefofstaff 			which = 259090 }
+		command = { type = chiefofarmy 				which = 250047 }
+		#command = { type = chiefofnavy 			which = 825029 }
+		command = { type = chiefofair 				which = 250053 }
+
+		command = { type = sleepminister			which = 250015 }
+		command = { type = sleepminister			which = 250020 }
+		command = { type = sleepminister			which = 250021 }
+		#command = { type = sleepminister			which = 825016 }
+		command = { type = sleepminister			which = 250023 }
+		command = { type = sleepminister			which = 250029 }
+
+		command = { type = non_aggression which = IND where =  ENG }
+		command = { type = set_relation	  which = PAK value = -100 }
 		
 		command = { type = belligerence value = 16 }
 		command = { type = extra_tc 	value = 30 }
@@ -1433,7 +1480,7 @@ event = {
 		
 		command = { type = local_setflag which = MOB_level when = 0 value = 4 }
 		command = { type = local_setflag which = MSB_level when = 0 value = 4 }
-		command = { type = local_setflag which = WAR_level when = 0 value = 6 }
+		command = { type = local_setflag which = WAR_level when = 0 value = 4 }
 		
 		command = { type = local_setflag which = legitIndie }
 		command = { type = local_setflag which = sliderSet  }
@@ -1492,6 +1539,7 @@ event = {
 	action = {
 		name = "ACTION_NAME_GREAT" #Great
 		command = { type = leave_alliance when = 1 }
+		command = { type = event which = 3143	 where = -1 when = 0 } #endwars
 		command = { type = local_setflag which = puppetLevel8 }
 		command = { type = ai which = "EXP_0.ai" }
 		
@@ -1514,13 +1562,14 @@ event = {
 		name = "ACTION_NAME_GREAT" #Great
 		command = { type = end_puppet }
 		command = { type = leave_alliance when = 1 }
-		command = { type = event which = 2400530 where = PAK when = 0 } #legit indie
+		command = { type = event which = 3143	 where = -1 when = 0 } #endwars
+		command = { type = event which = 2400530 where = -1 when = 0 } #legit indie
 		command = { type = set_domestic which = political_left 		value = 4 }
 		command = { type = set_domestic which = interventionism 	value = 6 }
 		command = { type = set_domestic which = freedom 			value = 4 } #1 higher than India
 		command = { type = set_domestic which = free_market 		value = 2 }
-		command = { type = set_domestic which = defense_lobby		value = 5 }
-		command = { type = set_domestic which = democratic			value = 6 }
+		command = { type = set_domestic which = defense_lobby		value = 4 }
+		command = { type = set_domestic which = democratic			value = 4 }
 		command = { type = set_domestic which = professional_army	value = 4 }
 		
 		command = { type = manpowerpool 			value = 3000 }
@@ -1533,10 +1582,16 @@ event = {
 		
 		command = { type = headofstate 				which = 725039 }		
 		command = { type = headofgovernment			which = 725042 }
-		command = { type = foreignminister			which = 725016 }
-		command = { type = armamentminister			which = 725021 }
-		command = { type = ministerofsecurity		which = 725025 }
+		command = { type = foreignminister			which = 725016 } #725015?
+		command = { type = armamentminister			which = 725021 } #725019?
+		command = { type = ministerofsecurity		which = 725025 } #725023?
 		command = { type = ministerofintelligence	which = 725026 }
+		command = { type = chiefofstaff				which = 725030 }
+		command = { type = chiefofarmy				which = 725032 }
+		command = { type = chiefofnavy				which = 725036 }
+		command = { type = chiefofair				which = 725037 }
+
+		command = { type = non_aggression  which = PAK where = ENG }
 		
 		command = { type = belligerence value = 16 }
 		command = { type = extra_tc 	value = 30 }
@@ -1545,7 +1600,7 @@ event = {
 		
 		command = { type = local_setflag which = MOB_level when = 0 value = 4 }
 		command = { type = local_setflag which = MSB_level when = 0 value = 4 }
-		command = { type = local_setflag which = WAR_level when = 0 value = 6 }
+		command = { type = local_setflag which = WAR_level when = 0 value = 4 }
 		
 		command = { type = local_setflag which = legitIndie }
 		command = { type = local_setflag which = sliderSet  }
@@ -4573,6 +4628,8 @@ event = {
 		
 		command = { type = ai which = "EXP_100.ai" }
 		
+		command = { type = local_setflag which = exiled		}
+		
 		command = { type = event which = 2002105 where = POL when = 5 }
 	}
 }
@@ -4584,16 +4641,13 @@ event = {
 
 	trigger = {
 		event = 2002100
-		OR = {
-			NOT = { exists = POL }
-			NOT = { atwar = POL }
-		}
+		event = 2002111
+		region = { region = "Poland" country = POL value = 60 }
 	}
 
-	#alt event in Germany.txt
-	#date = { day = 0 month = january year = 1937 }
-	#offset = 30
-	#deathdate = { day = 29 month = september year = 1999 }	
+	date = { day = 0 month = january year = 1937 }
+	offset = 30
+	deathdate = { day = 29 month = september year = 1999 }	
 	
 	name = EVT_2002102_NAME
 	desc = EVT_2002102_DESC
@@ -4619,6 +4673,22 @@ event = {
 		name = "ACTION_NAME_OK"
 		command = { type = free_ic  value = -5 }
 		command = { type = end_trades which = POL where = ENG }
+		command = { type = local_clrflag which = exiled }
+		
+		#Armia Krajowa had 300,000–400,000 members on paper, plus other right wing resistance orgs another 50,000 or so
+		#Will give about 13 mil divs
+		command = { type = local_clrflag which = AllDefense	}
+		#+10 more, for 23 total
+		command = { type = add_division value = militia when = 6 }
+		command = { type = add_division value = militia when = 6 }
+		command = { type = add_division value = militia when = 6 }
+		command = { type = add_division value = militia when = 6 }
+		command = { type = add_division value = militia when = 6 }
+		command = { type = add_division value = militia when = 6 }
+		command = { type = add_division value = militia when = 6 }
+		command = { type = add_division value = militia when = 6 }
+		command = { type = add_division value = militia when = 6 }
+		command = { type = add_division value = militia when = 6 }
 	}
 }
 
@@ -4918,6 +4988,7 @@ event = {
 	
 	action = {
 		name = EVT_2002111_ACTA
+		command = { type = local_setflag which = exiled    }
 		command = { type = local_setflag which = sliderSet }
 		command = { type = set_domestic which = free_market	 	value = 3 }
 		command = { type = set_domestic which = freedom		 	value = 5 }
@@ -4939,7 +5010,7 @@ event = {
 		
 		command = { type = capital which = 485 }
 		
-		command = { type = free_ic  value = 5 }
+		command = { type = free_ic   value = 5 }
 		
 		command = { type = event which = 2002115 where = U32 when = 5 }
 	}
@@ -4955,6 +5026,7 @@ event = {
 		OR = {
 			NOT = { exists = U32 }
 			NOT = { atwar = U32 }
+			event = 2003202
 		}
 	}
 
@@ -4986,6 +5058,12 @@ event = {
 		name = "ACTION_NAME_OK"
 		command = { type = free_ic  value = -5 }
 		command = { type = end_trades which = U32 where = SOV }
+		command = { type = local_clrflag which = exiled }
+		
+		#Armia Ludowa estimated at around 20,000-30,000
+		command = { type = add_division value = militia when = 6 }
+		command = { type = add_division value = militia when = 6 }
+		command = { type = add_division value = militia when = 6 }
 	}
 }
 

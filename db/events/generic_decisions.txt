@@ -19,138 +19,140 @@ event = {
 	trigger = {
 		NOT = { local_flag = grand_offensive }
 		NOT = { local_flag = partisan_mode   }
-		
+
 		OR = {
 			local_flag = grand_off_start #force start by event
-			atwar = yes
-		}
-		
-		#majors should not waste it on non-majors
-		OR = {
-			local_flag = grand_off_start #force start by event
-			major = no
-			war = { country = ENG }
-			war = { country = VIC }
-			war = { country = FRA }
-			war = { country = GER }
-			war = { country = JAP }
-			war = { country = USA }
-			war = { country = ITA }
-			war = { country = SOV }
-		}
-		OR = {
-			local_flag = grand_off_start #force start by event
-			#If invaded, every summer afterwards until the motherland is freed
-			AND = {	
-				NOT = { 
-					country = SOV #SOV do this in winter instead
+			
+			AND = {
+				atwar = yes
+				NOT = { ispuppet = yes }
+				
+				#majors should not waste it on non-majors
+				OR = {
+					major = no
+					war = { country = ENG }
+					war = { country = VIC }
+					war = { country = FRA }
+					war = { country = GER }
+					war = { country = JAP }
+					war = { country = USA }
+					war = { country = ITA }
+					war = { country = SOV }
+				}
+				OR = {
+					#If invaded, every summer afterwards until the motherland is freed
+					AND = {	
+						NOT = { 
+							country = SOV #SOV do this in winter instead
+							AND = {
+								local_flag = asiaPassive
+								OR = {
+									country = CHI
+									country = CHC
+								}
+							}
+						}
+						supplies = 3000
+						lost_national = { value = 10 }
+						month = May
+						NOT = { month = October }
+						random = 20
+					}
 					AND = {
-						local_flag = asiaPassive
+						#Every winter on the anniversary of the revolution :X, until the motherland is freed
+						country = SOV
+						supplies = 5000
+						lost_VP = { value = 5 }
+						month = November
+						day = 5 #+5 offset around the right date
+					}
+					AND = {
+						country = GER
+						supplies = 5000
 						OR = {
-							country = CHI
-							country = CHC
+							#Fall Gelb
+							#ENG_invaded
+							#Every summer while at war with the Soviets
+							AND = {
+								war = { country = SOV }
+								month = May
+								NOT = { month = October }
+								random = 20
+							}
 						}
 					}
-				}
-				supplies = 3000
-				lost_national = { value = 10 }
-				month = May
-				NOT = { month = October }
-				random = 20
-			}
-			AND = {
-				#Every winter on the anniversary of the revolution :X, until the motherland is freed
-				country = SOV
-				supplies = 5000
-				lost_VP = { value = 5 }
-				month = November
-				day = 5 #+5 offset around the right date
-			}
-			AND = {
-				country = GER
-				supplies = 5000
-				OR = {
-					#Fall Gelb
-					#ENG_invaded
-					#Every summer while at war with the Soviets
 					AND = {
-						war = { country = SOV }
-						month = May
-						NOT = { month = October }
-						random = 20
+						country = ENG
+						supplies = 3000
+						OR = {
+							#Husky
+							#Overlord
+							#Dragoon
+							#ENG_invaded immediate
+							#Every summer special
+							AND = {	
+								flag = ENG_invaded
+								month = May
+								NOT = { month = October }
+								random = 20
+							}
+						}
 					}
+					AND = {
+						country = SPA
+						supplies = 500
+						war = { country = SPR }
+						NOT = { war = { country = ENG } }
+						event = 2401602 #Treaty of munich
+						#repeatable, until SPR is destroyed
+					}
+					#AND = {
+					#	country = VIC
+					#	supplies = 3000
+					#	#Fall gelb
+					#	#Dragoon
+					#}
+					#AND = {
+					#	country = ITA
+					#	supplies = 3000
+					#	OR = {
+					#		#At war entry
+					#		#Operation sunflower
+					#	}
+					#}
+					#AND = {
+					#	country = USA
+					#	supplies = 3000
+					#	OR = {
+					#		#Husky
+					#		#Operation
+					#		#Dragoon
+					#		#Chromite
+					#	}
+					#}
+					#AND = {
+					#	country = JAP
+					#	supplies = 3000
+					#	OR = {
+					#		#Marco Polo
+					#		#Pearl Harbor, and every summer if invaded
+					#	}
+					#}
+					#AND = {
+					#	country = CHI
+					#	supplies = 1500
+					#	#Marco Polo
+					#}
+					#AND = {
+					#	country = CHC
+					#	supplies = 300
+					#	OR = {
+					#		#Long march
+					#		#100 regiments offensive
+					#	}
+					#}
 				}
 			}
-			AND = {
-				country = ENG
-				supplies = 3000
-				OR = {
-					#Husky
-					#Overlord
-					#Dragoon
-					#ENG_invaded immediate
-					#Every summer special
-					AND = {	
-						flag = ENG_invaded
-						month = May
-						NOT = { month = October }
-						random = 20
-					}
-				}
-			}
-			AND = {
-				country = SPA
-				supplies = 500
-				war = { country = SPR }
-				NOT = { war = { country = ENG } }
-				event = 2401602 #Treaty of munich
-				#repeatable, until SPR is destroyed
-			}
-			#AND = {
-			#	country = VIC
-			#	supplies = 3000
-			#	#Fall gelb
-			#	#Dragoon
-			#}
-			#AND = {
-			#	country = ITA
-			#	supplies = 3000
-			#	OR = {
-			#		#At war entry
-			#		#Operation sunflower
-			#	}
-			#}
-			#AND = {
-			#	country = USA
-			#	supplies = 3000
-			#	OR = {
-			#		#Husky
-			#		#Operation
-			#		#Dragoon
-			#		#Chromite
-			#	}
-			#}
-			#AND = {
-			#	country = JAP
-			#	supplies = 3000
-			#	OR = {
-			#		#Marco Polo
-			#		#Pearl Harbor, and every summer if invaded
-			#	}
-			#}
-			#AND = {
-			#	country = CHI
-			#	supplies = 1500
-			#	#Marco Polo
-			#}
-			#AND = {
-			#	country = CHC
-			#	supplies = 300
-			#	OR = {
-			#		#Long march
-			#		#100 regiments offensive
-			#	}
-			#}
 		}
 	}
 
@@ -1671,14 +1673,16 @@ event = {
 				ai = no
 				AND = {
 					dissent = 5
-					local_flag = legitIndie
+					OR = {
+						local_flag = legitIndie
+						local_flag = puppetLevel9
+					}
 				}
 				AND = {
 					dissent = 20
 					OR = {
 						local_flag = puppetLevel7
 						local_flag = puppetLevel8
-						local_flag = puppetLevel9
 					}
 				}
 			}
@@ -1706,14 +1710,16 @@ event = {
 					#atwar = yes
 					AND = {
 						dissent = 5
-						local_flag = legitIndie
+						OR = {
+							local_flag = legitIndie
+							local_flag = puppetLevel9
+						}
 					}
 					AND = {
 						dissent = 20
 						OR = {
 							local_flag = puppetLevel7
 							local_flag = puppetLevel8
-							local_flag = puppetLevel9
 						}
 					}
 				}
@@ -1741,14 +1747,16 @@ event = {
 					#atwar = yes
 					AND = {
 						dissent = 5
-						local_flag = legitIndie
+						OR = {
+							local_flag = legitIndie
+							local_flag = puppetLevel9
+						}
 					}
 					AND = {
 						dissent = 20
 						OR = {
 							local_flag = puppetLevel7
 							local_flag = puppetLevel8
-							local_flag = puppetLevel9
 						}
 					}
 				}
@@ -1776,14 +1784,16 @@ event = {
 					#atwar = yes
 					AND = {
 						dissent = 5
-						local_flag = legitIndie
+						OR = {
+							local_flag = legitIndie
+							local_flag = puppetLevel9
+						}
 					}
 					AND = {
 						dissent = 20
 						OR = {
 							local_flag = puppetLevel7
 							local_flag = puppetLevel8
-							local_flag = puppetLevel9
 						}
 					}
 				}
@@ -1811,14 +1821,16 @@ event = {
 					#atwar = yes
 					AND = {
 						dissent = 5
-						local_flag = legitIndie
+						OR = {
+							local_flag = legitIndie
+							local_flag = puppetLevel9
+						}
 					}
 					AND = {
 						dissent = 20
 						OR = {
 							local_flag = puppetLevel7
 							local_flag = puppetLevel8
-							local_flag = puppetLevel9
 						}
 					}
 					NOT = { policy = { type = professional_army value = 3 } } #will not do if army is demobilized and sees no apparent threats
@@ -1846,14 +1858,16 @@ event = {
 				NOT = { 
 					AND = {
 						dissent = 5
-						local_flag = legitIndie
+						OR = {
+							local_flag = legitIndie
+							local_flag = puppetLevel9
+						}
 					}
 					AND = {
 						dissent = 20
 						OR = {
 							local_flag = puppetLevel7
 							local_flag = puppetLevel8
-							local_flag = puppetLevel9
 						}
 					}
 					manpower = 100									#will not do if already has decent unmobilized manpower reserves
@@ -1884,14 +1898,16 @@ event = {
 					NOT = { belligerence = { value = 50 } }
 					AND = {
 						dissent = 5
-						local_flag = legitIndie
+						OR = {
+							local_flag = legitIndie
+							local_flag = puppetLevel9
+						}
 					}
 					AND = {
 						dissent = 20
 						OR = {
 							local_flag = puppetLevel7
 							local_flag = puppetLevel8
-							local_flag = puppetLevel9
 						}
 					}
 				}
@@ -1918,14 +1934,16 @@ event = {
 				NOT = { 
 					AND = {
 						dissent = 5
-						local_flag = legitIndie
+						OR = {
+							local_flag = legitIndie
+							local_flag = puppetLevel9
+						}
 					}
 					AND = {
 						dissent = 20
 						OR = {
 							local_flag = puppetLevel7
 							local_flag = puppetLevel8
-							local_flag = puppetLevel9
 						}
 					}
 					NOT = {
@@ -1956,14 +1974,16 @@ event = {
 				NOT = { 
 					AND = {
 						dissent = 5
-						local_flag = legitIndie
+						OR = {
+							local_flag = legitIndie
+							local_flag = puppetLevel9
+						}
 					}
 					AND = {
 						dissent = 20
 						OR = {
 							local_flag = puppetLevel7
 							local_flag = puppetLevel8
-							local_flag = puppetLevel9
 						}
 					}
 					atwar = yes
@@ -4300,21 +4320,29 @@ event = {
 		command = { type = defensiveness 		which = hq					value = -5	  }
 		
 		command = { type = plain_defense 		which = land 				value = -100  }
-		command = { type = plain_attack 		which = land 				value = -60	  }
-		command = { type = hill_defense 		which = land 				value = -60	  }
-		command = { type = hill_attack 			which = land 				value = -30	  }
-		command = { type = urban_defense 		which = land 				value = -40	  }
-		command = { type = urban_attack 		which = land 				value = -20	  }
+		command = { type = plain_attack 		which = land 				value = -60   }
+		command = { type = hill_defense 		which = land 				value = -60   }
+		command = { type = hill_attack 			which = land 				value = -30   }
+		command = { type = urban_defense 		which = land 				value = -40   }
+		command = { type = urban_attack 		which = land 				value = -20   }
+		command = { type = desert_defense 		which = land 				value = 100   }
+		command = { type = desert_attack 		which = land 				value = 50    }
+		command = { type = forest_defense 		which = land 				value = 500   }
+		command = { type = forest_attack 		which = land 				value = 250   }
+		command = { type = jungle_defense 		which = land 				value = 500   }
+		command = { type = jungle_attack 		which = land 				value = 250   }
 		command = { type = mountain_defense		which = land 				value = 1000  }
 		command = { type = mountain_attack		which = land 				value = 500   }
-		command = { type = jungle_defense 		which = land 				value = 1000  }
-		command = { type = jungle_attack 		which = land 				value = 500   }
 		command = { type = swamp_defense 		which = land				value = 1000  }
 		command = { type = swamp_attack 		which = land				value = 500   }
-		command = { type = forest_defense 		which = land 				value = 500	  }
-		command = { type = forest_attack 		which = land 				value = 250	  }
-		command = { type = desert_defense 		which = land 				value = 100   }
-		command = { type = desert_attack 		which = land 				value =  50	  }
+		
+		command = { type = counterattack									value = -3	  }
+		command = { type = assault											value = -3	  }
+		command = { type = encirclement										value = -3	  }
+		command = { type = ambush											value = 15	  }
+		command = { type = delay											value =  5	  }
+		command = { type = tactical_withdrawal								value = -3	  }
+		command = { type = breakthrough										value = -3	  }
 		
 		command = { type = local_setflag which = partisan_mode }
 		command = { type = local_clrflag which = partisan_chg  }
@@ -4330,7 +4358,7 @@ event = {
 	trigger = {
 		local_flag = partisan_mode
 		NOT = { local_flag = partisan_chg  }
-		NOT = { army = 100 }
+		#NOT = { army = 100 }
 		atwar = yes
 		manpower = 15
 		supplies = 50
@@ -4357,7 +4385,7 @@ event = {
 	#Mil 80%
 	action = {
 		name = "ACTION_NAME_GREAT"
-		trigger = { year = 1931 }
+		trigger = { year = 1931 NOT = { army = 100 } }
 		ai_chance = 4
 		command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
@@ -4367,7 +4395,7 @@ event = {
 	}
 	action = {
 		name = "ACTION_NAME_GREAT"
-		trigger = { year = 1936 }
+		trigger = { year = 1936 NOT = { army = 100 } }
 		ai_chance = 4
 		command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
@@ -4377,7 +4405,7 @@ event = {
 	}
 	action = {
 		name = "ACTION_NAME_GREAT"
-		trigger = { year = 1939 }
+		trigger = { year = 1939 NOT = { army = 100 } }
 		ai_chance = 4
 		command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
@@ -4387,7 +4415,7 @@ event = {
 	}
 	action = {
 		name = "ACTION_NAME_GREAT"
-		trigger = { year = 1942 }
+		trigger = { year = 1942 NOT = { army = 100 } }
 		ai_chance = 4
 		command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
@@ -4397,7 +4425,7 @@ event = {
 	}
 	action = {
 		name = "ACTION_NAME_GREAT"
-		trigger = { year = 1945 }
+		trigger = { year = 1945 NOT = { army = 100 } }
 		ai_chance = 4
 		command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
@@ -4409,6 +4437,7 @@ event = {
 	action = {
 		name = "ACTION_NAME_GREAT"
 		ai_chance = 20
+		trigger = { NOT = { army = 100 } }
 		command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
 		command = { type = supplies 	value = 120  }
@@ -4418,6 +4447,7 @@ event = {
 	action = {
 		name = "ACTION_NAME_GREAT"
 		ai_chance = 25
+		trigger = { NOT = { army = 100 } }
 		command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
 		command = { type = supplies 	value = 120  }
@@ -4426,13 +4456,20 @@ event = {
 	}
 	action = {
 		name = "ACTION_NAME_GREAT"
-		trigger = { year = 1942 }
+		trigger = { year = 1942 NOT = { army = 100 } }
 		ai_chance = 30
 		command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
 		command = { type = supplies 	value = 120  }
 		command = { type = add_division value = militia when = 6 where = -80 }
 		command = { type = local_setflag which = Partisans_count when = 1 value = 1 }
+	}
+	action = {
+		name = "ACTION_NAME_GREAT"
+		trigger = { army = 100 }
+		ai_chance = 1
+		command = { type = dissent		value = -0.1 }
+		command = { type = supplies 	value = 120  }
 	}
 }
 
@@ -4543,16 +4580,24 @@ event = {
 		command = { type = hill_attack 			which = land 				value = 30	  }
 		command = { type = urban_defense 		which = land 				value = 40	  }
 		command = { type = urban_attack 		which = land 				value = 20	  }
-		command = { type = mountain_defense		which = land 				value = -1000 }
-		command = { type = mountain_attack		which = land 				value = -500  }
-		command = { type = jungle_defense 		which = land 				value = -1000 }
-		command = { type = jungle_attack 		which = land 				value = -500  }
-		command = { type = swamp_defense 		which = land				value = -1000 }
-		command = { type = swamp_attack 		which = land				value = -500  }
+		command = { type = desert_defense 		which = land 				value = -100  }
+		command = { type = desert_attack 		which = land 				value = -50   }
 		command = { type = forest_defense 		which = land 				value = -500  }
 		command = { type = forest_attack 		which = land 				value = -250  }
-		command = { type = desert_defense 		which = land 				value = -100  }
-		command = { type = desert_attack 		which = land 				value =  -50  }
+		command = { type = jungle_defense 		which = land 				value = -500  }
+		command = { type = jungle_attack 		which = land 				value = -250  }
+		command = { type = mountain_defense		which = land 				value = -1000 }
+		command = { type = mountain_attack		which = land 				value = -500  }
+		command = { type = swamp_defense 		which = land				value = -1000 }
+		command = { type = swamp_attack 		which = land				value = -500  }
+		
+		command = { type = counterattack									value =   3	  }
+		command = { type = assault											value =   3	  }
+		command = { type = encirclement										value =   3	  }
+		command = { type = ambush											value = -15	  }
+		command = { type = delay											value =  -5	  }
+		command = { type = tactical_withdrawal								value =   3	  }
+		command = { type = breakthrough										value =   3	  }
 		
 		command = { type = local_clrflag which = partisan_mode }
 		command = { type = local_clrflag which = partisan_chg  }

@@ -1168,13 +1168,14 @@ event = {
 	action = {
 		name = "4061c"
 		command = { type = free_ic value = 5 }
-		command = { type = free_supplies value = 5 }
+		command = { type = trade which = ENG where = U01 supplies = -5 value = 1 } 
 		
 		command = { type = local_setflag which = WARDebt when = 0 value = 12 }
 		
 		command = { type = transport_pool which = U01 value = 150 }
 		
-		command = { type = local_setflag which = sliderSet }
+		command = { type = local_setflag which = sliderSet	}
+		command = { type = local_setflag which = exiled		}
 		command = { type = set_domestic which = political_left 	value = 5 } #ML
 		command = { type = set_domestic which = interventionism value = 3 }
 		command = { type = set_domestic which = freedom 		value = 9 }
@@ -1419,8 +1420,8 @@ event = {
 		
 		command = { type = event which = 2002025 where = MAD when = 0 }
 		
-		command = { trigger = { war = { country = JAP country = ENG } } 			type = event which = 985 where = JAP when = 0 } #Japan grabs madagascar
-		command = { trigger = { NOT = { war = { country = JAP country = ENG } } } 	type = event which = 985 where = GER when = 0 } #Germany grabs madagascar
+		command = { trigger = { event = 2011040 war = { country = JAP country = ENG } } 			type = event which = 985 where = JAP when = 0 } #Japan grabs Indochina/madagascar
+		command = { trigger = { event = 2011040 NOT = { war = { country = JAP country = ENG } } } 	type = event which = 985 where = GER when = 0 } #Germany grabs Indochina/madagascar
 		
 		command = { type = secederegion which = U01 value = "West Africa" 			when = 1 }
 		command = { type = secederegion which = U01 value = "Central Africa" 		when = 1 }
@@ -1491,11 +1492,6 @@ event = {
 			NOT = { exists = U01 }
 			NOT = { atwar = U01 }
 		}
-		OR = {
-			NOT = { exists = VIC }
-			NOT = { atwar = VIC }
-			NOT = { alliance = { country = VIC } }
-		}
 	}
 
 	date = { day = 0 month = january year = 1937 }
@@ -1509,15 +1505,14 @@ event = {
 	action = {
 		name = "ACTION_NAME_GREAT"
 		command = { type = free_ic  value = 5 }
-		command = { trigger = { alliance = { country = U01 } } type = event which = 2002014 where = U01 when = 0 }
-		command = { trigger = { alliance = { country = VIC } } type = event which = 2002014 where = VIC when = 0 }
+		command = { type = event which = 2002014 where = U01 when = 0 }
 	}
 }
 
 event = { 
 	id = 2002014
 	random = no 
-	tag = { U01 VIC }
+	tag = { U01 }
 	
 	name = EVT_2002013_NAME
 	desc = EVT_2002013_DESC
@@ -1570,7 +1565,10 @@ event = {
 
 	trigger = {
 		event = 2002008
-		NOT = { event = 986 } #France is free
+		NOT = { 
+			event = 982 #Vichy changed sides
+			event = 986 #France is free
+		}
 		NOT = { puppet = { country = VIC country = GER } }
 		OR = {
 			exists = U01
@@ -1583,17 +1581,17 @@ event = {
 		#	alliance = { country = VIC country = SOV } 
 		#}
 		#local_flag = legitIndie
-		random = 20
+		#random = 20
 	}
 
 	date = { day = 0 month = january year = 1937 }
-	offset = 10
+	offset = 2
 	deathdate = { day = 29 month = september year = 1999 }	
 	
 	name = "AI_EVENT"
 	
 	action = {
-		command = { type = event which = 2002049 where = VIC when = 7 } #Vichy coup
+		command = { type = event which = 2002049 where = VIC when = 6 } #Vichy coup - should happen BEFORE "the intervention"
 	}
 }
 
@@ -1614,7 +1612,6 @@ event = {
 		ai_chance = 85
 		command = { type = regime_falls }
 		command = { type = leave_alliance when = 1 }
-		command = { type = local_clrflag which = demilitarized }
 		command = { type = end_trades which = VIC where = GER }
 		command = { type = peace which = ENG value = 1 }
 		command = { type = peace which = SOV value = 1 }
@@ -1623,6 +1620,12 @@ event = {
 		command = { type = dissent value = -50 }
 		command = { type = manpowerpool value = 500 }
 		
+		command = { type = end_mastery which = U04 }
+		command = { type = end_mastery which = U03 }
+		
+		command = { type = event which = 2400530 where = U04 when = 0 } #independent state
+		command = { type = event which = 2400530 where = U03 when = 0 } #independent state
+		
 		command = { trigger = { control = { province = 364 data = -3 } } type = add_corps value = land where = 364 } # Marseille
 		command = { type = add_division value = infantry when = 10 } #Recruits!
 		command = { type = add_division value = infantry when = 10 }
@@ -1630,8 +1633,7 @@ event = {
 		command = { type = add_division value = infantry when = 10 }
 		command = { type = add_division value = infantry when = 10 }
 		
-		command = { trigger = { exists = U01 } 				type = event which = 982 where = U01 when = 1 } #U01 inherits VIC and then turns into VIC
-		command = { trigger = { NOT = { exists = U01 } }	type = event which = 986 where = VIC when = 1 }
+		command = { type = event which = 982 where = USA when = 1 }
 	} 
 	action = {
 		name = ACTION_NAME_COUP_FAILS
@@ -5179,6 +5181,12 @@ event = {
 		#command = { type = event which = 2400530 where = U55 when = 0 } #independent state
 		#command = { type = event which = 2400530 where = U57 when = 0 } #independent state
 		
+		command = { type = end_mastery which = U04 }
+		command = { type = end_mastery which = U03 }
+		
+		command = { type = event which = 2400530 where = U04 when = 0 } #independent state
+		command = { type = event which = 2400530 where = U03 when = 0 } #independent state
+		
 		command = { type = local_setflag which = FRA_AIR when = 1 value = 3 }
 		command = { type = event which = 975 where = GER when = 0 }
 		command = { type = event which = 975 where = GER when = 0 }
@@ -5211,13 +5219,7 @@ event = {
 		command = { type = secedeprovince which = MAD value = 1135 when = 2 } #Reunion island
 		command = { type = addcore which = 1135 where = MAD }
 		
-		command = { trigger = { control = { province = 515 data = ITA } region = { region = "Tunisia" country = -3 value = 10 } } type = local_setflag 		which = "Tunisia_ITA" }
-		command = { trigger = { local_flag = Tunisia_ITA } type = add_claim_region 	where = ITA which = "Tunisia" 			 }
-		command = { trigger = { local_flag = Tunisia_ITA } type = secederegion 		which = ITA value = "Tunisia"	when = 2 }	
-		command = { trigger = { local_flag = Tunisia_ITA } type = secedeprovince	which = ENG value = 941			when = 2 }	
-		command = { trigger = { local_flag = Tunisia_ITA } type = secedeprovince	which = ENG value = 937			when = 2 }	
-		
-		command = { trigger = { war = { country = GER country = ENG } } type = event which = 987 where = GER when = 0 } #Germany grabs syria/lebanon
+		#command = { trigger = { war = { country = GER country = ENG } } type = event which = 987 where = GER when = 0 } #Germany grabs syria/lebanon
 		
 		command = { trigger = { war = { country = JAP country = ENG } } type = event which = 985 where = JAP when = 0 } #Japan grabs madagascar/indochina
 		command = { trigger = { NOT = { war = { country = JAP country = ENG } } } type = event which = 985 where = GER when = 0 } #Germany grabs madagascar/indochina
@@ -5242,12 +5244,18 @@ event = {
 		command = { type = remove_division which = 13500 value = 306 }
 		command = { type = remove_division which = 13500 value = 314 }
 		command = { type = remove_division which = 13500 value = 137 }
-
 		
+		command = { type = regime_falls }
 		command = { type = leave_alliance when = 1 }
 		command = { type = peace which = ENG value = 1 }
 		command = { type = peace which = USA value = 1 }
 		command = { type = peace which = SOV value = 1 }
+		command = { type = local_clrflag which = Vichy }
+		command = { type = local_clrflag which = demilitarized }
+		command = { type = local_setflag which = exiled	}
+		command = { type = end_trades which = VIC where = GER }
+		command = { type = set_relation which = GER value = -200 }
+		command = { type = dissent value = -50 }
 		
 		command = { type = access which = GER }
 		command = { type = access which = ITA }
@@ -5271,7 +5279,22 @@ event = {
 		command = { type = access which = SAF }
 		command = { type = access which = SOV }
 		
-		command = { type = event which = 982 where = U01 when = 1 }
+		command = { type = capital which = 949 } # Algiers
+		
+		command = { type = add_division which = "Richelieu" 		value = battleship 		when = 7 }
+		command = { type = add_division which = "Georges Leygues"	value = heavy_cruiser 	when = 5 }
+		command = { type = add_division which = "Montcalm" 			value = light_cruiser 	when = 5 }
+		command = { type = add_division which = "Gloire" 			value = light_cruiser 	when = 5 }
+		command = { type = add_division which = "Jeanne d'Arc" 		value = light_cruiser 	when = 4 }
+		command = { type = add_division 							value = destroyer 		when = 5 }
+		command = { type = add_division 							value = destroyer 		when = 5 }
+		command = { type = add_division								value = submarine 		when = 4 }
+		command = { type = add_division 							value = transport 		when = 2 }
+		command = { type = add_division 							value = transport 		when = 2 }
+		command = { type = add_division 							value = transport 		when = 2 }
+		
+		command = { trigger = { 		alliance = { country = USA country = ENG } }	type = event which = 982 where = USA when = 1 }
+		command = { trigger = { NOT = { alliance = { country = USA country = ENG } } }	type = event which = 982 where = ENG when = 1 }
 		#command = { type = trigger which = 982 }
 	}
 	action = {
@@ -5282,6 +5305,56 @@ event = {
 		command = { type = trigger which = 2003055 }
 
 		#will cause most colonies to defect through #2002000
+	}
+}
+
+event = { 
+	id = 982
+	random = no
+	tag = { USA ENG }
+	save_date = yes
+
+	name = EVT_982_NAME
+	desc = EVT_982_DESC
+	style = 0
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = remove_claim_region	which = "Tunisia"			} 
+		command = { type = remove_claim_region	which = "Algeria"			} 
+		command = { type = remove_claim_region	which = "Morocco"			} 
+		command = { type = remove_claim_region	which = "West Africa"		} 
+		command = { type = remove_claim_region	which = "Central Africa"	} 
+		command = { type = remove_claim_region	which = "Horn of Africa"	} 
+		command = { type = remove_claim_region	which = "Madagascar"		} 
+		command = { type = remove_claim_region	which = "India"				} 
+		command = { type = remove_claim_region	which = "Indochine"			} 
+		command = { type = remove_claim_region	which = "New Hebrides"		} 
+		command = { type = remove_claim_region	which = "New Hebrides"		} 
+		command = { type = remove_claim_region	which = "France"			} 
+		command = { type = removeclaim			which = 581		 			} 
+		command = { type = removeclaim			which = 696		 			} 
+		command = { type = removeclaim			which = 567		 			} 
+		command = { type = removeclaim			which = 898		 			} 
+		command = { type = removeclaim			which = 899		 			} 
+		command = { type = removeclaim			which = 875		 			} 
+		command = { type = removeclaim			which = 3892	 			} 
+		command = { type = removeclaim			which = 5420	 			} 
+		
+		command = { type = make_puppet 			which = VIC }
+		command = { type = event which = 2400539 where = VIC when = 0 } #Same level as U01
+		
+		command = { 						  type = trigger which = 989 }
+		command = { trigger = { event = 981 } type = trigger which = 983 } #Ger reaction
+		
+		command = { trigger = { control = { province = 932 data = ITA } region = { region = "Tunisia" country = VIC value = 10 } } type = local_setflag 		which = "Tunisia_ITA" }
+		
+		command = { trigger = { local_flag = Tunisia_ITA } 			type = add_claim_region where = ITA which = "Tunisia" 			 }
+		command = { trigger = { local_flag = Tunisia_ITA } 			type = secederegion 	which = ITA value = "Tunisia"	when = 2 }	
+		command = { trigger = { local_flag = Tunisia_ITA } 			type = secedeprovince	which = ENG value = 941			when = 2 }	
+		command = { trigger = { local_flag = Tunisia_ITA }			type = secedeprovince	which = ENG value = 937			when = 2 }	
+		command = { trigger = { local_flag = Tunisia_ITA ai = GER } type = event which = 2405130 where = GER when = 0 } #AI tunisia deployment
+		command = { trigger = { local_flag = Tunisia_ITA ai = USA } type = event which = 2405140 where = USA when = 0 } #AI tunisia deployment
 	}
 }
 
@@ -5334,179 +5407,33 @@ event = {
 	}
 }
 
-event = { 
-	id = 982
+event = {
+	id = 989
 	random = no
-	country = U01
+	country = VIC
 
 	name = EVT_982_NAME
 	desc = EVT_982_DESC
-	style = 0
+	style = 2
+	picture = "news_paper"
 
 	action = {
-		name = "ACTION_NAME_GREAT"
-		command = { trigger = { puppet = { country = U55 country = VIC } } type = make_puppet which = U55 }
-		command = { trigger = { puppet = { country = U57 country = VIC } } type = make_puppet which = U57 }
-		#command = { trigger = { puppet = { country = U03 country = VIC } } type = make_puppet which = U03 }
-		#command = { trigger = { puppet = { country = U04 country = VIC } } type = make_puppet which = U04 }
+		name = "ACTION_NAME_ACCEPT"
+		command = { trigger = { NOT = { puppet = { country = U03 country = JAP } } NOT = { event = 2011040 } } type = make_puppet which = U03 } #if not Japanese access
+		command = { trigger = { NOT = { puppet = { country = U04 country = GER } } 							 } type = make_puppet which = U04 } #if not German access
+		#command = { trigger = { NOT = { puppet = { country = U04 country = GER } } NOT = { event = 2002080 } } type = make_puppet which = U04 } #if not German access
 		
-		command = { type = inherit which = VIC value = 1 }
-		#command = { type = country which = VIC }
+		command = { trigger = { NOT = { puppet = { country = U55 country = GER } } 							 } type = make_puppet which = U55 }
+		command = { trigger = { NOT = { puppet = { country = U57 country = GER } } 							 } type = make_puppet which = U57 }
 		
-		command = { trigger = { control = { province = 56 } } 																		type = capital which = 56  } # Paris
-		command = { trigger = { NOT = { control = { province = 56 } } control = { province = 360 } } 								type = capital which = 360 } # Vichy
-		command = { trigger = { NOT = { control = { province = 56 } control = { province = 360 } } control = { province = 949 } } 	type = capital which = 949 } # Algiers
-		
-		command = { trigger = { event = 981 } type = trigger which = 983 }
-		
-		command = { type = add_division which = "Richelieu" 		value = battleship 		when = 7 }
-		command = { type = add_division which = "Georges Leygues"	value = heavy_cruiser 	when = 5 }
-		command = { type = add_division which = "Montcalm" 			value = light_cruiser 	when = 5 }
-		command = { type = add_division which = "Gloire" 			value = light_cruiser 	when = 5 }
-		command = { type = add_division which = "Jeanne d'Arc" 		value = light_cruiser 	when = 4 }
-		command = { type = add_division 							value = destroyer 		when = 5 }
-		command = { type = add_division 							value = destroyer 		when = 5 }
-		command = { type = add_division								value = submarine 		when = 4 }
-		command = { type = add_division 							value = transport 		when = 2 }
-		command = { type = add_division 							value = transport 		when = 2 }
-		command = { type = add_division 							value = transport 		when = 2 }
+		command = { trigger = { event = 2011040 war = { country = JAP country = ENG } } 			type = event which = 985 where = JAP when = 0 } #Japan grabs Indochina/madagascar
+		command = { trigger = { event = 2011040 NOT = { war = { country = JAP country = ENG } } } 	type = event which = 985 where = GER when = 0 } #Germany grabs Indochina/madagascar
 		
 		command = { type = event which = 2002017 where = U55 when = 1 }
 		command = { type = event which = 2002017 where = U57 when = 1 }
 		
-		command = { trigger = { ai = GER } type = event which = 2405130 where = GER when = 0 }
-		command = { trigger = { ai = USA } type = event which = 2405140 where = USA when = 0 }
-	}
-}
+		command = { trigger = { ai = yes }	type = event which = 2400044	where = VIC when = 0 } #Exp_4
 
-event = {
-	id = 983
-	random = no
-	country = GER
-	style = 2
-	picture = "Petain"
-	decision_picture = "decision_grand_offensive4"
-
-	name = "4070name"
-	desc = "4070desc"
-
-	action = {
-		name = ACTION_NAME_OK
-		command = { type = dissent value = 1 }
-		command = { trigger = { control = { province = 364 data = -3 } } type = add_corps value = land where = 364 } # Marseille +
-		command = { type = add_division which = "First Regiment of France" value = infantry when = 10 where = -50 }
-		command = { type = add_division which = "Milice francaise 1" value = militia when = 6 }
-		command = { type = add_division which = "Milice francaise 2" value = garrison when = 5 }
-		command = { type = add_division which = "Milice francaise 3" value = garrison when = 5 }
-
-		#### Italy gets some French provinces if allied (historical)
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 367 when = 1 } #Corsica +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 3060 when = 1 } #Corsica +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 366 when = 1 } #Nice +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 365 when = 1 } #Toulon +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 527 when = 1 } #Grenoble +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 3137 when = 1 } #Chambery +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 2626 when = 1 } #Valence +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 528 when = 1 } #Avignon +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 528 when = 1 } #Avignon +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 3134 when = 1 } #+
-		#command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 364 when = 1 } #Marseille+
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 3135 when = 1 } #+
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 2509 when = 1 } #+
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 367 when = 1 } #Corsica +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 3060 when = 1 } #Corsica +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 366 when = 1 } #Nice +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 365 when = 1 } #Toulon +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 527 when = 1 } #Grenoble +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 3137 when = 1 } #Chambery +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 2626 when = 1 } #Valence +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 528 when = 1 } #Avignon +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 528 when = 1 } #Avignon +
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 3134 when = 1 } #+
-		#command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 364 when = 1 } #Marseille+
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 3135 when = 1 } #+
-		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 2509 when = 1 } #+
-
-		command = { trigger = { NOT = { ispuppet = U03 } war = { country = U03 country = ENG } } type = make_puppet which = U03 } #will also auto-cancel non-aggression (should be puppet of Japan at this point)
-		command = { trigger = { NOT = { ispuppet = U04 } war = { country = U04 country = ENG } } type = make_puppet which = U04 } #will also auto-cancel non-aggression
-	}
-}
-
-event = {
-	id = 984
-	random = no
-	country = U01
-
-	name = 700001name
-	desc = 700001desc
-	style = 2
-	picture = "news_paper"
-
-	decision = {
-		event = 2002008 # French State
-	}
-	trigger = {
-		#atwar = no 
-		#TAG change mid game will:
-		#very likely CRASH MP game
-		#reset all triggered events without resetting the flags
-		event = 2002008 # French State
-		OR = {
-			AND = {
-				NOT = { exists = VIC }
-				event = 982 #Vichy folds
-			}
-			AND = {
-				region = { region = France country = -3 value = 20 }
-				control = { province = 56 data = -3 } #Paris +
-			}
-		}
-	}
-
-	date = { day = 2 month = january year = 1936 }
-	offset = 15
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action = {
-		name = "EVT1914_2002550_TEXT" #Vive la France!
-        command = { trigger = { exists = VIC } type = inherit which = VIC value = 1 }
-		command = { type = country which = VIC }
-		command = { type = end_puppet } #make it a separate event/decision?
-		command = { type = event which = 2400530 where = VIC when = 0 } #independent state #might not work
-		command = { type = local_setflag which = legitIndie }
-				
-		command = { type = trigger which = 986 }
-	}
-}
-
-event = {
-	id = 986
-	random = no
-	country = VIC
-
-	name = EVT_986_NAME
-	desc = 700001desc
-	style = 2
-	picture = "news_paper"
-
-	action = {
-		name = "EVT1914_2002550_TEXT" #Vive la France!
-		command = { type = local_clrflag which = Vichy }
-		command = { type = local_clrflag which = embargoAxis } #need to re-impose the embagoes
-		
-		command = { type = embargo which = USA where = VIC value = -2 }
-		command = { type = embargo which = ENG where = VIC value = -2 }
-		command = { type = embargo which = SOV where = VIC value = -2 }
-		
-		command = { type = belligerence value = -200 } #reset belligerence
-		
-		command = { trigger = { control = { province = 56 } } 																		type = capital which = 56  } # Paris
-		command = { trigger = { NOT = { control = { province = 56 } } control = { province = 360 } } 								type = capital which = 360 } # Vichy
-		command = { trigger = { NOT = { control = { province = 56 } control = { province = 360 } } control = { province = 949 } } 	type = capital which = 949 } # Algiers
-		
-		command = { trigger = { NOT = { war = { country = GER } } war = { country = GER country = ENG } } 													type = alliance which = ENG }
-		command = { trigger = { NOT = { war = { country = GER } } NOT = { war = { country = GER country = ENG } war = { country = GER country = SOV } } } 	type = alliance which = SOV }
-		
 		#tech teams
         command = { type = waketeam which = 5006 }
         command = { type = waketeam which = 5016 }
@@ -5792,14 +5719,180 @@ event = {
         command = { type = wakeleader which = 5076 }#Gamelin
 		
 		command = { type = sleepminister which = 5188 } #Phillipe Pétain
-		command = { type = sleepminister which = 5189 } #Jean-Francois Darlan
 		command = { type = sleepminister which = 5023 } #Pierre Laval
 		command = { type = sleepleader which = 5237 } #Pétain
-		command = { type = sleepleader which = 5150 } #Darlan
 		
-		command = { type = set_domestic which = political_left value = 6 }
+		command = { type = set_domestic which = political_left value = 4 }
+		command = { type = headofstate 				which = 5162 } #Giraud
+		command = { type = headofgovernment 		which = 5189 } #Darlan
+		#command = { type = armamentminister 		which =  	 } #(should be Jean Monnet)
+		command = { type = foreignminister 			which = 5198 } #Darlan
+		command = { type = ministerofsecurity		which = 5211 } #Darlan (should be Marcel Peyrouton)
+		command = { type = chiefofnavy 				which = 5009 } #Darlan
+		
+		command = { type = dissent 		value = -100 }
+		command = { type = belligerence value = -100 }
+		command = { type = manpowerpool value =  100 }
+	}
+}
+
+event = {
+	id = 983
+	random = no
+	country = GER
+	style = 2
+	picture = "Petain"
+	decision_picture = "decision_grand_offensive4"
+
+	name = "4070name"
+	desc = "4070desc"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = dissent value = 1 }
+		command = { trigger = { control = { province = 364 data = -3 } } type = add_corps value = land where = 364 } # Marseille +
+		command = { type = add_division which = "First Regiment of France" value = infantry when = 10 where = -50 }
+		command = { type = add_division which = "Milice francaise 1" value = militia when = 6 }
+		command = { type = add_division which = "Milice francaise 2" value = garrison when = 5 }
+		command = { type = add_division which = "Milice francaise 3" value = garrison when = 5 }
+
+		#### Italy gets some French provinces if allied (historical)
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 367 when = 1 } #Corsica +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 3060 when = 1 } #Corsica +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 366 when = 1 } #Nice +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 365 when = 1 } #Toulon +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 527 when = 1 } #Grenoble +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 3137 when = 1 } #Chambery +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 2626 when = 1 } #Valence +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 528 when = 1 } #Avignon +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 528 when = 1 } #Avignon +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 3134 when = 1 } #+
+		#command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 364 when = 1 } #Marseille+
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 3135 when = 1 } #+
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = ITA } } type = secedeprovince which = ITA value = 2509 when = 1 } #+
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 367 when = 1 } #Corsica +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 3060 when = 1 } #Corsica +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 366 when = 1 } #Nice +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 365 when = 1 } #Toulon +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 527 when = 1 } #Grenoble +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 3137 when = 1 } #Chambery +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 2626 when = 1 } #Valence +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 528 when = 1 } #Avignon +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 528 when = 1 } #Avignon +
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 3134 when = 1 } #+
+		#command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 364 when = 1 } #Marseille+
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 3135 when = 1 } #+
+		command = { trigger = { control = { province = 515 data = -3 } alliance = { country = RSI } } type = secedeprovince which = RSI value = 2509 when = 1 } #+
+
+		#command = { trigger = { NOT = { puppet = { country = U04 country = VIC } } event = 2002080 } type = make_puppet which = U04 } #if German access	#will also auto-cancel non-aggression
+	}
+}
+
+event = {
+	id = 984
+	random = no
+	country = VIC
+
+	name = "Provisional Government of the French Republic"
+	desc = "As part of the deal with the Allies, Francois Darlan, formerly Prime Minister under Petain, remained in charge of French North Africa. This effectively created two parallel French governments and military formations under Allied control. Following his assassination in December 1942, Darlan was replaced by General Henri Giraud, but the division remained. De Gaulled sitrusted and fiercely opposed Giraud, calling for a purge and non-recognition of the former Vichy collaborators. Nonetheless, under Allied pressure, the different branches of Free France, led by de Gaulle out of London and Giraud out of Algeria, were finally merged into one, creating the unified French Committee of National Liberation, initially under joint leadership of Giraud and De Gaulle."
+	style = 2
+	picture = "news_paper"
+
+	#decision = {
+	#	event = 2002008 # French State
+	#}
+	trigger = {
+		#atwar = no 
+		event = 2002008 # French State
+		alliance = { country = ENG }
+		alliance = { country = U01 }
+		OR = {
+			NOT = { exists = U01 }
+			NOT = { event = 982 } #Vichy folds
+			event = { id = 982 days = 180 } 
+		}
+	}
+
+	date = { day = 2 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "EVT1914_2002550_TEXT" #Vive la France!
+		command = { trigger = { exists = U01 } 			 type = trigger which = 986 }
+		command = { trigger = { NOT = { exists = U01 } } type = trigger which = 988 }
+		
+        command = { trigger = { exists = U01 } type = inherit which = U01 value = 1 }
+		command = { type = end_puppet } #make it a separate event/decision?
+		command = { type = event which = 2400530 where = VIC when = 1 } #independent state #might not work
+		command = { type = local_setflag which = legitIndie			}
+		#command = { type = local_clrflag which = warDuration		}
+		#command = { type = local_clrflag which = MIL_Increasing	}
+		#command = { type = local_clrflag which = WAR_change		}
+		#command = { type = local_clrflag which = WAR_manual		}
+	}
+}
+
+event = {
+	id = 986
+	random = no
+	country = U01
+
+	name = "Provisional Government of the French Republic"
+	desc = "As part of the deal with the Allies, Francois Darlan, formerly Prime Minister under Petain, remained in charge of French North Africa. This effectively created two parallel French governments and military formations under Allied control. Following his assassination in December 1942, Darlan was replaced by General Henri Giraud, but the division remained. De Gaulled sitrusted and fiercely opposed Giraud, calling for a purge and non-recognition of the former Vichy collaborators. Nonetheless, under Allied pressure, the different branches of Free France, led by de Gaulle out of London and Giraud out of Algeria, were finally merged into one, creating the unified French Committee of National Liberation, initially under joint leadership of Giraud and De Gaulle."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { type = trigger which = 988 }
+	}
+	action = {
+		name = "ACTION_NAME_REFUSE"
+		ai_chance = 0
+		command = { type = dissent 			value = 20  		}
+		command = { type = end_puppet 							}
+		command = { type = leave_alliance	when = 1 			}
+		command = { type = local_setflag	which = legitIndie	}
+		command = { type = war 				which = ENG 		}
+		command = { type = event which = 2400603 where = -1 when = 10 } #The Intervention
+	}
+}
+		
+		
+event = {
+	id = 988
+	random = no
+	country = VIC
+
+	name = "Merger of Free France"
+	desc = "Under Allied pressure, the different branches of Free France, led by de Gaulle out of London and Giraud out of Algeria, were finally merged into one, creating the unified French Committee of National Liberation. After a period of joint leadership, De Gaulle was eventually able to sideline Giraud and secure personal chairmanship of the Committee. This Committee eventually evolved into the Provisional Government of the French Republic."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_ACCEPT"
+		command = { type = sleepminister	which = 5189  } #Jean-Francois Darlan
+		command = { type = sleepleader		which = 5150  } #Darlan
+		
+		command = { type = embargo which = USA where = VIC value = -2 }
+		command = { type = embargo which = ENG where = VIC value = -2 }
+		command = { type = embargo which = SOV where = VIC value = -2 }
+		
+		command = { type = belligerence value = -200 } #reset belligerence
+		
+		command = { trigger = { control = { province = 56 } } 																		type = capital which = 56  } # Paris
+		command = { trigger = { NOT = { control = { province = 56 } } control = { province = 360 } } 								type = capital which = 360 } # Vichy
+		command = { trigger = { NOT = { control = { province = 56 } control = { province = 360 } } control = { province = 949 } } 	type = capital which = 949 } # Algiers
+		
+		command = { trigger = { NOT = { war = { country = GER } } war = { country = GER country = ENG } } 													type = alliance which = ENG }
+		command = { trigger = { NOT = { war = { country = GER } } NOT = { war = { country = GER country = ENG } war = { country = GER country = SOV } } } 	type = alliance which = SOV }
+		
+		command = { type = set_domestic which = political_left value = 5 }
 		command = { type = headofstate 				which = 5014 } #Gaulle (Conservative)
-		command = { type = headofgovernment 		which = 5029 } #Gaulle (Conservative)
+		#command = { type = headofgovernment 		which = 5029 } #Gaulle (Conservative)
+		command = { type = headofgovernment 		which = 5163 } #Giraud (Nationalist)
 		command = { type = foreignminister 			which = 5038 } #Bidault (Market Liberal)
 		#command = { type = ministerofintelligence 	which =  } #Jacques Soustelle (Market Liberal)
 		#command = { type = ministerofsecurity		which =  } #Emmanuel d'Astier de La Vigerie (Progressive)
@@ -5842,7 +5935,7 @@ event = {
 
 	trigger = {
 		event = 2002004
-		NOT = { event = 997 } #Battle of Indochina
+		#NOT = { event = 997 } #Battle of Indochina
 		alliance = { country = ENG }
 		control = { province = 56 data = -3 } #Paris
 		region = { region = "France" country = -3 value = 80 }
@@ -5862,8 +5955,48 @@ event = {
 	
 	action = {
 		name = ACTION_NAME_CURSES
-		command = { type = setflag 	which = FraReturn }
-		command = { trigger = { war = { country = JAP } alliance = { country = U03 country = JAP } } type = event which = 991 where = U03 when = 1 }
+		command = { type = setflag 		 which = FraReturn	}
+		command = { type = local_clrflag which = exiled		}
+		#By late 1944, the FFI had roughly 400,000–500,000 members
+		command = { type = local_clrflag which = AllDefense	} 
+		#Maquis are mostly left-wing, and the left takes a strong lead in the 1945 election
+		command = { type = set_domestic	 which = political_left value = 7 } 
+		
+		command = { type = add_division	 value = transport			when = 2  }
+		command = { type = add_division	 value = transport			when = 2  }
+		command = { type = add_division	 value = transport			when = 2  }
+		command = { type = add_division	 value = transport			when = 2  }
+		command = { type = add_division	 value = transport			when = 2  }
+		command = { type = add_division	 value = transport			when = 2  }
+		
+		#US helps rebuild French airforce
+		#Spitfire ~200 m.1940
+		command = { type = add_division	 value = interceptor		when = 9  } 
+		command = { type = add_division	 value = interceptor		when = 9  } 
+		#P-47 Thunderbolt ~300 m.1943
+		command = { type = add_division	 value = multi_role			when = 7  }
+		command = { type = add_division	 value = multi_role			when = 7  }
+		command = { type = add_division	 value = multi_role			when = 7  }
+		#Dewoitine D.520 ~100 m.1940 recovered from Vichy and Axis
+		command = { type = add_division	 value = multi_role			when = 6  }
+		#B-26/A-26 Invader ~100 m.1945
+		command = { type = add_division	 value = tactical_bomber	when = 9  }
+		#B-25 Mitchell ~100 m.1940
+		command = { type = add_division	 value = tactical_bomber	when = 7  }
+		#C-47 Dakota ~100 m.1944
+		command = { type = add_division	 value = transport_plane	when = 4  }
+
+		
+		
+		command = { type = ai which = "specNone.ai"	} #Will research nukes
+		
+		command = { type = transport_pool which = ENG value = -200 }
+		command = { type = transport_pool which = USA value = -800 }
+		command = { type = transport_pool which = VIC value = 1000 }
+		
+		command = { trigger = { local_flag = { which = WARDebt when = -2 value = 10 } } type = local_setflag which = WARDebt when = 0 value = 10 } #At least 10 wardebt
+
+		command = { trigger = { war = { country = JAP } NOT = { event = 997 } alliance = { country = U03 country = JAP } } type = event which = 991 where = U03 when = 1 }
 	}
 }
 
@@ -6004,6 +6137,8 @@ event = {
 		command = { type = capital which = 1337 } #Saigon
 		command = { type = capital which = 7029 } #Hue
 		
+		command = { type = local_setflag which = AllDefense }
+		
 		command = { type = add_corps which = "Dai Vet Imperial Army" value = land where = 1333 } # Hanoi
 		command = { type = add_division value = infantry when = 10 }
 		command = { type = add_division value = militia when = 5   }
@@ -6044,17 +6179,15 @@ event = {
 		command = { type = metalpool 			value = 100  }
 		command = { type = rarematerialspool 	value = 50   }
 		command = { type = money 				value = 50	 }
-		
-		command = { type = set_domestic which = interventionism 	value = 4 }
-		command = { type = set_domestic which = freedom 			value = 3 }
-		command = { type = set_domestic which = free_market 		value = 2 }
-		command = { type = set_domestic which = defense_lobby		value = 7 }
-		command = { type = set_domestic which = democratic			value = 7 }
-		command = { type = set_domestic which = professional_army	value = 4 }
+
+		command = { type = headofstate				which = 790001 }
+		command = { type = headofgovernment			which = 790079 }
 	}
 	action = {
 		name = "ACTION_NAME_COUP_SUCCEEDS"
 		trigger = { country = CMB }
+		command = { type = local_setflag which = AllDefense }
+		
 		command = { type = add_corps which = "Cambodian Royal Army" value = land where = 339 } # Phnom Penh
 		command = { type = add_division value = militia when = 5   }
 		command = { type = add_division value = militia when = 5   }
@@ -6073,7 +6206,9 @@ event = {
 	action = {
 		name = "ACTION_NAME_COUP_SUCCEEDS"
 		trigger = { country = LAO }
-		command = { type = add_corps which = "Laotian Royal Army" value = land where = 2950 } # Phnom Penh
+		command = { type = local_setflag which = AllDefense }
+		
+		command = { type = add_corps which = "Laotian Royal Army" value = land where = 1329 } # Vientiane
 		command = { type = add_division value = militia when = 5   }
 		command = { type = add_division value = militia when = 5   }
 		
@@ -6092,7 +6227,7 @@ event = {
 		name = "ACTION_NAME_COUP_SUCCEEDS"
 		trigger = { country = VIC }
 		command = { type = secedearea which = U03 value = "Indochine" when = 1 }
-		command = { type = dissent value = 1 }
+		command = { type = dissent value = 0.5 }
 	}
 }
 
