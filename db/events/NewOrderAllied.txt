@@ -1196,13 +1196,6 @@ event = {
 		
 		command = { trigger = { ai = TUR alliance = { country = TUR } } type = event 	which = 2400040 where = TUR when = 0 } #0 exp
 		
-		#rebuilding french air force
-		command = { type = demobilize which = interceptor		when = 0 where = 1 value = -2 }
-		command = { type = demobilize which = multi_role		when = 0 where = 1 value = -3 }
-		command = { type = demobilize which = tactical_bomber	when = 0 where = 1 value = -2 }
-		command = { type = demobilize which = transport_plane	when = 0 where = 1 value = -1 }
-		
-		
 		command = { type = event which = 2003203 where = SOV when = 1 }
     }
 }
@@ -5097,7 +5090,7 @@ event = {
 	}
 }
 
-#Alt - nationalist vietnam
+#Alt - nationalist vietnam (Diem)
 event = {
 	id = 2049056
 	random = no
@@ -5129,7 +5122,7 @@ event = {
 		command = { type = chiefofstaff 			which = 790184 }
 		command = { type = chiefofarmy 				which = 790045 }
 		
-		#Remove union & lose cores on minorities
+		#Remove union penalty & lose cores on minorities
 		command = { type = removecore				which = 1338 } 
 		command = { type = removecore				which = 7032 } 
 		command = { type = removecore				which = 2945 } 
@@ -5270,11 +5263,11 @@ event = {
 			}
 			AND = {
 				country = IND
-				event = { id = 2001130 days = 720 } #At least two years from independence
+				event = { id = 2001130 days = 360 } #At least 1 year from independence
 			}
 			AND = {
 				country = INO
-				event = { id = 2011028 days = 720 } #At least two years from independence
+				event = { id = 2011028 days = 360 } #At least 1 year from independence
 			}
 		}
 	}
@@ -5344,8 +5337,8 @@ event = {
 			atwar = yes
 			ispuppet = yes
 			participant = { value = 1 }
-			participant = { value = 2 }
-			participant = { value = 3 }
+			#participant = { value = 2 } 
+			#participant = { value = 3 }
 		}
 	}
 	trigger = {
@@ -5378,7 +5371,10 @@ event = {
 			atwar = yes
 			ispuppet = yes
 			participant = { value = 1 }
-			participant = { value = 2 }
+			AND = {
+				participant = { value = 2 }
+				NOT = { policy = { type = political_left value = 8 } }
+			}
 			participant = { value = 3 }
 		}
 		OR = {
@@ -5479,6 +5475,10 @@ event = {
 		command = { type = relation which = USA value = 100 }
 		command = { type = relation which = ENG value = 100 }
 		command = { type = relation which = VIC value = 100 }
+		
+		command = { trigger = { ai = yes } type = local_setflag which = exp value = 10 }
+		command = { trigger = { ai = yes } type = ai which = "noExpFRA.ai" }
+		command = { trigger = { ai = yes } type = ai which = "EXP_10.ai" }
 	}
 }
 
