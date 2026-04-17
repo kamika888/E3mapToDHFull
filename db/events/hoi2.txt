@@ -921,7 +921,10 @@ event = {
 			lost_national = { value = 30 }
 			lost_VP = { value = 30 }
 		}
-		NOT = { region = { region = "Anatolia" country = -3 value = 60 } }
+		NOT = { 
+			region = { region = "Anatolia" country = -3 value = 60 }
+			area = { area = "Iraq" country = -3 value = 60 }
+		}
     }
 
 	name = EVT_2031005_NAME
@@ -1073,8 +1076,10 @@ event = {
 		command = { type = set_relation which = ENG value = 100 }
 		command = { type = set_domestic which = political_left value = 5 }
 		command = { type = end_trades	which = PER where = GER }
+		#25 at start of the war
 		#make puppet gives +15 dissent
-		#command = { type = dissent		value = 15 }
+		#-25 down to 15 dissent
+		command = { type = dissent		value = -25 }
 		
 		command = { type = access which = SOV }
 		command = { type = access which = ENG }
@@ -1244,236 +1249,6 @@ event = {
 }
 ###########################################
 ###########################################
-
-##### The Independance of INDONESIA
-
-event = {
-	id = 2004004
-	random = no
-	country = HOL
-
-	trigger = {
-		government = democratic
-		random = 25 # 25% chance every month
-		control = { province = 1613 data = -3 } # Jakarta
-		NOT = {
-			war = { country = GER }
-			war = { country = JAP }
-		}
-		NOT = {
-			exists = INO
-			exists = GER
-		}
-	}
-
-	name = "EVT_121_NAME"
-	desc = "EVT_121_DESC"
-	style = 2
-	picture = "news_paper"
-
-	date = { day = 0 month = january year = 1945 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action = {
-		name = ACTION_NAME_DAMN
-		command = { type = event which = 2400530 where = HOL when = 0 } #independent state
-		command = { type = inherit which = U36 value = 1 }
-		command = { type = secedeprovince which = -3 value = 1613 when = 2 }
-		
-		command = { type = independence which = INO value = 1 }
-		command = { type = event which = 2400530 where = INO when = 0 }
-
-		command = { type = trigger which = 2055001 }
-		
-		command = { type = war which = INO }
-		command = { type = non_aggression which = HOL where = INO when = 1 }
-		command = { type = secederegion which = INO value = Indonesia when = 1 }
-	}
-}
-
-event = {
-	id = 2055001
-	random = no
-	country = INO
-	style = 2
-	picture = "news_paper"
-
-	name = "EVT_122_NAME" ### needs event desc
-	desc = "EVT_121_DESC"
-
-
-	action_a = {
-		ai_chance = 90
-		name = "EVT_900127_ACTA"
-		command = { type = dissent value = -10 }
-		command = { type = set_domestic which = political_left value = 8 }
-		command = { type = headofstate which = 270011 }
-		command = { type = headofgovernment which = 270014 }
-		command = { type = foreignminister which = 270017 }
-		command = { type = armamentminister which = 270024 }
-		command = { type = ministerofsecurity which = 270062 }
-		command = { type = ministerofintelligence which = 270035 }
-		command = { type = chiefofstaff which = 270038 }
-		command = { type = chiefofarmy which = 270043 }
-		command = { type = chiefofnavy which = 270049 }
-		command = { type = chiefofair which = 270052 }
-		#command = { type = local_setflag which = sliderSet }
-		
-		command = { type = event which = 2049013 where = -1 when = 30 }
-		}
-	}
-
-
-##### The Independance of CAMBODIA (puppet at first!)
-
-event = {
-	id = 2030006
-	random = no
-	country = VIC
-
-	trigger = {
-		government = democratic
-		random = 25 # 25% chance every month
-		control = { province = 1339 data = -3 } # Phnom Phen
-		NOT = {
-			war = { country = GER }
-			war = { country = JAP }
-		}
-		NOT = {
-			exists = CMB
-			exists = GER
-		}
-	}
-
-	name = "EVT_123_NAME"
-	desc = "EVT_123_DESC"
-	style = 2
-	picture = "news_paper"
-
-	date = { day = 0 month = july year = 1945 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action = {
-		name = "EVT_123_ACTA" 
-		command = { type = inherit which = U03 value = 1 }
-		command = { type = secedeprovince which = -3 value = 1339 when = 2 }
-		command = { type = independence which = CMB value = 1 }
-		command = { type = make_puppet which = CMB }
-		command = { type = event which = 2400534 where = CMB when = 0 } #weak puppet
-		command = { type = trigger which = 2119001 }
-	}
-}
-
-
-event = {
-	id = 2119001
-	random = no
-	country = CMB
-	style = 2
-	picture = "news_paper"
-
-	name = "EVT_124_NAME"
-	desc = "EVT_123_DESC"
-
-	# triggered by VIC 2030006
-
-	action = {
-		name = "EVT_900127_ACTA"
-		command = { type = set_domestic which = political_left value = 4 }
-		command = { type = headofstate which = 590011 }
-		command = { type = headofgovernment which = 590017 }
-		command = { type = foreignminister which = 590067 }
-		command = { type = armamentminister which = 590029 }
-		command = { type = ministerofsecurity which = 590035 }
-		command = { type = ministerofintelligence which = 590040 }
-		command = { type = chiefofstaff which = 590044 }
-		command = { type = chiefofarmy which = 590048 }
-		command = { type = chiefofnavy which = 590052 }
-		command = { type = chiefofair which = 590056 }
-		#command = { type = local_setflag which = sliderSet }
-		
-		command = { type = event which = 2049012 where = -1 when = 30 }
-	}
-}
-
-
-##### The Independance of EGYPT
-
-event = {
-	id = 2001068
-	random = no
-	country = ENG
-
-	trigger = {
-		government = democratic
-		random = 25 # 25% chance every month
-		control = { province = 903 data = ENG } # Cairo
-		NOT = {
-			war = { country = GER }
-			war = { country = JAP }
-		}
-		NOT = {
-			exists = EGY
-			exists = GER
-		}
-		local_flag = { which = WARDebt when = 1 value = 15 }
-	}
-
-	name = "EVT_125_NAME"
-	desc = "EVT_125_DESC"
-	style = 2
-	picture = "news_paper"
-
-	date = { day = 0 month = january year = 1945 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action = {
-		name = "EVT_125_ACTA" 
-		command = { type = secedeprovince which = -3 value = 903 when = 2 }
-		command = { type = independence which = EGY value = 1 }
-		command = { type = event which = 2400530 where = EGY when = 0 }
-		command = { type = secederegion which = EGY value = Egypt when = 1 }
-		command = { type = secedearea which = EGY value = "Suez Channel Area" when = 1 }
-		command = { type = trigger which = 2069011 }
-	}
-}
-
-
-event = {
-	id = 2069011
-	random = no
-	country = EGY
-	style = 2
-	picture = "news_paper"
-	
-	name = "EVT_126_NAME"
-	desc = "EVT_125_DESC"
-
-	# triggered by ENG 2001068
-
-	action = {
-		name = "EVT_900127_ACTA"
-		command = { type = local_setflag which = sliderSet }
-		command = { type = set_domestic which = freedom		 	value = 2  }
-		command = { type = set_domestic which = interventionism	value = 3  }
-		command = { type = dissent value = -10 }
-		command = { type = set_domestic which = political_left value = 4 }
-		command = { type = headofstate which = 340011 }
-		command = { type = headofgovernment which = 340016 }
-		command = { type = foreignminister which = 340033 }
-		command = { type = armamentminister which = 340047 }
-		command = { type = ministerofsecurity which = 340061 }
-		command = { type = ministerofintelligence which = 340072 }
-		command = { type = chiefofstaff which = 340078 }
-		command = { type = chiefofarmy which = 340083 }
-		command = { type = chiefofnavy which = 340087 }
-		command = { type = chiefofair which = 340093 }
-		}
-	}
-
 	
 ##### The Independance of India
 
@@ -1481,16 +1256,19 @@ event = {
 	id = 2001090
 	random = no
 	country = ENG
-
+	
 	trigger = {
-		control = { province = 1469 data = -3 } #
+		OR = {
+			control = { province = 1469 data = -3  }
+			control = { province = 1469 data = REB }
+		}
 		NOT = {
 			war = { country = GER }
 			war = { country = JAP }
 			war = { country = SOV }
 		}
 		NOT = {	exists = IND }
-		local_flag = { which = WARDebt when = 1 value = 15 }
+		local_flag = { which = WARDebt when = 1 value = 13 }
 		OR = {
 			NOT = { event = 2003200 }
 			event = { id = 2003202 days = 720 } #At least 2 years from WW2
@@ -1506,7 +1284,7 @@ event = {
 	style = 2
 	picture = "news_paper"
 
-	date = { day = 0 month = january year = 1945 }
+	date = { day = 0 month = january year = 1944 }
 	offset = 30
 	deathdate = { day = 29 month = december year = 1963 }
 
@@ -1594,252 +1372,7 @@ event = {
 		}
 	}
 
-##### The Independance of ISRAEL
 
-event = {
-	id = 2001070
-	random = no
-	country = ENG
-
-	trigger = {
-		government = democratic
-		random = 25 # 25% chance every month
-		control = { province = 1798 data = -3 } #
-		NOT = {
-			war = { country = GER }
-			war = { country = JAP }
-		}
-		NOT = {
-			exists = ISR
-			exists = GER
-		}
-		local_flag = { which = WARDebt when = 1 value = 15 }
-	}
-
-	name = "EVT_129_NAME"
-	desc = "EVT_129_DESC"
-	style = 2
-	picture = "news_paper"
-
-	date = { day = 0 month = may year = 1947 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action_a = {
-		name = "EVT_129_ACTA" 
-		command = { type = secedearea which = ENG value = "Palestine" when = 2 }
-		command = { type = independence which = ISR value = 1 }
-		command = { type = event which = 2400530 where = ISR when = 0 }
-		command = { type = trigger which = 2136001 }
-	}
-}
-
-
-event = {
-	id = 2136001
-	random = no
-	country = ISR
-	style = 2
-	picture = "news_paper"
-
-	name = "EVT_130_NAME"
-	desc = "EVT_129_DESC"
-
-
-	# triggered by ENG 2001070
-
-	action = {
-		name = "EVT_900127_ACTA"
-		command = { type = local_setflag which = sliderSet }
-		command = { type = set_domestic which = freedom		 	value = 7  }
-		command = { type = set_domestic which = defense_lobby 	value = 5  }
-		command = { type = set_domestic which = interventionism	value = 8  }
-		command = { type = dissent value = -10 }
-		command = { type = set_domestic which = political_left value = 7 }
-		command = { type = headofstate which = 675001 }
-		command = { type = headofgovernment which = 675002 }
-		command = { type = foreignminister which = 675003 }
-		command = { type = armamentminister which = 675024 }
-		command = { type = ministerofsecurity which = 675049 }
-		command = { type = ministerofintelligence which = 675050 }
-		command = { type = chiefofstaff which = 675007 }
-		command = { type = chiefofarmy which = 675051 }
-		command = { type = chiefofnavy which = 675009 }
-		command = { type = chiefofair which = 675010 }
-		
-		command = { type = trade which = USA where = ISR supplies = -5 money = -5 value = 1 } #permanent
-
-		command = { type = add_corps which = "Israeli Defence Forces" value = land where = 1798 } # Tal 'Abib - Middle East
-		command = { type = add_division which = "1st Israeli Infantry Division" value = infantry when = 11 where = armored_car }
-		command = { type = add_division which = "2nd Israeli Infantry Division" value = infantry when = 11 }
-		command = { type = add_division which = "3rd Israeli Infantry Division" value = infantry when = 11 }
-		command = { type = add_division which = "4th Israeli Infantry Division" value = infantry when = 11 }
-		command = { type = add_division which = "1st Palmach Division" 			value = militia	 when = 6  }
-		command = { type = add_division which = "2nd Palmach Division" 			value = militia	 when = 6  }
-		command = { type = add_division which = "3rd Palmach Division" 			value = militia	 when = 6  }
-		command = { type = add_division which = "1st Hish Division" 			value = militia	 when = 6  }
-		command = { type = add_division which = "2nd Hish Division" 			value = militia	 when = 6  }
-		command = { type = add_division which = "3rd Hish Division" 			value = militia	 when = 6  }
-		command = { type = add_division which = "1st Him Division" 				value = militia	 when = 6  }
-		command = { type = add_division which = "2nd Him Division" 				value = militia	 when = 6  }
-		command = { type = add_division which = "3rd Him Division" 				value = militia	 when = 6  }
-		command = { type = add_division which = "1st Irgun Division" 			value = militia	 when = 6  }
-		command = { type = add_division which = "2nd Irgun Division" 			value = militia	 when = 6  }
-		command = { type = add_division which = "3rd Irgun Division" 			value = militia	 when = 6  }
-		command = { type = add_division which = "1st Lehi Division" 			value = militia	 when = 6  }
-		command = { type = add_division which = "2nd Lehi Division" 			value = militia	 when = 6  }
-		command = { type = add_division which = "3rd Lehi Division" 			value = militia	 when = 6  }
-		}
-	}
-
-
-##### The Independance of JORDAN
-
-event = {
-	id = 2001071
-	random = no
-	country = ENG
-
-	trigger = {
-		government = democratic
-		random = 25 # 25% chance every month
-		control = { province = 1796 data = -3 } #
-		NOT = {
-			war = { country = GER }
-			war = { country = JAP }
-		}
-		NOT = {
-			exists = JOR
-			exists = GER
-		}
-		local_flag = { which = WARDebt when = 1 value = 15 }
-	}
-
-	name = "EVT_131_NAME"
-	desc = "EVT_131_DESC"
-	style = 2
-	picture = "news_paper"
-
-	date = { day = 0 month = may year = 1946 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action = {
-		name = "EVT_131_ACTA" 
-		command = { type = secedearea which = ENG value = "Transjordan" when = 2 }
-		command = { type = independence which = JOR value = 1 }
-		command = { type = event which = 2400530 where = JOR when = 0 }
-		command = { type = trigger which = 2075001 }
-	}
-}
-
-
-event = {
-	id = 2075001
-	random = no
-	country = JOR
-	style = 2
-	picture = "news_paper"
-	
-	name = "EVT_132_NAME"
-	desc = "EVT_131_DESC"
-
-	# triggered by ENG 2001071
-
-	action = {
-		name = "EVT_900127_ACTA"
-		command = { type = local_setflag which = sliderSet }
-		command = { type = set_domestic which = freedom		 	value = 2  }
-		command = { type = set_domestic which = defense_lobby 	value = 3  }
-		command = { type = set_domestic which = interventionism	value = 3  }
-		command = { type = dissent value = -10 }
-		command = { type = set_domestic which = political_left value = 4 }
-		command = { type = headofstate which = 370001 }
-		command = { type = headofgovernment which = 370038 }
-		command = { type = foreignminister which = 370003 }
-		command = { type = armamentminister which = 370004 }
-		command = { type = ministerofsecurity which = 370020 }
-		command = { type = ministerofintelligence which = 370024 }
-		command = { type = chiefofstaff which = 370027 }
-		command = { type = chiefofarmy which = 370030 }
-		command = { type = chiefofnavy which = 370009 }
-		command = { type = chiefofair which = 370010 }
-	}
-}
-
-
-##### The Independance of LAOS
-
-event = {
-	id = 2138000
-	random = no
-	country = VIC
-
-	trigger = {
-		government = democratic
-		random = 25 # 25% chance every month
-		control = { province = 1329 data = -3 } #
-		NOT = {
-			war = { country = GER }
-			war = { country = JAP }
-		}
-		NOT = {
-			exists = LAO
-			exists = GER
-		}
-	}
-
-	name = "EVT_133_NAME"
-	desc = "EVT_133_DESC"
-	style = 2
-	picture = "news_paper"
-
-	date = { day = 22 month = october year = 1953 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action = {
-		name = "EVT_127_ACTA" 
-		command = { type = secedeprovince which = -3 value = 1329 when = 2 }
-		command = { type = inherit which = U03 value = 1 }
-		command = { type = independence which = LAO value = 1 }
-		command = { type = make_puppet which = LAO }
-		command = { type = event which = 2400534 where = LAO when = 0 } #weak puppet
-		command = { type = trigger which = 2138001 }
-	}
-}
-
-
-event = {
-	id = 2138001
-	random = no
-	country = LAO
-	style = 2
-	picture = "news_paper"
-
-	name = "EVT_134_NAME"
-	desc = "EVT_133_DESC"
-
-
-	action = {
-		name = "EVT_900127_ACTA"
-		#command = { type = local_setflag which = sliderSet }
-		#command = { type = set_domestic which = freedom		 	value = 2  }
-		#command = { type = set_domestic which = interventionism	value = 3  }
-		command = { type = dissent value = -10 }
-		command = { type = set_domestic which = political_left value = 4 }
-		command = { type = headofstate which = 685001 }
-		command = { type = headofgovernment which = 685017 }
-		command = { type = foreignminister which = 685021 }
-		command = { type = armamentminister which = 685024 }
-		command = { type = ministerofsecurity which = 685027 }
-		command = { type = ministerofintelligence which = 685030 }
-		command = { type = chiefofstaff which = 685033 }
-		command = { type = chiefofarmy which = 685008 }
-		command = { type = chiefofnavy which = 685009 }
-		command = { type = chiefofair which = 685010 }
-	}
-}
 
 
 ##### The Independance of LIBYA 
@@ -2123,142 +1656,6 @@ event = {
 		command = { type = set_relation which = ENG value = 50 }
 		command = { type = set_relation which = USA value = 50 }
 		command = { type = set_relation which = VIC value = 50 }
-	}
-}
-
-##### The Independance of LEBANON (in case they're not independent yet/anymore)
-
-event = {
-	id = 2076002
-	random = no
-	country = VIC
-
-	trigger = {
-		government = democratic
-		random = 25 # 25% chance every month
-		control = { province = 1794 data = -3 } #
-		NOT = {
-			war = { country = GER }
-			war = { country = JAP }
-		}
-		NOT = {
-			exists = LEB
-			exists = GER
-		}
-		OR = {
-			local_flag = { which = WARDebt when = 1 value = 15 }
-			event = 2002008
-		}
-	}
-
-	name = "EVT_140_NAME"
-	desc = "EVT_140_NAME"
-	style = 2
-	picture = "news_paper"
-
-	date = { day = 0 month = may year = 1946 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action_a = {
-		name = "EVT_140_ACTA" 
-		command = { type = secedearea which = -3 value = "Lebanon_Syria" when = 2 }
-		command = { type = independence which = LEB value = 1 }
-		command = { type = event which = 2400530 where = LEB when = 0 }
-		command = { type = trigger which = 2076004 }
-	}
-}
-
-event = {
-	id = 2076004
-	random = no
-	country = LEB
-	style = 2
-	picture = "news_paper"
-
-	name = "EVT_141_NAME"
-	desc = "EVT_141_NAME"
-
-	action = {
-		name = "EVT_900127_ACTA"
-		command = { type = local_setflag which = sliderSet }
-		command = { type = set_domestic which = freedom		 	value = 3  }
-		command = { type = set_domestic which = interventionism	value = 3  }
-		command = { type = dissent value = -10 }
-		command = { type = set_domestic which = political_left value = 4 }
-		command = { type = headofstate which = 375013 }
-		command = { type = headofgovernment which = 375027 }
-		command = { type = foreignminister which = 375033 }
-		command = { type = armamentminister which = 375039 }
-		command = { type = ministerofsecurity which = 375045 }
-		command = { type = ministerofintelligence which = 375050 }
-		command = { type = chiefofstaff which = 375053 }
-		command = { type = chiefofarmy which = 375056 }
-		command = { type = chiefofnavy which = 375059 }
-		command = { type = chiefofair which = 375061 }
-	}
-}
-
-##### The Independance of Syria (in case they're not independent yet/anymore)
-
-event = {
-	id = 2076005
-	random = no
-	country = VIC
-
-	trigger = {
-		government = democratic
-		random = 25 # 25% chance every month
-		control = { province = 1792 data = VIC } #
-		NOT = {
-			war = { country = GER }
-			war = { country = JAP }
-		}
-		NOT = {
-			exists = LEB
-			exists = GER
-		}
-		OR = {
-			local_flag = { which = WARDebt when = 1 value = 15 }
-			event = 2002008
-		}
-	}
-
-	name = "EVT_142_NAME"
-	desc = "EVT_142_NAME"
-	style = 2
-	picture = "news_paper"
-
-	date = { day = 0 month = may year = 1946 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action_a = {
-		name = "EVT_140_ACTA" 
-		command = { type = secedearea which = -3 value = "Lebanon_Syria" when = 2 }
-		command = { type = independence which = SYR value = 1 }
-		command = { type = event which = 2400530 where = SYR when = 0 }
-		command = { type = trigger which = 2076006 }
-	}
-}
-
-event = {
-	id = 2076006
-	random = no
-	country = SYR
-	style = 2
-	picture = "news_paper"
-
-	name = "EVT_143_NAME"
-	desc = "EVT_143_NAME"
-
-	action = {
-		name = "EVT_900127_ACTA"
-		command = { type = local_setflag which = sliderSet }
-		command = { type = set_domestic which = freedom		 	value = 3  }
-		command = { type = set_domestic which = interventionism	value = 3  }
-		command = { type = dissent value = -10 }
-		command = { type = set_domestic which = political_left value = 4 }
 	}
 }
 

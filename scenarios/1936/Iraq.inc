@@ -155,6 +155,8 @@ country =
        type     = interceptor 
        model    = 6
       } 
-    } 
+    }
+
+	landdivision = { dormant = yes id = { type = 22500 id = 20 }  name = "1st Expeditionary Division" type = militia	model = 5 strength = 80 locked = yes	} 	
   } 
  
