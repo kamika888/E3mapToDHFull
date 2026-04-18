@@ -1899,7 +1899,6 @@ event = {
 		command = { type = money 		value = 900 }
 		command = { type = relation 	which = USA value = 15 }
 		
-		command = { type = secedeprovince	which = USA value = 1173				when = 2 }
 		#command = { type = secedeprovince	which = USA value = 1174				when = 2 }
 		command = { type = secedeprovince	which = USA value = 1188				when = 2 }
 		command = { type = secedeprovince	which = USA value = 1190				when = 2 }
@@ -3339,7 +3338,6 @@ event = {
 		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = SOV value = 3079				when = 2 }
 		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = SOV value = 7963				when = 2 }
 		
-		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 1173				when = 2 }
 		#command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 1174				when = 2 }
 		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 1188				when = 2 }
 		command = { trigger = { flag = JAP_ZONES }  			type = secedeprovince	which = ENG value = 1190				when = 2 }
@@ -5344,7 +5342,7 @@ event = {
 	persistent = yes
 	
 	name = EVT_2049502_NAME #Joining the NAM
-	desc = EVT_2049502_DESC
+	desc = EVT_2049501_DESC
 	style = 2
 	picture = "news_paper"
 	
@@ -5519,9 +5517,9 @@ event = {
 		command = { type = relation which = ENG value = 100 }
 		command = { type = relation which = VIC value = 100 }
 		
-		command = { trigger = { ai = yes } type = local_setflag which = exp value = 10 }
+		command = { trigger = { ai = yes } type = local_clrflag which = exp }
 		command = { trigger = { ai = yes } type = ai which = "noExpFRA.ai" }
-		command = { trigger = { ai = yes } type = ai which = "EXP_10.ai" }
+		command = { trigger = { ai = yes } type = ai which = "EXP_0.ai" }
 	}
 }
 
@@ -6036,7 +6034,7 @@ event = {
 			event = 2049660 #Victory
 		}
 		technology = { country = SOV value = 7180 } #Semi-fission bomb
-		event = { id = 2003036 days = 30  } 
+		event = { id = 2049610 days = 30   } #CHC aid
 		event = { id = 2011028 days = 1440 } #+360 days since independence
 		month = June
 		NOT = { month = September }
@@ -8738,6 +8736,7 @@ event = {
 		command = { type = chiefofnavy 				which = 675009 }
 		command = { type = chiefofair 				which = 675010 }
 		
+		command = { type = money 					value = 500   }
 		command = { type = manpowerpool 			value = 300   }
 		command = { type = free_manpower 			value = 0.012 } #3 free MP per 250 days, very fast immigration during the first few decades
 		command = { type = free_ic					value = 5	  }
@@ -8939,8 +8938,11 @@ event = {
 		
 		command = { type = add_corps which = "Egyptian Army"					value = land where = 7284 }
 		command = { type = add_division which = "1st Infantry Division"			value = infantry when = 10 where = -80 }
-		#command = { type = add_corps which = "Egyptian Army"					value = land where = 7285 }
-		#command = { type = add_division which = "2nd Infantry Division" 		value = infantry when = 10 where = -80 }
+		command = { type = add_corps which = "Egyptian Army"					value = land where = 7285 }
+		command = { type = add_division which = "2nd Infantry Division" 		value = infantry when = 10 where = -80 }
+		
+		command = { trigger = { NOT = { interceptor = 1 } } 	type = add_division value = interceptor		when = 9 where = -50 } #Spitfires
+		command = { trigger = { NOT = { tactical_bomber = 1 } }	type = add_division value = tactical_bomber	when = 7 where = -50 } #Dakotas repurposed as bombers
 		
 		command = { trigger = { ai = yes } type = ai			which = "default.ai"	}
 		command = { trigger = { ai = yes } type = ai 		which = "nations\ISRARA.ai" }
@@ -9084,6 +9086,8 @@ event = {
 		command = { type = local_setflag which = exp value = 20 }
 		command = { type = ai which = "EXP_20.ai" }
 		
+		command = { trigger = { NOT = { tactical_bomber = 1 } }	type = add_division value = tactical_bomber	when = 7 where = -50 }
+		
 		command = { trigger = { ai = yes } type = ai			which = "default.ai"	}
 		command = { trigger = { ai = yes } type = ai 		which = "nations\ISRARA.ai" }
 	}
@@ -9211,7 +9215,6 @@ event = {
 	action = {
 		name = "Send help to Israel" 
 		command = { type = trade which = SOV where = ISR supplies = -8 value = 1 when = 720 } #2 years max
-		command = { type = money 	value = -300 }
 		command = { type = demobilize which = interceptor	when = 0 where = 1	value = -1  }
 		command = { type = relation which = ISR value = 15 }
 		
@@ -9231,11 +9234,42 @@ event = {
 
 	action = {
 		name = "ACTION_NAME_GREAT"
-		command = { type = add_division which = "1st Air Division"			value = interceptor			when = 11	}
+		command = { type = add_division which = "1st Air Division"			value = interceptor			when = 11 where = -40	}
 		command = { type = add_brigade										value = artillery 			when = 11	}
 	}
 }
 
+event = {
+	id = 2049922
+	random = no
+	country = ISR
+
+	decision = {
+		atwar = yes
+	}
+	decision_trigger = {
+		money = 1000 #Less than "purchase outdated unit" because the unit arrives significantly understrength
+	}
+	trigger = {
+		atwar = yes
+		money = 1000
+	}
+
+	name = "Purchasing American Bombers"
+	desc = "Although the official US position with respect to the conflict was one of neutrality, there was a lot of sympathy in the US for the Israeli cause from the very beginning, helped in part by its very influential Jewish community. For a lump sum of money, Jewish operatives in the US helped Israel procure a number of B-17 Flying Fortress heavy bombers from the WW2 era. After a brief stop and refit in Czechoslovakia, these bombers then flew to Israel, while making another brief detour to bomb Cairo en route as their very first combat mission. The appearance of Israeli heavy bombers in the sky was a total surprise for the Egyptian population who thought they were dealing with a bunch of paramilitary 'bandits'."
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 0 month = may year = 1944 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Smuggle the American bombers to Israel" 
+		command = { type = money 	value = -1000 }
+		command = { type = add_division which = "2nd Air Division"			value = strategic_bomber	when = 4 where = -80 } #1939 strat bomber
+	}
+}
 
 #End of Arab-Israli war
 
@@ -9620,7 +9654,7 @@ event = {
 	country = ISR
 
 	trigger = {
-		event = 2049900
+		event = { id = 2049900 days = 30 }
 		NOT = {
 			war = { country = EGY }
 			war = { country = SYR }
@@ -9630,7 +9664,7 @@ event = {
 	}
 
 	name = "Arab-Israeli War - Jewish victory"
-	desc = "Israel secured a decisive victory over its Arab neighbors. Not only have the Jewish people ensured the survival of their State, but they have greatly expanded it compared to what the original UN resolution had proposed. The Arabs are not happy, of course, and this is likely to be only the first in a long series of struggles, but this is a solid start that lays a good foundation of Israel's future survival. Meanwhile, there is another task at hand - the Palestinians must be expelled from the areas which have come under Israeli rule. While undoubtedly harsh, this is both a necessary and quite standard measure for dealing with conquered peoples. The very Allies of WW2 had just set this precedent when they expelled the Germans, Hungarians, and other defeated nations from the lands where they lived for many centuries. In USSR, Stalin went even further and displaced entire nations from their homelands towards the distant lands in Central Asia. It only makes sense that Israel should do the same, for if it does not, it will leave a ticking time bomb under its very foundation."
+	desc = "Israel secured a decisive victory over its Arab neighbors. Not only have the Jewish people ensured the survival of their State, but they have greatly expanded it compared to what the original UN resolution had proposed. The Arabs are not happy, of course, and this is likely to be only the first in a long series of struggles, but this is a solid start that lays a good foundation of Israel's future survival. Meanwhile, there is another task at hand - the Palestinians must be expelled from the areas which have come under Israeli rule. While undoubtedly harsh, this is both a necessary and quite standard measure for dealing with conquered peoples. The very Allies of WW2 had just set this precedent when they expelled the Germans, Hungarians, and other defeated nations from the lands where they lived for many centuries. In USSR, Stalin went even further and displaced entire nations from their homelands towards the distant lands in Central Asia. It only makes sense that we should do the same, for if we do not, we will leave a ticking time bomb under the very foundation of our State."
 	style = 2
 	picture = "news_paper"
 
@@ -9639,7 +9673,8 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = "ACTION_NAME_HURRAH"
+		name = "In the sea of blood His face is reflected"
+		ai_chance = 100
 		command = { type = local_clrflag which = inMajorWar	}
 		command = { type = relation which = SOV value = -50 }
 		command = { type = relation which = USA value = -20 }
@@ -9653,7 +9688,115 @@ event = {
 		command = { type = addcore			   which = 1881 }
 		command = { type = addcore			   which = 7282 }
 		command = { type = addcore			   which =  406 }
+		command = { type = domestic which = political_left value = -1 }
 		command = { type = end_trades which = SOV where = ISR }
+		
+		#command = { type = removecore			which = 1881 where = EGY } 
+		command = { type = removecore			which = 7282 where = EGY } 
+		command = { type = removecore			which = 7283 where = EGY } 
+		command = { type = removecore			which = 7286 where = EGY } 
+		command = { type = removecore			which = 406  where = EGY } 
+		#command = { type = removecore			which = 1881 where = SYR } 
+		command = { type = removecore			which = 7282 where = SYR } 
+		command = { type = removecore			which = 7283 where = SYR } 
+		command = { type = removecore			which = 7286 where = SYR } 
+		command = { type = removecore			which = 406  where = SYR } 
+		#command = { type = removecore			which = 1881 where = LEB } 
+		command = { type = removecore			which = 7282 where = LEB } 
+		command = { type = removecore			which = 7283 where = LEB } 
+		command = { type = removecore			which = 7286 where = LEB } 
+		command = { type = removecore			which = 406  where = LEB } 
+		#command = { type = removecore			which = 1881 where = JOR } 
+		command = { type = removecore			which = 7282 where = JOR } 
+		command = { type = removecore			which = 7283 where = JOR } 
+		command = { type = removecore			which = 7286 where = JOR } 
+		command = { type = removecore			which = 406  where = JOR } 
+		#command = { type = addclaim			which = 1881 where = EGY } 
+		command = { type = addclaim				which = 7282 where = EGY } 
+		command = { type = addclaim				which = 7283 where = EGY } 
+		command = { type = addclaim				which = 7286 where = EGY } 
+		command = { type = addclaim				which = 406  where = EGY } 
+		#command = { type = addclaim			which = 1881 where = SYR } 
+		command = { type = addclaim				which = 7282 where = SYR } 
+		command = { type = addclaim				which = 7283 where = SYR } 
+		command = { type = addclaim				which = 7286 where = SYR } 
+		command = { type = addclaim				which = 406  where = SYR } 
+		#command = { type = addclaim			which = 1881 where = LEB } 
+		command = { type = addclaim				which = 7282 where = LEB } 
+		command = { type = addclaim				which = 7283 where = LEB } 
+		command = { type = addclaim				which = 7286 where = LEB } 
+		command = { type = addclaim				which = 406  where = LEB } 
+		#command = { type = addclaim			which = 1881 where = JOR } 
+		command = { type = addclaim				which = 7282 where = JOR } 
+		command = { type = addclaim				which = 7283 where = JOR } 
+		command = { type = addclaim				which = 7286 where = JOR } 
+		command = { type = addclaim				which = 406  where = JOR } 
+		
+		command = { type = event which = 2049951	where = EGY when = 0 }
+		command = { type = event which = 2049951	where = SYR when = 0 }
+		command = { type = event which = 2049951	where = LEB when = 0 }
+		command = { type = event which = 2049951	where = JOR when = 0 }
+		command = { type = event which = 2049951	where = IRQ when = 0 }
+	}
+	action = {
+		name = "And so for the highest ends, everything is permitted"
+		ai_chance = 0
+		command = { type = local_clrflag which = inMajorWar	}
+		command = { type = relation which = SOV value = -50 }
+		command = { type = relation which = USA value = -20 }
+		command = { type = relation which = EGY value = -20 }
+		command = { type = relation which = JOR value = -20 }
+		command = { type = relation which = IRQ value = -20 }
+		command = { type = relation which = LEB value = -20 }
+		command = { type = relation which = SYR value = -20 }
+		command = { type = relation which = IRQ value = -20 }
+		command = { type = belligerence 		 value = 30 } #50 total
+		command = { type = addcore			   which = 1881 }
+		command = { type = addcore			   which = 7282 }
+		command = { type = addcore			   which =  406 }
+		command = { type = domestic which = political_left value = -1 }
+		command = { type = end_trades which = SOV where = ISR }
+		
+		#command = { type = removecore			which = 1881 where = EGY } 
+		command = { type = removecore			which = 7282 where = EGY } 
+		command = { type = removecore			which = 7283 where = EGY } 
+		command = { type = removecore			which = 7286 where = EGY } 
+		command = { type = removecore			which = 406  where = EGY } 
+		#command = { type = removecore			which = 1881 where = SYR } 
+		command = { type = removecore			which = 7282 where = SYR } 
+		command = { type = removecore			which = 7283 where = SYR } 
+		command = { type = removecore			which = 7286 where = SYR } 
+		command = { type = removecore			which = 406  where = SYR } 
+		#command = { type = removecore			which = 1881 where = LEB } 
+		command = { type = removecore			which = 7282 where = LEB } 
+		command = { type = removecore			which = 7283 where = LEB } 
+		command = { type = removecore			which = 7286 where = LEB } 
+		command = { type = removecore			which = 406  where = LEB } 
+		#command = { type = removecore			which = 1881 where = JOR } 
+		command = { type = removecore			which = 7282 where = JOR } 
+		command = { type = removecore			which = 7283 where = JOR } 
+		command = { type = removecore			which = 7286 where = JOR } 
+		command = { type = removecore			which = 406  where = JOR } 
+		#command = { type = addclaim			which = 1881 where = EGY } 
+		command = { type = addclaim				which = 7282 where = EGY } 
+		command = { type = addclaim				which = 7283 where = EGY } 
+		command = { type = addclaim				which = 7286 where = EGY } 
+		command = { type = addclaim				which = 406  where = EGY } 
+		#command = { type = addclaim			which = 1881 where = SYR } 
+		command = { type = addclaim				which = 7282 where = SYR } 
+		command = { type = addclaim				which = 7283 where = SYR } 
+		command = { type = addclaim				which = 7286 where = SYR } 
+		command = { type = addclaim				which = 406  where = SYR } 
+		#command = { type = addclaim			which = 1881 where = LEB } 
+		command = { type = addclaim				which = 7282 where = LEB } 
+		command = { type = addclaim				which = 7283 where = LEB } 
+		command = { type = addclaim				which = 7286 where = LEB } 
+		command = { type = addclaim				which = 406  where = LEB } 
+		#command = { type = addclaim			which = 1881 where = JOR } 
+		command = { type = addclaim				which = 7282 where = JOR } 
+		command = { type = addclaim				which = 7283 where = JOR } 
+		command = { type = addclaim				which = 7286 where = JOR } 
+		command = { type = addclaim				which = 406  where = JOR } 
 		
 		command = { type = event which = 2049951	where = EGY when = 0 }
 		command = { type = event which = 2049951	where = SYR when = 0 }
@@ -9679,6 +9822,8 @@ event = {
 		command = { type = belligerence 		 value =  1 }
 		command = { type = dissent 				 value = -2 }
 		command = { type = embargo which = -1 where = ISR value = 3 }
+		
+		command = { trigger = { country = IRQ } type = alliance which = USA when = 1 }
 	}
 }
 
@@ -9689,13 +9834,14 @@ event = {
 	country = EGY
 
 	trigger = {
-		event = 2049900
+		event = { id = 2049900 days = 30 }
 		NOT = { exists = ISR }
 		control = { province = 404 }
+		#area = { area = "Palestine" country = -1 data = 1 value = 50 }
 	}
 
 	name = "Arab-Israeli War - Egyptian victory"
-	desc = "The Arabs secured a decisive victory over the Jewish bandits. More importantly, however, Egypt has emerged as the leading Arab nation which has contributed the most to this decisive victory. This prestige and preeminent position in the Arab world will allow Egypt to project influence far beyond its borders, to the detriment of its rivals."
+	desc = "The Arabs secured a decisive victory over the Jewish bandits. More importantly, however, Egypt has emerged as the leading Arab nation which has contributed the most to this decisive victory. This prestige and preeminent position in the Arab world will allow Egypt to project influence far beyond its borders, to the detriment of its rivals. Meanwhile, there is another task at hand - the immigrant Jewish population must be expelled from Palestine back where it came from. While undoubtedly harsh, this is both a necessary and quite standard measure for dealing with conquered peoples. The very Allies of WW2 had just set this precedent when they expelled the Germans, Hungarians, and other defeated nations from the lands where they lived for many centuries. In USSR, Stalin went even further and displaced entire nations from their homelands towards the distant lands in Central Asia. It only makes sense that we should do the same, for if we do not, we will leave a ticking time bomb under the very foundation of our State."
 	style = 2
 	picture = "news_paper"
 
@@ -9704,7 +9850,50 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = "ACTION_NAME_HURRAH"
+		name = "In the sea of blood His face is reflected"
+		ai_chance = 100
+		command = { type = remove_claim_area 	which = "Syria_Lebanon" }
+		command = { type = make_puppet which = SYR }
+		command = { type = make_puppet which = LEB }
+		command = { type = alliance	   which = SYR }
+		command = { type = alliance    which = LEB }
+		command = { type = event where = SYR which = 2400537 when = 0 } #medium-strong puppet
+		command = { type = event where = LEB which = 2400537 when = 0 } #medium-strong puppet
+		
+		command = { type = relation which = JOR value = 20 }
+		command = { type = relation which = IRQ value = 20 }
+		command = { type = relation which = LEB value = 20 }
+		command = { type = relation which = SYR value = 20 }
+		command = { type = relation which = IRQ value = 20 }
+		
+		command = { type = relation				which = SOV  value = -50 }
+		command = { type = relation				which = USA  value = -20 }
+		command = { type = relation				which = ENG  value = -50 }
+		command = { type = relation				which = VIC  value = -50 }
+		command = { type = belligerence 		value = 30	 which = EGY } 
+		command = { type = addcore				which = 404  where = EGY } 
+		command = { type = addcore				which = 1798 where = EGY } 
+		command = { type = addcore				which = 7290 where = EGY } 
+		command = { type = belligerence 		value = 30	 which = SYR } 
+		command = { type = addcore				which = 404  where = SYR } 
+		command = { type = addcore				which = 1798 where = SYR } 
+		command = { type = addcore				which = 7290 where = SYR } 
+		command = { type = belligerence 		value = 30	 which = LEB } 
+		command = { type = addcore				which = 404  where = LEB } 
+		command = { type = addcore				which = 1798 where = LEB } 
+		command = { type = addcore				which = 7290 where = LEB } 
+		command = { type = belligerence 		value = 30	 which = JOR } 
+		command = { type = addcore				which = 404  where = JOR } 
+		command = { type = addcore				which = 1798 where = JOR } 
+		command = { type = addcore				which = 7290 where = JOR } 
+		command = { type = domestic	   which = political_left value = -1 }
+		
+		command = { type = event which = 2049961	where = JOR when = 0 }
+		command = { type = event which = 2049961	where = IRQ when = 0 }
+	}
+	action = {
+		name = "And so for the highest ends, everything is permitted"
+		ai_chance = 0
 		command = { type = remove_claim_area 	which = "Syria_Lebanon" }
 		command = { type = make_puppet which = SYR }
 		command = { type = make_puppet which = LEB }
@@ -9716,7 +9905,28 @@ event = {
 		command = { type = relation which = LEB value = 20 }
 		command = { type = relation which = SYR value = 20 }
 		command = { type = relation which = IRQ value = 20 }
-		command = { type = belligerence 		 value = 10 }
+		
+		command = { type = relation				which = SOV  value = -50 }
+		command = { type = relation				which = USA  value = -20 }
+		command = { type = relation				which = ENG  value = -50 }
+		command = { type = relation				which = VIC  value = -50 }
+		command = { type = belligerence 		value = 30	 which = EGY } 
+		command = { type = addcore				which = 404  where = EGY } 
+		command = { type = addcore				which = 1798 where = EGY } 
+		command = { type = addcore				which = 7290 where = EGY } 
+		command = { type = belligerence 		value = 30	 which = SYR } 
+		command = { type = addcore				which = 404  where = SYR } 
+		command = { type = addcore				which = 1798 where = SYR } 
+		command = { type = addcore				which = 7290 where = SYR } 
+		command = { type = belligerence 		value = 30	 which = LEB } 
+		command = { type = addcore				which = 404  where = LEB } 
+		command = { type = addcore				which = 1798 where = LEB } 
+		command = { type = addcore				which = 7290 where = LEB } 
+		command = { type = belligerence 		value = 30	 which = JOR } 
+		command = { type = addcore				which = 404  where = JOR } 
+		command = { type = addcore				which = 1798 where = JOR } 
+		command = { type = addcore				which = 7290 where = JOR } 
+		command = { type = domestic	   which = political_left value = -1 }
 		
 		command = { type = event which = 2049961	where = JOR when = 0 }
 		command = { type = event which = 2049961	where = IRQ when = 0 }
@@ -9736,6 +9946,8 @@ event = {
 	action = {
 		name = "ACTION_NAME_DAMN"
 		command = { type = dissent value = 15 }
+		
+		command = { trigger = { country = IRQ } type = alliance which = USA when = 1 }
 	}
 }
 
@@ -9745,13 +9957,13 @@ event = {
 	country = SYR
 
 	trigger = {
-		event = 2049900
+		event = { id = 2049900 days = 30 }
 		NOT = { exists = ISR }
 		control = { province = 404 }
 	}
 
 	name = "Arab-Israeli War - Syrian victory"
-	desc = "The Arabs secured a decisive victory over the Jewish bandits. More importantly, however, Syria has emerged as the leading Arab nation which has contributed the most to this decisive victory. This prestige and preeminent position in the Arab world will allow Syria to project influence far beyond its borders, to the detriment of its rivals."
+	desc = "The Arabs secured a decisive victory over the Jewish bandits. More importantly, however, Syria has emerged as the leading Arab nation which has contributed the most to this decisive victory. This prestige and preeminent position in the Arab world will allow Syria to project influence far beyond its borders, to the detriment of its rivals. Meanwhile, there is another task at hand - the immigrant Jewish population must be expelled from Palestine back where it came from. While undoubtedly harsh, this is both a necessary and quite standard measure for dealing with conquered peoples. The very Allies of WW2 had just set this precedent when they expelled the Germans, Hungarians, and other defeated nations from the lands where they lived for many centuries. In USSR, Stalin went even further and displaced entire nations from their homelands towards the distant lands in Central Asia. It only makes sense that we should do the same, for if we do not, we will leave a ticking time bomb under the very foundation of our State."
 	style = 2
 	picture = "news_paper"
 
@@ -9760,7 +9972,48 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = "ACTION_NAME_HURRAH"
+		name = "In the sea of blood His face is reflected"
+		ai_chance = 100
+		command = { type = remove_claim_area 	which = "Syria_Lebanon" }
+		command = { type = make_puppet which = LEB }
+		command = { type = alliance    which = LEB }
+		command = { type = event where = LEB which = 2400537 when = 0 } #medium-strong puppet
+		
+		command = { type = relation which = JOR value = 20 }
+		command = { type = relation which = IRQ value = 20 }
+		command = { type = relation which = LEB value = 20 }
+		command = { type = relation which = SYR value = 20 }
+		command = { type = relation which = IRQ value = 20 }
+
+		command = { type = relation				which = SOV  value = -50 }
+		command = { type = relation				which = USA  value = -20 }
+		command = { type = relation				which = ENG  value = -50 }
+		command = { type = relation				which = VIC  value = -50 }
+		command = { type = belligerence 		value = 30	 which = EGY } 
+		command = { type = addcore				which = 404  where = EGY } 
+		command = { type = addcore				which = 1798 where = EGY } 
+		command = { type = addcore				which = 7290 where = EGY } 
+		command = { type = belligerence 		value = 30	 which = SYR } 
+		command = { type = addcore				which = 404  where = SYR } 
+		command = { type = addcore				which = 1798 where = SYR } 
+		command = { type = addcore				which = 7290 where = SYR } 
+		command = { type = belligerence 		value = 30	 which = LEB } 
+		command = { type = addcore				which = 404  where = LEB } 
+		command = { type = addcore				which = 1798 where = LEB } 
+		command = { type = addcore				which = 7290 where = LEB } 
+		command = { type = belligerence 		value = 30	 which = JOR } 
+		command = { type = addcore				which = 404  where = JOR } 
+		command = { type = addcore				which = 1798 where = JOR } 
+		command = { type = addcore				which = 7290 where = JOR } 
+		command = { type = domestic	   which = political_left value = -1 }
+		
+		command = { type = event which = 2049966	where = EGY when = 0 }
+		command = { type = event which = 2049966	where = JOR when = 0 }
+		command = { type = event which = 2049966	where = IRQ when = 0 }
+	}
+	action = {
+		name = "And so for the highest ends, everything is permitted"
+		ai_chance = 0
 		command = { type = remove_claim_area 	which = "Syria_Lebanon" }
 		command = { type = make_puppet which = LEB }
 		command = { type = event where = LEB which = 2400537 when = 0 } #medium-strong puppet
@@ -9770,7 +10023,28 @@ event = {
 		command = { type = relation which = LEB value = 20 }
 		command = { type = relation which = SYR value = 20 }
 		command = { type = relation which = IRQ value = 20 }
-		command = { type = belligerence 		 value = 5 }
+
+		command = { type = relation				which = SOV  value = -50 }
+		command = { type = relation				which = USA  value = -20 }
+		command = { type = relation				which = ENG  value = -50 }
+		command = { type = relation				which = VIC  value = -50 }
+		command = { type = belligerence 		value = 30	 which = EGY } 
+		command = { type = addcore				which = 404  where = EGY } 
+		command = { type = addcore				which = 1798 where = EGY } 
+		command = { type = addcore				which = 7290 where = EGY } 
+		command = { type = belligerence 		value = 30	 which = SYR } 
+		command = { type = addcore				which = 404  where = SYR } 
+		command = { type = addcore				which = 1798 where = SYR } 
+		command = { type = addcore				which = 7290 where = SYR } 
+		command = { type = belligerence 		value = 30	 which = LEB } 
+		command = { type = addcore				which = 404  where = LEB } 
+		command = { type = addcore				which = 1798 where = LEB } 
+		command = { type = addcore				which = 7290 where = LEB } 
+		command = { type = belligerence 		value = 30	 which = JOR } 
+		command = { type = addcore				which = 404  where = JOR } 
+		command = { type = addcore				which = 1798 where = JOR } 
+		command = { type = addcore				which = 7290 where = JOR } 
+		command = { type = domestic	   which = political_left value = -1 }
 		
 		command = { type = event which = 2049966	where = EGY when = 0 }
 		command = { type = event which = 2049966	where = JOR when = 0 }
@@ -9791,6 +10065,8 @@ event = {
 	action = {
 		name = "ACTION_NAME_DAMN"
 		command = { type = dissent value = 15 }
+		
+		command = { trigger = { country = IRQ } type = alliance which = USA when = 1 }
 	}
 }
 
@@ -9800,13 +10076,13 @@ event = {
 	country = JOR
 
 	trigger = {
-		event = 2049900
+		event = { id = 2049900 days = 30 }
 		NOT = { exists = ISR }
 		control = { province = 404 }
 	}
 
 	name = "Arab-Israeli War - Jordanian victory"
-	desc = "The Arabs secured a decisive victory over the Jewish bandits. More importantly, however, Jordan has emerged as the leading Arab nation which has contributed the most to this decisive victory. This prestige and preeminent position in the Arab world will allow Jordan to project influence far beyond its borders, to the detriment of its rivals."
+	desc = "The Arabs secured a decisive victory over the Jewish bandits. More importantly, however, Jordan has emerged as the leading Arab nation which has contributed the most to this decisive victory. This prestige and preeminent position in the Arab world will allow Jordan to project influence far beyond its borders, to the detriment of its rivals. Meanwhile, there is another task at hand - the immigrant Jewish population must be expelled from Palestine back where they came from. While undoubtedly harsh, this is both a necessary and quite standard measure for dealing with conquered peoples. The very Allies of WW2 had just set this precedent when they expelled the Germans, Hungarians, and other defeated nations from the lands where they lived for many centuries. In USSR, Stalin went even further and displaced entire nations from their homelands towards the distant lands in Central Asia. It only makes sense that we should do the same, for if we do not, we will leave a ticking time bomb under the very foundation of our State."
 	style = 2
 	picture = "news_paper"
 
@@ -9815,7 +10091,10 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = "ACTION_NAME_HURRAH"
+		name = "In the sea of blood His face is reflected"
+		ai_chance = 100
+		command = { type = alliance which = USA when = 1 }
+		
 		command = { type = remove_claim_area 	which = "Syria_Lebanon" }
 		command = { type = make_puppet which = SYR }
 		command = { type = make_puppet which = LEB }
@@ -9827,9 +10106,74 @@ event = {
 		command = { type = relation which = LEB value = 20 }
 		command = { type = relation which = SYR value = 20 }
 		command = { type = relation which = IRQ value = 20 }
-		command = { type = belligerence 		 value = 10 }
+
+		command = { type = relation				which = SOV  value = -50 }
+		command = { type = relation				which = USA  value = -20 }
+		command = { type = relation				which = ENG  value = -50 }
+		command = { type = relation				which = VIC  value = -50 }
+		command = { type = belligerence 		value = 30	 which = EGY } 
+		command = { type = addcore				which = 404  where = EGY } 
+		command = { type = addcore				which = 1798 where = EGY } 
+		command = { type = addcore				which = 7290 where = EGY } 
+		command = { type = belligerence 		value = 30	 which = SYR } 
+		command = { type = addcore				which = 404  where = SYR } 
+		command = { type = addcore				which = 1798 where = SYR } 
+		command = { type = addcore				which = 7290 where = SYR } 
+		command = { type = belligerence 		value = 30	 which = LEB } 
+		command = { type = addcore				which = 404  where = LEB } 
+		command = { type = addcore				which = 1798 where = LEB } 
+		command = { type = addcore				which = 7290 where = LEB } 
+		command = { type = belligerence 		value = 30	 which = JOR } 
+		command = { type = addcore				which = 404  where = JOR } 
+		command = { type = addcore				which = 1798 where = JOR } 
+		command = { type = addcore				which = 7290 where = JOR } 
+		command = { type = domestic	   which = political_left value = -1 }
 		
 		command = { type = event which = 2049971	where = EGY when = 0 }
+	}
+	action = {
+		name = "And so for the highest ends, everything is permitted"
+		ai_chance = 0
+		command = { type = alliance which = USA when = 1 }
+		
+		command = { type = remove_claim_area 	which = "Syria_Lebanon" }
+		command = { type = make_puppet which = SYR }
+		command = { type = make_puppet which = LEB }
+		command = { type = alliance    which = SYR }
+		command = { type = alliance    which = LEB }
+		command = { type = event where = SYR which = 2400537 when = 0 } #medium-strong puppet
+		command = { type = event where = LEB which = 2400537 when = 0 } #medium-strong puppet
+		
+		command = { type = relation which = JOR value = 20 }
+		command = { type = relation which = IRQ value = 20 }
+		command = { type = relation which = LEB value = 20 }
+		command = { type = relation which = SYR value = 20 }
+		command = { type = relation which = IRQ value = 20 }
+
+		command = { type = relation				which = SOV  value = -50 }
+		command = { type = relation				which = USA  value = -20 }
+		command = { type = relation				which = ENG  value = -50 }
+		command = { type = relation				which = VIC  value = -50 }
+		command = { type = belligerence 		value = 30	 which = EGY } 
+		command = { type = addcore				which = 404  where = EGY } 
+		command = { type = addcore				which = 1798 where = EGY } 
+		command = { type = addcore				which = 7290 where = EGY } 
+		command = { type = belligerence 		value = 30	 which = SYR } 
+		command = { type = addcore				which = 404  where = SYR } 
+		command = { type = addcore				which = 1798 where = SYR } 
+		command = { type = addcore				which = 7290 where = SYR } 
+		command = { type = belligerence 		value = 30	 which = LEB } 
+		command = { type = addcore				which = 404  where = LEB } 
+		command = { type = addcore				which = 1798 where = LEB } 
+		command = { type = addcore				which = 7290 where = LEB } 
+		command = { type = belligerence 		value = 30	 which = JOR } 
+		command = { type = addcore				which = 404  where = JOR } 
+		command = { type = addcore				which = 1798 where = JOR } 
+		command = { type = addcore				which = 7290 where = JOR } 
+		command = { type = domestic	   which = political_left value = -1 }
+		
+		command = { type = event which = 2049971	where = EGY when = 0 }
+		command = { type = event which = 2049971	where = IRQ when = 0 }
 	}
 }
 
@@ -9845,6 +10189,13 @@ event = {
 
 	action = {
 		name = "ACTION_NAME_DAMN"
+		trigger = { NOT = { country = IRQ } }
 		command = { type = dissent value = 15 }
+	}
+	action = {
+		name = "ACTION_NAME_DAMN"
+		trigger = { country = IRQ }
+		command = { type = dissent value = -5 }
+		command = { type = alliance which = USA when = 1 }		
 	}
 }
