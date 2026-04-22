@@ -1290,6 +1290,9 @@ event = {
 
 	action = {
 		name = "EVT_127_ACTA" 
+		command = { 										type = remove_units 	where = REB value = "India"			which = all	when = 2 }
+		command = { 										type = remove_units 	where = REB value = "Burma"			which = all	when = 1 }
+		command = { 										type = remove_units 	where = REB value = "North Burma"	which = all	when = 1 }
 		command = { 										type = secedearea 		which = ENG value = "Burma" 		when = 2 }
 		command = { 										type = secedearea 		which = ENG value = "North Burma" 	when = 2 }
 		command = { 										type = independence 	which = BUR value = 1 }
@@ -1449,213 +1452,116 @@ event = {
 	}
 }
 
-##### The reaction of the Arab States to Israeli Independence
+##### Malaysia independence (as puppet)
 
 event = {
 	id = 2069012
 	random = no
-	country = EGY
+	country = ENG
 	
 	trigger = {
-		exists = SYR
-		exists = JOR
-		exists = IRQ
-		exists = LEB
+		OR = {
+			control = { province = 1352 data = -3  }
+			control = { province = 1352 data = REB }
+		}
 		NOT = {
-			ispuppet = EGY # Egypt is fully independent and not allied to anyone
-			ispuppet = JOR
-			ispuppet = SYR
-			ispuppet = IRQ
-			ispuppet = LEB
-			alliance = { country = EGY country = ENG }
-			alliance = { country = EGY country = USA }
-			alliance = { country = EGY country = GER }
-			alliance = { country = EGY country = SOV }
+			war = { country = GER }
+			war = { country = JAP }
+			war = { country = SOV }
+		}
+		NOT = {	exists = MLY }
+		OR = {
+			local_flag = { which = WARDebt when = 1 value = 13 }
+			event = 2001090 #Withdrawal from India
+			event = 2049900 #Withdrawal from the Middle East
 		}
 		OR = {
-			event = 2136001 # Israeli Independence happened OR...
-			AND = {	
-				exists = ISR # ... Israeli was set free in some other way, but is not puppet/allied
-				NOT = {
-					ispuppet = ISR
-					alliance = { country = ISR country = ENG }	
-					alliance = { country = ISR country = USA }
-					alliance = { country = ISR country = GER }
-					alliance = { country = ISR country = SOV }
-				}
-			}
+			NOT = { event = 2003200 }
+			event = { id = 2003202 days = 720 } #At least 2 years from WW2
+		}
+		OR = {
+			NOT = { event = 2011028 }
+			event = { id = 2011028 days = 720 } #At least 2 years from WW2
 		}
 	}
 
-	name = "EVT_130_NAME"
-	desc = "EVT_137_DESC"
+	name = "Protectorate of Malaysia" 
+	desc = "From 1946 to 1948, the eleven states of Malaya formed a single British crown colony known as the Malayan Union. Due to opposition from Malay nationalists, the Union was disbanded and replaced by a self-governing Federation of Malaya, which transformed Malaya into a self-governing Protectorate of United Kingdom, restored the symbolic positions of the rulers of the Malay states and introduced greater restrictions on the attainment of citizenship status. Like the Malayan Union before it, the Federation did not include Singapore, despite its traditional connections with Malaya. Meanwhile, an insurgent group called Malayan National Liberation Army led by the Communist Party of Malaya continued to wage a low-level insurgency, advocating among other things a complete departure of British and Commonwealth troops from the country. However, British agreement to gradually restore Malayan independence by peaceful means helped to ensure that the support for MNLA remained limited mostly to the Chinese minority, which largely supported the insurgency as it was denied the equal right to vote in elections, had no land rights to speak of, and was very poor on average. The ethnic Malay population also supported MLNA but in much smaller numbers. The Federation finally attained full sovereignty on 31 August 1957, and MNLA insurgency ceased shortly afterwards."
 	style = 2
 	picture = "news_paper"
 
-	date = { day = 0 month = january year = 1936 }
+	date = { day = 0 month = january year = 1944 }
 	offset = 30
 	deathdate = { day = 29 month = december year = 1963 }
 
+	action = {
+		name = "EVT_127_ACTA" 
+		command = { 										type = remove_units 	where = REB value = "Malacka" which = all	when = 1 }
+		command = { 										type = secedearea 		which = ENG value = "Malacka" 				when = 2 }
+		command = { 										type = remove_claim_area			which = "Malacka"						 }
+		command = { 										type = addclaim						which = 1353					 		 }
+		command = { 										type = independence 	which = MLY value = 1 }
+		command = { 										type = make_puppet		which = MLY }
+		command = { 										type = event 			where = MLY which = 2069013 when = 0 }
+		command = { 										type = event			where = MLY which = 2400536 when = 0 } #puppetLvl6 -> only non-core areas have insurgency
+		
+		command = { trigger = { NOT = { militia = 10 } }	type = demobilize		which = infantry when = 0 where = 0 value = -9   }
+		command = { trigger = { militia = 10 }				type = demobilize		which = militia  when = 0 where = 0 value = -10  }
+	}
+}
+
+event = {
+	id = 2069013
+	random = no
+	country = MLY
+	style = 2
+	picture = "news_paper"
+
+	name = "Protectorate of Malaysia" 
+	desc = "From 1946 to 1948, the eleven states of Malaya formed a single British crown colony known as the Malayan Union. Due to opposition from Malay nationalists, the Union was disbanded and replaced by a self-governing Federation of Malaya, which transformed Malaya into a self-governing Protectorate of United Kingdom, restored the symbolic positions of the rulers of the Malay states and introduced greater restrictions on the attainment of citizenship status. Like the Malayan Union before it, the Federation did not include Singapore, despite its traditional connections with Malaya. Meanwhile, an insurgent group called Malayan National Liberation Army led by the Communist Party of Malaya continued to wage a low-level insurgency, advocating among other things a complete departure of British and Commonwealth troops from the country. However, British agreement to gradually restore Malayan independence by peaceful means helped to ensure that the support for MNLA remained limited mostly to the Chinese minority, which largely supported the insurgency as it was denied the equal right to vote in elections, had no land rights to speak of, and was very poor on average. The ethnic Malay population also supported MLNA but in much smaller numbers. The Federation finally attained full sovereignty on 31 August 1957, and MNLA insurgency ceased shortly afterwards."
+
 	action_a = {
-		name = "EVT_137_ACTA"
-		command = { type = leave_alliance when = 1 } #just in case
-		command = { type = belligerence which = EGY value = 3 }
-		command = { type = set_relation which = JOR value = 150 }
- 		command = { type = set_relation which = LEB value = 150 }
-		command = { type = set_relation which = SYR value = 150 }
-		command = { type = set_relation which = IRQ value = 100 }
-		command = { type = war which = ISR }
-		command = { type = trigger which = 2075002 } #JOR
-		command = { type = trigger which = 2076001 } #LEB
-		command = { type = trigger which = 2087002 } #SYR
-		command = { type = trigger which = 2074003 } #IRQ
-	}
-}
-
-event = {
-	id = 2075002
-	random = no
-	country = JOR
-	
-	name = "EVT_130_NAME"
-	desc = "EVT_137_DESC"
-	style = 2
-	picture = "news_paper"
-
-	action = {
-		ai_chance = 99
-		name = "EVT_137_ACTA"
-		command = { type = leave_alliance when = 1 }
-		command = { type = belligerence which = JOR value = 3 }
-		command = { type = set_relation which = EGY value = 150 }
- 		command = { type = set_relation which = LEB value = 150 }
-		command = { type = set_relation which = SYR value = 150 }
-		command = { type = set_relation which = IRQ value = 100 }
-		command = { type = alliance which = EGY }
-	}
-
-	action = {
-		ai_chance = 1
-		name = "EVT_137_ACTB"
-		command = { type = set_relation which = EGY value = -50 }
- 		command = { type = set_relation which = LEB value = -50 }
-		command = { type = set_relation which = SYR value = -50 }
-		command = { type = set_relation which = IRQ value = -50 }
-		command = { type = set_relation which = ISR value = 75 }
-		command = { type = set_relation which = ENG value = 75 }
-		command = { type = set_relation which = USA value = 75 }
-		command = { type = set_relation which = VIC value = 75 }
-	}
-}
-
-event = {
-	id = 2076001
-	random = no
-	country = LEB
-	
-	name = "EVT_130_NAME"
-	desc = "EVT_137_DESC"
-	style = 2
-	picture = "news_paper"
-
-	action = {
-		ai_chance = 99
-		name = "EVT_137_ACTA"
-		command = { type = leave_alliance when = 1 }
-		command = { type = belligerence which = JOR value = 3 }
-		command = { type = set_relation which = EGY value = 150 }
- 		command = { type = set_relation which = LEB value = 150 }
-		command = { type = set_relation which = SYR value = 150 }
-		command = { type = set_relation which = IRQ value = 100 }
-		command = { type = alliance which = EGY }
-		}
-
-	action = {
-		ai_chance = 1
-		name = "EVT_137_ACTB"
-		command = { type = set_relation which = EGY value = -50 }
- 		command = { type = set_relation which = JOR value = -50 }
-		command = { type = set_relation which = SYR value = -50 }
-		command = { type = set_relation which = IRQ value = -50 }
-		command = { type = set_relation which = ISR value = 75 }
-		command = { type = set_relation which = ENG value = 75 }
-		command = { type = set_relation which = USA value = 75 }
-		command = { type = set_relation which = VIC value = 75 }
-	}
-}
-
-event = {
-	id = 2087002
-	random = no
-	country = SYR
-
-	name = "EVT_130_NAME"
-	desc = "EVT_137_DESC"
-	style = 2
-	picture = "news_paper"
-
-	action = {
-		ai_chance = 99
-		name = "EVT_137_ACTA"
-		command = { type = leave_alliance when = 1 }
-		command = { type = belligerence which = JOR value = 3 }
-		command = { type = set_relation which = EGY value = 150 }
- 		command = { type = set_relation which = LEB value = 150 }
-		command = { type = set_relation which = SYR value = 150 }
-		command = { type = set_relation which = IRQ value = 100 }
-		command = { type = alliance which = EGY }
-		}
-
-	action = {
-		ai_chance = 1
-		name = "EVT_137_ACTB"
-		command = { type = set_relation which = EGY value = -50 }
- 		command = { type = set_relation which = JOR value = -50 }
-		command = { type = set_relation which = LEB value = -50 }
-		command = { type = set_relation which = IRQ value = -50 }
-		command = { type = set_relation which = ISR value = 75 }
-		command = { type = set_relation which = ENG value = 75 }
-		command = { type = set_relation which = USA value = 75 }
-		command = { type = set_relation which = VIC value = 75 }
-		}
-	}
+		name = "EVT_900127_ACTA"
+		command = { type = dissent		value =  10 }
+		command = { type = manpowerpool value = 200 }
+		command = { type = set_domestic which = political_left		value = 4 }
+		command = { type = set_domestic which = interventionism 	value = 2 }
+		command = { type = set_domestic which = freedom 			value = 4 } #around same as Philippines
+		command = { type = set_domestic which = free_market 		value = 2 }
+		command = { type = set_domestic which = defense_lobby		value = 7 }
+		command = { type = set_domestic which = democratic			value = 1 } #will adjust automatically
+		command = { type = set_domestic which = professional_army	value = 2 }
+		
+		#command = { type = headofstate which = 465012 }
+		#command = { type = headofgovernment which =  }
+		#command = { type = foreignminister which =  }
+		#command = { type = armamentminister which =  }
+		#command = { type = ministerofsecurity which =  }
+		#command = { type = ministerofintelligence which =  }
+		#command = { type = chiefofstaff which =  }
+		#command = { type = chiefofarmy which =  }
+		#command = { type = chiefofnavy which =  }
+		#command = { type = chiefofair which =  }
+		command = { type = local_setflag which = sliderSet }
+		
+		command = { type = add_division which = "Johor State Forces"			value = militia		when = 5 where = -50 }
+		command = { type = add_division which = "Kedah State Forces"			value = militia		when = 5 where = -50 }
+		command = { type = add_division which = "Kelantan State Forces"			value = militia		when = 5 where = -50 }
+		command = { type = add_division which = "Malacca State Forces"			value = militia		when = 5 where = -50 }
+		command = { type = add_division which = "Negeri Sembilan State Forces"	value = militia		when = 5 where = -50 }
+		command = { type = add_division which = "Pahang State Forces"			value = militia		when = 5 where = -50 }
+		command = { type = add_division which = "Penang State Forces"			value = militia		when = 5 where = -50 }
+		command = { type = add_division which = "Perak State Forces"			value = militia		when = 5 where = -50 }
+		command = { type = add_division which = "Perlis State Forces"			value = militia		when = 5 where = -50 }
+		command = { type = add_division which = "Selangor State Forces"			value = militia		when = 5 where = -50 }
+		command = { type = add_division which = "Terengganu State Forces"		value = militia		when = 5 where = -50 }
 
 
-event = {
-	id = 2074003
-	random = no
-	country = IRQ
-
-	name = "EVT_130_NAME"
-	desc = "EVT_137_DESC"
-	style = 2
-	picture = "news_paper"
-
-	### triggered by SYR 2087002
-
-	action = {
-		ai_chance = 99
-		name = "EVT_138_ACTA"
-		command = { type = leave_alliance when = 1 }
-		command = { type = belligerence which = JOR value = 3 }
-		command = { type = set_relation which = EGY value = 150 }
- 		command = { type = set_relation which = LEB value = 150 }
-		command = { type = set_relation which = SYR value = 150 }
-		command = { type = set_relation which = IRQ value = 100 }
-		command = { type = alliance which = EGY }
-	}
-
-	action = {
-		ai_chance = 1
-		name = "EVT_138_ACTB"
-		command = { type = set_relation which = EGY value = -25 }
- 		command = { type = set_relation which = JOR value = -25 }
-		command = { type = set_relation which = LEB value = -25 }
-		command = { type = set_relation which = SYR value = -25 }
-		command = { type = set_relation which = ISR value = 50 }
-		command = { type = set_relation which = ENG value = 50 }
-		command = { type = set_relation which = USA value = 50 }
-		command = { type = set_relation which = VIC value = 50 }
+		command = { type = province_revoltrisk 	which = 7033   	value = 25  }
+		command = { type = province_revoltrisk 	which = 1351   	value = 25  }
+		command = { type = province_revoltrisk 	which = 5738   	value = 25  }
+		command = { type = province_revoltrisk 	which = 1349   	value = 25  }
+		command = { type = province_revoltrisk 	which = 5735   	value = 25  }
 	}
 }
 
@@ -2484,30 +2390,6 @@ event = {
 #  Independent Croatia
 #########################################################################
 
-#Formally, NDH was a protectorate of Italy, not Germany
-event = { 
-	id = 203123
-	random = no
-	country = ITA
-	
-	name = "EVT_2032_NAME"
-	desc = "EVT_2032_DESC"
-    picture = "independent_croatia"
-	style = 0
-
-	action = {
-		name = "ACTION_NAME_GREAT"
-		command = { type = secedeprovince which = ITA value = 382 when = 2 }
-		command = { type = independence which = CRO value = 1 }
-		command = { type = make_puppet  which = CRO }
-		command = { type = event   which = 2400536 where = CRO when = 0 } #medium puppet		
-		command = { type = trigger which = 203121 } # CRO
-		command = { type = belligerence value = 5 } # something is borked.
-		command = { trigger = { NOT = { ai = GER } } type = military_control which = GER where = CRO value = 1 }
-		command = { trigger = { NOT = { ai = ITA } } type = military_control which = ITA where = CRO value = 1 }
-	}
-}
-
 event = { 
 	id = 203121
 	random = no
@@ -2521,7 +2403,7 @@ event = {
 
 	action = {
 		name = "ACTION_NAME_GREAT"
-		command = { type = manpowerpool	value = 20  }
+		command = { type = manpowerpool	value = 241 }
 		command = { type = supplies		value = 200 }
 		
 		command = { type = set_domestic which = political_left 	value = 1 }
@@ -2546,10 +2428,161 @@ event = {
 		command = { type = secedeprovince which = CRO value = 388  when = 2 }
 		command = { type = secedearea which = CRO value = "Bosnia" when = 2 }
 		
-		command = { type = add_corps which = "I. Kroatisches Armeekorps" value = land when = 44600 where = 382 }
-		command = { type = add_division  which = "369. Kroatische Teufels-Division" value = infantry when = 10 } # 369. Kroatische Teufel-Division
-		command = { type = add_division  which = "373. Kroatische Tiger-Division"   value = infantry when = 10 } # 373. Kroatische Tiger-Division
-		command = { type = add_division  which = "392. Kroatische Blaue-Division"   value = infantry when = 10 } # 392. Kroatische Bleue-Division
+		#Already by late 1941, NDH Army had over 100,000 under arms plus 30,000 or more Ustasha militia and another 20,000 in Gendarmerie/National Guard
+		#Many were former Yugoslav army units, just with new uniforms
+		command = { type = add_division  which = "1. Pjesacka Divizija 'Zagreb'"		value = infantry	when = 10 where = -20 }
+		command = { type = add_division  which = "2. Pjesacka Divizija 'Karlovac'"		value = infantry	when = 10 where = -20 }
+		command = { type = add_division  which = "3. Pjesacka Divizija 'Vinkovci'"		value = infantry	when = 10 where = -20 }
+		command = { type = add_division  which = "4. Pjesacka Divizija 'Dvor na Uni'"	value = infantry	when = 10 where = -20 }
+		command = { type = add_division  which = "5. Pjesacka Divizija 'Bjelovar'"		value = infantry	when = 10 where = -20 }
+		command = { type = add_division  which = "6. Pjesacka Divizija 'Banja Luka'"	value = infantry	when = 10 where = -20 }
+		command = { type = add_division  which = "7. Pjesacka Divizija 'Batrina'"		value = infantry	when = 10 where = -20 }
+		command = { type = add_division  which = "8. Pjesacka Divizija 'Sarajevo'"		value = infantry	when = 10 where = -20 }
+		command = { type = add_division  which = "9. Pjesacka Divizija 'Mostar'"		value = infantry	when = 10 where = -20 }
+		command = { type = add_division  which = "10. Pjesacka Divizija 'Bihac'"		value = infantry	when = 10 where = -20 }
+		
+		command = { type = add_division  which = "1. Ustasa Zdrug"						value = militia		when = 5  where = -50 }
+		command = { type = add_division  which = "2. Ustasa Zdrug"						value = militia		when = 5  where = -50 }
+		command = { type = add_division  which = "3. Ustasa Zdrug"						value = militia		when = 5  where = -50 }
+		
+		#National guard mobilized automatically as part of 'AllDefense'
+	}
+}
+
+#Formally, NDH was a protectorate of Italy, not Germany
+event = { 
+	id = 203123
+	random = no
+	country = ITA
+	
+	name = "EVT_2032_NAME"
+	desc = "EVT_2032_DESC"
+    picture = "independent_croatia"
+	style = 0
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = secedeprovince which = ITA value = 382 when = 2 }
+		command = { type = independence which = CRO value = 1 }
+		command = { type = make_puppet  which = CRO }
+		command = { type = event   which = 2400536 where = CRO when = 0 } #medium puppet		
+		command = { type = trigger which = 203121 } # CRO
+		command = { type = belligerence value = 5 } # something is borked.
+		command = { trigger = { NOT = { ai = GER } } type = military_control which = GER where = CRO value = 1 }
+		command = { trigger = { NOT = { ai = ITA } } type = military_control which = ITA where = CRO value = 1 }
+	}
+}
+
+#Croatian/Bosnian volunteers for Germany
+#De facto and de jure these never part of the NDH, they were always part of the German army itself and were created, trained, and supplied by the Wehrmacht. NDH only supplied the manpower
+#NDH supplied about 120k to 150k troops to Germany over the course of the war
+event = { 
+	id = 203124
+	random = no
+	country = GER
+	
+	name = "Croatian Volunteers for Germany"
+	desc = "In 1941, Ante Pavelic agreed to provide troops for the war against the Soviet Union. Negotiations took some time, however, as Germany preferred for the volunteers to serve directly under the authority of the Wehrmacht and Waffen SS, with no affilitation to NDH. This would have ensued direct German control over combat units, reliable command structures, as well as German standards of equipment, discipline, doctrine, and logistics. Eventually, Pavelic was pressured to agree that the troops would be completely under German control, with the only compomise being that they would swear a dual oath to both Hitler and Pavelic and they would wear distinctive Croat insignia. In all other respects, they would be German."
+    picture = "independent_croatia"
+	style = 0
+	
+	decision = {
+		alliance = { country = CRO }
+		war = { country = SOV }
+	}
+	decision_trigger = {
+		event = { id = 203120 days = 360 } #Spring 1942
+	}
+	trigger = {	
+		alliance = { country = CRO }
+		war = { country = SOV }
+		event = { id = 203120 days = 360 } #Spring 1942
+	}
+
+    date = { day = 0 month = january year = 1936 }
+    offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Germany needs them"
+		ai_chance = 99
+		command = { type = manpowerpool value =  120 }
+		command = { type = supplies		value = -500 }
+		
+		command = { type = add_corps which = "I. Kroatisches Armeekorps"	value = land when = 44600					where = 382 }
+		command = { type = add_division  which = "369. Teufels-Division (Kroatische)" 				value = infantry	when = 11 where = -95 } # 369. Kroatische Teufel-Division
+		command = { type = add_division  which = "373. Tiger-Division (Kroatische)"  				value = infantry	when = 11 where = -95 } # 373. Kroatische Tiger-Division
+		command = { type = add_division  which = "392. Blaue-Division (Kroatische)"  				value = infantry	when = 11 where = -95 } # 392. Kroatische Bleue-Division
+		command = { type = add_division  which = "369. Vers. Regiment (Kroatische)"					value = infantry	when = 11 where = -95 } # 369. Verstarktes (kroatisches) Infanterie-Regiment
+		
+		command = { type = add_corps which = "II. Kroatisches Waffen-SS Armeekorps"					value = land 		where = 382 }
+		command = { type = add_division  which = "13. Waffen-Geb.Div.SS 'Handschar' (Kroatische)" 	value = bergsjaeger	when = 11 where = -95 } # 13. Waffen-Gebirgs-Division der SS 'Handschar' (kroatische Nr. 1)
+		command = { type = add_division  which = "23. Waffen-Geb.Div.SS 'Kama' (Kroatische)" 		value = bergsjaeger	when = 11 where = -95 } # 23. Waffen-Gebirgs-Division der SS 'Kama' (kroatische Nr. 2)
+		command = { type = add_division  which = "7. Waffen-Geb.Div.SS 'Prinz Eugen' (Kroatische)"	value = bergsjaeger	when = 11 where = -95 } #  7. SS-Freiwilligen Gebirgs-Division 'Prinz Eugen'
+		
+		command = { type = relation which = CRO	value = -10  }
+		
+		command = { type = event   which = 203125 where = CRO when = 0 }
+	}
+	action = {
+		name = "Let's build a strong NDH instead"
+		ai_chance = 1
+		trigger = { supplies = 2000 }
+		
+		command = { type = supplies		value = -2000 }
+		
+		command = { type = relation which = CRO	value = 20  }
+		#Upgrading CRO puppet level. Might be too powerful
+		command = { trigger = { NOT = { event = 2006031 } } type = event   which = 2400537 where = CRO when = 0 } #6->7
+		
+		command = { type = event   which = 203126 where = CRO when = 0 }
+	}
+}
+
+event = { 
+	id = 203125
+	random = no
+	country = CRO
+	
+	name = "Croatian Volunteers for Germany"
+	desc = "In 1941, Ante Pavelic agreed to provide troops for the war against the Soviet Union. Negotiations took some time, however, as Germany preferred for the volunteers to serve directly under the authority of the Wehrmacht and Waffen SS, with no affilitation to NDH. This would have ensued direct German control over combat units, reliable command structures, as well as German standards of equipment, discipline, doctrine, and logistics. Eventually, Pavelic was pressured to agree that the troops would be completely under German control, with the only compomise being that they would swear a dual oath to both Hitler and Pavelic and they would wear distinctive Croat insignia. In all other respects, they would be German."
+    picture = "independent_croatia"
+	style = 0
+
+	action = {
+		name = "ACTION_NAME_DAMN"
+		command = { type = manpowerpool			value = -120 }
+		command = { type = dissent 				value =    2 }
+	}
+}
+
+event = { 
+	id = 203126
+	random = no
+	country = CRO
+	
+	name = "Croatian Volunteers for Germany"
+	desc = "In 1941, Ante Pavelic agreed to provide troops for the war against the Soviet Union. While the German military strongly preferred for the volunteers to serve directly under the authority of the Wehrmacht and Waffen SS, with no affilitation to NDH, Hitler overruled his military brass and decided that for political reasons, it would be best if the troops stayed under the administrative authority of the NDH, but operationally subordinate to Germany."
+    picture = "independent_croatia"
+	style = 0
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = dissent 				value =   -2 }
+		command = { type = supplies				value = 2000 }
+		
+		command = { type = add_corps which = "I. Kroatisches Armeekorps"	value = land when = 44600					where = 382 }
+		command = { type = add_division  which = "369. Teufels-Division (Kroatische)" 				value = infantry	when = 10 where = -95 } # 369. Kroatische Teufel-Division
+		command = { type = add_division  which = "373. Tiger-Division (Kroatische)"  				value = infantry	when = 10 where = -95 } # 373. Kroatische Tiger-Division
+		command = { type = add_division  which = "392. Blaue-Division (Kroatische)"  				value = infantry	when = 10 where = -95 } # 392. Kroatische Bleue-Division
+		command = { type = add_division  which = "369. Vers. Regiment (Kroatische)"					value = infantry	when = 10 where = -95 } # 369. Verstarktes (kroatisches) Infanterie-Regiment
+		
+		command = { type = add_corps which = "II. Waffen-SS Kroatisches Armeekorps"					value = land 		where = 382 }
+		command = { type = add_division  which = "13. Waffen-Geb.Div.SS 'Handschar' (Kroatische)" 	value = bergsjaeger	when = 11 where = -95 } # 13. Waffen-Gebirgs-Division der SS 'Handschar' (kroatische Nr. 1)
+		command = { type = add_division  which = "23. Waffen-Geb.Div.SS 'Kama' (Kroatische)" 		value = bergsjaeger	when = 11 where = -95 } # 23. Waffen-Gebirgs-Division der SS 'Kama' (kroatische Nr. 2)
+		command = { type = add_division  which = "7. Waffen-Geb.Div.SS 'Prinz Eugen' (Kroatische)"	value = bergsjaeger	when = 11 where = -95 } #  7. SS-Freiwilligen Gebirgs-Division 'Prinz Eugen'
+		
+		command = { trigger = { ai = yes local_flag = { which = exp when = -2 value = 6 } } type = event which = 2400046 where = CRO when = 0 } #to exp_60
 	}
 }
 
@@ -2574,6 +2607,7 @@ event = {
 		command = { type = set_domestic which = freedom 		value = 3 }
 		command = { type = local_setflag which = sliderSet }
 		
+		command = { type = manpowerpool	value =  50 }
 		command = { type = supplies		value = 200 }
 		command = { type = secedeprovince which = SER value = 453  when = 2 }
 		command = { type = secedeprovince which = SER value = 6557 when = 2 }
@@ -2586,6 +2620,76 @@ event = {
 		command = { type = secedeprovince which = SER value = 452  when = 2 }
 		command = { type = secedeprovince which = SER value = 2609 when = 2 }
 		command = { type = secedeprovince which = SER value = 7271 when = 2 }
+		
+		command = { type = add_division  which = "1. Srpska Drzavna Straza"			value = militia		when = 5  where = -50 }
+		command = { type = add_division  which = "2. Srpski Dobrovoljacki Korpus"	value = militia		when = 5  where = -50 }
+		command = { type = add_division  which = "3. Ruski Zastitni Korpus"			value = militia		when = 5  where = -50 }
+	}
+}
+
+#Alliance with the Chetniks
+event = { 
+	id = 203127
+	random = no
+	country = SER
+	
+	name = "Alliance with the Chetniks"
+	desc = "The Chetnik Movement, officially Chetnik Detachments of the Yugoslav Army, also known as Yugoslav Army in the Homeland (JVuO), was a Yugoslav royalist and Serbian nationalist movement and guerrilla force that was formed in Axis-occupied Yugoslavia after the defeat of the Yugoslav Royal Army. Loosely led by Draza Mihailovic, the movement was initially staunchly anti-Axis and it participated in the major anti-German uprisings of the early war in alliance with Tito's Partisans. Their alliance with the Partisans quickly fell apart, however, as the two sides bitterly argued over both the goals and means of resistance. Mihailovic soon began to fear Tito's growing strength and popularity, while at the same time coming to the belief that continued war against the Germans would only cause further massacres against civilians which he was not able to prevent. With that in mind, he eventually resolved to cease active resistance, turn on the Partisans, and seek contact with the German administration in order to find a modus vivendi. He spearheaded a number of agreements between the Chetniks and the Axis powers, establishing the Chetnik movement as de-facto ally of the Axis, although the ultimate goals of the Chetnik movement remained far removed from those of the occupying powers. As a result of these actions, the Chetniks lost recognition and support of the Allied powers, who redirected their aid to Tito's Partisans instead."
+	style = 0
+	
+	decision = {
+		alliance = { country = GER }
+		war = { country = U27 }
+		control = { province = 453 }
+	}
+	decision_trigger = {
+		army = { size = 60 country = U27 }
+		event = { id = 203120 days = 360 } #Spring 1942
+		region = { region = "Balkan" country = -2 value = 10 } #~15/139
+	}
+	trigger = {	
+		alliance = { country = GER }
+		war = { country = U27 }
+		control = { province = 453 }
+		army = { size = 60 country = U27 }
+		event = { id = 203120 days = 360 } #Spring 1942
+		region = { region = "Balkan" country = -2 value = 10 } #~15/139
+	}
+
+    date = { day = 0 month = january year = 1936 }
+    offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		ai_chance = 99
+		command = { type = manpowerpool value =  100 }
+		command = { type = supplies		value = -500 }
+		
+		#Total strength around 80,000-100,000 at peak
+		command = { type = add_corps which = "Yugoslav Army in the Homeland"				value = land 		where = 453 }
+		command = { type = add_division  which = "1. Ravna Gora Corps JVuO" 				value = militia		when = 5	where = -20 }
+		command = { type = add_division  which = "2. Valjevo Corps JVuO"  					value = militia		when = 5	where = -20 }
+		command = { type = add_division  which = "3. Rasina Corps JVuO"  					value = militia		when = 5	where = -20 }
+		command = { type = add_division  which = "4. Drina Corps JVuO"						value = militia		when = 5	where = -20 }
+		command = { type = add_division  which = "5. Romanija Corps JVuO"					value = militia		when = 5	where = -20 }
+		command = { type = add_division  which = "6. Herzegovina Corps JVuO"				value = militia		when = 5	where = -20 }
+		command = { type = add_division  which = "7. Podgorica Corps JVuO"					value = militia		when = 5	where = -20 }
+		command = { type = add_division  which = "8. Cetinje Corps JVuO"					value = militia		when = 5	where = -20 }
+		command = { type = add_division  which = "9. Dinara Division JVuO"					value = militia		when = 5	where = -40 }
+		command = { type = add_division  which = "10. Lim-Sandzak Division JVuO"			value = militia		when = 5	where = -40 }
+		
+		#Upgrading SER puppet level
+		command = { trigger = {
+			NOT = {
+				local_flag = puppetLevel4
+				local_flag = puppetLevel5
+				local_flag = puppetLevel6
+				local_flag = puppetLevel7
+				local_flag = puppetLevel8
+				local_flag = puppetLevel9
+			}
+		} type = event   which = 2400534 where = SER when = 0 } #3->4
 	}
 }
 

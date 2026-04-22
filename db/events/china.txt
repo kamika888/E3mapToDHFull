@@ -4672,7 +4672,11 @@ event = {
 		command = { type = manpowerpool value = 47 }
         command = { type = relation which = CHI value = -5 }
 		
-		#~13 over 8 years
+		#~13 free_supplies, 9.6 dissent over 8 years. 6 dissent over 5 years.
+		command = { trigger = { NOT = { event = 1330110310 } }
+					type = dissent 		 value = 0.3 }
+		command = { trigger = { 		event = 1330110310   }
+					type = dissent 		 value = 0.1 }
 		command = { type = free_supplies value = 0.4 }
 		command = { type = setflag which = CHC_partisan							   }
 		command = { type = setflag which = CHC_partisan_count 	when = 1 value = 1 }
@@ -4715,7 +4719,11 @@ event = {
 		command = { type = manpowerpool value = 94 }
         command = { type = relation which = CHI value = -10 }
 		
-		#~26 over 8 years
+		#~26 free_supplies, 19 dissent over 8 years. 12 dissent over 5 years.
+		command = { trigger = { NOT = { event = 1330110310 } }
+					type = dissent 		 value = 0.6 }
+		command = { trigger = { 		event = 1330110310   }
+					type = dissent 		 value = 0.2 }
 		command = { type = free_supplies value = 0.8 }
 		command = { type = setflag which = CHC_partisan							   }
 		command = { type = setflag which = CHC_partisan_count 	when = 1 value = 2 }
@@ -8341,5 +8349,59 @@ event = {
 		command = { type = addclaim which = 5649 where = JAP }
 		command = { type = addclaim which = 5650 where = JAP }
 		command = { type = addclaim which = 5651 where = JAP }
+	}
+}
+
+
+event = {
+	id = 1330110310
+	random = no
+	country = CHC
+
+	name = "Yan'an Rectification Movement"
+	desc = "With the war in a state of stalemate and Japan distracted by struggle for the Pacific, the CCP was experiencing a time of relative peace when they could focus on internal affairs. Mao decided to use this precious time to undertake significant internal reform and consolidation of the Party, which was growing rapidly due to the influx of new recruites from the Nationalist and occupied areas. The main aims of the reform were to adjust the party ideology from the Moscow dogma closer to the Chinese conditions, thus improving strategy and broadening its appeal; to consolidate the new and existing members ideologically and instill discipline and unity in party ranks; and last but not least - to purge influential rivals from the party who may pose a challenge to Mao's personal authority, and may sabotage the unity of the overall movement at a critical moment. While temporarily disrputive and divisive, the movement is overall credited as a long term success and its legacy proved fundamental to the subsequent history of the Chinese Communist Party."
+	style = 2
+	picture = "news_paper"
+
+	decision = {
+		war = { country = JAP }
+		NOT = { war = { country = CHI } }
+	}
+	decision_trigger = {
+		war = { country = JAP country = USA }
+		flag = { which = CHC_partisan_count when = 1 value = 15 }
+	}
+	trigger = {
+		war = { country = JAP }
+		NOT = { war = { country = CHI } }
+		war = { country = JAP country = USA }
+		flag = { which = CHC_partisan_count when = 1 value = 15 }
+		NOT = { flag = { which = japChi when = 1 value = 55 } }
+		control = { province = 1270 data = -3 }
+		control = { province = 5571 data = -3 }
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 30
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Launch the campaign!"
+		command = { type = money 				    value = -300 }
+		command = { type = dissent 					value = -10  }
+		command = { type = relation which = SOV		value = -10  }
+		command = { type = morale 	which = land 	value =   2  }
+		
+		#stagger just in case
+		command = { type = event which = 2400154 where = -1 when = 0   }
+		command = { type = event which = 2400154 where = -1 when = 1   }
+		command = { type = event which = 2400154 where = -1 when = 2   }
+		
+		
+		command = { type = event which = 2400164 where = -1 when = 90  }
+		command = { type = event which = 2400164 where = -1 when = 180 }
+		command = { type = event which = 2400164 where = -1 when = 360 }
+		
+		command = { trigger = { ai = yes } type = money value = 10 }
 	}
 }

@@ -268,7 +268,7 @@ country =
       free_market       = 10
       professional_army = 1  
       defense_lobby     = 1  
-      interventionism   = 1
+      interventionism   = 2
   }
 blueprints = { 81880 81890 }
 inventions = { 3000027 }

@@ -2822,7 +2822,7 @@ province = { id = 125	air_base = {	size = 4 	current_size = 4 	} }
 province = { id = 311	air_base = {	size = 10 	current_size = 10 	} }
 province = { id = 325	air_base = {	size = 10 	current_size = 10 	} }
 province = { id = 346	air_base = {	size = 4 	current_size = 4 	} }
-province = { id = 348	air_base = {	size = 4 	current_size = 4 	} }
+#province = { id = 348	air_base = {	size = 4 	current_size = 4 	} } #did not exist in 1936
 province = { id = 355	air_base = {	size = 3 	current_size = 3 	} }
 province = { id = 357	air_base = {	size = 6 	current_size = 6 	} }
 province = { id = 367	air_base = {	size = 2 	current_size = 2 	} }

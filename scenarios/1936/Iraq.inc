@@ -157,6 +157,7 @@ country =
       } 
     }
 
-	landdivision = { dormant = yes id = { type = 22500 id = 20 }  name = "1st Expeditionary Division" type = militia	model = 5 strength = 80 locked = yes	} 	
+	landdivision = { dormant = yes id = { type = 22500 id = 20 }  name = "1st Expeditionary Division" type = militia	model = 5 strength = 50 locked = yes	} 	
+	landdivision = { dormant = yes id = { type = 22500 id = 21 }  name = "2nd Expeditionary Division" type = militia	model = 5 strength = 50 locked = yes	} 	
   } 
  

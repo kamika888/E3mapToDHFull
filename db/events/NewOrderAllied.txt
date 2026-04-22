@@ -5336,8 +5336,155 @@ event = {
 	}
 }
 
+#Countries joining Western alliances
+
 event = {
-	id = 2049502
+	id = 2049510
+	random = no
+	persistent = yes
+	
+	name = "Joining the West"
+	desc = "With Communism becoming an ever clearer danger to our country, we should seek cooperation and security assistance from the leading Western nations, especially United States."
+	style = 2
+	picture = "news_paper"
+	
+	decision = {
+		OR = {
+			event = { id = 2003202 days = 1800 } #5 years from WW2
+			flag = UN_Intervention_Korea
+		}
+		NOT = {
+			atwar = yes
+			ispuppet = yes
+			participant = { value = 1 }
+			local_flag = demilitarized
+		}
+	}
+	decision_trigger = {
+		OR = {
+			ideology = paternal_autocrat
+			ideology = social_conservative
+			ideology = market_liberal
+			ideology = social_liberal
+			ideology = social_democrat
+		}
+	}
+	trigger = {
+		OR = {
+			event = { id = 2003202 days = 1800 } #5 years from WW2
+			flag = UN_Intervention_Korea
+		}
+		NOT = {
+			atwar = yes
+			ispuppet = yes
+			participant = { value = 1 }
+			local_flag = demilitarized
+		}
+		OR = {
+			ideology = paternal_autocrat
+			ideology = social_conservative
+			ideology = market_liberal
+		}
+		OR = {
+			country = SPA
+			country = POR
+			country = TUR
+			country = GRE
+			country = PAK
+		}
+		random = 20
+	}
+
+	date = { day = 0 month = january year = 1944 }
+	offset = 20
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Join the West"
+		command = { type = leave_alliance when = 1 }
+		
+		command = { type = alliance which = USA where = 2 }
+
+		command = { type = relation which = USA value = 100 }
+		command = { type = relation which = ENG value = 100 }
+		command = { type = relation which = VIC value = 100 }
+		
+		command = { trigger = { ai = yes OR = { country = PAK country = TUR } } type = local_clrflag which = exp }
+		command = { trigger = { ai = yes OR = { country = PAK country = TUR } } type = ai which = "noExpFRA.ai" }
+		command = { trigger = { ai = yes OR = { country = PAK country = TUR } } type = ai which = "EXP_0.ai" }
+	}
+}
+
+#Countries joining Eastern alliances
+
+event = {
+	id = 2049511
+	random = no
+	persistent = yes
+	
+	name = "Joining the East"
+	desc = "With Western Imperialism becoming an ever clearer danger to our country, we should seek cooperation and security assistance from the leading nations of the Socialist camp, especially Soviet Union."
+	style = 2
+	picture = "news_paper"
+	
+	decision = {
+		OR = {
+			event = { id = 2003202 days = 1800 } #5 years from WW2
+			flag = UN_Intervention_Korea
+		}
+		NOT = {
+			atwar = yes
+			ispuppet = yes
+			participant = { value = 3 }
+			local_flag = demilitarized
+		}
+	}
+	decision_trigger = {
+		OR = {
+			ideology = social_democrat
+			ideology = left_wing_radical
+			ideology = leninist
+			ideology = stalinist
+		}
+	}
+	trigger = {
+		OR = {
+			event = { id = 2003202 days = 1800 } #5 years from WW2
+			flag = UN_Intervention_Korea
+		}
+		NOT = {
+			atwar = yes
+			ispuppet = yes
+			participant = { value = 3 }
+			local_flag = demilitarized
+		}
+		ideology = leninist
+		NOT = {
+			country = CHC
+			country = U27
+		}
+		random = 20
+	}
+
+	date = { day = 0 month = january year = 1944 }
+	offset = 20
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Join the East"
+		command = { type = leave_alliance when = 1 }
+		
+		command = { type = alliance which = SOV where = 3 }
+
+		command = { type = relation which = SOV value = 100 }
+		command = { type = relation which = CHC value = 100 }
+	}
+}
+
+#Countries joinging NAM
+
+event = {
+	id = 2049512
 	random = no
 	persistent = yes
 	
@@ -5433,10 +5580,12 @@ event = {
 			country = LEB
 			country = JOR
 		}
+		NOT = { ideology = leninist }
+		random = 20
 	}
 
 	date = { day = 0 month = january year = 1944 }
-	offset = 30
+	offset = 20
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -5462,64 +5611,6 @@ event = {
 		command = { type = relation which = IND value = -10 }
 		command = { type = relation which = U27 value = -10 }
 		command = { type = relation which = EGY value = -10 }
-	}
-}
-
-#Pakistan joins CENTO, SEATO, and every other western alliance in attempt to contain India
-
-event = {
-	id = 2049503
-	random = no
-	country = PAK
-	
-	name = "Joining with the West"
-	desc = "With India becoming an ever clearer long term danger to Pakistan, Islamabad tried to seek security assistance and technology wherever it could find them, and joining the pro-American alliances like CENTO and SEATO seemed like a common sense solution to Pakistan's security dilemma"
-	style = 2
-	picture = "news_paper"
-	
-	decision = {
-		flag = NAMO
-		atwar = no
-		event = 2001141
-		NOT = {
-			atwar = yes
-			ispuppet = yes
-			participant = { value = 1 }
-			participant = { value = 2 }
-			participant = { value = 3 }
-		}
-	}
-	decision_trigger = {
-	}
-	trigger = {
-		flag = NAMO
-		event = 2001141
-		NOT = {
-			atwar = yes
-			ispuppet = yes
-			participant = { value = 1 }
-			participant = { value = 2 }
-			participant = { value = 3 }
-		}
-	}
-
-	date = { day = 0 month = january year = 1944 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action = {
-		name = "Join the West"
-		command = { type = leave_alliance when = 1 }
-		
-		command = { type = alliance which = USA where = 2 }
-
-		command = { type = relation which = USA value = 100 }
-		command = { type = relation which = ENG value = 100 }
-		command = { type = relation which = VIC value = 100 }
-		
-		command = { trigger = { ai = yes } type = local_clrflag which = exp }
-		command = { trigger = { ai = yes } type = ai which = "noExpFRA.ai" }
-		command = { trigger = { ai = yes } type = ai which = "EXP_0.ai" }
 	}
 }
 
@@ -6766,8 +6857,8 @@ event = {
 		command = { trigger = { ai = yes } type = ai which = "frontAIhyper.ai" }
 		command = { trigger = { ai = yes } type = local_setflag which = FrontAIHyper }
 		command = { trigger = { ai = yes } type = local_clrflag which = FrontAIAggressive }
-		command = { trigger = { ai = yes } type = local_setflag which = gar value = 5 }
-		command = { trigger = { ai = yes } type = ai which = "garrison5.ai" }
+		command = { trigger = { ai = yes } type = local_setflag which = gar value = 3 }
+		command = { trigger = { ai = yes } type = ai which = "garrison3.ai" }
 		command = { trigger = { ai = yes } type = ai which = "frontAIsp20.ai" }
 		command = { trigger = { ai = yes } type = local_setflag which = FrontAISP value = 15 }
 		command = { type = local_setflag which = PVA_STR when = 0 value = 4	}
@@ -8028,6 +8119,7 @@ event = {
 	trigger = {
 		event = 2049700
 		war = { country = U72 }
+		NOT = { war = { country = USA country = PRK } }
 		OR = {
 			NOT = { manpower = 100 }
 			dissent = 13
@@ -8157,6 +8249,7 @@ event = {
 
 		
 		command = { type = event where = USA which = 2049734 when = 2 }
+		command = { trigger = { ai = U72 } type = event which = 2400041 where = -1 when = 0 } #Exp_10
 	}
 	action = {
 		name = "Hell no"
@@ -8200,28 +8293,28 @@ event = {
 		command = { type = remove_claim_area 	which = Indochine	where = USA }
 
 		command = { trigger = { OR = { NOT = { exists = VIE } AND = { ispuppet = VIE NOT = { puppet = { country = VIE } } } } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet NOT = { exists = VIE } }	type = secedeprovince	which = -3	value = 1337   when = 2 }
-		command = { trigger = { local_flag = makePuppet }		type = independence 		which = VIE value = 1 }
-		command = { trigger = { local_flag = makePuppet }		type = make_puppet			which = VIE }
-		command = { trigger = { local_flag = makePuppet }		type = event				where = VIE which = 2400536 when = 0 } #starts out as reasonably strong puppet
-		command = { trigger = { local_flag = makePuppet }		type = event				where = VIE which = 2049056 when = 5 }
-		command = { trigger = { local_flag = makePuppet }		type = local_clrflag 		which = makePuppet 	}
+		command = { trigger = { local_flag = makePuppet NOT = { exists = VIE } }		type = secedeprovince		which = -3	value = 1337   when = 2 }
+		command = { trigger = { local_flag = makePuppet }								type = independence 		which = VIE value = 1 }
+		command = { trigger = { local_flag = makePuppet }								type = make_puppet			which = VIE }
+		command = { trigger = { local_flag = makePuppet }								type = event				where = VIE which = 2400536 when = 0 } #starts out as reasonably strong puppet
+		command = { trigger = { local_flag = makePuppet }								type = event				where = VIE which = 2049056 when = 5 }
+		command = { trigger = { local_flag = makePuppet }								type = local_clrflag 		which = makePuppet 	}
 		
-		command = { trigger = { NOT = { exists = LAO } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet }		type = secedeprovince		which = -3	value = 1329 when = 2 }
-		command = { trigger = { local_flag = makePuppet }		type = independence 		which = LAO value = 1 }
-		command = { trigger = { local_flag = makePuppet }		type = make_puppet			which = LAO }
-		command = { trigger = { local_flag = makePuppet }		type = event				where = LAO which = 2400536 when = 0 } #starts out as reasonably strong puppet
-		command = { trigger = { local_flag = makePuppet }		type = event				where = LAO which = 2049053 when = 0 }
-		command = { trigger = { local_flag = makePuppet }		type = local_clrflag 		which = makePuppet 	}
+		command = { trigger = { OR = { NOT = { exists = LAO } AND = { ispuppet = LAO NOT = { puppet = { country = LAO } } } } } type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = LAO } }		type = secedeprovince		which = -3	value = 1329 when = 2 }
+		command = { trigger = { local_flag = makePuppet }								type = independence 		which = LAO value = 1 }
+		command = { trigger = { local_flag = makePuppet }								type = make_puppet			which = LAO }
+		command = { trigger = { local_flag = makePuppet }								type = event				where = LAO which = 2400536 when = 0 } #starts out as reasonably strong puppet
+		command = { trigger = { local_flag = makePuppet }								type = event				where = LAO which = 2049053 when = 0 }
+		command = { trigger = { local_flag = makePuppet }								type = local_clrflag 		which = makePuppet 	}
 		
-		command = { trigger = { NOT = { exists = CMB } } type = local_setflag which = makePuppet }
-		command = { trigger = { local_flag = makePuppet }		type = secedeprovince		which = -3	value = 1339 when = 2 }
-		command = { trigger = { local_flag = makePuppet }		type = independence 		which = CMB value = 1 }
-		command = { trigger = { local_flag = makePuppet }		type = make_puppet			which = CMB }
-		command = { trigger = { local_flag = makePuppet }		type = event				where = CMB which = 2400536 when = 0 } #starts out as reasonably strong puppet
-		command = { trigger = { local_flag = makePuppet }		type = event				where = CMB which = 2049055 when = 0 }
-		command = { trigger = { local_flag = makePuppet }		type = local_clrflag 		which = makePuppet 	}
+		command = { trigger = { OR = { NOT = { exists = CMB } AND = { ispuppet = CMB NOT = { puppet = { country = CMB } } } } } type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = CMB } }		type = secedeprovince		which = -3	value = 1339 when = 2 }
+		command = { trigger = { local_flag = makePuppet }								type = independence 		which = CMB value = 1 }
+		command = { trigger = { local_flag = makePuppet }								type = make_puppet			which = CMB }
+		command = { trigger = { local_flag = makePuppet }								type = event				where = CMB which = 2400536 when = 0 } #starts out as reasonably strong puppet
+		command = { trigger = { local_flag = makePuppet }								type = event				where = CMB which = 2049055 when = 0 }
+		command = { trigger = { local_flag = makePuppet }								type = local_clrflag 		which = makePuppet 	}
 		
 		command = { type = secedeprovince	which = VIE value = 1335		when = 2 }
 		command = { type = secedeprovince	which = VIE value = 1337		when = 2 }
@@ -8579,8 +8672,7 @@ event = {
 	picture = "news_paper"
 
 	date = { day = 0 month = may year = 1944 }
-	#offset = 30
-	offset = 3
+	offset = 30
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action_a = {
@@ -8592,6 +8684,7 @@ event = {
 		command = { type = add_claim_area		which = "Yemenite Mountains" }
 		
 		command = { type = construct which = ic where = 1881   	value = 1 }
+		command = { type = construct which = ic where = 1803    value = 1 }
 		command = { type = add_prov_resource 	which = 404		value = 1.0	where = energy }
 		command = { type = add_prov_resource 	which = 1799	value = 1.0	where = energy }
 		command = { type = add_prov_resource 	which = 1798	value = 2.0	where = energy }
@@ -8695,8 +8788,8 @@ event = {
 		command = { 																type = secedeprovince	which = EGY value = 1799	when = 2 }
 		command = { 																type = secedeprovince	which = SYR value = 1881	when = 2 } #Held by 'Arab Liberation Army' sponsored mainly by Syria
 		
-		command = { 																type = event			where = EGY which = 2049910	when = 10 } #Resolution 181
-		command = { 																type = event			where = JOR which = 2049910	when = 10 } #Resolution 181
+		command = { 																type = event			where = EGY which = 2049910	when = 2 } #Resolution 181
+		command = { 																type = event			where = JOR which = 2049910	when = 2 } #Resolution 181
 	}
 }
 
@@ -8736,33 +8829,33 @@ event = {
 		command = { type = chiefofnavy 				which = 675009 }
 		command = { type = chiefofair 				which = 675010 }
 		
-		command = { type = money 					value = 500   }
+		command = { type = money 					value = 300   }
 		command = { type = manpowerpool 			value = 300   }
 		command = { type = free_manpower 			value = 0.012 } #3 free MP per 250 days, very fast immigration during the first few decades
 		command = { type = free_ic					value = 5	  }
-		command = { type = free_money				value = 1	  }
+		command = { type = free_money				value = 2	  }
 		command = { type = trade which = USA where = ISR supplies = -5 money = -5 value = 1 } #permanent
 		
 		command = { type = construct which = land_fort where = 7286   value = 4 }
 
 		#9 divs initially at half brigade size, total starting str 27,000, max str 120,000
 		command = { type = add_corps which = "Golani Forces"		value = land where = 7290 }	#Galilee/Tabariya
-		command = { type = add_division which = "1st 'Golani' Division"			value = infantry when = 12 where = -80 }
+		command = { type = add_division which = "1st 'Golani' Division"			value = militia	 when = 7 where = -40 }
 		command = { type = add_corps which = "Yiftach Forces"		value = land where = 7290 }	#Galilee/Tabariya
 		command = { type = add_division which = "2nd 'Yiftach' Division" 		value = infantry when = 12 where = -80 }
 		command = { type = add_corps which = "Carmeli Forces"		value = land where = 404  }	#Haifa
-		command = { type = add_division which = "3rd 'Carmeli' Division"		value = infantry when = 12 where = -80 }
+		command = { type = add_division which = "3rd 'Carmeli' Division"		value = militia	 when = 7 where = -40 }
 		command = { type = add_corps which = "Kiryati Forces"		value = land where = 404  }	#Haifa
-		command = { type = add_division which = "4th 'Kiryati' Division" 		value = infantry when = 12  where = -80 }
+		command = { type = add_division which = "4th 'Kiryati' Division" 		value = militia	 when = 7 where = -40 }
 		command = { type = add_corps which = "Alexandroni Forces"	value = land where = 1798 }	#Tel Aviv
-		command = { type = add_division which = "5th 'Alexandroni' Division"	value = infantry when = 12 where = -80 }
-		command = { type = add_corps which = "Givati Forces"		value = land where = 1798 }	#Tel Aviv
-		command = { type = add_division which = "6th 'Givati' Division"			value = infantry when = 12 where = -80 }
+		command = { type = add_division which = "5th 'Alexandroni' Division"	value = militia	 when = 7 where = -40 }
+		command = { type = add_corps which = "Givati Forces"		value = land where = 7283 }	#Yafa
+		command = { type = add_division which = "6th 'Givati' Division"			value = militia	 when = 7 where = -40 }
 		command = { type = add_corps which = "Negev Forces"			value = land where = 7286 }	#Negev/Bir Asluj
 		command = { type = add_division which = "7th 'Negev' Division"			value = infantry when = 12 where = -80 }
 		command = { type = add_corps which = "Etzioni Forces"		value = land where = 7286 }	#Negev/Bir Asluj
-		command = { type = add_division which = "8th 'Etzioni' Division" 		value = infantry when = 12 where = -80 }
-		command = { type = add_corps which = "Harel Forces"			value = land where = 7283 }	#Yafa
+		command = { type = add_division which = "8th 'Etzioni' Division" 		value = militia	 when = 7 where = -40 }
+		command = { type = add_corps which = "Harel Forces"			value = land where = 1798 }	#Tel Aviv
 		command = { type = add_division which = "9th 'Harel' Division"			value = infantry when = 12 where = -80 }
 		
 		command = { type = add_corps which = "Haifa garrison"		value = land where = 404  }	#Haifa
@@ -8774,8 +8867,9 @@ event = {
 		
 		command = { type = add_brigade	value = armored_car 	when = 6 }
 		
-		command = { trigger = { ai = yes } type = ai			which = "default.ai"	}
-		command = { trigger = { ai = yes } type = ai 		which = "nations\ISRARA.ai" }
+		command = { trigger = { ai = yes } type = ai			which = "default.ai"				}
+		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
+		command = { trigger = { ai = yes } type = ai 			which = "nations\ISRARA.ai"			}
 	}
 }
 
@@ -8810,11 +8904,13 @@ event = {
 		command = { type = add_corps which = "Arab Liberation Army"	value = land where = 1881 }
 		command = { type = add_division which = "2nd ALA Division"		value = militia when = 5 where = -80 }
 		
-		command = { trigger = { ai = yes } type = ai			which = "default.ai"	}
-		command = { trigger = { ai = yes } type = ai 		which = "nations\ISRARA.ai" }
+		command = { trigger = { ai = yes } type = ai			which = "default.ai"				}
+		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
+		command = { trigger = { ai = yes } type = ai 			which = "nations\ISRARA.ai"			}
 		
 		command = { type = add_corps which = "Syrian Army"			value = land where = 1795  }
-		command = { type = add_division which = "1st Infantry Division"	value = militia when = 5 where = -80 }
+		command = { type = add_division which = "1st Infantry Division"	value = infantry when = 11 where = -80 }
+		command = { type = add_division which = "2nd Infantry Division"	value = militia  when = 5  where = -80 }
 		
 		command = { type = addcore				which = 1797 } 
 		command = { type = addcore				which = 1881 } 
@@ -8871,10 +8967,12 @@ event = {
 		command = { type = demobilize which = land	when = 0 where = 0 value = 3 }
 		
 		command = { type = add_corps which = "Lebanese Army"			value = land where = 7360  }
-		command = { type = add_division which = "1st Infantry Division"	value = militia when = 5 where = -80 }
+		command = { type = add_division which = "1st Infantry Division"	value = infantry when = 10 where = -80 }
+		command = { type = add_division which = "2nd Infantry Division"	value = militia  when = 5  where = -80 }
 		
-		command = { trigger = { ai = yes } type = ai			which = "default.ai"	}
-		command = { trigger = { ai = yes } type = ai 		which = "nations\ISRARA.ai" }
+		command = { trigger = { ai = yes } type = ai			which = "default.ai"				}
+		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
+		command = { trigger = { ai = yes } type = ai 			which = "nations\ISRARA.ai"			}
 		
 		command = { type = addcore				which = 1797 } 
 		command = { type = addcore				which = 1881 } 
@@ -8944,8 +9042,9 @@ event = {
 		command = { trigger = { NOT = { interceptor = 1 } } 	type = add_division value = interceptor		when = 9 where = -50 } #Spitfires
 		command = { trigger = { NOT = { tactical_bomber = 1 } }	type = add_division value = tactical_bomber	when = 7 where = -50 } #Dakotas repurposed as bombers
 		
-		command = { trigger = { ai = yes } type = ai			which = "default.ai"	}
-		command = { trigger = { ai = yes } type = ai 		which = "nations\ISRARA.ai" }
+		command = { trigger = { ai = yes } type = ai			which = "default.ai"				}
+		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
+		command = { trigger = { ai = yes } type = ai 			which = "nations\ISRARA.ai"			}
 		
 		command = { type = addcore				which = 1797 } 
 		command = { type = addcore				which = 1881 } 
@@ -8961,6 +9060,9 @@ event = {
 		command = { type = addcore				which = 7285 } 
 		
 		command = { type = local_setflag which = UnionBonds when = 0 value = 1	} #Limited union
+		
+		command = { trigger = { ai = EGY NOT = { ai = SYR } } type = military_control which = EGY where = SYR value = 1 }
+		command = { trigger = { ai = EGY NOT = { ai = LEB } } type = military_control which = EGY where = LEB value = 1 }
 	}
 }
 
@@ -9010,8 +9112,10 @@ event = {
 		command = { type = add_division which = "1st Holy War Division"		value = militia when = 5 where = -80 }
 		command = { type = add_corps which = "Holy War Army"	value = land where = 1797 }
 		command = { type = add_division which = "2nd Holy War Division"		value = militia when = 5 where = -80 }
+		command = { type = add_corps which = "Jordanian Army"	value = land where = 406 }
+		command = { type = add_division which = "Arab Legion 1"				value = infantry when = 12 where = artillery }
 		command = { type = add_corps which = "Jordanian Army"	value = land where = 1797 }
-		command = { type = add_division which = "Arab Legion"				value = infantry when = 12 where = artillery }
+		command = { type = add_division which = "Arab Legion 2"				value = infantry when = 12 where = -50 }
 		command = { type = add_corps which = "Jordanian Army"	value = land where = 1796 }
 		command = { type = add_division which = "1st Infantry Division"		value = militia when = 5 where = -60 }
 		command = { type = add_corps which = "Jordanian Army"	value = land where = 1803 }
@@ -9020,10 +9124,11 @@ event = {
 		command = { type = add_division which = "3rd Infantry Division"		value = militia when = 5 where = -60 }
 		#+1 iraqi expeditionary force
 		
-		command = { trigger = { ai = yes } type = ai			which = "default.ai"	}
-		command = { trigger = { ai = yes } type = ai 		which = "nations\ISRARA.ai" }
-		command = { trigger = { ai = yes } type = local_setflag which = AIfrontLeader   }
-		command = { trigger = { ai = yes } type = ai which = "front_leaderSupreme.ai"   }
+		command = { trigger = { ai = yes } type = ai			which = "default.ai"				}
+		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
+		command = { trigger = { ai = yes } type = ai 			which = "nations\ISRARA.ai"			}
+		command = { trigger = { ai = yes } type = local_setflag which = AIfrontLeader   			}
+		command = { trigger = { ai = yes } type = ai 			which = "front_leaderSupreme.ai"	}
 		
 		command = { type = addcore				which = 1797 } 
 		command = { type = addcore				which = 1881 } 
@@ -9082,14 +9187,17 @@ event = {
 		
 		command = { type = add_corps which = "Iraqi Expeditionary Corps" value = land where = 1797 }
 		command = { type = activate_division which = 22500 value = 20 where = 1797 when = 0 }
+		command = { type = activate_division which = 22500 value = 21 where = 1797 when = 0 }
 		command = { trigger = { ai = no } type = unlock_division which = 22500 value = 20 }
+		command = { trigger = { ai = no } type = unlock_division which = 22500 value = 21 }
 		command = { type = local_setflag which = exp value = 20 }
 		command = { type = ai which = "EXP_20.ai" }
 		
 		command = { trigger = { NOT = { tactical_bomber = 1 } }	type = add_division value = tactical_bomber	when = 7 where = -50 }
 		
-		command = { trigger = { ai = yes } type = ai			which = "default.ai"	}
-		command = { trigger = { ai = yes } type = ai 		which = "nations\ISRARA.ai" }
+		command = { trigger = { ai = yes } type = ai			which = "default.ai"				}
+		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
+		command = { trigger = { ai = yes } type = ai 			which = "nations\ISRARA.ai"			}
 	}
 }
 
@@ -9166,7 +9274,13 @@ event = {
 		#command = { type = dissent 			 value = -5 }
 		#command = { trigger = { country = IRQ } type = alliance	which = JOR }
 		command = { type = local_setflag which = war_preparedness when = 0 value = 3 }
-		command = { type = ai which = "frontAIcautious.ai" }
+		command = { trigger = { ai = yes } type = local_setflag which = grand_off_start }
+		#command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
+		command = { type = access which = EGY }
+		command = { type = access which = SYR }
+		command = { type = access which = LEB }
+		command = { type = access which = JOR }
+		command = { type = access which = IRQ }
 	}
 	action = {
 		name = "Rally to defend the Jewish state!"
@@ -9179,6 +9293,11 @@ event = {
 		command = { type = local_setflag which = war_preparedness when = 0 value = 8 }
 		command = { type = ai which = "frontAIcautious.ai" }
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
+		
+		#Gearing up 8
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 8 } } NOT = { local_flag = WAR_change } } type = event which = 2028 where = -1 when = 0  }
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 8 } }			local_flag = WAR_change   } type = local_setflag which = WAR_manual when = 0 value = 1	}
+		command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 8 } }			local_flag = WAR_change   } type = event which = 2028 where = -1 when = 0  }
 	}
 }
 
@@ -9218,14 +9337,20 @@ event = {
 		command = { type = demobilize which = interceptor	when = 0 where = 1	value = -1  }
 		command = { type = relation which = ISR value = 15 }
 		
-		command = { type = event which = 2049921	where = ISR when = 0 }
+		command = { type = access which = ISR }
+		
+		command = { type = event which = 2049921	where = CZE when = 0 }
+		command = { type = event which = 2049921	where = HUN when = 0 }
+		command = { type = event which = 2049921	where = U27 when = 0 }
+		command = { type = event which = 2049922	where = ISR when = 1 }
 	}
 }
 
 event = {
 	id = 2049921
 	random = no
-	country = SOV
+	persistent = yes
+	tag = { CZE U27 }
 
 	name = "Soviet Help to Israel"
 	desc = "USSR voted alongside the United States for Resolution 181 which advised for the withdrawal of British troops from Palestine and its partition between a Jewish majority and Arab majority states. The Arab countries in the region, however, rejected the resolution, and guided by a mix of personal ambitions and a desire to expand their territories, they have sent their troops in to Palestine the moment British forces began to withdraw. The irony is, however, that some of those Arab states remain very closesly tied to Britain, so much so that the top leadership of the Jordanian Army, for example, is British. If the Jewish state were to fall, in effect this would mean the restoration of British power in the region but by new means. With that calculation in mind, the Soviet leader Joseph Stalin authorized limited assitance to Israel in this critical period. He was careful to keep Soviet involvement low profile, however, as he did not want to upset his own Muslim populations or permanently ruin relations with USSR's Muslim neighbors. The most critical aid came in the form of small arms which were routed through Czechslovakia, but there were also small deliveries of fighter aircraft as well."
@@ -9233,9 +9358,8 @@ event = {
 	picture = "news_paper"
 
 	action = {
-		name = "ACTION_NAME_GREAT"
-		command = { type = add_division which = "1st Air Division"			value = interceptor			when = 11 where = -40	}
-		command = { type = add_brigade										value = artillery 			when = 11	}
+		name = "ACTION_NAME_OK"
+		command = { type = access which = ISR }
 	}
 }
 
@@ -9244,15 +9368,33 @@ event = {
 	random = no
 	country = ISR
 
+	name = "Soviet Help to Israel"
+	desc = "USSR voted alongside the United States for Resolution 181 which advised for the withdrawal of British troops from Palestine and its partition between a Jewish majority and Arab majority states. The Arab countries in the region, however, rejected the resolution, and guided by a mix of personal ambitions and a desire to expand their territories, they have sent their troops in to Palestine the moment British forces began to withdraw. The irony is, however, that some of those Arab states remain very closesly tied to Britain, so much so that the top leadership of the Jordanian Army, for example, is British. If the Jewish state were to fall, in effect this would mean the restoration of British power in the region but by new means. With that calculation in mind, the Soviet leader Joseph Stalin authorized limited assitance to Israel in this critical period. He was careful to keep Soviet involvement low profile, however, as he did not want to upset his own Muslim populations or permanently ruin relations with USSR's Muslim neighbors. The most critical aid came in the form of small arms which were routed through Czechslovakia, but there were also small deliveries of fighter aircraft as well."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = add_corps 	value = air where = 469 }	
+		command = { type = add_division which = "1st Air Division"			value = interceptor			when = 11 where = -40	}
+		command = { type = add_brigade										value = artillery 			when = 11	}
+	}
+}
+
+event = {
+	id = 2049923
+	random = no
+	country = ISR
+
 	decision = {
 		atwar = yes
 	}
 	decision_trigger = {
-		money = 1000 #Less than "purchase outdated unit" because the unit arrives significantly understrength
+		money = 500 #Less than "purchase outdated unit" because the unit arrives significantly understrength
 	}
 	trigger = {
 		atwar = yes
-		money = 1000
+		money = 500
 	}
 
 	name = "Purchasing American Bombers"
@@ -9266,8 +9408,9 @@ event = {
 
 	action = {
 		name = "Smuggle the American bombers to Israel" 
-		command = { type = money 	value = -1000 }
-		command = { type = add_division which = "2nd Air Division"			value = strategic_bomber	when = 4 where = -80 } #1939 strat bomber
+		command = { type = money 	value = -500 }
+		command = { type = add_corps 	value = air where = 4247 }
+		command = { type = add_division which = "2nd Air Division"	value = strategic_bomber	when = 4 where = -80 } #1939 strat bomber
 	}
 }
 
@@ -9284,7 +9427,11 @@ event = {
 		exists = SYR
 		exists = LEB
 		event = { id = 2049900 days = 180 }
-		lost_national = { value = 9 } #4/50
+		OR = {
+			lost_national = { value = 7 } #4/50
+			dissent = 10
+			#policy = { type = professional_army value = 6 }
+		}
 	}
 
 	name = "Egypt-Israel ceasefire"
@@ -9352,6 +9499,7 @@ event = {
 	action = {
 		name = "ACTION_NAME_OK" 
 		command = { type = dissent			value = 5  } #Not the outcome that the Egyptians were promised
+		command = { type = leave_alliance	when = 1 }
 		command = { type = peace 			which = ISR value = 1 }
 		command = { type = secedeprovince	which = ISR	value = 7285	when = 2 }
 		command = { type = secedeprovince	which = ISR	value = 7284	when = 2 }
@@ -9378,7 +9526,9 @@ event = {
 		exists = SYR
 		event = { id = 2049900 days = 180 }
 		OR = {
-			lost_national = { value = 22 } #1/5
+			lost_national = { value = 15 } #1/5
+			dissent = 10
+			#policy = { type = professional_army value = 6 }
 			NOT = { war = { country = ISR country = EGY } }
 			NOT = { war = { country = ISR country = SYR } }
 		}
@@ -9449,6 +9599,7 @@ event = {
 	action = {
 		name = "ACTION_NAME_OK" 
 		command = { type = dissent			value = 3  } #Not the outcome that the Lebanese were promised
+		command = { type = leave_alliance	when = 1 }
 		command = { type = peace 			which = ISR value = 1 }
 		command = { type = secedeprovince	which = LEB	value = 7360	when = 2 }
 		command = { type = relation which = SYR value = -10 }
@@ -9470,7 +9621,9 @@ event = {
 		exists = LEB
 		event = { id = 2049900 days = 180 }
 		OR = {
-			lost_national = { value = 10 } #2/24
+			lost_national = { value = 6 } #2/24
+			dissent = 10
+			#policy = { type = professional_army value = 6 }
 			NOT = { war = { country = ISR country = EGY } }
 			NOT = { war = { country = ISR country = JOR } }
 		}
@@ -9541,6 +9694,7 @@ event = {
 	action = {
 		name = "ACTION_NAME_OK" 
 		command = { type = dissent			value = 5  } #Not the outcome that the Syrians were promised
+		command = { type = leave_alliance	when = 1 }
 		command = { type = peace 			which = ISR value = 1 }
 		command = { type = secedeprovince	which = ISR	value = 1881	when = 2 }
 		command = { type = secedeprovince	which = SYR	value = 1795	when = 2 }
@@ -9548,6 +9702,8 @@ event = {
 		command = { type = relation which = LEB value = -10 }
 		command = { type = relation which = JOR value = -10 }
 		command = { type = relation which = IRQ value = -10 }
+		
+		command = { trigger = {	ai = LEB war = {	country = LEB country = SYR } }	type = event where = LEB which = 2400040	when = 0 } #exp_0
 	}
 }
 
@@ -9564,6 +9720,8 @@ event = {
 		event = { id = 2049900 days = 180 }
 		OR = {
 			lost_national = { value = 20 } #2/8
+			dissent = 15 #puppet
+			#policy = { type = professional_army value = 6 }
 			AND = {
 				lost_national = { value = 10 } #1/8
 				NOT = { war = { country = ISR country = EGY } }
@@ -9645,6 +9803,7 @@ event = {
 		command = { type = relation which = LEB value = -10 }
 		command = { type = relation which = SYR value = -10 }
 		command = { type = relation which = IRQ value = -10 }
+		command = { trigger = { ai = JOR } type = event which = 2400008	where = JOR when = 0 }
 	}
 }
 
@@ -9661,6 +9820,11 @@ event = {
 			war = { country = LEB }
 			war = { country = JOR }
 		}
+		owned = { province = 406  }
+		owned = { province = 1881 }
+		owned = { province = 7282 }
+		owned = { province = 7284 }
+		owned = { province = 7285 }
 	}
 
 	name = "Arab-Israeli War - Jewish victory"
@@ -9684,12 +9848,29 @@ event = {
 		command = { type = relation which = LEB value = -20 }
 		command = { type = relation which = SYR value = -20 }
 		command = { type = relation which = IRQ value = -20 }
-		command = { type = belligerence 		 value = 30 } #50 total
+		command = { type = belligerence which = ISR	value =  30 } #50 total
+		command = { type = belligerence which = EGY	value = -10 }
+		command = { type = belligerence which = SYR	value = -10 }
+		command = { type = belligerence which = LEB	value = -10 }
+		command = { type = belligerence which = JOR	value = -10 }
+		command = { type = belligerence which = IRQ	value = -10 }
 		command = { type = addcore			   which = 1881 }
 		command = { type = addcore			   which = 7282 }
 		command = { type = addcore			   which =  406 }
 		command = { type = domestic which = political_left value = -1 }
 		command = { type = end_trades which = SOV where = ISR }
+		command = { type = end_access 		which = SOV when = 0 }
+		command = { type = end_access 		which = SOV when = 1 }
+		command = { type = end_access 		which = CZE when = 0 }
+		command = { type = end_access 		which = CZE when = 1 }
+		command = { type = end_access 		which = HUN when = 0 }
+		command = { type = end_access 		which = HUN when = 1 }
+		command = { type = end_access 		which = U27 when = 0 }
+		command = { type = end_access 		which = U27 when = 1 }
+		
+		#Jewish immigration picks up now that the state's survival is assured
+		command = { type = construct 			which = ic where = 404  value = 1 }
+		command = { type = province_manpower 	which = 1798 			value = 1 }
 		
 		#command = { type = removecore			which = 1881 where = EGY } 
 		command = { type = removecore			which = 7282 where = EGY } 
@@ -9750,12 +9931,29 @@ event = {
 		command = { type = relation which = LEB value = -20 }
 		command = { type = relation which = SYR value = -20 }
 		command = { type = relation which = IRQ value = -20 }
-		command = { type = belligerence 		 value = 30 } #50 total
+		command = { type = belligerence which = ISR	value =  30 } #50 total
+		command = { type = belligerence which = EGY	value = -10 }
+		command = { type = belligerence which = SYR	value = -10 }
+		command = { type = belligerence which = LEB	value = -10 }
+		command = { type = belligerence which = JOR	value = -10 }
+		command = { type = belligerence which = IRQ	value = -10 }
 		command = { type = addcore			   which = 1881 }
 		command = { type = addcore			   which = 7282 }
 		command = { type = addcore			   which =  406 }
 		command = { type = domestic which = political_left value = -1 }
 		command = { type = end_trades which = SOV where = ISR }
+		command = { type = end_access 		which = SOV when = 0 }
+		command = { type = end_access 		which = SOV when = 1 }
+		command = { type = end_access 		which = CZE when = 0 }
+		command = { type = end_access 		which = CZE when = 1 }
+		command = { type = end_access 		which = HUN when = 0 }
+		command = { type = end_access 		which = HUN when = 1 }
+		command = { type = end_access 		which = U27 when = 0 }
+		command = { type = end_access 		which = U27 when = 1 }
+		
+		#Jewish immigration picks up now that the state's survival is assured
+		command = { type = construct 			which = ic where = 404  value = 1 }
+		command = { type = province_manpower 	which = 1798 			value = 1 }
 		
 		#command = { type = removecore			which = 1881 where = EGY } 
 		command = { type = removecore			which = 7282 where = EGY } 
@@ -9821,9 +10019,12 @@ event = {
 		command = { type = relation which = ISR value = -90 }
 		command = { type = belligerence 		 value =  1 }
 		command = { type = dissent 				 value = -2 }
-		command = { type = embargo which = -1 where = ISR value = 3 }
+		command = { type = embargo which = -1 where = ISR value = 1 }
 		
 		command = { trigger = { country = IRQ } type = alliance which = USA when = 1 }
+		
+		command = { trigger = { country = LEB } type = construct which = ic where = 7360    value = 1 }
+		command = { trigger = { country = JOR } type = construct which = ic where = 1796    value = 1 }
 	}
 }
 
@@ -9890,6 +10091,8 @@ event = {
 		
 		command = { type = event which = 2049961	where = JOR when = 0 }
 		command = { type = event which = 2049961	where = IRQ when = 0 }
+		
+		command = { trigger = { ai = JOR } type = event which = 2400008	where = JOR when = 0 }
 	}
 	action = {
 		name = "And so for the highest ends, everything is permitted"
@@ -9930,6 +10133,8 @@ event = {
 		
 		command = { type = event which = 2049961	where = JOR when = 0 }
 		command = { type = event which = 2049961	where = IRQ when = 0 }
+		
+		command = { trigger = { ai = JOR } type = event which = 2400008	where = JOR when = 0 }
 	}
 }
 
@@ -10010,6 +10215,8 @@ event = {
 		command = { type = event which = 2049966	where = EGY when = 0 }
 		command = { type = event which = 2049966	where = JOR when = 0 }
 		command = { type = event which = 2049966	where = IRQ when = 0 }
+		
+		command = { trigger = { ai = JOR } type = event which = 2400008	where = JOR when = 0 }
 	}
 	action = {
 		name = "And so for the highest ends, everything is permitted"
@@ -10049,6 +10256,8 @@ event = {
 		command = { type = event which = 2049966	where = EGY when = 0 }
 		command = { type = event which = 2049966	where = JOR when = 0 }
 		command = { type = event which = 2049966	where = IRQ when = 0 }
+		
+		command = { trigger = { ai = JOR } type = event which = 2400008	where = JOR when = 0 }
 	}
 }
 
@@ -10130,6 +10339,8 @@ event = {
 		command = { type = domestic	   which = political_left value = -1 }
 		
 		command = { type = event which = 2049971	where = EGY when = 0 }
+		
+		command = { trigger = { ai = JOR } type = event which = 2400008	where = JOR when = 0 }
 	}
 	action = {
 		name = "And so for the highest ends, everything is permitted"
@@ -10174,6 +10385,8 @@ event = {
 		
 		command = { type = event which = 2049971	where = EGY when = 0 }
 		command = { type = event which = 2049971	where = IRQ when = 0 }
+		
+		command = { trigger = { ai = JOR } type = event which = 2400008	where = JOR when = 0 }
 	}
 }
 
@@ -10197,5 +10410,479 @@ event = {
 		trigger = { country = IRQ }
 		command = { type = dissent value = -5 }
 		command = { type = alliance which = USA when = 1 }		
+	}
+}
+
+
+event = {
+	id = 2049975
+	random = no
+	persistent = yes
+	tag = { EGY }
+
+	decision = {
+		war = { country = ISR }
+		event = { id = 2049900 days = 360 }
+	}
+	trigger = {
+		war = { country = ISR country = EGY }
+		war = { country = ISR country = LEB }
+		war = { country = ISR country = SYR }
+		war = { country = ISR country = JOR }
+		control = { province = 404	data = -2 }
+		control = { province = 1798	data = -2 }
+		NOT = { area = { area = "Palestine" country = -2 data = 1 value = 35 } } #less than 5/12
+		OR = {
+			event = { id = 2049900 days = 720 }
+			dissent = 15
+			losses = 300000
+		}
+	}
+
+	name = "Arab-Israeli War - Frozen conflict"
+	desc = "After a protracted struggle, neither side was able to secure a decisive victory in Palestine. The Arabs were not able to dislodge the Jews from their main strongholds in Haifa and Tel Aviv, but the Jews were also not able to kick out the Arab armies from Palestine either. Under these conditions, the Arab High Committee proposed to freeze the conflict along the lines resembling those originally proposed by the UN commission. The original plan had the city of Jaffa right next to Tel Aviv assigned as an Arab exclave, while southern Negev was assigned to Israel for 'future settlement'. Given the military reality on the ground, the Arab Committee proposes for Jaffa to go to Israel while Egypt will keep southern Negev."
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 0 month = may year = 1944 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Propose the deal"
+		command = { type = dissent value = 1 }
+		command = { type = relation which = JOR value = -10 }
+		command = { type = relation which = IRQ value = -10 }
+		command = { type = relation which = LEB value = -10 }
+		command = { type = relation which = SYR value = -10 }
+		command = { type = relation which = IRQ value = -10 }
+		
+		command = { type = event which = 2049976	where = JOR when = 0 }
+	}
+}
+
+event = {
+	id = 2049976
+	random = no
+	persistent = yes
+	tag = { EGY JOR SYR LEB }
+
+	name = "Arab-Israeli War - Frozen conflict"
+	desc = "After a protracted struggle, neither side was able to secure a decisive victory in Palestine. The Arabs were not able to dislodge the Jews from their main strongholds in Haifa and Tel Aviv, but the Jews were also not able to kick out the Arab armies from Palestine either. Under these conditions, the Arab High Committee proposed to freeze the conflict along the lines resembling those originally proposed by the UN commission. The original plan had the city of Jaffa right next to Tel Aviv assigned as an Arab exclave, while southern Negev was assigned to Israel for 'future settlement'. Given the military reality on the ground, the Arab Committee proposes for Jaffa to go to Israel while Egypt will keep southern Negev."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_ACCEPT"
+		trigger = { OR = { country = EGY country = SYR country = LEB country = JOR } }
+		ai_chance = 100
+		command = { type = dissent		value = 1 }
+		command = { trigger = { country = JOR } type = event which = 2049976	where = SYR when = 0 }
+		command = { trigger = { country = SYR } type = event which = 2049976	where = LEB when = 0 }
+		command = { trigger = { country = LEB } type = event which = 2049976	where = ISR when = 0 }
+	}
+	action = {
+		name = "ACTION_NAME_ACCEPT"
+		trigger = { country = ISR }
+		command = { type = dissent				value = 1 }
+		command = { type = peace which = EGY	value = 0 }
+		command = { type = peace which = SYR	value = 0 }
+		command = { type = peace which = LEB	value = 0 }
+		command = { type = peace which = JOR	value = 0 }
+		command = { type = peace which = IRQ	value = 0 }
+		command = { type = secedeprovince	which = ISR	value = 7283   when = 2 } #
+		command = { type = secedeprovince	which = EGY	value = 7285   when = 2 } #
+	}
+	action = {
+		name = "ACTION_NAME_REFUSE"
+		ai_chance = 0
+		command = { type = dissent		value = 3 }
+		command = { type = belligerence	value = 3 }
+	}
+}
+
+####################################
+#War in north africa (start only)
+####################################
+
+event = {
+	id = 2050000
+	random = no
+	tag = { VIC }
+
+	trigger = {
+		war = { country = ALG }
+	}
+
+	name = "War in North Africa"
+	desc = "Despite France's best efforts to keep the colonial empire intact after WW2, the situation in North Africa was rapidly deteriorating across the board. The governments in Paris, regardless of their own ideological leanings, found themselves with little choice but to either fully submit to the demands of the separatists and lose not just the Empire but even Algeria, which is a core part of French territory - or face another brutal and endless insurgency."
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 0 month = may year = 1944 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = ACTION_NAME_DAMN
+		#Outbreak of war in Algeria initially rallies French to defend 'core part of France'
+		command = { type = dissent 		value =  -5 }
+		command = { type = belligerence	value =   5 }
+		command = { type = manpowerpool value = 300 } #French Algerians rally to the cause
+		#-3 years of war exhaustion
+		command = { trigger = { local_flag = { which = warDurationCount when = 1 value = 1 } } type = local_setflag which = warDurationCount when = 1 value = -1 }
+		command = { trigger = { local_flag = { which = warDurationCount when = 1 value = 1 } } type = local_setflag which = warDurationCount when = 1 value = -1 }
+		command = { trigger = { local_flag = { which = warDurationCount when = 1 value = 1 } } type = local_setflag which = warDurationCount when = 1 value = -1 }
+	}
+}
+
+event = {
+	id = 2050001
+	random = no
+	persistent = yes
+	tag = { TUN MOR EGY SOV CHC }
+
+	decision = {
+		NOT = { local_flag = ALGreaction }
+		event = 2050000
+		war = { country = ALG country = VIC }
+	}
+	decision_trigger = {
+	}
+	trigger = {
+		NOT = { local_flag = ALGreaction }
+		event = 2050000
+		war = { country = ALG country = VIC }
+		NOT = { 
+			war = { country = USA }
+			war = { country = VIC }
+			war = { country = ENG }
+		}
+	}
+
+	name = "War in North Africa"
+	desc = "Despite France's best efforts to keep the colonial empire intact after WW2, the situation in North Africa was rapidly deteriorating across the board. The governments in Paris, regardless of their own ideological leanings, found themselves with little choice but to either fully submit to the demands of the separatists and lose not just the Empire but even Algeria, which is a core part of French territory - or face another brutal and endless insurgency."
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 0 month = may year = 1944 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Support the Algerian freedom fighters"
+		command = { type = belligerence	value = 1 }
+		command = { trigger = { country = SOV } type = trade which = SOV where = ALG supplies = -4 money = -0.2 value = 1 } 
+		command = { trigger = { country = CHC } type = trade which = CHC where = ALG supplies = -4 money = -0.2 value = 1 } 
+		command = { trigger = { country = TUN } type = trade which = TUN where = ALG supplies = -4 money = -0.2 value = 1 } 
+		command = { trigger = { country = MOR } type = trade which = MOR where = ALG supplies = -4 money = -0.2 value = 1 } 
+		command = { trigger = { country = EGY } type = trade which = EGY where = ALG supplies = -8 money = -0.4 value = 1 } 
+		command = { type = local_setflag which = ALGreaction }
+	}
+}
+
+
+event = {
+	id = 2050010
+	random = no
+	country = VIC
+
+	decision = {
+		event = 2050000
+		war = { country = MOR country = VIC }
+	}
+	decision_trigger = {
+	}
+	trigger = {
+		event = 2050000
+		war = { country = MOR country = VIC }
+		OR = {
+			war = { country = ALG country = VIC }
+			dissent = 10
+			NOT = { region = { region = "Morocco" country = -3 data = 1 value = 20 } }
+		}
+		NOT = { 
+			war = { country = USA }
+			war = { country = SOV }
+			war = { country = ENG }
+			war = { country = GER }
+		}
+	}
+
+	name = "Agreement with Morocco"
+	desc = "Having just emerged from a disasterous war in Indochina, France was immediately faced with not one or two but three simultenous crises brewing in North Africa. There is very little chance that we can handle all three at the same time. Out policymakers are strongly advising that we resolve the matters in Morocco and Tunisia peacefully be giving into as much of insurgent demands as needed in order to preserve the peace, and concentrate all our military efforts on Algeria - the biggest, richest, and most important of our posessions in North Africa both strategically and politically. Unlike Morocco and Tunisia, from which we can withdraw with relatively little domestic reprecussions, Algeria is different. Algeria has a very large ethnic French minority, concentrated around the coastal cities, and it is legally not a colony, but an integral part of France. Giving up Algeria without a fight is practically unthinkable."
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 0 month = may year = 1944 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "End our presense in Morocco"
+		command = { type = dissent		value =  2 }
+		command = { type = belligerence	value = -2 }
+		command = { type = event which = 2050011 where = MOR when = 0 }
+	}
+}
+
+event = {
+	id = 2050011
+	random = no
+	country = MOR
+
+	name = "Agreement with Morocco"
+	desc = "Having just emerged from a disasterous war in Indochina, France was immediately faced with not one or two but three simultenous crises brewing in North Africa. As there was very little chance that France would deal with all three at the same time, its policymakers wisely decided to peacefully exit Morocco and Tunisia while concentrating their military efforts on Algeria - the biggest, richest, and most important of French posessions in North Africa both strategically and politically."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = leave_alliance	when = 1 }
+		command = { type = peace 			which = VIC value = 1 }
+		command = { type = secedearea		which = MOR value = "Morocco"		when = 2 }
+		command = { type = secedearea		which = MOR value = "West Atlas"	when = 2 }
+		command = { type = secedeprovince	which = MOR value = 4409 			when = 2 }
+		command = { type = domestic			which = political_left	value = -1 }
+		
+		command = { trigger = { NOT = { event = 2050012 } } type = war 			which = SPA }
+		command = { trigger = { NOT = { event = 2050012 } } type = war 			which = SPR }
+		
+		command = { type = trigger which = 4644 }
+	}
+}
+
+event = {
+	id = 2050012
+	random = no
+	tag = { SPA SPR }
+
+	decision = {
+		event = 2050000
+		war = { country = MOR }
+	}
+	decision_trigger = {
+	}
+	trigger = {
+		event = 2050000
+		war = { country = MOR }
+		OR = {
+			NOT = { war = { country = MOR country = VIC } }
+			dissent = 10
+			NOT = { area = { area = "El Rif" country = -3 data = 1 value = 1 } }
+		}
+		NOT = { 
+			war = { country = USA }
+			war = { country = SOV }
+			war = { country = ENG }
+			war = { country = GER }
+		}
+	}
+
+	name = "Agreement with Morocco"
+	desc = "Having just emerged from a devastating Civil War and isolation following defeat of the Axis powers, Franco was in no mood to get stuck in a protracted colonial crisis in Morocco, certainly not without French help. When France, hit by the humiliation of Indochina and three simultaneous crises in North Africa, decided to abandon Morocco, Franco realized that he needed to urgently make a deal as well. Luckily, some moderate Moroccan forces around King Muhammed and the Istiqlal Party were amenable to a compromise. While fighting continued around Ifni and insurency raged in the Rif, the two sides worked out a deal where Spain would cede most of the densely populated Moroccan lands to the King, but would retain control of certain strategic coastal towns of mixed population - including Ceuta and Melilla, the town of Sidi Ifni (although without its countryside), and most of Spanish Morocco."
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 0 month = may year = 1944 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "Reduce our presense in Morocco"
+		command = { type = event which = 2050013 where = MOR when = 0 }
+	}
+}
+
+event = {
+	id = 2050013
+	random = no
+	country = MOR
+
+	name = "Agreement with Morocco"
+	desc = "Having just emerged from a devastating Civil War and isolation following defeat of the Axis powers, Franco was in no mood to get stuck in a protracted colonial crisis in Morocco, certainly not without French help. When France, hit by the humiliation of Indochina and three simultaneous crises in North Africa, decided to abandon Morocco, Franco realized that he needed to urgently make a deal as well. Luckily, some moderate Moroccan forces around King Muhammed and the Istiqlal Party were amenable to a compromise. While fighting continued around Ifni and insurency raged in the Rif, the two sides worked out a deal where Spain would cede most of the densely populated Moroccan lands to the King, but would retain control of certain strategic coastal towns of mixed population - including Ceuta and Melilla, the town of Sidi Ifni (although without its countryside), and most of Spanish Morocco."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_ACCEPT"
+		ai_chance = 100
+		command = { trigger = { NOT = { war = { country = VIC } } } type = leave_alliance	when = 1 }
+		command = { type = domestic			which = political_left	value = -1 }
+		command = { type = event 	which = 2050014 where = SPA when = 0 }
+		command = { type = event 	which = 2050014 where = SPR when = 0 }
+	}
+	action = {
+		name = "ACTION_NAME_REFUSE"
+		ai_chance = 0
+		command = { type = domestic			which = political_left	value =  1 }
+		command = { type = dissent		value =  5 }
+		command = { type = belligerence	value =  5 }
+		command = { type = war 			which = VIC }
+	}
+}
+
+event = {
+	id = 2050014
+	random = no
+	tag = { SPA SPR }
+
+	name = "Agreement with Morocco"
+	desc = "Wisely, the moderate circle around King Muhammad decided to lock in his gains rather than risk it all by pressing for too much too early. He has accepted our deal offer."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = dissent			value =  1 }
+		command = { type = belligerence		value = -1 }
+		command = { type = peace 			which = MOR value = 1 }
+		command = { type = peace 			which = ALG value = 1 }
+		command = { type = peace 			which = TUN value = 1 }
+		command = { type = secedearea		which = MOR value = "El Rif"	when = 2 }
+		command = { type = secedeprovince	which = MOR value = 1034 		when = 2 }
+		command = { type = secedeprovince	which = MOR value = 4410 		when = 2 }
+		command = { type = secedeprovince	which = -3  value = 957	 		when = 2 }
+		command = { type = secedeprovince	which = -3  value = 6526	 	when = 2 }
+		command = { type = secedeprovince	which = -3  value = 954	 		when = 2 }
+	}
+}
+
+event = {
+	id = 2050015
+	random = no
+	country = VIC
+
+	decision = {
+		event = 2050000
+		war = { country = TUN country = VIC }
+	}
+	decision_trigger = {
+	}
+	trigger = {
+		event = 2050000
+		war = { country = TUN country = VIC }
+		OR = {
+			war = { country = ALG country = VIC }
+			dissent = 10
+			NOT = { region = { region = "Tunisia" country = -3 data = 1 value = 20 } }
+		}
+		NOT = { 
+			war = { country = USA }
+			war = { country = SOV }
+			war = { country = ENG }
+			war = { country = GER }
+		}
+	}
+
+	name = "Agreement with Tunisia"
+	desc = "Having just emerged from a disasterous war in Indochina, France was immediately faced with not one or two but three simultenous crises brewing in North Africa. There is very little chance that we can handle all three at the same time. Out policymakers are strongly advising that we resolve the matters in Morocco and Tunisia peacefully be giving into as much of insurgent demands as needed in order to preserve the peace, and concentrate all our military efforts on Algeria - the biggest, richest, and most important of our posessions in North Africa both strategically and politically. Unlike Morocco and Tunisia, from which we can withdraw with relatively little domestic reprecussions, Algeria is different. Algeria has a very large ethnic French minority, concentrated around the coastal cities, and it is legally not a colony, but an integral part of France. Giving up Algeria without a fight is practically unthinkable."
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 0 month = may year = 1944 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "End our presense in Tunisia"
+		command = { type = dissent		value =  1 }
+		command = { type = belligerence	value = -1 }
+		command = { type = event which = 2050016 where = TUN when = 0 }
+	}
+}
+
+event = {
+	id = 2050016
+	random = no
+	country = TUN
+
+	name = "Agreement with Tunisia"
+	desc = "Having just emerged from a disasterous war in Indochina, France was immediately faced with not one or two but three simultenous crises brewing in North Africa. As there was very little chance that France would deal with all three at the same time, its policymakers wisely decided to peacefully exit Morocco and Tunisia while concentrating their military efforts on Algeria - the biggest, richest, and most important of French posessions in North Africa both strategically and politically."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = leave_alliance	when = 1 }
+		command = { type = peace 			which = VIC value = 1 }
+		command = { type = secederegion		which = TUN value = "Tunisia"	when = 2 }
+		command = { type = set_domestic		which = political_left	value = 5 }
+		command = { type = access 			which = VIC }
+		command = { type = capital 			which = 939 }
+		command = { trigger = { war = { country = VIC country = ALG } } type = secedeprovince	which = VIC value = 4534 		when = 2 }
+		command = { trigger = { war = { country = VIC country = ALG } } type = secedeprovince	which = VIC value = 935 		when = 2 }
+		command = { trigger = { war = { country = VIC country = ALG } } type = secedeprovince	which = VIC value = 4534 		when = 2 }
+		command = { trigger = { war = { country = VIC country = ALG } } type = secedeprovince	which = VIC value = 4533 		when = 2 }
+		command = { trigger = { war = { country = VIC country = ALG } } type = secedeprovince	which = VIC value = 940 		when = 2 }
+		command = { trigger = { war = { country = VIC country = ALG } } type = secedeprovince	which = VIC value = 941 		when = 2 }
+	}
+}
+
+event = {
+	id = 2050020
+	random = no
+	country = VIC
+
+	decision = {
+		event = 2050000
+		war = { country = ALG country = VIC }
+	}
+	decision_trigger = {
+	}
+	trigger = {
+		event = 2050000
+		war = { country = ALG country = VIC }
+		OR = {
+			dissent = 15
+			NOT = { region = { region = "Algeria" country = -3 data = 1 value = 20 } }
+		}
+		NOT = { 
+			war = { country = USA }
+			war = { country = SOV }
+			war = { country = ENG }
+			war = { country = GER }
+		}
+	}
+
+	name = "Agreement with Algeria"
+	desc = "Having just emerged from a disasterous war in Indochina, France was immediately faced with not one or two but three simultenous crises brewing in North Africa. Unlike Morocco and Tunisia, from which we can withdraw with relatively little domestic reprecussions, Algeria is different. Algeria has a very large ethnic French minority, concentrated around the coastal cities, and it is legally not a colony, but an integral part of France. Giving up Algeria without a fight is practically unthinkable."
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 0 month = may year = 1944 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "End our presense in Algeria"
+		command = { type = dissent		value = 15 }
+		command = { type = belligerence	value = -5 }
+		command = { type = event which = 2050021 where = ALG when = 0 }
+	}
+}
+
+
+event = {
+	id = 2050021
+	random = no
+	country = ALG
+
+	name = "Agreement with Algeria"
+	desc = "Having just emerged from a disasterous war in Indochina, France was immediately faced with not one or two but three simultenous crises brewing in North Africa. Despite its best efforts to retain control of Algeria, it quickly became apparent that it was a futile effort, and Paris decided to call it quits."
+	style = 2
+	picture = "news_paper"
+
+	action = {
+		name = "ACTION_NAME_GREAT"
+		command = { type = leave_alliance	when = 1 }
+		command = { type = peace 			which = VIC value = 1 }
+		command = { type = secederegion		which = ALG value = "Algeria"		when = 2 }
+		command = { type = secedeprovince	which = TUN value = 4534 		when = 2 }
+		command = { type = secedeprovince	which = TUN value = 935 		when = 2 }
+		command = { type = secedeprovince	which = TUN value = 4534 		when = 2 }
+		command = { type = secedeprovince	which = TUN value = 4533 		when = 2 }
+		command = { type = secedeprovince	which = TUN value = 940 		when = 2 }
+		command = { type = secedeprovince	which = TUN value = 941 		when = 2 }
 	}
 }

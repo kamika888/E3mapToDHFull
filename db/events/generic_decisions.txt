@@ -1855,6 +1855,7 @@ event = {
 			NOT = { local_flag = invest_recruitment }
 			OR = {
 				ai = no
+				country = ISR
 				NOT = { 
 					AND = {
 						dissent = 5
@@ -1871,7 +1872,7 @@ event = {
 						}
 					}
 					manpower = 100									#will not do if already has decent unmobilized manpower reserves
-					policy = { type = professional_army value = 6 } #little point in looking for contractors if already at general mobilization or above
+					#policy = { type = professional_army value = 6 } #little point in looking for contractors if already at general mobilization or above
 				}
 			}
 		}
@@ -2726,7 +2727,7 @@ event = {
 	decision_picture = "decision_licensed_unit"
 
 	date = { day = 1 month = january year = 1920 }
-	offset = 60
+	offset = 30
 	deathdate = { day = 30 month = december year = 1999 }
 
 	action = {  trigger = { money = 4010 					OR 	= { technology = { country = USA value = 1396 } technology = { country = GER value = 1396 } }
@@ -3819,15 +3820,11 @@ event = {
 				policy = { type = professional_army value = 9 }
 				ispuppet = yes
 			}
-			#AND = {
-			#	policy = { type = professional_army value = 5 }
-			#	NOT = {
-			#		local_flag = puppetLevel7
-			#		local_flag = puppetLevel8
-			#		local_flag = puppetLevel9
-			#		local_flag = legitIndie
-			#	}
-			#}
+			#Stuck at partial mob despite low manpower - must be failing requirements for general mob
+			AND = {
+						policy = { type = professional_army value = 5 } 
+				NOT = { policy = { type = professional_army value = 6 } }
+			}
 		}
 	}
 
@@ -4369,6 +4366,10 @@ event = {
 				NOT = { event = 1330110100 } #CCP survives the long march
 			}
 			country = UTO #Soviet Partisans
+			AND = {
+				country = U27
+				NOT = { region = { region = "Balkan" country = U27 data = 1 value = 1 } }
+			}
 		}
 	}
    

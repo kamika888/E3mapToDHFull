@@ -4163,34 +4163,66 @@ event = {
 	random = no
 	country = GER
 
+	decision = {
+		war = { country = SOV }
+		control = { province = 510 }
+	}
+	decision_trigger = {
+		lost_national = { country = SOV value = 6 }
+		losses = { country = SOV value = 5000000  } #At least 5 million overall losses in USSR
+	}
 	trigger = {
 		war = { country = SOV }
+		control = { province = 510 }
 		lost_national = { country = SOV value = 6 }
+		losses = { country = SOV value = 5000000  }
 	}
 
-	name = "EVT_2003041_NAME"
-	desc = "EVT_2003041_DESC"
+	name = "Eastern Collaborationist Forces 1"
+	desc = "At the beginning of Operation Barbarossa, Adolf Hitler reluctantly agreed to allow recruitment of Soviet citizens in the Rear Areas of the Wehrmacht. Most were recruited from the POW camps and already had both training and experience, although it was considered subpar by German standards and their reliability was often questionable. In a short period of time, many such volunteers were moved to frontline combat units and fought side by side with the German Army. To avoid possible concentrated resistance, these ethnic formations known to the Germans as 'Osttruppen' and 'Hiwis' tended to be split among a mosaic of different units both under the Wehrmacht and under Waffen SS. Towards the end of the war, in attempt to boost recruitment as well as morale of existing units, Berlin authorized to begin consolidating ethnic units into larger formations with clear political and ethnic orientations such as the Russian Liberation Army and Ukrainian Liberation Army, both of which, however, still performed rather poorly in combat."
   	style = 2
   	picture = "Vlassov"
 	
 	date = { day = 0 month = january year = 1938 }
-	offset = 10 
+	offset = 15 
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
 		name = "ACTION_NAME_ACCEPT"
-		command = { type = manpowerpool value = 200 } #Soviet collaborators
-		command = { type = wakeleader which = 576 } #Vlasov
-		command = { type = wakeleader which = 1007 } #Zverev
-		command = { type = wakeleader which = 1008 } #Budyho
+		command = { type = manpowerpool value = 233 }
+		command = { type = dissent 		value = 0.5 }
+		command = { type = wakeleader which  =  576 } #Vlasov
+		command = { type = wakeleader which  = 1007 } #Zverev
+		command = { type = wakeleader which  = 1008 } #Budyho
 		command = { type = trigger which = 2007051 }
+		
+		#Since POWs already have military training and officers in their ranks as well, the only thing they need is equipment to reinforce units to full strength
+		#Baltic militias already included during the initial Barbarossa phase
+		#During 1941-1942, most foreign auxillaries were organized as "Osttruppen" and "Hilfswilliger" units attached to larger German formations, 
+		#The famous SS formations which were formed later partly from the ranks of Osttruppen
+		#In game terms, it makes more sense to proceed with the creation of SS divisions as soon as 1942, because creating them later 'out of Osttruppen' would be challenging.
+		
+		command = { type = add_corps which = "Osttruppen Armeekorps"					value = land		when = 576	where = 510 }
+		command = { type = add_division  which = "1. Hilfswilliger-Division (ROA)"		value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "2. Hilfswilliger-Division (ROA)"		value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "3. Hilfswilliger-Division (UVV)"		value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "4. Hilfswilliger-Division (UVV)"		value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "5. Georgische Legion"					value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "6. Armenische Legion"					value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "7. Aserbaidschanische Legion"			value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "8. Aserbaidschanische Legion"			value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "9. Krimtatarische Legion"				value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "10. Wolgatatarische Legion"			value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "1. Kavallerie-Div.SS (Kosaken)"		value = cavalry		when = 12	where = -90 }
+		command = { type = add_division  which = "14. Waffen-Gr.Div.SS (Galizische)"	value = infantry	when = 11	where = -90 }
+		command = { type = add_division  which = "15. Waffen-Gr.Div.SS (Lettische)"		value = infantry	when = 11	where = -90 }
+		command = { type = add_division  which = "20. Waffen-Gr.Div.SS (Estnische)"		value = infantry	when = 11	where = -90 }
+		command = { type = add_division  which = "29. Waffen-Gr.Div.SS 'RONA' (Russ.)"	value = infantry	when = 11	where = -90 }
+		#command = { type = add_division  which = "10. Kauk.-Mohammedanische Legion"	value = militia		when = 6	where = -90 }
+		#command = { type = add_division  which = "21. Waffen-Geb.Div.SS (Alb)"			value = infantry	when = 11	where = -90 }
 	}
 }
 
-
-###################################
-# The traitor Vlassov has defected New for Armageddon 1.3
-###################################
 event = {
 	id = 2007051
 	random = no
@@ -4203,12 +4235,62 @@ event = {
 
 	action_a = {
 		name = EVT_2007051_ACTA
-		command = { type = dissent value = -0.5 }
+		command = { type = dissent 		value = -0.5 }
 		command = { type = sleepleader which = 30564 } #Soviet Vlassov
 		command = { type = sleepleader which = 30604 } #Soviet Zverev
 		command = { type = sleepleader which = 30063 } #Soviet Budyho
 	}
 }
+
+event = {
+	id = 2007052
+	random = no
+	country = GER
+
+	decision = {
+		event = 2003041
+		war = { country = SOV }
+		control = { province = 510 }
+	}
+	decision_trigger = {
+		lost_national = { country = SOV value = 6 }
+		losses = { country = SOV value = 15000000 } #At least 15 million overall losses in USSR
+	}
+	trigger = {
+		war = { country = SOV }
+		control = { province = 510 }
+		lost_national = { country = SOV value = 6 }
+		losses = { country = SOV value = 15000000 }
+	}
+
+	name = "Eastern Collaborationist Forces 2"
+	desc = "At the beginning of Operation Barbarossa, Adolf Hitler reluctantly agreed to allow recruitment of Soviet citizens in the Rear Areas of the Wehrmacht. Most were recruited from the POW camps and already had both training and experience, although it was considered subpar by German standards and their reliability was often questionable. In a short period of time, many such volunteers were moved to frontline combat units and fought side by side with the German Army. To avoid possible concentrated resistance, these ethnic formations known to the Germans as 'Osttruppen' and 'Hiwis' tended to be split among a mosaic of different units both under the Wehrmacht and under Waffen SS. Towards the end of the war, in attempt to boost recruitment as well as morale of existing units, Berlin authorized to begin consolidating ethnic units into larger formations with clear political and ethnic orientations such as the Russian Liberation Army and Ukrainian Liberation Army, both of which, however, still performed rather poorly in combat."
+  	style = 2
+  	picture = "Vlassov"
+	
+	date = { day = 0 month = january year = 1938 }
+	offset = 15 
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "ACTION_NAME_ACCEPT"
+		command = { type = manpowerpool value = 116 }
+		command = { type = dissent 		value = 0.5 }
+		
+		command = { type = add_corps which = "Osttruppen Armeekorps"					value = land					where = 510 }
+		command = { type = add_division  which = "11. Hilfswilliger-Division (ROA)"		value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "12. Hilfswilliger-Division (UVV)"		value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "13. Georgische Legion"				value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "14. Armenische Legion"				value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "15. Aserbaidschanische Legion"		value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "16. Aserbaidschanische Legion"		value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "17. Turkistanische Legion"			value = militia		when = 6	where = -90 }
+		command = { type = add_division  which = "2. Kavallerie-Div.SS (Kosaken)"		value = cavalry		when = 12	where = -90 }
+		command = { type = add_division  which = "19. Waffen-Gr.Div.SS (Lettische)"		value = infantry	when = 11	where = -90 }
+		command = { type = add_division  which = "30. Waffen-Gr.Div.SS (Weissruss.)"	value = infantry	when = 11	where = -90 }
+	}
+}
+
 #########################################################################
 #  The End of Tannu Tuva (USSR, Tannu Tuva)
 #########################################################################

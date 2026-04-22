@@ -57,6 +57,7 @@ event = {
 	
 	trigger = { 
 		local_flag = AllInit
+		local_flag = AllDefenseSpec
 		#NOT = { local_flag = indiePrep }
 		NOT = { ispuppet = yes }
 		OR = {
@@ -79,7 +80,17 @@ event = {
 
 	action = {
 		name = EVT_PUPPET_DEFAULT
-		command = { type = trigger which = 2400530 }
+		command = { trigger = {
+						atwar = yes
+						OR = {
+							local_flag = AllDefenseSpecWinter
+							local_flag = AllDefenseSpecMountain
+							local_flag = AllDefenseSpecJungle
+							local_flag = AllDefenseSpecDesert
+						}
+				}	type = event	which = 9000081 where = -1 when = 0 } #PartisanArmy
+		
+		command = { type = trigger	which = 2400530 }
 		command = { trigger = { NOT = { local_flag = legitIndie } NOT = { local_flag = stayInWar } local_flag = puppetOf } type = trigger which = 2400602 } #former puppet turns on master
 	}
 }
