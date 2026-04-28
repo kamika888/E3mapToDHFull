@@ -134,7 +134,7 @@ province = { id = 2 points = 1 }
 province = { id = 5 points = 1 }
 province = { id = 6 points = 1 }
 province = { id = 7 points = 1 }
-province = { id = 8 points = 5 }
+province = { id = 8 points = 6 }
 province = { id = 9 points = 2 }
 province = { id = 10 points = 3 }
 province = { id = 11 points = 3 }

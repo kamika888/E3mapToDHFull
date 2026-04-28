@@ -56,8 +56,10 @@ event = {
 	style = 2
 	
 	trigger = { 
-		local_flag = AllInit
-		local_flag = AllDefenseSpec
+		OR = {
+			local_flag = ShadowState
+			local_flag = AllInit
+		}
 		#NOT = { local_flag = indiePrep }
 		NOT = { ispuppet = yes }
 		OR = {
@@ -82,12 +84,7 @@ event = {
 		name = EVT_PUPPET_DEFAULT
 		command = { trigger = {
 						atwar = yes
-						OR = {
-							local_flag = AllDefenseSpecWinter
-							local_flag = AllDefenseSpecMountain
-							local_flag = AllDefenseSpecJungle
-							local_flag = AllDefenseSpecDesert
-						}
+						OR = { country = FIN country = U20 country = SOV country = RUS country = SIB country = SWE country = CAN country = SCA country = U21 country = UTO country = PER country = TUR country = ETH country = AFG country = YEM country = BHU country = NEP country = SCH country = NOR country = PRU country = CHL country = TAN country = MTN country = JAP country = TAJ country = KYG country = ARM country = GEO	country = AUS country = BOS country = PRK  country = CHI country = CGX country = CSX country = CYN country = CXB country = U59 country = U60 country = U61 country = U62 country = U63 country = U64 country = U65 country = U00 country = U05 country = CHC country = U58 country = TIB country = MAN country = U87 country = YUG country = U27 country = U28 country = U34 country = U26 country = U19 country = PHI country = SIA country = VIE country = LAO country = CMB country = BUR country = INO country = MLY country = MEX country = GUA country = HON country = SAL country = NIC country = COS country = PAN country = COL country = BRA country = ECU country = PAR country = GUY country = CUB country = LIB country = SIE country = GLD country = NIG country = U99 country = BEN country = U88 country = CAM country = U82 country = GAB country = CON country = U85 country = U83 country = U72 country = ALG country = LBY country = MAL country = U93 country = U84 country = SUD country = EGY country = SAU country = U53 country = SOM country = U91 country = KAZ country = UZB country = TRK  country = MON country = MEN country = NAM }
 				}	type = event	which = 9000081 where = -1 when = 0 } #PartisanArmy
 		
 		command = { type = trigger	which = 2400530 }
@@ -5683,6 +5680,8 @@ event = {
 	
 	trigger = {
 		ispuppet = yes
+		NOT = { local_flag = ShadowState }
+		NOT = { local_flag = demilitarized }
 		NOT = { local_flag = resistanceBrewing }
 		NOT = { local_flag = resistanceReady }
 		OR = {
@@ -7763,5 +7762,62 @@ event = {
 		name = EVT_2400620_ACTA
 		command = { type = end_puppet }
 		command = { type = event which = 2400530 where = -1 when = 0 } #avoid breaking existing alliances
+	}
+}
+
+
+#nation overrun by rebels at peace
+
+event = {
+	id = 2400630
+	random = no 
+	persistent = yes
+	
+	trigger = {
+		ai = yes
+		NOT = { atwar = yes }
+		lost_national	= { value = 80 }
+		lost_VP			= { value = 80 }
+	}
+	
+	name = AI_EVENT #this will never happen to a player
+
+	date = { day = 1 month = january year = 1913 }
+	offset = 30
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { trigger = { NOT = { technology = 1080 } } 					type = add_division value = infantry when = 6  }
+		command = { trigger = { technology = 1080 NOT = { technology = 1090 } } type = add_division value = infantry when = 7  }
+		command = { trigger = { technology = 1090 NOT = { technology = 1100 } } type = add_division value = infantry when = 8  }
+		command = { trigger = { technology = 1100 NOT = { technology = 1110 } } type = add_division value = infantry when = 9  }
+		command = { trigger = { technology = 1110 NOT = { technology = 1120 } } type = add_division value = infantry when = 10 }
+		command = { trigger = { technology = 1120 NOT = { technology = 1130 } } type = add_division value = infantry when = 11 }
+		command = { trigger = { technology = 1130 } 							type = add_division value = infantry when = 12 }
+		command = { trigger = { NOT = { technology = 1080 } } 					type = add_division value = infantry when = 6  }
+		command = { trigger = { technology = 1080 NOT = { technology = 1090 } } type = add_division value = infantry when = 7  }
+		command = { trigger = { technology = 1090 NOT = { technology = 1100 } } type = add_division value = infantry when = 8  }
+		command = { trigger = { technology = 1100 NOT = { technology = 1110 } } type = add_division value = infantry when = 9  }
+		command = { trigger = { technology = 1110 NOT = { technology = 1120 } } type = add_division value = infantry when = 10 }
+		command = { trigger = { technology = 1120 NOT = { technology = 1130 } } type = add_division value = infantry when = 11 }
+		command = { trigger = { technology = 1130 } 							type = add_division value = infantry when = 12 }
+		command = { trigger = { NOT = { technology = 1080 } } 					type = add_division value = infantry when = 6  }
+		command = { trigger = { technology = 1080 NOT = { technology = 1090 } } type = add_division value = infantry when = 7  }
+		command = { trigger = { technology = 1090 NOT = { technology = 1100 } } type = add_division value = infantry when = 8  }
+		command = { trigger = { technology = 1100 NOT = { technology = 1110 } } type = add_division value = infantry when = 9  }
+		command = { trigger = { technology = 1110 NOT = { technology = 1120 } } type = add_division value = infantry when = 10 }
+		command = { trigger = { technology = 1120 NOT = { technology = 1130 } } type = add_division value = infantry when = 11 }
+		command = { trigger = { technology = 1130 } 							type = add_division value = infantry when = 12 }
+		
+		command = { trigger = { continent = "North America" }	type = remove_units 		which = all where = REB when = 3 value = "North America" }
+		command = { trigger = { continent = "South America" }	type = remove_units 		which = all where = REB when = 3 value = "South America" }
+		command = { trigger = { continent = "Europe" }			type = remove_units 		which = all where = REB when = 3 value = "Europe" }
+		command = { trigger = { continent = "Asia" }			type = remove_units 		which = all where = REB when = 3 value = "Asia" }
+		command = { trigger = { continent = "Oceania" }			type = remove_units 		which = all where = REB when = 3 value = "Oceania" }
+		command = { trigger = { continent = "Africa" }			type = remove_units 		which = all where = REB when = 3 value = "Africa" }
+	
+		command = { type = end_puppet }
+		#command = { type = trigger which = 2400530 } #cancel puppet effects
+		#command = { type = trigger which = 2400602 } #forcepeace. former overlord has the option to declare war
 	}
 }

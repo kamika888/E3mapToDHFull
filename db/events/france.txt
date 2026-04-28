@@ -2183,10 +2183,15 @@ event = {
 		event = { id = 2011002 days = 90 } #Occupation of North Indochina
 		random = 20
 		
-		#Will only do once Germany invaded USSR - northern threat removed
-		NOT = { war = { country = SOV } }
-		flag = JAP_SOV_NAP #April 1941
-		war = { country = SOV country = GER } 
+		#Will only do once Germany invaded USSR - northern threat removed, or if at war with USA
+		OR = { 
+			war = { country = USA }
+			AND = {
+				flag = JAP_SOV_NAP #April 1941
+				NOT = { war = { country = SOV } }
+				war = { country = SOV country = GER } 
+			}
+		}
 		flag = { which = japChi when = 1  value = 20 } #Not losing horribly in China
 	}
 
@@ -2426,6 +2431,7 @@ event = {
 	action = {
 		name = EVT_2002055_ACTA
 		command = { type = trigger which = 2002011 }
+		command = { type = belligerence value = 20 }
 		command = { type = relation which = USA value = -20 }
 		command = { type = relation which = SOV value = -20 }
 		command = { type = relation which = VIC value = -50 }
@@ -4899,7 +4905,7 @@ event = {
 		ai = no
 		NOT = { local_flag = armisticeCheck }
 		event = { id = 2002008 days = 90  }
-		NOT = { event = 984 } #liberation of france
+		NOT = { event = 984 } #reunification of france
 		NOT = { event = 2003100 } #end of war
 		puppet = { country = VIC country = GER }
 		OR = {
@@ -5799,10 +5805,12 @@ event = {
 	}
 }
 
+#French reunification VIC U01
+
 event = {
 	id = 984
 	random = no
-	country = VIC
+	tag = { VIC U01 }
 
 	name = EVT_984_NAME
 	desc = EVT_984_DESC
@@ -5815,12 +5823,21 @@ event = {
 	trigger = {
 		#atwar = no 
 		event = 2002008 # French State
-		alliance = { country = ENG }
-		alliance = { country = U01 }
 		OR = {
-			NOT = { exists = U01 }
-			NOT = { event = 982 } #Vichy folds
-			event = { id = 982 days = 180 } 
+			AND = { 
+				country = VIC
+				alliance = { country = ENG }
+				OR = {
+					NOT = { exists = U01 }
+					alliance = { country = U01 }
+					NOT = { event = 982 } #Vichy folds
+					event = { id = 982 days = 180 } 
+				}
+			}
+			AND = { 
+				country = U01
+				NOT = { exists = VIC }
+			}
 		}
 	}
 
@@ -5830,8 +5847,20 @@ event = {
 
 	action = {
 		name = "ACTION_NAME_ACCEPT"
+		trigger = { country = VIC }
 		command = { trigger = { exists = U01 } 			 type = trigger which = 986 }
 		command = { trigger = { NOT = { exists = U01 } } type = trigger which = 988 }
+	}
+	action = {
+		name = "ACTION_NAME_ACCEPT"
+		trigger = { country = U01 }
+		command = { type = country which = VIC }
+		command = { type = local_clrflag which = warDuration	}
+		command = { type = local_clrflag which = MIL_Increasing	}
+		command = { type = local_clrflag which = WAR_change		}
+		command = { type = local_clrflag which = WAR_manual		}
+				
+		command = { type = trigger which = 988 }
 	}
 }
 
@@ -5853,12 +5882,11 @@ event = {
 	action = {
 		name = "ACTION_NAME_REFUSE"
 		ai_chance = 0
-		command = { type = dissent 			value = 20  		}
+		command = { type = dissent 			value = 30  		}
 		command = { type = end_puppet 							}
 		command = { type = leave_alliance	when = 1 			}
 		command = { type = local_setflag	which = legitIndie	}
-		command = { type = war 				which = ENG 		}
-		command = { type = event which = 2400603 where = -1 when = 10 } #The Intervention
+		command = { type = local_setflag 	which = SanctionsEvt  }
 	}
 }
 		
@@ -5893,6 +5921,7 @@ event = {
 		
 		command = { type = belligerence value = -200 } #reset belligerence
 		
+		command = { trigger = { control = { province = 56 } } type = secedeprovince	which = VIC value = 56	when = 2 }
 		command = { trigger = { control = { province = 56 } } 																		type = capital which = 56  } # Paris
 		command = { trigger = { NOT = { control = { province = 56 } } control = { province = 360 } } 								type = capital which = 360 } # Vichy
 		command = { trigger = { NOT = { control = { province = 56 } control = { province = 360 } } control = { province = 949 } } 	type = capital which = 949 } # Algiers
@@ -5942,12 +5971,12 @@ event = {
 event = { 
 	id = 990
 	random = no
-	country = VIC
+	country = ENG
 
 	trigger = {
 		event = 2002004
-		#NOT = { event = 997 } #Battle of Indochina
-		alliance = { country = ENG }
+		NOT = { flag = FraReturn }
+		alliance = { country = VIC }
 		control = { province = 56 data = -3 } #Paris
 		region = { region = "France" country = -3 value = 80 }
 		OR = {
@@ -5965,8 +5994,31 @@ event = {
 	style = 2
 	
 	action = {
-		name = "EVT1914_2002550_TEXT" #Vive la France!
+		name = "ACTION_NAME_GREAT"
 		command = { type = setflag 		 which = FraReturn	}
+	}
+}
+
+event = { 
+	id = 998
+	random = no
+	country = VIC
+	
+	trigger = {
+		flag = FraReturn
+		region = { region = "France" country = -1 value = 80 }
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	name = 700001name
+	desc = 700001desc
+	style = 2
+	
+	action = {
+		name = "EVT1914_2002550_TEXT" #Vive la France!
 		command = { type = local_clrflag which = exiled		}
 		command = { type = capital which = 56 }
 		
@@ -6002,6 +6054,8 @@ event = {
 		command = { type = event which = 2002078 where = USA when = 1 } #USA helps rebuild French airforce
 		
 		command = { trigger = { local_flag = { which = WARDebt when = -2 value = 10 } } type = local_setflag which = WARDebt when = 0 value = 10 } #At least 10 wardebt
+		
+		command = { trigger = { ai = yes } type = event which = 2400047 where = -1 when = 0 } #Exp_7
 
 		command = { trigger = { war = { country = JAP } NOT = { event = 997 } alliance = { country = U03 country = JAP } } type = event which = 991 where = U03 when = 1 }
 	}
@@ -6337,6 +6391,7 @@ event = {
 		command = { type = unlock_division which = 13500 value = 2043 }
 	}
 }
+
 
 ##################################
 # Levant Campaign
@@ -6706,68 +6761,6 @@ event = {
 		command = { type = add_claim_area 		which = "Lebanon_Syria"			where = U01 }
 		command = { type = add_claim_area 		which = "Lebanon_Syria"			where = VIC }
 	}
-}
-
-##################################
-# Moving capital
-##################################
-
-
-event = {
-	id = 2184007
-	random = no
-	tag = { U01 VIC }
-	persistent = yes
-
-	name = "EVT_2184007_NAME" #Move the Capital
-	desc = "EVT_2184007_DESC"
-	style = 2
-	picture = "news_paper"
-
-	decision = {
-		NOT = { capital = { province = 56 } } #Paris is not the capital of Free France
-	}
-	decision_trigger = {
-		OR = {
-	      	control = { province = 56 } #Free France controls Paris
-	      	AND = {
-				control = { province = 949 } #Free France controls Algiers
-				NOT = { capital = { province = 949 } }
-				NOT = { control = { province = 56 } control = { province = 360 } } #Free France does not controls Paris
-			}
-		} 
-	}
-	trigger = {
-		NOT = { capital = { province = 56 } } #Paris is not the capital of Free France
-		OR = {
-	      	control = { province = 56 } #Free France controls Paris
-	      	AND = {
-				control = { province = 949 } #Free France controls Algiers
-				NOT = { capital = { province = 949 } }
-				NOT = { control = { province = 56 } control = { province = 360 } } #Free France does not controls Paris or Vichy
-			}
-		} 
-	}
-
-	date = { day = 2 month = january year = 1936 }
-	offset = 30
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action = {
-		trigger = { control = { province = 56 } }
-		name = "EVT_2184007_ACTIONA" #To Paris!
-		command = { type = secedeprovince which = -3 value = 56 when = 2 }
-		command = { type = capital which = 56 } # Paris +
-		command = { type = dissent value = -3 }
-		command = { type = sleepevent which = 2184007 }
-	}
-	action = {
-		trigger = { control = { province = 949 } NOT = { control = { province = 56 } control = { province = 360 } } }
-		name = "EVT_2184007_ACTIONB" #To Algiers!
-		command = { type = secedeprovince which = -3 value = 949 when = 2 }
-		command = { type = capital which = 949 } # Algiers
-		command = { type = dissent value = -1 }
-	}	
 }
 
 
@@ -7381,5 +7374,54 @@ event = {
 		command = { type = add_division	 value = tactical_bomber	when = 7  }
 		#C-47 Dakota ~100 m.1942
 		command = { type = add_division	 value = transport_plane	when = 3  }
+	}
+}
+
+
+#Paris uprising
+event = {
+	id = 2002095
+	random = no
+	country = REB
+	
+	trigger = {
+		event = 2002008 #French State
+		OR = {
+			war = { country = VIC country = GER }
+			war = { country = U01 country = GER }
+		}
+		OR = { 
+			control = { province = 56 data = GER }
+			AND = { control = { province = 56 data = VIC } puppet = { country = VIC country = GER } }
+		}
+		OR = {
+			control = { province = 3164	data = USA }
+			control = { province = 3175	data = USA }
+			control = { province = 3165	data = USA }
+			control = { province = 3164	data = ENG }
+			control = { province = 3175	data = ENG }
+			control = { province = 3165	data = ENG }
+			AND = { control = { province = 3164	data = VIC } war = { country = VIC country = GER } }
+			AND = { control = { province = 3175	data = VIC } war = { country = VIC country = GER } }
+			AND = { control = { province = 3165	data = VIC } war = { country = VIC country = GER } }
+		}
+	}
+	
+	name = AI_EVENT
+
+	date = { year = 1936 month = december day = 12 }
+	offset = 5
+	deathdate = { year = 1956 month = december day = 13 }
+
+	action = {
+		#name = ACTION_NAME_DAMN
+		#~30,000 total, assuming half strength spawn
+		command = { type = revolt which = 56 when = 1 }
+		command = { type = revolt which = 56 when = 1 }
+		command = { type = revolt which = 56 when = 1 }
+		command = { type = revolt which = 56 when = 1 }
+		command = { type = revolt which = 56 when = 1 }
+		command = { type = revolt which = 56 when = 1 }
+		command = { type = revolt which = 56 when = 1 }
 	}
 }

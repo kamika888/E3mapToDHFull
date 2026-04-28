@@ -320,7 +320,7 @@ country =
      freedom           = 8 
      professional_army = 4 #France had 2-year conscription in 1936
      defense_lobby     = 2 
-     interventionism   = 3
+     interventionism   = 4
   }
 inventions = { 3000027 }
    headofstate            = {  type = 9 id = 5001  } 

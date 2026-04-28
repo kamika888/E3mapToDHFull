@@ -45,6 +45,7 @@ country =
     relation = { tag = CAN value = 200 } # was access = yes
     relation = { tag = CUB value = 30 }
     relation = { tag = CZE value = 125 }
+	relation = { tag = EGY value = 125 access = yes }
     relation =
     { tag        = DEN
       value      = 100
@@ -419,7 +420,7 @@ techapps               = {
      free_market       = 7
      professional_army = 1 #UK did not introduce 6-month conscription until April 1939 
      defense_lobby     = 1 
-     interventionism   = 2
+     interventionism   = 3
   }
 inventions = { 3000027 }
    headofstate            = {  type = 9 id = 10001  } 

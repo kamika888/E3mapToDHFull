@@ -349,7 +349,10 @@ event = {
 			event = { id = 2006030 days = 360 } #badoglio proclamation
 			year = 1945
 		}
-		control = { province = 515 data = -3 }
+		control = { province = 515  data = -3 }
+		control = { province = 6550 data = -3 }
+		control = { province = 6552 data = -3 }
+		control = { province = 516  data = -3 }
 		alliance = { country = ENG }
 		NOT = { government = { type = fascist country = ENG } }
 		NOT = { participant = { country = ENG value = 2 } } #UK is not in Axis
@@ -874,6 +877,9 @@ event = {
 		command = { type = add_claim_region which = "Egypt" 			where = ENG }
 		command = { type = add_claim_region which = "Ethiopia" 			where = ENG }
 		command = { type = add_claim_region which = "Horn of Africa" 	where = ENG } 
+		command = { type = add_claim_area	which = "Thrace"		 				} 
+		command = { type = add_claim_area	which = "Attica"		 				} 
+		command = { type = add_claim_area	which = "Greek Island"	 				} 
 		
 		command = { type = add_claim_region which = "Italy" 						}
 		command = { type = add_claim_region which = "Libya" 						}
@@ -890,7 +896,7 @@ event = {
 		command = { trigger = { alliance = { country = U01 } } type = secederegion which = U01 value = "Tunisia" when = 2 }
 		command = { trigger = { alliance = { country = VIC } } type = secederegion which = VIC value = "Tunisia" when = 2 }
 		
-		command = { type = event which = 2006019 where = -1  when = 90 } #return control of provinces
+		#command = { type = event which = 2006019 where = -1  when = 360 } #return control of provinces
 		command = { type = event which = 2006020 where = ITA when = 0  }
 	}
 	action = {
@@ -1188,7 +1194,7 @@ event = {
 		command = { trigger = { ai = GER NOT = { ai = USA ai = ENG } } type = non_aggression which = RSI where = USA when = 15 } #AI needs time to react and re-garrison the beaches
 		command = { trigger = { ai = GER NOT = { ai = USA ai = ENG } } type = non_aggression which = RSI where = ENG when = 15 } 
 		
-		command = { type = event which = 2006022 where = GER when = 12 }
+		command = { type = event which = 2006022 where = REB when = 12 }
 		
 		command = { type = event which = 2006025 where = U27 when = 30 }
 		command = { type = event which = 2006026 where = U33 when = 30 }
@@ -1233,12 +1239,22 @@ event = {
 event = {
 	id = 2006019
 	random = no
-	tag = { USA ENG }
+	tag = { ENG }
 
 	name = EVT_2006019_NAME
 	desc = EVT_2006019_DESC
 	style = 2
   	picture = "ita_surrender"	
+	
+	trigger = {
+		alliance = { country = ITA }
+		control = { province = 515 data = -3 } #Rome
+		region = { region = "Italy" country = -3 value = 80 }
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
 		name = EVT_2006019_ACTA
@@ -1330,16 +1346,18 @@ event = {
 event = {
 	id = 2006022
 	random = no
-	country = GER
+	country = REB
+	#country = GER
 
-	name = EVT_2006022_NAME
-	desc = EVT_2006022_DESC
-	style = 2
-  	picture = "ita_surrender"	
+	#name = EVT_2006022_NAME
+	#desc = EVT_2006022_DESC
+	#style = 2
+  	#picture = "ita_surrender"	
+	name = AI_EVENT
 
 	action = {
-		name = ACTION_NAME_DAMN
-		trigger = { control = { province = 521 data = -3 } }
+		#name = ACTION_NAME_DAMN
+		trigger = { OR = { control = { province = 521 data = GER } control = { province = 521 data = RSI } } }
 		command = { type = revolt which = 521 when = 1 }
 		command = { type = revolt which = 521 when = 1 }
 		command = { type = revolt which = 521 when = 1 }
@@ -1657,6 +1675,8 @@ event = {
 		command = { type = inherit which = ETH value = 0 } 
 		command = { type = belligerence value = -20 } #The game gives Italy ~25 belligerence when annexing Ethiopia, in addition to 10 it has previously. Ridiculous!
 		command = { type = local_clrflag which = ETH_dissent }
+		
+		command = { trigger = { ai = yes } type = event which = 2400018 where = -1 when = 0 } #gar_80
 		
 		#Voted in favor or supported lifting sanctions
 		command = { type = relation which = ENG value = 10 }
