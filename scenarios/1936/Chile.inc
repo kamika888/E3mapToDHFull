@@ -23,7 +23,7 @@ country =
      freedom           = 7
      professional_army = 3
      defense_lobby     = 2
-     interventionism   = 4
+     interventionism   = 3
   }
   free = { 
 	ic = 2 
