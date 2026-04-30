@@ -661,8 +661,8 @@ event = {
 		
 		command = { type = event which = 2001041 where = ENG when = 7 } #Actual conference
 		
-		#response mobilizations occurred only in France and countries neighboring Czechoslovakia
-		command = { type = event which = 2025000 where = CZE when = 0 } 
+		#response mobilizations occurred only in France and countries neighboring Czechoslovakia. Have to delay for belligerence set to work properly
+		command = { type = event which = 2025000 where = CZE when = 1 } 
 		command = { type = event which = 2025000 where = VIC when = 1 } 
 		command = { type = event which = 2025000 where = HUN when = 1 } 
 		command = { type = event which = 2025000 where = POL when = 1 } 
@@ -711,7 +711,7 @@ event = {
 
 	action = {
 		name = EVT_2001041_ACTA
-		ai_chance = 100
+		ai_chance = 50
 		command = { type = dissent value = 1 }
 		command = { type = relation which = GER value =  20  }
 		command = { type = relation which = SOV value = -50  }
@@ -722,12 +722,15 @@ event = {
 	}
 	action = {
 		name = EVT_2001041_ACTB
-		ai_chance = 0
-		command = { type = dissent value = 30 }
+		ai_chance = 50
+		#50% chance to reject if german belligerence is ~12 higher than normal, for example if withdrawn from the naval treaty
+		trigger = { OR = { ai = no belligerence = { country = GER value = 75 } } }
+		command = { trigger = { 		belligerence = { country = GER value = 75 } }	type = dissent value = 10 }
+		command = { trigger = { NOT = { belligerence = { country = GER value = 75 } } }	type = dissent value = 30 }
 		command = { type = belligerence value = 5 } 
-		command = { type = alliance which = CZE when = 1 }
+		command = { type = alliance which = CZE when  =   1 }
 		command = { type = relation which = GER value = -50 }
-		command = { type = relation which = SOV value = 50  }
+		command = { type = relation which = SOV value =  50 }
 		command = { type = relation which = CZE value = 100 }
 		command = { type = trigger which = 2001042 } # Notify of failure - shorter global version
 		command = { type = trigger which = 2001046 } # Notify of failure - longer version for UK,France,and allies
