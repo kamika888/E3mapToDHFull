@@ -460,6 +460,8 @@ event = {
 
 	action = {
 		name = "evt_4700a"
+		command = { type = belligerence value = 5 }
+		
 		#Leaving net +3 dissent if there was a non-aggression pact. Otherwise, no dissent.
 		command = { trigger = { non_aggression = { country = SOV country = GER } } type = local_setflag which = NAPDissent }
 		command = { trigger = { local_flag = NAPDissent } type = end_non_aggression which = SOV where = GER } #will give 5 dissent
@@ -540,6 +542,9 @@ event = {
 		command = { type = trigger which = 3183006 }
 		command = { type = trigger which = 3183007 }
 		command = { type = trigger which = 3183008 }
+		
+		#+7.5 from make_puppet?
+		command = { type = belligerence  value = 5.5 }
 	}
 }
 
@@ -847,6 +852,8 @@ event = {
 		command = { type = trigger which = 3183031 }
 		command = { type = trigger which = 3183032 }
 		command = { type = trigger which = 3183033 }
+		
+		command = { type = belligerence value =  1 }
 	}
 }
 
@@ -946,7 +953,7 @@ event = {
 	action_a = {
 		name = EVT_3183034_ACTA
 		command = { type = inherit which = EST value = 1 }
-		command = { type = belligerence value = 2 }
+		command = { type = belligerence value =  3 }
 	}
 }	
 event = {
@@ -964,7 +971,7 @@ event = {
 	action_a = {
 		name = EVT_3183035_ACTA
 		command = { type = inherit which = LAT value = 1 }
-		command = { type = belligerence value = 2 }
+		command = { type = belligerence value =  3 }
 	}
 }
 event = {
@@ -982,7 +989,7 @@ event = {
 	action_a = {
 		name = EVT_3183036_ACTA
 		command = { type = inherit which = LIT value = 1 }
-		command = { type = belligerence value = 2 }
+		command = { type = belligerence value =  3 }
 	}
 }
 
@@ -1089,6 +1096,7 @@ event = {
 		#command = { type = domestic which = political_left value = -1 }
 		command = { type = local_setflag which = inMajorWar	}
 		command = { trigger = { ai = yes } type = event which = 2401802 where = -1 when = 30 }
+		command = { type = belligerence value = 5 }
 	}
 }
 
@@ -1107,7 +1115,7 @@ event = {
 	action_a = {
 		name = EVT_3183039_ACTA
 		command = { type = inherit which = FIN value = 1 }
-		command = { type = belligerence value = 5 }
+		command = { type = belligerence value = 15 }
 	}
 }
 
@@ -1301,7 +1309,7 @@ event = {
 
 	action_a = {
 		name = ACTION_NAME_OK
-		command = { type = belligerence which = SOV value = 1 }
+		command = { type = belligerence which = SOV value = 5 }
 	}
 }
 #########################################################################
@@ -1525,7 +1533,7 @@ event = {
 		name = "ACTIONNAME3200A" # Let them come if they dare!
 		ai_chance = 99
 		command = { type = dissent value = -10 }
-		command = { type = event which = 2007127 where = SOV when = 0 }
+		command = { type = event which = 2007138 where = SOV when = 0 }
 		command = { type = chiefofstaff which = 145102 }
 		command = { type = chiefofarmy which = 145107 }
 		command = { type = domestic which = political_left value = -1 } #to Conservative
@@ -1797,7 +1805,7 @@ event = {
 #  The Finnish Winter War - Demands rejected
 #########################################################################
 event = {
-	id = 2007127
+	id = 2007138
 	random = no
 	country = SOV
 
@@ -2240,6 +2248,7 @@ event = {
 		command = { type = peace which = FIN value = 0 }
 		command = { type = dissent value = -4 }
 		command = { type = non_aggression which = SOV where = FIN when = 360 } #1 year non-aggression
+		command = { type = belligerence value = 5 }
 		
 		command = { type = province_manpower 				which = 145 value = -1 }
 		
@@ -2655,7 +2664,7 @@ event = {
 # Enemy at the gate
 ################################################
 event = {
-	id = 2007130
+	id = 2007139
 	random = no
 	country = SOV
 
@@ -4467,14 +4476,14 @@ event = {
 			control = { province = 137 data = SOV } #Oulu
 			control = { province = 141 data = SOV } #Turku
 			control = { province = 142 data = SOV } #Helsingfors
-			lost_national = { country = FIN value = 15 }
+			lost_national = { country = FIN value = 10 }
 			lost_national = { country = GER value = 30 }
 			NOT = { war = { country = GER country = SOV } }
 		}
 		OR = {
 			policy = { type = professional_army value = 9 } #Extended mob, running out of MP
 			dissent = 25
-			region = { region = "Baltic States" country = -2 value = 60 } #Most of Baltic is lost
+			region = { region = "Baltic States" country = -2 value = 50 } #Baltic is lost
 			lost_VP = { country = FIN value = 40 }
 		}
 	}
@@ -6039,9 +6048,10 @@ event = {
 		command = { type = disorg_division which = -1 where = 90 }
 		
 		#Baltic revolt
-		#command = { trigger = { NOT = { control = { province = 199	data = EST } } } type = revolt which = 199	when = 1 }
+		command = { trigger = { NOT = { control = { province = 199	data = EST } } } type = revolt which = 199	when = 1 }
 		command = { trigger = { NOT = { control = { province = 1886	data = EST } } } type = revolt which = 1886	when = 1 }
 		command = { trigger = { NOT = { control = { province = 1886	data = EST } } } type = revolt which = 1886	when = 1 }
+		command = { trigger = { NOT = { control = { province = 196	data = EST } } } type = revolt which = 196	when = 1 }
 		command = { trigger = { NOT = { control = { province = 196	data = EST } } } type = revolt which = 196	when = 1 }
 		command = { trigger = { NOT = { control = { province = 196	data = EST } } } type = revolt which = 196	when = 1 }
 		#command = { trigger = { NOT = { control = { province = 3286	data = EST } } } type = revolt which = 3286	when = 1 }
@@ -6053,7 +6063,7 @@ event = {
 		command = { trigger = { NOT = { control = { province = 205	data = LAT } } } type = revolt which = 205	when = 1 }
 		#command = { trigger = { NOT = { control = { province = 205	data = LAT } } } type = revolt which = 205	when = 1 }
 		command = { trigger = { NOT = { control = { province = 198	data = LAT } } } type = revolt which = 198	when = 1 }
-		#command = { trigger = { NOT = { control = { province = 198	data = LAT } } } type = revolt which = 198	when = 1 }
+		command = { trigger = { NOT = { control = { province = 198	data = LAT } } } type = revolt which = 198	when = 1 }
 		
 		#command = { trigger = { NOT = { control = { province = 207	data = LIT } } } type = revolt which = 207	when = 1 }
 		command = { trigger = { NOT = { control = { province = 207	data = LIT } } } type = revolt which = 207	when = 1 }
@@ -6117,6 +6127,13 @@ event = {
 		command = { trigger = { NOT = { area = { area = "Transnistria"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Transnistria		}
 		command = { trigger = { NOT = { area = { area = "Velikiye Luki"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Velikiye_Luki	}
 		command = { trigger = { NOT = { area = { area = "Vladimir"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Vladimir			}
+		
+		command = { trigger = { NOT = { area = { area = "Estonia"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Estonia			}
+		command = { trigger = { NOT = { area = { area = "Latvia"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Latvia			}
+		command = { trigger = { NOT = { area = { area = "Lituania"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Lituania			}
+		command = { trigger = { NOT = { area = { area = "Bessarabia"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Bessarabia		}
+		command = { trigger = { NOT = { area = { area = "Lvov"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Lvov				}
+		command = { trigger = { NOT = { area = { area = "Grodno"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB6_Grodno			}
 	}
 	action = {
 		name = ACTION_NAME_OK
@@ -6145,6 +6162,13 @@ event = {
 		command = { trigger = { NOT = { area = { area = "Transnistria"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Transnistria		}
 		command = { trigger = { NOT = { area = { area = "Velikiye Luki"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Velikiye_Luki	}
 		command = { trigger = { NOT = { area = { area = "Vladimir"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Vladimir			}
+		
+		command = { trigger = { NOT = { area = { area = "Estonia"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Estonia			}
+		command = { trigger = { NOT = { area = { area = "Latvia"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Latvia			}
+		command = { trigger = { NOT = { area = { area = "Lituania"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Lituania			}
+		command = { trigger = { NOT = { area = { area = "Bessarabia"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Bessarabia		}
+		command = { trigger = { NOT = { area = { area = "Lvov"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Lvov				}
+		command = { trigger = { NOT = { area = { area = "Grodno"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB7_Grodno			}
 	}
 	action = {
 		name = ACTION_NAME_OK
@@ -6173,6 +6197,13 @@ event = {
 		command = { trigger = { NOT = { area = { area = "Transnistria"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Transnistria		}
 		command = { trigger = { NOT = { area = { area = "Velikiye Luki"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Velikiye_Luki	}
 		command = { trigger = { NOT = { area = { area = "Vladimir"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Vladimir			}
+		
+		command = { trigger = { NOT = { area = { area = "Estonia"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Estonia			}
+		command = { trigger = { NOT = { area = { area = "Latvia"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Latvia			}
+		command = { trigger = { NOT = { area = { area = "Lituania"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Lituania			}
+		command = { trigger = { NOT = { area = { area = "Bessarabia"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Bessarabia		}
+		command = { trigger = { NOT = { area = { area = "Lvov"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Lvov				}
+		command = { trigger = { NOT = { area = { area = "Grodno"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB8_Grodno			}
 	}
 	action = {
 		name = ACTION_NAME_OK
@@ -6201,6 +6232,13 @@ event = {
 		command = { trigger = { NOT = { area = { area = "Transnistria"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Transnistria		}
 		command = { trigger = { NOT = { area = { area = "Velikiye Luki"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Velikiye_Luki	}
 		command = { trigger = { NOT = { area = { area = "Vladimir"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Vladimir			}
+		
+		command = { trigger = { NOT = { area = { area = "Estonia"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Estonia			}
+		command = { trigger = { NOT = { area = { area = "Latvia"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Latvia			}
+		command = { trigger = { NOT = { area = { area = "Lituania"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Lituania			}
+		command = { trigger = { NOT = { area = { area = "Bessarabia"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Bessarabia		}
+		command = { trigger = { NOT = { area = { area = "Lvov"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Lvov				}
+		command = { trigger = { NOT = { area = { area = "Grodno"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB9_Grodno			}
 	}
 	action = {
 		name = ACTION_NAME_OK
@@ -6229,6 +6267,13 @@ event = {
 		command = { trigger = { NOT = { area = { area = "Transnistria"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Transnistria	}
 		command = { trigger = { NOT = { area = { area = "Velikiye Luki"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Velikiye_Luki	}
 		command = { trigger = { NOT = { area = { area = "Vladimir"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Vladimir		}
+		
+		command = { trigger = { NOT = { area = { area = "Estonia"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Estonia			}
+		command = { trigger = { NOT = { area = { area = "Latvia"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Latvia			}
+		command = { trigger = { NOT = { area = { area = "Lituania"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Lituania		}
+		command = { trigger = { NOT = { area = { area = "Bessarabia"		data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Bessarabia		}
+		command = { trigger = { NOT = { area = { area = "Lvov"				data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Lvov			}
+		command = { trigger = { NOT = { area = { area = "Grodno"			data = 1 value = 30 } } } type = local_setflag which = PendingMOB10_Grodno			}
 	}
 }
 
@@ -7576,6 +7621,343 @@ event = {
 	}
 }
 
+event = {
+	id = 2007125
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Estonia
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Estonia
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Estonia
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Estonia
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Estonia
+			}
+		}
+		area = { area = "Estonia"				data = 1 value = 100 }
+	}
+	
+	name = EVT_2007125_NAME
+	desc = EVT_2007125_DESC
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#2MP
+		command = { trigger = { local_flag = PendingMOB6_Estonia	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 98  } #49
+		command = { trigger = { local_flag = PendingMOB7_Estonia	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB8_Estonia	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB9_Estonia	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB10_Estonia	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 70  } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Estonia	}
+		command = { type = local_clrflag which = PendingMOB7_Estonia	}
+		command = { type = local_clrflag which = PendingMOB8_Estonia	}
+		command = { type = local_clrflag which = PendingMOB9_Estonia	}
+		command = { type = local_clrflag which = PendingMOB10_Estonia	}
+	}
+}
+
+event = {
+	id = 2007126
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Latvia
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Latvia
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Latvia
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Latvia
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Latvia
+			}
+		}
+		area = { area = "Latvia"				data = 1 value = 100 }
+	}
+	
+	name = EVT_2007126_NAME
+	desc = EVT_2007126_DESC
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#3MP
+		command = { trigger = { local_flag = PendingMOB6_Latvia		local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 147 } #49
+		command = { trigger = { local_flag = PendingMOB7_Latvia		local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB8_Latvia		local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB9_Latvia		local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 105 } #35
+		command = { trigger = { local_flag = PendingMOB10_Latvia	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 105 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Latvia		}
+		command = { type = local_clrflag which = PendingMOB7_Latvia		}
+		command = { type = local_clrflag which = PendingMOB8_Latvia		}
+		command = { type = local_clrflag which = PendingMOB9_Latvia		}
+		command = { type = local_clrflag which = PendingMOB10_Latvia	}
+	}
+}
+
+event = {
+	id = 2007127
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Lithuania
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Lithuania
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Lithuania
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Lithuania
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Lithuania
+			}
+		}
+		area = { area = "Lithuania"				data = 1 value = 100 }
+	}
+	
+	name = EVT_2007127_NAME
+	desc = EVT_2007127_DESC
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#4MP
+		command = { trigger = { local_flag = PendingMOB6_Lithuania	local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 196 } #49
+		command = { trigger = { local_flag = PendingMOB7_Lithuania	local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB8_Lithuania	local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB9_Lithuania	local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 140 } #35
+		command = { trigger = { local_flag = PendingMOB10_Lithuania	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 140 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Lithuania		}
+		command = { type = local_clrflag which = PendingMOB7_Lithuania		}
+		command = { type = local_clrflag which = PendingMOB8_Lithuania		}
+		command = { type = local_clrflag which = PendingMOB9_Lithuania		}
+		command = { type = local_clrflag which = PendingMOB10_Lithuania		}
+	}
+}
+
+event = {
+	id = 2007128
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Bessarabia
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Bessarabia
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Bessarabia
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Bessarabia
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Bessarabia
+			}
+		}
+		area = { area = "Bessarabia"			data = 1 value = 100 }
+	}
+	
+	name = EVT_2007128_NAME
+	desc = EVT_2007128_DESC
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#5MP
+		command = { trigger = { local_flag = PendingMOB6_Bessarabia		local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 245 } #49
+		command = { trigger = { local_flag = PendingMOB7_Bessarabia		local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 175 } #35
+		command = { trigger = { local_flag = PendingMOB8_Bessarabia		local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 175 } #35
+		command = { trigger = { local_flag = PendingMOB9_Bessarabia		local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 175 } #35
+		command = { trigger = { local_flag = PendingMOB10_Bessarabia	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 175 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Bessarabia		}
+		command = { type = local_clrflag which = PendingMOB7_Bessarabia		}
+		command = { type = local_clrflag which = PendingMOB8_Bessarabia		}
+		command = { type = local_clrflag which = PendingMOB9_Bessarabia		}
+		command = { type = local_clrflag which = PendingMOB10_Bessarabia	}
+	}
+}
+
+
+event = {
+	id = 2007129
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Lvov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Lvov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Lvov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Lvov
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Lvov
+			}
+		}
+		area = { area = "Lvov"					data = 1 value = 100 }
+	}
+	
+	name = EVT_2007129_NAME
+	desc = EVT_2007129_DESC
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#6MP
+		command = { trigger = { local_flag = PendingMOB6_Lvov		local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 294 } #49
+		command = { trigger = { local_flag = PendingMOB7_Lvov		local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 210 } #35
+		command = { trigger = { local_flag = PendingMOB8_Lvov		local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 210 } #35
+		command = { trigger = { local_flag = PendingMOB9_Lvov		local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 210 } #35
+		command = { trigger = { local_flag = PendingMOB10_Lvov		local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 210 } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Lvov		}
+		command = { type = local_clrflag which = PendingMOB7_Lvov		}
+		command = { type = local_clrflag which = PendingMOB8_Lvov		}
+		command = { type = local_clrflag which = PendingMOB9_Lvov		}
+		command = { type = local_clrflag which = PendingMOB10_Lvov		}
+	}
+}
+
+
+event = {
+	id = 2007130
+	random = no
+	country = SOV
+	
+	trigger = {
+		OR = {
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 6  }
+				local_flag = PendingMOB6_Grodno
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 7  }
+				local_flag = PendingMOB7_Grodno
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 8  }
+				local_flag = PendingMOB8_Grodno
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 9  }
+				local_flag = PendingMOB9_Grodno
+			}
+			AND = {
+				local_flag = { which = MOB_level when = 1 value = 10 }
+				local_flag = PendingMOB10_Grodno
+			}
+		}
+		area = { area = "Grodno"				data = 1 value = 100 }
+	}
+	
+	name = EVT_2007130_NAME
+	desc = EVT_2007130_DESC
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		#2MP
+		command = { trigger = { local_flag = PendingMOB6_Grodno		local_flag = { which = MOB_level when = 1 value = 6 } } 	type = manpowerpool value = 98  } #49
+		command = { trigger = { local_flag = PendingMOB7_Grodno		local_flag = { which = MOB_level when = 1 value = 7 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB8_Grodno		local_flag = { which = MOB_level when = 1 value = 8 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB9_Grodno		local_flag = { which = MOB_level when = 1 value = 9 } } 	type = manpowerpool value = 70  } #35
+		command = { trigger = { local_flag = PendingMOB10_Grodno	local_flag = { which = MOB_level when = 1 value = 10 } } 	type = manpowerpool value = 70  } #35
+
+		command = { type = local_clrflag which = PendingMOB6_Grodno		}
+		command = { type = local_clrflag which = PendingMOB7_Grodno		}
+		command = { type = local_clrflag which = PendingMOB8_Grodno		}
+		command = { type = local_clrflag which = PendingMOB9_Grodno		}
+		command = { type = local_clrflag which = PendingMOB10_Grodno	}
+	}
+}
 
 ##########################################################
 # Leningrad forts destroyed as Germans move in
@@ -9168,10 +9550,24 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
-		command = { type = non_aggression which = VIC where = U72 when = 20 }
-		command = { type = non_aggression which = SIA where = U72 when = 20 }
-		command = { type = non_aggression which = U02 where = U72 when = 20 }
-		command = { type = non_aggression which = CMB where = U72 when = 20 }
-		command = { type = non_aggression which = LAO where = U72 when = 20 }
+		command = { trigger = { IC = 200 } 						type = money value = 640 }
+		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = 320 }
+		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = 160 }
+		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = 80  }
+		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = 40  }
+		command = { trigger = { NOT = { IC = 12 } } 			type = money value = 20  }
+		
+	}
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = resource	which = money		value = 100 }
+	}
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = resource	which = money		value = 1000 }
+	}
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = resource	which = money		value = 10000 }
 	}
 }

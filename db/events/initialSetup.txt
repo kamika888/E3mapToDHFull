@@ -113,7 +113,7 @@ event = {
 		command = { trigger = { NOT = { local_flag = sliderSet } year = 1937 } type = set_domestic which = defense_lobby 	value = 4  } #+3 war economy
 		command = { trigger = { NOT = { local_flag = sliderSet } year = 1937 } type = set_domestic which = interventionism	value = 4  } #+3 militarism
 		
-		command = { type = local_setflag when = 0 which = EconomicGrowth value = 1935 }
+		command = { type = local_setflag when = 0 which = EconomicGrowth value = 1936 }
 		
 		command = { 
 			trigger = { 
@@ -1122,12 +1122,9 @@ event = {
 		command = { trigger = { country = U69 ai = yes } type = event which = 2400049 where = -1 when = 0 }
 		command = { trigger = { country = EUS ai = yes } type = event which = 2400049 where = -1 when = 0 }
 		command = { trigger = { country = U52 ai = yes } type = event which = 2400049 where = -1 when = 0 } #
-		command = { trigger = { country = USA ai = yes } type = event which = 2400045 where = -1 when = 0 }
 		command = { trigger = { country = CAN ai = yes } type = event which = 2400045 where = -1 when = 0 }
 		command = { trigger = { country = U02 ai = yes } type = event which = 2400045 where = -1 when = 0 }
 		command = { trigger = { country = CGX ai = yes } type = event which = 2400045 where = -1 when = 0 }
-		command = { trigger = { country = SPR ai = yes } type = event which = 2400044 where = -1 when = 0 }
-		command = { trigger = { country = SPA ai = yes } type = event which = 2400044 where = -1 when = 0 }
 		command = { trigger = { country = CSX ai = yes } type = event which = 2400044 where = -1 when = 0 }
 		command = { trigger = { country = CYN ai = yes } type = event which = 2400044 where = -1 when = 0 }
 		command = { trigger = { country = U05 ai = yes } type = event which = 2400044 where = -1 when = 0 }
@@ -1136,6 +1133,8 @@ event = {
 		command = { trigger = { country = CMB ai = yes } type = event which = 2400043 where = -1 when = 0 }
 		command = { trigger = { country = AST ai = yes } type = event which = 2400043 where = -1 when = 0 }
 		command = { trigger = { country = NZL ai = yes } type = event which = 2400043 where = -1 when = 0 }
+		command = { trigger = { country = SPR ai = yes } type = event which = 2400042 where = -1 when = 0 }
+		command = { trigger = { country = SPA ai = yes } type = event which = 2400042 where = -1 when = 0 }
 		command = { trigger = { country = CXB ai = yes } type = event which = 2400042 where = -1 when = 0 }
 		command = { trigger = { country = U59 ai = yes } type = event which = 2400042 where = -1 when = 0 }
 		command = { trigger = { country = CRO ai = yes } type = event which = 2400042 where = -1 when = 0 } #Croatia sent very few of its own forces to fight abroad
@@ -1149,6 +1148,7 @@ event = {
 		command = { trigger = { country = MLY ai = yes } type = event which = 2400042 where = -1 when = 0 }
 		command = { trigger = { country = ITA ai = yes } type = event which = 2400057 where = -1 when = 0 } #Exp15
 		#command = { trigger = { country = MAN ai = yes } type = event which = 2400043 where = -1 when = 0 }
+		command = { trigger = { country = USA ai = yes } type = event which = 2400040 where = -1 when = 0 } #Exp0
 		command = { trigger = { country = FIN ai = yes } type = event which = 2400041 where = -1 when = 0 }
 		command = { trigger = { country = ENG ai = yes } type = event which = 2400041 where = -1 when = 0 }
 		command = { trigger = { country = IRE ai = yes } type = event which = 2400041 where = -1 when = 0 }
@@ -3455,7 +3455,7 @@ event = {
 	}
 }
 
-#belligerence lower limit
+#Resetting belligerence if below lower limit
 
 event = {
 	id = 105
@@ -3516,8 +3516,67 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
-		command = { type = belligerence value = -100 } #first, reset
+		command = { type = belligerence value = -1000 } #first, reset
 		command = { type = belligerence value = 3 } #3 extra as buffer, to make sure the event doesn't fire every 15 days
+		command = { type = trigger which = 101 } #The belligerence assignment command is not stable if given directly inside the triggerable event, have to separate it into its own event :(
+	}
+}
+
+#Resetting belligerence if it is clearly glitched out
+
+event = {
+	id = 106
+	random = no
+	persistent = yes
+	
+	trigger = {
+		local_flag = AllInit
+		ai = yes
+		NOT = { ispuppet = yes }
+		OR = {
+			AND = {
+				belligerence = { value = 300 }
+				atwar = no
+			}
+			AND = {
+				belligerence = { value = 300 }
+				NOT = {
+					major = yes
+					country = VIC
+					country = RUS
+					country = CHI
+				}
+			}
+			AND = {
+				belligerence = { value = 400 }
+				NOT = {
+					war = { country = GER }
+					war = { country = ITA }
+					war = { country = ENG }
+					war = { country = VIC }
+					war = { country = SOV }
+					war = { country = RUS }
+					war = { country = USA }
+					war = { country = JAP }
+					war = { country = CHI }
+				}
+			}
+		}
+	}
+	
+	name = EVT_105_NAME
+	desc = EVT_105_DESC
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 15
+	deathdate = { day = 29 month = march year = 1963 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = belligerence value = -1000 } #first, reset
+		command = { type = belligerence value = 100 }
 		command = { type = trigger which = 101 } #The belligerence assignment command is not stable if given directly inside the triggerable event, have to separate it into its own event :(
 	}
 }

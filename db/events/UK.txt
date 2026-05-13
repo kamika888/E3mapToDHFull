@@ -370,6 +370,8 @@ event = {
 		
 		command = { type = ai which = "home_10.ai" }
 		command = { type = local_setflag which = exiled }
+		
+		command = { type = belligerence which = GER value = 10 }
 	}
 }
 
@@ -491,6 +493,8 @@ event = {
 		command = { type = trigger which = 2001045 }
 		
 		command = { type = local_setflag which = exiled }
+		
+		command = { type = belligerence which = GER value = 10 }
 	}
 }
 
@@ -1549,6 +1553,8 @@ event = {
 		command = { type = event which = 3143	 where = -1 when = 0 } #endwars
 		command = { type = local_setflag which = puppetLevel8 }
 		command = { type = ai which = "EXP_0.ai" }
+		
+		command = { type = industrial_modifier which = ic value = 40 }
 		
 		command = { type = demobilize which = land when = 0 where = 0 value = 8 }
 		command = { trigger = { policy = { type = professional_army value = 6 } } type = event which = 8300113 where = -1 when = 1 } #End General Mob
@@ -3890,6 +3896,7 @@ event = {
 	country = ENG
 	
 	decision = {
+		local_flag = AllInit
 		exists = MEX
 		event = 2001059  # Allied diplomatic offensive
 		NOT = { 
@@ -4003,6 +4010,7 @@ event = {
 	country = ENG
 	
 	decision = {
+		local_flag = AllInit
 		exists = BRA
 		event = 2001059  # Allied diplomatic offensive
 		NOT = { 
@@ -4096,6 +4104,7 @@ event = {
 	persistent = yes
 
 	decision = {
+		local_flag = AllInit
 		atwar = no
 		NOT = { country = BRA }
 		event = 2001059  # Allied diplomatic offensive
@@ -4345,7 +4354,7 @@ event = {
 		name = ACTION_NAME_HURRAH # OK
 		command = { type = dissent value = -3 }
 		command = { type = leave_alliance when = 1 }
-		command = { type = end_access which = ENG }
+		#command = { type = end_access which = ENG }
 		command = { type = event which = 2400537 where = EGY when = 0 } #puppet level 5 -> puppet level 7
 		command = { type = non_aggression which = EGY where = ENG when = 7300 } #20 years non-aggression
 		#After 20 years from the implementation of the Treaty parties it shall be determined if the presence of British troops is necessary as the Egyptian army may be able to guarantee shipping in the Suez Canal safely. Disagreements may be submitted to the League of Nations.
@@ -4606,6 +4615,29 @@ event = {
 	}
 }
 
+
+#########################################################################
+#  Germany invades Czechoslovakia without our blessing
+#########################################################################
+# This helps the allies burn down any remaining dissent, if they still have any
+
+event = {
+	id = 2001026
+	random = no
+	persistent = yes
+	style = 2
+	
+	name = EVT_2001026_NAME
+	desc = EVT_2001026_DESC
+
+	action = {
+		name = EVT_2001026_ACTA
+		command = { type = belligerence	value = -3 } 
+		command = { type = dissent		value = -2 }
+		command = { type = relation		which = GER value = -50 }
+	}
+}
+
 #########################################################################
 #  Ireland joins the Axis
 #########################################################################
@@ -4751,6 +4783,7 @@ event = {
 		name = EVT_2002002_ACTA
 		ai_chance = 100
 		command = { type = relation which = IRE value = 30 }
+		command = { type = belligerence value = -1 } 
 		command = { type = dissent value = 2 }
 	}
 	action = {
@@ -5335,7 +5368,7 @@ event = {
 
 #the original 1922/1930 treaties expired in December 1936 and were not renewed, so trying to implement their limitations in the game is not very practical
 #the 1936 london treaty did not contrain relative tonnage provisions so it is not relevant to the game
-#the only country which continued to be bound by relative tonnage requirements after 1936 was Germany which voluntarily signed up to the Anglo-German treaty for little obvious gain
+#the only country which continued to be bound by relative tonnage requirements after 1936 was Germany which signed up to the Anglo-German treaty to appease Britain
 
 
 event = {
@@ -5387,9 +5420,8 @@ event = {
 	}
 	action = {
 		name = EVT_2600003_ACTB
-		command = { 																											type = belligerence	value =  5.0 }
-		command = { trigger = { NOT = { war = { country = ENG } } }																type = belligerence	value =  4.0 }
-		command = { trigger = { NOT = { event = 2001028 belligerence = { country = ENG value = 50 } } }							type = belligerence	value =  6.0 }
+		command = { trigger = { NOT = { war = { country = ENG } } }																type = belligerence	value =  6.0 }
+		command = { trigger = { NOT = { event = 2001028 belligerence = { country = ENG value = 50 } } }							type = belligerence	value =  9.0 }
 		command = { trigger = { NOT = { war = { country = ENG } event = 2001028 belligerence = { country = ENG value = 50 } } }	type = dissent		value =  1.0 }
 		command = { trigger = { war = { country = ENG } 						 											  }	type = dissent		value = -0.2 }
 		
@@ -5551,9 +5583,8 @@ event = {
 	}
 	action = {
 		name = EVT_2600004_ACTC
-		command = { 																											type = belligerence	value =  5.0 }
-		command = { trigger = { NOT = { war = { country = ENG } } }																type = belligerence	value =  4.0 }
-		command = { trigger = { NOT = { event = 2001028 belligerence = { country = ENG value = 50 } } }							type = belligerence	value =  6.0 }
+		command = { trigger = { NOT = { war = { country = ENG } } }																type = belligerence	value =  6.0 }
+		command = { trigger = { NOT = { event = 2001028 belligerence = { country = ENG value = 50 } } }							type = belligerence	value =  9.0 }
 		command = { trigger = { NOT = { war = { country = ENG } event = 2001028 belligerence = { country = ENG value = 50 } } }	type = dissent		value =  1.0 }
 		command = { trigger = { war = { country = ENG } 						 											  }	type = dissent		value = -0.2 }
 		
@@ -5580,6 +5611,7 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
+		command = { type = dissent value = -1 }
 		command = { }
 	}
 }

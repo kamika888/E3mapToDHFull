@@ -40,7 +40,7 @@ country =
 	manpower = 0.0040 
   } 
   extra_tc = 5 
-  SpyInfo                = { country = "U61" NumberOfSpies = 2 }
+  SpyInfo                = { country = "U61" NumberOfSpies = 4 }
   diplomacy =
   { relation = { tag = CHC value = -200 }
     relation = { tag = CHI value = 200 }

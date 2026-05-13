@@ -7,7 +7,7 @@ country =
   regular_id             = RUS
   intrinsic_gov_type     = leninist
   ai_settings			 = { flags = { RESInit = 1 ideology = 9 } }
-  ai					 = "EXP_0_01.ai"
+  ai					 = "EXP_1.ai"
   capital                = 175
 	# Resource Reserves 
 	energy                 = 80060
@@ -20,6 +20,7 @@ country =
 	dissent                = 12 
 	transports             = 300 
 	escorts                = 20 
+	industrial_modifier    = 0.80 # civil war and famine
   free = { 
 	ic = 2 
 	energy = 2

@@ -1727,7 +1727,24 @@ landunit =
 		date  = {  year = 1964 } 
 		} 
 		
-	landdivision = { dormant = yes id = { type = 23500 id = 1000 }  name = "52a Divisione" locked = yes	type = garrison			model = 5	}
+	landdivision = { dormant = yes id = { type = 23500 id = 1000 }  name = "52a Divisione" 				locked = yes	type = garrison			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1001 }  name = "Guarnigione di Tripoli 1"	locked = yes	type = infantry			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1002 }  name = "Guarnigione di Tripoli 2"	locked = yes	type = militia			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1003 }  name = "Guarnigione di Benghazi 1"	locked = yes	type = infantry			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1004 }  name = "Guarnigione di Benghazi 2"	locked = yes	type = militia			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1005 }  name = "Guarnigione di Tobruk 1"	locked = yes	type = infantry			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1006 }  name = "Guarnigione di Tobruk 2"	locked = yes	type = militia			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1007 }  name = "Guarnigione di Zawiya"		locked = yes	type = militia			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1008 }  name = "Guarnigione di Khums"		locked = yes	type = militia			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1009 }  name = "Guarnigione di Misrata"		locked = yes	type = militia			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1010 }  name = "Guarnigione di Sirt"		locked = yes	type = militia			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1011 }  name = "Guarnigione di Bin Jawad"	locked = yes	type = militia			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1012 }  name = "Guarnigione di Brega"		locked = yes	type = militia			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1013 }  name = "Guarnigione di Adjabiya"	locked = yes	type = militia			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1014 }  name = "Guarnigione di Marj"		locked = yes	type = militia			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1015 }  name = "Guarnigione di Beida"		locked = yes	type = militia			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1016 }  name = "Guarnigione di Derna"		locked = yes	type = militia			model = 5	strength = 5 }
+	#landdivision = { dormant = yes id = { type = 23500 id = 1017 }  name = "Guarnigione di Bardia"		locked = yes	type = militia			model = 5	strength = 5 }
 
 	landdivision = { dormant = yes id = { type = 23500 id = 11165 } name = "50a Divisione 'Regina'" 	type = infantry			model = 10	}
 	

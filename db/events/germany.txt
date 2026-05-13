@@ -44,7 +44,7 @@ event = {
 		command = { type = relation which = ENG value = -5 }
 		command = { type = relation which = BEL value = -10 }
 		command = { type = relation which = HOL value = -5 }
-		command = { type = belligerence which = GER value = 3 }
+		command = { type = belligerence which = GER value = 5 }
 		command = { type = dissent value = -10 }
 		command = { type = money value = 500 }
 		command = { trigger = { alliance = { country = VIC country = BEL } } type = trigger which = 2015008 } # Belgium leaves the Allies
@@ -430,6 +430,7 @@ event = {
 		command = { trigger = { exists = AUS } type = military_control which = GER where = AUS value = 1 }
 		command = { trigger = { exists = AUS } type = event which = 2003004 where = REB when = 0 }
 		
+		#make_puppet gives +2.5 belligerence
 		command = { type = belligerence which = GER value = 10 }
 		
 		command = { trigger = { NOT = { policy = { type = professional_army value = 4 } } } type = event which = 8300104 where = GER when = 0 } #Switch to 2-year conscription
@@ -491,7 +492,7 @@ event = {
 		
 		command = { type = clrflag which = ausmob }
 		
-		command = { type = belligerence which = GER value = 5 }
+		command = { type = belligerence which = GER value = 5.5 }
 
 		command = { type = wakeleader which = 36  } #Böhme
 		command = { type = wakeleader which = 44  } #de Angelis
@@ -724,9 +725,10 @@ event = {
 		name = EVT_2001041_ACTB
 		ai_chance = 50
 		#50% chance to reject if german belligerence is ~12 higher than normal, for example if withdrawn from the naval treaty
-		trigger = { OR = { ai = no belligerence = { country = GER value = 75 } } }
-		command = { trigger = { 		belligerence = { country = GER value = 75 } }	type = dissent value = 10 }
-		command = { trigger = { NOT = { belligerence = { country = GER value = 75 } } }	type = dissent value = 30 }
+		trigger = { OR = {		ai = no belligerence = { country = GER value = 80 } } }
+		
+		command = { trigger = { 		belligerence = { country = GER value = 80 } }	type = dissent value = 10 }
+		command = { trigger = { NOT = { belligerence = { country = GER value = 80 } } }	type = dissent value = 30 }
 		command = { type = belligerence value = 5 } 
 		command = { type = alliance which = CZE when  =   1 }
 		command = { type = relation which = GER value = -50 }
@@ -1172,12 +1174,17 @@ event = {
 		command = { type = relation which = HUN value = 10 }
 		command = { type = relation which = USA value = -3 } # new for 1.3
 		
-		command = { type = trigger which = 2600014 } # ENG
+		command = { type = belligerence value = 5 } #Munich treaty violation
+		
+		command = { trigger = { ai = ENG } type = trigger which = 2600014 } # ENG
+		command = { type = event which = 2001026 where = ENG when = 2 }
+		command = { type = event which = 2001026 where = VIC when = 2 }
 	}
 	action = {
 		trigger = { exists = HUN }
 		name = "ACTIONNAME2040B" # Partition Czecho-Slovakia with Hungary
 		ai_chance = 3
+		command = { type = dissent value = 1 } #Slovaks are unhappy
 		command = { type = trigger which = 2025003 } # CZE
 		command = { type = relation which = VIC value = -100 }   # increased for 1.3
 		command = { type = relation which = ENG value = -100 }   # increased for 1.3
@@ -1187,7 +1194,11 @@ event = {
 		command = { type = relation which = USA value = -4 } # new for 1.3
 		command = { type = trigger which = 2022007 } # HUN
 		
-		command = { type = trigger which = 2600014 } # ENG
+		command = { type = belligerence value = 5 } #Munich treaty violation
+		
+		command = { trigger = { ai = ENG } type = trigger which = 2600014 } # ENG
+		command = { type = event which = 2001026 where = ENG when = 2 }
+		command = { type = event which = 2001026 where = VIC when = 2 }
 	}
 }
 
@@ -1231,7 +1242,7 @@ event = {
 		ai_chance = 0
 		command = { type = leave_alliance when = 1 }
 		command = { type = domestic which = political_left value = 2 }
-		command = { type = dissent value = 5 }
+		command = { type = dissent value = 10 }
 		command = { type = relation which = GER value = -50 }
 		command = { type = relation which = SOV value = 25 }
 		command = { type = trigger which = 2003018 } #GER
@@ -1303,10 +1314,11 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		command = { type = dissent value = -10 }
-		command = { type = belligerence which = GER value = 8 } 
+		command = { type = belligerence which = GER value = 8.5 } 
 		#Annexation gives +2. Total +10
 		
 		command = { type = inherit which = CZE value = 0 }
+		command = { type = money value = 6000 } #Czech central bank reserves
 		command = { type = gain_tech which = 2050 } # Improved Light Tank
 		command = { type = gain_tech which = 1400 } # Motorized Division
 		command = { type = add_corps which = "Reserve Heeresgruppe Nord" value = land where = 469 } # Praha - Czechoslovakia
@@ -1469,7 +1481,7 @@ event = {
 
 
 #########################################################################
-#  Claiming Klaipedia
+#  Claiming Klaipeda
 #########################################################################
 event = {
 	id = 2003021
@@ -1478,7 +1490,7 @@ event = {
 	
 	decision = {
 		#atwar = no
-		control = { province = 2606 data = LIT } # Klaipedia
+		control = { province = 2606 data = LIT } # Klaipeda
 		OR = { 
 			event = 2003015 
 			event = 2003011 
@@ -1501,7 +1513,7 @@ event = {
 	trigger = {
 		#atwar = no
 		#event = 2007018 # Mol-Rib pact
-		control = { province = 2606 data = LIT } # Klaipedia
+		control = { province = 2606 data = LIT } # Klaipeda
 		OR = { 
 			event = 2003015 
 			event = 2003011 
@@ -1597,7 +1609,7 @@ event = {
 	action_a = {
 		name = ACTION_NAME_OK
 		command = { type = dissent value = -1 }
-		command = { type = belligerence which = GER value = 2 }
+		command = { type = belligerence which = GER value = 3 }
 	}
 }
 
@@ -1721,6 +1733,7 @@ event = {
 		ai_chance = 100
 		command = { type = dissent value = 2 }
 		command = { type = non_aggression which = GER where = SOV when = 3650 } #10 years
+		command = { type = belligerence value = 3 }
 		
 		command = { type = trade which = SOV where = GER oil = -20 supplies = 10 value = 1 }
 		
@@ -1938,7 +1951,7 @@ event = {
 	action_a = {
 		name = ACTION_NAME_OK
     	command = { type = dissent value = -2 }
-		command = { type = belligerence which = GER value = 1 }
+		command = { type = belligerence which = GER value = 2 }
 		command = { type = make_puppet which = U06 }
 		command = { type = event which = 2400539 where = U06 when = 0 } #strong puppet		
 		command = { type = trigger which = 2189003 }
@@ -2582,7 +2595,7 @@ event = {
 		name = "ACTIONNAME2027A" # Final Ultimatum - Danzig or War
 		command = { type = relation which = ENG value = -30 }
 		command = { type = relation which = VIC value = -30 }   
-		command = { type = belligerence which = GER value = 3  }
+		command = { type = belligerence which = GER value =  3 }
 		command = { type = belligerence which = POL	value = -3 }
 		command = { type = end_non_aggression which = POL where = GER }        
 		command = { type = trigger which = 2013002 } # POL
@@ -2651,7 +2664,7 @@ event = {
 	action_a = {
 		name = ACTION_NAME_OK
 		command = { type = war which = POL }
-		command = { type = belligerence which = GER value = 2 } #Germany will get plenty of belligerence from annexing Poland
+		command = { type = belligerence which = GER value = 2 }
 		command = { type = inherit which = U06 value = 1 }
 		command = { trigger = { ai = ENG } type = trigger which = 2001032 } # Poland is under attack
 		#command = { type = songs which = HitlerWar.txt }
@@ -2659,7 +2672,8 @@ event = {
 		command = { trigger = { event = 2003025 } type = access which = SOV }
 		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = POL value = 1 }
 		command = { trigger = { ai = yes ai = SLO } type = non_aggression which = SLO where = POL when = 4 } #Give germany time to deploy troops to Slovakia
-		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
+		#Gen mob is +15 belligerence
+		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 1 } #General mobilization
 	}
 }
 #########################################################################
@@ -2912,7 +2926,7 @@ event = {
 	style = 2
 
 	trigger = {
-		region = { region = "Norway" country = -3 value = 95 }
+		region = { region = "Norway" country = -1 value = 95 }
 	}
 
 	name = EVT_203104_NAME
@@ -2925,7 +2939,8 @@ event = {
 
 	action = {
 		name = "ACTION_NAME_GREAT"
-		command = { type = dissent value = -0.5 } 
+		command = { type = dissent		value = -0.5 } 
+		command = { type = belligerence	value = -4.0 } #Annexation gives +14 (28 provinces)
 		command = { type = province_revoltrisk which = 104   	value = -15  }
 		command = { type = province_revoltrisk which = 107   	value = -17  }
 		command = { type = province_revoltrisk which = 108   	value = -15  }
@@ -3276,7 +3291,9 @@ event = {
 		#command = { trigger = { ai = yes } type = non_aggression which = GER where = VIC when = 1 }
 		
 		command = { trigger = { ai = GER } type = event which = 2400190 where = GER when = 0 } #Grand offensive
-		command = { trigger = { ai = VIC } type = event which = 2400190 where = VIC when = 0 } #Grand offensive
+		command = { trigger = { ai = VIC } type = event which = 2400190 where = VIC when = 1 } #Grand offensive
+		
+		command = { type = belligerence which = GER value = 5 }
 	}
 }
 
@@ -5345,22 +5362,27 @@ event = {
 			#for game purposes, it's better to have AI germany be almost finished with norway before starting France
 			AND = {
 				NOT = { year = 1940 }
-				random = 1
+				random	= 1
 			}
 			AND = {
-				year = 1940
+				year	= 1940
 				NOT = { month = March }
-				random = 3
+				random	= 3
 			}
 			AND = {
-				year = 1940
-				month = March
-				random = 5
+				year	= 1940
+				month	= March
+				random	= 7
+			}
+			AND = { 
+				year	= 1940
+				month	= March
+				day		= 15
+				random	= 50
 			}
 			AND = { 
 				year	= 1940
 				month	= April
-				day		= 7
 				random	= 50
 			}
 			#Somehow ended up at war or in alliance with Norway (e.g. UK made the first move), but needs to attack Denmark
@@ -5848,7 +5870,8 @@ event = { # operation tannenbaum
 
 	action = { 
 		name = "ACTIONNAME2003108"  
-		command = { type = dissent value = 5 } #no obvious reason why this is needed
+		command = { type = dissent 		value = 1 }
+		command = { type = belligerence value = 5 }
 		command = { type = war which = SCH } 
 		command = { trigger = { NOT = { ai = ENG } } type = military_control which = ENG where = SCH value = 1 }
 	}
@@ -5878,6 +5901,7 @@ event = { # swiss forced trade
 	trigger = { 
 		OR ={
 			trade = { country = GER country = SCH }
+			trade = { country = GER country = SCH }
 			trade = { country = ITA country = SCH }
 		}
 		year = 1939
@@ -5904,8 +5928,8 @@ event = { # swiss forced trade
 
 	action = { 
 		name = "ACTIONNAME2003109"  
-		command = { type = belligerence which = GER value = 5 }
-		command = { type = belligerence which = ITA value = 2 }
+		command = { type = belligerence which = GER value = 2 }
+		command = { type = belligerence which = ITA value = 1 }
 		command = { type = trade which = GER where = SCH money = 0.3 supplies = 8 value = 1 }
 		command = { type = trade which = ITA where = SCH money = 0.2 supplies = 4 value = 1 }	
 		
@@ -6043,6 +6067,9 @@ event = {
 		command = { type = removeclaim 	which = 3350 }
 		command = { type = removeclaim 	which = 293  }
 		command = { type = make_puppet 	which = DEN  }
+		
+		#Make_puppet gives +2.5 dissent
+		command = { type = belligerence value = 3.5  }
 		command = { type = event which = 2400537 where = DEN when = 0 } #medium-strong puppet
 		command = { type = event which = 2003073 where = DEN when = 0 }
 		command = { trigger = { ai = yes } type = demobilize which = garrison when = 0 where = 1 value = -1 }

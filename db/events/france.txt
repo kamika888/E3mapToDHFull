@@ -432,7 +432,7 @@ event = {
         ai_chance = 1
 		name = EVT_2002035_ACTB
 		command = { type = dissent value = 5 }
-		command = { type = free_money		 							value = -2.0  } #cultural heritage permanently ruined
+		command = { type = free_money		 							value = -1.0  } #cultural heritage permanently ruined
 		command = { type = construct which = ic 			where = 56	value = -2    }
 		command = { type = construct which = infrastructure where = 56	value = -20   }
     } 
@@ -852,6 +852,8 @@ event = {
 		command = { type = event which = 2002033 where = VIC when = 15 }
 		
 		command = { trigger = { ai = SIA NOT = { policy = { country = SIA type = professional_army value = 5 } } } type = event which = 8300105 where = SIA when = 5 } #Partial mobilization
+		
+		command = { trigger = { NOT = { belligerence = { country = GER value = 200 } } } type = belligerence which = GER	value = 10  }
     } 
 }
 
@@ -1114,6 +1116,8 @@ event = {
 		command = { type = secedeprovince which = ENG value = 4889 when = 2 }
 		command = { type = secedeprovince which = ENG value = 7339 when = 2 }
 		command = { type = secedeprovince which = ENG value = 4891 when = 2 }
+		
+		command = { type = belligerence value = 5 }
 		
 		command = { type = independence which = U01 value = 1 }
         #command = { type = alliance which = U01 when = 1 }
@@ -1634,8 +1638,8 @@ event = {
 		command = { type = end_mastery which = U04 }
 		command = { type = end_mastery which = U03 }
 		
-		command = { type = event which = 2400530 where = U04 when = 0 } #independent state
-		command = { type = event which = 2400530 where = U03 when = 0 } #independent state
+		command = { trigger = { NOT = { ispuppet = U04 } }	type = event which = 2400530 where = U04 when = 0 } #independent state
+		command = { trigger = { NOT = { ispuppet = U04 } }	type = event which = 2400530 where = U03 when = 0 } #independent state
 		
 		command = { trigger = { control = { province = 364 data = -3 } } type = add_corps value = land where = 364 } # Marseille
 		command = { type = add_division value = infantry when = 10 } #Recruits!
@@ -2158,6 +2162,10 @@ event = {
 	}
 }
 
+#########################################################################
+#  Occupation of Southern Indochina
+#########################################################################
+
 event = { 
 	id = 2002050
 	random = no
@@ -2181,7 +2189,7 @@ event = {
 		}
 		event = { id = 2002008 days = 90 } #French State
 		event = { id = 2011002 days = 90 } #Occupation of North Indochina
-		random = 20
+		random = 30
 		
 		#Will only do once Germany invaded USSR - northern threat removed, or if at war with USA
 		OR = { 
@@ -2410,6 +2418,7 @@ event = {
 
 	action_a = {
 		name = ACTION_NAME_OK # The Japs are getting dangerous
+		command = { type = dissent value = -1 }
 		command = { type = relation which = JAP value = -10 }
 	}
 }
@@ -2456,7 +2465,7 @@ event = {
 
 	action = {
 		ai_chance = 2
-		name = EVT_2002011_ACTA #Very heavy casualties
+		name = "4063a" #Very heavy casualties
 		command = { type = war which = ENG }
 		command = { type = alliance which = U03 }
 		command = { type = alliance which = U04 }
@@ -4545,16 +4554,19 @@ event = {
 			AND = {
 				alliance = { country = ENG country = USA }
 				NOT = { flag = debuff_USA }
+				army = { size = 250 country = USA }
 			}
 			event = { id = 2002011 days = 1080 } #3 years since attack on Mers-el-Kebir - UK goes alone
 		}
 		OR = {
 			region = { region = "Libya" country = -3 value = 30 } #Advancing in Libya
 			control = { province = 515 data = -3 } #Took Rome
+			region = { region = "Spain" 	country = -3 value = 80 } #Allies control most of Spain
 			AND = {
 				event = { id = 2002011 days = 720 } #2 years since attack on Mers-el-Kebir
 				alliance = { country = ENG country = USA }
 				NOT = { flag = debuff_USA }
+				army = { size = 250 country = USA }
 			}
 		}
 		OR = {
@@ -5144,13 +5156,22 @@ event = {
 		event = { id = 2002008 days = 180  }
 		OR = {
 			AND = {
-				region = { region = "Morocco" country = -3 value = 5 }
-				region = { region = "Algeria" country = -3 value = 5 }
+				region = { region = "Morocco" country = -3 value = 5	}
+				region = { region = "Algeria" country = -3 value = 5	}
+				OR = {
+					area = { area = "Lebanon_Syria" country = -3 value = 60	}
+					region = { region = "Spain" 	country = -3 value = 80 } #Allies control most of Spain
+					AND = {
+						region = { region = "Morocco" country = -3 value = 70	}
+						region = { region = "Algeria" country = -3 value = 50	}
+					}
+				}
 			}
 			control = { province = 515 data = -3 } #Rome
-			region = { region = "France" 			country = -3 data = 1 value = 5 } #Allies landed in France
-			area = { area = "Alpes_Provence" 		country = -3 data = 1 value = 1 } #Allies landed in France
-			area = { area = "Pyrenees_Languedoc" 	country = -3 data = 1 value = 1 } #Allies landed in France
+			region = { region = "France" 			country = -3 value = 5  } #Allies landed in France
+			area = { area = "Alpes_Provence" 		country = -3 value = 1  } #Allies landed in France
+			area = { area = "Pyrenees_Languedoc" 	country = -3 value = 1  } #Allies landed in France
+			
 			lost_national = { country = GER value = 10 } #Germany invaded
 		}
 	}
@@ -5159,11 +5180,11 @@ event = {
 	offset = 15
 	deathdate = { day = 29 month = december year = 1963 }
 
-	name = "EVT_983_NAME"
-	desc = "EVT_983_DESC"
+	name = "EVT_980_NAME"
+	desc = "EVT_980_DESC"
 
 	action = {
-		name = EVT_983_ACTA
+		name = EVT_980_ACTA
 		command = { type = secederegion which = U01 value = "Algeria" when = 1 }
 		command = { type = secederegion which = U01 value = "Tunisia" when = 1 }
 		command = { type = secederegion which = U01 value = "Morocco" when = 1 }
@@ -5176,6 +5197,11 @@ event = {
 		
 		command = { type = trigger which = 981 }
 	}
+	action = {
+		name = EVT_980_ACTB
+		command = { type = dissent value = -0.5 }
+		command = { }
+	}
 }
 
 
@@ -5185,8 +5211,8 @@ event = {
 	country = VIC
 	one_action = yes
 
-	name = "EVT_985_NAME"
-	desc = "EVT_985_DESC"
+	name = "EVT_981_NAME"
+	desc = "EVT_981_DESC"
 	style = 0
 
 	action = {
@@ -5232,6 +5258,8 @@ event = {
 		command = { type = secedeprovince which = VIC value = 5093 when = 2 }
 		command = { type = secedeprovince which = VIC value = 5094 when = 2 }
 		command = { type = secedeprovince which = VIC value = 5095 when = 2 }
+		
+		command = { type = secedeprovince which = VIC value = 949  when = 2 }
 
 		command = { type = secedeprovince which = MAD value = 1135 when = 2 } #Reunion island
 		command = { type = addcore which = 1135 where = MAD }
@@ -5378,6 +5406,7 @@ event = {
 event = { 
 	id = 985
 	random = no
+	persistent = yes
 
 	name = EVT_985_NAME
 	desc = EVT_985_DESC
@@ -5385,12 +5414,12 @@ event = {
 
 	action = {
 		name = "ACTION_NAME_GREAT"
-		command = { type = make_puppet which = U03 }
+		command = { trigger = { NOT = { puppet = { country = U03 } } } type = make_puppet which = U03 }
 		command = { type = event which = 2400537 where = U03 when = 0 } #medium puppet
 		command = { trigger = { country = GER NOT = { ai = GER } } type = military_control which = GER where = U03 value = 1 }
 		command = { trigger = { country = JAP NOT = { ai = JAP } } type = military_control which = JAP where = U03 value = 1 }
 		
-		command = { type = make_puppet which = MAD }
+		command = { trigger = { NOT = { puppet = { country = MAD } } } type = make_puppet which = MAD }
 		command = { type = event which = 2400537 where = MAD when = 0 } #medium puppet
 		command = { trigger = { country = GER NOT = { ai = GER } } type = military_control which = GER where = MAD value = 1 }
 		command = { trigger = { country = JAP NOT = { ai = JAP } } type = military_control which = JAP where = MAD value = 1 }
@@ -5755,6 +5784,8 @@ event = {
 		command = { type = dissent 		value = -100 }
 		command = { type = belligerence value = -100 }
 		command = { type = manpowerpool value =  100 }
+		
+		command = { type = control which = JAP value = 696 }
 	}
 }
 
@@ -5828,6 +5859,7 @@ event = {
 	trigger = {
 		#atwar = no 
 		event = 2002008 # French State
+		NOT = { headofgovernment = 5189 }
 		OR = {
 			AND = { 
 				country = VIC
@@ -5835,6 +5867,8 @@ event = {
 				OR = {
 					NOT = { exists = U01 }
 					alliance = { country = U01 }
+				}
+				OR = {
 					NOT = { event = 982 } #Vichy folds
 					event = { id = 982 days = 180 } 
 				}
@@ -6135,7 +6169,7 @@ event = {
 	country = U03
 	
 	name = EVT_993_NAME
-	desc = EVT_990_DESC
+	desc = EVT_991_DESC
 	style = 2
 	
 	action = {
@@ -6160,8 +6194,8 @@ event = {
 	random = no
 	country = JAP
 	
-	name = EVT_990_NAME
-	desc = EVT_990_DESC
+	name = EVT_991_NAME
+	desc = EVT_991_DESC
 	style = 2
 	
 	action = {
@@ -6192,8 +6226,8 @@ event = {
 	random = no
 	persistent = yes
 	
-	name = EVT_990_NAME
-	desc = EVT_990_DESC
+	name = EVT_993_NAME
+	desc = EVT_991_DESC
 	style = 2
 	
 	action = {
@@ -7030,9 +7064,9 @@ event = {
 	style = 2
 
 	trigger = { 
+		event = 2002008 #French State
 		minister = 5189 #Darlan HoG
-        NOT = { war = { country = GER country = VIC } }
-        NOT = { control = { province = 56 data = -1 } } #Paris +
+        alliance = { country = ENG }
 		random = 80
 		}
 
@@ -7046,12 +7080,12 @@ event = {
 
 	action_a = {
 		name = "EVT_362_ACTC"
-		command = { trigger = { headofgovernment = 5189 } type = headofgovernment which = 5023 } #Laval new HoG
+		command = { trigger = { headofgovernment = 5189 } type = headofgovernment which = 5163 } #Giraud new HoG
 		command = { type = sleepminister which = 5189 } #Darlan HoG
 		command = { type = sleepleader which = 5150 } #Darlan leader
 		command = { type = sleepteam which = 5018 } #Darlan TT
-		}
 	}
+}
 	
 ### General Charles Huntziger dies in an air crash!
 
@@ -7364,6 +7398,8 @@ event = {
 		name = ACTION_NAME_GREAT
 		command = { type = money	value = -500  }
 		command = { type = supplies	value = -2000 }
+		command = { trigger = { ai = yes } type = money	value = 10 }
+		
 		#Spitfire ~200 m.1940
 		command = { type = add_division	 value = interceptor		when = 9  } 
 		command = { type = add_division	 value = interceptor		when = 9  } 

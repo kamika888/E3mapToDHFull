@@ -13,13 +13,13 @@ country =
 	rare_materials         = 15100
 	oil                    = 5000 
 	supplies               = 500 
-	money                  = 70 
+	money                  = 4000 
 	transports             = 2200 
 	escorts                = 220 
   #Turkish straits
   free = { 
 	ic = 4 
-	money = 2
+	money = 3
 	energy = 2
 	metal = 1 
 	supplies = 1 
@@ -420,7 +420,7 @@ techapps               = {
      free_market       = 7
      professional_army = 1 #UK did not introduce 6-month conscription until April 1939 
      defense_lobby     = 1 
-     interventionism   = 3
+     interventionism   = 2
   }
 inventions = { 3000027 }
    headofstate            = {  type = 9 id = 10001  } 

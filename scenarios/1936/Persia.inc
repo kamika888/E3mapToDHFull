@@ -13,7 +13,7 @@ country =
 	oil                    = 500 
 	supplies               = 500 
 	money                  = 10 
-	manpower               = 167 
+	manpower               = 67 
   capital                = 1502
   policy =
   { date              = { year = 0 month = january day = 0 }

@@ -684,7 +684,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 10
+	offset = 5
 	deathdate = { day = 29 month = december year = 1963 }
 
 	name = EVT_2074005_NAME
@@ -2268,11 +2268,57 @@ event = {
 	desc = EVT_3059015_DESC
 	style = 2
 	picture = "news_paper"
+	
+	trigger = {	
+		government = communist
+	}
 
 	date = { day = 1 month = february year = 1946 }
 
 	action = {
 		command = { type = flag_ext where = U27 which = "_1946" }
+	}
+}	
+
+event = {
+	id = 3059017
+	random = no
+	country = ROM
+
+	name = EVT_3059015_NAME
+	desc = EVT_3059015_DESC
+	style = 2
+	picture = "news_paper"
+	
+	trigger = {	
+		government = communist
+	}
+
+	date = { day = 1 month = april year = 1948 }
+
+	action = {
+		command = { type = flag_ext where = ROM which = "_COM" }
+	}
+}	
+
+event = {
+	id = 3059018
+	random = no
+	country = BUL
+
+	name = EVT_3059015_NAME
+	desc = EVT_3059015_DESC
+	style = 2
+	picture = "news_paper"
+	
+	trigger = {	
+		government = communist
+	}
+
+	date = { day = 1 month = april year = 1948 }
+
+	action = {
+		command = { type = flag_ext where = BUL which = "_COM" }
 	}
 }	
 
@@ -2366,11 +2412,15 @@ event = {
 		command = { type = addclaim which = 414  where = BUL }
 		command = { type = addclaim which = 3397 where = BUL }
 		
+		command = { trigger = { owned = { province = 453 data = GER } }				type = belligerence value = -60 } # from 80 provinces + 20 province gains
+		command = { trigger = { NOT = { owned = { province = 453 data = GER } } }	type = belligerence value =  10 }
+		
 		command = { type = secedeprovince which = GER value = 459  when = 2 }
 		command = { type = secedeprovince which = GER value = 7122 when = 2 }
 		command = { type = secedeprovince which = GER value = 6560 when = 2 }
 		command = { type = secedeprovince which = GER value = 494  when = 2 }
 		command = { type = secedeprovince which = GER value = 3370 when = 2 }
+		
 		
 		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 380  when = 2 }
 		command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 384  when = 2 }
@@ -2414,27 +2464,28 @@ event = {
 		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 414   when = 2 }
 		command = { trigger = { alliance = { country = GER country = BUL } } type = secedeprovince which = BUL value = 3397  when = 2 }
 		
-		command = { trigger = { NOT = { exists = CRO } } 							  type = manpowerpool value = 15 } # Croats in the Wehrmacht
-		command = { trigger = { NOT = { exists = CRO } alliance = { country = ITA } } type = event   which = 203123 where = ITA when = 0 }
-		command = { trigger = { NOT = { exists = CRO alliance = { country = ITA } } } type = local_setflag which = CROindGER }
-		command = { trigger = { local_flag = CROindGER } type = secedeprovince which = GER value = 382 when = 2 }
-		command = { trigger = { local_flag = CROindGER } type = independence which = CRO value = 1 }
-		command = { trigger = { local_flag = CROindGER } type = make_puppet  which = CRO }
-		command = { trigger = { local_flag = CROindGER } type = event   which = 2400536 where = CRO when = 0 } #medium puppet		
-		command = { trigger = { local_flag = CROindGER } type = trigger which = 203121 } # CRO
-		command = { trigger = { local_flag = CROindGER } type = belligerence value = 5 } # something is borked.
-		command = { trigger = { local_flag = CROindGER NOT = { ai = GER } } type = military_control which = GER where = CRO value = 1 }
-		command = { trigger = { local_flag = CROindGER NOT = { ai = ITA } } type = military_control which = ITA where = CRO value = 1 }
+		command = { trigger = { NOT = { exists = CRO } alliance = { country = ITA } }		type = event   which = 203123 where = ITA when = 0 }
+
+		command = { trigger = { NOT = { exists = CRO alliance = { country = ITA } } }		type = local_setflag which = CROindGER }
+		command = { trigger = { local_flag = CROindGER }									type = secedeprovince which = GER value = 382 when = 2 }
+		command = { trigger = { local_flag = CROindGER }									type = independence which = CRO value = 1 }
+		command = { trigger = { local_flag = CROindGER }									type = make_puppet  which = CRO }
+		command = { trigger = { local_flag = CROindGER }									type = event   which = 2400536 where = CRO when = 0 } #medium puppet		
+		command = { trigger = { local_flag = CROindGER }									type = trigger which = 203121 } # CRO
+		command = { trigger = { local_flag = CROindGER }									type = belligerence value = 32 }
+		command = { trigger = { local_flag = CROindGER NOT = { ai = GER } }					type = military_control which = GER where = CRO value = 1 }
+		command = { trigger = { local_flag = CROindGER NOT = { ai = ITA } }					type = military_control which = ITA where = CRO value = 1 }
+
+		command = { trigger = { NOT = { exists = SER } }									type = local_setflag which = SERindGER }
+		command = { trigger = { local_flag = SERindGER }									type = secedeprovince which = GER value = 453 when = 2 }
+		command = { trigger = { local_flag = SERindGER }									type = independence which = SER value = 1 }
+		command = { trigger = { local_flag = SERindGER }									type = make_puppet  which = SER }
+		command = { trigger = { local_flag = SERindGER } 									type = event   which = 2400533 where = SER when = 0 } #weak puppet	
+		command = { trigger = { local_flag = SERindGER } 									type = trigger which = 203122 } # SER
+		command = { trigger = { local_flag = SERindGER }									type = belligerence value = 32 }
+		command = { trigger = { local_flag = SERindGER NOT = { ai = GER } }					type = military_control which = GER where = SER value = 1 }
+
 		command = { trigger = { local_flag = CROindGER } type = local_clrflag which = CROindGER }
-		
-		command = { trigger = { NOT = { exists = SER } } type = local_setflag which = SERindGER }
-		command = { trigger = { local_flag = SERindGER } type = secedeprovince which = GER value = 453 when = 2 }
-		command = { trigger = { local_flag = SERindGER } type = independence which = SER value = 1 }
-		command = { trigger = { local_flag = SERindGER } type = make_puppet  which = SER }
-		command = { trigger = { local_flag = SERindGER } type = event   which = 2400533 where = SER when = 0 } #weak puppet	
-		command = { trigger = { local_flag = SERindGER } type = trigger which = 203122 } # SER
-		command = { trigger = { local_flag = SERindGER } type = belligerence value = 5 } # something is borked.
-		command = { trigger = { local_flag = SERindGER NOT = { ai = GER } } type = military_control which = GER where = SER value = 1 }
 		command = { trigger = { local_flag = SERindGER } type = local_clrflag which = SERindGER }
 	}
 }
@@ -2520,7 +2571,7 @@ event = {
 		command = { type = make_puppet  which = CRO }
 		command = { type = event   which = 2400536 where = CRO when = 0 } #medium puppet		
 		command = { type = trigger which = 203121 } # CRO
-		command = { type = belligerence value = 5 } # something is borked.
+		command = { type = belligerence value = 32 }
 		command = { trigger = { NOT = { ai = GER } } type = military_control which = GER where = CRO value = 1 }
 		command = { trigger = { NOT = { ai = ITA } } type = military_control which = ITA where = CRO value = 1 }
 	}

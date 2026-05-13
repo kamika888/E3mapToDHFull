@@ -9,10 +9,10 @@ country =
   ai_settings			 = { flags = { RESInit = 1 puppetLevel9 = 1 ideology = 5 } }
 	manpower               = 16 
    # Resource Reserves 
-	energy                 = 1620
-	metal                  = 810
-	rare_materials         = 405
-	oil                    = 500 
+	energy                 = 5620
+	metal                  = 2810
+	rare_materials         = 1005
+	oil                    = 1000 
 	supplies               = 500 
 	money                  = 20 
   capital                = 1727

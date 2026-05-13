@@ -116,7 +116,7 @@ event = {
 	picture = "news_paper"
 	
 	date = { day = 6 month = september year = 1939 }
-	offset = 21
+	offset = 11
 	deathdate = { day = 29 month = december year = 1943 }
 
 	action = {
@@ -223,6 +223,11 @@ event = {
 	}
 	decision_trigger = {
 		OR = {
+			ideology = { type = nazi				country = HUN }
+			ideology = { type = fascist				country = HUN }
+			ideology = { type = paternal_autocrat	country = HUN }
+		}
+		OR = {
 			control = { province = 2302 data = -2 } #Uzhgorod
 			control = { province = 424  data = -2 } #Buharest
 			control = { province = 428  data = -2 } #Cluj
@@ -235,6 +240,11 @@ event = {
 		NOT = { puppet = { country = HUN country = GER } }
 		war = { country = SOV }
 		year = 1942
+		OR = {
+			ideology = { type = nazi				country = HUN }
+			ideology = { type = fascist				country = HUN }
+			ideology = { type = paternal_autocrat	country = HUN }
+		}
 		OR = {
 			control = { province = 2302 data = -2 } #Uzhgorod
 			control = { province = 424  data = -2 } #Buharest
@@ -294,6 +304,8 @@ event = {
 		command = { type = chiefofarmy 				which = 105102 }
 		command = { type = chiefofnavy 				which = 105112 }
 		command = { type = chiefofair 				which = 105119 }
+		
+		command = { type = flag_ext where = HUN which = "_NYKP" }
 	}
 }
 
@@ -391,26 +403,37 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
+		trigger = { NOT = { ispuppet = yes } }
 		ai_chance = 100
 		command = { type = local_clrflag which = noChange }
 		command = { type = leave_alliance when =  1 } # separate peace, pull out of alliance
 		command = { type = access which = GER }
 		command = { type = access which = ITA }
-		command = { type = access which = SOV }
 		command = { type = access which = ROM }
 		command = { type = access which = CRO }
 		command = { type = access which = SLO }
 		command = { type = access which = BUL }
+		
+		command = { type = access which = SOV }
+		command = { type = access which = U32 }
+		command = { type = access which = MON }
+		command = { type = access which = TAN }
+		command = { type = access which = U27 }
+		command = { type = access which = U28 }
+		command = { type = access which = U33 }
 		
 		command = { type = secederegion which = SOV value = "Ukraine" 		when = 1 } 
 		command = { type = secedearea	which = SOV value = "Bessarabia" 	when = 1 } 
 		
 		command = { trigger = { ai = yes }	type = event which = 2400040 where = -1 when = 0 } #exp0
 		
+		command = { type = flag_ext 	where = HUN which = "" }
+		
 		command = { type = event which = 2022018 where = SOV when = 1 }
 	}
 	action = {
 		name = EVT_2022017_ACTB
+		trigger = { NOT = { ispuppet = yes } }
 		ai_chance = 0
 		command = { type = dissent value = 15 }
 		command = { type = switch_allegiance which = -1 where = SOV }

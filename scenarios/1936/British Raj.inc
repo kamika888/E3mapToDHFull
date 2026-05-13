@@ -12,7 +12,7 @@
    regular_id             = IND 
    puppet                 = ENG 
    capital                = 1469 
-   ai_settings			  = { flags = { RESInit = 1 puppetLevel6 = 1 ideology = 5 } }
+   ai_settings			  = { flags = { RESInit = 1 puppetLevel7 = 1 ideology = 5 } }
 
    
 	manpower               = 489 
@@ -182,6 +182,8 @@
 4600 4610 4620 4630 4120
 #Computers & cryptografi
 5310 54010 54020 54030 5316 5326
+#Agriculture
+5700 5710
 #Manufactoring
 5810 5820 5050 5830
 #Improved Construction Engineering 

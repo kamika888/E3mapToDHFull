@@ -17,6 +17,7 @@
    supplies               = 100 
    money                  = 50 
    manpower               = 20
+   ic_modifier            = 0.6
    
    headofstate            = {  type = 9 id = 1147301 } 
    headofgovernment       = {  type = 9 id = 1147302 } 

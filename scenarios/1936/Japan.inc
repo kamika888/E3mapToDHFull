@@ -6,7 +6,7 @@ country =
 { tag                    = JAP
   ai_settings			 = { flags = { RESInit = 1 ideology = 3 WARDebt = 3 war_preparedness = 10 } }
   belligerence           = 3
-  ai					 = "EXP_0_01.ai"
+  ai					 = "EXP_1.ai"
   capital                = 1184
 	manpower               = 1317
 	# Resource Reserves 
@@ -2936,6 +2936,8 @@ landunit =
 	landdivision = { dormant = yes id = { type = 13016 id = 4034 } name = "34 IMB Hong Kong"	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
 	landdivision = { dormant = yes id = { type = 13016 id = 4035 } name = "35 IMB Qingdao"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
 	landdivision = { dormant = yes id = { type = 13016 id = 4036 } name = "36 IMB Qingdao"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4037 } name = "37 IMB Macau"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4038 } name = "38 IMB Guangzhouwan"	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
 	
 	
 	#Philippines

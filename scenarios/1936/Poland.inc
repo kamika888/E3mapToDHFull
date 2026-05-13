@@ -154,7 +154,7 @@ claimedprovinces = { 303 2647 267 161 507 506 502 1885 3274 3275 562 503 3395 11
      free_market       = 3
      professional_army = 4 
      defense_lobby     = 3
-     interventionism   = 4 
+     interventionism   = 5 
   }
 inventions = { 3000027 }
    headofstate            = {  type = 9 id = 60001  } 

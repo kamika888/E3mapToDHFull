@@ -207,6 +207,7 @@ event = {
 	
 	action= {
 		name = "ACTION_NAME_GREAT"
+		command = { type = belligerence which = ITA value = 10 }
 		command = { type = add_corps which = "Security Battalions" 					value = land 				 where = 395  }
 		command = { type = add_division which = "1st Evzones Division"				value = militia		when = 5 where = -30  }
 		command = { type = add_division which = "2nd Evzones Division"			 	value = militia		when = 5 where = -30  }
@@ -273,6 +274,7 @@ event = {
 		name = 459a
 		command = { type = trigger which = 2003145 } #GER Italy 
 		command = { type = dissent value = 3 } 
+		command = { type = belligerence which = ITA value = 5 }
 		command = { trigger = { non_aggression = { country = ITA country = SPR } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
 		command = { trigger = { non_aggression = { country = ITA country = U52 } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
 		command = { trigger = { non_aggression = { country = ITA country = EUS } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
@@ -449,7 +451,8 @@ event = {
 		
 		command = { type = local_setflag which = ControlDeny }
 		command = { type = military_control which = GER where = ITA value = 0 }
-		command = { trigger = { ai = yes } type = event which = 2400040 where = -1 when = 0 } #exp_0
+		command = { type = local_setflag which = exp value =  5 }
+		command = { type = ai which = "EXP_5.ai" }
 		command = { type = local_clrflag which = garSpec }
 		
 		command = { type = event which = 2400151 where = ITA when = 1   } #initial confusion
@@ -1529,6 +1532,7 @@ event = {
 	action = {
 		name = EVT_14000020_ACTA
 		command = { type = trigger which = 14000021 }
+		command = { type = belligerence which = ITA value = 2 }
 	}
 }
 
@@ -1695,6 +1699,7 @@ event = {
 		command = { type = relation which = NZL value = -10 }
 		
 		command = { trigger = { ai = yes } type = activate_division which = 23500	value = 1000 when = 0 where = 7935  }
+		command = { type = secedeprovince which = U41	value = 7935 when = 2 }
 	}
 }
 
@@ -2207,13 +2212,15 @@ event = {
 		command = { type = event which = 2400539 where = U49 when = 0 } #strong puppet/no cores
 		command = { type = event which = 2007156 where = U49 when = 0 }
 		
-		#command = { trigger = { NOT = { ai = ITA } } type = military_control which = ITA where = U49 value = 1 }
-		command = { type = military_control which = ITA where = U49 value = 1 }
+		command = { trigger = { NOT = { ai = ITA } } type = military_control which = ITA where = U49 value = 1 }
+		#command = { type = military_control which = ITA where = U49 value = 1 }
 		
 		command = { trigger = { ai = ITA } type = add_corps 	value = land 	where = 1033 }
 		command = { trigger = { ai = ITA } type = add_division	value = militia when = 5 }
 		
 		command = { trigger = { ai = ITA } type = supplies value = -5000 }
+		
+		command = { type = belligerence which = ITA value = 50 }
 	}
 }
 
@@ -2259,7 +2266,8 @@ event = {
 		command = { type = add_claim_region 	which = "Ethiopia" 			where = ITA }
 		command = { type = add_claim_region 	which = "Horn of Africa" 	where = ITA }
 		
-		command = { type = secedeprovince which = ITA value = 7935 when = 2 } #so that units stay under Italy
+		#so that units stay under Italy
+		#command = { type = secedeprovince which = ITA value = 7935 when = 2 }
 		
 		command = { trigger = { ai = ITA control = { province = 1046 data = -3 } } type = supplies value =  5000 }
 		
@@ -2489,7 +2497,7 @@ event = {
 		command = { type = dissent value = -0.5 }
 		command = { trigger = { alliance = { country = ETH } } type = secederegion	which = ETH value = "Ethiopia"	when = 1 } #includes eritrea
 		
-		#annexation of AOI gives ~40 additional belligerence for no goddamn reason, on top of the >15 belligerence from taking their provinces
+		#annexation of AOI gives ~40 additional belligerence, on top of the >15 belligerence from taking their provinces
 		command = { trigger = { event = 2007155 alliance = { country = ETH } }				type = belligerence which = ENG value = -45 } 
 		command = { trigger = { event = 2007155 NOT = { alliance = { country = ETH } } }	type = belligerence which = ENG value = -25 } 
 		

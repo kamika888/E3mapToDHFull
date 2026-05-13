@@ -8,8 +8,8 @@ country =
   capital                = 51
 	manpower               = 7 
 	# Resource Reserves 
-	energy                 = 2040
-	metal                  = 1020
+	energy                 = 10040
+	metal                  = 1520
 	rare_materials         = 510
 	oil                    = 500 
 	supplies               = 500 
