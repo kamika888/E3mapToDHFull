@@ -9335,7 +9335,7 @@ event = {
 # German-American Cold War
 ##################################
 event = {
-	id = 2049150
+	id = 2049300
 	random = no
 	country = GER
 
@@ -9377,11 +9377,11 @@ event = {
 
 	action = {
 		name = EVT_2049150_ACTA
-		command = { type = trigger which = 2049151 }
+		command = { type = trigger which = 2049301 }
 	}
 }
 event = {
-	id = 2049151
+	id = 2049301
 	random = no
 	country = USA
 
@@ -9425,19 +9425,19 @@ event = {
 		command = { type = secederegion which = GER value = "Horn of Africa" 		when = 1 }
 		command = { type = secederegion which = GER value = "North Solomon Islands" when = 1 }
 		
-		command = { type = trigger which = 2049152 }
+		command = { type = trigger which = 2049302 }
 	}
 	action = {
 		ai_chance = 0
 		name = ACTINUTILE
 		command = { type = dissent value = 5 }
-		command = { type = sleepevent which = 2049153 }
+		command = { type = sleepevent which = 2049303 }
 	}
 }
 
 
 event = {
-	id = 2049152
+	id = 2049302
 	random = no
 	country = GER
 	
@@ -9456,7 +9456,7 @@ event = {
 
 ###### A war for revenge
 event = {
-	id = 2049153
+	id = 2049303
 	random = no
 	country = USA
 
@@ -9864,7 +9864,7 @@ event = {
 	offset = 20
 	deathdate = { day = 29 month = december year = 1963 }
 	
-    action = {
+	action = {
 		name = EVT_2049122_ACTA
 		command = { type = supplies value = -6500 }
 		command = { type = money    value = -1500 }
@@ -9883,3 +9883,2347 @@ event = {
 	}
 }	
 
+event = { 
+	id = 2049130
+	random = no
+	country = USA
+	
+	trigger = {
+		ai = no
+        policy = { type = professional_army value = 2 } 
+	}
+       
+	name = "Continental Army"
+	desc = "The United States mobilized a massive force by the end of world war 2 - numbering over 6 million men in the Army ground forces, with another 2 million in the Army Air Force and 3.4 million in the Navy. In sheer size, the US armed forces rivaled or exceeded the Red Army. However, over half of that force never left the U.S. homeland. The first and primary reason was the unusually high 'tooth-to-tail ratio' of the US army during this time. Partially necessitated by the long logistical chains spread across two oceans, the US Army had an atypically large number of support staff per each individual soldier engaged in actual combat. But there were other reasons as well. One of the chief conerns prior to the war was that the American people are simply not used to prolonged hardship away from home and may not understand the relevance of European or Asian conflicts to their own lives. To rememdy this problem, it was decided to mobilize an extra home army such that soldiers can be drawn from it to serve abroad on a 'rotational basis' should the war fail to end quickly, keeping the US field forces fresh and motivated at all times. Then there were domestic concerns. The long length of the US shorelines required a significant force - not necessarily to defend from an invasion, which was ruled unlikely by 1943, but to intercept raids - which were considered still very much a possibility even very late in the war. The Mexican border was also tightly watched in order to prevent the repeat of the embarassing struggles of the last war. Finally, there was internal security. Much of the US army in fact consisted of the federalized National Guard, which was still badly needed at home as the US struggled with its simmering racial and ethnic tensions. Famously, 6000 Army troops had to be rapidly deployed to Detroit to reinforce the local police department in order to help quell the race riots engulfing the US industrial heartland. To ensure that we don't suffer negative penalties, we must strive to keep at least 150 divisions at home at all times, thoroughly covering the shoreline, the Mexican border, and potential domestic hotspots. Failure to do so may lead to decreased morale, deteriorating supply efficiency, enemy raids, and domestic unrest."
+	style = 2
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 20
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	action = {
+		name = "Understood"
+		command = { }
+	}
+}
+
+event = { 
+	id = 2049131
+	random = no
+	persistent = yes
+	country = USA
+	
+	trigger = {
+		#ai = no
+        atwar = yes
+		#OR = {
+		#	NOT = { war = { country = GER } }
+		#	NOT = { flag = GER_USA_undeclared_war }
+		#}
+		#Ideally would compare against the actual army size including exp forces sent to other countries, however this is impossible as the corresponding command is broken
+	}
+       
+	name = "Supply constraints"
+	desc = "The penalties for our forces in the field will adjust automatically based on the current size of our Continental Army."
+	style = 2
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	action = {
+		name = "Over 150 divisions - No penalty"
+		trigger = {
+			NOT = { local_flag = { which = HDF when = 0 value = 0 } }
+			OR = {
+					garrison = { province = 689 type = land size = 200 area = 3 } 
+					lost_IC = { value = 10 } #Invaded
+			}
+		}
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = tc_mod 							value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = tc_occupied_mod 					value =  10  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = supply_dist_mod 					value =  10  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = ground_def_eff 	when  = 1	 	value =  0.1 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = morale 			which = land	value =  5   }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = tc_mod 							value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = tc_occupied_mod 					value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = supply_dist_mod 					value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = ground_def_eff 	when  = 1	 	value =  0.2 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = morale 			which = land	value =  10  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = tc_mod 							value =  60  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = tc_occupied_mod 					value =  30  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = supply_dist_mod 					value =  30  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = ground_def_eff 	when  = 1	 	value =  0.3 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = morale 			which = land	value =  15  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = tc_mod 							value =  80  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = tc_occupied_mod 					value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = supply_dist_mod 					value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = ground_def_eff 	when  = 1	 	value =  0.4 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = morale 			which = land	value =  20  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = tc_mod 							value =  100 }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = tc_occupied_mod 					value =  50  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = supply_dist_mod 					value =  50  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = ground_def_eff 	when  = 1	 	value =  0.5 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = morale 			which = land	value =  25  }
+		
+		command = { type = local_clrflag which = HDF }
+	}
+	action = {
+		name = "125 to 150 divisions - Low penalty"
+		trigger = {		
+			NOT = { local_flag = { which = HDF when = 0 value = 1 } }
+			NOT = { lost_IC = { value = 10 } } #Invaded
+			NOT = { garrison = { province = 689 type = land size = 200 area = 3 } }
+					garrison = { province = 689 type = land size = 170 area = 3 } 
+		}
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = tc_mod 							value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = tc_occupied_mod 					value =  10  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = supply_dist_mod 					value =  10  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = ground_def_eff 	when  = 1	 	value =  0.1 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = morale 			which = land	value =  5   }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = tc_mod 							value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = tc_occupied_mod 					value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = supply_dist_mod 					value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = ground_def_eff 	when  = 1	 	value =  0.2 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = morale 			which = land	value =  10  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = tc_mod 							value =  60  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = tc_occupied_mod 					value =  30  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = supply_dist_mod 					value =  30  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = ground_def_eff 	when  = 1	 	value =  0.3 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = morale 			which = land	value =  15  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = tc_mod 							value =  80  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = tc_occupied_mod 					value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = supply_dist_mod 					value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = ground_def_eff 	when  = 1	 	value =  0.4 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = morale 			which = land	value =  20  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = tc_mod 							value =  100 }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = tc_occupied_mod 					value =  50  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = supply_dist_mod 					value =  50  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = ground_def_eff 	when  = 1	 	value =  0.5 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = morale 			which = land	value =  25  }
+		
+		command = { 																type = tc_mod 							value = -20  }
+		command = { 																type = tc_occupied_mod 					value = -10  }
+		command = { 																type = supply_dist_mod 					value = -10  }
+		command = { 																type = ground_def_eff 	when  = 1	 	value = -0.1 }
+		#command = { 																type = morale 			which = land	value = -5   }
+		
+		command = { type = local_setflag which = HDF when = 0 value = 1 }
+	}
+	action = {
+		name = "100 to 125 divisions - Medium penalty"
+		trigger = {
+			NOT = { local_flag = { which = HDF when = 0 value = 2 } }
+			NOT = { lost_IC = { value = 10 } } #Invaded
+			NOT = { garrison = { province = 689 type = land size = 170 area = 3 } }
+					garrison = { province = 689 type = land size = 140 area = 3 } 
+		}
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = tc_mod 							value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = tc_occupied_mod 					value =  10  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = supply_dist_mod 					value =  10  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = ground_def_eff 	when  = 1	 	value =  0.1 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = morale 			which = land	value =  5   }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = tc_mod 							value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = tc_occupied_mod 					value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = supply_dist_mod 					value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = ground_def_eff 	when  = 1	 	value =  0.2 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = morale 			which = land	value =  10  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = tc_mod 							value =  60  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = tc_occupied_mod 					value =  30  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = supply_dist_mod 					value =  30  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = ground_def_eff 	when  = 1	 	value =  0.3 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = morale 			which = land	value =  15  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = tc_mod 							value =  80  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = tc_occupied_mod 					value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = supply_dist_mod 					value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = ground_def_eff 	when  = 1	 	value =  0.4 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = morale 			which = land	value =  20  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = tc_mod 							value =  100 }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = tc_occupied_mod 					value =  50  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = supply_dist_mod 					value =  50  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = ground_def_eff 	when  = 1	 	value =  0.5 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = morale 			which = land	value =  25  }
+		
+		command = { 																type = tc_mod 							value = -40  }
+		command = { 																type = tc_occupied_mod 					value = -20  }
+		command = { 																type = supply_dist_mod 					value = -20  }
+		command = { 																type = ground_def_eff 	when  = 1	 	value = -0.2 }
+		#command = { 																type = morale 			which = land	value = -10  }
+		
+		command = { type = local_setflag which = HDF when = 0 value = 2 }
+	}
+	action = {
+		name = "75 to 100 divisions - High penalty"
+		trigger = {
+			NOT = { local_flag = { which = HDF when = 0 value = 3 } }
+			NOT = { lost_IC = { value = 10 } } #Invaded
+			NOT = { garrison = { province = 689 type = land size = 140 area = 3 } }
+					garrison = { province = 689 type = land size = 110 area = 3 } 
+		}
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = tc_mod 							value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = tc_occupied_mod 					value =  10  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = supply_dist_mod 					value =  10  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = ground_def_eff 	when  = 1	 	value =  0.1 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = morale 			which = land	value =  5   }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = tc_mod 							value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = tc_occupied_mod 					value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = supply_dist_mod 					value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = ground_def_eff 	when  = 1	 	value =  0.2 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = morale 			which = land	value =  10  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = tc_mod 							value =  60  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = tc_occupied_mod 					value =  30  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = supply_dist_mod 					value =  30  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = ground_def_eff 	when  = 1	 	value =  0.3 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = morale 			which = land	value =  15  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = tc_mod 							value =  80  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = tc_occupied_mod 					value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = supply_dist_mod 					value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = ground_def_eff 	when  = 1	 	value =  0.4 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = morale 			which = land	value =  20  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = tc_mod 							value =  100 }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = tc_occupied_mod 					value =  50  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = supply_dist_mod 					value =  50  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = ground_def_eff 	when  = 1	 	value =  0.5 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = morale 			which = land	value =  25  }
+		
+		command = { 																type = tc_mod 							value = -60  }
+		command = { 																type = tc_occupied_mod 					value = -30  }
+		command = { 																type = supply_dist_mod 					value = -30  }
+		command = { 																type = ground_def_eff 	when  = 1	 	value = -0.3 }
+		#command = { 																type = morale 			which = land	value = -15  }
+		
+		command = { type = local_setflag which = HDF when = 0 value = 3 }
+	}
+	action = {
+		name = "50 to 75 divisions - Severe penalty"
+		trigger = {
+			NOT = { local_flag = { which = HDF when = 0 value = 4 } }
+			NOT = { lost_IC = { value = 10 } } #Invaded
+			NOT = { garrison = { province = 689 type = land size = 110 area = 3 } }
+					garrison = { province = 689 type = land size =  80 area = 3 } 
+		}
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = tc_mod 							value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = tc_occupied_mod 					value =  10  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = supply_dist_mod 					value =  10  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = ground_def_eff 	when  = 1	 	value =  0.1 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = morale 			which = land	value =  5   }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = tc_mod 							value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = tc_occupied_mod 					value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = supply_dist_mod 					value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = ground_def_eff 	when  = 1	 	value =  0.2 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = morale 			which = land	value =  10  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = tc_mod 							value =  60  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = tc_occupied_mod 					value =  30  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = supply_dist_mod 					value =  30  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = ground_def_eff 	when  = 1	 	value =  0.3 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = morale 			which = land	value =  15  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = tc_mod 							value =  80  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = tc_occupied_mod 					value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = supply_dist_mod 					value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = ground_def_eff 	when  = 1	 	value =  0.4 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = morale 			which = land	value =  20  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = tc_mod 							value =  100 }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = tc_occupied_mod 					value =  50  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = supply_dist_mod 					value =  50  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = ground_def_eff 	when  = 1	 	value =  0.5 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = morale 			which = land	value =  25  }
+		
+		command = { 																type = tc_mod 							value = -80  }
+		command = { 																type = tc_occupied_mod 					value = -40  }
+		command = { 																type = supply_dist_mod 					value = -40  }
+		command = { 																type = ground_def_eff 	when  = 1	 	value = -0.4 }
+		#command = { 																type = morale 			which = land	value = -20  }
+		
+		command = { type = local_setflag which = HDF when = 0 value = 4 }
+	}
+	action = {
+		name = "Less than 50 divisions - Very Severe penalty"
+		trigger = {
+			NOT = { local_flag = { which = HDF when = 0 value = 5 } }
+			NOT = { lost_IC = { value = 10 } } #Invaded
+			NOT = { garrison = { province = 689 type = land size =  80 area = 3 } }
+		}
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = tc_mod 							value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = tc_occupied_mod 					value =  10  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = supply_dist_mod 					value =  10  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = ground_def_eff 	when  = 1	 	value =  0.1 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 1 } }	type = morale 			which = land	value =  5   }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = tc_mod 							value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = tc_occupied_mod 					value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = supply_dist_mod 					value =  20  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = ground_def_eff 	when  = 1	 	value =  0.2 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 2 } }	type = morale 			which = land	value =  10  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = tc_mod 							value =  60  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = tc_occupied_mod 					value =  30  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = supply_dist_mod 					value =  30  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = ground_def_eff 	when  = 1	 	value =  0.3 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 3 } }	type = morale 			which = land	value =  15  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = tc_mod 							value =  80  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = tc_occupied_mod 					value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = supply_dist_mod 					value =  40  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = ground_def_eff 	when  = 1	 	value =  0.4 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 4 } }	type = morale 			which = land	value =  20  }
+		
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = tc_mod 							value =  100 }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = tc_occupied_mod 					value =  50  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = supply_dist_mod 					value =  50  }
+		command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = ground_def_eff 	when  = 1	 	value =  0.5 }
+		#command = { trigger = { local_flag = { which = HDF when = 0 value = 5 } }	type = morale 			which = land	value =  25  }
+		
+		command = { 																type = tc_mod 							value = -100 }
+		command = { 																type = tc_occupied_mod 					value = -50  }
+		command = { 																type = supply_dist_mod 					value = -50  }
+		command = { 																type = ground_def_eff 	when  = 1	 	value = -0.5 }
+		#command = { 																type = morale 			which = land	value = -25  }
+		
+		command = { type = local_setflag which = HDF when = 0 value = 5 }
+	}
+}
+
+event = { 
+	id = 2049140
+	random = no
+	persistent = yes
+	tag = { GER ENG VIC SOV RUS JAP ITA }
+	
+	decision = {
+		NOT = { flag = raidUS }
+		war = { country = USA }
+		OR = {
+			NOT = { country = GER }
+			NOT = { flag = GER_USA_undeclared_war }
+		}
+	}
+	decision_trigger = {
+		submarine = { value = 3 when = now }
+		OR = {
+			garrison = { country = -1 province = 6577 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 4248 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 6576 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 4247 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 6575 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 4246 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 6582 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 4245 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 4243 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 4244 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 4242 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 4241 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 4240 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 6572 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 4265 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 4266 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 6573 type = naval size = 3 area = 0 } 
+			garrison = { country = -1 province = 4267 type = naval size = 3 area = 0 } 
+		}
+	}
+	trigger = {
+		NOT = { flag = raidUS }
+		war = { country = USA }
+		OR = {
+			NOT = { country = GER }
+			NOT = { flag = GER_USA_undeclared_war }
+		}
+		submarine = { value = 3 when = now }
+	}
+       
+	name = "Raiding the US coastline"
+	desc = "If the United States is not thoroughly defending its coastline, we have the option of sending trained commandos abroad a few submarines on a one-way mission to sabotage critical US industries and infrastructure near the coast or even further inland if the situation allows. To do this, we must bring at least three submarines right up against the US coastline."
+	style = 2
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	action = {
+		name = "Raid New England"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = {
+						AND = {
+							garrison = { country = -2 province = 582 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 583 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 600 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 601 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 2719 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6329 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6330 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6333 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6367 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6371 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6375 	type = land size = 1 area = 0 }
+						}
+					}
+				}
+				garrison = { country = -1 province = 6577 type = naval size = 3 area = 0 } 
+				garrison = { country = -1 province = 4248 type = naval size = 3 area = 0 } 
+				garrison = { country = -1 province = 6576 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = event which = 2049141 where = -1 when = 0 }
+	}
+	action = {
+		name = "Raid Mid Atlantic"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = {
+						AND = {
+							garrison = { country = -2 province = 602 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 603 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 605 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 606 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 607 	type = land size = 1 area = 0 }
+							#garrison = { country = -2 province = 608 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 632 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 638 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 2689 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 2690 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6463 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6464 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6465 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6470 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6471 	type = land size = 1 area = 0 }
+						}
+					}
+				}
+				garrison = { country = -1 province = 4247 type = naval size = 3 area = 0 } 
+				garrison = { country = -1 province = 6575 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = event which = 2049142 where = -1 when = 0 }
+	}
+	action = {
+		name = "Raid South Atlantic"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = {
+						AND = {
+							garrison = { country = -2 province = 6487 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 634 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 644 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 646 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 648 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6322 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6448 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6480 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6486 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6488 	type = land size = 1 area = 0 }
+						}
+					}
+				}
+				garrison = { country = -1 province = 4246 type = naval size = 3 area = 0 } 
+				garrison = { country = -1 province = 6582 type = naval size = 3 area = 0 } 
+				garrison = { country = -1 province = 4245 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = event which = 2049143 where = -1 when = 0 }
+	}
+	action = {
+		name = "Raid East Mexican Gulf"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = {
+						AND = {
+							garrison = { country = -2 province = 649 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 651 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 676 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 677 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 678 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 679 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 2692 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6274 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6316 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6317 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6318 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6319 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6320 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6430 	type = land size = 1 area = 0 }
+						}
+					}
+				}
+				garrison = { country = -1 province = 4244 type = naval size = 3 area = 0 } 
+				garrison = { country = -1 province = 4243 type = naval size = 3 area = 0 } 
+				garrison = { country = -1 province = 4242 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = event which = 2049144 where = -1 when = 0 }
+	}
+	action = {
+		name = "Raid West Mexican Gulf"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = {
+						AND = {
+							garrison = { country = -2 province = 716 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 748 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6242 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6268 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6270 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6271 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6272 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6273 	type = land size = 1 area = 0 }
+						}
+					}
+				}
+				garrison = { country = -1 province = 4241 type = naval size = 3 area = 0 } 
+				garrison = { country = -1 province = 4240 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = event which = 2049145 where = -1 when = 0 }
+	}
+	action = {
+		name = "Raid Southern California"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = {
+						AND = {
+							garrison = { country = -2 province = 761 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 762 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 2709 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6122 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6125 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6126 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6134 	type = land size = 1 area = 0 }
+						}
+					}
+				}
+				garrison = { country = -1 province = 6572 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = event which = 2049146 where = -1 when = 0 }
+	}
+	action = {
+		name = "Raid Northern California"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = {
+						AND = {
+							garrison = { country = -2 province = 765 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 2708 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 2724 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6127 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6128 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6129 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6130 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 766 	type = land size = 1 area = 0 }
+						}
+					}
+				}
+				garrison = { country = -1 province = 4265 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = event which = 2049147 where = -1 when = 0 }
+	}
+	action = {
+		name = "Raid Pacific North-West"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = {
+						AND = {
+							garrison = { country = -2 province = 780 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 782 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6089 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6090 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6091 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6098 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6099 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6107 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6108 	type = land size = 1 area = 0 }
+							garrison = { country = -2 province = 6109 	type = land size = 1 area = 0 }
+						}
+					}
+				}
+				garrison = { country = -1 province = 4266 type = naval size = 3 area = 0 } 
+				garrison = { country = -1 province = 4267 type = naval size = 3 area = 0 } 
+				garrison = { country = -1 province = 6573 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = event which = 2049148 where = -1 when = 0 }
+	}
+}
+
+event = { 
+	id = 2049141
+	random = no
+	persistent = yes
+	tag = { GER ENG VIC SOV RUS JAP ITA }
+	       
+	name = "Raiding the US coastline"
+	desc = "Choose a specific province you would like the commando force to land in."
+	style = 2
+	
+	action = {
+		ai_chance = 10
+		name = "Raid Bangor"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 582 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6577 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 582   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Portland"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 583 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4248 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 583   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Boston"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 600 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4248 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 600   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Augusta ME"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6367 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4248 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6367   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Manchester NH"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6371 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4248 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6371   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Providence"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 601 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6576 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 601   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Hartford"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 2719 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6576 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 2719   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Long Beach"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6329 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6576 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6329   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Pouhkeepsie"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6330 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6576 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6330   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Norwich CT"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6333 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6576 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6333   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid New Bedford"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6375 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6576 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6375   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 0
+		name = "Cancel raid"
+		command = { } 
+	}
+}
+
+event = { 
+	id = 2049142
+	random = no
+	persistent = yes
+	tag = { GER ENG VIC SOV RUS JAP ITA }
+	       
+	name = "Raiding the US coastline"
+	desc = "Choose a specific province you would like the commando force to land in."
+	style = 2
+
+	action = {
+		ai_chance = 10
+		name = "Raid New York"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 602 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4247 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 602   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Newark"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 603 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4247 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 603   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Dover"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 605 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4247 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 605   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Philadelphia"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 608 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4247 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 608   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Camden"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 2689 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4247 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 2689   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Trenton"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6463 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4247 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6463   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Washington"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 606 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6575 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 606   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Baltimore"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 607 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6575 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 607   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Norfolk"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 632 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6575 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 632   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Arlington"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 638 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6575 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 638   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Salisbury"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 2690 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6575 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 2690   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Annapolis"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6464 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6575 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6464   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Easton"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6465 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6575 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6465   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Accomac"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6470 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6575 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6470   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Newport News"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6471 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6575 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6471   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 0
+		name = "Cancel raid"
+		command = { } 
+	}
+}
+
+event = { 
+	id = 2049143
+	random = no
+	persistent = yes
+	tag = { GER ENG VIC SOV RUS JAP ITA }
+	       
+	name = "Raiding the US coastline"
+	desc = "Choose a specific province you would like the commando force to land in."
+	style = 2
+
+	action = {
+		ai_chance = 10
+		name = "Raid Elizabeth City"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6487 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4246 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6487   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Wilmington"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 634 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4246 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 634   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Greenville NC"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6486 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4246 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6486   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid New Bern"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6488 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4246 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6488   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Charleston"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 644 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6582 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 644   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Savannah"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 646 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6582 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 646   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Georgetown"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6480 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6582 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6480   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Jacksonville"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 648 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4245 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 648   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Titusville"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6322 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4245 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6322   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Brunswick"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6448 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4245 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6448   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 0
+		name = "Cancel raid"
+		command = { } 
+	}
+}
+
+event = { 
+	id = 2049144
+	random = no
+	persistent = yes
+	tag = { GER ENG VIC SOV RUS JAP ITA }
+	       
+	name = "Raiding the US coastline"
+	desc = "Choose a specific province you would like the commando force to land in."
+	style = 2
+
+	action = {
+		ai_chance = 10
+		name = "Raid Miami"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 651 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4244 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 651   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Fort Lauderdale"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6316 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4244 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6316   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Tampa"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 649 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4243 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 649   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Fort Myers"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6317 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4243 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6317   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Saint Petersburg"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6318 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4243 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6318   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Pensacola"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 676 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4242 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 676   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Tallahassee"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 677 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4242 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 677   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Mobile"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 678 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4242 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 678   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid New Orleans"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 679 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4242 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 679   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Biloxi"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 2692 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4242 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 2692   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Baton Rouge"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6274 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4242 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6274   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Cedar Key"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6319 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4242 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6319   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Panama City"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6320 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4242 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6320   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Bay Minette"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6430 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4242 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6430   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 0
+		name = "Cancel raid"
+		command = { } 
+	}
+}
+
+event = { 
+	id = 2049145
+	random = no
+	persistent = yes
+	tag = { GER ENG VIC SOV RUS JAP ITA }
+	       
+	name = "Raiding the US coastline"
+	desc = "Choose a specific province you would like the commando force to land in."
+	style = 2
+
+	action = {
+		ai_chance = 10
+		name = "Raid Houston"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 716 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4241 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 716   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Beaumont"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6242 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4241 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6242   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Victoria, TX"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6270 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4241 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6270   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Bay City"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6271 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4241 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6271   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Lake Charles"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6272 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4241 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6272   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Thibodaux"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6273 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4241 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6273   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Corpus Christi"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 748 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4240 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 748   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Brownsville"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6268 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4240 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6268   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 0
+		name = "Cancel raid"
+		command = { } 
+	}
+}
+
+event = { 
+	id = 2049146
+	random = no
+	persistent = yes
+	tag = { GER ENG VIC SOV RUS JAP ITA }
+	       
+	name = "Raiding the US coastline"
+	desc = "Choose a specific province you would like the commando force to land in."
+	style = 2
+
+	action = {
+		ai_chance = 10
+		name = "Raid San Diego"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 761 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6572 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 761   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Los Angeles"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 762 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6572 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 762   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Santa Barbara"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 2709 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6572 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 2709   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Santa Ana"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6122 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6572 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6122   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid San Luis Obispo"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6125 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6572 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6125   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Salinas"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6126 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6572 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6126   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Eureka"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 766 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4265 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 766   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	#action = {
+	#	ai_chance = 10
+	#	name = "Raid Avalon"
+	#	trigger = {
+	#		OR = {
+	#			AND = {
+	#				ai = yes
+	#				NOT = { garrison = { country = -2 province = 6134 	type = land size = 1 area = 0 } }
+	#			}
+	#			garrison = { country = -1 province = 6572 type = naval size = 3 area = 0 } 
+	#		}
+	#	}
+	#	command = { type = manpowerpool	value = -5   } 
+	#	command = { type = supplies		value = -47  }
+	#	command = { type = setflag		which = raidUS	value = 6134   }
+	#	command = { type = event 		which = 2049150 where = REB when = 0 }
+	#}
+	action = {
+		ai_chance = 0
+		name = "Cancel raid"
+		command = { } 
+	}
+}
+
+event = { 
+	id = 2049147
+	random = no
+	persistent = yes
+	tag = { GER ENG VIC SOV RUS JAP ITA }
+	       
+	name = "Raiding the US coastline"
+	desc = "Choose a specific province you would like the commando force to land in."
+	style = 2
+
+	action = {
+		ai_chance = 10
+		name = "Raid San Francisco"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 765 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4265 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 765   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid San Jose"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 2708 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4265 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 2708   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Santa Rosa"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 2724 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4265 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 2724   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Ukiah"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6127 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4265 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6127   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Oakland"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6128 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4265 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6128   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Stockton"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6129 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4265 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6129   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Woodland"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6130 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4265 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6130   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 0
+		name = "Cancel raid"
+		command = { } 
+	}
+}
+
+event = { 
+	id = 2049148
+	random = no
+	persistent = yes
+	tag = { GER ENG VIC SOV RUS JAP ITA }
+	       
+	name = "Raiding the US coastline"
+	desc = "Choose a specific province you would like the commando force to land in."
+	style = 2
+
+	action = {
+		ai_chance = 10
+		name = "Raid Seattle"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 780 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6573 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 780   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Tacoma"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 782 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6573 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 782   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Port Angeles"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6089 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6573 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6089   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Olympia"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6090 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6573 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6090   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Bellingham"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6098 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6573 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6098   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Everett"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6099 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 6573 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6099   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+
+	action = {
+		ai_chance = 10
+		name = "Raid Aberdeen, WA"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6091 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4267 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6091   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Hillsboro"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6109 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4267 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6109   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Marshfield"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6107 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4266 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   } 
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6107   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = "Raid Corvallis"
+		trigger = {
+			OR = {
+				AND = {
+					ai = yes
+					NOT = { garrison = { country = -2 province = 6108 	type = land size = 1 area = 0 } }
+				}
+				garrison = { country = -1 province = 4266 type = naval size = 3 area = 0 } 
+			}
+		}
+		command = { type = manpowerpool	value = -1   }
+		command = { type = oilpool		value = -80  }
+		command = { type = supplies		value = -47  }
+		command = { type = setflag		which = raidUS	value = 6108   }
+		command = { type = event 		which = 2049150 where = REB when = 0 }
+	}
+	action = {
+		ai_chance = 0
+		name = "Cancel raid"
+		command = { } 
+	}
+}
+
+
+event = { 
+	id = 2049150
+	random = no
+	persistent = yes
+	country = REB
+	       
+	name = "AI_EVENT"
+	
+	action = {
+		command = { trigger = { flag = { which = raidUS when = 0 value = 582 } }	type = add_corps value = land where = 582 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 583 } }	type = add_corps value = land where = 583 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 600 } }	type = add_corps value = land where = 600 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 601 } }	type = add_corps value = land where = 601 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 602 } }	type = add_corps value = land where = 602 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 603 } }	type = add_corps value = land where = 603 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 605 } }	type = add_corps value = land where = 605 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 606 } }	type = add_corps value = land where = 606 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 607 } }	type = add_corps value = land where = 607 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 608 } }	type = add_corps value = land where = 608 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 632 } }	type = add_corps value = land where = 632 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 634 } }	type = add_corps value = land where = 634 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 638 } }	type = add_corps value = land where = 638 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 644 } }	type = add_corps value = land where = 644 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 646 } }	type = add_corps value = land where = 646 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 648 } }	type = add_corps value = land where = 648 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 649 } }	type = add_corps value = land where = 649 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 651 } }	type = add_corps value = land where = 651 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 676 } }	type = add_corps value = land where = 676 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 677 } }	type = add_corps value = land where = 677 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 678 } }	type = add_corps value = land where = 678 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 679 } }	type = add_corps value = land where = 679 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 716 } }	type = add_corps value = land where = 716 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 748 } }	type = add_corps value = land where = 748 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 761 } }	type = add_corps value = land where = 761 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 762 } }	type = add_corps value = land where = 762 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 765 } }	type = add_corps value = land where = 765 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 766 } }	type = add_corps value = land where = 766 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 780 } }	type = add_corps value = land where = 780 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 782 } }	type = add_corps value = land where = 782 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 2689 } }	type = add_corps value = land where = 2689 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 2690 } }	type = add_corps value = land where = 2690 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 2692 } }	type = add_corps value = land where = 2692 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 2708 } }	type = add_corps value = land where = 2708 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 2709 } }	type = add_corps value = land where = 2709 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 2719 } }	type = add_corps value = land where = 2719 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 2724 } }	type = add_corps value = land where = 2724 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6089 } }	type = add_corps value = land where = 6089 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6090 } }	type = add_corps value = land where = 6090 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6091 } }	type = add_corps value = land where = 6091 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6098 } }	type = add_corps value = land where = 6098 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6099 } }	type = add_corps value = land where = 6099 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6107 } }	type = add_corps value = land where = 6107 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6108 } }	type = add_corps value = land where = 6108 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6109 } }	type = add_corps value = land where = 6109 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6122 } }	type = add_corps value = land where = 6122 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6125 } }	type = add_corps value = land where = 6125 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6126 } }	type = add_corps value = land where = 6126 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6127 } }	type = add_corps value = land where = 6127 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6128 } }	type = add_corps value = land where = 6128 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6129 } }	type = add_corps value = land where = 6129 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6130 } }	type = add_corps value = land where = 6130 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6134 } }	type = add_corps value = land where = 6134 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6242 } }	type = add_corps value = land where = 6242 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6268 } }	type = add_corps value = land where = 6268 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6270 } }	type = add_corps value = land where = 6270 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6271 } }	type = add_corps value = land where = 6271 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6272 } }	type = add_corps value = land where = 6272 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6273 } }	type = add_corps value = land where = 6273 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6274 } }	type = add_corps value = land where = 6274 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6316 } }	type = add_corps value = land where = 6316 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6317 } }	type = add_corps value = land where = 6317 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6318 } }	type = add_corps value = land where = 6318 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6319 } }	type = add_corps value = land where = 6319 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6320 } }	type = add_corps value = land where = 6320 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6322 } }	type = add_corps value = land where = 6322 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6329 } }	type = add_corps value = land where = 6329 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6330 } }	type = add_corps value = land where = 6330 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6333 } }	type = add_corps value = land where = 6333 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6367 } }	type = add_corps value = land where = 6367 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6371 } }	type = add_corps value = land where = 6371 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6375 } }	type = add_corps value = land where = 6375 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6430 } }	type = add_corps value = land where = 6430 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6448 } }	type = add_corps value = land where = 6448 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6463 } }	type = add_corps value = land where = 6463 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6464 } }	type = add_corps value = land where = 6464 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6465 } }	type = add_corps value = land where = 6465 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6470 } }	type = add_corps value = land where = 6470 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6471 } }	type = add_corps value = land where = 6471 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6480 } }	type = add_corps value = land where = 6480 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6486 } }	type = add_corps value = land where = 6486 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6487 } }	type = add_corps value = land where = 6487 }
+		command = { trigger = { flag = { which = raidUS when = 0 value = 6488 } }	type = add_corps value = land where = 6488 }
+		command = { type = add_division value = militia when = 5 where = -95 	}
+		
+		command = { type = event 		which = 2049151 where = REB when = 60	}
+	}
+}
+
+event = { 
+	id = 2049151
+	random = no
+	persistent = yes
+	country = REB
+	       
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = clrflag		which = raidUS					   		}
+	}
