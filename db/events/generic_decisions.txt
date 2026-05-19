@@ -4229,7 +4229,7 @@ event = {
 	decision_picture = "decision_grand_offensive3"
 
 	date = { day = 1 month = january year = 1914 }
-	offset = 30
+	offset = 10
 	deathdate = { day = 30 month = december year = 1999 }
 
 	action = {
@@ -4241,7 +4241,7 @@ event = {
 		command = { trigger = { OR = { IC = 40 NOT = { lost_IC = { value = 50 } } } }	type = dissent value = 10 } 
 		command = { trigger = { OR = { IC = 60 NOT = { lost_IC = { value = 30 } } } }	type = dissent value = 10 } 
 		command = { trigger = { OR = { IC = 80 NOT = { lost_IC = { value = 10 } } } }	type = dissent value = 10 } 
-		command = { type = local_setflag which = partisan_mode_init }
+		command = { type = local_setflag which = partisan_chg }
 		command = { type = event which = 9000081 where = -1 when = 60 }
 	}
 	action = {
@@ -4255,7 +4255,7 @@ event = {
 		command = { trigger = { flag = { which = japChi when = -2	value = 30 } } 		type = dissent value = 5 } 
 		command = { trigger = { flag = { which = japChi when = -2	value = 25 } } 		type = dissent value = 5 } 
 		command = { trigger = { flag = { which = japChi when = -2	value = 20 } } 		type = dissent value = 5 } 
-		command = { type = local_setflag which = partisan_mode_init }
+		command = { type = local_setflag which = partisan_chg }
 		command = { type = event which = 9000081 where = -1 when = 30 }
 	}
 }
@@ -4295,10 +4295,9 @@ event = {
 		command = { type = transport_weight		which = marine				value = -5	  }
 		command = { type = transport_weight		which = hq					value = -7	  }
 		
-		
 		command = { type = supply_consumption 	which = militia				value = -0.1  }
 		command = { type = supply_consumption 	which = garrison			value = -0.1  }
-		command = { type = supply_consumption 	which = infantry			value = -0.5  }
+		command = { type = supply_consumption 	which = infantry			value = -0.7  }
 		command = { type = supply_consumption 	which = cavalry				value = -0.8  }
 		command = { type = supply_consumption 	which = bergsjaeger			value = -0.4  }
 		command = { type = supply_consumption 	which = marine				value = -0.3  }
@@ -4355,6 +4354,10 @@ event = {
 		
 		command = { type = local_setflag which = partisan_mode }
 		command = { type = local_clrflag which = partisan_chg  }
+		
+		command = { trigger = { country = MEX } type = setflag which = partisan_MEX  }
+		
+		command = { type = supplies 			value = 120  }
 	}
 }
 
@@ -4370,7 +4373,6 @@ event = {
 		#NOT = { army = 100 }
 		atwar = yes
 		manpower = 15
-		supplies = 50
 		
 		NOT = { 
 			AND = { 
@@ -4398,7 +4400,7 @@ event = {
 	#Mil 80%
 	action = {
 		name = "ACTION_NAME_GREAT"
-		trigger = { year = 1931 NOT = { army = 100 } }
+		trigger = { year = 1931 OR = { NOT = { army = 100 } AND = { IC = 15 NOT = { army = 150 } } } }
 		ai_chance = 4
 		#command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
@@ -4408,7 +4410,7 @@ event = {
 	}
 	action = {
 		name = "ACTION_NAME_GREAT"
-		trigger = { year = 1936 NOT = { army = 100 } }
+		trigger = { year = 1936 OR = { NOT = { army = 100 } AND = { IC = 15 NOT = { army = 150 } } } }
 		ai_chance = 4
 		#command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
@@ -4418,7 +4420,7 @@ event = {
 	}
 	action = {
 		name = "ACTION_NAME_GREAT"
-		trigger = { year = 1939 NOT = { army = 100 } }
+		trigger = { year = 1939 OR = { NOT = { army = 100 } AND = { IC = 15 NOT = { army = 150 } } } }
 		ai_chance = 4
 		#command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
@@ -4428,7 +4430,7 @@ event = {
 	}
 	action = {
 		name = "ACTION_NAME_GREAT"
-		trigger = { year = 1942 NOT = { army = 100 } }
+		trigger = { year = 1942 OR = { NOT = { army = 100 } AND = { IC = 15 NOT = { army = 150 } } } }
 		ai_chance = 4
 		#command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
@@ -4438,7 +4440,7 @@ event = {
 	}
 	action = {
 		name = "ACTION_NAME_GREAT"
-		trigger = { year = 1945 NOT = { army = 100 } }
+		trigger = { year = 1945 OR = { NOT = { army = 100 } AND = { IC = 15 NOT = { army = 150 } } } }
 		ai_chance = 4
 		#command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
@@ -4450,7 +4452,7 @@ event = {
 	action = {
 		name = "ACTION_NAME_GREAT"
 		ai_chance = 20
-		trigger = { NOT = { army = 100 } }
+		trigger = { OR = { NOT = { army = 100 } AND = { IC = 15 NOT = { army = 150 } } } }
 		#command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
 		command = { type = supplies 	value = 120  }
@@ -4460,7 +4462,7 @@ event = {
 	action = {
 		name = "ACTION_NAME_GREAT"
 		ai_chance = 25
-		trigger = { NOT = { army = 100 } }
+		trigger = { OR = { NOT = { army = 100 } AND = { IC = 15 NOT = { army = 150 } } } }
 		#command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
 		command = { type = supplies 	value = 120  }
@@ -4469,7 +4471,7 @@ event = {
 	}
 	action = {
 		name = "ACTION_NAME_GREAT"
-		trigger = { year = 1942 NOT = { army = 100 } }
+		trigger = { year = 1942 OR = { NOT = { army = 100 } AND = { IC = 15 NOT = { army = 150 } } } }
 		ai_chance = 30
 		#command = { type = dissent		value = -0.1 }
 		#command = { type = manpowerpool value = 16	 }
@@ -4479,9 +4481,9 @@ event = {
 	}
 	action = {
 		name = "ACTION_NAME_GREAT"
-		trigger = { army = 100 }
+		trigger = { NOT = { NOT = { army = 100 } AND = { IC = 15 NOT = { army = 150 } } } }
 		ai_chance = 1
-		command = { type = dissent		value = -0.1 }
+		#command = { type = dissent		value = -0.1 }
 		command = { type = supplies 	value = 120  }
 	}
 }
@@ -4557,7 +4559,7 @@ event = {
 		
 		command = { type = supply_consumption 	which = militia				value = 0.1   }
 		command = { type = supply_consumption 	which = garrison			value = 0.1   }
-		command = { type = supply_consumption 	which = infantry			value = 0.5   }
+		command = { type = supply_consumption 	which = infantry			value = 0.7   }
 		command = { type = supply_consumption 	which = cavalry				value = 0.8   }
 		command = { type = supply_consumption 	which = bergsjaeger			value = 0.4   }
 		command = { type = supply_consumption 	which = marine				value = 0.3   }
@@ -4614,6 +4616,8 @@ event = {
 		
 		command = { type = local_clrflag which = partisan_mode }
 		command = { type = local_clrflag which = partisan_chg  }
+		
+		command = { trigger = { country = MEX } type = clrflag which = partisan_MEX  }
 	}
 }
 

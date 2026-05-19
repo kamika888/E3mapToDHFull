@@ -1272,6 +1272,7 @@ event = {
 		command = { type = remove_claim_region	which = "Czechoslovakia"	where = SOV }
 		
 		command = { type = add_claim_area		which = "Bessarabia"		where = SOV }
+		command = { type = addclaim				which = 3059				where = SOV }
 		
 		command = { type = secederegion		which = NOR value = "Norway"		when = 1 }
 		command = { type = secederegion		which = SWE value = "Sweden" 		when = 1 }
@@ -1991,6 +1992,9 @@ event = {
 		
 		command = { type = event which = 2003217 where = U01 when = 120 } #Trizone
 		command = { type = event which = 2003217 where = VIC when = 120 } #Trizone
+		
+		command = { type = addclaim 				which = 87					 }
+		command = { type = secedeprovince			value = 87 which = ENG when = 2 }
 	}
 	action = {
 		name = "ACTION_NAME_DECLINE"
@@ -3666,6 +3670,13 @@ event = {
 		
 		#command = { type = secederegion	which = AST value = "Australia"			when = 2 }
 		command = { type = secedearea		which = NZL value = "New Zealand" 		when = 2 }
+		command = { type = secederegion 	which = CHI value = "China"				when = 1 }
+		command = { type = secedeprovince	which = CHI	value = 1203				when = 2 }
+		command = { type = secedeprovince	which = CHI	value = 1205				when = 2 }
+		command = { type = secedeprovince	which = CHI	value = 2527				when = 2 }
+		command = { type = secedeprovince	which = CHI	value = 2576				when = 2 }
+		command = { type = secedeprovince	which = CHI	value = 6534				when = 2 }
+		command = { type = secedeprovince	which = CHI	value = 6916				when = 2 }
 		
 		
 		command = { type = belligerence 	which = USA value = -100 }
@@ -3919,7 +3930,9 @@ event = {
 		command = { trigger = { ai = yes } type = local_setflag which = garSpec 		}
 		command = { trigger = { ai = yes } type = local_setflag which = gar value = 40  }
 		command = { trigger = { ai = yes } type = local_setflag which = exp value = 90	}
-		command = { trigger = { ai = yes } type = ai 			which = "frontAIcautious.ai" }
+		command = { trigger = { ai = yes } type = ai 			which = "buildLand1_2.ai"			}
+		command = { trigger = { ai = yes } type = local_setflag	which = AI1936_land  value = 1  	}
+		command = { trigger = { ai = yes } type = ai 			which = "frontAIcautious.ai" 		}
 		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
 		
 		command = { type = event which = 2049031 where = VIC when = 1 }
@@ -4043,7 +4056,9 @@ event = {
 		command = { trigger = { ai = yes } type = local_setflag which = garSpec 		}
 		command = { trigger = { ai = yes } type = local_setflag which = gar value = 40  }
 		command = { trigger = { ai = yes } type = local_setflag which = exp value = 90	}
-		command = { trigger = { ai = yes } type = ai 			which = "frontAIcautious.ai" }
+		command = { trigger = { ai = yes } type = ai 			which = "buildLand1_2.ai"			}
+		command = { trigger = { ai = yes } type = local_setflag	which = AI1936_land  value = 1  	}
+		command = { trigger = { ai = yes } type = ai 			which = "frontAIcautious.ai" 		}
 		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
 		
 		command = { type = event which = 2049032 where = VIC when = 1 }
@@ -4242,12 +4257,22 @@ event = {
 		command = { type = local_setflag which = legitIndie }
 		command = { type = local_setflag which = sliderSet  }
 		
-		command = { type = event which = 5000 where = -1  when = 0   } #temp GDE boost
-		command = { type = event which = 5001 where = -1  when = 90  } #GDE reset 1
-		command = { type = event which = 5001 where = -1  when = 270 } #GDE reset 2
-		command = { type = event which = 5001 where = -1  when = 810 } #GDE reset 3
+		#command = { type = event which = 5000 where = -1  when = 0   } #temp GDE boost
+		#command = { type = event which = 5001 where = -1  when = 90  } #GDE reset 1
+		#command = { type = event which = 5001 where = -1  when = 270 } #GDE reset 2
+		#command = { type = event which = 5001 where = -1  when = 810 } #GDE reset 3
 		
-		command = { trigger = { ai = yes } type = ai which = "frontAIcautious.ai" }
+		command = { trigger = { ai = yes } type = ai			which = "default.ai"	}
+		command = { trigger = { ai = yes } type = ai 			which = "garrison40.ai" }
+		command = { trigger = { ai = yes } type = ai 			which = "EXP_90.ai" 	}
+		command = { trigger = { ai = yes } type = local_setflag which = noDefaultAI 	}
+		command = { trigger = { ai = yes } type = local_setflag which = garSpec 		}
+		command = { trigger = { ai = yes } type = local_setflag which = gar value = 40  }
+		command = { trigger = { ai = yes } type = local_setflag which = exp value = 90	}
+		command = { trigger = { ai = yes } type = ai 			which = "buildLand1_2.ai"			}
+		command = { trigger = { ai = yes } type = local_setflag	which = AI1936_land  value = 1  	}
+		command = { trigger = { ai = yes } type = ai 			which = "frontAIcautious.ai" 		}
+		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
 		
 		command = { type = event which = 2049034 where = USA when = 1 }
 		command = { type = event which = 2049034 where = ENG when = 1 }
@@ -9113,6 +9138,8 @@ event = {
 		command = { type = add_brigade	value = armored_car 	when = 6 }
 		
 		command = { trigger = { ai = yes } type = ai			which = "default.ai"				}
+		command = { trigger = { ai = yes } type = ai 			which = "buildLand7_8.ai"			}
+		command = { trigger = { ai = yes } type = local_setflag	which = AI1936_land  value = 7  	}
 		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
 		command = { trigger = { ai = yes } type = ai 			which = "nations\ISRARA.ai"			}
 	}
@@ -9150,6 +9177,8 @@ event = {
 		command = { type = add_division which = "2nd ALA Division"		value = militia when = 5 where = -80 }
 		
 		command = { trigger = { ai = yes } type = ai			which = "default.ai"				}
+		command = { trigger = { ai = yes } type = ai 			which = "buildLand3_4.ai"			}
+		command = { trigger = { ai = yes } type = local_setflag	which = AI1936_land  value = 3  	}
 		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
 		command = { trigger = { ai = yes } type = ai 			which = "nations\ISRARA.ai"			}
 		
@@ -9216,6 +9245,8 @@ event = {
 		command = { type = add_division which = "2nd Infantry Division"	value = militia  when = 5  where = -80 }
 		
 		command = { trigger = { ai = yes } type = ai			which = "default.ai"				}
+		command = { trigger = { ai = yes } type = ai 			which = "buildLand3_4.ai"			}
+		command = { trigger = { ai = yes } type = local_setflag	which = AI1936_land  value = 3  	}
 		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
 		command = { trigger = { ai = yes } type = ai 			which = "nations\ISRARA.ai"			}
 		
@@ -9288,6 +9319,8 @@ event = {
 		command = { trigger = { NOT = { tactical_bomber = 1 } }	type = add_division value = tactical_bomber	when = 7 where = -50 } #Dakotas repurposed as bombers
 		
 		command = { trigger = { ai = yes } type = ai			which = "default.ai"				}
+		command = { trigger = { ai = yes } type = ai 			which = "buildLand3_4.ai"			}
+		command = { trigger = { ai = yes } type = local_setflag	which = AI1936_land  value = 3  	}
 		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
 		command = { trigger = { ai = yes } type = ai 			which = "nations\ISRARA.ai"			}
 		
@@ -9370,6 +9403,8 @@ event = {
 		#+1 iraqi expeditionary force
 		
 		command = { trigger = { ai = yes } type = ai			which = "default.ai"				}
+		command = { trigger = { ai = yes } type = ai 			which = "buildLand3_4.ai"			}
+		command = { trigger = { ai = yes } type = local_setflag	which = AI1936_land  value = 3  	}
 		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
 		command = { trigger = { ai = yes } type = ai 			which = "nations\ISRARA.ai"			}
 		command = { trigger = { ai = yes } type = local_setflag which = AIfrontLeader   			}
@@ -9441,6 +9476,8 @@ event = {
 		command = { trigger = { NOT = { tactical_bomber = 1 } }	type = add_division value = tactical_bomber	when = 7 where = -50 }
 		
 		command = { trigger = { ai = yes } type = ai			which = "default.ai"				}
+		command = { trigger = { ai = yes } type = ai 			which = "buildLand3_4.ai"			}
+		command = { trigger = { ai = yes } type = local_setflag	which = AI1936_land  value = 3  	}
 		command = { trigger = { ai = yes } type = ai 			which = "Reinforcement_Boost_Up.ai" }
 		command = { trigger = { ai = yes } type = ai 			which = "nations\ISRARA.ai"			}
 	}

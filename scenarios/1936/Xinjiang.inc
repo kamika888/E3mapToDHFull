@@ -128,40 +128,62 @@ country =
   # Group E 1936 techs
   # ######################
   # GW fighter
-   techapps = { 
-	
+ 	techapps = { 	
 	# Manufacturing
 	5810 5820 5050
 	# Construction Engineering
-	5800
-
-	# Crypto - Up to 1922
-	5316 5326
-
+	5800 5080
+	# Crypto - Up to 1923
+	5316 5326 5327
 	# Infantry Division
-	1010 1020 1030 1040 1050 1060 
+	1010 1020 1030 1040 1050 1060 1070 1080 
 	# Mountain Division
-	1160 1170 1180 1190 1200 1210 
+	1160 1170 1180 1190 1200 1210 1220
 	# Cavalry Division  
-	13060 13070 13080 1310 1320 1330 1340 1350
+	13060 13070 13080 1310 1320 1330 1340
 	# Engineers
 	1830
 	# Supply 
-	1910 1920 1930 1940 1950
-
+	1910 1920 1930 1940 1950 1960
+	# Armoured Car  
+	2860 2870
 	# Field Artillery 
-	2290 2300 2310
-
-	#Manpower Focus
+	2290 2300 2310 2900 2910
+	# Manpower Focus
 	6570
-
 	# Hospital System
-	14000 14010 
+	14000 14010 14020
 	# Great War Land Doctrines (entente)
 	6500 6510 6530 6580 6600 6610 6680 6620 6630 6640 6650 6660 6670 6540 6910
-
-
-	} 
+	# Destroyers
+	3010 
+	# Light Cruiser 
+	3110 3120 3130 3140
+	# Heavy Cruiser 
+	3210 3220
+	# Troopships
+	3810
+	#Early Torpedoes
+	3720 3730
+	#Early Battleship
+	3410 3420
+	# Naval Doctrines
+	8010 8020 8050 8060 8070 8080
+	# Interceptor Fighter  
+	4500 4510 4520 4530 4540  
+	# Multirole Fighter
+	4300 4310 4320 
+	# Tactical Bomber 
+	4600 4610 4620 4630 
+	# Strategic Bomber
+	4800 4810 
+	# Naval Bomber
+	4700 
+	# Seaplane
+	4740 4750 4760
+	# Air Doctrines - ww2 techs
+	27480 27490 27500 27510 27520 27530 27540 27550 27570 27580 27590 27600 9030 9020 27560 27460 27470 
+	}
 
 blueprints = {
 	

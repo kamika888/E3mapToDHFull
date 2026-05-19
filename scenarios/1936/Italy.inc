@@ -1745,6 +1745,13 @@ landunit =
 	landdivision = { dormant = yes id = { type = 23500 id = 1015 }  name = "Guarnigione di Beida"		locked = yes	type = militia			model = 5	strength = 5 }
 	landdivision = { dormant = yes id = { type = 23500 id = 1016 }  name = "Guarnigione di Derna"		locked = yes	type = militia			model = 5	strength = 5 }
 	#landdivision = { dormant = yes id = { type = 23500 id = 1017 }  name = "Guarnigione di Bardia"		locked = yes	type = militia			model = 5	strength = 5 }
+	
+	landdivision = { dormant = yes id = { type = 23500 id = 1021 }  name = "Guarnigione della Sard. 1"	locked = yes	type = garrison			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1022 }  name = "Guarnigione della Sard. 2"	locked = yes	type = garrison			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1023 }  name = "Guarnigione della Sard. 3"	locked = yes	type = garrison			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1024 }  name = "Guarnigione della Sard. 4"	locked = yes	type = garrison			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1025 }  name = "Guarnigione della Sard. 5"	locked = yes	type = garrison			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1026 }  name = "Guarnigione della Sard. 6"	locked = yes	type = garrison			model = 5	strength = 5 }
 
 	landdivision = { dormant = yes id = { type = 23500 id = 11165 } name = "50a Divisione 'Regina'" 	type = infantry			model = 10	}
 	
