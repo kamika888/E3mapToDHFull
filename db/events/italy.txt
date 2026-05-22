@@ -406,6 +406,7 @@ event = {
 		#war = { country = ENG }
 		dissent = 5
 		OR = {
+			NOT = { war = { country = GER country = ENG } }
 			AND = {
 				NOT = { nuked = 1 }
 				nuked = -1 #nuked once
@@ -416,10 +417,7 @@ event = {
 			control = { province = 521 data = -2 } #Naples is controlled by Enemy
 			region = { region = "Italy" country = -2 value = 20 } #Invaded Italy
 			AND = {
-				OR = {
-					region = { region = "Italy" country = ENG value = 5 } #Invaded Italy
-					region = { region = "Italy" country = USA value = 5 } #Invaded Italy
-				}
+				event = 14000104
 				region = { region = "Libya" country = -2 value = 80 } #Lost Libya
 				region = { region = "Ethiopia" country = -2 value = 90 } #Lost Ethiopia
 				dissent = 10
@@ -428,7 +426,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 7
+	offset = 5
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -524,6 +522,7 @@ event = {
 		OR = {
 			event = { id = 2006014 days = 40 } #46 days later...
 			NOT = { war = { country = GER country = ENG } }
+			control = { province = 521 data = -2 } #Naples is controlled by Enemy
 		}
 		#Wait until Allies invaded mainland Italy or Sardinia
 		OR = {
@@ -534,7 +533,7 @@ event = {
 			NOT = { war = { country = GER country = ENG } }
 			AND = {
 				dissent = 10
-				region = { region = "Italy" country = -2 value = 12 } #Invaded Italy
+				region = { region = "Italy" country = -2 value = 20 } #Invaded Italy
 			}
 			control = { province = 515 data = -2 } #Rome is controlled by Enemy
 			control = { province = 370 data = -2 } #Milan is controlled by Enemy
@@ -542,10 +541,10 @@ event = {
 			region = { region = "Italy" country = -2 value = 25 }
 			AND = {
 				OR = {
-					region = { region = "Italy" country = -2 value = 12 } #Invaded Italy
+					region = { region = "Italy" country = -2 value = 20 } #Invaded Italy
 					AND = {
 						area = { area = "Sicilian Gap"	country = -2 value = 80 }
-						area = { area = "South Italy"	country = -2 value = 1  }
+						control = { province = 523 data = -2 } #Taranto is controlled by Enemy
 					}
 				}
 				region = { region = "Libya"		country = -2 value = 80 } #Lost Libya
@@ -560,6 +559,7 @@ event = {
 		OR = {
 			event = { id = 2006014 days = 40 } #46 days later...
 			NOT = { war = { country = GER country = ENG } }
+			control = { province = 521 data = -2 } #Naples is controlled by Enemy
 		}
 		#Wait until Allies invaded mainland Italy or Sardinia
 		OR = {
@@ -570,7 +570,7 @@ event = {
 			NOT = { war = { country = GER country = ENG } }
 			AND = {
 				dissent = 10
-				region = { region = "Italy" country = -2 value = 12 } #Invaded Italy
+				region = { region = "Italy" country = -2 value = 20 } #Invaded Italy
 			}
 			control = { province = 515 data = -2 } #Rome is controlled by Enemy
 			control = { province = 370 data = -2 } #Milan is controlled by Enemy
@@ -578,10 +578,10 @@ event = {
 			region = { region = "Italy" country = -2 value = 25 } #Invaded Italy
 			AND = {
 				OR = {
-					region = { region = "Italy" country = -2 value = 12 } #Invaded Italy
+					region = { region = "Italy" country = -2 value = 20 } #Invaded Italy
 					AND = {
 						area = { area = "Sicilian Gap"	country = -2 value = 80 }
-						area = { area = "South Italy"	country = -2 value = 1  }
+						control = { province = 523 data = -2 } #Taranto is controlled by Enemy
 					}
 				}
 				region = { region = "Libya"		country = -2 value = 80 } #Lost Libya
@@ -665,12 +665,20 @@ event = {
 		#command = { type = peace which = SOV value = 1 }
 		#command = { type = peace which = USA value = 1 }
 		command = { type = war which = ENG }
-		command = { trigger = { NOT = { ai = GER } } type = access which = GER }
-		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = VIC } } type = access which = VIC }
-		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = SPA } } type = access which = SPA }
-		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = ROM } } type = access which = ROM }
-		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = HUN } } type = access which = HUN }
-		command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = CRO } } type = access which = CRO }
+		
+		command = { 															type = access which = GER }
+		command = { trigger = { alliance = { country = GER country = VIC } } 	type = access which = VIC }
+		command = { trigger = { alliance = { country = GER country = SPA } } 	type = access which = SPA }
+		command = { trigger = { alliance = { country = GER country = ROM } } 	type = access which = ROM }
+		command = { trigger = { alliance = { country = GER country = HUN } } 	type = access which = HUN }
+		command = { trigger = { alliance = { country = GER country = CRO } } 	type = access which = CRO }
+		
+		#command = { trigger = { NOT = { ai = GER } } type = access which = GER }
+		#command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = VIC } } type = access which = VIC }
+		#command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = SPA } } type = access which = SPA }
+		#command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = ROM } } type = access which = ROM }
+		#command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = HUN } } type = access which = HUN }
+		#command = { trigger = { NOT = { ai = GER } alliance = { country = GER country = CRO } } type = access which = CRO }
 		
 		command = { type = sleepleader which = 25030 }
 		command = { type = sleepleader which = 25032 }
@@ -1152,6 +1160,20 @@ event = {
 
 	action = {
 		name = EVT_2006016_ACTA
+		trigger = { NOT = { ai = GER } }
+		#command = { type = alliance which = RSI }
+		command = { type = make_puppet which = RSI }
+		command = { type = event which = 2400536 where = RSI when = 0 } #medium puppet
+		command = { type = event which = 2400065 where = RSI when = 0 } #allDefense set
+		command = { type = event which = 2400066 where = RSI when = 5 } #allDefense clr
+		
+		command = { type = event which = 2006017 where = GER when = 0 } #return control of provinces
+		
+		command = { type = military_control which = GER where = RSI value = 1 }
+	}
+	action = {
+		name = EVT_2006016_ACTA
+		trigger = { ai = GER }
 		#command = { type = alliance which = RSI }
 		command = { type = make_puppet which = RSI }
 		command = { type = event which = 2400536 where = RSI when = 0 } #medium puppet
@@ -1163,15 +1185,24 @@ event = {
 		command = { type = military_control which = GER where = RSI value = 1 }
 		
 		#The enemy gains the same amount so not much of a cheat
-		command = { trigger = { ai = GER } type = add_corps 	value = land where = 515 }
-		command = { trigger = { ai = GER } type = add_division 	value = infantry when = 11 }
-		command = { trigger = { ai = GER } type = add_corps 	value = land where = 520 }
-		command = { trigger = { ai = GER } type = add_division 	value = infantry when = 11 }
-		command = { trigger = { ai = GER } type = add_division 	value = infantry when = 11 }
-		command = { trigger = { ai = GER } type = add_corps 	value = land where = 521 }
-		command = { trigger = { ai = GER } type = add_division 	value = infantry when = 11 }
-		command = { trigger = { ai = GER } type = add_corps 	value = land where = 522 }
-		command = { trigger = { ai = GER } type = add_division 	value = infantry when = 11 }
+		command = { 														type = add_corps 	value = land where = 515 } #Rome
+		command = { 														type = add_division value = infantry when = 11 }
+		#command = { 														type = add_division value = infantry when = 11 }
+		#command = { trigger = { control = { province = 520	data = RSI } }	type = add_corps 	value = land where = 520 }
+		#command = { 														type = add_division value = infantry when = 11 }
+		#command = { 														type = add_division value = infantry when = 11 }
+		#command = { trigger = { control = { province = 521	data = RSI } }	type = add_corps 	value = land where = 521 }
+		#command = { 														type = add_division value = infantry when = 11 }
+		#command = { trigger = { control = { province = 522	data = RSI } }	type = add_corps 	value = land where = 522 }
+		#command = { 														type = add_division value = infantry when = 11 }
+		
+		command = { trigger = { control = { province = 522	data = RSI } }	type = add_corps 	value = land 		when = 134		which = "LXXVI Panzerkorps"						where = 522				 } #Herr
+		command = { 														type = add_division value = paratrooper	when = 1		which = "7. Flieger-Division"					where = glider_artillery }
+		command = { trigger = { control = { province = 521	data = RSI } }	type = add_corps 	value = land 		when = 134		which = "LXXVI Panzerkorps"						where = 521				 } #Herr
+		command = { 														type = add_division value = mechanized	when = 0		which = "29. Panzergrenadier-Division"			where = -50				 }
+		command = { trigger = { control = { province = 520	data = RSI } }	type = add_corps 	value = land 		when = 134		which = "LXXVI Panzerkorps"						where = 520				 } #Herr
+		command = { 														type = add_division value = armor		when = 2		which = "26. Panzer-Division"					where = -50				 }
+		command = { 														type = add_division value = infantry	when = 11		which = "65. Infanterie-Division"				where = -50				 }
 	}
 }
 
@@ -1204,6 +1235,9 @@ event = {
 		
 		command = { trigger = { ai = GER NOT = { ai = USA ai = ENG } } type = non_aggression which = RSI where = USA when = 15 } #AI needs time to react and re-garrison the beaches
 		command = { trigger = { ai = GER NOT = { ai = USA ai = ENG } } type = non_aggression which = RSI where = ENG when = 15 } 
+		
+		#command = { trigger = { ai = GER ai = USA ai = ENG			 } type = non_aggression which = RSI where = USA when = 2  }
+		#command = { trigger = { ai = GER ai = USA ai = ENG 		 } type = non_aggression which = RSI where = ENG when = 2  } 
 		
 		command = { type = event which = 2006022 where = REB when = 12 }
 		
@@ -2777,15 +2811,21 @@ event = {
 
 	trigger = {
 		war = { country = ENG }
-		#Should Sardinia count or not? Probably shouldn't on its own.
+		
 		OR = {
+			#Sardinia excluded
+			#AND = {
+			#	region 	= { region = "Italy" 			country = -2 	value = 12  } #74*0.12=8.8 (9, from which 2 can be Malta and Pantelleria, 5 can be from Sardinia, at least 2 extra)
+			#	NOT = { region 	= { region = "Italy" 	country = REB	value = 2 } }
+			#}
+			#AND = {
+			#	area 	= { area = "Sicilian Gap" 		country = -2 	value = 60  } #7 *0.60=4.2 (5, from which 2 can be Malta and Pantelleria)
+			#	area 	= { area = "Sicilian Gap" 		country = REB	value = 20  }
+			#}
+			#Sardinia counted
 			AND = {
-				region 	= { region = "Italy" 			country = -2 	value = 12  } #74*0.12=8.8 (9, from which 2 can be Malta and Pantelleria, 5 can be from Sardinia, at least 2 extra)
+				region 	= { region = "Italy" 			country = -2 	value = 7   } #74*0.07=5.18 (5, from which 2 can be Malta and Pantelleria)
 				NOT = { region 	= { region = "Italy" 	country = REB	value = 2 } }
-			}
-			AND = {
-				area 	= { area = "Sicilian Gap" 		country = -2 	value = 80  } #7 *0.80=5.6 (6, from which 2 can be Malta and Pantelleria)
-				area 	= { area = "Sicilian Gap" 		country = REB	value = 20  }
 			}
 		}
 	}
@@ -2796,7 +2836,7 @@ event = {
 	picture = "ita_surrender"	
 	
 	date = { day = 1 month = january year = 1936 }
-	offset = 15
+	offset = 4
 	deathdate = { day = 30 month = december year = 1963 }
 
 	action = {

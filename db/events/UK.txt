@@ -1182,6 +1182,39 @@ event = {
 		command = { trigger = { NOT = { exists = U53 } } type = independence which = U53 value = 1 when = 1 }	
 		command = { type = secedearea which = PAK value = Pakistan }
 		command = { type = secederegion which = IND value = India }
+		
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI0 } type = clrflag 		which = ENG_Lend_Lease_to_CHI0 }
+	
+		command = { type = end_trades which = ENG where = CHI }
+		
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI1 } type = belligerence value = -1  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI1 } type = relation 	which = CHI value = -10 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI1 } type = relation 	which = JAP value =  10 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI1 } type = clrflag 		which = ENG_Lend_Lease_to_CHI1 }
+		
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI2 } type = belligerence value = -2  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI2 } type = free_ic  	value = 3   }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI2 } type = extra_tc 	value = 10  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI2 } type = relation 	which = CHI value = -20 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI2 } type = relation 	which = JAP value =  20 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI2 } type = clrflag 		which = ENG_Lend_Lease_to_CHI2 }
+		
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI3 } type = belligerence value = -4  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI3 } type = free_ic  	value = 6   }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI3 } type = extra_tc 	value = 20  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI3 } type = relation 	which = CHI value = -40 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI3 } type = relation 	which = JAP value =  40 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI3 } type = clrflag 		which = ENG_Lend_Lease_to_CHI3 }
+		
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI4 } type = belligerence value = -6  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI4 } type = free_ic  	value = 9   }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI4 } type = extra_tc 	value = 30  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI4 } type = relation 	which = CHI value = -60 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI4 } type = relation 	which = JAP value =  60 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI4 } type = clrflag 		which = ENG_Lend_Lease_to_CHI4 }
+
+		command = { type = event 	which = 1021 where = CHI when = 1 }
+		command = { type = event 	which = 1021 where = CHC when = 1 }
 	}
 }
 
@@ -4937,6 +4970,7 @@ event = {
 	trigger = {
 		event = 2002100
 		event = 2002111
+		NOT = { event = 2002103 }
 		region = { region = "Poland" country = POL value = 60 }
 	}
 
@@ -4951,6 +4985,7 @@ event = {
 	action = {
 		name = "ACTION_NAME_GREAT"
 		command = { type = free_ic  value = 5 }
+		command = { type = secederegion which = POL value = "Poland" when = 1 }
 		command = { type = trigger which = 2002103 }
 	}
 }
@@ -4969,21 +5004,75 @@ event = {
 		command = { type = free_ic  value = -5 }
 		command = { type = end_trades which = POL where = ENG }
 		command = { type = local_clrflag which = exiled }
+		command = { type = capital which = 485 }
+		#command = { type = secedeprovince	which = ENG 	value = 8000 when = 2 }
 		
-		#Armia Krajowa had 300,000–400,000 members on paper, plus other right wing resistance orgs another 50,000 or so
-		#Will give about 13 mil divs
-		command = { type = local_clrflag which = AllDefense	}
-		#+10 more, for 23 total
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
+		#Home Army (AK) and various other local forces mobilization. At peak AK had close to 400K fighters + another 100K in BCh and NSZ
+		#10,000-75,000 depending on territory held
+		command = { type = local_clrflag which = AllDefense }
+		command = { type = add_corps 	value = land 		where = 485 }	
+		#65,000
+		command = { type = add_division	value = infantry 	when = 11 where = -50 }
+		command = { type = add_division	value = infantry 	when = 11 where = -50 }
+		command = { type = add_division	value = infantry 	when = 11 where = -50 }
+		command = { type = add_division	value = infantry 	when = 11 where = -50 }
+		command = { type = add_division	value = infantry 	when = 11 where = -50 }
+		command = { type = add_division	value = infantry 	when = 11 where = -50 }
+		command = { type = add_division	value = infantry 	when = 11 where = -50 }
+		command = { type = add_division	value = infantry 	when = 11 where = -50 }
+		command = { type = add_division	value = infantry 	when = 11 where = -50 }
+		command = { type = add_division	value = infantry 	when = 11 where = -50 }
+		#400,000
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
+		command = { type = add_division value = militia 	when = 6  where = -20 }
 	}
 }
 
@@ -7177,6 +7266,39 @@ event = {
 		command = { type = secedeprovince											which = ENG	value = 900				when = 2 }
 		command = { type = secedeprovince											which = ENG	value = 7131			when = 2 }
 		command = { type = secedeprovince											which = ENG	value = 1720			when = 2 }
+		
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI0 } type = clrflag 		which = ENG_Lend_Lease_to_CHI0 }
+	
+		command = { type = end_trades which = ENG where = CHI }
+		
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI1 } type = belligerence value = -1  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI1 } type = relation 	which = CHI value = -10 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI1 } type = relation 	which = JAP value =  10 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI1 } type = clrflag 		which = ENG_Lend_Lease_to_CHI1 }
+		
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI2 } type = belligerence value = -2  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI2 } type = free_ic  	value = 3   }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI2 } type = extra_tc 	value = 10  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI2 } type = relation 	which = CHI value = -20 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI2 } type = relation 	which = JAP value =  20 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI2 } type = clrflag 		which = ENG_Lend_Lease_to_CHI2 }
+		
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI3 } type = belligerence value = -4  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI3 } type = free_ic  	value = 6   }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI3 } type = extra_tc 	value = 20  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI3 } type = relation 	which = CHI value = -40 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI3 } type = relation 	which = JAP value =  40 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI3 } type = clrflag 		which = ENG_Lend_Lease_to_CHI3 }
+		
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI4 } type = belligerence value = -6  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI4 } type = free_ic  	value = 9   }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI4 } type = extra_tc 	value = 30  }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI4 } type = relation 	which = CHI value = -60 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI4 } type = relation 	which = JAP value =  60 }
+		command = { trigger = { flag = ENG_Lend_Lease_to_CHI4 } type = clrflag 		which = ENG_Lend_Lease_to_CHI4 }
+
+		command = { type = event 	which = 1021 where = CHI when = 1 }
+		command = { type = event 	which = 1021 where = CHC when = 1 }
 		
 		command = { type = trigger which = 2001253 }
 	}

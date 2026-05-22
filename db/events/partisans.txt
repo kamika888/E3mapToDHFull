@@ -476,8 +476,11 @@ event = {
 	country = U27
 	
 	trigger = {
+		ai = yes
 		local_flag = partisan_mode
-		NOT = { region = { region = "Balkan" country = -2 data = 1 value = 10 } }
+		NOT = { local_flag = partisan_chg  }
+		NOT = { local_flag = partisan_stay }
+		NOT = { region = { region = "Balkan" country = -2 data = 1 value = 20 } }
 		garrison = { country = SOV 	province = 453 type = land size = 30 area = 2 }
 	}
 
@@ -3504,7 +3507,15 @@ event = {
 		OR = {
 			region = { region = "China" 	country = REB data = 1 value = 3 } #15 provinces
 			#garrison = { country = REB province = 1379	country = REB type = land size = 20 area = 2 } #20 rebel divisions in China region
-			flag = { which = japChi when = 1	value = 55 }
+			AND = {
+				flag = { which = japChi when = 1	value = 55 }
+				OR = {
+					NOT = { local_flag = ThousandRegimentsOff }
+					flag = SOV_Lend_Lease_to_CHI1
+					flag = ENG_Lend_Lease_to_CHI1
+					flag = USA_Lend_Lease_to_CHI1
+				}
+			}
 		}
 	}
 
@@ -3529,6 +3540,7 @@ event = {
 	
 	action = {
 		command = { type = local_setflag which = CHCRevolt 	  }
+		command = { type = local_setflag which = ThousandRegimentsOff }
 		
 command = { trigger = { NOT = { AND = { control = { province = 557 data = CHC } NOT = { ispuppet = CHC } } AND = { control = { province = 557 data = CHI } NOT = { ispuppet = CHI } } } }	type = revolt which = 557	when = 1 } #Hills
 command = { trigger = { NOT = { AND = { control = { province = 559 data = CHC } NOT = { ispuppet = CHC } } AND = { control = { province = 559 data = CHI } NOT = { ispuppet = CHI } } } }	type = revolt which = 559	when = 1 } #Mtn
@@ -5155,7 +5167,10 @@ event = {
 	name = "AI_EVENT"
 	
 	action = {
-		command = { trigger = { event = 1330110180 war = { country = CHI country = JAP } }	type = local_setflag which = NFA_Incident }
+		command = { trigger = {
+						event = 1330110180
+						war = { country = CHI country = JAP }
+					}										type = local_setflag which = NFA_Incident }
 		
 		command = { trigger = { local_flag = NFA_Incident }	type = secedearea 		which = CHI value = "Zhejiang"		when = 1 }
 		command = { trigger = { local_flag = NFA_Incident }	type = secedearea 		which = CHI value = "Fujian"		when = 1 }
@@ -5168,7 +5183,7 @@ event = {
 		command = { trigger = { local_flag = NFA_Incident }	type = secedearea 		which = CHI value = "Sichuan"		when = 1 }
 		command = { trigger = { local_flag = NFA_Incident }	type = secedearea 		which = CHI value = "Anhui"			when = 1 }
 
-		command = { 																		type = local_clrflag which = NFA_Incident }
+		command = { 										type = local_clrflag which = NFA_Incident }
 	
 		command = { 										type = secedeprovince 	which = U87 value = 2527 			when = 1 }
 		command = { 										type = secedeprovince 	which = U87 value = 2576 			when = 1 }
@@ -5186,6 +5201,28 @@ event = {
 		command = { 										type = secederegion		which = U67 value = "China"			when = 1 }
 		command = { 										type = secedeprovince	which = U67 value = 7993			when = 2 }
 		command = { 										type = secederegion		which = CHC value = "China"			when = 1 }
+		
+		command = { trigger = { army = 5  }					type = switch_allegiance which = -1 where = CHI	}
+		command = { trigger = { army = 10 }					type = switch_allegiance which = -1 where = CHI	}
+		command = { trigger = { army = 15 }					type = switch_allegiance which = -1 where = CHI	}
+		command = { trigger = { army = 20 }					type = switch_allegiance which = -1 where = CHI	}
+		command = { trigger = { army = 25 }					type = switch_allegiance which = -1 where = CHI	}
+		command = { trigger = { army = 30 }					type = switch_allegiance which = -1 where = CHI	}
+		command = { trigger = { army = 35 }					type = switch_allegiance which = -1 where = CHI	}
+		command = { trigger = { army = 40 }					type = switch_allegiance which = -1 where = CHI	}
+		command = { trigger = { army = 45 }					type = switch_allegiance which = -1 where = CHI	}
+		command = { trigger = { army = 50 }					type = switch_allegiance which = -1 where = CHI	}
+		
+		#command = { trigger = { flag = partisan_CHI army = 5  }	type = switch_allegiance which = -1 where = CHI	}
+		#command = { trigger = { flag = partisan_CHI army = 10 }	type = switch_allegiance which = -1 where = CHI	}
+		#command = { trigger = { flag = partisan_CHI army = 15 }	type = switch_allegiance which = -1 where = CHI	}
+		#command = { trigger = { flag = partisan_CHI army = 20 }	type = switch_allegiance which = -1 where = CHI	}
+		#command = { trigger = { flag = partisan_CHI army = 25 }	type = switch_allegiance which = -1 where = CHI	}
+		#command = { trigger = { flag = partisan_CHI army = 30 }	type = switch_allegiance which = -1 where = CHI	}
+		#command = { trigger = { flag = partisan_CHI army = 35 }	type = switch_allegiance which = -1 where = CHI	}
+		#command = { trigger = { flag = partisan_CHI army = 40 }	type = switch_allegiance which = -1 where = CHI	}
+		#command = { trigger = { flag = partisan_CHI army = 45 }	type = switch_allegiance which = -1 where = CHI	}
+		#command = { trigger = { flag = partisan_CHI army = 50 }	type = switch_allegiance which = -1 where = CHI	}
 		
 		command = { 										type = event 			which = 8010 	where = U67 when = 0 }
 	}
@@ -38054,9 +38091,9 @@ event = {
 		}
 		ai_chance = 8
 		command = { 							type = revolt which = 1720 when = 1 }
-		command = { 							type = revolt which = 1720 when = 1 }
-		command = { trigger = { random = 66 }	type = revolt which = 1720 when = 1 }
-		command = { trigger = { random = 33 }	type = revolt which = 1720 when = 1 }
+		#command = { 							type = revolt which = 1720 when = 1 }
+		#command = { trigger = { random = 66 }	type = revolt which = 1720 when = 1 }
+		#command = { trigger = { random = 33 }	type = revolt which = 1720 when = 1 }
 		command = { type = setflag which = revP_England_1720 when = 1 value = 1 }
 		command = { type = setflag which = revC_England when = 1 value = 1 }
 	}
@@ -38275,9 +38312,9 @@ event = {
 		}
 		ai_chance = 8
 		command = { 							type = revolt which = 7131 when = 1 }
-		command = { 							type = revolt which = 7131 when = 1 }
-		command = { trigger = { random = 66 }	type = revolt which = 7131 when = 1 }
-		command = { trigger = { random = 33 }	type = revolt which = 7131 when = 1 }
+		#command = { 							type = revolt which = 7131 when = 1 }
+		#command = { trigger = { random = 66 }	type = revolt which = 7131 when = 1 }
+		#command = { trigger = { random = 33 }	type = revolt which = 7131 when = 1 }
 		command = { type = setflag which = revP_England_7131 when = 1 value = 1 }
 		command = { type = setflag which = revC_England when = 1 value = 1 }
 	}
