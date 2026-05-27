@@ -1,6 +1,6 @@
 ####################################
 # to FRANCE
-# ENG, SPR/U35, CAN, AST, U02, SAF, BEL, HOL
+# ENG, SPR/SPA, CAN, AST, U02, SAF, BEL, HOL
 ####################################
 
 
@@ -315,7 +315,8 @@ event = {
 		command = { trigger = { flag = exp_FRA_from_SPA_160 NOT = { AND = { army = { size = 190 type = 1 which = 1 } ic = 160 } } alliance = { country = VIC } } type = event which = 4001009 where = VIC when = 0 }
 		command = { trigger = { flag = exp_FRA_from_SPA_160 NOT = { AND = { army = { size = 190 type = 1 which = 1 } ic = 160 } } } type = clrflag which = exp_FRA_from_SPA_160 }
 		
-		command = { type = setflag which = SPA_to_FRA }
+		command = { trigger = { country = SPA } type = setflag which = SPA_to_FRA }
+		command = { trigger = { country = SPR } type = setflag which = SPR_to_FRA }
 	}
 }
 
@@ -1333,14 +1334,19 @@ event = {
 	id = 4000221
 	random = no 
 	persistent = yes
-	#tag = { SPR U35 }
+	#tag = { SPA SPR }
 
 	trigger = {
 		OR = {
-			country = SPR
-			country = U35
+			AND = {
+				country = SPA
+				flag = SPA_to_FRA
+			}
+			AND = {
+				country = SPR
+				flag = SPR_to_FRA
+			}
 		}
-		flag = SPA_to_FRA
 		NOT = {
 			AND = {
 				ai = yes
@@ -1404,6 +1410,7 @@ event = {
 		command = { trigger = { flag = exp_FRA_from_SPA_160 } type = clrflag which = exp_FRA_from_SPA_160 }
 		
 		command = { type = clrflag which = SPA_to_FRA }
+		command = { type = clrflag which = SPR_to_FRA }
 	}
 }
 
@@ -1883,7 +1890,19 @@ event = {
 			}
 		}
 		AND = {
+			flag = SPR_to_FRA
 			NOT = { exists = SPR }
+			OR = {
+				flag = exp_FRA_from_SPA_5
+				flag = exp_FRA_from_SPA_10
+				flag = exp_FRA_from_SPA_20
+				flag = exp_FRA_from_SPA_40
+				flag = exp_FRA_from_SPA_80
+				flag = exp_FRA_from_SPA_160
+			}
+		}
+		AND = {
+			flag = SPA_to_FRA
 			NOT = { exists = SPA }
 			OR = {
 				flag = exp_FRA_from_SPA_5
@@ -1991,24 +2010,43 @@ event = {
 		command = { trigger = { flag = exp_FRA_from_ENG_160 NOT = { exists = ENG } } type = free_supplies value = -80 }
 		command = { trigger = { flag = exp_FRA_from_ENG_160 NOT = { exists = ENG } } type = clrflag which = exp_FRA_from_ENG_160 }
 		
-		command = { trigger = { flag = exp_FRA_from_SPA_5 NOT = { exists = SPR exists = U35 } } type = extra_tc value = -5 }
-		command = { trigger = { flag = exp_FRA_from_SPA_5 NOT = { exists = SPR exists = U35 } } type = free_supplies value = -5 }
-		command = { trigger = { flag = exp_FRA_from_SPA_5 NOT = { exists = SPR exists = U35 } } type = clrflag which = exp_FRA_from_SPA_5 }
-		command = { trigger = { flag = exp_FRA_from_SPA_10 NOT = { exists = SPR exists = U35 } } type = extra_tc value = -10 }
-		command = { trigger = { flag = exp_FRA_from_SPA_10 NOT = { exists = SPR exists = U35 } } type = free_supplies value = -10 }
-		command = { trigger = { flag = exp_FRA_from_SPA_10 NOT = { exists = SPR exists = U35 } } type = clrflag which = exp_FRA_from_SPA_10 }
-		command = { trigger = { flag = exp_FRA_from_SPA_20 NOT = { exists = SPR exists = U35 } } type = extra_tc value = -10 }
-		command = { trigger = { flag = exp_FRA_from_SPA_20 NOT = { exists = SPR exists = U35 } } type = free_supplies value = -10 }
-		command = { trigger = { flag = exp_FRA_from_SPA_20 NOT = { exists = SPR exists = U35 } } type = clrflag which = exp_FRA_from_SPA_20 }
-		command = { trigger = { flag = exp_FRA_from_SPA_40 NOT = { exists = SPR exists = U35 } } type = extra_tc value = -20 }
-		command = { trigger = { flag = exp_FRA_from_SPA_40 NOT = { exists = SPR exists = U35 } } type = free_supplies value = -20 }
-		command = { trigger = { flag = exp_FRA_from_SPA_40 NOT = { exists = SPR exists = U35 } } type = clrflag which = exp_FRA_from_SPA_40 }
-		command = { trigger = { flag = exp_FRA_from_SPA_80 NOT = { exists = SPR exists = U35 } } type = extra_tc value = -40 }
-		command = { trigger = { flag = exp_FRA_from_SPA_80 NOT = { exists = SPR exists = U35 } } type = free_supplies value = -40 }
-		command = { trigger = { flag = exp_FRA_from_SPA_80 NOT = { exists = SPR exists = U35 } } type = clrflag which = exp_FRA_from_SPA_80 }
-		command = { trigger = { flag = exp_FRA_from_SPA_160 NOT = { exists = SPR exists = U35 } } type = extra_tc value = -80 }
-		command = { trigger = { flag = exp_FRA_from_SPA_160 NOT = { exists = SPR exists = U35 } } type = free_supplies value = -80 }
-		command = { trigger = { flag = exp_FRA_from_SPA_160 NOT = { exists = SPR exists = U35 } } type = clrflag which = exp_FRA_from_SPA_160 }
+		command = { trigger = { flag = exp_FRA_from_SPA_5 NOT = { exists = SPR } flag = SPR_to_FRA } type = extra_tc value = -5 }
+		command = { trigger = { flag = exp_FRA_from_SPA_5 NOT = { exists = SPR } flag = SPR_to_FRA } type = free_supplies value = -5 }
+		command = { trigger = { flag = exp_FRA_from_SPA_5 NOT = { exists = SPR } flag = SPR_to_FRA } type = clrflag which = exp_FRA_from_SPA_5 }
+		command = { trigger = { flag = exp_FRA_from_SPA_10 NOT = { exists = SPR } flag = SPR_to_FRA } type = extra_tc value = -10 }
+		command = { trigger = { flag = exp_FRA_from_SPA_10 NOT = { exists = SPR } flag = SPR_to_FRA } type = free_supplies value = -10 }
+		command = { trigger = { flag = exp_FRA_from_SPA_10 NOT = { exists = SPR } flag = SPR_to_FRA } type = clrflag which = exp_FRA_from_SPA_10 }
+		command = { trigger = { flag = exp_FRA_from_SPA_20 NOT = { exists = SPR } flag = SPR_to_FRA } type = extra_tc value = -10 }
+		command = { trigger = { flag = exp_FRA_from_SPA_20 NOT = { exists = SPR } flag = SPR_to_FRA } type = free_supplies value = -10 }
+		command = { trigger = { flag = exp_FRA_from_SPA_20 NOT = { exists = SPR } flag = SPR_to_FRA } type = clrflag which = exp_FRA_from_SPA_20 }
+		command = { trigger = { flag = exp_FRA_from_SPA_40 NOT = { exists = SPR } flag = SPR_to_FRA } type = extra_tc value = -20 }
+		command = { trigger = { flag = exp_FRA_from_SPA_40 NOT = { exists = SPR } flag = SPR_to_FRA } type = free_supplies value = -20 }
+		command = { trigger = { flag = exp_FRA_from_SPA_40 NOT = { exists = SPR } flag = SPR_to_FRA } type = clrflag which = exp_FRA_from_SPA_40 }
+		command = { trigger = { flag = exp_FRA_from_SPA_80 NOT = { exists = SPR } flag = SPR_to_FRA } type = extra_tc value = -40 }
+		command = { trigger = { flag = exp_FRA_from_SPA_80 NOT = { exists = SPR } flag = SPR_to_FRA } type = free_supplies value = -40 }
+		command = { trigger = { flag = exp_FRA_from_SPA_80 NOT = { exists = SPR } flag = SPR_to_FRA } type = clrflag which = exp_FRA_from_SPA_80 }
+		command = { trigger = { flag = exp_FRA_from_SPA_160 NOT = { exists = SPR } flag = SPR_to_FRA } type = extra_tc value = -80 }
+		command = { trigger = { flag = exp_FRA_from_SPA_160 NOT = { exists = SPR } flag = SPR_to_FRA } type = free_supplies value = -80 }
+		command = { trigger = { flag = exp_FRA_from_SPA_160 NOT = { exists = SPR } flag = SPR_to_FRA } type = clrflag which = exp_FRA_from_SPA_160 }
+		
+		command = { trigger = { flag = exp_FRA_from_SPA_5 NOT = { exists = SPA } flag = SPA_to_FRA } type = extra_tc value = -5 }
+		command = { trigger = { flag = exp_FRA_from_SPA_5 NOT = { exists = SPA } flag = SPA_to_FRA } type = free_supplies value = -5 }
+		command = { trigger = { flag = exp_FRA_from_SPA_5 NOT = { exists = SPA } flag = SPA_to_FRA } type = clrflag which = exp_FRA_from_SPA_5 }
+		command = { trigger = { flag = exp_FRA_from_SPA_10 NOT = { exists = SPA } flag = SPA_to_FRA } type = extra_tc value = -10 }
+		command = { trigger = { flag = exp_FRA_from_SPA_10 NOT = { exists = SPA } flag = SPA_to_FRA } type = free_supplies value = -10 }
+		command = { trigger = { flag = exp_FRA_from_SPA_10 NOT = { exists = SPA } flag = SPA_to_FRA } type = clrflag which = exp_FRA_from_SPA_10 }
+		command = { trigger = { flag = exp_FRA_from_SPA_20 NOT = { exists = SPA } flag = SPA_to_FRA } type = extra_tc value = -10 }
+		command = { trigger = { flag = exp_FRA_from_SPA_20 NOT = { exists = SPA } flag = SPA_to_FRA } type = free_supplies value = -10 }
+		command = { trigger = { flag = exp_FRA_from_SPA_20 NOT = { exists = SPA } flag = SPA_to_FRA } type = clrflag which = exp_FRA_from_SPA_20 }
+		command = { trigger = { flag = exp_FRA_from_SPA_40 NOT = { exists = SPA } flag = SPA_to_FRA } type = extra_tc value = -20 }
+		command = { trigger = { flag = exp_FRA_from_SPA_40 NOT = { exists = SPA } flag = SPA_to_FRA } type = free_supplies value = -20 }
+		command = { trigger = { flag = exp_FRA_from_SPA_40 NOT = { exists = SPA } flag = SPA_to_FRA } type = clrflag which = exp_FRA_from_SPA_40 }
+		command = { trigger = { flag = exp_FRA_from_SPA_80 NOT = { exists = SPA } flag = SPA_to_FRA } type = extra_tc value = -40 }
+		command = { trigger = { flag = exp_FRA_from_SPA_80 NOT = { exists = SPA } flag = SPA_to_FRA } type = free_supplies value = -40 }
+		command = { trigger = { flag = exp_FRA_from_SPA_80 NOT = { exists = SPA } flag = SPA_to_FRA } type = clrflag which = exp_FRA_from_SPA_80 }
+		command = { trigger = { flag = exp_FRA_from_SPA_160 NOT = { exists = SPA } flag = SPA_to_FRA } type = extra_tc value = -80 }
+		command = { trigger = { flag = exp_FRA_from_SPA_160 NOT = { exists = SPA } flag = SPA_to_FRA } type = free_supplies value = -80 }
+		command = { trigger = { flag = exp_FRA_from_SPA_160 NOT = { exists = SPA } flag = SPA_to_FRA } type = clrflag which = exp_FRA_from_SPA_160 }
 		
 		command = { trigger = { flag = exp_FRA_from_CAN_5 NOT = { exists = CAN } } type = extra_tc value = -5 }
 		command = { trigger = { flag = exp_FRA_from_CAN_5 NOT = { exists = CAN } } type = free_supplies value = -5 }
@@ -5568,12 +5606,14 @@ event = {
 
 	trigger = {
 		OR = {
-			country = ITA
-			country = RSI
-		}
-		OR = {
-			flag = ITA_to_GER
-			flag = RSI_to_GER
+			AND = {
+				country = ITA
+				flag = ITA_to_GER
+			}
+			AND = {
+				country = RSI
+				flag = RSI_to_GER
+			}
 		}
 		NOT = {
 			AND = {
@@ -5633,6 +5673,7 @@ event = {
 		command = { trigger = { flag = exp_GER_from_ITA_160 } type = clrflag which = exp_GER_from_ITA_160 }
 		
 		command = { type = clrflag which = ITA_to_GER }
+		command = { type = clrflag which = RSI_to_GER }
 	}
 }
 
@@ -7815,7 +7856,8 @@ event = {
 		command = { trigger = { flag = exp_JAP_from_CHI_160 NOT = { AND = { army = { size = 190 type = 1 which = 1 } ic = 160 } } } type = event which = 4001009 where = JAP when = 0 }
 		command = { trigger = { flag = exp_JAP_from_CHI_160 NOT = { AND = { army = { size = 190 type = 1 which = 1 } ic = 160 } } } type = clrflag which = exp_JAP_from_CHI_160 }
 		
-		command = { type = setflag which = CHI_to_JAP }
+		command = { trigger = { country = CHI } type = setflag which = CHI_to_JAP }
+		command = { trigger = { country = U87 } type = setflag which = U87_to_JAP }
 	}
 }
 
@@ -8051,10 +8093,15 @@ event = {
 
 	trigger = {
 		OR = {
-			country = CHI
-			country = U87
+			AND = {
+				country = CHI
+				flag = CHI_to_JAP
+			}
+			AND = {
+				country = U87
+				flag = U87_to_JAP
+			}
 		}
-		flag = CHI_to_JAP
 		NOT = {
 			AND = {
 				ai = yes
@@ -8113,6 +8160,7 @@ event = {
 		command = { trigger = { flag = exp_JAP_from_CHI_160 } type = clrflag which = exp_JAP_from_CHI_160 }
 		
 		command = { type = clrflag which = CHI_to_JAP }
+		command = { type = clrflag which = U87_to_JAP }
 	}
 }
 
@@ -8210,7 +8258,19 @@ event = {
 		}
 		AND = {
 			NOT = { exists = CHI }
+			flag = CHI_to_JAP
+			OR = {
+				flag = exp_JAP_from_CHI_5
+				flag = exp_JAP_from_CHI_10
+				flag = exp_JAP_from_CHI_20
+				flag = exp_JAP_from_CHI_40
+				flag = exp_JAP_from_CHI_80
+				flag = exp_JAP_from_CHI_160
+			}
+		}
+		AND = {
 			NOT = { exists = U87 }
+			flag = U87_to_JAP
 			OR = {
 				flag = exp_JAP_from_CHI_5
 				flag = exp_JAP_from_CHI_10
@@ -8262,24 +8322,43 @@ event = {
 		command = { trigger = { flag = exp_JAP_from_MAN_160 NOT = { exists = MAN } } type = free_supplies value = -80 }
 		command = { trigger = { flag = exp_JAP_from_MAN_160 NOT = { exists = MAN } } type = clrflag which = exp_JAP_from_MAN_160 }
 		
-		command = { trigger = { flag = exp_JAP_from_CHI_5 NOT = { exists = CHI exists = U87 } } type = extra_tc value = -5 }
-		command = { trigger = { flag = exp_JAP_from_CHI_5 NOT = { exists = CHI exists = U87 } } type = free_supplies value = -5 }
-		command = { trigger = { flag = exp_JAP_from_CHI_5 NOT = { exists = CHI exists = U87 } } type = clrflag which = exp_JAP_from_CHI_5 }
-		command = { trigger = { flag = exp_JAP_from_CHI_10 NOT = { exists = CHI exists = U87 } } type = extra_tc value = -10 }
-		command = { trigger = { flag = exp_JAP_from_CHI_10 NOT = { exists = CHI exists = U87 } } type = free_supplies value = -10 }
-		command = { trigger = { flag = exp_JAP_from_CHI_10 NOT = { exists = CHI exists = U87 } } type = clrflag which = exp_JAP_from_CHI_10 }
-		command = { trigger = { flag = exp_JAP_from_CHI_20 NOT = { exists = CHI exists = U87 } } type = extra_tc value = -10 }
-		command = { trigger = { flag = exp_JAP_from_CHI_20 NOT = { exists = CHI exists = U87 } } type = free_supplies value = -10 }
-		command = { trigger = { flag = exp_JAP_from_CHI_20 NOT = { exists = CHI exists = U87 } } type = clrflag which = exp_JAP_from_CHI_20 }
-		command = { trigger = { flag = exp_JAP_from_CHI_40 NOT = { exists = CHI exists = U87 } } type = extra_tc value = -20 }
-		command = { trigger = { flag = exp_JAP_from_CHI_40 NOT = { exists = CHI exists = U87 } } type = free_supplies value = -20 }
-		command = { trigger = { flag = exp_JAP_from_CHI_40 NOT = { exists = CHI exists = U87 } } type = clrflag which = exp_JAP_from_CHI_40 }
-		command = { trigger = { flag = exp_JAP_from_CHI_80 NOT = { exists = CHI exists = U87 } } type = extra_tc value = -40 }
-		command = { trigger = { flag = exp_JAP_from_CHI_80 NOT = { exists = CHI exists = U87 } } type = free_supplies value = -40 }
-		command = { trigger = { flag = exp_JAP_from_CHI_80 NOT = { exists = CHI exists = U87 } } type = clrflag which = exp_JAP_from_CHI_80 }
-		command = { trigger = { flag = exp_JAP_from_CHI_160 NOT = { exists = CHI exists = U87 } } type = extra_tc value = -80 }
-		command = { trigger = { flag = exp_JAP_from_CHI_160 NOT = { exists = CHI exists = U87 } } type = free_supplies value = -80 }
-		command = { trigger = { flag = exp_JAP_from_CHI_160 NOT = { exists = CHI exists = U87 } } type = clrflag which = exp_JAP_from_CHI_160 }
+		command = { trigger = { flag = exp_JAP_from_CHI_5 NOT = { exists = CHI } flag = CHI_to_JAP } type = extra_tc value = -5 }
+		command = { trigger = { flag = exp_JAP_from_CHI_5 NOT = { exists = CHI } flag = CHI_to_JAP } type = free_supplies value = -5 }
+		command = { trigger = { flag = exp_JAP_from_CHI_5 NOT = { exists = CHI } flag = CHI_to_JAP } type = clrflag which = exp_JAP_from_CHI_5 }
+		command = { trigger = { flag = exp_JAP_from_CHI_10 NOT = { exists = CHI } flag = CHI_to_JAP } type = extra_tc value = -10 }
+		command = { trigger = { flag = exp_JAP_from_CHI_10 NOT = { exists = CHI } flag = CHI_to_JAP } type = free_supplies value = -10 }
+		command = { trigger = { flag = exp_JAP_from_CHI_10 NOT = { exists = CHI } flag = CHI_to_JAP } type = clrflag which = exp_JAP_from_CHI_10 }
+		command = { trigger = { flag = exp_JAP_from_CHI_20 NOT = { exists = CHI } flag = CHI_to_JAP } type = extra_tc value = -10 }
+		command = { trigger = { flag = exp_JAP_from_CHI_20 NOT = { exists = CHI } flag = CHI_to_JAP } type = free_supplies value = -10 }
+		command = { trigger = { flag = exp_JAP_from_CHI_20 NOT = { exists = CHI } flag = CHI_to_JAP } type = clrflag which = exp_JAP_from_CHI_20 }
+		command = { trigger = { flag = exp_JAP_from_CHI_40 NOT = { exists = CHI } flag = CHI_to_JAP } type = extra_tc value = -20 }
+		command = { trigger = { flag = exp_JAP_from_CHI_40 NOT = { exists = CHI } flag = CHI_to_JAP } type = free_supplies value = -20 }
+		command = { trigger = { flag = exp_JAP_from_CHI_40 NOT = { exists = CHI } flag = CHI_to_JAP } type = clrflag which = exp_JAP_from_CHI_40 }
+		command = { trigger = { flag = exp_JAP_from_CHI_80 NOT = { exists = CHI } flag = CHI_to_JAP } type = extra_tc value = -40 }
+		command = { trigger = { flag = exp_JAP_from_CHI_80 NOT = { exists = CHI } flag = CHI_to_JAP } type = free_supplies value = -40 }
+		command = { trigger = { flag = exp_JAP_from_CHI_80 NOT = { exists = CHI } flag = CHI_to_JAP } type = clrflag which = exp_JAP_from_CHI_80 }
+		command = { trigger = { flag = exp_JAP_from_CHI_160 NOT = { exists = CHI } flag = CHI_to_JAP } type = extra_tc value = -80 }
+		command = { trigger = { flag = exp_JAP_from_CHI_160 NOT = { exists = CHI } flag = CHI_to_JAP } type = free_supplies value = -80 }
+		command = { trigger = { flag = exp_JAP_from_CHI_160 NOT = { exists = CHI } flag = CHI_to_JAP } type = clrflag which = exp_JAP_from_CHI_160 }
+		
+		command = { trigger = { flag = exp_JAP_from_CHI_5 NOT = { exists = U87 } flag = U87_to_JAP } type = extra_tc value = -5 }
+		command = { trigger = { flag = exp_JAP_from_CHI_5 NOT = { exists = U87 } flag = U87_to_JAP } type = free_supplies value = -5 }
+		command = { trigger = { flag = exp_JAP_from_CHI_5 NOT = { exists = U87 } flag = U87_to_JAP } type = clrflag which = exp_JAP_from_CHI_5 }
+		command = { trigger = { flag = exp_JAP_from_CHI_10 NOT = { exists = U87 } flag = U87_to_JAP } type = extra_tc value = -10 }
+		command = { trigger = { flag = exp_JAP_from_CHI_10 NOT = { exists = U87 } flag = U87_to_JAP } type = free_supplies value = -10 }
+		command = { trigger = { flag = exp_JAP_from_CHI_10 NOT = { exists = U87 } flag = U87_to_JAP } type = clrflag which = exp_JAP_from_CHI_10 }
+		command = { trigger = { flag = exp_JAP_from_CHI_20 NOT = { exists = U87 } flag = U87_to_JAP } type = extra_tc value = -10 }
+		command = { trigger = { flag = exp_JAP_from_CHI_20 NOT = { exists = U87 } flag = U87_to_JAP } type = free_supplies value = -10 }
+		command = { trigger = { flag = exp_JAP_from_CHI_20 NOT = { exists = U87 } flag = U87_to_JAP } type = clrflag which = exp_JAP_from_CHI_20 }
+		command = { trigger = { flag = exp_JAP_from_CHI_40 NOT = { exists = U87 } flag = U87_to_JAP } type = extra_tc value = -20 }
+		command = { trigger = { flag = exp_JAP_from_CHI_40 NOT = { exists = U87 } flag = U87_to_JAP } type = free_supplies value = -20 }
+		command = { trigger = { flag = exp_JAP_from_CHI_40 NOT = { exists = U87 } flag = U87_to_JAP } type = clrflag which = exp_JAP_from_CHI_40 }
+		command = { trigger = { flag = exp_JAP_from_CHI_80 NOT = { exists = U87 } flag = U87_to_JAP } type = extra_tc value = -40 }
+		command = { trigger = { flag = exp_JAP_from_CHI_80 NOT = { exists = U87 } flag = U87_to_JAP } type = free_supplies value = -40 }
+		command = { trigger = { flag = exp_JAP_from_CHI_80 NOT = { exists = U87 } flag = U87_to_JAP } type = clrflag which = exp_JAP_from_CHI_80 }
+		command = { trigger = { flag = exp_JAP_from_CHI_160 NOT = { exists = U87 } flag = U87_to_JAP } type = extra_tc value = -80 }
+		command = { trigger = { flag = exp_JAP_from_CHI_160 NOT = { exists = U87 } flag = U87_to_JAP } type = free_supplies value = -80 }
+		command = { trigger = { flag = exp_JAP_from_CHI_160 NOT = { exists = U87 } flag = U87_to_JAP } type = clrflag which = exp_JAP_from_CHI_160 }
 		
 		command = { trigger = { flag = exp_JAP_from_SIA_5 NOT = { exists = SIA } } type = extra_tc value = -5 }
 		command = { trigger = { flag = exp_JAP_from_SIA_5 NOT = { exists = SIA } } type = free_supplies value = -5 }

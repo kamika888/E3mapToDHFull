@@ -159,5 +159,10 @@ chiefofarmy            = {   }
 chiefofnavy            = {   } 
 chiefofair             = {   } 
 
+	landdivision = { dormant = yes id = { type = 27600 id = 700 }  name = "51st Division"						type = infantry		model = 9 	strength = 70	experience = 60	extra = artillery	brigade_model = 7	locked = yes	} 
+	landdivision = { dormant = yes id = { type = 27600 id = 701 }  name = "52nd Division"						type = infantry		model = 9 	strength = 50	experience = 60	extra = artillery	brigade_model = 7	locked = yes	} 
+	landdivision = { dormant = yes id = { type = 27600 id = 702 }  name = "19th Falangist Mil. Div."			type = militia		model = 5 	strength = 50	experience = 60											locked = yes	} 
+	landdivision = { dormant = yes id = { type = 27600 id = 703 }  name = "Zaragosa garrison"					type = garrison		model = 5 	strength = 50	experience = 60											locked = yes	} 
+
 } 
  

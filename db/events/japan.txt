@@ -358,7 +358,7 @@ event = {
 	action = {
 		name = ACTION_NAME_DAMN
 		trigger = { country = JAP }
-		command = { type = war which = CHI }
+		command = { type = local_setflag which = MP_Early }
 	}
 }
 
@@ -390,11 +390,9 @@ event = {
 			event = 2011012 #JAP The Fading Sun
 		}
 		OR = {
-			NOT = { event = 2011053 }
-			event = 2011054
-		}
-		OR = {
 			war = { country = CHI }
+			war = { country = U87 }
+			local_flag = MP_Early
 			war = { country = U61 country = U87 } 
 			control = { province = 1205 data = CHI } 
 			lost_national = { country = MEN value = 30 }
@@ -675,7 +673,7 @@ event = {
 
 		command = { type = event which = 1330110081 where = JAP when = 1 } # JAP Bloody Saturday
 		
-		command = { type = ai which = "invasionYes.ai" }
+		#command = { type = ai which = "invasionYes.ai" }
 	}
 }
 event = {
@@ -701,7 +699,7 @@ event = {
 		command = { type = relation which = VIC value = -5 }
 		command = { type = relation which = SOV value = -5 }
 		command = { type = relation which = CHI value = -25 }
-		command = { type = event which = 1330110083 when = 2 where = CHI } #Nanjing
+		command = { type = event which = 1330110083 when = 3 where = CHI } #Nanjing
 	}
 }
 
@@ -725,9 +723,15 @@ event = {
 		name = EVT_1330110083_ACTION1 #Defend Nanjing at all costs!
 		trigger = { war = { country = JAP country = CHI } }
 		command = { type = dissent value = -1 }
-		command = { type = ground_def_eff 	when = 1	 value = 0.10 }
-		command = { type = max_organization which = land value = 20   }
+		
+		command = { type = event which = 3061	where = -1   when = 0 }
+		
+		command = { type = ground_def_eff 	when = 1	 value = 0.30 }
+		command = { type = max_organization which = land value = 30   }
 		command = { type = morale 			which = land value = 15   }
+		
+		command = { type = strength which = land when = 1 where = 0 		  value = -0.1 } 
+		command = { type = strength which = land when = 1 where = 0 org = 100 value =  0.1 } 
 
 		command = { type = event which = 1330110082 when = 25 where = CHI } #Nationalist Army Shatters
 		command = { type = event which = 1330110082 when = 25 where = CHC } #Nationalist Army Shatters
@@ -805,9 +809,9 @@ event = {
 		command = { type = damage_division 			which = 22400 value = 28  where = 50 }
 		command = { type = damage_division 			which = 22300 value = 182 where = 50 }
 		
-		command = { type = max_organization which = land value = -30   } #-10
+		command = { type = ground_def_eff 	when = 1	 value = -0.45 } #-15
+		command = { type = max_organization which = land value = -40   } #-10
 		command = { type = morale 			which = land value = -25   } #-10
-		command = { type = ground_def_eff 	when = 1	 value = -0.25 } #-15
 		
 		command = { type = local_setflag 			which = 1330110082 }
 	}
@@ -845,7 +849,11 @@ event = {
 		local_flag = 1330110082
 		OR = {
 			flag = { which = japChi when = 1 value = 35  }
-			event = { id = 1330110081 days = 180 } #JAP Bloody Saturday / Jan 1938
+			event = { id = 1330110081  days = 180 } #JAP Bloody Saturday / Jan 1938
+			control = { province = 3751 data = -2 }
+			control = { province = 1272 data = -2 }
+			control = { province = 1273 data = -2 }
+			#control = { province = 1208 data = -2 }
 		}
 	}
 	
@@ -862,9 +870,9 @@ event = {
 	action = {
 		name = ACTION_NAME_GREAT
 		command = { type = dissent 				value = -1 }
+		command = { type = ground_def_eff 		when  = 1	 value = 0.15 }
 		command = { type = morale 				which = land value = 10   }
 		command = { type = max_organization 	which = land value = 10   }
-		command = { type = ground_def_eff 		when  = 1	 value = 0.15 }
 		#command = { type = strength 			which = land when = 1 where = 0 org = 1 value = 0.10 } 
 	}
 }
@@ -1773,7 +1781,8 @@ event = {
 		war = { country = ENG }
 		OR = {
 			AND = {
-				control = { province = 5738 data = -3 }	
+				control = { province = 5738 data = -3 }
+				control = { province = 1350 data = -3 }				
 				control = { province = 1351 data = -3 }
 				control = { province = 1353 data = -2 }
 				garrison = { country = -3 province = 1351 type = land size = 2 area = no }
@@ -2149,8 +2158,9 @@ event = {
 		command = { trigger = { flag = { which = japChi when = 0 				  value = 85 } } type = free_supplies	value = -160 }
 		command = { trigger = { flag = { which = japChi when = 1 				  value = 90 } } type = free_supplies	value = -170 }
 		
-		command = { trigger = { puppet = { country = U87 } } type = event which = 2141031 where = U87 when = 0 }
-		command = { trigger = { puppet = { country = CHI } } type = event which = 2141031 where = CHI when = 0 }
+		#already getting skyrocketing TC from partisan activity and occupied territory maintenance
+		#command = { trigger = { puppet = { country = U87 } } type = event which = 2141031 where = U87 when = 0 }
+		#command = { trigger = { puppet = { country = CHI } } type = event which = 2141031 where = CHI when = 0 }
 	}
 	action = {
 		name = ACTION_NAME_DAMN 
@@ -2245,23 +2255,23 @@ event = {
 	
 	action = {
 		name = ACTION_NAME_DAMN 
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 10 } } type = extra_tc		value =  -10 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 15 } } type = extra_tc		value =  -20 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 20 } } type = extra_tc		value =  -30 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 25 } } type = extra_tc		value =  -40 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 30 } } type = extra_tc		value =  -50 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 35 } } type = extra_tc		value =  -60 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 40 } } type = extra_tc		value =  -70 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 45 } } type = extra_tc		value =  -80 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 50 } } type = extra_tc		value =  -90 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 55 } } type = extra_tc		value = -100 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 60 } } type = extra_tc		value = -110 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 65 } } type = extra_tc		value = -120 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 70 } } type = extra_tc		value = -130 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 75 } } type = extra_tc		value = -140 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 80 } } type = extra_tc		value = -150 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 85 } } type = extra_tc		value = -160 }
-		command = { trigger = { local_flag = { which = japChi_local when = 1 		value = 90 } } type = extra_tc		value = -170 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 10 } } type = extra_tc		value =   10 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 15 } } type = extra_tc		value =   20 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 20 } } type = extra_tc		value =   30 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 25 } } type = extra_tc		value =   40 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 30 } } type = extra_tc		value =   50 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 35 } } type = extra_tc		value =   60 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 40 } } type = extra_tc		value =   70 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 45 } } type = extra_tc		value =   80 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 50 } } type = extra_tc		value =   90 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 55 } } type = extra_tc		value =  100 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 60 } } type = extra_tc		value =  110 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 65 } } type = extra_tc		value =  120 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 70 } } type = extra_tc		value =  130 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 75 } } type = extra_tc		value =  140 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 80 } } type = extra_tc		value =  150 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 85 } } type = extra_tc		value =  160 }
+		command = { trigger = { local_flag = { which = japChi_local when = 1 		value = 90 } } type = extra_tc		value =  170 }
 		
 		command = { trigger = { flag = { which = japChi when = 0 					value =   5 } } type = local_setflag 	which = japChi_local value =  5 }
 		command = { trigger = { flag = { which = japChi when = 0 					value =  10 } } type = local_setflag 	which = japChi_local value = 10 }
@@ -2282,27 +2292,27 @@ event = {
 		command = { trigger = { flag = { which = japChi when = 0 					value =  85 } } type = local_setflag 	which = japChi_local value = 85 }
 		command = { trigger = { flag = { which = japChi when = 1 					value =  90 } } type = local_setflag 	which = japChi_local value = 90 }
 
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 10 } } type = extra_tc		value =   10 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 15 } } type = extra_tc		value =   20 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 20 } } type = extra_tc		value =   30 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 25 } } type = extra_tc		value =   40 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 30 } } type = extra_tc		value =   50 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 35 } } type = extra_tc		value =   60 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 40 } } type = extra_tc		value =   70 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 45 } } type = extra_tc		value =   80 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 50 } } type = extra_tc		value =   90 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 55 } } type = extra_tc		value =  100 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 60 } } type = extra_tc		value =  110 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 65 } } type = extra_tc		value =  120 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 70 } } type = extra_tc		value =  130 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 75 } } type = extra_tc		value =  140 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 80 } } type = extra_tc		value =  150 }
-		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 85 } } type = extra_tc		value =  160 }
-		command = { trigger = { local_flag = { which = japChi_local when = 1 		value = 90 } } type = extra_tc		value =  170 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 10 } } type = extra_tc		value =  -10 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 15 } } type = extra_tc		value =  -20 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 20 } } type = extra_tc		value =  -30 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 25 } } type = extra_tc		value =  -40 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 30 } } type = extra_tc		value =  -50 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 35 } } type = extra_tc		value =  -60 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 40 } } type = extra_tc		value =  -70 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 45 } } type = extra_tc		value =  -80 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 50 } } type = extra_tc		value =  -90 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 55 } } type = extra_tc		value = -100 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 60 } } type = extra_tc		value = -110 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 65 } } type = extra_tc		value = -120 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 70 } } type = extra_tc		value = -130 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 75 } } type = extra_tc		value = -140 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 80 } } type = extra_tc		value = -150 }
+		command = { trigger = { local_flag = { which = japChi_local when = 0 		value = 85 } } type = extra_tc		value = -160 }
+		command = { trigger = { local_flag = { which = japChi_local when = 1 		value = 90 } } type = extra_tc		value = -170 }
 	}
 }
 
-#China goods extraction
+#Exploitation of china
 
 event = { 
 	id = 2141032
@@ -4028,15 +4038,16 @@ event = {
 		command = { type = ministerofsecurity which = 1250050 } #Wang Yitang
 		command = { type = chiefofstaff which = 1250025 } #Qi Xieyuan	
 		
-		command = { type = set_domestic which = freedom			value = 3 }
-		command = { type = set_domestic which = interventionism value = 2 }
+		command = { type = set_domestic which = freedom			value = 2 }
+		command = { type = set_domestic which = interventionism value = 4 } #Because of Japanese influence and training?
 		
 		#command = { type = manpowerpool value = 20 }
 		command = { type = add_division value = garrison when = 4 }
 		command = { type = add_division value = garrison when = 4 }
 		command = { trigger = { ai = yes ai = JAP } type = add_division value = garrison when = 4 }
 		
-		command = { type = local_setflag which = garSpec }
+		command = { type = local_setflag which = garSpec	}
+		command = { type = local_setflag which = inMajorWar	}
 	}
 }
 
