@@ -6305,7 +6305,7 @@ event = {
 		ai = yes
 		local_flag = AllInit
 		alliance = { country = GER }
-		local_flag = { which = exp when = -2 value = 20 }
+		local_flag = { which = exp when = -2 value = 15 }
 		NOT = {
 			event = 2006014 #anti-fascist coup (automatically causes exp_0)
 			region = { region = "Libya" country = -2 value = 30 }
@@ -6319,8 +6319,8 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		command = { type = local_setflag which = exp value = 20 }
-		command = { type = ai which = "EXP_20.ai" }
+		command = { type = local_setflag which = exp value = 15 }
+		command = { type = ai which = "EXP_15.ai" }
 		command = { type = ai which = "home_50.ai" } #oversea 2.5
 		command = { type = ai which = "nations\ITA_GRE.ai" }
 	}
@@ -6427,6 +6427,32 @@ event = {
 
 	action = {
 		command = { type = ai which = "nations\GER_FRA.ai" }
+	}
+}
+
+event = {
+	id = 2401209
+	random = no 
+	country = GER
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		NOT = { event = 2401204 }
+		OR = {
+			control = { province = 56 data = -3 } # Paris
+			event = 2002035 #Paris open city
+		}
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = ai which = "nations\GER_FRA2.ai" }
 	}
 }
 
@@ -6926,10 +6952,9 @@ event = {
 	
 	action = {
 		command = { 														type = demobilize 	which = hq 			when = 1 where = 1 value = -1 }
-		command = { 														type = demobilize 	which = infantry	when = 1 where = 1 value = -1 }
-		command = { trigger = { mechanized = 2 }							type = demobilize 	which = mechanized	when = 1 where = 1 value = -2 }
-		command = { trigger = { NOT = { mechanized = 2 } }					type = demobilize 	which = motorized	when = 1 where = 1 value = -2 }
-		command = { 														type = demobilize 	which = armor		when = 1 where = 1 value = -3 }
+		command = { trigger = { mechanized = 1 }							type = demobilize 	which = mechanized	when = 1 where = 1 value = -1 }
+		command = { trigger = { NOT = { mechanized = 1 } }					type = demobilize 	which = motorized	when = 1 where = 1 value = -1 }
+		command = { 														type = demobilize 	which = armor		when = 1 where = 1 value = -1 }
 	
 		#command = { trigger = { control = { province = 526	data = -3 } }	type = add_corps 	value = land 		when = 9		which = "XIV. Panzerkorps"						where = 526	 			 } #Balck
 		#command = { trigger = { control = { province = 526	data = -3 } }	type = add_corps 	value = land 		when = 249		which = "XIV. Panzerkorps"						where = 526	 			 } #Senger und Etterlin
@@ -6940,7 +6965,7 @@ event = {
 		command = { 														type = add_division value = hq			when = 3		which = "XIV. Panzerkorps"						where = sp_anti_air 	 }
 		command = { 														type = add_division value = mechanized	when = 0		which = "15. Panzergrenadier-Division"			where = -50				 }
 		command = { 														type = add_division value = armor		when = 2		which = "Fallschirm Pz-Div. 'Hermann Gцring'"	where = -50				 }
-		command = { 														type = add_division value = armor		when = 2		which = "16. Panzer-Division"					where = -50				 }
+		#command = { 														type = add_division value = armor		when = 2		which = "16. Panzer-Division"					where = -50				 }
 		
 		#command = { trigger = { control = { province = 544	data = -3 } }	type = add_corps 	value = land 		when = 134		which = "LXXVI Panzerkorps"						where = 544				 } #Herr
 		#command = { 														type = add_division value = paratrooper	when = 1		which = "7. Flieger-Division"					where = glider_artillery }
@@ -7571,6 +7596,7 @@ event = {
 # JAP
 ###############################################
 
+#Redundant at this point
 event = {
 	id = 2401300
 	random = no 
@@ -7579,20 +7605,28 @@ event = {
 	trigger = {	
 		ai = yes
 		local_flag = AllInit
-		war = { country = CHI }
-		control = { province = 1235 data = -3 }
+		OR = {
+			war = { country = SOV }
+			war = { country = ENG }
+			war = { country = USA }
+			year = 1938
+			event = { id = 2011000 days = 3 } #
+		}
 	}
 
 	name = "AI_EVENT"
 	
-	date = { day = 1 month = january year = 1936 }
-	offset = 15
-	deathdate = { day = 29 month = december year = 1963 }
+	#date = { day = 1 month = january year = 1936 }
+	#offset = 5
+	#deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
+		command = { type = ai which = "invasionYes.ai" }
 		command = { type = ai which = "nations\JAP_CHI.ai" }
 	}
 }
+
+#WZO needs to wait until the invasion AI grabs the troops it needs
 
 event = {
 	id = 2401301
@@ -7607,18 +7641,24 @@ event = {
 			war = { country = ENG }
 			war = { country = USA }
 			year = 1938
-			event = { id = 2011000 days = 30 } #
+			event = { id = 2011000 days = 30 }
+			control = { province = 1248 data = -3 }
+			control = { province = 1936 data = -3 }
+			control = { province = 5608 data = -3 }
+			control = { province = 1314 data = -3 }
+			control = { province = 1313 data = -3 }
+			control = { province = 1317 data = -3 }
 		}
 	}
 
 	name = "AI_EVENT"
 	
-	#date = { day = 1 month = january year = 1936 }
-	#offset = 5
-	#deathdate = { day = 29 month = december year = 1963 }
+	date = { day = 1 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		command = { type = ai which = "invasionYes.ai" }
+		command = { type = ai which = "wzo1.ai" }
 	}
 }
 
@@ -7777,6 +7817,10 @@ event = {
 			AND = {
 				flag = { which = japChi when = 1 value = 35  }
 				control = { province = 1313 data = -3 }
+				control = { province = 1243 data = -3 }
+				control = { province = 2572 data = -3 }
+				control = { province = 6497 data = -3 }
+				control = { province = 2533 data = -3 }
 			}
 			flag = { which = japChi when = 1 value = 40  }
 		}
@@ -7846,6 +7890,10 @@ event = {
 					AND = {
 						flag = { which = japChi when = 1 value = 35  }
 						control = { province = 1313 data = -3 }
+						control = { province = 1243 data = -3 }
+						control = { province = 2572 data = -3 }
+						control = { province = 6497 data = -3 }
+						control = { province = 2533 data = -3 }
 					}
 					flag = { which = japChi when = 1 value = 40  }
 				}
@@ -8532,7 +8580,7 @@ event = {
 		local_flag = AllInit
 		militia = 2
 		control = { province = 1313 data = -3 }
-		area = { area = "Guangdong" country = -3 data = 1 value = 70 }
+		area = { area = "Guangdong" country = -3 data = 1 value = 60 }
 		#NOT = { garrison = { country = JAP province = 1313 type = land size = 1 area = 0 } }
 	}
 
@@ -8652,7 +8700,7 @@ event = {
 		local_flag = AllInit
 		militia = 2
 		control = { province = 559 data = -3 }
-		area = { area = "Guangxi" country = -3 data = 1 value = 80 }
+		area = { area = "Guangxi" country = -3 data = 1 value = 60 }
 		#NOT = { garrison = { country = JAP province = 559 type = land size = 1 area = 0 } }
 	}
 
@@ -8749,7 +8797,7 @@ event = {
 	name = "AI_EVENT"
 	
 	date = { day = 1 month = january year = 1936 }
-	offset = 15
+	offset = 5
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -8779,7 +8827,7 @@ event = {
 	name = "AI_EVENT"
 	
 	date = { day = 1 month = january year = 1936 }
-	offset = 15
+	offset = 5
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -8809,7 +8857,7 @@ event = {
 	name = "AI_EVENT"
 	
 	date = { day = 1 month = january year = 1936 }
-	offset = 15
+	offset = 5
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -8837,7 +8885,7 @@ event = {
 	name = "AI_EVENT"
 	
 	date = { day = 1 month = january year = 1936 }
-	offset = 15
+	offset = 5
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -9034,7 +9082,7 @@ event = {
 	trigger = {	
 		ai = yes
 		local_flag = AllInit
-		event = 2003030
+		event = 2007042 #partition Poland
 		exists = FIN
 		NOT = {
 			event = 2007036
@@ -10705,7 +10753,7 @@ event = {
 	name = "AI_EVENT"
 	
 	date = { day = 1 month = january year = 1936 }
-	offset = 15
+	offset = 10
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -11059,6 +11107,52 @@ event = {
 		command = { type = dissent value = -5 }
 		command = { type = local_setflag which = partisan_chg }
 		command = { type = event which = 9000086 where = -1 when = 10 }
+	}
+}
+
+#Can move Zaragosa
+
+event = {
+	id = 2401616
+	random = no
+	country = SPA
+
+	trigger = {
+		local_flag = AllInit
+		control = { province = 330  data = -3 }	
+		OR = {
+			ai = no
+			AND = {
+				control = { province = 3190 data = -3 }	
+				control = { province = 340  data = -3 }	
+				control = { province = 329  data = -3 }	
+				control = { province = 7114 data = -3 }
+			}
+			event = 2401602
+			AND = {
+				control = { province = 332  data = -3 }
+				control = { province = 1726 data = -3 }
+				control = { province = 3180 data = -3 }
+				OR = {
+					control = { province = 3190 data = -3 }
+					control = { province = 7114 data = -3 }
+				}
+				year = 1938
+			}
+		}
+	}
+   
+	name = AI_EVENT
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 5
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {
+		command = { type = unlock_division which = 27600 value = 700 }
+		command = { type = unlock_division which = 27600 value = 701 }
+		command = { type = unlock_division which = 27600 value = 702 }
+		command = { type = unlock_division which = 27600 value = 703 }
 	}
 }
 
@@ -12828,12 +12922,12 @@ event = {
 		command = { type = manpowerpool 		value = -3    }
 		command = { type = supplies 			value = -300  }
 		
-		command = { type = activate_division which = 23500 value = 1001 where = 534 	when = 1 }
-		command = { type = activate_division which = 23500 value = 1002 where = 534 	when = 1 }
-		command = { type = activate_division which = 23500 value = 1003 where = 545 	when = 1 }
-		command = { type = activate_division which = 23500 value = 1004 where = 6554 	when = 1 }
-		command = { type = activate_division which = 23500 value = 1005 where = 6555 	when = 1 }
-		command = { type = activate_division which = 23500 value = 1006 where = 3059 	when = 1 }
+		command = { type = activate_division which = 23500 value = 1021 where = 534 	when = 1 }
+		command = { type = activate_division which = 23500 value = 1022 where = 534 	when = 1 }
+		command = { type = activate_division which = 23500 value = 1023 where = 545 	when = 1 }
+		command = { type = activate_division which = 23500 value = 1024 where = 6554 	when = 1 }
+		command = { type = activate_division which = 23500 value = 1025 where = 6555 	when = 1 }
+		command = { type = activate_division which = 23500 value = 1026 where = 3059 	when = 1 }
 	}
 }
 
@@ -14042,7 +14136,7 @@ event = {
 	trigger = {	
 		ai = yes
 		local_flag = AllInit
-		manpower = 18
+		manpower = 40
 		
 		#OR = {
 		#	war = { country = USA }
@@ -14051,119 +14145,9 @@ event = {
 		#}
 		
 		control = { province = 1599 } 
-		region = { region = "Asian Pacific" country = -3 data = 1 value = 70 } 
-	}
-
-	name = "AI_EVENT"
-	
-	date = { day = 1 month = february year = 1936 }
-	offset = 10
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action = {
-		#39
-		command = { type = manpowerpool 		value = -18   }
-		command = { type = supplies 			value = -1800 }
-		
-		command = { 											type = add_corps 	value = land 	where = 1599 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1600 } } type = add_corps 	value = land 	where = 1600 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1601 } } type = add_corps 	value = land 	where = 1601 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1602 } } type = add_corps 	value = land 	where = 1602 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1603 } } type = add_corps 	value = land 	where = 1603 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1604 } } type = add_corps 	value = land 	where = 1604 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1605 } } type = add_corps 	value = land 	where = 1605 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1606 } } type = add_corps 	value = land 	where = 1606 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1607 } } type = add_corps 	value = land 	where = 1607 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1608 } } type = add_corps 	value = land 	where = 1608 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1610 } } type = add_corps 	value = land 	where = 1610 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1617 } } type = add_corps 	value = land 	where = 1617 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1618 } } type = add_corps 	value = land 	where = 1618 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1619 } } type = add_corps 	value = land 	where = 1619 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1620 } } type = add_corps 	value = land 	where = 1620 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1621 } } type = add_corps 	value = land 	where = 1621 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1624 } } type = add_corps 	value = land 	where = 1624 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1625 } } type = add_corps 	value = land 	where = 1625 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1626 } } type = add_corps 	value = land 	where = 1626 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1627 } } type = add_corps 	value = land 	where = 1627 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1686 } } type = add_corps 	value = land 	where = 1686 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1784 } } type = add_corps 	value = land 	where = 1784 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1785 } } type = add_corps 	value = land 	where = 1785 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 1786 } } type = add_corps 	value = land 	where = 1786 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 3088 } } type = add_corps 	value = land 	where = 3088 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7194 } } type = add_corps 	value = land 	where = 7194 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7195 } } type = add_corps 	value = land 	where = 7195 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7196 } } type = add_corps 	value = land 	where = 7196 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7197 } } type = add_corps 	value = land 	where = 7197 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7198 } } type = add_corps 	value = land 	where = 7198 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7199 } } type = add_corps 	value = land 	where = 7199 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7200 } } type = add_corps 	value = land 	where = 7200 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7201 } } type = add_corps 	value = land 	where = 7201 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7202 } } type = add_corps 	value = land 	where = 7202 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7203 } } type = add_corps 	value = land 	where = 7203 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7204 } } type = add_corps 	value = land 	where = 7204 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7205 } } type = add_corps 	value = land 	where = 7205 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7206 } } type = add_corps 	value = land 	where = 7206 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-		command = { trigger = { control = { province = 7938 } } type = add_corps 	value = land 	where = 7938 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
-	}
-}
-
-event = {
-	id = 2404110
-	random = no 
-	country = JAP
-	
-	trigger = {	
-		ai = yes
-		local_flag = AllInit
-		manpower = 21
-		
-		#OR = {
-		#	war = { country = USA }
-		#	war = { country = ENG }
-		#	policy = { type = professional_army value = 6 }
-		#}
-		
 		control = { province = 1184 } 
-		region = { region = "Japan" country = -3 data = 1 value = 70 } 
+		#region = { region = "Japan" country = -3 data = 1 value = 70 } 
+		#region = { region = "Asian Pacific" country = -3 data = 1 value = 70 } 
 	}
 
 	name = "AI_EVENT"
@@ -14173,9 +14157,9 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		#42
-		command = { type = manpowerpool 		value = -21   }
-		command = { type = supplies 			value = -2100 }
+		#47
+		command = { type = manpowerpool 		value = -23.5 }
+		command = { type = supplies 			value = -2350 }
 		
 		command = {												type = add_corps 	value = land 	where = 1184 }
 		command = { type = add_division value = garrison when = 5 where = -95 }
@@ -14261,6 +14245,102 @@ event = {
 		command = { type = add_division value = garrison when = 5 where = -95 }
 		command = { trigger = { control = { province = 7967 } } type = add_corps 	value = land 	where = 7967 }
 		command = { type = add_division value = garrison when = 5 where = -95 }
+		
+		command = { trigger = { control = { province = 7969 } } type = add_corps 	value = land 	where = 7969 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1177 } } type = add_corps 	value = land 	where = 1177 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7970 } } type = add_corps 	value = land 	where = 7970 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7971 } } type = add_corps 	value = land 	where = 7971 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 3089 } } type = add_corps 	value = land 	where = 3089 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+	
+		#39
+		command = { type = manpowerpool 		value = -18   }
+		command = { type = supplies 			value = -1800 }
+		
+		command = { 											type = add_corps 	value = land 	where = 1599 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1600 } } type = add_corps 	value = land 	where = 1600 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1601 } } type = add_corps 	value = land 	where = 1601 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1602 } } type = add_corps 	value = land 	where = 1602 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1603 } } type = add_corps 	value = land 	where = 1603 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1604 } } type = add_corps 	value = land 	where = 1604 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1605 } } type = add_corps 	value = land 	where = 1605 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1606 } } type = add_corps 	value = land 	where = 1606 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1607 } } type = add_corps 	value = land 	where = 1607 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1608 } } type = add_corps 	value = land 	where = 1608 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1610 } } type = add_corps 	value = land 	where = 1610 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1617 } } type = add_corps 	value = land 	where = 1617 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1618 } } type = add_corps 	value = land 	where = 1618 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1619 } } type = add_corps 	value = land 	where = 1619 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1620 } } type = add_corps 	value = land 	where = 1620 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1621 } } type = add_corps 	value = land 	where = 1621 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1624 } } type = add_corps 	value = land 	where = 1624 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1625 } } type = add_corps 	value = land 	where = 1625 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1626 } } type = add_corps 	value = land 	where = 1626 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1627 } } type = add_corps 	value = land 	where = 1627 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1686 } } type = add_corps 	value = land 	where = 1686 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1784 } } type = add_corps 	value = land 	where = 1784 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1785 } } type = add_corps 	value = land 	where = 1785 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 1786 } } type = add_corps 	value = land 	where = 1786 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 3088 } } type = add_corps 	value = land 	where = 3088 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7194 } } type = add_corps 	value = land 	where = 7194 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7195 } } type = add_corps 	value = land 	where = 7195 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7196 } } type = add_corps 	value = land 	where = 7196 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7197 } } type = add_corps 	value = land 	where = 7197 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7198 } } type = add_corps 	value = land 	where = 7198 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7199 } } type = add_corps 	value = land 	where = 7199 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7200 } } type = add_corps 	value = land 	where = 7200 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7201 } } type = add_corps 	value = land 	where = 7201 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7202 } } type = add_corps 	value = land 	where = 7202 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7203 } } type = add_corps 	value = land 	where = 7203 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7204 } } type = add_corps 	value = land 	where = 7204 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7205 } } type = add_corps 	value = land 	where = 7205 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7206 } } type = add_corps 	value = land 	where = 7206 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { trigger = { control = { province = 7938 } } type = add_corps 	value = land 	where = 7938 }
+		command = { type = add_division value = garrison when = 5 where = -95 }
+		
+		command = { type = ai which = "nations\JAP_CHI.ai" }
 	}
 }
 
@@ -14646,24 +14726,35 @@ event = {
 		command = { type = activate_division which = 14800 value = 804 where = 950	when = 1 } #95th 'Victory' Division
 		command = { type = activate_division which = 14800 value = 805 where = 950	when = 1 } #1st 'Old Ironsides' Division
 		
-		#Algiers (only if lightly defended) (Algiers - 949. Bougie - 946)
+		#Algiers (only if lightly defended) (Algiers - 949. Bougie - 946. Blida - 2908)
 		command = { trigger = {
-						NOT = {
-							garrison = { country = -2	province = 946		type = land size = 6  area = 0 }
-							garrison = { country = -2	province = 946		type = land size = 3  area = 0 }
-						}
+						NOT = {	garrison = { country = -2	province = 949		type = land size = 7  area = 1 } }
+						NOT = {	garrison = { country = -2	province = 946		type = land size = 1  area = 0 } }
 					} 
-					type = setflag which = TaskForceEast }
-		command = { trigger = { flag = TaskForceEast }
-					type = add_corps which = "Eastern Task Force" 	value = land where = 946  when = 240314 }  # Ryder
-		command = { trigger = { flag = TaskForceEast }
-					type = activate_division which = 14800 value = 806 where = 946	when = 1 } #34th 'Red Bull' Division
-					
-		command = { trigger = { NOT = { flag = TaskForceEast } }
-					type = add_corps which = "Eastern Task Force" 	value = land where = 950  when = 240314 }  # Ryder 
-		command = { trigger = { NOT = { flag = TaskForceEast } }
-					type = activate_division which = 14800 value = 806 where = 950	when = 1 } #34th 'Red Bull' Division
+					type = setflag which = TaskForceEast value = 1 }
+		command = { trigger = {
+						NOT = {	garrison = { country = -2	province = 949		type = land size = 7  area = 1 } }
+						NOT = {	garrison = { country = -2	province = 949		type = land size = 2  area = 0 } }
+					} 
+					type = setflag which = TaskForceEast value = 2 }
+		command = { trigger = {
+						NOT = {	garrison = { country = -2	province = 949		type = land size = 7  area = 1 } }
+						NOT = {	garrison = { country = -2	province = 2908		type = land size = 3  area = 0 } }
+					} 
+					type = setflag which = TaskForceEast value = 3 }
 		
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 0	} }	type = add_corps which = "Eastern Task Force" 	value = land 	where = 950		when = 240314 } # Ryder
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 0	} }	type = activate_division which = 14800 			value = 806 	where = 950		when = 1 	  } #34th 'Red Bull' Division
+		
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 1	} }	type = add_corps which = "Eastern Task Force" 	value = land 	where = 946		when = 240314 } # Ryder
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 1	} }	type = activate_division which = 14800 			value = 806 	where = 946		when = 1 	  } #34th 'Red Bull' Division
+		
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 2	} }	type = add_corps which = "Eastern Task Force" 	value = land 	where = 949		when = 240314 } # Ryder
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 2	} }	type = activate_division which = 14800 			value = 806 	where = 949		when = 1 	  } #34th 'Red Bull' Division
+
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 3	} }	type = add_corps which = "Eastern Task Force" 	value = land 	where = 2908	when = 240314 } # Ryder
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 3	} }	type = activate_division which = 14800 			value = 806 	where = 2908	when = 1 	  } #34th 'Red Bull' Division
+					
 		command = { type = disorg_division   which = 14800 value = 800 where = -100 }
 		command = { type = disorg_division   which = 14800 value = 801 where = -100 }
 		command = { type = disorg_division   which = 14800 value = 802 where = -100 }
@@ -14693,25 +14784,25 @@ event = {
 		command = { trigger = { NOT = { event = 2405030 event = 2405060 } } 
 															type = demobilize which = marine		when = 1 where = 1 value = -1 } #1st/4th Special Service Brigades
 		
-		#Algiers
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 0	} }	type = add_corps which = "Eastern Task Force" 	value = land 	where = 950		when = 10093  } # Evelegh
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 0	} }	type = activate_division which = 14800 			value = 807 	where = 950		when = 1 	  } #78th 'Battleaxe' Division
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 0	} }	type = activate_division which = 14800 			value = 808 	where = 950		when = 1 	  } #1st/3rd Special Service Brigades
 		
-		command = { trigger = { flag = TaskForceEast }
-					type = add_corps which = "Eastern Task Force" 	value = land where = 946  when = 10093  }  # Evelegh 
-		command = { trigger = { flag = TaskForceEast }
-					type = activate_division which = 14800 value = 807 where = 946	when = 1 } #78th 'Battleaxe' Division
-		command = { trigger = { flag = TaskForceEast }
-					type = activate_division which = 14800 value = 808 where = 946	when = 1 } #1st/3rd Special Service Brigades
-					
-		command = { trigger = { NOT = { flag = TaskForceEast } }
-					type = add_corps which = "Eastern Task Force" 	value = land where = 950  when = 10093  }  # Evelegh 
-		command = { trigger = { NOT = { flag = TaskForceEast } }
-					type = activate_division which = 14800 value = 807 where = 950	when = 1 } #78th 'Battleaxe' Division
-		command = { trigger = { NOT = { flag = TaskForceEast } }
-					type = activate_division which = 14800 value = 808 where = 950	when = 1 } #1st/3rd Special Service Brigades
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 1	} }	type = add_corps which = "Eastern Task Force" 	value = land 	where = 946		when = 10093  } # Evelegh
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 1	} }	type = activate_division which = 14800 			value = 807 	where = 946		when = 1 	  } #78th 'Battleaxe' Division
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 1	} }	type = activate_division which = 14800 			value = 808 	where = 946		when = 1 	  } #1st/3rd Special Service Brigades
+		
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 2	} }	type = add_corps which = "Eastern Task Force" 	value = land 	where = 949		when = 10093  } # Evelegh
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 2	} }	type = activate_division which = 14800 			value = 807 	where = 949		when = 1 	  } #78th 'Battleaxe' Division
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 2	} }	type = activate_division which = 14800 			value = 808 	where = 949		when = 1 	  } #1st/3rd Special Service Brigades
+
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 3	} }	type = add_corps which = "Eastern Task Force" 	value = land 	where = 2908	when = 10093  } # Evelegh
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 3	} }	type = activate_division which = 14800 			value = 807 	where = 2908	when = 1 	  } #78th 'Battleaxe' Division
+		command = { trigger = { flag = { which = TaskForceEast when = 0 value = 3	} }	type = activate_division which = 14800 			value = 808 	where = 2908	when = 1 	  } #1st/3rd Special Service Brigades
 		
 		command = { type = disorg_division   which = 14800 value = 807 where = -100 }
 		command = { type = disorg_division   which = 14800 value = 808 where = -100 }
-		
+
 		command = { type = clrflag which = TaskForceEast }
 	}
 }

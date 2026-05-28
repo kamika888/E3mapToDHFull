@@ -44,13 +44,14 @@ event = {
 					AND = {	
 						NOT = { 
 							country = SOV #SOV do this in winter instead
-							AND = {
-								local_flag = asiaPassive
-								OR = {
+							#The Chinese really need to conserve supplies
+							#AND = {
+							#	local_flag = asiaPassive
+							#	OR = {
 									country = CHI
 									country = CHC
-								}
-							}
+							#	}
+							#}
 						}
 						supplies = 3000
 						lost_national = { value = 10 }
@@ -972,12 +973,12 @@ event = {
 
 	action = {
 		name = "9000022text"
-		command = { trigger = { IC = 200 } 						type = money value = 6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = 3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = 1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = 800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = 400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = 200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = 6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = 3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = 1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = 800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = 400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = 200  }
 		
 		#Eventually need to transition to a multiplier model rather than fixed tiers. Challenge: the current max daily gain estimate is not modified by the efficiency but IS modified by war_level, which is the opposite of what is actually needed. Possible solution: move the CG to money modifier from the war_level slider itself to the corresponding event, that way it should be ignored in calculations?
 		#command = { trigger = { NOT = { local_flag = exchange_rate 						} } 		type = resource				which = money	value = 30000  }
@@ -1050,12 +1051,12 @@ event = {
 
 	action = {
 		name = EVT_9000021_ACTA
-		command = { trigger = { IC = 200 } 						type = money value = 6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = 3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = 1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = 800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = 400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = 200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = 6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = 3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = 1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = 800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = 400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = 200  }
 		
 		#Eventually need to transition to a multiplier model rather than fixed tiers. Challenge: the current max daily gain estimate is not modified by the efficiency but IS modified by war_level, which is the opposite of what is actually needed. Possible solution: move the CG to money modifier from the war_level slider itself to the corresponding event, that way it should be ignored in calculations?
 		#command = { trigger = { NOT = { local_flag = exchange_rate 						} } 		type = resource				which = money	value = 30000  }
@@ -1566,23 +1567,23 @@ event = {
 		#OR = {
 		#	money = 6400
 		#	AND = {
-		#		NOT = { IC = 200 }
+		#		NOT = { IC = { value = 200 } }
 		#		money = 3200
 		#	}
 		#	AND = {
-		#		NOT = { IC = 100 }
+		#		NOT = { IC = { value = 100 } }
 		#		money = 1600
 		#	}
 		#	AND = {
-		#		NOT = { IC = 50 }
+		#		NOT = { IC = { value = 50 } }
 		#		money = 800
 		#	}
 		#	AND = {
-		#		NOT = { IC = 25 }
+		#		NOT = { IC = { value = 25 } }
 		#		money = 400
 		#	}
 		#	AND = {
-		#		NOT = { IC = 12 }
+		#		NOT = { IC = { value = 12 } }
 		#		money = 200
 		#	}	
 		#}
@@ -1594,28 +1595,35 @@ event = {
 		OR = {
 			money = 8000
 			AND = {
-				NOT = { IC = 200 }
+				NOT = { IC = { value = 200 } }
 				money = 4000
 			}
 			AND = {
-				NOT = { IC = 100 }
+				NOT = { IC = { value = 100 } }
 				money = 2000
 			}
 			AND = {
-				NOT = { IC = 50 }
+				NOT = { IC = { value = 50 } }
 				money = 1000
 			}
 			AND = {
-				NOT = { IC = 25 }
+				NOT = { IC = { value = 25 } }
 				money = 500
 			}
 			AND = {
-				NOT = { IC = 12 }
+				NOT = { IC = { value = 12 } }
 				money = 250
 			}	
 		}
 		NOT = {
 			AND = {
+				manpower = 50
+				NOT = { dissent = 4 }
+				OR = {
+					local_flag = inMajorWar
+					policy = { type = defense_lobby		value = 5 } 
+					policy = { type = interventionism	value = 5 } 
+				}
 				OR = {
 					AND = {
 						exists = USA 
@@ -1645,12 +1653,6 @@ event = {
 						}
 					}
 				}
-				manpower = 10
-				OR = {
-					local_flag = inMajorWar
-					policy = { type = defense_lobby		value = 5 } 
-					policy = { type = interventionism	value = 5 } 
-				}
 			}
 		}
 	}
@@ -1678,6 +1680,10 @@ event = {
 						local_flag = puppetLevel9
 					}
 					#manpower = 100
+					OR = {
+						NOT = { country = CHC }
+						event = 1330110310 #Yan'an rekt
+					}
 				}
 				AND = {
 					dissent = 20
@@ -1691,12 +1697,12 @@ event = {
 		}
 		ai_chance = 10
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_warprop }
 		command = { type = local_setflag which = invest_warprop_count when = 1 value = 1 }
 		command = { type = event which = 9000040 where = -1 when = 90 }
@@ -1730,12 +1736,12 @@ event = {
 		}
 		ai_chance = 15
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_industry }
 		command = { type = local_setflag which = invest_industry_count when = 1 value = 1 }
 		command = { type = event which = 9000041 where = -1 when = 90 }
@@ -1768,12 +1774,12 @@ event = {
 		}
 		ai_chance = 15
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_infra }
 		command = { type = local_setflag which = invest_infra_count when = 1 value = 1 }
 		command = { type = event which = 9000042 where = -1 when = 90 }
@@ -1806,12 +1812,12 @@ event = {
 		}
 		ai_chance = 15
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_research }
 		command = { type = local_setflag which = invest_research_count when = 1 value = 1 }
 		command = { type = event which = 9000043 where = -1 when = 90 }	
@@ -1845,12 +1851,12 @@ event = {
 		}
 		ai_chance = 15
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_wargames }
 		command = { type = local_setflag which = invest_wargames_count when = 1 value = 1 }
 		command = { type = event which = 9000044 where = -1 when = 90 }
@@ -1877,6 +1883,8 @@ event = {
 					#		local_flag = puppetLevel8
 					#	}
 					#}
+					country = CHC
+					country = CHI
 					manpower = 200									#will not do if already has decent unmobilized manpower reserves
 					#policy = { type = professional_army value = 6 } #little point in looking for contractors if already at general mobilization or above
 				}
@@ -1884,12 +1892,12 @@ event = {
 		}
 		ai_chance = 15
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_recruitment }
 		command = { type = local_setflag which = invest_recruitment_count when = 1 value = 1 }
 		command = { type = event which = 9000045 where = -1 when = 90 }
@@ -1923,12 +1931,12 @@ event = {
 		}
 		ai_chance = 5
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_diplomacy }
 		command = { type = local_setflag which = invest_diplomacy_count when = 1 value = 1 }
 		command = { type = event which = 9000046 where = -1 when = 90 }
@@ -1964,12 +1972,12 @@ event = {
 		}
 		ai_chance = 10
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_medicine }
 		command = { type = local_setflag which = invest_medicine_count when = 1 value = 1 }
 		command = { type = event which = 9000047 where = -1 when = 90 }
@@ -2001,12 +2009,12 @@ event = {
 		}
 		ai_chance = 5
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		
 		command = {	type = local_setflag which = WARDebt when = 1 value = -4 }
 		#Each WARDebt is equivalent to 0.5 GDP, so 4 WARDebt is 2 GDP. Effectively this is almost same as "invest in growth", except this will:
@@ -2033,12 +2041,12 @@ event = {
 		}
 		ai_chance = 10
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_supplies }
 		command = { type = local_setflag which = invest_supplies_count when = 1 value = 1 }
 		command = { type = event which = 9000048 where = -1 when = 90 }
@@ -2060,12 +2068,12 @@ event = {
 		}
 		ai_chance = 10
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_exchangerate }
 		command = { type = local_setflag which = invest_exchangerate when = 1 value = 1 }
 		command = { type = event which = 9000049 where = -1 when = 90 }
@@ -2110,12 +2118,12 @@ event = {
 		#Has some issues. The variance is too high. Even if the step IC is reduced and number of steps is increased, the effective percentage will still vary substantially
 		#Additionally, since it increases base IC rather than effective IC, the true percentage increase cannot be known ahead of time, wherease with industrial_modifier we always know that the increase is exactly 2%
 		
-		#command = { trigger = { IC = 200 } type = construct which = ic where = -4 value = 1.6 } #3.2	#?		- 1.70%
-		#command = { trigger = { IC = 100 }	type = construct which = ic where = -4 value = 0.8 } #1.8	#0.90%	- 1.80%
-		#command = { trigger = { IC = 50  }	type = construct which = ic where = -4 value = 0.4 } #1.0	#1.00%	- 2.00%
-		#command = { trigger = { IC = 25  }	type = construct which = ic where = -4 value = 0.3 } #0.6	#1.22%	- 2.40%
-		#command = { trigger = { IC = 12  }	type = construct which = ic where = -4 value = 0.2 } #0.3	#1.25%	- 2.50%
-		#command = { trigger = {          }	type = construct which = ic where = -4 value = 0.1 } #0.1	#0.90%	- 3.00% (assuming 3 IC minimum)
+		#command = { trigger = { IC = { value = 200 } } type = construct which = ic where = -4 value = 1.6 } #3.2	#?		- 1.70%
+		#command = { trigger = { IC = { value = 100 } }	type = construct which = ic where = -4 value = 0.8 } #1.8	#0.90%	- 1.80%
+		#command = { trigger = { IC = { value =  50 } }	type = construct which = ic where = -4 value = 0.4 } #1.0	#1.00%	- 2.00%
+		#command = { trigger = { IC = { value =  25 } }	type = construct which = ic where = -4 value = 0.3 } #0.6	#1.22%	- 2.40%
+		#command = { trigger = { IC = { value =  12 } }	type = construct which = ic where = -4 value = 0.2 } #0.3	#1.25%	- 2.50%
+		#command = { trigger = {                      }	type = construct which = ic where = -4 value = 0.1 } #0.1	#0.90%	- 3.00% (assuming 3 IC minimum)
 		command = { type = local_clrflag which = invest_industry }
 	}
 }
@@ -2185,19 +2193,19 @@ event = {
 		command = { type = max_organization which = land	value = 0.5 }
 		command = { type = max_organization which = naval	value = 0.5 }
 		command = { type = max_organization which = air		value = 0.5 }
-		command = { trigger = { IC = 200 } 	type = add_leader_skill which = -1 value = 1 }
-		command = { trigger = { IC = 100 }	type = add_leader_skill which = -1 value = 1 }
-		command = { trigger = { IC = 50  }	type = add_leader_skill which = -1 value = 1 }
-		command = { trigger = { IC = 25  }	type = add_leader_skill which = -1 value = 1 }
-		command = { trigger = { IC = 12  }	type = add_leader_skill which = -1 value = 1 }
-		command = { trigger = {          }	type = add_leader_skill which = -1 value = 1 }
+		command = { trigger = { IC = { value = 200 } } 	type = add_leader_skill which = -1 value = 1 }
+		command = { trigger = { IC = { value = 100 } }	type = add_leader_skill which = -1 value = 1 }
+		command = { trigger = { IC = { value =  50 } }	type = add_leader_skill which = -1 value = 1 }
+		command = { trigger = { IC = { value =  25 } }	type = add_leader_skill which = -1 value = 1 }
+		command = { trigger = { IC = { value =  12 } }	type = add_leader_skill which = -1 value = 1 }
+		command = { trigger = {                      }	type = add_leader_skill which = -1 value = 1 }
 		
-		command = { trigger = { IC = 200 }	type = supplies value = -200 }
-		command = { trigger = { IC = 100 } 	type = supplies value = -200 }
-		command = { trigger = { IC = 50  } 	type = supplies value = -200 }
-		command = { trigger = { IC = 25  }	type = supplies value = -200 }
-		command = { trigger = { IC = 12  }	type = supplies value = -200 }
-		command = { trigger = {          }	type = supplies value = -200 }
+		command = { trigger = { IC = { value = 200 } }	type = supplies value = -200 }
+		command = { trigger = { IC = { value = 100 } } 	type = supplies value = -200 }
+		command = { trigger = { IC = { value =  50 } } 	type = supplies value = -200 }
+		command = { trigger = { IC = { value =  25 } }	type = supplies value = -200 }
+		command = { trigger = { IC = { value =  12 } }	type = supplies value = -200 }
+		command = { trigger = {                      }	type = supplies value = -200 }
 		command = { type = local_clrflag which = invest_wargames }
 	}
 }
@@ -2309,12 +2317,12 @@ event = {
 
 	action = {
 		name = "9000034text"
-		command = { trigger = { IC = 200 } 	type = gain_tech which = -1 }
-		command = { trigger = { IC = 100 }	type = gain_tech which = -1 }
-		command = { trigger = { IC = 50  }	type = gain_tech which = -1 }
-		command = { trigger = { IC = 25  }	type = gain_tech which = -1 }
-		command = { trigger = { IC = 12  }	type = gain_tech which = -1 }
-		command = { trigger = {          }	type = gain_tech which = -1 }
+		command = { trigger = { IC = { value = 200 } } 	type = gain_tech which = -1 }
+		command = { trigger = { IC = { value = 100 } }	type = gain_tech which = -1 }
+		command = { trigger = { IC = { value =  50 } }	type = gain_tech which = -1 }
+		command = { trigger = { IC = { value =  25 } }	type = gain_tech which = -1 }
+		command = { trigger = { IC = { value =  12 } }	type = gain_tech which = -1 }
+		command = { trigger = {                      }		type = gain_tech which = -1 }
 		command = { type = belligerence value = -6 }
 		command = { type = local_clrflag which = invest_diplomacy }
 		command = { type = relation which = AFG value = 30 }
@@ -2617,12 +2625,12 @@ event = {
 
 	action = {
 		name = "9000033text"
-		command = { trigger = { IC = 200 }	type = supplies value = 12800 } #6400 money -> 12800 supplies
-		command = { trigger = { IC = 100 } 	type = supplies value = 6400 }	#3200 money -> 6400  supplies
-		command = { trigger = { IC = 50  } 	type = supplies value = 3200 }	#1600 money -> 3200  supplies
-		command = { trigger = { IC = 25  }	type = supplies value = 1600 }	#800  money -> 1600  supplies
-		command = { trigger = { IC = 12  }	type = supplies value = 800 }	#400  money -> 800   supplies
-		command = { trigger = {          }	type = supplies value = 400 }	#200  money -> 400   supplies
+		command = { trigger = { IC = { value = 200 } }	type = supplies value = 12800 } #6400 money -> 12800 supplies
+		command = { trigger = { IC = { value = 100 } } 	type = supplies value = 6400 }	#3200 money -> 6400  supplies
+		command = { trigger = { IC = { value =  50 } } 	type = supplies value = 3200 }	#1600 money -> 3200  supplies
+		command = { trigger = { IC = { value =  25 } }	type = supplies value = 1600 }	#800  money -> 1600  supplies
+		command = { trigger = { IC = { value =  12 } }	type = supplies value = 800 }	#400  money -> 800   supplies
+		command = { trigger = {                      }		type = supplies value = 400 }	#200  money -> 400   supplies
 		command = { type = local_clrflag which = invest_supplies }
 	}
 }
@@ -3297,18 +3305,18 @@ event = {
 		name = "9000032text"
 		command = { type = dissent value = 6 }
 		command = { type = morale which = land value = 3 }
-		command = { trigger = { IC = 200 } 	type = sleepleader which = -1 }
-		command = { trigger = { IC = 200 } 	type = sleepleader which = -1 }
-		command = { trigger = { IC = 100 }	type = sleepleader which = -1 }
-		command = { trigger = { IC = 100 }	type = sleepleader which = -1 }
-		command = { trigger = { IC = 50  }	type = sleepleader which = -1 }
-		command = { trigger = { IC = 50  }	type = sleepleader which = -1 }
-		command = { trigger = { IC = 25  }	type = sleepleader which = -1 }
-		command = { trigger = { IC = 25  }	type = sleepleader which = -1 }
-		command = { trigger = { IC = 12  }	type = sleepleader which = -1 }
-		command = { trigger = { IC = 12  }	type = sleepleader which = -1 }
-		command = { trigger = {          }	type = sleepleader which = -1 }
-		command = { trigger = {          }	type = sleepleader which = -1 }
+		command = { trigger = { IC = { value = 200 } } 	type = sleepleader which = -1 }
+		command = { trigger = { IC = { value = 200 } } 	type = sleepleader which = -1 }
+		command = { trigger = { IC = { value = 100 } }	type = sleepleader which = -1 }
+		command = { trigger = { IC = { value = 100 } }	type = sleepleader which = -1 }
+		command = { trigger = { IC = { value =  50 } }	type = sleepleader which = -1 }
+		command = { trigger = { IC = { value =  50 } }	type = sleepleader which = -1 }
+		command = { trigger = { IC = { value =  25 } }	type = sleepleader which = -1 }
+		command = { trigger = { IC = { value =  25 } }	type = sleepleader which = -1 }
+		command = { trigger = { IC = { value =  12 } }	type = sleepleader which = -1 }
+		command = { trigger = { IC = { value =  12 } }	type = sleepleader which = -1 }
+		command = { trigger = {                      }		type = sleepleader which = -1 }
+		command = { trigger = {                      }		type = sleepleader which = -1 }
 		command = { type = local_setflag which = purges_army }
 	}
 }
@@ -3983,12 +3991,12 @@ event = {
 		}
 		ai_chance = 10
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_energy }
 		command = { type = local_setflag which = invest_energy_count when = 1 value = 1 }
 		command = { type = event which = 9000071 where = -1 when = 180 }
@@ -4007,12 +4015,12 @@ event = {
 		}
 		ai_chance = 10
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_metal }
 		command = { type = local_setflag which = invest_metal_count when = 1 value = 1 }
 		command = { type = event which = 9000072 where = -1 when = 180 }
@@ -4031,12 +4039,12 @@ event = {
 		}
 		ai_chance = 60
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_oil }
 		command = { type = local_setflag which = invest_oil_count when = 1 value = 1 }
 		command = { type = event which = 9000073 where = -1 when = 180 }
@@ -4055,12 +4063,12 @@ event = {
 		}
 		ai_chance = 60
 		
-		command = { trigger = { IC = 200 } 						type = money value = -6400 }
-		command = { trigger = { IC = 100 NOT = { IC = 200 } }	type = money value = -3200 }
-		command = { trigger = { IC = 50 NOT = { IC = 100 } }	type = money value = -1600 }
-		command = { trigger = { IC = 25 NOT = { IC = 50 } }		type = money value = -800  }
-		command = { trigger = { IC = 12 NOT = { IC = 25 } }		type = money value = -400  }
-		command = { trigger = { NOT = { IC = 12 } } 			type = money value = -200  }
+		command = { trigger = { IC = { value = 200 } } 									type = money value = -6400 }
+		command = { trigger = { IC = { value = 100 } NOT = { IC = { value = 200 } } }	type = money value = -3200 }
+		command = { trigger = { IC = { value =  50 } NOT = { IC = { value = 100 } } }	type = money value = -1600 }
+		command = { trigger = { IC = { value =  25 } NOT = { IC = { value =  50 } } }	type = money value = -800  }
+		command = { trigger = { IC = { value =  12 } NOT = { IC = { value =  25 } } }	type = money value = -400  }
+		command = { trigger = { NOT = { IC = { value =  12 } } }						type = money value = -200  }
 		command = { type = local_setflag which = invest_rare }
 		command = { type = local_setflag which = invest_rare_count when = 1 value = 1 }
 		command = { type = event which = 9000074 where = -1 when = 180 }
@@ -4081,12 +4089,12 @@ event = {
 		name = "ACTION_NAME_GREAT"
 		command = { type = industrial_modifier which = energy value = 1.00 }
 		
-		command = { trigger = { IC = 200 } 	type = add_prov_resource which = -1 value = 6.0	where = energy } #21.0
-		command = { trigger = { IC = 100 } 	type = add_prov_resource which = -1 value = 5.0	where = energy } #15.0
-		command = { trigger = { IC = 50  } 	type = add_prov_resource which = -1 value = 4.0	where = energy } #10.0
-		command = { trigger = { IC = 25  } 	type = add_prov_resource which = -1 value = 3.0	where = energy } #6.0
-		command = { trigger = { IC = 12  } 	type = add_prov_resource which = -1 value = 2.0	where = energy } #3.0
-		command = { 						type = add_prov_resource which = -1 value = 1.0	where = energy } #1.0
+		command = { trigger = { IC = { value = 200 } } 	type = add_prov_resource which = -1 value = 6.0	where = energy } #21.0
+		command = { trigger = { IC = { value = 100 } } 	type = add_prov_resource which = -1 value = 5.0	where = energy } #15.0
+		command = { trigger = { IC = { value =  50 } } 	type = add_prov_resource which = -1 value = 4.0	where = energy } #10.0
+		command = { trigger = { IC = { value =  25 } } 	type = add_prov_resource which = -1 value = 3.0	where = energy } #6.0
+		command = { trigger = { IC = { value =  12 } } 	type = add_prov_resource which = -1 value = 2.0	where = energy } #3.0
+		command = { 									type = add_prov_resource which = -1 value = 1.0	where = energy } #1.0
 
 		command = { type = local_clrflag which = invest_energy }
 	}
@@ -4106,12 +4114,12 @@ event = {
 		name = "ACTION_NAME_GREAT"
 		command = { type = industrial_modifier which = metal value = 1.00 }
 		
-		command = { trigger = { IC = 200 } 	type = add_prov_resource which = -1 value = 3.0	where = metal } #10.5
-		command = { trigger = { IC = 100 } 	type = add_prov_resource which = -1 value = 2.5	where = metal } #7.5
-		command = { trigger = { IC = 50  } 	type = add_prov_resource which = -1 value = 2.0	where = metal } #5.0
-		command = { trigger = { IC = 25  } 	type = add_prov_resource which = -1 value = 1.5	where = metal } #3.0
-		command = { trigger = { IC = 12  } 	type = add_prov_resource which = -1 value = 1.0	where = metal } #1.5
-		command = { 						type = add_prov_resource which = -1 value = 0.5	where = metal } #0.5
+		command = { trigger = { IC = { value = 200 } } 	type = add_prov_resource which = -1 value = 3.0	where = metal } #10.5
+		command = { trigger = { IC = { value = 100 } } 	type = add_prov_resource which = -1 value = 2.5	where = metal } #7.5
+		command = { trigger = { IC = { value =  50 } } 	type = add_prov_resource which = -1 value = 2.0	where = metal } #5.0
+		command = { trigger = { IC = { value =  25 } } 	type = add_prov_resource which = -1 value = 1.5	where = metal } #3.0
+		command = { trigger = { IC = { value =  12 } } 	type = add_prov_resource which = -1 value = 1.0	where = metal } #1.5
+		command = { 									type = add_prov_resource which = -1 value = 0.5	where = metal } #0.5
 
 		command = { type = local_clrflag which = invest_metal }
 	}
@@ -4131,12 +4139,12 @@ event = {
 		name = "ACTION_NAME_GREAT"
 		command = { type = industrial_modifier which = oil value = 1.00 }
 		
-		command = { trigger = { IC = 200 } 	type = add_prov_resource which = -1 value = 1.5	where = oil } #5.3
-		command = { trigger = { IC = 100 } 	type = add_prov_resource which = -1 value = 1.3	where = oil } #3.8
-		command = { trigger = { IC = 50  } 	type = add_prov_resource which = -1 value = 1.0	where = oil } #2.5
-		command = { trigger = { IC = 25  } 	type = add_prov_resource which = -1 value = 0.8	where = oil } #1.5
-		command = { trigger = { IC = 12  } 	type = add_prov_resource which = -1 value = 0.5	where = oil } #0.8
-		command = { 						type = add_prov_resource which = -1 value = 0.3	where = oil } #0.3
+		command = { trigger = { IC = { value = 200 } } 	type = add_prov_resource which = -1 value = 1.5	where = oil } #5.3
+		command = { trigger = { IC = { value = 100 } } 	type = add_prov_resource which = -1 value = 1.3	where = oil } #3.8
+		command = { trigger = { IC = { value =  50 } } 	type = add_prov_resource which = -1 value = 1.0	where = oil } #2.5
+		command = { trigger = { IC = { value =  25 } } 	type = add_prov_resource which = -1 value = 0.8	where = oil } #1.5
+		command = { trigger = { IC = { value =  12 } } 	type = add_prov_resource which = -1 value = 0.5	where = oil } #0.8
+		command = { 									type = add_prov_resource which = -1 value = 0.3	where = oil } #0.3
 
 		command = { type = local_clrflag which = invest_oil }
 	}
@@ -4156,12 +4164,12 @@ event = {
 		name = "ACTION_NAME_GREAT"
 		command = { type = industrial_modifier which = rare_materials value = 1.00 }
 		
-		command = { trigger = { IC = 200 } 	type = add_prov_resource which = -1 value = 1.5	where = rare_materials } #5.3
-		command = { trigger = { IC = 100 } 	type = add_prov_resource which = -1 value = 1.3	where = rare_materials } #3.8
-		command = { trigger = { IC = 50  } 	type = add_prov_resource which = -1 value = 1.0	where = rare_materials } #2.5
-		command = { trigger = { IC = 25  } 	type = add_prov_resource which = -1 value = 0.8	where = rare_materials } #1.5
-		command = { trigger = { IC = 12  } 	type = add_prov_resource which = -1 value = 0.5	where = rare_materials } #0.8
-		command = { 						type = add_prov_resource which = -1 value = 0.3	where = rare_materials } #0.3
+		command = { trigger = { IC = { value = 200 } } 	type = add_prov_resource which = -1 value = 1.5	where = rare_materials } #5.3
+		command = { trigger = { IC = { value = 100 } } 	type = add_prov_resource which = -1 value = 1.3	where = rare_materials } #3.8
+		command = { trigger = { IC = { value =  50 } } 	type = add_prov_resource which = -1 value = 1.0	where = rare_materials } #2.5
+		command = { trigger = { IC = { value =  25 } } 	type = add_prov_resource which = -1 value = 0.8	where = rare_materials } #1.5
+		command = { trigger = { IC = { value =  12 } } 	type = add_prov_resource which = -1 value = 0.5	where = rare_materials } #0.8
+		command = { 									type = add_prov_resource which = -1 value = 0.3	where = rare_materials } #0.3
 
 		command = { type = local_clrflag which = invest_rare }
 	}

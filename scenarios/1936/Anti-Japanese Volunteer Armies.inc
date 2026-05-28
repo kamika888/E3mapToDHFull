@@ -367,8 +367,9 @@ country =
        id         = {  type = 22302 id = 41  } 
        name       = "Korean People's Revolutionary Army" 
        type       = bergsjaeger 
-       strength   = 60 
+       strength   = 40 
        model      = 7 
+	   max_strength = 70 
 	   dormant    = yes
       } 
     landunit = 
@@ -381,6 +382,7 @@ country =
        name       = "Liaoning Salvation Army" 
        type       = bergsjaeger 
        strength  = 60 
+	   max_strength = 70 
        model      = 7 
       } 
      dig_in   = 20.000 

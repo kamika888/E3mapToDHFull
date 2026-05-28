@@ -387,7 +387,7 @@ event = {
     } 
 }
 
-
+#Paris open city
 
 event = {
 	id = 2002035
@@ -4889,7 +4889,7 @@ event = {
 		command = { type = end_non_aggression which = VIC where = UPE }
 		command = { type = end_non_aggression which = VIC where = UTC }
 		command = { type = dissent value = -100 } 
-		command = { type = dissent value =   10 }
+		command = { type = dissent value =   20 }
 		
 		#Giraud
 		command = { type = sleepminister	which = 5162 }
@@ -4920,11 +4920,6 @@ event = {
 		NOT = { event = 984 } #reunification of france
 		NOT = { event = 2003100 } #end of war
 		puppet = { country = VIC country = GER }
-		OR = {
-			army = 61 #potentially over 800,000 men
-			garrison = { country = VIC province = 360 type = land size = 24 area = 3 }
-			NOT = { garrison = { country = VIC province = 360 type = land size = 10 area = 3 } }
-		}
 	}
 
 	date = { day = 0 month = january year = 1936 }
@@ -4935,7 +4930,30 @@ event = {
 	desc = EVT_970_DESC
 
 	action = {
-		name = ACTION_NAME_OK
+		name = "Army size exceeds 65 divisions"
+		trigger = {
+			army = 66 #potentially over 800,000 men
+		}
+		command = { type = local_setflag which = armisticeCheck  }
+		command = { type = set_relation which = GER value = -30 }
+		command = { type = event which = 971 where = -1 when = 15 }
+		command = { type = event which = 972 where = -1 when = 15 }
+	}
+	action = {
+		name = "More than 25 divisions stationed at home"
+		trigger = {
+			garrison = { country = VIC province = 360 type = land size = 26 area = 3 }
+		}
+		command = { type = local_setflag which = armisticeCheck  }
+		command = { type = set_relation which = GER value = -30 }
+		command = { type = event which = 971 where = -1 when = 15 }
+		command = { type = event which = 972 where = -1 when = 15 }
+	}
+	action = {
+		name = "Less than 10 divisions stationed at home"
+		trigger = {
+			NOT = { garrison = { country = VIC province = 360 type = land size = 10 area = 3 } }
+		}
 		command = { type = local_setflag which = armisticeCheck  }
 		command = { type = set_relation which = GER value = -30 }
 		command = { type = event which = 971 where = -1 when = 15 }
@@ -4958,8 +4976,8 @@ event = {
 		name = ACTION_NAME_GREAT
 		trigger = { 
 			NOT = {
-				army = 61 #potentially over 800,000 men
-				garrison = { country = VIC province = 360 type = land size = 24 area = 3 }
+				army = 66 #potentially over 800,000 men
+				garrison = { country = VIC province = 360 type = land size = 26 area = 3 }
 				NOT = { garrison = { country = VIC province = 360 type = land size = 10 area = 3 } }
 			}
 		}
@@ -4980,13 +4998,29 @@ event = {
 	desc = EVT_972_DESC
 
 	action = {
-		name = ACTION_NAME_DAMN
+		name = "Army size exceeds 65 divisions"
 		trigger = {
-			OR = {
-				army = 61 #potentially over 800,000 men
-				garrison = { country = VIC province = 360 type = land size = 21 area = 3 }
-				NOT = { garrison = { country = VIC province = 360 type = land size = 10 area = 3 } }
-			}
+			army = 66 #potentially over 800,000 men
+		}
+		command = { type = local_clrflag which = armisticeCheck  }
+		#command = { type = end_puppet }
+		command = { type = set_relation which = GER value = -100 }
+		command = { type = event which = 2002049 where = VIC when = 0 } #Vichy coup (chance of failure 15%, will happen though again if the problem is not resolved)
+	}
+	action = {
+		name = "More than 25 divisions stationed at home"
+		trigger = {
+			garrison = { country = VIC province = 360 type = land size = 26 area = 3 }
+		}
+		command = { type = local_clrflag which = armisticeCheck  }
+		#command = { type = end_puppet }
+		command = { type = set_relation which = GER value = -100 }
+		command = { type = event which = 2002049 where = VIC when = 0 } #Vichy coup (chance of failure 15%, will happen though again if the problem is not resolved)
+	}
+	action = {
+		name = "Less than 10 divisions stationed at home"
+		trigger = {
+			NOT = { garrison = { country = VIC province = 360 type = land size = 10 area = 3 } }
 		}
 		command = { type = local_clrflag which = armisticeCheck  }
 		#command = { type = end_puppet }
@@ -6018,10 +6052,8 @@ event = {
 		alliance = { country = VIC }
 		control = { province = 56 data = -3 } #Paris
 		region = { region = "France" country = -3 value = 80 }
-		OR = {
-			region = { region = "Benelux" country = -3 value = 50 }
-			region = { region = "Germany" country = -3 value = 10 }
-		}
+		#region = { region = "Benelux" country = -3 value = 50 }
+		region = { region = "Germany" country = -3 value = 30 }
 	}
 
 	date = { day = 0 month = january year = 1936 }
