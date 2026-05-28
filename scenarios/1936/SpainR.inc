@@ -697,5 +697,9 @@ inventions = { 3000027 }
 	landdivision = { dormant = yes id = { type = 27600 id = 621 }  name = "7th PCE-JSU Mil. Div."				type = militia		model = 5 	strength = 50	experience = 90			} 
 	
 	landdivision = { dormant = yes id = { type = 27600 id = 630 }  name = "Madrid Garrison"		locked = yes	type = garrison		model = 4 	strength = 50	experience = 10 		} 
+	
+	landdivision = { dormant = yes id = { type = 27600 id = 640 }  name = "9th Division"						type = infantry		model = 9 	strength = 70	experience = 60	extra = artillery	brigade_model = 7	locked = yes	} 
+	landdivision = { dormant = yes id = { type = 27600 id = 641 }  name = "5th UGT-PSOE Mil. Div."				type = militia		model = 5 	strength = 50	experience = 60											locked = yes	} 
+	landdivision = { dormant = yes id = { type = 27600 id = 642 }  name = "Toledo Garrison"						type = garrison		model = 5 	strength = 50	experience = 60											locked = yes	}
   } 
  

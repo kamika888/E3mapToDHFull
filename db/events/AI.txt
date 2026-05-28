@@ -6824,54 +6824,6 @@ event = {
 		local_flag = AllInit
 		year = 1942
 		NOT = { local_flag = AI_Panic_Low }
-		#try to avoid rebels triggering this too...
-		OR = {
-			AND = {
-				NOT = { local_flag = AI_Panic_Germany }
-						region	= { region = "Germany" 		country = -2 	data = 1 value = 1  }
-				NOT = { region	= { region = "Germany" 		country = REB 	data = 1 value = 1  } }
-			}
-			AND = {
-				NOT = { local_flag = AI_Panic_Italy }
-				event = 2006016 #Italy switched sides
-			}
-			#AND = {
-			#	NOT = { local_flag = AI_Panic_Italy }
-			#			area	= { area = "South Italy"	country = -2 	data = 1 value = 1  }
-			#	NOT = { area	= { area = "South Italy"	country = REB 	data = 1 value = 1  } }
-			#}
-			#AND = {
-			#	NOT = { local_flag = AI_Panic_Italy }
-			#			area	= { area = "Central Italy"	country = -2 	data = 1 value = 1  }
-			#	NOT = { area	= { area = "Central Italy"	country = REB 	data = 1 value = 1  } }
-			#}
-			#AND = {
-			#	NOT = { local_flag = AI_Panic_Italy }
-			#			area	= { area = "North Italy"	country = -2 	data = 1 value = 1  }
-			#	NOT = { area	= { area = "North Italy"	country = REB 	data = 1 value = 1  } }
-			#}
-			AND = {
-				NOT = { local_flag = AI_Panic_Sicily }
-				OR = {
-					event	= 2405060
-					area	= { area = "Sicilian Gap"	country = -2 data = 1 value = 40 }
-				}
-			}
-			AND = {
-				NOT = { local_flag = AI_Panic_France }
-				event = { id = 2002004 days = 360 } #France fell
-						region = { region = "France" 		country = -2 	data = 1 value = 1 }
-				NOT = { region = { region = "France" 		country = REB	data = 1 value = 1 } }
-			}
-			AND = {
-				NOT = { local_flag = AI_Panic_Yugoslavia }
-						war		= { country = U27 }
-			}
-			AND = {
-				NOT = { local_flag = AI_Panic_Greece }
-						war		= { country = U33 }
-			}
-		}
 	}
 
 	name = "AI_EVENT"
@@ -6879,63 +6831,83 @@ event = {
 	date = { day = 1 month = january year = 1936 }
 	offset = 5
 	deathdate = { day = 29 month = december year = 1963 }
-
+	
 	action = {
-		command = { trigger = {
-						NOT = { local_flag = AI_Panic_Germany }
-								region	= { region = "Germany" 		country = -2 	data = 1 value = 1  }
-						NOT = { region	= { region = "Germany" 		country = REB 	data = 1 value = 1  } }
-					}
-					type = local_setflag which = AI_Panic_Germany }
-	
-		command = { trigger = {
-						NOT = { local_flag = AI_Panic_Italy }
-						OR = {
-							event = 2006016 #Italy switched sides
-							#AND = {
-							#			area	= { area = "South Italy"	country = -2 	data = 1 value = 1  }
-							#	NOT = { area	= { area = "South Italy"	country = REB 	data = 1 value = 1  } }
-							#}
-							#AND = {
-							#			area	= { area = "Central Italy"	country = -2 	data = 1 value = 1  }
-							#	NOT = { area	= { area = "Central Italy"	country = REB 	data = 1 value = 1  } }
-							#}
-							#AND = {
-							#			area	= { area = "North Italy"	country = -2 	data = 1 value = 1  }
-							#	NOT = { area	= { area = "North Italy"	country = REB 	data = 1 value = 1  } }
-							#}
-						}
-					}
-					type = local_setflag which = AI_Panic_Italy }
-		command = { trigger = {
-						NOT = { local_flag = AI_Panic_Sicily }
-						OR = {
-							event	= 2405060
-							area	= { area = "Sicilian Gap"	country = -2 data = 1 value = 40 }
-						}
-					}
-					type = event which = 2401221 where = GER when = 0  }
-					
-		command = { trigger = {
-						NOT = { local_flag = AI_Panic_France }
-						event = { id = 2002004 days = 360 } #France fell
-								region = { region = "France" 		country = -2 	data = 1 value = 1 }
-						NOT = { region = { region = "France" 		country = REB	data = 1 value = 1 } }
-					}
-					type = local_setflag which = AI_Panic_France }
-					
-		command = { trigger = {
-						NOT = { local_flag = AI_Panic_Yugoslavia }
-						war		= { country = U27 }
-					}
-					type = local_setflag which = AI_Panic_Yugoslavia }
-					
-		command = { trigger = {
-						NOT = { local_flag = AI_Panic_Greece }
-						war		= { country = U33 }
-					}
-					type = local_setflag which = AI_Panic_Greece }
-	
+		trigger = {
+			NOT = { local_flag = AI_Panic_Sicily }
+			OR = {
+				event	= 2405060
+				area	= { area = "Sicilian Gap"	country = -2 data = 1 value = 40 }
+			}
+		}
+
+		command = {	type = local_setflag which = AI_Panic_Sicily }
+		command = { type = event which = 2401221 where = GER when = 0  }
+	}
+	action = {
+		trigger = {
+			NOT = { local_flag = AI_Panic_Germany }
+					region	= { region = "Germany" 		country = -2 	data = 1 value = 1  }
+			NOT = { region	= { region = "Germany" 		country = REB 	data = 1 value = 1  } }
+		}
+		
+		command = {	type = local_setflag which = AI_Panic_Germany }
+		command = { type = event which = 2400036 where = GER when = 0  } #
+		command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
+	}
+	action = {
+		trigger = {
+			NOT = { local_flag = AI_Panic_Italy }
+			OR = {
+				event = 2006016 #Italy switched sides
+				#AND = {
+				#			area	= { area = "South Italy"	country = -2 	data = 1 value = 1  }
+				#	NOT = { area	= { area = "South Italy"	country = REB 	data = 1 value = 1  } }
+				#}
+				#AND = {
+				#			area	= { area = "Central Italy"	country = -2 	data = 1 value = 1  }
+				#	NOT = { area	= { area = "Central Italy"	country = REB 	data = 1 value = 1  } }
+				#}
+				#AND = {
+				#			area	= { area = "North Italy"	country = -2 	data = 1 value = 1  }
+				#	NOT = { area	= { area = "North Italy"	country = REB 	data = 1 value = 1  } }
+				#}
+			}
+		}
+		
+		command = {	type = local_setflag which = AI_Panic_Italy }
+		command = { type = event which = 2400036 where = GER when = 0  } #
+		command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
+	}
+	action = {
+		trigger = {
+			NOT = { local_flag = AI_Panic_France }
+			event = { id = 2002004 days = 360 } #France fell
+					region = { region = "France" 		country = -2 	data = 1 value = 1 }
+			NOT = { region = { region = "France" 		country = REB	data = 1 value = 1 } }
+		}
+		
+		command = {	type = local_setflag which = AI_Panic_France }
+		command = { type = event which = 2400036 where = GER when = 0  } #
+		command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
+	}
+	action = {
+		trigger = {
+			NOT = { local_flag = AI_Panic_Yugoslavia }
+			war		= { country = U27 }
+		}
+		
+		command = {	type = local_setflag which = AI_Panic_Yugoslavia }
+		command = { type = event which = 2400036 where = GER when = 0  } #
+		command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
+	}			
+	action = {
+		trigger = {
+			NOT = { local_flag = AI_Panic_Greece }
+			war		= { country = U33 }
+		}
+		
+		command = {	type = local_setflag which = AI_Panic_Greece }
 		command = { type = event which = 2400036 where = GER when = 0  } #
 		command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
 	}
@@ -6955,6 +6927,7 @@ event = {
 		command = { trigger = { mechanized = 1 }							type = demobilize 	which = mechanized	when = 1 where = 1 value = -1 }
 		command = { trigger = { NOT = { mechanized = 1 } }					type = demobilize 	which = motorized	when = 1 where = 1 value = -1 }
 		command = { 														type = demobilize 	which = armor		when = 1 where = 1 value = -1 }
+		command = { 														type = demobilize 	which = paratrooper	when = 1 where = 1 value = -1 }
 	
 		#command = { trigger = { control = { province = 526	data = -3 } }	type = add_corps 	value = land 		when = 9		which = "XIV. Panzerkorps"						where = 526	 			 } #Balck
 		#command = { trigger = { control = { province = 526	data = -3 } }	type = add_corps 	value = land 		when = 249		which = "XIV. Panzerkorps"						where = 526	 			 } #Senger und Etterlin
@@ -6964,8 +6937,8 @@ event = {
 		command = { trigger = { control = { province = 544	data = -3 } }	type = add_corps 	value = land 		when = 156		which = "XIV. Panzerkorps"						where = 544	 			 } #Kesselring
 		command = { 														type = add_division value = hq			when = 3		which = "XIV. Panzerkorps"						where = sp_anti_air 	 }
 		command = { 														type = add_division value = mechanized	when = 0		which = "15. Panzergrenadier-Division"			where = -50				 }
-		command = { 														type = add_division value = armor		when = 2		which = "Fallschirm Pz-Div. 'Hermann Gцring'"	where = -50				 }
-		#command = { 														type = add_division value = armor		when = 2		which = "16. Panzer-Division"					where = -50				 }
+		command = { 														type = add_division value = paratrooper	when = 1		which = "Fallschirm Pz-Div. 'Hermann Goring'"	where = glider_armor	 }
+		command = { 														type = add_division value = armor		when = 2		which = "16. Panzer-Division"					where = -50				 }
 		
 		#command = { trigger = { control = { province = 544	data = -3 } }	type = add_corps 	value = land 		when = 134		which = "LXXVI Panzerkorps"						where = 544				 } #Herr
 		#command = { 														type = add_division value = paratrooper	when = 1		which = "7. Flieger-Division"					where = glider_artillery }
@@ -6975,8 +6948,63 @@ event = {
 		
 		
 		#command = { trigger = { ai = ITA } type = event	which = 2400044 where = ITA when = 0 } #40 exp
+	}
+}
+
+event = {
+	id = 2401222
+	random = no 
+	country = USA
+	
+	trigger = {	
+		ai = yes
+		event	= 2405060
+		control = { province = 526	data = -3 }
+		control = { province = 524	data = -3 }
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 4
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	action = {
+		command = { type = strength which = land when = 1 where = 0 		  value = -0.1 } 
+		command = { type = strength which = land when = 1 where = 0 org = 100 value =  0.1 } 
+		command = { type = shore_attack which = land value = 100 }
 		
-		command = {	type = local_setflag which = AI_Panic_Sicily }
+		command = { trigger = { ai = ENG } type = event	which = 2401223 where = ENG when = 0 }
+		
+		command = { type = event	which = 2401224 where = USA when = 30 }
+	}
+}
+
+event = {
+	id = 2401223
+	random = no 
+	country = ENG
+	
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = strength which = land when = 1 where = 0 		  value = -0.1 } 
+		command = { type = strength which = land when = 1 where = 0 org = 100 value =  0.1 } 
+		command = { type = shore_attack which = land value = 100 }
+		
+		command = { type = event	which = 2401224 where = ENG when = 30 }
+	}
+}
+
+event = {
+	id = 2401224
+	random = no 
+	persistent = yes
+		
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = shore_attack which = land value = -100 }
 	}
 }
 
@@ -11153,6 +11181,55 @@ event = {
 		command = { type = unlock_division which = 27600 value = 701 }
 		command = { type = unlock_division which = 27600 value = 702 }
 		command = { type = unlock_division which = 27600 value = 703 }
+	}
+}
+
+#Can move Toledo
+
+event = {
+	id = 2401617
+	random = no
+	country = SPR
+
+	trigger = {
+		local_flag = AllInit
+		control = { province = 342  data = -3 }	
+		OR = {
+			ai = no
+			flag = { which = SPASnowball when = 1 value = 1 }
+			AND = {
+				year = 1937
+				control = { province = 3194 data = -3 }	
+				control = { province = 3197 data = -3 }
+				control = { province = 7164 data = -3 }
+				control = { province = 353  data = -3 }	
+				control = { province = 3192 data = -3 }	
+				
+			}
+			AND = {
+				control = { province = 3194 data = -2 }
+				control = { province = 3197 data = -2 }
+				control = { province = 7164 data = -2 }
+				control = { province = 353  data = -2 }
+				OR = {
+					control = { province = 3193 data = -2 }
+					control = { province = 341  data = -2 }
+				}
+			}
+		}
+	}
+   
+	name = AI_EVENT
+
+	date = { day = 1 month = january year = 1914 }
+	offset = 5
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {
+		command = { type = unlock_division which = 27600 value = 640 }
+		command = { type = unlock_division which = 27600 value = 641 }
+		command = { type = unlock_division which = 27600 value = 642 }
+		command = { type = unlock_division which = 27600 value = 643 }
 	}
 }
 

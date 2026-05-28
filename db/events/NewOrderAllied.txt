@@ -1184,6 +1184,7 @@ event = {
 		command = { type = secederegion which = SOV value = "Belarus"			when = 1 }
 		command = { type = secederegion which = SOV value = "Ukraine"			when = 1 }
 		command = { type = secederegion which = SOV value = "Baltic States"		when = 1 }
+		command = { type = secederegion which = SOV value = "Poland"			when = 1 }
 		
 		
 		#Undo "destroyers for bases"
@@ -5736,17 +5737,36 @@ event = {
 			participant = { value = 3 }
 		}
 		NOT = { axis = 1 }
-		NOT = {
-			ispuppet = yes 
-			continent = "Europe"
-			continent = "Asia"
-			country = USA
-			country = CAN
-			country = TUR
+		NOT = { ispuppet = yes }
+		OR = {
+			NOT = {
+				continent = "Europe"
+				continent = "Asia"
+				country = USA
+				country = CAN
+				country = TUR
+			}
+			AND = {
+				participant = { value = 1 }
+				OR = {
+					ideology = left_wing_radical
+					ideology = leninist
+					ideology = stalinist
+				}
+			}
+			AND = {
+				participant = { value = 3 }
+				NOT = {
+					ideology = social_democrat
+					ideology = left_wing_radical
+					ideology = leninist
+					ideology = stalinist
+				}
+			}
 		}
 	}
 
-	date = { day = 0 month = january year = 1944 }
+	date = { day = 0 month = january year = 1943 }
 	offset = 15
 	deathdate = { day = 29 month = december year = 1963 }
 
@@ -6033,7 +6053,7 @@ event = {
 			country = U56
 			AND = {
 				continent = "Europe"
-				NOT = { country = U27 }
+				NOT = { policy = { type = political_left value = 8 } }
 			}
 		}
 		OR = {
@@ -6069,7 +6089,7 @@ event = {
 			country = U56
 			AND = {
 				continent = "Europe"
-				NOT = { country = U27 }
+				NOT = { policy = { type = political_left value = 8 } }
 			}
 		}
 		OR = {
