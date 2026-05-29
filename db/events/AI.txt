@@ -6843,17 +6843,10 @@ event = {
 
 		command = {	type = local_setflag which = AI_Panic_Sicily }
 		command = { type = event which = 2401221 where = GER when = 0  }
-	}
-	action = {
-		trigger = {
-			NOT = { local_flag = AI_Panic_Germany }
-					region	= { region = "Germany" 		country = -2 	data = 1 value = 1  }
-			NOT = { region	= { region = "Germany" 		country = REB 	data = 1 value = 1  } }
-		}
 		
-		command = {	type = local_setflag which = AI_Panic_Germany }
-		command = { type = event which = 2400036 where = GER when = 0  } #
-		command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
+		#No panic at this stage
+		#command = { type = event which = 2400036 where = GER when = 0  } #
+		#command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
 	}
 	action = {
 		trigger = {
@@ -6875,6 +6868,9 @@ event = {
 			}
 		}
 		
+		#Panic deployment is triggered as part of Italy surrender event
+		#command = { type = event which = 2401222 where = GER when = 0  }
+		
 		command = {	type = local_setflag which = AI_Panic_Italy }
 		command = { type = event which = 2400036 where = GER when = 0  } #
 		command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
@@ -6887,6 +6883,8 @@ event = {
 			NOT = { region = { region = "France" 		country = REB	data = 1 value = 1 } }
 		}
 		
+		command = { trigger = { NOT = { event = 2405050 } } type = event which = 2401223 where = GER when = 5  } #If hasn't been triggered already
+		
 		command = {	type = local_setflag which = AI_Panic_France }
 		command = { type = event which = 2400036 where = GER when = 0  } #
 		command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
@@ -6896,6 +6894,9 @@ event = {
 			NOT = { local_flag = AI_Panic_Yugoslavia }
 			war		= { country = U27 }
 		}
+		
+		#Panic deployment is triggered as part of U27 Partisan event
+		#command = { type = event which = 2401225 where = GER when = 3 } 
 		
 		command = {	type = local_setflag which = AI_Panic_Yugoslavia }
 		command = { type = event which = 2400036 where = GER when = 0  } #
@@ -6907,13 +6908,27 @@ event = {
 			war		= { country = U33 }
 		}
 		
+		#Panic deployment is triggered as part of U33 Partisan event
+		#command = { type = event which = 2401227 where = GER when = 3 } 
+		
 		command = {	type = local_setflag which = AI_Panic_Greece }
+		command = { type = event which = 2400036 where = GER when = 0  } #
+		command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
+	}
+	action = {
+		trigger = {
+			NOT = { local_flag = AI_Panic_Germany }
+					region	= { region = "Germany" 		country = -2 	data = 1 value = 1  }
+			NOT = { region	= { region = "Germany" 		country = REB 	data = 1 value = 1  } }
+		}
+		
+		command = {	type = local_setflag which = AI_Panic_Germany }
 		command = { type = event which = 2400036 where = GER when = 0  } #
 		command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
 	}
 }
 
-#Sicily deployment
+#Husky panic deployment
 
 event = {
 	id = 2401221
@@ -6923,11 +6938,11 @@ event = {
 	name = "AI_EVENT"
 	
 	action = {
-		command = { 														type = demobilize 	which = hq 			when = 1 where = 1 value = -1 }
-		command = { trigger = { mechanized = 1 }							type = demobilize 	which = mechanized	when = 1 where = 1 value = -1 }
-		command = { trigger = { NOT = { mechanized = 1 } }					type = demobilize 	which = motorized	when = 1 where = 1 value = -1 }
-		command = { 														type = demobilize 	which = armor		when = 1 where = 1 value = -1 }
-		command = { 														type = demobilize 	which = paratrooper	when = 1 where = 1 value = -1 }
+		command = { 														type = demobilize 	which = hq 			when = 0 where = 1 value = -1 }
+		command = { trigger = { mechanized = 1 }							type = demobilize 	which = mechanized	when = 0 where = 1 value = -1 }
+		command = { trigger = { NOT = { mechanized = 1 } }					type = demobilize 	which = motorized	when = 0 where = 1 value = -1 }
+		command = { 														type = demobilize 	which = armor		when = 0 where = 1 value = -1 }
+		command = { 														type = demobilize 	which = paratrooper	when = 0 where = 1 value = -1 }
 	
 		#command = { trigger = { control = { province = 526	data = -3 } }	type = add_corps 	value = land 		when = 9		which = "XIV. Panzerkorps"						where = 526	 			 } #Balck
 		#command = { trigger = { control = { province = 526	data = -3 } }	type = add_corps 	value = land 		when = 249		which = "XIV. Panzerkorps"						where = 526	 			 } #Senger und Etterlin
@@ -6940,73 +6955,497 @@ event = {
 		command = { 														type = add_division value = paratrooper	when = 1		which = "Fallschirm Pz-Div. 'Hermann Goring'"	where = glider_armor	 }
 		command = { 														type = add_division value = armor		when = 2		which = "16. Panzer-Division"					where = -50				 }
 		
-		#command = { trigger = { control = { province = 544	data = -3 } }	type = add_corps 	value = land 		when = 134		which = "LXXVI Panzerkorps"						where = 544				 } #Herr
-		#command = { 														type = add_division value = paratrooper	when = 1		which = "7. Flieger-Division"					where = glider_artillery }
-		#command = { 														type = add_division value = mechanized	when = 0		which = "29. Panzergrenadier-Division"			where = -50				 }
-		#command = { 														type = add_division value = armor		when = 2		which = "26. Panzer-Division"					where = -50				 }
-		#command = { 														type = add_division value = infantry	when = 11		which = "65. Infanterie-Division"				where = -50				 }
-		
-		
+		#Causes problems either way, but 0 exp is still preferable
 		#command = { trigger = { ai = ITA } type = event	which = 2400044 where = ITA when = 0 } #40 exp
 	}
 }
 
+#Avalanche panic deployment
+
 event = {
 	id = 2401222
 	random = no 
-	country = USA
+	country = GER
 	
-	trigger = {	
-		ai = yes
-		event	= 2405060
-		control = { province = 526	data = -3 }
-		control = { province = 524	data = -3 }
-	}
-
 	name = "AI_EVENT"
 	
-	date = { day = 1 month = january year = 1936 }
-	offset = 4
-	deathdate = { day = 29 month = december year = 1963 }
-	
 	action = {
-		command = { type = strength which = land when = 1 where = 0 		  value = -0.1 } 
-		command = { type = strength which = land when = 1 where = 0 org = 100 value =  0.1 } 
-		command = { type = shore_attack which = land value = 100 }
+		command = { 														type = demobilize 	which = infantry	when = 0 where = 1 value = -5 }
 		
-		command = { trigger = { ai = ENG } type = event	which = 2401223 where = ENG when = 0 }
+		#The enemy gains the same amount
+		command = { 														type = add_corps 	value = land where = 515 } #Rome
+		command = { 														type = add_division value = infantry when = 11 }
+		command = { 														type = add_division value = infantry when = 11 }
+		command = { trigger = { control = { province = 520	data = RSI } }	type = add_corps 	value = land where = 520 }
+		command = { 														type = add_division value = infantry when = 11 }
+		command = { 														type = add_division value = infantry when = 11 }
+		command = { trigger = { control = { province = 521	data = RSI } }	type = add_corps 	value = land where = 521 }
+		command = { 														type = add_division value = infantry when = 11 }
+		command = { trigger = { control = { province = 522	data = RSI } }	type = add_corps 	value = land where = 522 }
+		command = { 														type = add_division value = infantry when = 11 }
 		
-		command = { type = event	which = 2401224 where = USA when = 30 }
+		command = { trigger = { control = { province = 522	data = RSI } }	type = add_corps 	value = land 		when = 134		which = "LXXVI Panzerkorps"						where = 522				 } #Herr
+		command = { 														type = add_division value = paratrooper	when = 1		which = "7. Flieger-Division"					where = glider_artillery }
+		command = { trigger = { control = { province = 521	data = RSI } }	type = add_corps 	value = land 		when = 134		which = "LXXVI Panzerkorps"						where = 521				 } #Herr
+		command = { 														type = add_division value = mechanized	when = 0		which = "29. Panzergrenadier-Division"			where = -50				 }
+		command = { trigger = { control = { province = 520	data = RSI } }	type = add_corps 	value = land 		when = 134		which = "LXXVI Panzerkorps"						where = 520				 } #Herr
+		command = { 														type = add_division value = armor		when = 2		which = "26. Panzer-Division"					where = -50				 }
+		command = { 														type = add_division value = infantry	when = 11		which = "65. Infanterie-Division"				where = -50				 }
+		
+		#Causes problems either way, but 0 exp is still preferable
+		#command = { trigger = { ai = ITA } type = event	which = 2400044 where = ITA when = 0 } #40 exp
 	}
 }
+
+#Overlord panic deployment
 
 event = {
 	id = 2401223
 	random = no 
-	country = ENG
+	country = GER
 	
 	name = "AI_EVENT"
 	
 	action = {
-		command = { type = strength which = land when = 1 where = 0 		  value = -0.1 } 
-		command = { type = strength which = land when = 1 where = 0 org = 100 value =  0.1 } 
-		command = { type = shore_attack which = land value = 100 }
+		command = { 														type = demobilize 	which = hq 			when = 0 where = 1 value = -1 }
+		command = { 														type = demobilize 	which = paratrooper	when = 0 where = 1 value = -1 }
+		command = { 														type = demobilize 	which = armor		when = 0 where = 1 value = -2 }
+		command = { 														type = demobilize 	which = infantry	when = 0 where = 1 value = -4 }
 		
-		command = { type = event	which = 2401224 where = ENG when = 30 }
+		command = { trigger = { control = { province = 56	data = -3 } 									    }	type = add_corps	value = land	when = 334	which = "Oberbefehlshaber West"	where = 56	 } #Rundstedt
+		command = { trigger = { control = { province = 45	data = -3 } control = { province = 43	data = -2 } }	type = add_corps	value = land	when = 334	which = "Oberbefehlshaber West"	where = 45	 } #Rundstedt
+		command = { trigger = { control = { province = 41	data = -3 } control = { province = 39	data = -2 } }	type = add_corps	value = land	when = 334	which = "Oberbefehlshaber West"	where = 41	 } #Rundstedt
+		command = { trigger = { control = { province = 3157	data = -3 } control = { province = 32	data = -2 } }	type = add_corps	value = land	when = 334	which = "Oberbefehlshaber West"	where = 3157 } #Rundstedt
+		command = { trigger = { control = { province = 7119	data = -3 } control = { province = 334	data = -2 } }	type = add_corps	value = land	when = 334	which = "Oberbefehlshaber West"	where = 7119 } #Rundstedt
+
+		command = { 														type = add_division value = hq			when = 3		which = "7. Armee"								where = sp_anti_air 	 }
+		command = { 														type = add_division value = infantry	when = 11		which = "709. Infanterie-Division"										 }
+		command = { 														type = add_division value = infantry	when = 11		which = "352. Infanterie-Division"										 }
+		command = { 														type = add_division value = infantry	when = 11		which = "716. Infanterie-Division"				where = -50				 }
+		command = { 														type = add_division value = infantry	when = 11		which = "243. Infanterie-Division"										 }
+		command = { 														type = add_division value = paratrooper	when = 1		which = "91. Luftlande-Division"										 }
+		command = { 														type = add_division value = armor		when = 2		which = "21. Panzer Division"					where = -20				 }
+		command = { 														type = add_division value = armor		when = 2		which = "12. SS-Panzer-Division 'Hitlerjugend'"	where = -20				 }
 	}
 }
+
+#Dragoon panic deployment
 
 event = {
 	id = 2401224
 	random = no 
-	persistent = yes
-		
+	country = GER
+	
 	name = "AI_EVENT"
 	
 	action = {
-		command = { type = shore_attack which = land value = -100 }
+		command = { 														type = demobilize 	which = hq 			when = 0 where = 1 value = -1 }
+		command = { 														type = demobilize 	which = bergsjaeger	when = 0 where = 1 value = -1 }
+		command = { 														type = demobilize 	which = armor		when = 0 where = 1 value = -1 }
+		command = { 														type = demobilize 	which = infantry	when = 0 where = 1 value = -5 }
+		
+		command = { trigger = { control = { province = 531	data = -3 } 									    }	type = add_corps	value = land	when = 20	which = "Armeegruppe G"	where = 531	 } #Blaskowitz
+		command = { trigger = { control = { province = 6549	data = -3 } control = { province = 366	data = -2 } }	type = add_corps	value = land	when = 20	which = "Armeegruppe G"	where = 6549 } #Blaskowitz
+		command = { trigger = { control = { province = 366	data = -3 } control = { province = 365	data = -2 } }	type = add_corps	value = land	when = 20	which = "Armeegruppe G"	where = 366	 } #Blaskowitz
+		command = { trigger = { control = { province = 3140	data = -3 } control = { province = 362	data = -2 } }	type = add_corps	value = land	when = 20	which = "Armeegruppe G"	where = 3140 } #Blaskowitz
+
+		command = { 														type = add_division value = hq			when = 3		which = "19. Armee"								where = sp_anti_air 	 }
+		command = { 														type = add_division value = infantry	when = 11		which = "716. Infanterie-Division"										 }
+		command = { 														type = add_division value = infantry	when = 11		which = "198. Infanterie-Division"										 }
+		command = { 														type = add_division value = infantry	when = 11		which = "189. Infanterie-Division"										 }
+		command = { 														type = add_division value = infantry	when = 11		which = "338. Infanterie-Division"										 }
+		command = { 														type = add_division value = infantry	when = 1		which = "244. Infanterie-Division"										 }
+		command = { 														type = add_division value = bergsjaeger	when = 11		which = "8. Gebirgs Division"											 }
+		command = { 														type = add_division value = armor		when = 2		which = "11. Panzer Division"					where = -20				 }
 	}
 }
+
+#Yugoslavia panic deployment
+event = {
+	id = 2401225
+	random = no
+
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = demobilize which = armor		when = 0 where = 1 value = -1  }
+		command = { type = demobilize which = infantry	when = 0 where = 1 value = -9  }
+		command = { type = demobilize which = militia	when = 0 where = 1 value = -7  }
+		
+		#command = { type = add_corps value = land where = 6558 }
+		#command = { type = add_division value = infantry 	when = 11 }
+		#command = { type = add_corps value = land where = 387  }
+		#command = { type = add_division value = militia 	when = 6  }
+		#command = { type = add_corps value = land where = 388  }
+		#command = { type = add_division value = militia 	when = 6  }
+	
+		command = { type = add_corps value = land where = 3360 }
+		command = { type = add_division value = infantry 	when = 11	where = artillery }
+		#command = { type = add_corps value = land where = 3360 }
+		#command = { type = add_division value = bergsjaeger	when = 10 }
+		command = { type = add_corps value = land where = 6559 }
+		command = { type = add_division value = militia 	when = 6  }
+		#command = { type = add_corps value = land where = 3366 }
+		#command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 6538 }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_corps value = land where = 1891 }
+		command = { type = add_division value = militia 	when = 6	where = artillery }
+		command = { type = add_corps value = land where = 386  }
+		command = { type = add_division value = infantry 	when = 11 }
+		#command = { type = add_corps value = land where = 3361 }
+		#command = { type = add_division value = militia 	when = 6  }
+	
+		command = { type = add_corps value = land where = 1895 }
+		command = { type = add_division value = infantry 	when = 11	where = artillery }
+		command = { type = add_corps value = land where = 1892 }
+		command = { type = add_division value = militia 	when = 6  }
+		#command = { type = add_corps value = land where = 6537 }
+		#command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 453  }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_corps value = land where = 7268 }
+		command = { type = add_division value = militia 	when = 6  }
+		#command = { type = add_corps value = land where = 6557 }
+		#command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 3371  }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_corps value = land where = 1896  }
+		command = { type = add_division value = armor 		when = 1  }
+		#command = { type = add_corps value = land where = 1896 }
+		#command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 415  }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_corps value = land where = 7269 }
+		command = { type = add_division value = militia 	when = 6	where = artillery }
+		#command = { type = add_corps value = land where = 665  }
+		#command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 7270  }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_corps value = land where = 665   }
+		command = { type = add_division value = infantry 	when = 11	where = artillery }
+		command = { type = add_corps value = land where = 6537  }
+		command = { type = add_division value = infantry 	when = 11	where = artillery }
+		
+		command = { type = add_corps value = land where = 1057  }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { trigger = { ai = CRO } type = event which = 2400046 where = CRO when = 0 } #to exp_60
+		
+		command = { trigger = { ai = ITA alliance = { country = ITA } }									type = event which = 2401226 where = ITA when = 0 }
+		command = { trigger = { ai = RSI alliance = { country = RSI } } 								type = event which = 2401226 where = RSI when = 0 }
+		command = { trigger = { NOT = { alliance = { country = ITA } alliance = { country = RSI } } } 	type = event which = 2401226 where = GER when = 0 }
+	}
+}
+	
+event = {
+	id = 2401226
+	random = no
+
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = demobilize which = bergsjaeger	when = 0 where = 1 value = -1  }
+		command = { type = demobilize which = infantry		when = 0 where = 1 value = -1  }
+		#command = { type = demobilize which = militia		when = 0 where = 1 value = -8  } #May force withdrawal of Libya beach garrisons
+		command = { type = demobilize which = infantry		when = 0 where = 1 value = -4  } 
+		
+		command = { type = add_corps value = land where = 6558 }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_corps value = land where = 387  }
+		command = { type = add_division value = militia 	when = 6 	where = artillery }
+		command = { type = add_corps value = land where = 388  }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 3360 }
+		command = { type = add_division value = bergsjaeger	when = 10	where = artillery }
+	
+		command = { type = add_corps value = land where = 3366 }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 3361 }
+		command = { type = add_division value = militia 	when = 6 	where = artillery }
+	
+		command = { type = add_corps value = land where = 6537 }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 6557 }
+		command = { type = add_division value = militia 	when = 6 	where = artillery }
+		
+		command = { type = add_corps value = land where = 1896 }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 665  }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { trigger = { country = ITA } type = event which = 2400042 where = ITA when = 0 } #Exp15->Exp20
+	}
+}
+
+#Greece panic deployment
+event = {
+	id = 2401227
+	random = no
+	persistent = yes
+
+	name = "AI_EVENT"
+	
+	action = {
+		#total:
+		#4 inf
+		#11 mil
+		#3 mtn
+		#1 arm
+	
+		command = { type = demobilize which = bergsjaeger	when = 0 where = 1 value = -1  }
+		command = { type = demobilize which = infantry		when = 0 where = 1 value = -3  }
+		command = { type = demobilize which = militia		when = 0 where = 1 value = -5  }
+		
+		command = { type = add_corps value = land where = 2872 }
+		command = { type = add_division value = infantry 	when = 11 }
+		#command = { type = add_corps value = land where = 2872  }
+		#command = { type = add_division value = militia 	when = 6  }
+		
+		#command = { type = add_corps value = land where = 403 }
+		#command = { type = add_division value = bergsjaeger	when = 10 }
+		command = { type = add_corps value = land where = 403  }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 402  }
+		command = { type = add_division value = infantry 	when = 6  }
+		#command = { type = add_corps value = land where = 402  }
+		#command = { type = add_division value = militia 	when = 6  }
+		
+		#command = { type = add_corps value = land where = 6509 }
+		#command = { type = add_division value = bergsjaeger	when = 10 }
+		command = { type = add_corps value = land where = 6509 }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 7319 }
+		command = { type = add_division value = militia 	when = 6  }
+		#command = { type = add_corps value = land where = 7319 }
+		#command = { type = add_division value = militia 	when = 6  }
+		
+		#command = { type = add_corps value = land where = 3374 }
+		#command = { type = add_division value = militia 	when = 6  }
+		command = { type = add_corps value = land where = 3374 }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 1169 }
+		command = { type = add_division value = infantry 	when = 6  }
+		#command = { type = add_corps value = land where = 1169 }
+		#command = { type = add_division value = militia 	when = 6  }
+		
+		#command = { type = add_corps value = land where = 664  }
+		#command = { type = add_division value = infantry 	when = 6  }
+		command = { type = add_corps value = land where = 664  }
+		command = { type = add_division value = bergsjaeger when = 6  }
+		
+		command = { type = add_corps value = land where = 7163 }
+		command = { type = add_division value = militia 	when = 6  }
+		#command = { type = add_corps value = land where = 7163 }
+		#command = { type = add_division value = armor		when = 1  }
+		
+		#command = { type = add_corps value = land where = 7316 }
+		#command = { type = add_division value = militia 	when = 6  }
+		
+		command = { trigger = { ai = ITA alliance = { country = ITA } } 								type = event which = 2401228 where = ITA when = 0 }
+		command = { trigger = { ai = RSI alliance = { country = RSI } } 								type = event which = 2401228 where = RSI when = 0 }
+		command = { trigger = { NOT = { alliance = { country = ITA } alliance = { country = RSI } } }	type = event which = 2401228 where = GER when = 0 }
+	}
+}
+
+event = {
+	id = 2401228
+	random = no
+	persistent = yes
+
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = demobilize which = bergsjaeger	when = 0 where = 1 value = -2  }
+		command = { type = demobilize which = infantry		when = 0 where = 1 value = -1  }
+		command = { type = demobilize which = militia		when = 0 where = 1 value = -6  }
+		command = { type = demobilize which = armor			when = 0 where = 1 value = -1  }
+		
+		command = { type = add_corps value = land where = 2872  }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 403 }
+		command = { type = add_division value = bergsjaeger	when = 10 }
+		
+		command = { type = add_corps value = land where = 402  }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 6509 }
+		command = { type = add_division value = bergsjaeger	when = 10 }
+		
+		command = { type = add_corps value = land where = 7319 }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 3374 }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 1169 }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 664  }
+		command = { type = add_division value = infantry 	when = 6  }
+		
+		command = { type = add_corps value = land where = 7163 }
+		command = { type = add_division value = armor		when = 1  }
+		
+		command = { type = add_corps value = land where = 7316 }
+		command = { type = add_division value = militia 	when = 6  }
+	}
+}
+
+#Albania panic deployment
+event = {
+	id = 2401229
+	random = no
+	persistent = yes
+
+	name = "AI_EVENT"
+	
+	action = {
+		#total:
+		#2 inf
+		#3 mil
+		#1 mtn
+	
+		command = { type = demobilize which = bergsjaeger	when = 0 where = 1 value = -1  }
+		command = { type = demobilize which = infantry		when = 0 where = 1 value = -1  }
+		command = { type = demobilize which = militia		when = 0 where = 1 value = -1  }
+		
+		command = { type = add_corps value = land where = 5466 }
+		command = { type = add_division value = infantry 	when = 11 }
+		#command = { type = add_corps value = land where = 5466  }
+		#command = { type = add_division value = militia 	when = 6  }
+		
+		#command = { type = add_corps value = land where = 1169  }
+		#command = { type = add_division value = infantry 	when = 6  }
+		command = { type = add_corps value = land where = 1169  }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 390 }
+		command = { type = add_division value = bergsjaeger	when = 10 }
+		#command = { type = add_corps value = land where = 390  }
+		#command = { type = add_division value = militia 	when = 6  }
+		
+		command = { trigger = { ai = ITA alliance = { country = ITA } } 								type = event which = 2401230 where = ITA when = 0 }
+		command = { trigger = { ai = RSI alliance = { country = RSI } } 								type = event which = 2401230 where = RSI when = 0 }
+		command = { trigger = { NOT = { alliance = { country = ITA } alliance = { country = RSI } } }	type = event which = 2401230 where = GER when = 0 }
+	}
+}
+
+event = {
+	id = 2401230
+	random = no
+	persistent = yes
+
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = demobilize which = infantry		when = 0 where = 1 value = -1  }
+		#command = { type = demobilize which = militia		when = 0 where = 1 value = -2  } #May force withdrawal of Libya beach garrisons
+		command = { type = demobilize which = infantry		when = 0 where = 1 value = -1  } 
+		
+		command = { type = add_corps value = land where = 5466  }
+		command = { type = add_division value = militia 	when = 6  }
+		
+		command = { type = add_corps value = land where = 1169  }
+		command = { type = add_division value = infantry 	when = 6  }
+		
+		command = { type = add_corps value = land where = 390  }
+		command = { type = add_division value = militia 	when = 6  }
+	}
+}
+
+#Spain panic deployment
+event = {
+	id = 2401231
+	random = no
+	persistent = yes
+
+	name = "AI_EVENT"
+	
+	action = {
+		#Germany:
+		#28 GER + 2 ITA
+		#10 inf
+		#8 mil
+		#5 mtn
+		#3 arm
+		#2 mot
+	
+		command = { type = demobilize which = infantry		when = 0 where = 1 value = -10 }
+		command = { type = demobilize which = militia		when = 0 where = 1 value = -8  }
+		command = { type = demobilize which = bergsjaeger	when = 0 where = 1 value = -5  }
+		command = { type = demobilize which = armor			when = 0 where = 1 value = -3  }
+		command = { type = demobilize which = motorized		when = 0 where = 1 value = -2  }
+		
+		
+		command = { type = add_corps value = land where = 2244 }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_division value = militia 	when = 6  }
+		command = { type = add_division value = militia 	when = 6  }
+		command = { type = add_division value = militia 	when = 6  }
+		command = { type = add_division value = militia 	when = 6  }
+		command = { type = add_division value = militia 	when = 6  }
+		command = { type = add_division value = militia 	when = 6  }
+		command = { type = add_division value = militia 	when = 6  }
+		command = { type = add_division value = militia 	when = 6  }
+		command = { type = add_division value = bergsjaeger	when = 10 }
+		command = { type = add_division value = bergsjaeger	when = 10 }
+		command = { type = add_division value = bergsjaeger	when = 10 }
+		command = { type = add_division value = bergsjaeger	when = 10 }
+		command = { type = add_division value = bergsjaeger	when = 10 }
+		command = { type = add_division value = armor		when = 1  }
+		command = { type = add_division value = armor		when = 1  }
+		command = { type = add_division value = armor		when = 1  }
+		command = { type = add_division value = motorized	when = 1  }
+		command = { type = add_division value = motorized	when = 1  }
+		
+		command = { trigger = { ai = ITA alliance = { country = ITA } }									type = event which = 2401232 where = ITA when = 0 }
+		command = { trigger = { ai = RSI alliance = { country = RSI } }									type = event which = 2401232 where = RSI when = 0 }
+		command = { trigger = { NOT = { alliance = { country = ITA } alliance = { country = RSI } } }	type = event which = 2401232 where = GER when = 0 }
+	}
+}
+
+event = {
+	id = 2401232
+	random = no
+	persistent = yes
+
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = demobilize which = bergsjaeger	when = 0 where = 1 value = -1  }
+		command = { type = demobilize which = infantry		when = 0 where = 1 value = -1  }
+		
+		command = { type = add_corps value = land where = 2244  }
+		command = { type = add_division value = infantry 	when = 11 }
+		command = { type = add_division value = bergsjaeger	when = 10 }
+	}
+}
+
+
+
 
 #Mil to Gar conversion
 #For Czechia, Poland, Norway, Denmark
@@ -7582,7 +8021,7 @@ event = {
 	}
 }
 
-#temp workaround for retarded doomstacks on 7189
+#temp workaround for crazy doomstacks on 7189
 event = {
 	id = 2401270
 	random = no 
@@ -15260,8 +15699,10 @@ event = {
 		
 		command = { type = event which = 2405042 where = ENG when = 0 }	
 		
-		command = { trigger = { ai = USA } type = event which = 2400190 where = USA when = 0 } #Grand offensive
-		command = { trigger = { ai = ENG } type = event which = 2400190 where = ENG when = 0 } #Grand offensive
+		command = { trigger = { ai = USA }	type = event which = 2400190 where = USA when = 0 } #Grand offensive
+		command = { trigger = { ai = ENG }	type = event which = 2400190 where = ENG when = 0 } #Grand offensive
+		
+		command = { trigger = { ai = GER }	type = event which = 2401223 where = GER when = 5 } #GER response
 	}
 }
 
@@ -15837,8 +16278,10 @@ event = {
 		
 		command = { trigger = { alliance = { country = VIC } } type = event which = 2405052 where = VIC when = 0 }	
 		
-		command = { trigger = { ai = USA } type = event which = 2400190 where = USA when = 0 } #Grand offensive
-		command = { trigger = { ai = VIC } type = event which = 2400190 where = VIC when = 0 } #Grand offensive
+		command = { trigger = { ai = USA }	type = event which = 2400190 where = USA when = 0 } #Grand offensive
+		command = { trigger = { ai = VIC }	type = event which = 2400190 where = VIC when = 0 } #Grand offensive
+		
+		command = { trigger = { ai = GER }	type = event which = 2401224 where = GER when = 5 } #GER response
 	}
 }
 
@@ -16215,6 +16658,65 @@ event = {
 		#command = { type = secederegion which = USA value = "Italy" when = 1 }
 		#command = { type = secedeprovince which = ENG value = 31 when = 2 } #malta
 		command = { type = secedeprovince which = USA value = 3058 when = 1 }
+	}
+}
+
+#Until Avalanache exists, using a shore_attack boost workaround to force crossing into mainland Italy
+
+event = {
+	id = 2405065
+	random = no 
+	country = USA
+	
+	trigger = {	
+		ai = yes
+		event	= 2405060
+		control = { province = 526	data = -3 }
+		control = { province = 524	data = -3 }
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 4
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	action = {
+		command = { type = strength which = land when = 1 where = 0 		  value = -0.1 } 
+		command = { type = strength which = land when = 1 where = 0 org = 100 value =  0.1 } 
+		command = { type = shore_attack which = land value = 100 }
+		
+		command = { trigger = { ai = ENG } type = event	which = 2405066 where = ENG when = 0 }
+		
+		command = { type = event	which = 2405067 where = USA when = 30 }
+	}
+}
+
+event = {
+	id = 2405066
+	random = no 
+	country = ENG
+	
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = strength which = land when = 1 where = 0 		  value = -0.1 } 
+		command = { type = strength which = land when = 1 where = 0 org = 100 value =  0.1 } 
+		command = { type = shore_attack which = land value = 100 }
+		
+		command = { type = event	which = 2405067 where = ENG when = 30 }
+	}
+}
+
+event = {
+	id = 2405067
+	random = no 
+	persistent = yes
+		
+	name = "AI_EVENT"
+	
+	action = {
+		command = { type = shore_attack which = land value = -100 }
 	}
 }
 
