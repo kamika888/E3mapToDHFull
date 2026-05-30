@@ -6879,7 +6879,7 @@ event = {
 		trigger = {
 			NOT = { local_flag = AI_Panic_France }
 			event = { id = 2002004 days = 360 } #France fell
-					region = { region = "France" 		country = -2 	data = 1 value = 1 }
+					region = { region = "France" 		country = -2 	data = 1 value = 3 }
 			NOT = { region = { region = "France" 		country = REB	data = 1 value = 1 } }
 		}
 		
@@ -8108,7 +8108,7 @@ event = {
 			war = { country = ENG }
 			war = { country = USA }
 			year = 1938
-			event = { id = 2011000 days = 30 }
+			event = { id = 2011000 days = 10 }
 			control = { province = 1248 data = -3 }
 			control = { province = 1936 data = -3 }
 			control = { province = 5608 data = -3 }
@@ -8126,6 +8126,30 @@ event = {
 
 	action = {
 		command = { type = ai which = "wzo1.ai" }
+		#resetting transport fleet
+		command = { type = demobilize which = transport when = 0 where = 0 value = -20 }
+		command = { type = add_corps value = naval where = 1185 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+		command = { type = add_division value = transport when = 1 }
+
 	}
 }
 
@@ -19905,6 +19929,111 @@ event = {
 		command = { trigger = { local_flag = { which = sovOde when = 1 value = 13	} } type = add_division									value = motorized when = 1 } 
 		command = { trigger = { local_flag = { which = sovOde when = 1 value = 14	} } type = add_division									value = infantry when = 10 where = artillery } 
 		command = { trigger = { local_flag = { which = sovOde when = 1 value = 15	} } type = add_division									value = infantry when = 10 } 
+	}
+}
+
+#Germany brings heavy artillery to break Sevastopol fort
+
+event = { 
+	id = 2405323
+	random = no 
+	country = GER
+	
+	name = "AI_EVENT"
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		war = { country = SOV }
+		control = { province = 253	data = -2 }
+		control = { province = 252	data = -3 }
+		control = { province = 155	data = -3 }
+		control = { province = 1827	data = -3 }
+		event = { id = 2007041 days = 180 }
+	}
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 1
+	deathdate = { day = 29 month = september year = 1999 }
+	
+	action = {
+		name = AI_EVENT
+		command = { 														type = demobilize 	which = hq 			when = 0 where = 1 value = -1 }
+		command = { 														type = demobilize 	which = bergsjaeger	when = 0 where = 1 value = -1 }
+		command = { 														type = demobilize 	which = armor		when = 0 where = 1 value = -1 }
+		command = { 														type = demobilize 	which = infantry	when = 0 where = 1 value = -6 }
+		
+		
+		command = { type = add_corps 		value = land		when = 323		which = "11. Armee"					where = 252						}	#Manstein
+		command = { type = add_division		value = hq			when = 3		which = "11. Armee"					where = sp_anti_air 			}
+		command = { type = add_division		value = bergsjaeger	when = 5		which = "10. Jager-Division"		where = engineer				} 
+		command = { type = add_division		value = infantry	when = 10		which = "72. Infanterie-Division"	where = super_heavy_artillery	} 
+		command = { type = add_division		value = infantry	when = 10		which = "170. Infanterie-Division"	where = artillery				} 
+		command = { type = add_division		value = armor		when = 1		which = "22. Panzer-Division"		where = heavy_armor				} 
+		
+		command = { type = add_corps 		value = land		when = 335		which = "XXX. Armeekorps"			where = 155						}	#Salmuth
+		command = { type = add_division		value = infantry	when = 10		which = "22. Infanterie-Division"	where = super_heavy_artillery	} 
+		command = { type = add_division		value = infantry	when = 10		which = "24. Infanterie-Division"	where = super_heavy_artillery	} 
+		command = { type = add_division		value = infantry	when = 10		which = "50. Infanterie-Division"	where = engineer				} 
+		command = { type = add_division		value = infantry	when = 10		which = "132. Infanterie-Division"	where = artillery				} 
+		
+		command = { trigger = { ai = ROM } type = event which = 2405324 where = GER when = 0 }
+	}
+}
+
+event = { 
+	id = 2405324
+	random = no 
+	country = ROM
+	
+	name = "AI_EVENT"
+	
+	action = {
+		name = AI_EVENT
+		command = { type = remove_division	which = 20600 value = 40 }	#Brigada 1 Munte
+		command = { type = remove_division	which = 20600 value = 41 }	#Brigada 2 Munte
+		command = { type = remove_division	which = 20600 value = 37 }	#Divizie 18 Infanterie
+		
+		command = { type = add_corps 		value = land		when = 110008	which = "Corpul de Munte"			where = 155						}	#Avramescu
+		command = { type = add_division		value = bergsjaeger	when = 5		which = "Divizia 1 Munte"			where = engineer				} 
+		command = { type = add_division		value = bergsjaeger	when = 5		which = "Divizia 4 Munte"			where = artillery				} 
+		command = { type = add_division		value = infantry	when = 10		which = "Divizia 18 Infanterie"		where = engineer				} 
+	}
+}
+
+event = { 
+	id = 2405325
+	random = no 
+	country = SOV
+	
+	name = "AI_EVENT"
+	
+	trigger = {	
+		ai = yes
+		local_flag = AllInit
+		war = { country = GER }
+		control = { province = 253	data = -2 }
+		control = { province = 252	data = -2 }
+		control = { province = 155	data = -2 }
+		control = { province = 1827	data = -2 }
+	}
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = september year = 1999 }
+	
+	action = {
+		name = AI_EVENT
+		#Only 20,000-30,000 evacuated, most heavy equipment lost
+		command = { 											type = add_corps 		value = land						where = 3431 }
+		command = { trigger = { control = { province = 1845 } }	type = add_corps 		value = land						where = 3431 }
+		command = { trigger = { control = { province = 7243 } }	type = add_corps 		value = land						where = 1845 }
+		command = { trigger = { control = { province = 1843 } }	type = add_corps 		value = land						where = 1843 }
+		command = { trigger = { control = { province = 255 } }	type = add_corps 		value = land						where = 255  }
+		command = { trigger = { control = { province = 3445 } }	type = add_corps 		value = land						where = 3445 }
+		command = { 											type = add_division		value = infantry	when = 10		where = -50	 } 
+		command = { 											type = add_division		value = infantry	when = 10		where = -50	 } 
+		command = { 											type = add_division		value = infantry	when = 10		where = -50	 } 
 	}
 }
 
