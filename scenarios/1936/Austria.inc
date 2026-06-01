@@ -7,7 +7,7 @@ country =
   ai_settings			 = { flags = { RESInit = 1 ideology = 2 } }
   regular_id             = GER
   capital                = 463
-	manpower               = 123 
+	manpower               = 63 
 	# Resource Reserves 
 	energy                 = 1140
 	metal                  = 570
