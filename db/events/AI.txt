@@ -381,35 +381,40 @@ event = {
 		ai = yes
 		local_flag = AllInit
 		NOT = { local_flag = InvShutOff }
-		NOT = {
-			country = GER
-			country = U08
-			country = ITA
-			country = RUS
-			country = USA
-			country = VIC
-			country = ENG
-			country = JAP
-			country = SOV
-			country = CHI
-			country = SPR
-			country = SPA
-		}
 		OR = {
-			alliance = { country = GER }
-			alliance = { country = U08 }
-			alliance = { country = ITA }
-			alliance = { country = RUS }
-			alliance = { country = USA }
-			alliance = { country = VIC }
-			alliance = { country = ENG }
-			alliance = { country = JAP }
-			alliance = { country = SOV }
-			alliance = { country = CHI }
-			alliance = { country = SPR }
-			alliance = { country = SPA }
-			
-			country = FIN
+			ispuppet = yes
+			AND = {
+				NOT = {
+					country = GER
+					country = U08
+					country = ITA
+					country = RUS
+					country = USA
+					country = VIC
+					country = ENG
+					country = JAP
+					country = SOV
+					country = CHI
+					country = SPR
+					country = SPA
+				}
+				OR = {
+					alliance = { country = GER }
+					alliance = { country = U08 }
+					alliance = { country = ITA }
+					alliance = { country = RUS }
+					alliance = { country = USA }
+					alliance = { country = VIC }
+					alliance = { country = ENG }
+					alliance = { country = JAP }
+					alliance = { country = SOV }
+					alliance = { country = CHI }
+					alliance = { country = SPR }
+					alliance = { country = SPA }
+					
+					country = FIN
+				}
+			}
 		}
 	}
 
@@ -436,32 +441,39 @@ event = {
 		local_flag = AllInit
 		local_flag = InvShutOff
 		NOT = {
-			country = GER
-			country = U08
-			country = ITA
-			country = RUS
-			country = USA
-			country = VIC
-			country = ENG
-			country = JAP
-			country = SOV
-			country = CHI
-		}
-		NOT = {
-			alliance = { country = GER }
-			alliance = { country = U08 }
-			alliance = { country = ITA }
-			alliance = { country = RUS }
-			alliance = { country = USA }
-			alliance = { country = VIC }
-			alliance = { country = SPA }
-			alliance = { country = SPR }
-			alliance = { country = ENG }
-			alliance = { country = JAP }
-			alliance = { country = SOV }
-			alliance = { country = CHI }
-			
-			country = FIN
+			ispuppet = yes
+			AND = {
+				NOT = {
+					country = GER
+					country = U08
+					country = ITA
+					country = RUS
+					country = USA
+					country = VIC
+					country = ENG
+					country = JAP
+					country = SOV
+					country = CHI
+					country = SPR
+					country = SPA
+				}
+				OR = {
+					alliance = { country = GER }
+					alliance = { country = U08 }
+					alliance = { country = ITA }
+					alliance = { country = RUS }
+					alliance = { country = USA }
+					alliance = { country = VIC }
+					alliance = { country = ENG }
+					alliance = { country = JAP }
+					alliance = { country = SOV }
+					alliance = { country = CHI }
+					alliance = { country = SPR }
+					alliance = { country = SPA }
+					
+					country = FIN
+				}
+			}
 		}
 	}
 
@@ -1402,7 +1414,7 @@ event = {
 								war = { country = GER }
 								lost_national = { country = GER value = 10 } #Germany is losing
 								NOT = {	nuked = { country = GER  data = -1 } } #Ger has been nuked by someone else
-								NOT = {	nuke = 5 } #5 nukes waiting
+								NOT = {	nuke = 4 } #4 nukes waiting
 							}
 						}
 					}
@@ -1410,9 +1422,10 @@ event = {
 					
 		command = { trigger = {	OR = { local_flag = nukeDisable local_flag = nukeDisableAI } }
 					type = disable_task		which = nuke 				}
-					
+		
+		#Until 4 nukes are ready, or a year max as safety measure
 		command = { trigger = {	local_flag = nukeDisableAI }
-					type = event which = 2400076 where = -1 when = 120	} #giving Germany 4 months to surrender
+					type = event which = 2400076 where = -1 when = 360	}
 	}
 }
 
@@ -1501,7 +1514,7 @@ event = {
 	id = 2400077
 	random = no 
 	persistent = yes
-	
+
 	trigger = {	
 		local_flag = nukeDisableAI
 		NOT = {
@@ -1519,7 +1532,7 @@ event = {
 						war = { country = GER }
 						lost_national = { country = GER value = 10 } #Germany is losing
 						NOT = {	nuked = { country = GER  data = -1 } } #Ger has been nuked by someone else
-						NOT = {	nuke = 5 } #5 nukes waiting
+						NOT = {	nuke = 4 } #4 nukes waiting
 					}
 				}
 			}
@@ -6891,6 +6904,23 @@ event = {
 	}
 	action = {
 		trigger = {
+			NOT = { local_flag = AI_Panic_Rhur }
+			event = { id = 2002004 days = 360 } #France fell
+			OR = {
+				region = { region = "France" 		country = -2 	data = 1 value = 80 }
+				region = { region = "Benelux" 		country = -2 	data = 1 value = 20 }
+			}
+		}
+		
+		command = {	type = local_setflag which = AI_Panic_Rhur }
+		
+		command = { type = event which = 2401233 where = GER when = 3  } #If hasn't been triggered already
+		
+		#command = { type = event which = 2400036 where = GER when = 0  } #
+		#command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
+	}
+	action = {
+		trigger = {
 			NOT = { local_flag = AI_Panic_Yugoslavia }
 			war		= { country = U27 }
 		}
@@ -6915,17 +6945,17 @@ event = {
 		command = { type = event which = 2400036 where = GER when = 0  } #
 		command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
 	}
-	action = {
-		trigger = {
-			NOT = { local_flag = AI_Panic_Germany }
-					region	= { region = "Germany" 		country = -2 	data = 1 value = 1  }
-			NOT = { region	= { region = "Germany" 		country = REB 	data = 1 value = 1  } }
-		}
-		
-		command = {	type = local_setflag which = AI_Panic_Germany }
-		command = { type = event which = 2400036 where = GER when = 0  } #
-		command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
-	}
+	#action = {
+	#	trigger = {
+	#		NOT = { local_flag = AI_Panic_Germany }
+	#				region	= { region = "Germany" 		country = -2 	data = 1 value = 1  }
+	#		NOT = { region	= { region = "Germany" 		country = REB 	data = 1 value = 1  } }
+	#	}
+	#	
+	#	command = {	type = local_setflag which = AI_Panic_Germany }
+	#	command = { type = event which = 2400036 where = GER when = 0  } #
+	#	command = { type = event which = 2400037 where = GER when = 30 } #Reset to default in 1 month
+	#}
 }
 
 #Husky panic deployment
@@ -7441,6 +7471,337 @@ event = {
 		command = { type = add_corps value = land where = 2244  }
 		command = { type = add_division value = infantry 	when = 11 }
 		command = { type = add_division value = bergsjaeger	when = 10 }
+	}
+}
+
+#Rhur panic deployment (France almost lost)
+
+event = {
+	id = 2401233
+	random = no 
+	country = GER
+	
+	name = "AI_EVENT"
+	
+	action = {
+		trigger = { ai = SOV }
+		command = { type = non_aggression which = GER where = SOV when = 3 } 
+		command = { type = non_aggression which = GER where = ROM when = 3 } 
+		command = { type = non_aggression which = GER where = HUN when = 3 } 
+		command = { type = non_aggression which = GER where = BUL when = 3 } 
+		command = { type = non_aggression which = GER where = ROM when = 3 } 
+		command = { type = non_aggression which = GER where = U27 when = 3 } 
+		command = { type = non_aggression which = GER where = U28 when = 3 } 
+		command = { type = non_aggression which = GER where = U29 when = 3 } 
+		command = { type = non_aggression which = GER where = U30 when = 3 } 
+		command = { type = non_aggression which = GER where = U31 when = 3 } 
+		command = { type = non_aggression which = GER where = U32 when = 3 } 
+		command = { type = non_aggression which = GER where = U33 when = 3 } 
+		
+		command = { type = non_aggression which = HUN where = SOV when = 3 } 
+		command = { type = non_aggression which = HUN where = ROM when = 3 } 
+		#command = { type = non_aggression which = HUN where = HUN when = 3 } 
+		command = { type = non_aggression which = HUN where = BUL when = 3 } 
+		command = { type = non_aggression which = HUN where = ROM when = 3 } 
+		command = { type = non_aggression which = HUN where = U27 when = 3 } 
+		command = { type = non_aggression which = HUN where = U28 when = 3 } 
+		command = { type = non_aggression which = HUN where = U29 when = 3 } 
+		command = { type = non_aggression which = HUN where = U30 when = 3 } 
+		command = { type = non_aggression which = HUN where = U31 when = 3 } 
+		command = { type = non_aggression which = HUN where = U32 when = 3 } 
+		command = { type = non_aggression which = HUN where = U33 when = 3 } 
+		
+		command = { type = non_aggression which = ROM where = SOV when = 3 } 
+		command = { type = non_aggression which = ROM where = ROM when = 3 } 
+		command = { type = non_aggression which = ROM where = HUN when = 3 } 
+		command = { type = non_aggression which = ROM where = BUL when = 3 } 
+		#command = { type = non_aggression which = ROM where = ROM when = 3 } 
+		command = { type = non_aggression which = ROM where = U27 when = 3 } 
+		command = { type = non_aggression which = ROM where = U28 when = 3 } 
+		command = { type = non_aggression which = ROM where = U29 when = 3 } 
+		command = { type = non_aggression which = ROM where = U30 when = 3 } 
+		command = { type = non_aggression which = ROM where = U31 when = 3 } 
+		command = { type = non_aggression which = ROM where = U32 when = 3 } 
+		command = { type = non_aggression which = ROM where = U33 when = 3 } 
+		
+		command = { type = non_aggression which = SLO where = SOV when = 3 } 
+		command = { type = non_aggression which = SLO where = ROM when = 3 } 
+		command = { type = non_aggression which = SLO where = HUN when = 3 } 
+		command = { type = non_aggression which = SLO where = BUL when = 3 } 
+		command = { type = non_aggression which = SLO where = ROM when = 3 } 
+		command = { type = non_aggression which = SLO where = U27 when = 3 } 
+		command = { type = non_aggression which = SLO where = U28 when = 3 } 
+		command = { type = non_aggression which = SLO where = U29 when = 3 } 
+		command = { type = non_aggression which = SLO where = U30 when = 3 } 
+		command = { type = non_aggression which = SLO where = U31 when = 3 } 
+		command = { type = non_aggression which = SLO where = U32 when = 3 } 
+		command = { type = non_aggression which = SLO where = U33 when = 3 } 
+		
+		command = { type = non_aggression which = CRO where = SOV when = 3 } 
+		command = { type = non_aggression which = CRO where = ROM when = 3 } 
+		command = { type = non_aggression which = CRO where = HUN when = 3 } 
+		command = { type = non_aggression which = CRO where = BUL when = 3 } 
+		command = { type = non_aggression which = CRO where = ROM when = 3 } 
+		command = { type = non_aggression which = CRO where = U27 when = 3 } 
+		command = { type = non_aggression which = CRO where = U28 when = 3 } 
+		command = { type = non_aggression which = CRO where = U29 when = 3 } 
+		command = { type = non_aggression which = CRO where = U30 when = 3 } 
+		command = { type = non_aggression which = CRO where = U31 when = 3 } 
+		command = { type = non_aggression which = CRO where = U32 when = 3 } 
+		command = { type = non_aggression which = CRO where = U33 when = 3 } 
+		
+		command = { type = non_aggression which = SER where = SOV when = 3 } 
+		command = { type = non_aggression which = SER where = ROM when = 3 } 
+		command = { type = non_aggression which = SER where = HUN when = 3 } 
+		command = { type = non_aggression which = SER where = BUL when = 3 } 
+		command = { type = non_aggression which = SER where = ROM when = 3 } 
+		command = { type = non_aggression which = SER where = U27 when = 3 } 
+		command = { type = non_aggression which = SER where = U28 when = 3 } 
+		command = { type = non_aggression which = SER where = U29 when = 3 } 
+		command = { type = non_aggression which = SER where = U30 when = 3 } 
+		command = { type = non_aggression which = SER where = U31 when = 3 } 
+		command = { type = non_aggression which = SER where = U32 when = 3 } 
+		command = { type = non_aggression which = SER where = U33 when = 3 } 
+		
+		#command = { type = non_aggression which = GER where = ITA when = 3 } 
+		#command = { type = non_aggression which = GER where = ITA when = 3 } 
+		#command = { type = non_aggression which = GER where = ITA when = 3 } 
+		#command = { type = non_aggression which = GER where = ITA when = 3 } 
+		#command = { type = non_aggression which = GER where = ITA when = 3 } 
+		#command = { type = non_aggression which = GER where = ITA when = 3 } 
+		#command = { type = non_aggression which = GER where = ITA when = 3 } 
+		#command = { type = non_aggression which = GER where = ITA when = 3 } 
+		#command = { type = non_aggression which = GER where = ITA when = 3 } 
+		#command = { type = non_aggression which = GER where = ITA when = 3 } 
+		#command = { type = non_aggression which = GER where = ITA when = 3 } 
+		#command = { type = non_aggression which = GER where = ITA when = 3 } 
+		
+		#command = { type = non_aggression which = RSI where = ITA when = 3 } 
+		#command = { type = non_aggression which = RSI where = ITA when = 3 } 
+		#command = { type = non_aggression which = RSI where = ITA when = 3 } 
+		#command = { type = non_aggression which = RSI where = ITA when = 3 } 
+		#command = { type = non_aggression which = RSI where = ITA when = 3 } 
+		#command = { type = non_aggression which = RSI where = ITA when = 3 } 
+		#command = { type = non_aggression which = RSI where = ITA when = 3 } 
+		#command = { type = non_aggression which = RSI where = ITA when = 3 } 
+		#command = { type = non_aggression which = RSI where = ITA when = 3 } 
+		#command = { type = non_aggression which = RSI where = ITA when = 3 } 
+		#command = { type = non_aggression which = RSI where = ITA when = 3 } 
+		#command = { type = non_aggression which = RSI where = ITA when = 3 } 
+	}
+	action = {
+		trigger = { NOT = { ai = SOV } }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 1  area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 2  area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 3  area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 4  area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 5  area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 6  area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 7  area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 8  area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 9  area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 10 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 11 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 12 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 13 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 14 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 15 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 16 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 17 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 18 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 19 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 20 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 21 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 22 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 23 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 24 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 25 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 26 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 27 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 28 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 29 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 30 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 31 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 32 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 33 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 34 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 35 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 36 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 37 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 38 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 39 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 40 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 41 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 42 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 43 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 44 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 45 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 46 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 47 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 48 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 49 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 50 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 51 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 52 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 53 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 54 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 55 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 56 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 57 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 58 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 59 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 60 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 61 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 62 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 63 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 64 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 65 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 66 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 67 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 68 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 69 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 70 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 71 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 72 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 73 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 74 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 75 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 76 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 77 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 78 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 79 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 80 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 81 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 82 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 83 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 84 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 85 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 86 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 87 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 88 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 89 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 90 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 91 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 92 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 93 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 94 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 95 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 96 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 97 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 98 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -1 province = 197	type = land size = 99 area = 1 } }	type = local_setflag which = axisEast when = 1 value = 1  }
+		
+		command = { type = remove_units which = land where = -1 when = 2 value = "Baltic States"	}
+		
+		
+		command = { trigger = { control = { province = 67	data = -3 } } type = add_corps value = land where = 67   }
+		command = { trigger = { control = { province = 6521	data = -3 } } type = add_corps value = land where = 6521 }
+		command = { trigger = { control = { province = 1082	data = -3 } } type = add_corps value = land where = 1082 }
+		command = { trigger = { control = { province = 65	data = -3 } } type = add_corps value = land where = 65   }
+		command = { trigger = { control = { province = 52	data = -3 } } type = add_corps value = land where = 52   }
+		command = { trigger = { control = { province = 3176	data = -3 } } type = add_corps value = land where = 3176 }
+		command = { trigger = { control = { province = 7089	data = -3 } } type = add_corps value = land where = 7089 }
+		command = { trigger = { control = { province = 3175	data = -3 } } type = add_corps value = land where = 3175 }
+		command = { trigger = { control = { province = 2555	data = -3 } } type = add_corps value = land where = 2555 }
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 1	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 2	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 3	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 4	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 5	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 6	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 7	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 8	} } type = add_division									value = mechanized	when = 0  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 9	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 10	} } type = add_division									value = armor		when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 11	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 12	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 13	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 14	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 15	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 16	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 17	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 18	} } type = add_division									value = mechanized	when = 0  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 19	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 20	} } type = add_division									value = armor		when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 21	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 22	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 23	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 24	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 25	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 26	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 27	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 28	} } type = add_division									value = mechanized	when = 0  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 29	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 30	} } type = add_division									value = armor		when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 31	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 32	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 33	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 34	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 35	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 36	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 37	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 38	} } type = add_division									value = mechanized	when = 0  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 39	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 40	} } type = add_division									value = armor		when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 41	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 42	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 43	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 44	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 45	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 46	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 47	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 48	} } type = add_division									value = mechanized	when = 0  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 49	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 50	} } type = add_division									value = armor		when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 51	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 52	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 53	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 54	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 55	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 56	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 57	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 58	} } type = add_division									value = mechanized	when = 0  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 59	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 60	} } type = add_division									value = armor		when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 61	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 62	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 63	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 64	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 65	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 66	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 67	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 68	} } type = add_division									value = mechanized	when = 0  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 69	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 70	} } type = add_division									value = armor		when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 71	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 72	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 73	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 74	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 75	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 76	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 77	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 78	} } type = add_division									value = mechanized	when = 0  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 79	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 80	} } type = add_division									value = armor		when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 81	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 82	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 83	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 84	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 85	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 86	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 87	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 88	} } type = add_division									value = mechanized	when = 0  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 89	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 90	} } type = add_division									value = armor		when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 91	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 92	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 93	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 94	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 95	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 96	} } type = add_division									value = motorized	when = 2  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 97	} } type = add_division									value = infantry	when = 11 } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 98	} } type = add_division									value = mechanized	when = 0  } 
+		command = { trigger = { local_flag = { which = axisEast when = 1 value = 99	} } type = add_division									value = infantry	when = 11 } 
 	}
 }
 
@@ -9600,6 +9961,7 @@ event = {
 
 	trigger = {
 		event = 2011200
+		NOT = { event = 2011202 }
 		OR = {
 			ai = no
 			AND = {
@@ -9608,6 +9970,11 @@ event = {
 				NOT = { non_aggression = { country = MAN country = SOV } }
 				NOT = { flag = JAP_SOV_NAP }
 			}
+			#region = { region = "Korea" 		country = -2 data = 1 value = 20 }
+			#area = { 	area = "Honshu" 		country = -2 data = 1 value = 10 }
+			#area = { 	area = "Tohoku" 		country = -2 data = 1 value = 10 }
+			#area = { 	area = "Hokkaido" 		country = -2 data = 1 value = 10 }
+			#area = { 	area = "Kyushu_Shikoku" country = -2 data = 1 value = 10 }
 			#AND = {
 			#	area = { area = "Liaoning" 	country = -2 data = 1 value = 20 }
 			#	NOT = { area = { area = "Liaoning" 	country = REB data = 1 value = 15 } }
@@ -9642,9 +10009,55 @@ event = {
 	}
 }
 
-
 event = {
 	id = 2011202
+	random = no
+	country = JAP
+
+	name = "AI_EVENT"
+
+	trigger = {
+		event = 2011200
+		NOT = { event = 2011201 }
+		OR = {
+			region = { region = "Korea" 		country = -2 data = 1 value = 20 }
+			area = { 	area = "Honshu" 		country = -2 data = 1 value = 10 }
+			area = { 	area = "Tohoku" 		country = -2 data = 1 value = 10 }
+			#area = { 	area = "Hokkaido" 		country = -2 data = 1 value = 10 }
+			area = { 	area = "Kyushu_Shikoku" country = -2 data = 1 value = 10 }
+		}
+	}
+
+	date = { day = 1 month = january year = 1940 }
+	offset = 15
+	deathdate = { day = 20 month = november year = 1966 }
+
+	action = {
+		command = { type = unlock_division	which = 13016 value = 2070 }
+		command = { type = unlock_division	which = 13016 value = 2071 }
+		command = { type = unlock_division	which = 13016 value = 2072 }
+		command = { type = unlock_division	which = 13016 value = 2073 }
+		command = { type = unlock_division	which = 13016 value = 2074 }
+		command = { type = unlock_division	which = 13016 value = 2075 }
+		command = { type = unlock_division	which = 13016 value = 2076 }
+		command = { type = unlock_division	which = 13016 value = 2077 }
+		command = { type = unlock_division	which = 13016 value = 2078 }
+		command = { type = unlock_division	which = 13016 value = 2079 }
+		command = { type = unlock_division	which = 13016 value = 2080 }
+		command = { type = unlock_division	which = 13016 value = 2081 }
+		command = { type = unlock_division	which = 13016 value = 2082 }
+		command = { type = unlock_division	which = 13016 value = 2083 }
+		command = { type = unlock_division	which = 13016 value = 2084 }
+		command = { type = unlock_division	which = 13016 value = 2085 }
+		command = { type = unlock_division	which = 13016 value = 2086 }
+		command = { type = unlock_division	which = 13016 value = 2087 }
+		command = { }
+	}
+}
+
+
+event = {
+	id = 2011203
 	random = no
 	country = HOL
 
@@ -11413,10 +11826,13 @@ event = {
 		command = { 																		type = remove_units where = U52 when = 0	which = land		value = 3187 }
 		command = { 																		type = remove_units where = EUS when = 0	which = land		value = 3187 }
 
-		command = { trigger = { control = { province = 2617 } }								type = add_corps 							value = land		where = 2617 }	
-		command = { trigger = { control = { province = 3204 } }								type = add_corps 							value = land		where = 3204 }	
-		command = { trigger = { control = { province = 342  } }								type = add_corps 							value = land		where = 342  }	
-		command = { trigger = { control = { province = 353  } }								type = add_corps 							value = land		where = 353  }	
+		#command = { trigger = { control = { province = 2617 } }								type = add_corps 							value = land		where = 2617 }	
+		#command = { trigger = { control = { province = 3204 } }								type = add_corps 							value = land		where = 3204 }	
+		#command = { trigger = { control = { province = 342  } }								type = add_corps 							value = land		where = 342  }	
+		#command = { trigger = { control = { province = 353  } }								type = add_corps 							value = land		where = 353  }	
+		#command = { trigger = { control = { province = 3203 } }								type = add_corps 							value = land		where = 3203 }	
+		
+		command = { trigger = { control = { province = 7108 } }								type = add_corps 							value = land		where = 7108 }	
 		command = { trigger = { control = { province = 3203 } }								type = add_corps 							value = land		where = 3203 }	
 
 		command = { trigger = { flag = { which = sprSouthI when = 1 value = 1 } }			type = add_division							value = infantry	when = 8 } 
@@ -11749,6 +12165,7 @@ event = {
 
 	trigger = {
 		local_flag = AllInit
+		local_flag = Z_lock
 		control = { province = 330  data = -3 }	
 		OR = {
 			ai = no
@@ -11767,7 +12184,7 @@ event = {
 					control = { province = 3190 data = -3 }
 					control = { province = 7114 data = -3 }
 				}
-				year = 1938
+				year = 1937
 			}
 		}
 	}
@@ -11795,6 +12212,7 @@ event = {
 
 	trigger = {
 		local_flag = AllInit
+		local_flag = Z_lock
 		control = { province = 342  data = -3 }	
 		OR = {
 			ai = no
@@ -15962,6 +16380,7 @@ event = {
 		
 		command = { trigger = { ai = USA }	type = event which = 2400190 where = USA when = 0 } #Grand offensive
 		command = { trigger = { ai = ENG }	type = event which = 2400190 where = ENG when = 0 } #Grand offensive
+		command = { trigger = { ai = SOV }	type = event which = 2400190 where = SOV when = 0 } #Grand offensive
 		
 		command = { trigger = { ai = GER }	type = event which = 2401223 where = GER when = 5 } #GER response
 	}
@@ -20095,9 +20514,10 @@ event = {
 		war = { country = SOV }
 		control = { province = 253	data = -2 }
 		control = { province = 252	data = -3 }
-		control = { province = 155	data = -3 }
 		control = { province = 1827	data = -3 }
+		#control = { province = 155	data = -3 }
 		event = { id = 2007041 days = 180 }
+		NOT = { garrison = { country = -2 province = 253 type = land size = 20  area = 1 } }
 	}
 	
 	date = { day = 0 month = january year = 1936 }
@@ -20119,7 +20539,8 @@ event = {
 		command = { type = add_division		value = infantry	when = 10		which = "170. Infanterie-Division"	where = artillery				} 
 		command = { type = add_division		value = armor		when = 1		which = "22. Panzer-Division"		where = heavy_armor				} 
 		
-		command = { type = add_corps 		value = land		when = 335		which = "XXX. Armeekorps"			where = 155						}	#Salmuth
+		command = { type = add_corps 		value = land		when = 335		which = "XXX. Armeekorps"			where = 1827					}	#Salmuth
+		command = { trigger = { control = { province = 155 } } type = add_corps value = land when = 335	which = "XXX. Armeekorps" where = 155		}	#Salmuth
 		command = { type = add_division		value = infantry	when = 10		which = "22. Infanterie-Division"	where = super_heavy_artillery	} 
 		command = { type = add_division		value = infantry	when = 10		which = "24. Infanterie-Division"	where = super_heavy_artillery	} 
 		command = { type = add_division		value = infantry	when = 10		which = "50. Infanterie-Division"	where = engineer				} 
@@ -20142,7 +20563,7 @@ event = {
 		command = { type = remove_division	which = 20600 value = 41 }	#Brigada 2 Munte
 		command = { type = remove_division	which = 20600 value = 37 }	#Divizie 18 Infanterie
 		
-		command = { type = add_corps 		value = land		when = 110008	which = "Corpul de Munte"			where = 155						}	#Avramescu
+		command = { type = add_corps 		value = land		when = 110008	which = "Corpul de Munte"			where = 252						}	#Avramescu
 		command = { type = add_division		value = bergsjaeger	when = 5		which = "Divizia 1 Munte"			where = engineer				} 
 		command = { type = add_division		value = bergsjaeger	when = 5		which = "Divizia 4 Munte"			where = artillery				} 
 		command = { type = add_division		value = infantry	when = 10		which = "Divizia 18 Infanterie"		where = engineer				} 

@@ -105,7 +105,7 @@ event = {
 		command = { type = set_domestic which = interventionism value = 2 } #1 down
 		#command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 4 } }	} type = local_setflag which = WAR_manual when = 0 value = 1	}
 		#command = { trigger = { NOT = { local_flag = { which = WAR_level when = 1 value = 4 } }	} type = event which = 2024 where = -1 when = 0  }
-		command = { type = belligerence value = 3 }
+		#command = { type = belligerence value = 3 }
 		command = { type = headofstate which = 255011 } #Azaña
 		#command = { type = headofgovernment which = 255030 } #Azaña
 		command = { type = headofgovernment which = 255033 } #Jose Giral Pereira
@@ -226,6 +226,7 @@ event = {
 		
 		command = { type = local_setflag which = UnionBonds when = 0 value = 2	}
 		
+		
 		command = { type = transport_pool which = SPR value = 200 }
 		command = { type = supplies 	value = 5000 }
 		command = { type = energypool 	value = 2000 }
@@ -304,7 +305,8 @@ event = {
 		name = ACTION_NAME_DAMN 
 		command = { type = end_puppet }
 		command = { type = inherit which = U07 value = 1 }
-		command = { type = belligerence value = -100 }
+		command = { type = belligerence which = SPA	value =  5.0 }
+		command = { type = belligerence which = SPR	value =  5.0 }
 
 		command = { type = event which = 5103 where = SPA when = 0 }
 	} 
@@ -594,6 +596,10 @@ event = {
 		command = { type = event which = 2400161 where = U52 when = 25 }
 		
 		command = { type = event which = 5108 where = SPR when = 0 }
+		
+		#Some kind of race condition occasionally causes double belligerence gain for SPR or SPA
+		command = { trigger = { belligerence = { country = SPA value = 80 } } type = belligerence which = SPA	value = -100 } #reset
+		command = { trigger = { belligerence = { country = SPR value = 80 } } type = belligerence which = SPR	value = -100 } #reset
 	} 
 }
 
@@ -794,6 +800,7 @@ event = {
 		command = { type = activate_division which = 27600 value = 601 where = 3180	when = 1 } #5th PCE-JSU Mil. Div.
 		command = { type = add_corps value = land where = 3180 }
 		command = { type = add_division which = "50th Division"						value = infantry when = 8 where = -50 }	
+		command = { type = add_division 							 	 			value = garrison when = 4 where = -50 }
 		#command = { type = add_corps value = land where = 3180 }
 		#command = { type = add_division which = "2nd POUM Mil. Div." 				value = militia when = 4 where = -50 }
 		#command = { type = add_corps value = land where = 3180 }
@@ -857,8 +864,6 @@ event = {
 		command = { type = construct which = land_fort where = 2244 value = 4 } #Castle of Olite
 		command = { type = construct which = land_fort where = 3184 value = 2 } #Castle of San Vincente/Palace of Vicuna
 		
-		command = { type = belligerence value = 10 }
-		
 		command = { type = local_setflag which = garSpec }
 		command = { type = local_setflag which = war_preparedness when = 0 value = 4 }
 		
@@ -869,6 +874,12 @@ event = {
 		
 		command = { type = local_clrflag which = WAR_change		}
 		command = { type = local_clrflag which = do_not_demob	}
+		
+		command = { trigger = { ai = yes } type = local_setflag which = Z_lock }
+		command = { trigger = { ai = no }  type = unlock_division which = 27600 value = 640 }
+		command = { trigger = { ai = no }  type = unlock_division which = 27600 value = 641 }
+		command = { trigger = { ai = no }  type = unlock_division which = 27600 value = 642 }
+		command = { trigger = { ai = no }  type = unlock_division which = 27600 value = 643 }
 	} 
 }
 
@@ -1214,9 +1225,6 @@ event = {
 		#command = { type = task_efficiency which = attack 			value = -0.3 }
 		#command = { type = task_efficiency which = support_attack 	value = -0.3 }
 		
-		
-		command = { type = belligerence value = 10 }
-		
 		command = { type = local_setflag which = garSpec }
 		command = { type = local_setflag which = war_preparedness when = 0 value = 4 }
 		
@@ -1228,6 +1236,12 @@ event = {
 		
 		command = { type = local_clrflag which = WAR_change		}
 		command = { type = local_clrflag which = do_not_demob	}
+		
+		command = { trigger = { ai = yes } type = local_setflag which = Z_lock }
+		command = { trigger = { ai = no }  type = unlock_division which = 27600 value = 700 }
+		command = { trigger = { ai = no }  type = unlock_division which = 27600 value = 701 }
+		command = { trigger = { ai = no }  type = unlock_division which = 27600 value = 702 }
+		command = { trigger = { ai = no }  type = unlock_division which = 27600 value = 703 }
 	}
 }
 
