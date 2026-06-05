@@ -7,7 +7,8 @@ country =
   puppet				 = ENG
   control				 = ENG
   ai_settings			 = { flags = { RESInit = 1 puppetLevel9 = 1 ideology = 5 } }
-	manpower               = 16 
+	manpower               = 26 
+	dissent                = 5
    # Resource Reserves 
 	energy                 = 5620
 	metal                  = 2810

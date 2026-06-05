@@ -1945,6 +1945,7 @@ landunit =
     }
 	
 	landdivision = { dormant = yes id = { type = 13500 id = 2010 } 	name = "27ème Division Alpine" 				type = bergsjaeger model = 8 }
+	landdivision = { dormant = yes id = { type = 13500 id = 2011 } 	name = "27ème Division Alpine" 				type = bergsjaeger model = 8 }
 	
 	#After vichy is formed
 	landdivision = { dormant = yes id = { type = 13500 id = 2034 } 	name = "Legion etrangere 5e REI" 			type = infantry model = 10 experience = 60 									locked = yes }

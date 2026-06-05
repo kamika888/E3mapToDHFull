@@ -2278,6 +2278,11 @@ landunit =
 	landdivision = { dormant = yes id = { type = 12700 id = 10021 }  name = "49th 'West Riding' Division"  		type = infantry 	model = 10 											}
 	landdivision = { dormant = yes id = { type = 12700 id = 10022 }  name = "1st Infantry Division"  			type = infantry 	model = 10 											}
 	
+	#2401700 Wilfred withdrawal
+	landdivision = { dormant = yes id = { type = 12700 id = 10023 }  name = "5th 'Globe Trotters' Division" 	type = infantry 	model = 10 											}
+	landdivision = { dormant = yes id = { type = 12700 id = 10024 }  name = "49th 'West Riding' Division"  		type = infantry 	model = 10 											}
+	landdivision = { dormant = yes id = { type = 12700 id = 10025 }  name = "1st Infantry Division"  			type = infantry 	model = 10 											}
+	
 	#2405030 Torch
 	landdivision = { dormant = yes id = { type = 14800 id = 807 }	 name = "78th 'Battleaxe' Division" 		type = infantry 	model = 10	extra = engineer  brigade_model = 4 	} 
 	landdivision = { dormant = yes id = { type = 14800 id = 808 }	 name = "1st/3rd Special Service Brigades" 	type = marine 		model = 4	strength = 80							} 
