@@ -25,6 +25,12 @@ event = {
 		name = "EVT_362_ACTC"
 		command = { type = headofstate which = 10011 }
 		command = { type = sleepminister which = 10001 }
+		
+		command = { type = relation which = USA value = 10  }
+		command = { type = relation which = GER value = 10  }
+		command = { type = relation which = ITA value = 10  }
+		command = { type = relation which = VIC value = -10 }
+		command = { type = relation which = SOV value = -10 }
 		}
 	}
 
@@ -54,6 +60,179 @@ event = {
 		command = { type = sleepminister which = 10004 }
 		}
 	}
+	
+
+################################################
+
+### Edward VIII abdicates!
+
+event = {
+	id = 2001082
+	random = no
+	country = ENG
+	style = 2
+	
+	trigger = {
+		local_flag = AllInit
+		OR = {
+			headofstate = 10011 
+			headofstate = 10012
+			headofstate = 10013 
+		}
+	}
+
+	date = { day = 10 month = december year = 1936 }
+
+	name = "EVT_358_NAME"
+	desc = "EVT_358_DESC"
+	picture = "minister_resign"
+
+	action_a = {
+		name = "EVT_362_ACTA"
+		ai_chance = 100
+		command = { type = dissent value = 2 }
+		command = { type = headofstate which = 10014 }
+		command = { trigger = { NOT = { event = 2001039 } } type = headofgovernment which = 10017 }
+		command = { type = armamentminister which = 10037 }
+		command = { type = sleepminister which = 10011 } 
+		# Chamberlain - IRL 1937 though
+		command = { type = sleepminister which = 10002 }
+		# both Baldwin who retired after the coronation	
+		#command = { type = songs which = EdwardAbdicationAddress.txt }
+		
+		command = { type = relation which = USA value = -10 }
+		command = { type = relation which = GER value = -10 }
+		command = { type = relation which = ITA value = -10 }
+		command = { type = relation which = VIC value = 10  }
+		command = { type = relation which = SOV value = 10  }
+		}
+	action_b = {
+		name = "EVT_362_ACTB"
+		ai_chance = 0
+		command = { type = dissent value = 6 }
+		}
+	}
+
+
+#####################################
+
+### Austen Chamberlain passes away
+
+event = {
+	id = 2001081
+	random = no
+	country = ENG
+	style = 2
+
+	trigger = {
+		local_flag = AllInit
+		minister = 10059
+		}
+
+	date = { year = 1937 month = march day = 17 }
+
+	name = "EVT_2049060_NAME"
+	desc = "EVT_2049060_DESC"
+	picture = "minister_died"
+
+	action_a = {
+		name = "EVT_362_ACTC"
+		command = { type = sleepminister which = 10059 }
+		}
+	}
+
+#######################################################
+
+### Sir John Dill retires because of poor health
+
+event = {
+	id = 2001083
+	random = no
+	country = ENG
+	style = 2
+
+	trigger = {
+		local_flag = AllInit
+		minister = 10093
+		}
+
+	date = { year = 1941 month = december day = 6 }
+
+	name = "EVT_108_NAME"
+	desc = "EVT_108_DESC"
+	picture = "minister_resign"
+
+	action_a = {
+		name = "EVT_362_ACTC"
+		command = { type = sleepleader which = 10083 }
+		command = { type = sleepminister which = 10093 }
+		}
+	}
+
+
+#######################################################
+
+### Sir Dudley Pound passes away
+
+event = {
+	id = 2001084
+	random = no
+	country = ENG
+	style = 2
+
+	trigger = {
+		local_flag = AllInit
+		minister = 10112
+		}
+
+	date = { year = 1943 month = october day = 20 }
+
+	name = "EVT_2049060_NAME"
+	desc = "EVT_2049060_DESC"
+	picture = "minister_died"
+
+	action_a = {
+		name = "EVT_362_ACTC"
+		command = { type = sleepleader which = 10313 }
+		command = { type = sleepminister which = 10112 }
+		}
+	}
+
+
+#######################################################
+
+### Anthony Eden resigns from Chamberlain's office!
+
+event = {
+	id = 2001085
+	random = no
+	country = ENG
+	style = 2
+
+	trigger = {
+		local_flag = AllInit
+		Headofstate = 10017 	# Chamberlain
+		Incabinet = 10003	# Anthony Eden
+		}
+
+	date = { year = 1938 month = january day = 29 }
+
+	name = "EVT_361_NAME"
+	desc = "EVT_361_DESC"
+	picture = "minister_resign"
+
+	action_a = {
+		name = "EVT_362_ACTA"
+		ai_chance = 99
+		command = { type = foreignminister which = 10022 }
+		}
+	action_b = {
+		name = "EVT_362_ACTB"
+		ai_chance = 1
+		command = { }
+		}
+	}
+
 
 #####################################
 
@@ -892,32 +1071,6 @@ event = {
 		}
 	}
 
-#####################################
-
-### Austen Chamberlain passes away
-
-event = {
-	id = 2001081
-	random = no
-	country = ENG
-	style = 2
-
-	trigger = {
-		local_flag = AllInit
-		minister = 10059
-		}
-
-	date = { year = 1937 month = march day = 17 }
-
-	name = "EVT_2049060_NAME"
-	desc = "EVT_2049060_DESC"
-	picture = "minister_died"
-
-	action_a = {
-		name = "EVT_362_ACTC"
-		command = { type = sleepminister which = 10059 }
-		}
-	}
 
 #######################################
 
@@ -1005,182 +1158,6 @@ event = {
 
 
 
-
-#######################################################
-
-### Werner von Fritsch forced into retirement
-
-event = {
-	id = 2003090
-	random = no
-	country = GER
-	style = 2
-
-	trigger = {
-		local_flag = AllInit 
-		minister = 8
-		}
-
-	date = { year = 1938 month = january day = 28 }
-	offset = 15
-	deathdate = { year = 1947 month = december day = 29 }
-
-	name = "EVT_357_NAME"
-	desc = "EVT_357_DESC"
-	picture = "minister_resign"
-
-	action_a = {
-		ai_chance = 99
-		name = "EVT_362_ACTA"
-		command = { type = chiefofarmy which = 146 }
-		command = { type = sleepleader which = 608 }
-		command = { type = sleepminister which = 8 }
-		}
-	action_b = {
-		ai_chance = 1
-		name = "EVT_362_ACTB"
-		command = { type = dissent value = 2 }
-		}
-	}
-
-################################################
-
-### Edward VIII abdicates!
-
-event = {
-	id = 2001082
-	random = no
-	country = ENG
-	style = 2
-	
-	trigger = {
-		local_flag = AllInit
-		OR = {
-			headofstate = 10011 
-			headofstate = 10012
-			headofstate = 10013 
-		}
-	}
-
-	date = { day = 10 month = december year = 1936 }
-
-	name = "EVT_358_NAME"
-	desc = "EVT_358_DESC"
-	picture = "minister_resign"
-
-	action_a = {
-		name = "EVT_362_ACTA"
-		ai_chance = 100
-		command = { type = headofstate which = 10014 }
-		command = { trigger = { NOT = { event = 2001039 } } type = headofgovernment which = 10017 }
-		command = { type = armamentminister which = 10037 }
-		command = { type = sleepminister which = 10011 } 
-		# Chamberlain - IRL 1937 though
-		command = { type = sleepminister which = 10002 }
-		# both Baldwin who retired after the coronation	
-		#command = { type = songs which = EdwardAbdicationAddress.txt }
-		}
-	action_b = {
-		name = "EVT_362_ACTB"
-		ai_chance = 0
-		command = { type = dissent value = 2 }
-		}
-	}
-
-
-#######################################################
-
-### Sir John Dill retires because of poor health
-
-event = {
-	id = 2001083
-	random = no
-	country = ENG
-	style = 2
-
-	trigger = {
-		local_flag = AllInit
-		minister = 10093
-		}
-
-	date = { year = 1941 month = december day = 6 }
-
-	name = "EVT_108_NAME"
-	desc = "EVT_108_DESC"
-	picture = "minister_resign"
-
-	action_a = {
-		name = "EVT_362_ACTC"
-		command = { type = sleepleader which = 10083 }
-		command = { type = sleepminister which = 10093 }
-		}
-	}
-
-
-#######################################################
-
-### Sir Dudley Pound passes away
-
-event = {
-	id = 2001084
-	random = no
-	country = ENG
-	style = 2
-
-	trigger = {
-		local_flag = AllInit
-		minister = 10112
-		}
-
-	date = { year = 1943 month = october day = 20 }
-
-	name = "EVT_2049060_NAME"
-	desc = "EVT_2049060_DESC"
-	picture = "minister_died"
-
-	action_a = {
-		name = "EVT_362_ACTC"
-		command = { type = sleepleader which = 10313 }
-		command = { type = sleepminister which = 10112 }
-		}
-	}
-
-
-#######################################################
-
-### Anthony Eden resigns from Chamberlain's office!
-
-event = {
-	id = 2001085
-	random = no
-	country = ENG
-	style = 2
-
-	trigger = {
-		local_flag = AllInit
-		Headofstate = 10017 	# Chamberlain
-		Incabinet = 10003	# Anthony Eden
-		}
-
-	date = { year = 1938 month = january day = 29 }
-
-	name = "EVT_361_NAME"
-	desc = "EVT_361_DESC"
-	picture = "minister_resign"
-
-	action_a = {
-		name = "EVT_362_ACTA"
-		ai_chance = 99
-		command = { type = foreignminister which = 10022 }
-		}
-	action_b = {
-		name = "EVT_362_ACTB"
-		ai_chance = 1
-		command = { }
-		}
-	}
-
-
 #######################################################
 
 ### Werner von Blomberg replaced by the Führer (part of a wider cabinet reshuffle)
@@ -1209,12 +1186,13 @@ event = {
 	action_a = {
 		name = "EVT_362_ACTA"
 		ai_chance = 90
-		command = { type = armamentminister which = 56  } #Schacht (for now)
-		command = { type = foreignminister	which = 35  } #Ribbentrop
-		command = { type = chiefofarmy		which = 146 } #Brauchitsch
-		command = { type = sleepleader which = 604 }
-		command = { type = sleepminister which = 4 }
-		command = { type = dissent value = 1 }
+		command = { type = armamentminister which = 56	} #Schacht (for now)
+		command = { type = foreignminister	which = 35	} #Ribbentrop
+		command = { type = chiefofarmy		which = 284	} #Keitel
+		command = { type = sleepleader 		which = 604	}
+		command = { type = sleepminister 	which = 4	}
+		command = { type = sleepminister 	which = 152	}
+		command = { type = dissent			value = 1	}
 		}
 	action_b = {
 		name = "EVT_362_ACTB"
@@ -1223,6 +1201,48 @@ event = {
 		}
 	}
 
+
+#######################################################
+
+### Werner von Fritsch forced into retirement
+
+event = {
+	id = 2003090
+	random = no
+	country = GER
+	style = 2
+
+	trigger = {
+		local_flag = AllInit 
+		OR = {
+			minister = 8
+			minister = 282
+		}
+		event = 2003091
+		}
+
+	date = { year = 1938 month = january day = 28 }
+	offset = 15
+	deathdate = { year = 1947 month = december day = 29 }
+
+	name = "EVT_357_NAME"
+	desc = "EVT_357_DESC"
+	picture = "minister_resign"
+
+	action_a = {
+		ai_chance = 99
+		name = "EVT_362_ACTA"
+		command = { type = chiefofstaff		which = 283	} #Brauchitsch
+		command = { type = sleepleader 		which = 608	}
+		command = { type = sleepminister 	which = 8	}
+		command = { type = sleepminister 	which = 282	}
+		}
+	action_b = {
+		ai_chance = 1
+		name = "EVT_362_ACTB"
+		command = { type = dissent value = 2 }
+		}
+	}
 
 #######################################################
 

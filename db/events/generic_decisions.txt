@@ -11,6 +11,7 @@ event = {
 	decision = {
 		atwar = yes
 		NOT = { local_flag = grand_offensive }
+		NOT = { local_flag = grand_offensive_buff }
 	}
 
 	decision_trigger = {
@@ -18,6 +19,7 @@ event = {
 
 	trigger = {
 		NOT = { local_flag = grand_offensive }
+		NOT = { local_flag = grand_offensive_buff }
 		NOT = { local_flag = partisan_mode   }
 
 		OR = {
@@ -60,12 +62,22 @@ event = {
 						random = 20
 					}
 					AND = {
-						#Every winter on the anniversary of the revolution :X, until the motherland is freed
+						#Every winter on the anniversary of the revolution
 						country = SOV
 						supplies = 5000
-						lost_VP = { value = 5 }
-						month = November
-						day = 5 #+5 offset around the right date
+						OR = {
+							lost_VP = { value = 5 }
+							local_flag = upgrade50
+						}
+						OR = {
+							NOT = {
+								month = March
+							}
+							AND = {
+								month = November
+								day = 5 #+5 offset around the right date
+							}
+						}
 					}
 					AND = {
 						country = GER
@@ -171,6 +183,7 @@ event = {
 		name = "GrandOffensiveText"
 		command = { type = local_clrflag 						which = grand_off_start }
 		command = { type = local_setflag 						which = grand_offensive }
+		command = { type = local_setflag 						which = grand_offensive_buff }
 		command = { type = local_setflag when = 1				which = grand_offensiveCount value = 1 }
 
 		
@@ -256,6 +269,8 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
+		trigger = { local_flag = grand_offensive_buff }
+		command = { type = local_clrflag 		which = grand_offensive_buff }
 
 		#the cost is relative to military size.
 		command = { type = supply_consumption 	which = land 				value = -1	 }
@@ -3613,7 +3628,7 @@ event = {
 	action = {
 		name = EVT_9000055_ACTA
 		command = { type = money value = -200 }
-		command = { type = demobilize which = transport_plane when = 0 where = 0 value = -1 }
+		command = { type = demobilize which = transport_plane when = 0 where = 1 value = -1 }
 		
 		command = { type = event which = 9000056 where = -1 when = 30 }
 		command = { type = local_setflag which = reverseair_conversion }

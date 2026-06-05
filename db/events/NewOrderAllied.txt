@@ -41,6 +41,8 @@ event = {
         command = { type = dissent value = 5 }
         command = { type = headofstate which = 11 } # Gцring
 		command = { type = headofgovernment which = 275 } # Gцbbels
+		command = { type = chiefofarmy which = 285 } #Dцnitz
+		command = { type = chiefofstaff which = 287 } #Schцrner
         command = { type = sleepminister which = 1 } # Hitler
     }
     action = {
@@ -49,6 +51,8 @@ event = {
         command = { type = dissent value = 5 }
         command = { type = headofstate which = 12 } # Gцbbels
 		command = { type = headofgovernment which = 277 } # Himmler
+		command = { type = chiefofarmy which = 285 } #Dцnitz
+		command = { type = chiefofstaff which = 287 } #Schцrner
         command = { type = sleepminister which = 1 } # Hitler
     }
     action = {
@@ -57,6 +61,8 @@ event = {
         command = { type = dissent value = 10 }
         command = { type = headofstate which = 276 } # Himmler
 		command = { type = headofgovernment which = 275 } # Gцbbels
+		command = { type = chiefofarmy which = 285 } #Dцnitz
+		command = { type = chiefofstaff which = 287 } #Schцrner
         command = { type = sleepminister which = 1 } # Hitler
     }
     action = {
@@ -65,6 +71,8 @@ event = {
         command = { type = dissent value = 3 }
         command = { type = headofstate which = 13 } # Dцnitz
 		command = { type = headofgovernment which = 30 } #Krosigk
+		command = { type = chiefofarmy which = 285 } #Dцnitz
+		command = { type = chiefofstaff which = 287 } #Schцrner
 		#command = { type = armamentminister which = 64 } #Speer is fine too
         command = { type = sleepminister which = 1 } # Hitler
 		command = { type = sleepminister which = 275 } # Gobbels also dies
@@ -1700,6 +1708,9 @@ event = {
 		command = { type = addclaim				which = 213					where = POL }
 		command = { type = addclaim				which = 3278				where = POL }
 		
+		command = { trigger = { ai = U33 } type = event which = 2400040 where = U33 when = 0 } #exp0
+		command = { trigger = { ai = GRE } type = event which = 2400040 where = GRE when = 0 } #exp0
+		
 		command = { type = event which = 2003204 where = USA when = 1   } #Access to West Berlin
 		
 		
@@ -1847,6 +1858,25 @@ event = {
 		command = { type = construct which = ic where = 6224 value = 1 } #USA Beaver
 		command = { type = construct which = ic where = 3036 value = 1 } #ENG Coventry
 		command = { type = construct which = ic where = 3168 value = 1 } #VIC Autun
+		
+		#Former Axis ships joined to Soviet Fleet
+		command = { type = remove_division which = 23500 value = 305 }	#RN Giulio Cesare
+		command = { type = remove_division which = 23500 value = 112 }	#RN Duca d'Aosta
+		command = { type = remove_division which = 23500 value = 116 }	#RN Artigliere/Fuciliere
+		command = { type = remove_division which = 23500 value = 137 }	#RN Marea/XI Squadriglia Sommergibili
+		command = { type = remove_division which = 14500 value = 4   }	#KM Nürnberg
+		command = { type = remove_division which = 14500 value = 10  }	#KM Z33/Z20/Z15/Z14
+		command = { type = remove_division which = 13016 value = 197 }	#IJN Hibiki/Harutsuki/Akizuki
+		
+		
+		command = { type = add_corps		value = naval 				which = "ex-Axis Fleet"		where	= 253 }
+		command = { type = add_division		value = battleship			which = "Novorossiysk"		when	= 5   }	#RN Giulio Cesare
+		command = { type = add_division		value = light_cruiser		which = "Kerch"				when	= 5   }	#RN Duca d'Aosta
+		command = { type = add_division		value = light_cruiser		which = "Admiral Makarov"	when	= 5   }	#KM Nürnberg
+		command = { type = add_division		value = destroyer			which = "Neulovimy"			when	= 5   }	#RN Camicia Nera/Artigliere/Fuciliere
+		command = { type = add_division		value = destroyer			which = "Prochniy"			when	= 5   }	#KM Z33/Z20/Z15/Z14
+		command = { type = add_division		value = destroyer			which = "Vnezapniy"			when	= 5   }	#IJN Hibiki/Harutsuki/Akizuki
+		command = { type = add_division		value = submarine			which = "S41-45"			when	= 5   }	#RN Marea
     }
 }
 
@@ -2604,6 +2634,7 @@ event = {
 		name = "ACTION_NAME_OK"
 		trigger = { country = GRE }
 		command = { trigger = { ai = GRE } type = event which = 2400048 where = GRE when = 0 } #exp80
+		command = { trigger = { ai = GRE } type = event which = 2400013 where = GRE when = 0 } #gar30
 		command = { type = set_domestic which = political_left value = 4 }
 		
 		command = { trigger = { control = { province = 401 } } type = add_corps value = land where = 401 }
@@ -2711,6 +2742,8 @@ event = {
 		OR = {
 			NOT = { exists = U33 }
 			AND = {
+				war = { country = U33 }
+				NOT = { non_aggression = { country = GRE country = U33 } }
 				NOT = { area = { area = "Attica" 	country = -2 data = 1 value = 1 } }
 				NOT = { area = { area = "Thrace" 	country = -2 data = 1 value = 1 } }
 				control = { province = 396 data = -3 } #Crete
@@ -3646,7 +3679,7 @@ event = {
 		command = { type = add_division value = transport when = 3 }
 		command = { type = add_division value = transport when = 3 }
 		
-		command = { trigger = { ai = yes } type = demobilize which = militia when = 0 where = 0 value = -10 }
+		command = { trigger = { ai = yes } type = demobilize which = militia when = 0 where = 1 value = -10 }
 		
 		command = { trigger = { ai = yes } type = add_corps which = "Taiwan Garrisons" value = land where = 1323 }
 		command = { trigger = { ai = yes } type = activate_division which = 22000 value = 10001 where = 1323 when = 0 }

@@ -397,7 +397,6 @@ event = {
 
 	name = EVT_2002035_NAME
 	desc = EVT_2002035_DESC
-	picture = "Petain"
 
 	trigger = { 
 		war = { country = GER }
@@ -422,7 +421,7 @@ event = {
 	action = { 
 		name = EVT_2002035_ACTA
         ai_chance = 99
-		command = { type = dissent value = 1 }
+		command = { type = dissent 				value = 1 }
 		command = { type = urban_attack 		which = land value = -70  }
 		command = { type = urban_defense 		which = land value = -110 }
 		command = { type = event which = 2002036 where = VIC when = 60 }
@@ -431,7 +430,7 @@ event = {
 	action = {
         ai_chance = 1
 		name = EVT_2002035_ACTB
-		command = { type = dissent value = 5 }
+		command = { type = dissent				value = 5 }
 		command = { type = free_money		 							value = -1.0  } #cultural heritage permanently ruined
 		command = { type = construct which = ic 			where = 56	value = -2    }
 		command = { type = construct which = infrastructure where = 56	value = -20   }
@@ -445,16 +444,97 @@ event = {
 
 	name = EVT_2002036_NAME
 	desc = EVT_2002036_DESC
-	picture = "Petain"
 
 	action = { 
 		name = "ACTION_NAME_OK"
+		trigger = { flag = ParisOC }
+		command = { type = dissent				value = -1 }
 		command = { type = urban_attack 		which = land value = 70  }
 		command = { type = urban_defense 		which = land value = 110 }
 		command = { type = clrflag 				which = ParisOC }
     } 
 }
 
+#The Fall of Paris
+
+event = {
+	id = 2002037
+	random = no
+	country = VIC
+	style = 2
+
+	name = EVT_2002037_NAME
+	desc = EVT_2002037_DESC
+	picture = "Petain"
+	
+	trigger = { 
+		war = { country = GER }
+		control = { province = 56	data = -2 }
+		NOT = { event = { id = 2003045 days = 60 } } #Less than two months of fighting
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 1
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = { 
+		name = ACTION_NAME_DAMN
+		command = { type = dissent 					value = 4 }
+		command = { type = strength 				which = land when = 1 where = 0 org = -0.7 value = -0.1 } #desertions and disorg
+		command = { type = max_organization 		which = land 			value = -15 	}
+		command = { type = morale 					which = land 			value = -15  	}
+		command = { type = ground_def_eff   		when  = 1  				value = -0.3  	}
+		command = { type = task_efficiency 			which = Ground_attack 	value = -0.3 	}
+		command = { type = task_efficiency 			which = interdiction 	value = -0.3 	}
+		command = { 								type  = tc_mod 			value = -130	}
+		command = { type = plain_move 				which = land 			value = -20		}
+		command = { type = desert_move 				which = land 			value = -20		}
+		command = { type = mountain_move 			which = land 			value = -20		}
+		command = { type = urban_move 				which = land 			value = -20		}
+		command = { type = hill_move 				which = land 			value = -20		}
+		command = { type = forest_move 				which = land 			value = -20		}
+		command = { type = jungle_move 				which = land 			value = -20		}
+		command = { type = swamp_move 				which = land 			value = -20		}
+		
+		command = { type = event which = 1300003 	where = VIC 			when  = 0   	} #end grand offensive, if in progress
+		command = { type = event which = 2002038 	where = VIC 			when  = 30 		} #recovery in 1 month
+		
+		command = { trigger = { flag = ParisOC }	type = urban_attack 		which = land value = 70  }
+		command = { trigger = { flag = ParisOC }	type = urban_defense 		which = land value = 110 }
+		command = { trigger = { flag = ParisOC }	type = clrflag 				which = ParisOC 		 }
+    } 
+}
+
+event = {
+	id = 2002038
+	random = no
+	country = VIC
+	style = 2
+
+	name = EVT_2002038_NAME
+	desc = EVT_2002038_DESC
+	#desc = "After the initial chaotic three-four weeks following the fall of Paris, the wave of refugees finally died down while the shock of defeat began to wear off. The French now start to adjust to the new reality."
+	picture = "Petain"
+	
+	action = { 
+		name = ACTION_NAME_OK
+		command = { type = dissent 					value = -2 }
+		command = { type = max_organization 		which = land 			value = 15 		}
+		command = { type = morale 					which = land 			value = 15 		}
+		command = { type = ground_def_eff   		when  = 1  				value = 0.3  	}
+		command = { type = task_efficiency 			which = Ground_attack 	value = 0.3 	}
+		command = { type = task_efficiency 			which = interdiction 	value = 0.3 	}
+		command = { 								type  = tc_mod 			value = 130		}
+		command = { type = plain_move 				which = land 			value = 20		}
+		command = { type = desert_move 				which = land 			value = 20		}
+		command = { type = mountain_move 			which = land 			value = 20		}
+		command = { type = urban_move 				which = land 			value = 20		}
+		command = { type = hill_move 				which = land 			value = 20		}
+		command = { type = forest_move 				which = land 			value = 20		}
+		command = { type = jungle_move 				which = land 			value = 20		}
+		command = { type = swamp_move 				which = land 			value = 20		}
+    } 
+}
 
 
 ##########################
@@ -6777,6 +6857,8 @@ event = {
 		
 		command = { type = end_access which = IRQ when = 0 }
 		command = { type = end_access which = IRQ when = 1 }
+		
+		command = { type = ai which = "nations\FRA_VIC2.ai" }
 	}
 }
 
@@ -7284,7 +7366,7 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
-		command = { type = demobilize which = militia when = 0 where = 0 value = -1  }
+		command = { type = demobilize which = militia when = 0 where = 1 value = -1  }
 		
 		#reimbursing some supplies and manpower since the two new divs are both less than 1 full strength div and have no attachments
 		command = { type = supplies value = 600   }

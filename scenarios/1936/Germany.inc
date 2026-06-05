@@ -11,7 +11,7 @@ country =
   dissent				 = 8
   belligerence			 = 4
   capital                = 300
-	manpower               = 594.5 
+	manpower               = 194.5 
 	transports             = 450 
 	escorts                = 23 
 
@@ -290,8 +290,8 @@ blueprints = { 6230 6250 6900 }
    armamentminister       = {  type = 9 id = 56 } 
    ministerofsecurity     = {  type = 9 id = 5  } 
    ministerofintelligence = {  type = 9 id = 6  } 
-   chiefofstaff           = {  type = 9 id = 7  } 
-   chiefofarmy            = {  type = 9 id = 8  } 
+   chiefofstaff           = {  type = 9 id = 282 } #OKH CIC
+   chiefofarmy            = {  type = 9 id = 152 } #Reichswehrministerium -> OKW CIC
    chiefofnavy            = {  type = 9 id = 9  } 
    chiefofair             = {  type = 9 id = 10 } 
    dormant_leaders        = {  36 44 54 66 67 223 226 292 352 473 479 526
