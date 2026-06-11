@@ -7356,6 +7356,70 @@ event = {
 	}
 }
 
+#########################
+# RMS Laconia
+# Notable event, but also helping to reduce German belligerence a bit so is less likely to spike over 300 without unusual developments
+#########################
+event = {
+	id = 2003175
+	random = no
+	country = GER
+
+	name = EVT_2003175_NAME
+	desc = EVT_2003175_DESC
+	picture = "RMS_Laconia"
+	style = 2
+	
+	trigger = {
+		war = { country = ENG } 
+		war = { country = USA } 
+		OR = {
+			year = 1942
+			random = 20
+		}
+		OR = {
+			year = 1943
+			random = 30
+		}
+	}
+
+	date = { day = 0 month = january year = 1942 }
+	offset = 20
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = ACTION_NAME_DAMN
+		command = { type = belligerence	which = USA value =  4.0 }
+		command = { type = belligerence	which = ENG value =  1.0 }
+		command = { type = belligerence	which = GER value = -4.0 }
+		command = { type = belligerence	which = ITA value = -1.0 }
+		
+		command = { type = event which = 2003176 where = USA when = 0 }
+		command = { type = event which = 2003176 where = ENG when = 0 }
+		command = { type = event which = 2003176 where = ITA when = 0 }
+		command = { type = event which = 2003176 where = VIC when = 0 }
+	}
+}
+
+event = {
+	id = 2003176
+	random = no
+	persistent = yes
+
+	name = EVT_2003175_NAME
+	desc = EVT_2003175_DESC
+	picture = "RMS_Laconia"
+	style = 2
+
+	action = {
+		name = ACTION_NAME_DAMN
+		command = { trigger = { country = USA } type = dissent						value = 0.2 }
+		command = { trigger = { country = ENG } type = transport_pool	which = -1	value = -5  }
+		command = { trigger = { country = ITA } type = relation			which = USA	value = -30	}
+		command = { trigger = { country = VIC } type = relation			which = USA	value = -10	}
+		command = { }
+	}
+}
 
 #########################
 # Die Wunderwaffen
