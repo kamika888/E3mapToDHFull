@@ -459,20 +459,32 @@ event = {
 	action = {
 		name = EVT_2011000_ACTA
 		ai_chance = 100
-		command = { type = war which = U61 }
-		command = { type = war which = CSX }
-		command = { type = war which = CHI }
+		command = { type = end_non_aggression which = U58 where = JAP }
+		command = { type = end_non_aggression which = U58 where = MAN }
+		command = { type = end_non_aggression which = U58 where = MEN }
+		command = { type = end_non_aggression which = U58 where = U87 }
 		
-		#Tongzhou Mutiny
-		command = { type = remove_division which = 11854 value = 2 }
-		command = { type = remove_division which = 11854 value = 6 }
-
-		command = { type = secedearea which = -1 value = "Chahar" 			when = 2 }
-		command = { type = secedearea which = -1 value = "Suiyuan_Ningxia"	when = 2 }
-		command = { type = make_puppet which = MEN }
-		command = { type = event which = 2400537 where = MEN when = 0 } #medium-strong puppet
+		command = { type = event which = 1330110076 where = U58 when = 0 }
+		
+		command = { type = war which = CHI }
+		command = { trigger = { NOT = { alliance = { country = CHI country = U61 } } } type = war which = U61 }
+		command = { trigger = { NOT = { alliance = { country = CHI country = CSX } } } type = war which = CSX }
+		
+		#Since U87 is already in war, DoW on CHI counts as a manual declaration of war and gives +5.5 dissent by default
+		command = { type = dissent value = -6 } 
+		
+		#command = { type = secedearea which = -1 value = "Chahar" 			when = 2 }
+		#command = { type = secedearea which = -1 value = "Suiyuan_Ningxia"	when = 2 }
+		#command = { type = make_puppet which = MEN }
+		#command = { type = event which = 2400537 where = MEN when = 0 } #medium-strong puppet
 		#command = { type = alliance which = MAN when = 1 }
 		command = { type = trigger which = 2011001 }
+		
+		#Tongzhou Mutiny outrages Japan
+		command = { type = remove_division which = 11854 value = 2 }
+		command = { type = remove_division which = 11854 value = 6 }
+		command = { type = trigger which = 2011002 }
+		command = { type = dissent value = -4 } 
 
 		command = { type = secedeprovince which = U87 value = 1203 when = 1 }
 		command = { type = removeclaim which = 1203 }
@@ -505,13 +517,6 @@ event = {
 		command = { trigger = { ai = U87 } 	type = event 	which = 2400043 where = U87 when = 0 } #30 exp
 		command = { trigger = { ai = MEN } 	type = event 	which = 2400042 where = MEN when = 0 } #20 exp
 		command = { trigger = { puppet = { country = MEN country = JAP } }	type = military_control which = JAP where = MEN value = 1 }
-		
-		command = { type = end_non_aggression which = U58 where = JAP }
-		command = { type = end_non_aggression which = U58 where = MAN }
-		command = { type = end_non_aggression which = U58 where = MEN }
-		command = { type = end_non_aggression which = U58 where = U87 }
-		
-		command = { type = event which = 1330110076 where = U58 when = 0 }
 		
 		command = { type = end_trades which = JAP where = MEN }
 		command = { type = end_trades which = JAP where = U87 }
@@ -594,9 +599,26 @@ event = {
 
 	action = {
 		name = EVT_2011000_ACTA
-		command = { type = war which = U61 }
-		command = { type = war which = CSX }
 		command = { type = war which = CHI }
+		command = { trigger = { NOT = { alliance = { country = CHI country = U61 } } } type = war which = U61 }
+		command = { trigger = { NOT = { alliance = { country = CHI country = CSX } } } type = war which = CSX }
+		
+		#Since U87 is already in war, DoW on CHI counts as a manual declaration of war and gives +17 dissent by default
+		command = { type = dissent value = -18 } 
+	}
+}
+
+event = {
+	id = 2011002
+	random = no
+	country = REB
+
+	name = AI_EVENT
+
+	action = {
+		command = { type = add_corps value = land where = 2576 }
+		command = { type = add_division which = "1st Corps 'Tungchow'" 			value = militia when = 4 where = -85 }
+		command = { type = add_division which = "Training Corps 'Tungchow'"		value = militia when = 4 where = -85 }
 	}
 }
 
@@ -3318,6 +3340,10 @@ event = {
 						year = 1942
 						random = 20
 					}
+					AND = {
+						year = 1941
+						NOT = { oil = 30000 } #Panic!
+					}
 				}
 			}
 		}
@@ -3353,20 +3379,24 @@ event = {
 		ai_chance = 100
 		command = { type = belligerence which = JAP value = 20 }
 		command = { type = war which = USA }
-		command = { type = war which = PHI }
-		command = { trigger = { NOT = { alliance = { country = ENG country = GER } } } type = war which = ENG }
-		command = { trigger = { NOT = { alliance = { country = U36 country = GER } } } type = war which = U36 }
-		command = { trigger = { NOT = { alliance = { country = HOL country = GER } } } type = war which = HOL }
+		command = { trigger = { NOT = { alliance = { country = PHI country = USA } alliance = { country = PHI country = GER } } } type = war which = PHI }
+		command = { trigger = { NOT = { alliance = { country = ENG country = USA } alliance = { country = ENG country = GER } } } type = war which = ENG }
+		command = { trigger = { NOT = { alliance = { country = U36 country = ENG } alliance = { country = U36 country = GER } } } type = war which = U36 }
+		command = { trigger = { NOT = { alliance = { country = HOL country = ENG } alliance = { country = HOL country = GER } } } type = war which = HOL }
 		
 		command = { trigger = { ai = yes
 								NOT = { 
 									alliance = { country = SIA country = GER }
 									alliance = { country = SIA country = JAP }
+									alliance = { country = SIA country = ENG }
+									alliance = { country = SIA country = USA }
 								} } type = event which = 2059001 where = SIA when = 1 }
 		
 		command = { trigger = { NOT = { 
 									alliance = { country = SIA country = GER }
 									alliance = { country = SIA country = JAP }
+									alliance = { country = SIA country = ENG }
+									alliance = { country = SIA country = USA }
 								} } type = war which = SIA }
 		command = { type = addclaim which = 1315 } #Hong Kong
 		command = { type = local_setflag which = inMajorWar	}
@@ -3405,20 +3435,24 @@ event = {
 		}
 		command = { type = belligerence which = JAP value = 20 }
 		command = { type = war which = USA }
-		command = { type = war which = PHI }
-		command = { trigger = { NOT = { alliance = { country = ENG country = GER } } } type = war which = ENG }
-		command = { trigger = { NOT = { alliance = { country = U36 country = GER } } } type = war which = U36 }
-		command = { trigger = { NOT = { alliance = { country = HOL country = GER } } } type = war which = HOL }
+		command = { trigger = { NOT = { alliance = { country = PHI country = USA } alliance = { country = PHI country = GER } } } type = war which = PHI }
+		command = { trigger = { NOT = { alliance = { country = ENG country = USA } alliance = { country = ENG country = GER } } } type = war which = ENG }
+		command = { trigger = { NOT = { alliance = { country = U36 country = ENG } alliance = { country = U36 country = GER } } } type = war which = U36 }
+		command = { trigger = { NOT = { alliance = { country = HOL country = ENG } alliance = { country = HOL country = GER } } } type = war which = HOL }
 		
 		command = { trigger = { ai = yes
 								NOT = { 
 									alliance = { country = SIA country = GER }
 									alliance = { country = SIA country = JAP }
+									alliance = { country = SIA country = ENG }
+									alliance = { country = SIA country = USA }
 								} } type = event which = 2059001 where = SIA when = 1 }
 		
 		command = { trigger = { NOT = { 
 									alliance = { country = SIA country = GER }
 									alliance = { country = SIA country = JAP }
+									alliance = { country = SIA country = ENG }
+									alliance = { country = SIA country = USA }
 								} } type = war which = SIA }
 		command = { type = addclaim which = 1315 } #Hong Kong
 		command = { type = local_setflag which = inMajorWar	}
@@ -3799,6 +3833,10 @@ event = {
 				puppet = { country = -1 country = JAP }
 				NOT = { war = { country = JAP country = SOV } }
 			}
+			AND = {
+				country = U03
+				event = 2002054
+			}
 		}
 	}
 	
@@ -3907,7 +3945,9 @@ event = {
 		command = { trigger = { puppet = { country = MEN country = JAP } } type = event which = 2006043 where = MEN when = 0 }
 		command = { trigger = { puppet = { country = U87 country = JAP } } type = event which = 2006043 where = U87 when = 0 }
 		command = { trigger = { puppet = { country = SIA country = JAP } } type = event which = 2006043 where = SIA when = 0 }
-		command = { trigger = { event = 2002054 						 } type = event which = 2006043 where = U03 when = 0 }
+		command = { trigger = { event = 2002054 						 } type = event which = 2006043 where = U03 when = 1 }
+		
+		command = { type = trade which = JAP where = SOV supplies = -5 oil = 12 value = 1 } 
 	}
 }
 
@@ -4223,6 +4263,8 @@ event = {
 		command = { type = capital which = 1469 }
 		
 		command = { type = free_ic  value = 1 }
+		
+		command = { trigger = { ai = IND } type = event which = 2400050 where = -1 when = 15 } #exp_100
 	}
 }
 

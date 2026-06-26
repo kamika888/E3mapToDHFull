@@ -787,6 +787,7 @@ event = {
 					random = 2
 				}
 			}
+			event = 2405300 #German balkans withdrawal
 			AND = {
 				NOT = { local_flag = GRE_1943 }
 				#Late 1942-Early 1943, first major uprising
@@ -810,10 +811,7 @@ event = {
 		command = { type = local_setflag which = GRERevolt }
 		
 		command = { trigger = {
-						OR = {
-							event = { id = 2007041 days = 90  } #3 months from invasion of USSR
-							event = { id = 203120  days = 360 } #A year from partitioning of Yugoslavia
-						}
+						event = { id = 2022025 days = 540 }
 				}	type = local_setflag which = GRE_1943 }
 				
 		command = { trigger = { war = { country = GER country = U66 } } type = inherit which = U66 value = 1 } #Pindus
@@ -2351,9 +2349,12 @@ event = {
 			NOT = { area = { area = "Astrakhan" country = U42 data = 1 value = 1 } }
 		}
 		OR = {
-			event = 3183520 #Soviets began deportations
 			area = { area = "Astrakhan" 	country = REB	data = 1 	value = 15 } #4 provinces
 			garrison = { country = REB province = 1847	country = REB	type = land size = 8 area = 1 } #8 rebel divisions in area
+			AND = {
+				event = 3183520 #Soviets began deportations
+				NOT = { local_flag = CHE_Germany }
+			}
 			AND = {
 				war = { country = GER country = SOV }
 				NOT = { local_flag = CHE_Germany }
@@ -3011,6 +3012,9 @@ event = {
 		command = { type = remove_units which = all where = REB when = 0 value = 499  }
 		command = { type = remove_units which = all where = REB when = 0 value = 3233 }
 		command = { type = remove_units which = all where = REB when = 0 value = 3270 }
+		
+		command = { type = strength which = land when = 1 where = 1 		  value = -0.5 } 
+		command = { type = strength which = land when = 1 where = 1 org = 100 value =  0.1 } 
 	
 		command = { type = event 		which = 8012 where = -1 when = 0 }
 	}
@@ -3508,18 +3512,14 @@ event = {
 			NOT = { exists = CHC }
 			NOT = { region = { region = "China" 	country = CHC data = 1 value = 4 } } #20 provinces
 		}
+		flag = { which = japChi when = 1	value = 55 }
 		OR = {
-			region = { region = "China" 	country = REB data = 1 value = 3 } #15 provinces
 			#garrison = { country = REB province = 1379	country = REB type = land size = 20 area = 2 } #20 rebel divisions in China region
-			AND = {
-				flag = { which = japChi when = 1	value = 55 }
-				OR = {
-					NOT = { local_flag = ThousandRegimentsOff }
-					flag = SOV_Lend_Lease_to_CHI1
-					flag = ENG_Lend_Lease_to_CHI1
-					flag = USA_Lend_Lease_to_CHI1
-				}
-			}
+			region = { region = "China" 	country = REB data = 1 value = 3 } #15 provinces
+			NOT = { local_flag = ThousandRegimentsOff }
+			flag = SOV_Lend_Lease_to_CHI1
+			flag = ENG_Lend_Lease_to_CHI1
+			flag = USA_Lend_Lease_to_CHI1
 		}
 	}
 
@@ -9117,7 +9117,7 @@ event = {
 		command = { type = belligerence value = 16 }
 		command = { type = extra_tc 	value = 30 } #Needed to counteract "occupied territory maintenance", since even national territory will count as occupied.
 		
-		command = { type = strength which = all when = 1 where = 0 value = 40 } 
+		command = { type = strength which = all when = 1 where = 0 value = 0.4 } 
 		
 		command = { type = set_domestic which = professional_army	value = 4 }	
 		command = { type = set_domestic which = defense_lobby		value = 7 }

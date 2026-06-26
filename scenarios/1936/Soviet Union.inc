@@ -6,7 +6,7 @@ country =
 { tag                    = SOV
   regular_id             = RUS
   intrinsic_gov_type     = leninist
-  ai_settings			 = { flags = { RESInit = 1 ideology = 9 } }
+  ai_settings			 = { flags = { RESInit = 1 ideology = 9 } trade = { embargo = { JAP MON MEN U87 SIA } } }
   ai					 = "EXP_1.ai"
   capital                = 175
 	# Resource Reserves 

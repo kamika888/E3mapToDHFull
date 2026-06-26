@@ -535,6 +535,21 @@ event = {
 			lost_VP	= { value = 1 }
 		}
 		NOT = { local_flag = reinf }
+		OR = { 
+			NOT = {	country = JAP }
+			war = { country = USA }
+			war = { country = ENG }
+			war = { country = VIC }
+			war = { country = SOV }
+			war = { country = JAP }
+			war = { country = ITA }
+			war = { country = CHI }
+			war = { country = GER }
+			AND = {
+				year = 1937
+				month = May
+			}
+		}
 	}
    
 	name = "AI_EVENT"
@@ -3902,7 +3917,7 @@ event = {
 		OR = {
 			AND = {
 				army = 600
-				NOT = { army = 900 }
+				NOT = { army = 1000 }
 			}
 			AND = {
 				lost_VP = { value = 15 }
@@ -3936,8 +3951,8 @@ event = {
 		
 		OR = {
 			AND = {
-				army = 900
-				NOT = { army = 1200 }
+				army = 1000
+				NOT = { army = 1300 }
 			}
 			AND = {
 				lost_VP = { value = 30 } #SOV at top
@@ -3971,7 +3986,7 @@ event = {
 		
 		OR = {
 			AND = {
-				army = 1200
+				army = 1300
 				NOT = { army = 1500 }
 			}
 			AND = {
@@ -4781,9 +4796,9 @@ event = {
 	deathdate = { day = 29 month = december year = 1965 }
 
 	action = {
-		#trigger = { OR = { country = USA country = ENG country = JAP } }
-		trigger = { OR = { country = USA country = ENG } }
-		#Japan will start Mixed to deal with china, switch to naval in 1939
+		trigger = { OR = { country = USA country = ENG country = JAP } }
+		#trigger = { OR = { country = USA country = ENG } }
+		#Japan to start out mixed then switch to naval?
 		#USA will start Naval then switch to Land temporarily
 		command = { trigger = { policy = { type = freedom value = 1  } NOT = { policy = { type = freedom value = 2  } } } type = ai 			which = "buildNaval1_2.ai"		}
 		command = { trigger = { policy = { type = freedom value = 1  } NOT = { policy = { type = freedom value = 2  } } } type = local_setflag	which = AI1936_naval value = 1  }
@@ -4809,8 +4824,8 @@ event = {
 		command = { 																									  type = ai 			which = "airStrat.ai"			}
 	}
 	action = {
-		#trigger = { OR = { country = GER country = ITA country = VIC } }
-		trigger = { OR = { country = GER country = ITA country = VIC country = JAP } }
+		trigger = { OR = { country = GER country = ITA country = VIC } }
+		#trigger = { OR = { country = GER country = ITA country = VIC country = JAP } }
 		command = { trigger = { policy = { type = freedom value = 1  } NOT = { policy = { type = freedom value = 2  } } } type = ai 			which = "buildMixed1_2.ai"		}
 		command = { trigger = { policy = { type = freedom value = 1  } NOT = { policy = { type = freedom value = 2  } } } type = local_setflag	which = AI1936_mixed value = 1  }
 		command = { trigger = { policy = { type = freedom value = 2  } NOT = { policy = { type = freedom value = 3  } } } type = ai 			which = "buildMixed1_2.ai"		}
@@ -5919,6 +5934,27 @@ event = {
 	}
 }
 
+#redeployment for war against two guangs just in case
+
+event = {
+	id = 2401054
+	random = no 
+	country = CHI
+	
+	name = "AI_EVENT"
+
+	action = {
+		command = { type = demobilize 	which = infantry	when = 0 where = 1 value = -3 }
+
+		command = { type = add_corps 	value = land  where = 1937 }
+		command = { type = add_division value = infantry when = 4  }
+		command = { type = add_corps 	value = land  where = 5621 }
+		command = { type = add_division value = infantry when = 4  }
+		command = { type = add_corps 	value = land  where = 1257 }
+		command = { type = add_division value = infantry when = 4  }
+	}
+}
+
 #to prevent the front AI from misbehaving, it must not be either allied or puppet of CHI and JAP
 #currently using an alternative route through front_leader_home. Very risky but kind of cool.
 event = { 
@@ -6362,6 +6398,8 @@ event = {
 
 	action = {
 		command = { type = ai which = "nations\GER_AUS.ai" }
+		
+		command = { type = auto_trade which = oil when = stockpile value = 1 }
 	}
 }
 
@@ -8675,9 +8713,10 @@ event = {
 
 	name = "AI_EVENT"
 	
-	date = { day = 1 month = january year = 1936 }
-	offset = 15
-	deathdate = { day = 29 month = december year = 1963 }
+	#No longer necessary, Japan starts out with Naval AI. Setting again will reset the upgrade proportion
+	#date = { day = 1 month = january year = 1936 }
+	#offset = 15
+	#deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
 		command = {																										  type = local_clrflag	which = AI1936_land  }
@@ -8746,6 +8785,8 @@ event = {
 		
 		command = { type = remove_units which = all where = -2 when = 0 value = 3086 } #just in case
 		command = { trigger = { NOT = { control = { province = 3086 } } } type = secedeprovince	which = JAP value = 3086 when = 2 } #just in case
+		
+		command = { type = auto_trade which = oil when = stockpile value = 1 }
 	}
 }
 
@@ -14865,56 +14906,107 @@ event = {
 		command = { type = manpowerpool 		value = -12    }
 		command = { type = supplies 			value = -1200  }
 		
+		#command = { 											type = add_corps 	value = land 	where = 1739 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5729 } } type = add_corps 	value = land 	where = 5729 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5730 } } type = add_corps 	value = land 	where = 5730 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1741 } } type = add_corps 	value = land 	where = 1741 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5733 } } type = add_corps 	value = land 	where = 5733 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5731 } } type = add_corps 	value = land 	where = 5731 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5726 } } type = add_corps 	value = land 	where = 5726 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5728 } } type = add_corps 	value = land 	where = 5728 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1742 } } type = add_corps 	value = land 	where = 1742 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1744 } } type = add_corps 	value = land 	where = 1744 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1745 } } type = add_corps 	value = land 	where = 1745 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5722 } } type = add_corps 	value = land 	where = 5722 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1747 } } type = add_corps 	value = land 	where = 1747 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5723 } } type = add_corps 	value = land 	where = 5723 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1746 } } type = add_corps 	value = land 	where = 1746 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5724 } } type = add_corps 	value = land 	where = 5724 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1736 } } type = add_corps 	value = land 	where = 1736 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5721 } } type = add_corps 	value = land 	where = 5721 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1750 } } type = add_corps 	value = land 	where = 1750 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5717 } } type = add_corps 	value = land 	where = 5717 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1748 } } type = add_corps 	value = land 	where = 1748 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1743 } } type = add_corps 	value = land 	where = 1743 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1737 } } type = add_corps 	value = land 	where = 1737 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { 											type = add_corps 	value = land 	where = 5725 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1735 } } type = add_corps 	value = land 	where = 1735 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		
 		command = { 											type = add_corps 	value = land 	where = 1739 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5729 } } type = add_corps 	value = land 	where = 5729 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5730 } } type = add_corps 	value = land 	where = 5730 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1741 } } type = add_corps 	value = land 	where = 1741 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5733 } } type = add_corps 	value = land 	where = 5733 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5731 } } type = add_corps 	value = land 	where = 5731 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5726 } } type = add_corps 	value = land 	where = 5726 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5728 } } type = add_corps 	value = land 	where = 5728 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1742 } } type = add_corps 	value = land 	where = 1742 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1744 } } type = add_corps 	value = land 	where = 1744 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1745 } } type = add_corps 	value = land 	where = 1745 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5722 } } type = add_corps 	value = land 	where = 5722 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1747 } } type = add_corps 	value = land 	where = 1747 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5723 } } type = add_corps 	value = land 	where = 5723 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1746 } } type = add_corps 	value = land 	where = 1746 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5724 } } type = add_corps 	value = land 	where = 5724 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1736 } } type = add_corps 	value = land 	where = 1736 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5721 } } type = add_corps 	value = land 	where = 5721 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1750 } } type = add_corps 	value = land 	where = 1750 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5717 } } type = add_corps 	value = land 	where = 5717 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1748 } } type = add_corps 	value = land 	where = 1748 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1743 } } type = add_corps 	value = land 	where = 1743 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1737 } } type = add_corps 	value = land 	where = 1737 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { 											type = add_corps 	value = land 	where = 5725 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1735 } } type = add_corps 	value = land 	where = 1735 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 	}
 }
 
@@ -15058,39 +15150,73 @@ event = {
 		command = { type = manpowerpool 		value = -8    }
 		command = { type = supplies 			value = -800  } 
 		
+		#command = { 											type = add_corps 	value = land 	where = 1613 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1628 } } type = add_corps 	value = land 	where = 1628 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1630 } } type = add_corps 	value = land 	where = 1630 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5797 } } type = add_corps 	value = land 	where = 5797 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1373 } } type = add_corps 	value = land 	where = 1373 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 661  } } type = add_corps 	value = land 	where = 661  }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5800 } } type = add_corps 	value = land 	where = 5800 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1632 } } type = add_corps 	value = land 	where = 1632 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1634 } } type = add_corps 	value = land 	where = 1634 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5799 } } type = add_corps 	value = land 	where = 5799 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1631 } } type = add_corps 	value = land 	where = 1631 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1612 } } type = add_corps 	value = land 	where = 1612 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		
+		#command = { trigger = { control = { province = 1635 } } type = add_corps 	value = land 	where = 1635 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1637 } } type = add_corps 	value = land 	where = 1637 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1638 } } type = add_corps 	value = land 	where = 1638 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5802 } } type = add_corps 	value = land 	where = 5802 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		
 		command = { 											type = add_corps 	value = land 	where = 1613 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1628 } } type = add_corps 	value = land 	where = 1628 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1630 } } type = add_corps 	value = land 	where = 1630 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5797 } } type = add_corps 	value = land 	where = 5797 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1373 } } type = add_corps 	value = land 	where = 1373 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 661  } } type = add_corps 	value = land 	where = 661  }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5800 } } type = add_corps 	value = land 	where = 5800 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1632 } } type = add_corps 	value = land 	where = 1632 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1634 } } type = add_corps 	value = land 	where = 1634 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5799 } } type = add_corps 	value = land 	where = 5799 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1631 } } type = add_corps 	value = land 	where = 1631 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1612 } } type = add_corps 	value = land 	where = 1612 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		
 		command = { trigger = { control = { province = 1635 } } type = add_corps 	value = land 	where = 1635 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1637 } } type = add_corps 	value = land 	where = 1637 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1638 } } type = add_corps 	value = land 	where = 1638 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5802 } } type = add_corps 	value = land 	where = 5802 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 
 	}
 }
@@ -15126,53 +15252,101 @@ event = {
 		command = { type = manpowerpool 		value = -11   }
 		command = { type = supplies 			value = -1100 }
 		
+		#command = { 											type = add_corps 	value = land 	where = 1359 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1661 } } type = add_corps 	value = land 	where = 1661 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5767 } } type = add_corps 	value = land 	where = 5767 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1355 } } type = add_corps 	value = land 	where = 1355 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1663 } } type = add_corps 	value = land 	where = 1663 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5769 } } type = add_corps 	value = land 	where = 5769 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5770 } } type = add_corps 	value = land 	where = 5770 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5779 } } type = add_corps 	value = land 	where = 5779 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5785 } } type = add_corps 	value = land 	where = 5785 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1356 } } type = add_corps 	value = land 	where = 1356 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5790 } } type = add_corps 	value = land 	where = 5790 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1358 } } type = add_corps 	value = land 	where = 1358 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5795 } } type = add_corps 	value = land 	where = 5795 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1354 } } type = add_corps 	value = land 	where = 1354 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5763 } } type = add_corps 	value = land 	where = 5763 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5831 } } type = add_corps 	value = land 	where = 5831 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5832 } } type = add_corps 	value = land 	where = 5832 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		
+		#command = { trigger = { control = { province = 5793 } } type = add_corps 	value = land 	where = 5793 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5775 } } type = add_corps 	value = land 	where = 5775 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 2939 } } type = add_corps 	value = land 	where = 2939 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5774 } } type = add_corps 	value = land 	where = 5774 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 2938 } } type = add_corps 	value = land 	where = 2938 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5768 } } type = add_corps 	value = land 	where = 5768 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		
 		command = { 											type = add_corps 	value = land 	where = 1359 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1661 } } type = add_corps 	value = land 	where = 1661 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5767 } } type = add_corps 	value = land 	where = 5767 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1355 } } type = add_corps 	value = land 	where = 1355 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1663 } } type = add_corps 	value = land 	where = 1663 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5769 } } type = add_corps 	value = land 	where = 5769 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5770 } } type = add_corps 	value = land 	where = 5770 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5779 } } type = add_corps 	value = land 	where = 5779 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5785 } } type = add_corps 	value = land 	where = 5785 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1356 } } type = add_corps 	value = land 	where = 1356 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5790 } } type = add_corps 	value = land 	where = 5790 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1358 } } type = add_corps 	value = land 	where = 1358 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5795 } } type = add_corps 	value = land 	where = 5795 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1354 } } type = add_corps 	value = land 	where = 1354 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5763 } } type = add_corps 	value = land 	where = 5763 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5831 } } type = add_corps 	value = land 	where = 5831 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5832 } } type = add_corps 	value = land 	where = 5832 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		
 		command = { trigger = { control = { province = 5793 } } type = add_corps 	value = land 	where = 5793 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5775 } } type = add_corps 	value = land 	where = 5775 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 2939 } } type = add_corps 	value = land 	where = 2939 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5774 } } type = add_corps 	value = land 	where = 5774 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 2938 } } type = add_corps 	value = land 	where = 2938 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5768 } } type = add_corps 	value = land 	where = 5768 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 	}
 }
 
@@ -15208,56 +15382,107 @@ event = {
 		command = { type = manpowerpool 		value = -12   }
 		command = { type = supplies 			value = -1200 }
 		
+		#command = {												type = add_corps 	value = land 	where = 1641 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1615 } } type = add_corps 	value = land 	where = 1615 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1644 } } type = add_corps 	value = land 	where = 1644 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1646 } } type = add_corps 	value = land 	where = 1646 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1647 } } type = add_corps 	value = land 	where = 1647 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1649 } } type = add_corps 	value = land 	where = 1649 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1650 } } type = add_corps 	value = land 	where = 1650 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 2936 } } type = add_corps 	value = land 	where = 2936 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 2940 } } type = add_corps 	value = land 	where = 2940 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5741 } } type = add_corps 	value = land 	where = 5741 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5743 } } type = add_corps 	value = land 	where = 5743 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5744 } } type = add_corps 	value = land 	where = 5744 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5745 } } type = add_corps 	value = land 	where = 5745 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5746 } } type = add_corps 	value = land 	where = 5746 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5748 } } type = add_corps 	value = land 	where = 5748 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5749 } } type = add_corps 	value = land 	where = 5749 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5750 } } type = add_corps 	value = land 	where = 5750 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5752 } } type = add_corps 	value = land 	where = 5752 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5754 } } type = add_corps 	value = land 	where = 5754 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5758 } } type = add_corps 	value = land 	where = 5758 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5760 } } type = add_corps 	value = land 	where = 5760 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5833 } } type = add_corps 	value = land 	where = 5833 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5834 } } type = add_corps 	value = land 	where = 5834 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5894 } } type = add_corps 	value = land 	where = 5894 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 7991 } } type = add_corps 	value = land 	where = 7991 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		
 		command = {												type = add_corps 	value = land 	where = 1641 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1615 } } type = add_corps 	value = land 	where = 1615 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1644 } } type = add_corps 	value = land 	where = 1644 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1646 } } type = add_corps 	value = land 	where = 1646 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1647 } } type = add_corps 	value = land 	where = 1647 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1649 } } type = add_corps 	value = land 	where = 1649 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1650 } } type = add_corps 	value = land 	where = 1650 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 2936 } } type = add_corps 	value = land 	where = 2936 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 2940 } } type = add_corps 	value = land 	where = 2940 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5741 } } type = add_corps 	value = land 	where = 5741 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5743 } } type = add_corps 	value = land 	where = 5743 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5744 } } type = add_corps 	value = land 	where = 5744 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5745 } } type = add_corps 	value = land 	where = 5745 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5746 } } type = add_corps 	value = land 	where = 5746 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5748 } } type = add_corps 	value = land 	where = 5748 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5749 } } type = add_corps 	value = land 	where = 5749 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5750 } } type = add_corps 	value = land 	where = 5750 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5752 } } type = add_corps 	value = land 	where = 5752 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5754 } } type = add_corps 	value = land 	where = 5754 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5758 } } type = add_corps 	value = land 	where = 5758 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5760 } } type = add_corps 	value = land 	where = 5760 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5833 } } type = add_corps 	value = land 	where = 5833 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5834 } } type = add_corps 	value = land 	where = 5834 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5894 } } type = add_corps 	value = land 	where = 5894 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 7991 } } type = add_corps 	value = land 	where = 7991 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 	}
 }
 
@@ -15293,44 +15518,83 @@ event = {
 		command = { type = manpowerpool 		value = -10   }
 		command = { type = supplies 			value = -1000 }
 		
+		#command = { 											type = add_corps 	value = land 	where = 1653 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1640 } } type = add_corps 	value = land 	where = 1640 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1651 } } type = add_corps 	value = land 	where = 1651 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1652 } } type = add_corps 	value = land 	where = 1652 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5817 } } type = add_corps 	value = land 	where = 5817 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5818 } } type = add_corps 	value = land 	where = 5818 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5819 } } type = add_corps 	value = land 	where = 5819 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5820 } } type = add_corps 	value = land 	where = 5820 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5821 } } type = add_corps 	value = land 	where = 5821 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5822 } } type = add_corps 	value = land 	where = 5822 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5823 } } type = add_corps 	value = land 	where = 5823 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5824 } } type = add_corps 	value = land 	where = 5824 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5825 } } type = add_corps 	value = land 	where = 5825 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5826 } } type = add_corps 	value = land 	where = 5826 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5827 } } type = add_corps 	value = land 	where = 5827 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5828 } } type = add_corps 	value = land 	where = 5828 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5829 } } type = add_corps 	value = land 	where = 5829 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5830 } } type = add_corps 	value = land 	where = 5830 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5850 } } type = add_corps 	value = land 	where = 5850 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		
 		command = { 											type = add_corps 	value = land 	where = 1653 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1640 } } type = add_corps 	value = land 	where = 1640 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1651 } } type = add_corps 	value = land 	where = 1651 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1652 } } type = add_corps 	value = land 	where = 1652 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5817 } } type = add_corps 	value = land 	where = 5817 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5818 } } type = add_corps 	value = land 	where = 5818 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5819 } } type = add_corps 	value = land 	where = 5819 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5820 } } type = add_corps 	value = land 	where = 5820 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5821 } } type = add_corps 	value = land 	where = 5821 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5822 } } type = add_corps 	value = land 	where = 5822 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5823 } } type = add_corps 	value = land 	where = 5823 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5824 } } type = add_corps 	value = land 	where = 5824 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5825 } } type = add_corps 	value = land 	where = 5825 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5826 } } type = add_corps 	value = land 	where = 5826 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5827 } } type = add_corps 	value = land 	where = 5827 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5828 } } type = add_corps 	value = land 	where = 5828 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5829 } } type = add_corps 	value = land 	where = 5829 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5830 } } type = add_corps 	value = land 	where = 5830 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5850 } } type = add_corps 	value = land 	where = 5850 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 	}
 }
 
@@ -15366,36 +15630,67 @@ event = {
 		command = { type = manpowerpool 		value = -7    }
 		command = { type = supplies 			value = -7000 }
 		
+		#command = { 											type = add_corps 	value = land 	where = 5811 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1636 } } type = add_corps 	value = land 	where = 1636 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1654 } } type = add_corps 	value = land 	where = 1654 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1655 } } type = add_corps 	value = land 	where = 1655 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1656 } } type = add_corps 	value = land 	where = 1656 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1757 } } type = add_corps 	value = land 	where = 1757 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5807 } } type = add_corps 	value = land 	where = 5807 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5808 } } type = add_corps 	value = land 	where = 5808 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5809 } } type = add_corps 	value = land 	where = 5809 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5810 } } type = add_corps 	value = land 	where = 5810 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5812 } } type = add_corps 	value = land 	where = 5812 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5813 } } type = add_corps 	value = land 	where = 5813 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5814 } } type = add_corps 	value = land 	where = 5814 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5815 } } type = add_corps 	value = land 	where = 5815 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5816 } } type = add_corps 	value = land 	where = 5816 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		
 		command = { 											type = add_corps 	value = land 	where = 5811 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1636 } } type = add_corps 	value = land 	where = 1636 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1654 } } type = add_corps 	value = land 	where = 1654 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1655 } } type = add_corps 	value = land 	where = 1655 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1656 } } type = add_corps 	value = land 	where = 1656 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1757 } } type = add_corps 	value = land 	where = 1757 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5807 } } type = add_corps 	value = land 	where = 5807 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5808 } } type = add_corps 	value = land 	where = 5808 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5809 } } type = add_corps 	value = land 	where = 5809 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5810 } } type = add_corps 	value = land 	where = 5810 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5812 } } type = add_corps 	value = land 	where = 5812 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5813 } } type = add_corps 	value = land 	where = 5813 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5814 } } type = add_corps 	value = land 	where = 5814 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5815 } } type = add_corps 	value = land 	where = 5815 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5816 } } type = add_corps 	value = land 	where = 5816 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 	}
 }
 
@@ -15432,101 +15727,197 @@ event = {
 		command = { type = manpowerpool 		value = -23.5 }
 		command = { type = supplies 			value = -2350 }
 		
+		#command = {												type = add_corps 	value = land 	where = 1184 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1174 } } type = add_corps 	value = land 	where = 1174 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1176 } } type = add_corps 	value = land 	where = 1176 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1178 } } type = add_corps 	value = land 	where = 1178 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1179 } } type = add_corps 	value = land 	where = 1179 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1180 } } type = add_corps 	value = land 	where = 1180 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1181 } } type = add_corps 	value = land 	where = 1181 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1182 } } type = add_corps 	value = land 	where = 1182 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1183 } } type = add_corps 	value = land 	where = 1183 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1185 } } type = add_corps 	value = land 	where = 1185 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1187 } } type = add_corps 	value = land 	where = 1187 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1188 } } type = add_corps 	value = land 	where = 1188 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1189 } } type = add_corps 	value = land 	where = 1189 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1190 } } type = add_corps 	value = land 	where = 1190 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1191 } } type = add_corps 	value = land 	where = 1191 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1192 } } type = add_corps 	value = land 	where = 1192 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1193 } } type = add_corps 	value = land 	where = 1193 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1399 } } type = add_corps 	value = land 	where = 1399 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1436 } } type = add_corps 	value = land 	where = 1436 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1523 } } type = add_corps 	value = land 	where = 1523 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 3064 } } type = add_corps 	value = land 	where = 3064 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 3070 } } type = add_corps 	value = land 	where = 3070 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 3071 } } type = add_corps 	value = land 	where = 3071 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 3074 } } type = add_corps 	value = land 	where = 3074 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 3077 } } type = add_corps 	value = land 	where = 3077 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 3078 } } type = add_corps 	value = land 	where = 3078 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 3082 } } type = add_corps 	value = land 	where = 3082 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 3084 } } type = add_corps 	value = land 	where = 3084 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 3085 } } type = add_corps 	value = land 	where = 3085 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 3086 } } type = add_corps 	value = land 	where = 3086 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 3087 } } type = add_corps 	value = land 	where = 3087 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5653 } } type = add_corps 	value = land 	where = 5653 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 5655 } } type = add_corps 	value = land 	where = 5655 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 7939 } } type = add_corps 	value = land 	where = 7939 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 7940 } } type = add_corps 	value = land 	where = 7940 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 7942 } } type = add_corps 	value = land 	where = 7942 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 7943 } } type = add_corps 	value = land 	where = 7943 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 7963 } } type = add_corps 	value = land 	where = 7963 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 7964 } } type = add_corps 	value = land 	where = 7964 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 7965 } } type = add_corps 	value = land 	where = 7965 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 7966 } } type = add_corps 	value = land 	where = 7966 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 7967 } } type = add_corps 	value = land 	where = 7967 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		
+		#command = { trigger = { control = { province = 7969 } } type = add_corps 	value = land 	where = 7969 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 1177 } } type = add_corps 	value = land 	where = 1177 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 7970 } } type = add_corps 	value = land 	where = 7970 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 7971 } } type = add_corps 	value = land 	where = 7971 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		#command = { trigger = { control = { province = 3089 } } type = add_corps 	value = land 	where = 3089 }
+		#command = { type = add_division value = garrison when = 5 where = -95 }
+		
 		command = {												type = add_corps 	value = land 	where = 1184 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1174 } } type = add_corps 	value = land 	where = 1174 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1176 } } type = add_corps 	value = land 	where = 1176 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1178 } } type = add_corps 	value = land 	where = 1178 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1179 } } type = add_corps 	value = land 	where = 1179 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1180 } } type = add_corps 	value = land 	where = 1180 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1181 } } type = add_corps 	value = land 	where = 1181 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1182 } } type = add_corps 	value = land 	where = 1182 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1183 } } type = add_corps 	value = land 	where = 1183 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1185 } } type = add_corps 	value = land 	where = 1185 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1187 } } type = add_corps 	value = land 	where = 1187 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1188 } } type = add_corps 	value = land 	where = 1188 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1189 } } type = add_corps 	value = land 	where = 1189 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1190 } } type = add_corps 	value = land 	where = 1190 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1191 } } type = add_corps 	value = land 	where = 1191 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1192 } } type = add_corps 	value = land 	where = 1192 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1193 } } type = add_corps 	value = land 	where = 1193 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1399 } } type = add_corps 	value = land 	where = 1399 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1436 } } type = add_corps 	value = land 	where = 1436 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1523 } } type = add_corps 	value = land 	where = 1523 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 3064 } } type = add_corps 	value = land 	where = 3064 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 3070 } } type = add_corps 	value = land 	where = 3070 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 3071 } } type = add_corps 	value = land 	where = 3071 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 3074 } } type = add_corps 	value = land 	where = 3074 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 3077 } } type = add_corps 	value = land 	where = 3077 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 3078 } } type = add_corps 	value = land 	where = 3078 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 3082 } } type = add_corps 	value = land 	where = 3082 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 3084 } } type = add_corps 	value = land 	where = 3084 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 3085 } } type = add_corps 	value = land 	where = 3085 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 3086 } } type = add_corps 	value = land 	where = 3086 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 3087 } } type = add_corps 	value = land 	where = 3087 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5653 } } type = add_corps 	value = land 	where = 5653 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 5655 } } type = add_corps 	value = land 	where = 5655 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 7939 } } type = add_corps 	value = land 	where = 7939 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 7940 } } type = add_corps 	value = land 	where = 7940 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 7942 } } type = add_corps 	value = land 	where = 7942 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 7943 } } type = add_corps 	value = land 	where = 7943 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 7963 } } type = add_corps 	value = land 	where = 7963 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 7964 } } type = add_corps 	value = land 	where = 7964 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 7965 } } type = add_corps 	value = land 	where = 7965 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 7966 } } type = add_corps 	value = land 	where = 7966 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 7967 } } type = add_corps 	value = land 	where = 7967 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		
 		command = { trigger = { control = { province = 7969 } } type = add_corps 	value = land 	where = 7969 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 1177 } } type = add_corps 	value = land 	where = 1177 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 7970 } } type = add_corps 	value = land 	where = 7970 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 7971 } } type = add_corps 	value = land 	where = 7971 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 		command = { trigger = { control = { province = 3089 } } type = add_corps 	value = land 	where = 3089 }
-		command = { type = add_division value = garrison when = 5 where = -95 }
+		command = { type = add_division value = militia when = 5 where = -95 }
 	
 		#39
 		command = { type = manpowerpool 		value = -18   }
@@ -15675,6 +16066,7 @@ event = {
 	}
 }
 
+#auto-invasions
 #####################################################################
 #AI historic naval invasions
 #####################################################################
@@ -19634,13 +20026,13 @@ event = {
 	action = {
 		#In case AI accumulated any extras on the staging island, deploying them to Indonesia as regular infantry divisions to help with the conquest
 		
-		command = { trigger = { local_flag = { which = japInv when = 1 value = 51 } } type = add_corps 			 						value = land  where = 5795 }
+		command = { trigger = { local_flag = { which = japInv when = 1 value = 51 } } type = add_corps 			 						value = land  where = 1648 }
 		command = { trigger = { local_flag = { which = japInv when = 1 value = 51 } } type = add_division								value = infantry when = 10 } 
 		command = { trigger = { local_flag = { which = japInv when = 1 value = 52 } } type = add_division								value = infantry when = 10 } 	
 		command = { trigger = { local_flag = { which = japInv when = 1 value = 53 } } type = add_division								value = infantry when = 10 } 	
 		command = { trigger = { local_flag = { which = japInv when = 1 value = 54 } } type = add_division								value = infantry when = 10 } 
 		command = { trigger = { local_flag = { which = japInv when = 1 value = 55 } } type = add_division								value = infantry when = 10 } 
-		command = { trigger = { local_flag = { which = japInv when = 1 value = 56 } } type = add_corps 			 						value = land  where = 5746 }
+		command = { trigger = { local_flag = { which = japInv when = 1 value = 56 } } type = add_corps 			 						value = land  where = 5795 } #5746
 		command = { trigger = { local_flag = { which = japInv when = 1 value = 56 } } type = add_division								value = infantry when = 10 } 
 		command = { trigger = { local_flag = { which = japInv when = 1 value = 57 } } type = add_division								value = infantry when = 10 } 
 		command = { trigger = { local_flag = { which = japInv when = 1 value = 58 } } type = add_division								value = infantry when = 10 } 

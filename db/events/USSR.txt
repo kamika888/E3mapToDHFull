@@ -3964,7 +3964,7 @@ event = {
 		command = { type = chiefofarmy which = 30046 } #Stalin replaces Tymoshenko as Minister of Defense
 		command = { type = local_setflag which = inMajorWar	}
 		
-		#Delayed
+		#Active from the start
 		#command = { trigger = { ai = yes } type = embargo which = -1 where = JAP value = 1  } #stop selling oil to japan damnit
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 0 } #General mobilization
 		
@@ -3984,6 +3984,9 @@ event = {
 		
 		command = { trigger = { control = { province = 3341 } } type = metalpool value = -4000 }
 		command = { trigger = { control = { province = 3341 } } type = construct which = land_fort where = 3341 value = 2 }
+		
+		command = { trigger = { ai = yes } type = event which = 2400032 where = SOV when = 0   } #invasionNo
+		command = { trigger = { ai = yes } type = event which = 2400033 where = SOV when = 720 } #invasionYes
 	}
 }
 
@@ -6026,7 +6029,7 @@ event = {
 		command = { trigger = { NOT = { local_flag = SOVterror3 } } type = dissent value = 3 }
 		
 		#command = { type = event which = 2400152 where = -1 when = 0   } #initial confusion
-		command = { type = event which = 2400153 where = -1 when = 0   } #initial confusion
+		#command = { type = event which = 2400153 where = -1 when = 0   } #initial confusion
 		
 		#More purges - longer period before recovery
 		#No purges - recovery in 1 month. Full purges - recovery in 6 months.
@@ -6038,12 +6041,12 @@ event = {
 		#command = { trigger = { flag = { which = SOV_penalty when = 0 value = 1 } } 										type = event which = 2400161 where = -1 when = 40 } #recovery in 40 days
 		#command = { trigger = { flag = { which = SOV_penalty when = 0 value = 0 } } 										type = event which = 2400161 where = -1 when = 30 } #recovery in 30 days
 			
-		command = { trigger = { flag = { which = SOV_penalty when = 1 value = 5 } } 										type = event which = 2400163 where = -1 when = 80 } #recovery in 80 days
-		command = { trigger = { flag = { which = SOV_penalty when = 0 value = 4 } } 										type = event which = 2400163 where = -1 when = 70 } #recovery in 70 days
-		command = { trigger = { flag = { which = SOV_penalty when = 0 value = 3 } } 										type = event which = 2400163 where = -1 when = 60 } #recovery in 60 days #typical at May 1941
-		command = { trigger = { flag = { which = SOV_penalty when = 0 value = 2 } } 										type = event which = 2400163 where = -1 when = 50 } #recovery in 50 days
-		command = { trigger = { flag = { which = SOV_penalty when = 0 value = 1 } } 										type = event which = 2400163 where = -1 when = 40 } #recovery in 40 days
-		command = { trigger = { flag = { which = SOV_penalty when = 0 value = 0 } } 										type = event which = 2400163 where = -1 when = 30 } #recovery in 30 days
+		#command = { trigger = { flag = { which = SOV_penalty when = 1 value = 5 } } 										type = event which = 2400163 where = -1 when = 80 } #recovery in 80 days
+		#command = { trigger = { flag = { which = SOV_penalty when = 0 value = 4 } } 										type = event which = 2400163 where = -1 when = 70 } #recovery in 70 days
+		#command = { trigger = { flag = { which = SOV_penalty when = 0 value = 3 } } 										type = event which = 2400163 where = -1 when = 60 } #recovery in 60 days #typical at May 1941
+		#command = { trigger = { flag = { which = SOV_penalty when = 0 value = 2 } } 										type = event which = 2400163 where = -1 when = 50 } #recovery in 50 days
+		#command = { trigger = { flag = { which = SOV_penalty when = 0 value = 1 } } 										type = event which = 2400163 where = -1 when = 40 } #recovery in 40 days
+		#command = { trigger = { flag = { which = SOV_penalty when = 0 value = 0 } } 										type = event which = 2400163 where = -1 when = 30 } #recovery in 30 days
 		
 		#command = { trigger = { local_flag = SOVterror1 local_flag = SOVterror2 local_flag = SOVterror3 } 						type = event which = 2400162 where = -1 when = 60 } #recovery in 60 days YYY
 		#command = { trigger = { NOT = { local_flag = SOVterror1 } local_flag = SOVterror2 local_flag = SOVterror3 } 			type = event which = 2400162 where = -1 when = 50 } #recovery in 50 days XYY
@@ -9542,5 +9545,34 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		command = { type = military_control which = SOV where = SIK value = 1 }
+	}
+}
+
+
+event = { 
+	id = 23126545
+	random = no
+	country = SOV
+
+	trigger= { 
+		ai = yes
+	}
+
+	name = "EMBARGO"
+	desc = "EMBARGO"
+	style = 2
+
+	date = { day = 1 month = january year = 1936 }
+	offset = 1
+	deathdate = { day = 29 month = december year = 1999 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = relation	which = JAP				value = -5 }
+		command = { type = embargo	which = -1 where = JAP	value =  1 }
+		command = { type = embargo	which = -1 where = MAN	value =  1 }
+		command = { type = embargo	which = -1 where = MEN	value =  1 }
+		command = { type = embargo	which = -1 where = U87	value =  1 }
+		command = { type = embargo	which = -1 where = SIA	value =  1 }
 	}
 }

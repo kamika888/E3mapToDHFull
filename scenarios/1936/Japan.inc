@@ -4,7 +4,7 @@
 
 country =
 { tag                    = JAP
-  ai_settings			 = { flags = { RESInit = 1 ideology = 3 WARDebt = 3 war_preparedness = 10 } }
+  ai_settings			 = { flags = { RESInit = 1 Depression = 6 ideology = 3 WARDebt = 3 war_preparedness = 10 } }
   belligerence           = 3
   ai					 = "EXP_1.ai"
   capital                = 1184
@@ -13,11 +13,12 @@ country =
 	energy                 = 46000 
 	metal                  = 28000 
 	rare_materials         = 14000 
-	oil                    = 4000 
-	supplies               = 500 
+	oil                    = 20000 
+	supplies               = 75000 #Japan is at partial mob
 	money                  = 1000 
 	transports             = 1600 
 	escorts                = 270 
+	industrial_modifier    = 1.10
   free = { 
 	ic = 2 
 	energy = 2
@@ -218,9 +219,9 @@ country =
      democratic        = 5 
      political_left    = 3 
      freedom           = 7
-     free_market       = 5
+     free_market       = 4
      professional_army = 5  
-     defense_lobby     = 6 
+     defense_lobby     = 5 
      interventionism   = 10 
   }
 	blueprints = { 81730 81740 } 

@@ -1572,13 +1572,13 @@ event = {
 		command = { trigger = { NOT = { war = { country = USA country = JAP } } belligerence = { country = SOV value = 170 } }	type = dissent value = 1  }
 		command = { trigger = { NOT = { war = { country = USA country = JAP } } belligerence = { country = SOV value = 180 } }	type = dissent value = 1  }
 		command = { trigger = { NOT = { war = { country = USA country = JAP } } belligerence = { country = SOV value = 190 } }	type = dissent value = 1  }
-		command = { type = money value = -1500 } #financial losses due to embargo
+		command = { type = money value = -1500 } #financial losses due to embargo + USA agrees to compensate other countries to discourage them from trading with US
 		command = { trigger = { ai = yes } type = money	value = 10 }
 		
 		command = { type = embargo which = USA where = JAP value = 1 }
-		command = { type = embargo which = ENG where = JAP value = 1 }
-		command = { type = embargo which = HOL where = JAP value = 1 }
-		command = { type = embargo which = U05 where = JAP value = 1 }
+		#command = { type = embargo which = ENG where = JAP value = 1 }
+		#command = { type = embargo which = HOL where = JAP value = 1 }
+		#command = { type = embargo which = U05 where = JAP value = 1 }
 		
 		command = { type = belligerence	which = USA value =  1.0 }
 		command = { type = belligerence	which = JAP value = -1.0 }
@@ -1586,6 +1586,7 @@ event = {
 		command = { type = relation		which = JAP value = -20 }
 		command = { type = trigger		which = 561 }
 		command = { type = trigger		which = 562 }
+		#command = { type = trigger		which = 563 }
 	}
 }
 
@@ -1621,6 +1622,55 @@ event = {
 		command = { trigger = { NOT = { war = { country = USA country = JAP } } } type = dissent value = -0.5 } #national consolidation
 		command = { type = money	 value = -500 }  #financial losses due to embargo
 		command = { trigger = { ai = yes } type = money	value = 10 }
+	}
+}
+
+event = {
+	id = 563
+	random = no
+	persistent = yes
+	#embargo command fails to read the correct country trigger
+	#all = yes
+
+	name = EVT_562_NAME
+	desc = EVT_562_DESC
+	style = 2
+	picture = "news_paper"
+
+	trigger = {
+		atwar = JAP
+		NOT = { embargo = { country = -1 country = JAP } }
+		event = 560
+		NOT = { country = USA }
+		OR = {
+			country = ENG
+			country = HOL
+			country = U05
+			continent = "North America"
+			continent = "South America"
+		}
+		NOT = {
+			war = { country = USA }
+			alliance = { country = JAP }
+			AND = { 
+				country = MEX
+				flag = MEXFascist
+			}
+		}
+	}
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 10
+	deathdate = { day = 0 month = december year = 1945 }
+
+	action = {
+		name = ACTION_NAME_DAMN
+		command = { type = relation	which = JAP				value = -5 }
+		command = { type = embargo	which = -1 where = JAP	value =  1 }
+		command = { type = embargo	which = -1 where = MAN	value =  1 }
+		command = { type = embargo	which = -1 where = MEN	value =  1 }
+		command = { type = embargo	which = -1 where = U87	value =  1 }
+		command = { type = embargo	which = -1 where = SIA	value =  1 }
 	}
 }
 
@@ -2163,6 +2213,7 @@ event = {
 		command = { trigger = { ai = yes } type = non_aggression which = MON where = MEN when = 14 } 
 		command = { trigger = { ai = yes } type = non_aggression which = MON where = U87 when = 14 } 
 		command = { trigger = { ai = yes } type = non_aggression which = MON where = MAN when = 14 } 
+		command = { trigger = { ai = MON } type = event which = 2400046 where = MON when = 0 } #exp_60
 		
 		command = { type = belligerence	which = SOV value =  2.0 }
 		command = { type = belligerence	which = JAP value = -2.0 }
@@ -9808,6 +9859,61 @@ event = {
     } 
 }
 
+#Japan captures some intact oil and gasoline stockpiles and production facilities
+
+event = {
+	id = 2049108
+	random = no 
+	country = JAP
+
+	decision = {
+	}
+	decision_trigger = {
+		NOT = { event = { id = 2011025 days = 30 } } #1 month max to seize at least one major oil field
+		region = { region = "Indonesia"			country = -3 value = 20 }
+		OR = {
+			control = { province = 1355 data = -3 }
+			control = { province = 1356 data = -3 }
+			control = { province = 1358 data = -3 }
+			control = { province = 1630 data = -3 }
+			control = { province = 1632 data = -3 }
+			control = { province = 1634 data = -3 }
+			control = { province = 1648 data = -3 }
+			control = { province = 1649 data = -3 }
+			control = { province = 1650 data = -3 }
+		}
+	}
+	trigger = {
+		NOT = { event = { id = 2011025 days = 120 } } #4 months max to seize at least one major oil field
+		region = { region = "Indonesia"			country = -3 value = 20 }
+		OR = {
+			control = { province = 1355 data = -3 }
+			control = { province = 1356 data = -3 }
+			control = { province = 1358 data = -3 }
+			control = { province = 1630 data = -3 }
+			control = { province = 1632 data = -3 }
+			control = { province = 1634 data = -3 }
+			control = { province = 1648 data = -3 }
+			control = { province = 1649 data = -3 }
+			control = { province = 1650 data = -3 }
+		}
+	}
+
+	name = EVT_2049108_NAME
+	desc = EVT_2049108_DESC
+	style = 2
+	picture = "Pearl_harbor"	
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 30 month = december year = 1963 }
+
+	action = {
+		name = ACTION_NAME_GREAT
+		command = { type = dissent	value =  -0.5 }
+		command = { type = oilpool	value = 10000 }
+	}
+}
 
 #########################
 # Manhattan Project
@@ -9990,7 +10096,8 @@ event = {
 		ai = no
         policy = { type = professional_army value = 2 } 
 	}
-       
+    
+	#Player warning
 	name = EVT_2049130_NAME
 	desc = EVT_2049130_DESC
 	style = 2
@@ -13664,6 +13771,7 @@ event = {
 		command = {	trigger = { atwar = MEX } type = event	which = 3143	where = MEX when = 0 }
 		
 		command = { type = relation which = GER value =  100 }
+		command = { type = relation which = JAP value =  100 }
 		command = { type = relation which = USA value = -100 }
 		command = { type = relation which = SOV value = -100 }
 		command = { type = set_domestic which = political_left value = 3 }
@@ -13680,6 +13788,12 @@ event = {
 		command = { type = local_setflag which = do_not_demob }
 		
 		command = { type = trade which = USA where = MEX money = -2 value = 1 }
+
+		command = { type = embargo	which = -1 where = JAP	value = -1 }
+		command = { type = embargo	which = -1 where = MAN	value = -1 }
+		command = { type = embargo	which = -1 where = MEN	value = -1 }
+		command = { type = embargo	which = -1 where = U87	value = -1 }
+		command = { type = embargo	which = -1 where = SIA	value = -1 }
 		
 		command = { type = setflag which = MEXFascist }
 	}

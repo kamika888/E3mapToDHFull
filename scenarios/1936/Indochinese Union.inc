@@ -119,6 +119,13 @@
        extra    = engineer 
 	   brigade_model = 2
       } 
+     Division = 
+     {  id       = {  type = 13500 id = 2009  } 
+       name     = "Tirailleurs laotiens" 
+       strength = 100 
+       type     = militia
+	   model    = 4
+      }  
      } 
     landunit = 
    {  id       = {  type = 13500 id = 2003  } 
