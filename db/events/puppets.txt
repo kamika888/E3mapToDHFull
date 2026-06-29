@@ -1,6 +1,6 @@
 ##
 #
-#2400520 - Automatic Independent State init. Will fire if country revolted, released by player, OR by event. Will clear any puppet effects if they exist (2400530) and will also trigger forced peace (2400602) if legitIndie is not set.
+#2400520 - Automatic Independent State init. Will fire if country revolted, released by player, etc. Will clear any puppet effects if they exist (2400530) and will also trigger forced peace (2400602) if legitIndie is not set.
 #2400521 - Automatic Lvl1puppet Puppet init. Will fire if country is puppeted and puppetLevel1 flag is set, but not puppetLevel1made. Only triggers 2400531. Will ALSO fire if no puppetLevel flag is set at all,
 #2400522 - Automatic Lvl2puppet Puppet init. Will fire if country is puppeted and puppetLevel2 flag is set, but not puppetLevel2made. Only triggers 2400532.
 #2400523 - Automatic Lvl3puppet Puppet init. Will fire if country is puppeted and puppetLevel3 flag is set, but not puppetLevel3made. Only triggers 2400533.
@@ -37,6 +37,8 @@
 #2400551 - Removes the counter-AI-cheat penalties. Will fire if formerly AI country becomes human controlled.
 #2400552 - Setting the stayInWar flag to true. Country with the "stayInWar" flag will not quit the war if it ceases being a puppet.
 #2400553 - Recording the puppet master
+#2400554 - Triggerable removeal of puppetOf flag
+#2400555 - Triggerable end_puppet. IF not followed by 2400530, will end up triggering 2400520.
 #
 #2400600 - Resistance event chain starting point. Sets a timer to trigger 2400601 within a certain time period. 1 year for puppetLevel1, 2 years for puppetLevel2, 4 years for puppetLevel3
 #2400601 - If still a puppet, one of 3 things will happen: revolution fails (5% dissent gain); 25% revolution succeeds (will end puppet status and trigger 2400530 & 2400602), 25% civil war (10% dissent and massive rebellions)
@@ -697,6 +699,22 @@ event = {
 }
 
 event = {
+	id = 2400555
+	random = no 
+	persistent = yes
+
+	name = "AI_EVENT"
+	style = 2
+	
+	action = {
+		command = { type = end_puppet }
+
+		command = { type = dissent value = -100 }
+		command = { type = belligerence value = -500 }
+	}
+}
+
+event = {
 	id = 2400530
 	random = no 
 	persistent = yes
@@ -852,6 +870,9 @@ event = {
 		command = { trigger = { local_flag = puppetLevel9made } type = morale 						which = land			value = 1   }
 		command = { trigger = { local_flag = puppetLevel9made } type = intelligence		 			which = them 			value = -2  }
 		command = { trigger = { local_flag = puppetLevel9made } type = army_detection				which = them 			value = -2  }
+		
+		#May accidentally break something, using 2400555 instead for triggerable end_puppet
+		#command = { type = end_puppet }
 		
 		command = { type = local_clrflag which = indiePrep }
 		command = { type = local_setflag which = legitIndie }
@@ -6536,7 +6557,7 @@ event = {
 		name = EVT_2400602_ACTA
 		command = { type = regime_falls }
 		command = { type = dissent value = -100 }
-		command = { type = belligerence value = -100 }
+		command = { type = belligerence value = -500 }
 		
 		#reset belligerence
 		command = { type = trigger which = 101 }

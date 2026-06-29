@@ -6573,7 +6573,7 @@ event = {
 		war = { country = JAP }
 		OR = {
 			AND = {
-				area = { area = "Indochine" 	country = -2 value = 70 }
+				area = { area = "Indochine" 	country = -2 value = 40 }
 				area = { area = "North Burma" 	country = -2 value = 70 }
 			}
 			area = { area = "Yunnan" 			country = -2 value = 70 }
@@ -6608,7 +6608,7 @@ event = {
 		war = { country = JAP }
 		NOT = {
 			AND = {
-				area = { area = "Indochine" 	country = -2 value = 70 }
+				area = { area = "Indochine" 	country = -2 value = 40 }
 				area = { area = "North Burma" 	country = -2 value = 70 }
 			}
 			area = { area = "Yunnan" 			country = -2 value = 70 }
@@ -6728,7 +6728,6 @@ event = {
 		command = { type = event 	which = 1001 where = CHC when = 0 }
 	}
 }
-
 
 #US aid to UK adjustment/termination
 
@@ -8713,6 +8712,215 @@ event = {
 	}
 }
 
+#Flying the Hump
+
+event = {
+	id = 2049230
+	random = no
+	country = USA
+	persistent = yes
+
+	name = EVT_2049230_NAME
+	desc = EVT_2049230_DESC
+	style = 2
+
+	decision = {
+		NOT = { local_flag = USA_theHump }
+		flag = USA_Lend_Lease_to_CHI0
+		OR = {
+			control = { province = 1360 data = CHI }
+			control = { province = 2551 data = CHI }
+			control = { province = 1918 data = CHI }
+			control = { province = 1307 data = CHI }
+		}
+	}
+	decision_trigger = {
+		#OR = {
+			transport_plane = { country = USA value = 1 when = now }
+		#	transport_plane = { country = ENG value = 1 when = now }
+		#}
+	}
+	trigger = {
+		NOT = { local_flag = USA_theHump }
+		flag = USA_Lend_Lease_to_CHI0
+		#OR = {
+			transport_plane = { country = USA value = 1 when = now }
+		#	transport_plane = { country = ENG value = 1 when = now }
+		#}
+		OR = {
+			control = { province = 1360 data = CHI }
+			control = { province = 2551 data = CHI }
+			control = { province = 1918 data = CHI }
+			control = { province = 1307 data = CHI }
+		}
+		NOT = { flag = WarInAmerica }
+		OR = {
+			flag = BurmaRoadClosed
+			NOT = { control = { province = 1296 data = U02 } }
+			NOT = { control = { province = 5185 data = U02 } }
+			NOT = { control = { province = 5598 data = CHI } }
+			NOT = { control = { province = 1918 data = CHI } }
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 20
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = free_supplies 	value = -100 }
+		command = { type = free_energy 		value = -100 }
+		command = { type = free_metal 		value = -60  }
+		command = { type = free_oil 		value = -60  }
+		
+		command = { type = extra_tc			value = -300 }
+		
+		command = { type = local_setflag	which = USA_theHump }
+		command = { type = money			value = -200 }
+		command = { type = demobilize which = transport_plane when = 0 where = 1 value = -1 }
+		
+		command = { type = event 			which = 2049231 where = CHI when = 0 }
+	}
+}
+
+event = {
+	id = 2049231
+	random = no
+	country = CHI
+	persistent = yes
+
+	name = EVT_2049230_NAME
+	desc = EVT_2049230_DESC
+	style = 2
+
+	action = {
+		name = ACTION_NAME_GREAT
+		command = { type = free_supplies 	value = 80  }
+		command = { type = free_energy 		value = 80  }
+		command = { type = free_metal 		value = 40  }
+		command = { type = free_oil 		value = 40  }
+		command = { type = extra_tc			value = 300 }
+	}
+}
+
+event = {
+	id = 2049232
+	random = no
+	country = USA
+	persistent = yes
+
+	name = EVT_2049232_NAME
+	desc = EVT_2049232_DESC
+	style = 2
+
+	decision = {
+		local_flag = USA_theHump
+	}
+	decision_trigger = {
+	}
+	trigger = {
+		local_flag = USA_theHump
+		OR = {
+			flag = WarInAmerica
+			AND = {
+				NOT = { flag = BurmaRoadClosed }
+				control = { province = 1296 data = U02 }
+				control = { province = 5185 data = U02 }
+				control = { province = 5598 data = CHI }
+				control = { province = 1918 data = CHI }
+			}
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 20
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = free_supplies 	value = 100 }
+		command = { type = free_energy 		value = 100 }
+		command = { type = free_metal 		value =  60 }
+		command = { type = free_oil 		value =  60 }
+		command = { type = extra_tc			value = 300 }
+		
+		command = { type = local_clrflag	which = USA_theHump }
+		command = { type = add_division value = transport_plane when = 1 }
+		
+		command = { type = event 			which = 2049234 where = CHI when = 0 }
+	}
+}
+
+event = {
+	id = 2049233
+	random = no
+	country = USA
+	persistent = yes
+
+	name = EVT_2049232_NAME
+	desc = EVT_2049232_DESC
+	style = 2
+
+	trigger = {
+		local_flag = USA_theHump
+		NOT = {
+			AND = {
+				OR = {
+					transport_plane = { country = USA value = 1 when = now }
+					transport_plane = { country = ENG value = 1 when = now }
+				}
+				OR = {
+					control = { province = 1360 data = CHI }
+					control = { province = 2551 data = CHI }
+					control = { province = 1918 data = CHI }
+					control = { province = 1307 data = CHI }
+				}
+			}
+		}
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 20
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = free_supplies 	value = 100 }
+		command = { type = free_energy 		value = 100 }
+		command = { type = free_metal 		value =  60 }
+		command = { type = free_oil 		value =  60 }
+		command = { type = extra_tc			value = 300 }
+		
+		command = { type = local_clrflag	which = USA_theHump }
+		command = { type = add_division value = transport_plane when = 1 }
+		
+		command = { type = event 			which = 2049234 where = CHI when = 0 }
+	}
+}
+
+
+event = {
+	id = 2049234
+	random = no
+	country = CHI
+	persistent = yes
+
+	name = EVT_2049232_NAME
+	desc = EVT_2049232_DESC
+	style = 2
+
+	action = {
+		name = ACTION_NAME_DAMN
+		command = { type = free_supplies 	value =  -80 }
+		command = { type = free_energy 		value =  -80 }
+		command = { type = free_metal 		value =  -40 }
+		command = { type = free_oil 		value =  -40 }
+		command = { type = extra_tc			value = -300 }
+	}
+}
+
+
 #########################################################################
 #  US occupation of Greenland and Iceland
 #@ 1941-04-09
@@ -9771,6 +9979,9 @@ event = {
 		command = { type = secederegion which = U56 value = "Philippines" 	when = 1 }
 		command = { type = event which = 2049101 where = JAP when = 1 }
 		command = { type = remove_units which = all where = REB when = 2 value = "Philippines" }
+		
+		command = { trigger = { ai = JAP NOT = { event = 2405205 } } type = event which = 2405205 where = JAP when = 45 } #Invasion of Dutch East Indies (will take some troops from the philippines)
+		command = { trigger = { ai = JAP NOT = { event = 2405206 } } type = event which = 2405206 where = JAP when = 46 } #Deploying any extras
 	}
 	action = {
 		name = EVT_2049100_ACTB
@@ -10002,15 +10213,17 @@ event = {
 	action = {
 		name = EVT_2049120_ACTA
 		ai_chance = 100
-		command = { type = free_money 		value = -1 }
+		command = { type = free_money 		value = -1 	}
+		command = { type = free_supplies 	value = -10 }
 		command = { type = local_setflag 	which = USA_EMA1 }
 		command = { type = event 			which = 2049121 where = USA when = 1440 }	#Ready ~Aug 1941
 	}
 	action = {
 		name = EVT_2049120_ACTB
 		ai_chance = 0
-		command = { type = dissent			value =  2 }
-		command = { type = free_money 		value = -2 }
+		command = { type = dissent			value =  2  }
+		command = { type = free_money 		value = -2  }
+		command = { type = free_supplies 	value = -20 }
 		command = { type = local_setflag 	which = USA_EMA2 }
 		command = { type = event 			which = 2049121 where = USA when = 1080 }	#Ready ~Aug 1940
 	}
@@ -10027,8 +10240,10 @@ event = {
 
 	action = {
 		name = "ACTION_NAME_GREAT"
-		command = { trigger = { local_flag = USA_EMA1 } type = free_money 	value =  1 }
-		command = { trigger = { local_flag = USA_EMA2 } type = free_money 	value =  2 }
+		command = { trigger = { local_flag = USA_EMA1 } type = free_money 		value =  1 }
+		command = { trigger = { local_flag = USA_EMA1 } type = free_supplies 	value = 10 }
+		command = { trigger = { local_flag = USA_EMA2 } type = free_money 		value =  2 }
+		command = { trigger = { local_flag = USA_EMA2 } type = free_supplies 	value = 20 }
 		command = { }
 	}
 }

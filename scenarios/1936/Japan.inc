@@ -224,7 +224,7 @@ country =
      defense_lobby     = 5 
      interventionism   = 10 
   }
-	blueprints = { 81730 81740 } 
+	blueprints = { 81730 81740 3490 } 
 	inventions = { 3000027 }
 
 	headofstate            = {  type = 9 id = 50001  } 
@@ -2940,6 +2940,19 @@ landunit =
 	landdivision = { dormant = yes id = { type = 13016 id = 4037 } name = "37 IMB Macau"		type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
 	landdivision = { dormant = yes id = { type = 13016 id = 4038 } name = "38 IMB Guangzhouwan"	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	 }
 	
+	landdivision = { dormant = yes id = { type = 13016 id = 4040 } name = "40 IMB Malacca 1"	type = militia model = 6 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4041 } name = "41 IMB Malacca 2"	type = militia model = 6 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4042 } name = "42 IMB Malacca 3"	type = militia model = 6 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4043 } name = "43 IMB Malacca 4"	type = militia model = 6 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4044 } name = "44 IMB Malacca 5"	type = militia model = 6 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4045 } name = "45 IMB Malacca 6"	type = militia model = 6 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4046 } name = "46 IMB Malacca 7"	type = militia model = 6 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4047 } name = "47 IMB Malacca 8"	type = militia model = 6 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4048 } name = "48 IMB Malacca 9"	type = militia model = 6 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4049 } name = "49 IMB Malacca 10"	type = militia model = 6 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4050 } name = "50 IMB Malacca 11"	type = militia model = 6 locked = yes extra  = artillery	brigade_model = 7	 }
+	landdivision = { dormant = yes id = { type = 13016 id = 4051 } name = "51 IMB Malacca 12"	type = militia model = 6 locked = yes extra  = artillery	brigade_model = 7	 }
+	
 	
 	#Philippines
 	landdivision = { dormant = yes id = { type = 13016 id = 5001 } name = "14th Army" 				strength = 100 type = hq 			model  = 3														} 
@@ -3004,5 +3017,17 @@ landunit =
 	landdivision = { dormant = yes id = { type = 13016 id = 5049 } name = "Kure SNLF" 				strength = 100 type = marine 		model  = 4														} 
 	landdivision = { dormant = yes id = { type = 13016 id = 5050 } name = "Yokosuka Par SNLF" 		strength = 100 type = paratrooper	model  = 2	extra  = glider_artillery		brigade_model = 0	} 
 	landdivision = { dormant = yes id = { type = 13016 id = 5063 } name = "56th Division" 			strength = 100 type = infantry 		model  = 10														} 
+	
+	#Burma2
+	landdivision = { dormant = yes id = { type = 13016 id = 5070 } name = "15th Army" 				strength = 100 type = hq 			model  = 3														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5071 } name = "21st IMB" 				strength = 100 type = militia 		model  = 5														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5072 } name = "I.G. Division" 			strength = 100 type = motorized		model  = 1	extra  = sp_artillery			brigade_model = 1	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5073 } name = "33rd Division" 			strength = 100 type = infantry 		model  = 10	extra  = armored_car			brigade_model = 9	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5074 } name = "24th IMB" 				strength = 100 type = militia 		model  = 5														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5075 } name = "55th Division" 			strength = 100 type = infantry 		model  = 10	extra  = engineer				brigade_model =	4	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5076 } name = "35th Division" 			strength = 100 type = infantry 		model  = 10														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5077 } name = "31st Division" 			strength = 100 type = infantry 		model  = 10	extra  = light_armor_brigade	brigade_model = 7	} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5078 } name = "94th Division" 			strength = 100 type = infantry 		model  = 10														} 
+	landdivision = { dormant = yes id = { type = 13016 id = 5079 } name = "53rd Division" 			strength = 100 type = infantry 		model  = 10	extra  = artillery				brigade_model = 9	} 
 
 } 
