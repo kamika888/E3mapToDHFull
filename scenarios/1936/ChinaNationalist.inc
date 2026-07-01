@@ -1371,14 +1371,26 @@ inventions = { 3000027 }
 		date  = {  year = 1936 month = july day = 1  } 
 	}
 	
-	landdivision = { dormant = yes id = { type = 22000 id = 10001 } name = "1. Taiwan Garrison" 	type = garrison model = 5 locked = yes											experience = 40 }
-	landdivision = { dormant = yes id = { type = 22000 id = 10002 } name = "2. Taiwan Garrison" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	experience = 40 }
-	landdivision = { dormant = yes id = { type = 22000 id = 10003 } name = "3. Taiwan Garrison" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	experience = 40 }
-	landdivision = { dormant = yes id = { type = 22000 id = 10004 } name = "4. Taiwan Garrison" 	type = garrison model = 5 locked = yes											experience = 40 }
-	landdivision = { dormant = yes id = { type = 22000 id = 10005 } name = "5. Taiwan Garrison" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	experience = 40 }
-	landdivision = { dormant = yes id = { type = 22000 id = 10006 } name = "6. Taiwan Garrison" 	type = garrison model = 5 locked = yes											experience = 40 }
-	landdivision = { dormant = yes id = { type = 22000 id = 10007 } name = "7. Taiwan Garrison" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	experience = 40 }
-	landdivision = { dormant = yes id = { type = 22000 id = 10008 } name = "8. Taiwan Garrison" 	type = garrison model = 5 locked = yes 											experience = 40 }
-	landdivision = { dormant = yes id = { type = 22000 id = 10009 } name = "9. Taiwan Garrison" 	type = garrison model = 5 locked = yes											experience = 40 }
-	landdivision = { dormant = yes id = { type = 22000 id = 10010 } name = "10. Taiwan Garrison" 	type = garrison model = 5 locked = yes extra  = artillery	brigade_model = 7	experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10001 } name = "1. Taiwan Garrison" 			type = garrison model = 5 locked = yes												experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10002 } name = "2. Taiwan Garrison" 			type = garrison model = 5 locked = yes extra  = artillery		brigade_model = 7	experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10003 } name = "3. Taiwan Garrison" 			type = garrison model = 5 locked = yes extra  = artillery		brigade_model = 7	experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10004 } name = "4. Taiwan Garrison" 			type = garrison model = 5 locked = yes												experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10005 } name = "5. Taiwan Garrison" 			type = garrison model = 5 locked = yes extra  = artillery		brigade_model = 7	experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10006 } name = "6. Taiwan Garrison" 			type = garrison model = 5 locked = yes												experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10007 } name = "7. Taiwan Garrison" 			type = garrison model = 5 locked = yes extra  = artillery		brigade_model = 7	experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10008 } name = "8. Taiwan Garrison" 			type = garrison model = 5 locked = yes 												experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10009 } name = "9. Taiwan Garrison" 			type = garrison model = 5 locked = yes												experience = 40 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10010 } name = "10. Taiwan Garrison" 			type = garrison model = 5 locked = yes extra  = artillery		brigade_model = 7	experience = 40 }
+	
+	
+	landdivision = { dormant = yes id = { type = 22000 id = 10020 } name = "211/218/205. Infantry Brigades"	type = infantry	model = 7 locked = yes extra  = artillery		brigade_model = 4	experience = 60 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10021 } name = "1. Suiyuan Provincial Militia"	type = militia	model = 4 locked = yes 												experience = 60 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10022 } name = "New 9. Division"				type = infantry	model = 7 locked = yes extra  = artillery		brigade_model = 5	experience = 60 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10023 } name = "New 36. Division"				type = infantry	model = 7 locked = yes extra  = cavalry_brigade	brigade_model = 8	experience = 60 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10024 } name = "35. Division"					type = infantry	model = 8 locked = yes extra  = cavalry_brigade	brigade_model = 8	experience = 60 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10025 } name = "1. Ma Cavalry Division"			type = cavalry	model = 7 locked = yes 												experience = 60 }
+	landdivision = { dormant = yes id = { type = 22000 id = 10026 } name = "2. Ma Cavalry Division"			type = cavalry	model = 7 locked = yes 												experience = 60 }
+	#73rd and 101st Divisions
+	#72nd division, 6th and 7th Cavalry Divisions
+	
 }

@@ -307,7 +307,7 @@ country =
        headofgovernment       = {  type = 9 id = 25002  }
        foreignminister        = {  type = 9 id = 25003  }
        armamentminister       = {  type = 9 id = 25054  }
-       ministerofsecurity     = {  type = 9 id = 25005  }
+       ministerofsecurity     = {  type = 9 id = 25070  }
        ministerofintelligence = {  type = 9 id = 25006  }
        chiefofstaff           = {  type = 9 id = 25007  }
        chiefofarmy            = {  type = 9 id = 25008  }
@@ -1603,7 +1603,6 @@ landunit =
           }
         }
 
-
 	division_development = { 
 		id    = { type = 23500 id = 311 } 
 		name  = "2a Divisione libica 'Pescatori'" 
@@ -1613,6 +1612,24 @@ landunit =
 		date  = { year = 1936 month = february day = 16 }
 		new_model = no
 	}
+	division_development = { 
+		id = { type = 23500 id = 308 } 
+		name = "RN Littorio" 
+		type = battleship 
+		model = 7 
+		cost  = 1.2
+		date  = { year = 1940 month = may day = 6 }
+		new_model = no
+	} 
+	division_development = { 
+		id    = { type = 23500 id = 309 } 
+		name  = "RN Vittorio Veneto" 
+		type  = battleship 
+		model = 7 
+		cost  = 1.2
+		date  = { year = 1940 month = april day = 28 }
+		new_model = no
+	} 
 	division_development = { 
 		id    = { type = 23500 id = 301 } 
 		name  = "RN Eugenio di Savoia" 
@@ -1645,7 +1662,7 @@ landunit =
 		name  = "RN Conte di Cavour"
 		type  = battleship
 		model = 5
-		cost  = 1.1
+		cost  = 0.3
 		unitcost = no
 		date  = { year = 1937 month = june day = 1 }
 		new_model = no
@@ -1655,7 +1672,7 @@ landunit =
 		name  = "RN Giulio Cesare"
 		type  = battleship
 		model = 5
-		cost  = 1.1
+		cost  = 0.3
 		unitcost = no
 		date  = { year = 1937 month = june day = 1 }
 		new_model = no
@@ -1679,7 +1696,7 @@ landunit =
 		name  = "RN Andrea Doria"
 		type  = battleship
 		model = 5
-		cost  = 1.1
+		cost  = 0.3
 		unitcost = no
 		date  = { year = 1939 month = june day = 1 }
 		new_model = no
@@ -1689,29 +1706,11 @@ landunit =
 		name  = "RN Caio Duilio"
 		type  = battleship
 		model = 5
-		cost  = 1.1
+		cost  = 0.3
 		unitcost = no
 		date  = { year = 1939 month = june day = 1 }
 		new_model = no
 	}
-	division_development = { 
-		id = { type = 23500 id = 308 } 
-		name = "RN Littorio" 
-		type = battleship 
-		model = 7 
-		cost  = 0.2
-		date  = { year = 1940 month = may day = 6 }
-		new_model = no
-	} 
-	division_development = { 
-		id    = { type = 23500 id = 309 } 
-		name  = "RN Vittorio Veneto" 
-		type  = battleship 
-		model = 7 
-		cost  = 0.2
-		date  = { year = 1940 month = april day = 28 }
-		new_model = no
-	} 
 	convoy_development = { 
 		id = { type = 23500 id = 545 } 
 		cost = 0.1

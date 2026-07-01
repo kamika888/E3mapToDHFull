@@ -715,6 +715,7 @@ event = {
 		command = { type = ai  which = "nations\CHI_defense.ai" }
 		
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 6 } } } type = event which = 8300106 where = -1 when = 1 } #General mobilization
+		command = { trigger = { ai = yes } type = event which = 2401055 where = -1 when = 5 } 
 		
 		command = { trigger = { NOT = { ai = JAP } } type = military_control which = JAP where = MAN value = 1 }
 		command = { trigger = { NOT = { ai = JAP } } type = military_control which = JAP where = MEN value = 1 }
@@ -4610,8 +4611,8 @@ event = {
     country = CHC
 	persistent = yes
 
-	name = EVT_2012013_NAME
-	desc = EVT_2012013_DESC
+	name = EVT_91_NAME
+	desc = EVT_91_DESC
 	style = 2
   	picture = "ccip_natoff"
 
@@ -4759,11 +4760,11 @@ event = {
 		command = { type = manpowerpool value = 47 }
         command = { type = relation which = CHI value = -5 }
 		
-		#~13 free_supplies, 32 dissent over 8 years. 20 dissent over 5 years.
+		#~13 free_supplies, 32 dissent over 8 years. 15 dissent over 5 years.
 		command = { trigger = { NOT = { event = 1330110310 } }
-					type = dissent 		 value = 1.0 }	#4 per yr, burning down ~2.0 per year
+					type = dissent 		 value = 1.25 }	#5 per yr, burning down ~2.0 per year
 		command = { trigger = { 		event = 1330110310   }
-					type = dissent 		 value = 0.2 }
+					type = dissent 		 value = 0.6 }
 		command = { type = free_supplies value = 0.4 }
 		command = { type = setflag which = CHC_partisan							   }
 		command = { type = setflag which = CHC_partisan_count 	when = 1 value = 1 }
@@ -4829,11 +4830,11 @@ event = {
 		command = { type = manpowerpool value = 94 }
         command = { type = relation which = CHI value = -10 }
 		
-		#~26 free_supplies, 48 dissent over 8 years. 30 dissent over 5 years.
+		#~26 free_supplies, 48 dissent over 8 years. 20 dissent over 5 years.
 		command = { trigger = { NOT = { event = 1330110310 } }
-					type = dissent 		 value = 1.0 }	#4 per yr, burning down ~2.0 per year
+					type = dissent 		 value = 1.5 }	#6 per yr, burning down ~2.0 per year
 		command = { trigger = { 		event = 1330110310   }
-					type = dissent 		 value = 0.2 }
+					type = dissent 		 value = 0.8 }
 		command = { type = free_supplies value = 0.8 }
 		command = { type = setflag which = CHC_partisan							   }
 		command = { type = setflag which = CHC_partisan_count 	when = 1 value = 2 }
@@ -8528,25 +8529,31 @@ event = {
 	decision_trigger = {
 		war = { country = JAP country = USA }
 		flag = { which = CHC_partisan_count when = 1 value = 15 }
-		OR = {
-			war = { country = JAP country = USA }
-			war = { country = JAP country = ENG }
-			war = { country = JAP country = SOV }
-		}
+		#OR = {
+		#	war = { country = JAP country = USA }
+		#	war = { country = JAP country = ENG }
+		#	war = { country = JAP country = SOV }
+		#}
 	}
 	trigger = {
 		war = { country = JAP }
-		dissent = 8
-		NOT = { war = { country = CHI } }
 		OR = {
-			war = { country = JAP country = USA }
-			war = { country = JAP country = ENG }
-			war = { country = JAP country = SOV }
+			dissent = 16
+			AND = {
+				event = 1330110180
+				dissent = 8
+			}
 		}
+		NOT = { war = { country = CHI } }
+		#OR = {
+		#	war = { country = JAP country = USA }
+		#	war = { country = JAP country = ENG }
+		#	war = { country = JAP country = SOV }
+		#}
 		flag = { which = CHC_partisan_count when = 1 value = 15 }
-		NOT = { flag = { which = japChi when = 1 value = 55 } }
-		control = { province = 1270 data = -3 }
-		control = { province = 5571 data = -3 }
+		#NOT = { flag = { which = japChi when = 1 value = 55 } }
+		#control = { province = 1270 data = -3 }
+		#control = { province = 5571 data = -3 }
 	}
 
 	date = { day = 0 month = january year = 1936 }

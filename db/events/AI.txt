@@ -5955,6 +5955,77 @@ event = {
 	}
 }
 
+#cover Suiyuan
+
+event = {
+	id = 2401055
+	random = no 
+	country = CHI
+	
+	name = "AI_EVENT"
+
+	action = {
+		command = { type = remove_division		which = 22301 value = 17	}
+		command = { type = remove_division		which = 22301 value = 18	}
+		command = { type = remove_division		which = 22200 value = 2 	}
+		command = { type = remove_division		which = 22200 value = 14	}
+		command = { type = remove_division		which = 22200 value = 15	}
+		command = { type = remove_division		which = 22000 value = 28	}
+		command = { type = remove_division		which = 22000 value = 29	}
+	
+		command = { type = add_corps 			value = land  where = 3751	when = 55086 } #Fu Zuoyi
+		command = { type = activate_division	which = 22000 value = 10020 when = 0 where = 3751 }
+		command = { type = activate_division	which = 22000 value = 10021 when = 0 where = 3751 }
+		command = { type = activate_division	which = 22000 value = 10022 when = 0 where = 3751 }
+		command = { type = activate_division	which = 22000 value = 10023 when = 0 where = 3751 }
+		command = { type = activate_division	which = 22000 value = 10024 when = 0 where = 3751 }
+		command = { type = add_corps 			value = land  where = 3751	when = 55236 } #Ma Hongbin
+		command = { type = activate_division	which = 22000 value = 10025 when = 0 where = 3751 }
+		command = { type = activate_division	which = 22000 value = 10026 when = 0 where = 3751 }
+		
+		command = { type = disorg_division		which = 22000 value = 10020 where = -100 }
+		command = { type = disorg_division		which = 22000 value = 10021 where = -100 }
+		command = { type = disorg_division		which = 22000 value = 10022 where = -100 }
+		command = { type = disorg_division		which = 22000 value = 10023 where = -100 }
+		command = { type = disorg_division		which = 22000 value = 10024 where = -100 }
+		command = { type = disorg_division		which = 22000 value = 10025 where = -100 }
+		command = { type = disorg_division		which = 22000 value = 10026 where = -100 }
+	}
+}
+
+event = {
+	id = 2401056
+	random = no 
+	country = CHI
+	
+	trigger = {	
+		event = 2401055
+		OR = {
+			ai = no
+			control = { province = 1272 data = -2 }
+			control = { province = 1439 data = -2 }
+			NOT = { war = { country = JAP } }
+			event = { id = 2011000 days = 360 }
+		}
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		command = { type = unlock_division		which = 22000 value = 10020 }
+		command = { type = unlock_division		which = 22000 value = 10021 }
+		command = { type = unlock_division		which = 22000 value = 10022 }
+		command = { type = unlock_division		which = 22000 value = 10023 }
+		command = { type = unlock_division		which = 22000 value = 10024 }
+		command = { type = unlock_division		which = 22000 value = 10025 }
+		command = { type = unlock_division		which = 22000 value = 10026 }
+	}
+}
+
 #to prevent the front AI from misbehaving, it must not be either allied or puppet of CHI and JAP
 #currently using an alternative route through front_leader_home. Very risky but kind of cool.
 event = { 
@@ -8989,6 +9060,11 @@ event = {
 		ai = yes
 		event = 550 #US Lend-Lease Act (Asia)
 		NOT = { garrison = { country = -3 province = 3086 type = land size = 45 area = 0 } }
+		NOT = {
+			war = { country = SOV }
+			war = { country = USA }
+			war = { country = ENG }
+		}
 	}
 
 	name = "AI_EVENT"
@@ -9013,11 +9089,41 @@ event = {
 	}
 }
 
+event = {
+	id = 2401333
+	random = no 
+	country = JAP
+	
+	trigger = {	
+		local_flag = AllInit
+		local_flag = asiaPassive
+		local_flag = warPrep
+		ai = yes
+		NOT = {
+			war = { country = SOV }
+			war = { country = USA }
+			war = { country = ENG }
+		}
+		flag = { which = japChi when = 1 value = 40  }
+	}
+
+	name = "AI_EVENT"
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		#withdraw more troops from china
+		command = { type = ai which = "nations\JAP_prep2.ai" }
+	}
+}
+
 #Necessary AI cheat - even with AsiaPassive, Japan will still be prone to occupying much more of China than it really needs to, and it can be baited by the player into taking even more useless land.
 #It is next to impossible to prevent this since AI can't be told to stop at an arbitrary line.
 
 event = {
-	id = 2401333
+	id = 2401334
 	random = no 
 	country = JAP
 	persistent = yes
@@ -9042,7 +9148,7 @@ event = {
 }
 
 event = {
-	id = 2401334
+	id = 2401335
 	random = no 
 	country = JAP
 	
@@ -9342,7 +9448,7 @@ event = {
 #Invade USSR if it has very few troops on the border
 
 event = {
-	id = 2401335
+	id = 2401336
 	random = no 
 	country = JAP
 	
@@ -9386,7 +9492,7 @@ event = {
 #Build a couple of Yamato-class BBs
 
 event = {
-	id = 2401336
+	id = 2401337
 	random = no 
 	country = JAP
 	
@@ -9425,7 +9531,7 @@ event = {
 #U03 garrison beaches
 
 event = {
-	id = 2401337
+	id = 2401338
 	random = no 
 	country = U03
 	
@@ -10535,7 +10641,7 @@ event = {
 			}
 			AND = {
 				country = CHI
-				army = 350
+				army = 450
 			}
 			AND = {
 				policy = { type = professional_army value = 8 } #General Mob C
@@ -10629,7 +10735,7 @@ event = {
 			}
 			AND = {
 				country = CHI
-				army = 350
+				army = 400
 			}
 			AND = {
 				policy = { type = professional_army value = 8 } #General Mob C
@@ -11961,7 +12067,7 @@ event = {
 	name = "AI_EVENT"
 	
 	date = { day = 1 month = january year = 1936 }
-	offset = 10
+	offset = 7
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
@@ -15916,11 +16022,12 @@ event = {
 	country = JAP
 	
 	trigger = {	
-		ai = yes
 		local_flag = AllInit
 		event = 2404112
-
-		area = { area = "Malacka" country = -2 data = 1 value = 1 } 
+		OR = {
+			ai = no
+			area = { area = "Malacka" country = -2 data = 1 value = 1 } 
+		}
 	}
 
 	name = "AI_EVENT"
@@ -16309,6 +16416,9 @@ event = {
 		command = { type = disorg_division   which = 14800 value = 806 where = -100 }
 		
 		command = { type = event which = 2405031 where = ENG when = 0 }	
+		
+		command = { type = event which = 2400190 where = USA when = 0 } #Grand offensive
+		command = { type = event which = 2400190 where = ENG when = 0 } #Grand offensive
 	}
 }
 
@@ -17035,7 +17145,7 @@ event = {
 			}
 			AND = {
 				country = USA
-				garrison = { country = -3	province = 2962 type = land size = 1  area = 0 }
+				garrison = { country = -3	province = 608 type = land size = 1  area = 0 }
 			}
 		}
 	}
@@ -17404,7 +17514,7 @@ event = {
 			}
 			AND = {
 				country = USA
-				garrison = { country = -3	province = 2962 type = land size = 1  area = 0 }
+				garrison = { country = -3	province = 608 type = land size = 1  area = 0 }
 			}
 		}
 	}
@@ -17776,7 +17886,7 @@ event = {
 			}
 			AND = {
 				country = USA
-				garrison = { country = -3	province = 2962 type = land size = 1  area = 0 }
+				garrison = { country = -3	province = 608 type = land size = 1  area = 0 }
 			}
 		}
 	}
@@ -18312,7 +18422,7 @@ event = {
 		
 		command = { type = trade which = GER where = ITA supplies = -8 money = 0.4 value = 1 } 
 		
-		command = { trigger = { ai = ITA } type = event which = 2400190 where = ITA when = 0 } #Grand offensive
+		command = { trigger = { ai = ITA } type = event which = 2405101 where = ITA when = 0 }
 	}
 	action = {
 		name = ACTION_NAME_OK # Benghazi
@@ -18332,7 +18442,7 @@ event = {
 		
 		command = { type = trade which = GER where = ITA supplies = -8 money = 0.4 value = 1 } 
 		
-		command = { trigger = { ai = ITA } type = event which = 2400190 where = ITA when = 0 } #Grand offensive
+		command = { trigger = { ai = ITA } type = event which = 2405101 where = ITA when = 0 }
 	}
 	action = {
 		name = ACTION_NAME_OK # Tripoli
@@ -18352,14 +18462,140 @@ event = {
 		
 		command = { type = trade which = GER where = ITA supplies = -8 money = 0.4 value = 1 } 
 		
-		command = { trigger = { ai = ITA } type = event which = 2400190 where = ITA when = 0 } #Grand offensive
+		command = { trigger = { ai = ITA } type = event which = 2405101 where = ITA when = 0 }
 	}
 }
+
+# 1 panzer, 1 motorized, 1 inf, rest light inf
+
+event = {
+	id = 2405101
+	random = no
+	country = ITA
+
+	name = "AI_EVENT"
+	#name = 2003182name
+	#desc = 2003182desc
+	style = 2
+	picture = "afrika_korps"
+	decision_picture = "decision_afrika_korps"
+
+	action = {
+		name = ACTION_NAME_OK # Tobruk
+		trigger = { control = { province = 920 data = -3 } NOT = { garrison = { country = -3 province = 515 type = land size = 15 area = 0 } } } 
+		
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 1 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 2 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 2  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 3 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 3  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 4 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 4  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 5 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 5  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 6 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 6  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 7 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 7  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 8 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 8  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 9 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 9  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 10 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 10 }
+	
+		command = { type = remove_units which = land where = -3 when = 0 value = 515 }
+
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 1  } }	type = add_corps 	which = "Corpo d'Armata di Manovra"	value = land 		where = 920 	when = 25075 } #	Gambara
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 1  } }	type = add_division which = "32a Divisione 'Ariete'"	value = armor 		when = 1 where = -30 		 }
+        command = { trigger = { local_flag = { which = itaSun when = 1 value = 2  } }	type = add_division which = "102a Divisione 'Trento'"	value = motorized 	when = 2 where = -20 		 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 3  } }	type = add_division which = "27a Divisione 'Brescia'"	value = infantry	when = 1 where = engineer    }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 4  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 5  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 6  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 7  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 8  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 9  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 10 } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		
+		command = { 																	type = add_corps 										value = land 		where = 515 				 }
+		command = { 																	type = add_division 									value = garrison	when = 5 where = -95		 }
+		command = { 																	type = manpowerpool 									value =   -1   }
+		command = { 																	type = supplies 										value = -100   }
+		
+		command = { trigger = { ai = ITA } type = event which = 2400190 where = ITA when = 15 } #Grand offensive
+	}
+	action = {
+		name = ACTION_NAME_OK # Benghazi
+		trigger = { NOT = { control = { province = 920 data = -3 } } control = { province = 924 data = -3 } NOT = { garrison = { country = -3 province = 515 type = land size = 15 area = 0 } } } 
+
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 1 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 2 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 2  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 3 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 3  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 4 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 4  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 5 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 5  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 6 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 6  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 7 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 7  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 8 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 8  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 9 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 9  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 10 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 10 }
+	
+		command = { type = remove_units which = land where = -3 when = 0 value = 515 }
+
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 1  } }	type = add_corps 	which = "Corpo d'Armata di Manovra"	value = land 		where = 920 	when = 25075 } #	Gambara
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 1  } }	type = add_division which = "32a Divisione 'Ariete'"	value = armor 		when = 1 where = -30 		 }
+        command = { trigger = { local_flag = { which = itaSun when = 1 value = 2  } }	type = add_division which = "102a Divisione 'Trento'"	value = motorized 	when = 2 where = -20 		 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 3  } }	type = add_division which = "27a Divisione 'Brescia'"	value = infantry	when = 1 where = engineer    }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 4  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 5  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 6  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 7  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 8  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 9  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 10 } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		
+		command = { 																	type = add_corps 										value = land 		where = 515 				 }
+		command = { 																	type = add_division 									value = garrison	when = 5 where = -95		 }
+		command = { 																	type = manpowerpool 									value =   -1   }
+		command = { 																	type = supplies 										value = -100   }
+		
+		command = { trigger = { ai = ITA } type = event which = 2400190 where = ITA when = 15 } #Grand offensive
+
+	}
+	action = {
+		name = ACTION_NAME_OK # Tripoli
+		trigger = { NOT = { control = { province = 920 data = -3 } control = { province = 924 data = -3 } }	control = { province = 932 data = -3 } NOT = { garrison = { country = -3 province = 515 type = land size = 15 area = 0 } } }
+		
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 1 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 2 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 2  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 3 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 3  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 4 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 4  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 5 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 5  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 6 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 6  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 7 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 7  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 8 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 8  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 9 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 9  }
+		command = { trigger = { garrison = { country = -3 province = 515 type = land size = 10 area = 0 } }	type = local_setflag which = itaSun when = 0 value = 10 }
+	
+		command = { type = remove_units which = land where = -3 when = 0 value = 515 }
+
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 1  } }	type = add_corps 	which = "Corpo d'Armata di Manovra"	value = land 		where = 920 	when = 25075 } #	Gambara
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 1  } }	type = add_division which = "32a Divisione 'Ariete'"	value = armor 		when = 1 where = -30 		 }
+        command = { trigger = { local_flag = { which = itaSun when = 1 value = 2  } }	type = add_division which = "102a Divisione 'Trento'"	value = motorized 	when = 2 where = -20 		 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 3  } }	type = add_division which = "27a Divisione 'Brescia'"	value = infantry	when = 1 where = engineer    }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 4  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 5  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 6  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 7  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 8  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 9  } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		command = { trigger = { local_flag = { which = itaSun when = 1 value = 10 } }	type = add_division 									value = militia		when = 1 where = artillery	 }
+		
+		command = { 																	type = add_corps 										value = land 		where = 515 				 }
+		command = { 																	type = add_division 									value = garrison	when = 5 where = -95		 }
+		command = { 																	type = manpowerpool 									value =   -1   }
+		command = { 																	type = supplies 										value = -100   }
+		
+		command = { trigger = { ai = ITA } type = event which = 2400190 where = ITA when = 15 } #Grand offensive
+	}
+}
+
 
 #Further deliveries (historical peak size of German troops in Africa came to ~120,000 and could have been even greater if Germany was not clearly losing
 
 event = { 
-	id = 2405101
+	id = 2405102
 	random = no 
 	country = GER
 	persistent = yes
@@ -18382,7 +18618,7 @@ event = {
 	}
 
 	date = { day = 0 month = january year = 1936 }
-	offset = 40
+	offset = 60
 	deathdate = { day = 29 month = january year = 1960 }
 	
 	name = "AI_EVENT"
@@ -19124,7 +19360,7 @@ event = {
 			control = { province = 2231	data = -3  }
 			control = { province = 7034	data = -3  }
 		}
-		garrison = { country = -3	province = 2962 type = land size = 1  area = 0 }
+		garrison = { country = -3	province = 608 type = land size = 1  area = 0 }
 	}
 
 	date = { day = 0 month = january year = 1936 }
@@ -21290,30 +21526,30 @@ event = {
 	
 	action = {
 		command = { 																								type = local_clrflag which = land1 					   }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 1  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 2  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 3  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 4  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 5  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 6  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 7  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 8  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 9  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 10 area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 1  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 2  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 3  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 4  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 5  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 6  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 7  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 8  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 9  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 10 area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
 	
-		command = { type = remove_units which = infantry	where = -3 when = 0 value = 2962 }
+		command = { type = remove_units which = infantry	where = -3 when = 0 value = 608 }
 		
 		command = { 																								type = local_clrflag which = land2 					   }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 1  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 2  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 3  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 4  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 5  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 6  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 7  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 8  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 9  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 10 area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 1  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 2  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 3  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 4  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 5  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 6  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 7  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 8  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 9  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 10 area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
 		
 		command = { 																								type = local_clrflag which = tpInf					   }
 		command = { trigger = { local_flag = { which = land1 when = 1 value = 1 } }									type = local_setflag which = tpInf when = 1 value = 1  }
@@ -21337,20 +21573,20 @@ event = {
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 9 } }									type = local_setflag which = tpInf when = 1 value = -1 }
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 10 } }								type = local_setflag which = tpInf when = 1 value = -1 }
 		
-		command = { type = remove_units which = armor 		where = -3 when = 0 value = 2962 }
-		command = { type = remove_units which = light_armor	where = -3 when = 0 value = 2962 }
+		command = { type = remove_units which = armor 		where = -3 when = 0 value = 608 }
+		command = { type = remove_units which = light_armor	where = -3 when = 0 value = 608 }
 		
 		command = { 																								type = local_clrflag which = land1 					   }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 1  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 2  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 3  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 4  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 5  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 6  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 7  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 8  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 9  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 10 area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 1  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 2  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 3  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 4  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 5  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 6  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 7  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 8  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 9  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 10 area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
 		
 		command = { 																								type = local_clrflag which = tpArm					   }
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 1 } }									type = local_setflag which = tpArm when = 1 value = 1  }
@@ -21374,19 +21610,19 @@ event = {
 		command = { trigger = { local_flag = { which = land1 when = 1 value = 9 } }									type = local_setflag which = tpArm when = 1 value = -1 }
 		command = { trigger = { local_flag = { which = land1 when = 1 value = 10 } }								type = local_setflag which = tpArm when = 1 value = -1 }
 		
-		command = { type = remove_units which = motorized	where = -3 when = 0 value = 2962 }
+		command = { type = remove_units which = motorized	where = -3 when = 0 value = 608 }
 		
 		command = { 																								type = local_clrflag which = land2 					   }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 1  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 2  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 3  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 4  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 5  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 6  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 7  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 8  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 9  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 10 area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 1  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 2  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 3  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 4  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 5  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 6  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 7  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 8  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 9  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 10 area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
 		
 		command = { 																								type = local_clrflag which = tpMot					   }
 		command = { trigger = { local_flag = { which = land1 when = 1 value = 1 } }									type = local_setflag which = tpMot when = 1 value = 1  }
@@ -21410,19 +21646,19 @@ event = {
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 9 } }									type = local_setflag which = tpMot when = 1 value = -1 }
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 10 } }								type = local_setflag which = tpMot when = 1 value = -1 }
 		
-		command = { type = remove_units which = hq			where = -3 when = 0 value = 2962 }
+		command = { type = remove_units which = hq			where = -3 when = 0 value = 608 }
 		
 		command = { 																								type = local_clrflag which = land1 					   }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 1  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 2  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 3  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 4  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 5  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 6  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 7  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 8  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 9  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 10 area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 1  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 2  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 3  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 4  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 5  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 6  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 7  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 8  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 9  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 10 area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
 		
 		command = { 																								type = local_clrflag which = tpHQ 					   }
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 1 } }									type = local_setflag which = tpHQ  when = 1 value = 1  }
@@ -21446,19 +21682,19 @@ event = {
 		command = { trigger = { local_flag = { which = land1 when = 1 value = 9 } }									type = local_setflag which = tpHQ  when = 1 value = -1 }
 		command = { trigger = { local_flag = { which = land1 when = 1 value = 10 } }								type = local_setflag which = tpHQ  when = 1 value = -1 }
 		
-		command = { type = remove_units which = marine		where = -3 when = 0 value = 2962 }
+		command = { type = remove_units which = marine		where = -3 when = 0 value = 608 }
 
 		command = { 																								type = local_clrflag which = land2 					   }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 1  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 2  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 3  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 4  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 5  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 6  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 7  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 8  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 9  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 10 area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 1  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 2  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 3  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 4  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 5  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 6  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 7  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 8  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 9  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 10 area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
 		
 		command = { 																								type = local_clrflag which = tpMar					   }
 		command = { trigger = { local_flag = { which = land1 when = 1 value = 1 } }									type = local_setflag which = tpMar when = 1 value = 1  }
@@ -21482,19 +21718,19 @@ event = {
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 9 } }									type = local_setflag which = tpMar when = 1 value = -1 }
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 10 } }								type = local_setflag which = tpMar when = 1 value = -1 }
 		
-		command = { type = remove_units which = paratrooper	where = -3 when = 0 value = 2962 }
+		command = { type = remove_units which = paratrooper	where = -3 when = 0 value = 608 }
 		
 		command = { 																								type = local_clrflag which = land1 					   }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 1  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 2  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 3  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 4  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 5  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 6  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 7  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 8  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 9  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 10 area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 1  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 2  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 3  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 4  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 5  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 6  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 7  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 8  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 9  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 10 area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
 		
 		command = { 																								type = local_clrflag which = tpPar					   }
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 1 } }									type = local_setflag which = tpPar when = 1 value = 1  }
@@ -21518,19 +21754,19 @@ event = {
 		command = { trigger = { local_flag = { which = land1 when = 1 value = 9 } }									type = local_setflag which = tpPar when = 1 value = -1 }
 		command = { trigger = { local_flag = { which = land1 when = 1 value = 10 } }								type = local_setflag which = tpPar when = 1 value = -1 }
 		
-		command = { type = remove_units which = bergsjaeger	where = -3 when = 0 value = 2962 }
+		command = { type = remove_units which = bergsjaeger	where = -3 when = 0 value = 608 }
 
 		command = { 																								type = local_clrflag which = land2 					   }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 1  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 2  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 3  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 4  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 5  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 6  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 7  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 8  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 9  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 10 area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 1  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 2  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 3  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 4  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 5  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 6  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 7  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 8  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 9  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 10 area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
 		
 		command = { 																								type = local_clrflag which = tpMtn					   }
 		command = { trigger = { local_flag = { which = land1 when = 1 value = 1 } }									type = local_setflag which = tpMtn when = 1 value = 1  }
@@ -21554,19 +21790,19 @@ event = {
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 9 } }									type = local_setflag which = tpMtn when = 1 value = -1 }
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 10 } }								type = local_setflag which = tpMtn when = 1 value = -1 }
 		
-		command = { type = remove_units which = cavalry		where = -3 when = 0 value = 2962 }
+		command = { type = remove_units which = cavalry		where = -3 when = 0 value = 608 }
 		
 		command = { 																								type = local_clrflag which = land1 					   }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 1  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 2  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 3  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 4  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 5  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 6  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 7  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 8  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 9  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 10 area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 1  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 2  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 3  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 4  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 5  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 6  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 7  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 8  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 9  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 10 area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
 		
 		command = { 																								type = local_clrflag which = tpCav					   }
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 1 } }									type = local_setflag which = tpCav when = 1 value = 1  }
@@ -21590,19 +21826,19 @@ event = {
 		command = { trigger = { local_flag = { which = land1 when = 1 value = 9 } }									type = local_setflag which = tpCav when = 1 value = -1 }
 		command = { trigger = { local_flag = { which = land1 when = 1 value = 10 } }								type = local_setflag which = tpCav when = 1 value = -1 }
 		
-		command = { type = remove_units which = mechanized	where = -3 when = 0 value = 2962 }
+		command = { type = remove_units which = mechanized	where = -3 when = 0 value = 608 }
 
 		command = { 																								type = local_clrflag which = land2 					   }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 1  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 2  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 3  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 4  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 5  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 6  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 7  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 8  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 9  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 10 area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 1  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 2  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 3  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 4  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 5  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 6  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 7  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 8  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 9  area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 10 area = 0 } }	type = local_setflag which = land2 when = 1 value = 1  }
 		
 		command = { 																								type = local_clrflag which = tpMec					   }
 		command = { trigger = { local_flag = { which = land1 when = 1 value = 1 } }									type = local_setflag which = tpMec when = 1 value = 1  }
@@ -21626,21 +21862,21 @@ event = {
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 9 } }									type = local_setflag which = tpMec when = 1 value = -1 }
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 10 } }								type = local_setflag which = tpMec when = 1 value = -1 }
 		
-		command = { type = remove_units  which = land		where = -3 when = 0 value = 2962 }
-		#command = { type = remove_units which = militia	where = -3 when = 0 value = 2962 }
-		#command = { type = remove_units which = garrison	where = -3 when = 0 value = 2962 }
+		command = { type = remove_units  which = land		where = -3 when = 0 value = 608 }
+		#command = { type = remove_units which = militia	where = -3 when = 0 value = 608 }
+		#command = { type = remove_units which = garrison	where = -3 when = 0 value = 608 }
 		
 		command = { 																								type = local_clrflag which = land1 					   }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 1  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 2  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 3  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 4  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 5  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 6  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 7  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 8  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 9  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
-		command = { trigger = { garrison = { country = -3 province = 2962 type = land		size = 10 area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 1  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 2  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 3  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 4  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 5  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 6  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 7  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 8  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 9  area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
+		command = { trigger = { garrison = { country = -3 province = 608 type = land		size = 10 area = 0 } }	type = local_setflag which = land1 when = 1 value = 1  }
 		
 		command = { 																								type = local_clrflag which = tpMil					   }
 		command = { trigger = { local_flag = { which = land2 when = 1 value = 1 } }									type = local_setflag which = tpMil when = 1 value = 1  }

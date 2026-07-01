@@ -324,7 +324,7 @@ blueprints = {
 	
 	##### Qinghai Provincial Security Group Divisions Under Development (Only in 1936 Scenario!) #####
 	division_development = {
-		name  = "1st 2. Security Regiment" 
+		name  = "2. Security Regiment" 
 		type  = cavalry
 		model = 3
 		new_model = no
