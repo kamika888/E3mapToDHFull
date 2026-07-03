@@ -18,6 +18,7 @@ country =
 	money                  = 1000 
 	transports             = 1600 
 	escorts                = 270 
+	industrial_modifier    = 1.1
   free = { 
 	ic = 2 
 	energy = 2
