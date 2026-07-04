@@ -272,7 +272,7 @@ blueprints = {
     freedom           = 2
     professional_army = 5
     defense_lobby     = 4
-    interventionism   = 3
+    interventionism   = 4
   }
 inventions = { 3000027 }
 

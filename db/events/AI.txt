@@ -5405,7 +5405,7 @@ event = {
 	name = "AI_EVENT"
 
 	action = {
-		command = { 							type = ai which = "nations\PassiveDisable.ai" }
+		#command = { 							type = ai which = "nations\PassiveDisable.ai" }
 		command = { trigger = { country = CHC } type = ai which = "EXP_80.ai" 				  }
 		command = { trigger = { country = CHC } type = ai which = "garrison20.ai" 			  }
 	}
@@ -5419,7 +5419,7 @@ event = {
 	name = "AI_EVENT"
 
 	action = {
-		command = { trigger = { local_flag = asiaPassive }	type = ai which = "nations\PassiveAsia.ai"	  }
+		#command = { trigger = { local_flag = asiaPassive }	type = ai which = "nations\PassiveAsia.ai"	  }
 		command = { trigger = { country = CHC } 			type = local_clrflag 	which = exp   		  } #Should auto-load the correct exp and gar
 	}
 }
@@ -8909,6 +8909,10 @@ event = {
 		NOT = { local_flag = asiaPassive }
 		ai = yes
 		ai = JAP #china will only de-escalate if Japan does as well. Japan will try to de-escalate regardless
+		NOT = { 
+			army = { size = 350 country = CHI } #China tries to push back the invader
+			flag = { which = japChi when = 1 value = 50 } #japan advanced too far, needs to pull stop
+		} 
 		#NOT = { 
 		#	war = { country = SOV country = JAP }
 		#	war = { country = USA country = JAP }
@@ -8983,6 +8987,10 @@ event = {
 			AND = {
 				ai = yes
 				ai = JAP #china will only de-escalate if Japan does as well. Japan will try to de-escalate regardless
+				NOT = { 
+					army = { size = 350 country = CHI } #China tries to push back the invader
+					flag = { which = japChi when = 1 value = 50 } #japan advanced too far, needs to pull stop
+				} 
 				#NOT = { 
 				#	war = { country = SOV country = JAP }
 				#	war = { country = USA country = JAP }
@@ -8992,7 +9000,7 @@ event = {
 				NOT = { war = { country = U03 country = JAP } }
 				OR = {
 					AND = {
-						flag = { which = japChi when = 1 value = 30  }
+						flag = { which = japChi when = 1 value = 25  }
 						control = { province = 1313 data = -3 }
 						control = { province = 1243 data = -3 }
 						#control = { province = 2572 data = -3 }
@@ -9000,7 +9008,7 @@ event = {
 						control = { province = 2533 data = -3 }
 						control = { province = 1225 data = -3 }
 					}
-					flag = { which = japChi when = 1 value = 35  }
+					flag = { which = japChi when = 1 value = 30  }
 				}
 				OR = {
 					flag = USA_Lend_Lease_to_CHI3
@@ -15706,11 +15714,11 @@ event = {
 		local_flag = AllInit
 		manpower = 40
 		
-		#OR = {
-		#	war = { country = USA }
-		#	war = { country = ENG }
-		#	policy = { type = professional_army value = 6 }
-		#}
+		OR = {
+			war = { country = USA }
+			war = { country = ENG }
+			policy = { type = professional_army value = 6 }
+		}
 		
 		control = { province = 1599 } 
 		control = { province = 1184 } 

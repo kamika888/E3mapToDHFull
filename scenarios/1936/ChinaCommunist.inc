@@ -236,7 +236,7 @@ blueprints = {
      freedom           = 2 
      professional_army = 5 
      defense_lobby     = 8
-     interventionism   = 3
+     interventionism   = 4
   }
    headofstate            = {  type = 9 id = 260848  } 
    headofgovernment       = {  type = 9 id = 260858  } 

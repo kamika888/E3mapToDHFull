@@ -135,7 +135,7 @@ country =
      free_market       = 1
      professional_army = 5 
      defense_lobby     = 4 
-     interventionism   = 4 
+     interventionism   = 5 
   }
    headofstate            = {  type = 9 id = 700001 } 
    headofgovernment       = {  type = 9 id = 700002 } 

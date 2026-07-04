@@ -194,7 +194,7 @@ country =
      free_market       = 1
      professional_army = 3 
      defense_lobby     = 4 
-     interventionism   = 3 
+     interventionism   = 4
   }
    headofstate            = {  type = 9 id = 1250044 } #Yin Rugeng
    headofgovernment       = {  type = 9 id = 1250045 } #Yin Rugeng
