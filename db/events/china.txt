@@ -2991,10 +2991,14 @@ event = {
 		NOT = { war = { country = CHI country = JAP } }
 		NOT = { war = { country = CHC country = JAP } }
 		OR = {
-			year = 1947
 			event = { id = 2011032 days = 360 } #A year since japanese surrender
 			event = { id = 2011028 days = 360 } #A year since japanese surrender
 			war = { country = CHI country = CHC }
+			NOT = {
+				event = 2011032
+				event = 2011028
+				exists = JAP
+			}
 		}
 		random = 50
 	}
@@ -3030,7 +3034,11 @@ event = {
 		command = { type = local_clrflag	which = do_not_demob }
 		command = { type = event which = 3130 where = -1 when = 1800 } #inMajorWar clear	
 
-		command = { trigger = { NOT = { flag = CHC_partisan } } type = event which = 1330110101 where = CHC when = 30 } #CHC expanding partisans		
+		command = { trigger = { NOT = { flag = CHC_partisan } } type = event which = 1330110101 where = CHC when = 30 } #CHC expanding partisans	
+
+		#redeploy_low
+		command = { trigger = { ai = CHC } type = event which = 2400185 where = CHC when = 180 }
+		command = { trigger = { ai = CHI } type = event which = 2400185 where = CHI when = 180 }
 	}
 }
 
@@ -4764,7 +4772,7 @@ event = {
 		command = { trigger = { NOT = { event = 1330110310 } }
 					type = dissent 		 value = 1.25 }	#5 per yr, burning down ~2.0 per year
 		command = { trigger = { 		event = 1330110310   }
-					type = dissent 		 value = 0.6 }
+					type = dissent 		 value = 0.4 }
 		command = { type = free_supplies value = 0.4 }
 		command = { type = setflag which = CHC_partisan							   }
 		command = { type = setflag which = CHC_partisan_count 	when = 1 value = 1 }
@@ -4816,7 +4824,7 @@ event = {
 						war = { country = U87 }
 						war = { country = MAN }
 					} }											type = event which = 1330110104 where = JAP when = 0  } #Partisans
-		command = { trigger = { ispuppet = CHI } 				type = event which = 1330110105 where = CHI when = 0  } #Partisans
+		command = { trigger = { war = { country = CHI } }		type = event which = 1330110105 where = CHI when = 0  } #Partisans
 		command = { trigger = { war = { country = U87 } } 		type = event which = 1330110106 where = U87 when = 0  } #Partisans
 		command = { trigger = { war = { country = MAN }	} 		type = event which = 1330110107 where = MAN when = 0  } #Partisans
 		command = { 											type = event which = 1330110101 where = CHC when = 90 }
@@ -4834,7 +4842,7 @@ event = {
 		command = { trigger = { NOT = { event = 1330110310 } }
 					type = dissent 		 value = 1.5 }	#6 per yr, burning down ~2.0 per year
 		command = { trigger = { 		event = 1330110310   }
-					type = dissent 		 value = 0.8 }
+					type = dissent 		 value = 0.6 }
 		command = { type = free_supplies value = 0.8 }
 		command = { type = setflag which = CHC_partisan							   }
 		command = { type = setflag which = CHC_partisan_count 	when = 1 value = 2 }
@@ -4899,7 +4907,7 @@ event = {
 						war = { country = U87 }
 						war = { country = MAN }
 					} }											type = event which = 1330110104 where = JAP when = 0  } #Partisans
-		command = { trigger = { ispuppet = CHI }		 		type = event which = 1330110105 where = CHI when = 0  } #Partisans
+		command = { trigger = { war = { country = CHI } }		type = event which = 1330110105 where = CHI when = 0  } #Partisans
 		command = { trigger = { war = { country = U87 } } 		type = event which = 1330110106 where = U87 when = 0  } #Partisans
 		command = { trigger = { war = { country = MAN } } 		type = event which = 1330110107 where = MAN when = 0  } #Partisans
 		command = { 											type = event which = 1330110101 where = CHC when = 90 }
@@ -5004,7 +5012,7 @@ event = {
 	
 	action = {
         name = ACTION_NAME_DAMN
-		command = { type = dissent 		 value = 0.2  }
+		command = { type = dissent 		 value = 0.4  }
 		command = { type = manpowerpool  value = -2   }
 		command = { type = supplies 	 value = -200 }
 		
@@ -5047,7 +5055,7 @@ event = {
 	
 	action = {
         name = ACTION_NAME_DAMN
-		command = { type = dissent 		 value = 0.2  }
+		command = { type = dissent 		 value = 0.4  }
 		command = { type = manpowerpool  value = -2   }
 		command = { type = supplies 	 value = -200 }
 		
@@ -5097,7 +5105,7 @@ event = {
 	
 	action = {
         name = ACTION_NAME_DAMN
-		command = { type = dissent 		 value = 0.2  }
+		command = { type = dissent 		 value = 0.4  }
 		command = { type = manpowerpool  value = -2   }
 		command = { type = supplies 	 value = -200 }
 		
@@ -6892,9 +6900,9 @@ event = {
 		#		war = { country = U87 }
 		#		war = { country = MAN }
 		#	} }													type = event which = 1330110104 where = JAP when = 0  } #Partisans
-		#command = { trigger = { ispuppet = CHI } 				type = event which = 1330110105 where = CHI when = 0  } #Partisans
+		#command = { trigger = { war = { country = CHI } }		type = event which = 1330110105 where = CHI when = 0  } #Partisans
 		#command = { trigger = { war = { country = U87 } } 		type = event which = 1330110106 where = U87 when = 0  } #Partisans
-		#command = { trigger = { war = { country = MAN }	} 		type = event which = 1330110107 where = MAN when = 0  } #Partisans
+		#command = { trigger = { war = { country = MAN } } 		type = event which = 1330110107 where = MAN when = 0  } #Partisans
 
 
 		#Need time for the random partisan spawn event to fire
