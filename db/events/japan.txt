@@ -3798,6 +3798,7 @@ event = {
 	action = {
 		name = EVT_2006042_ACTA
 		ai_chance = 100
+		trigger = { OR = { ai = no NOT = { event = 2001095 } } } #Will not do if UK surrendered
 		command = { type = dissent value = -5 } #Japan got 5 dissent for breaking the NAP
 		command = { type = relation which = SOV value = 20 }
 		command = { type = event which = 2006045 where = SOV when = 0 }
@@ -3970,6 +3971,79 @@ event = {
 	}
 }
 
+#Invade USSR if it has very few troops on the border, if USSR is clearly losing, or if UK is defeated
+
+event = {
+	id = 2006047
+	random = no 
+	country = JAP
+	
+	decision = {
+		local_flag = AllInit
+		exists = SOV
+		NOT = { 
+			war = { country = SOV }
+			war = { country = GER }
+		}
+		OR = {
+			event = 2011014
+			event = 2011016
+		}
+	}
+	decision_trigger = {
+	}
+	trigger = {	
+		local_flag = AllInit
+		exists = SOV
+		NOT = { 
+			war = { country = SOV }
+			war = { country = GER }
+		}
+		OR = {
+			event = 2011014
+			event = 2011016
+		}
+		
+		war = { country = SOV country = GER }
+		NOT = { lost_VP = { country = GER value = 5 } }
+		event = 2011004 #Japan anti-comintern pact
+		
+		OR = {
+			event = 2007032 #bitter peace rejected/war resumed
+			event = 2001095 #UK surrendered
+			AND = {
+				NOT = { garrison = { country = SOV province = 1372 type = land size = 15 area = 2 } }
+				NOT = { garrison = { country = SOV province = 1520 type = land size = 15 area = 2 } }
+				OR = {
+					NOT = { ai = SOV }
+					NOT = { flag = JAP_SOV_NAP }
+				}
+			}
+		}
+	}
+
+	name = "Strike North"
+	desc = "Despite the setbacks of the earlier border conflicts, the Kwantung Army stood ready to strike once again against Japan's northern rival. Now, the time has finally come to eliminate the northern threat to the Empire once and for all, and secure the vast resources of Siberia for ourselves!"
+  	style = 2
+	
+	date = { day = 1 month = january year = 1936 }
+	offset = 15
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		#+3 dissent if had a NAP, but it's worth it
+		command = { type = clrflag which = JAP_SOV_NAP }
+		command = { trigger = { non_aggression = { country = JAP country = SOV } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
+		command = { type = end_non_aggression which = JAP where = SOV }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -2 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_clrflag which = dissentReduce5 }
+		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = belligerence value = 5 }
+		command = { type = end_non_aggression which = MAN where = SOV }
+		
+		command = { type = war which = SOV }
+	}
+}
+
 
 #Japanese puppet states
 
@@ -4063,7 +4137,6 @@ event = {
 	
 	name = EVT_203201_NAME
 	desc = EVT_203201_DESC
-    picture = "independent_croatia"
 	style = 0
 	
 	trigger = {
@@ -4118,7 +4191,6 @@ event = {
 	
 	name = EVT_203202_NAME
 	desc = EVT_203202_DESC
-    picture = "independent_croatia"
 	style = 0
 	
 	trigger = {
@@ -4223,7 +4295,6 @@ event = {
 	trigger = {
 		alliance = { country = JAP }
 		control = { province = 1469 data = IND } #Delhi
-		NOT = { event = 203204 }
 	}
 	
 	date = { day = 1 month = january year = 1936 }

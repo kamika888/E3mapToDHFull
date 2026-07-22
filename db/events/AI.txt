@@ -9154,8 +9154,8 @@ event = {
 	
 	trigger = {	
 		local_flag = AllInit
-		ai = yes
 		NOT = { local_flag = japChi_AI_counter }
+		ai = yes
 		flag = { which = japChi when = 1 value = 40 }
 	}
 
@@ -9179,9 +9179,13 @@ event = {
 	
 	trigger = {	
 		local_flag = AllInit
-		ai = yes
 		local_flag = japChi_AI_counter
-		NOT = { flag = { which = japChi when = 1 value = 40 } }
+		NOT = {
+			AND = {
+				ai = yes
+				flag = { which = japChi when = 1 value = 40 }
+			}
+		}
 	}
 
 	name = "AI_EVENT"
@@ -9470,50 +9474,6 @@ event = {
 	}
 }
 
-
-#Invade USSR if it has very few troops on the border
-
-event = {
-	id = 2401336
-	random = no 
-	country = JAP
-	
-	trigger = {	
-		local_flag = AllInit
-		NOT = { 
-			war = { country = SOV }
-			war = { country = GER }
-		}
-		war = { country = SOV country = GER }
-		event = 2011004 #Japan anti-comintern pact
-		OR = {
-			NOT = { ai = SOV }
-			NOT = { flag = JAP_SOV_NAP }
-		}
-		NOT = { lost_VP = { country = GER value = 5 } }
-		NOT = { garrison = { country = SOV province = 1372 type = land size = 15 area = 2 } }
-		NOT = { garrison = { country = SOV province = 1520 type = land size = 15 area = 2 } }
-	}
-
-	name = "AI_EVENT"
-	
-	date = { day = 1 month = january year = 1936 }
-	offset = 15
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action = {
-		#+3 dissent if had a NAP, but it's worth it
-		command = { type = clrflag which = JAP_SOV_NAP }
-		command = { trigger = { non_aggression = { country = JAP country = SOV } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
-		command = { type = end_non_aggression which = JAP where = SOV }
-		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = dissent value = -2 }
-		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = local_clrflag which = dissentReduce5 }
-		command = { trigger = { local_flag = { which = dissentReduce5 when = 1 value = 1 } } type = belligerence value = 5 }
-		command = { type = end_non_aggression which = MAN where = SOV }
-		
-		command = { type = war which = SOV }
-	}
-}
 
 #Build a couple of Yamato-class BBs
 
@@ -13388,7 +13348,7 @@ event = {
 
 	trigger = {		
 		flag = ENG_invaded
-		NOT = { event = 2001040 } #ENG surrendered
+		NOT = { event = 2001095 } #ENG surrendered
 		area = { area = "East England" 	country = ENG data = 1 value = 100 	}
 		area = { area = "West England" 	country = ENG data = 1 value = 100 	}
 		area = { area = "North England"	country = ENG data = 1 value = 100 	}
