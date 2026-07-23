@@ -606,7 +606,7 @@ event = {
 	action = {
 		name = "EVT_2400552_ACTA"
 		#Allies only
-		trigger = { OR = { war = { country = SOV } war = { country = ENG } alliance = { country = JAP } alliance = { country = GER } alliance = { ITA } } local_flag = AllInit }
+		trigger = { OR = { war = { country = SOV } war = { country = ENG } alliance = { country = JAP } alliance = { country = GER } alliance = { country = ITA } } local_flag = AllInit }
 		
 		command = { type = relation which = GER value = 5 }
 		command = { type = relation which = ITA value = 5 }
@@ -686,6 +686,7 @@ event = {
 		command = { type = remove_units which = land where = REB when = 2 value = "Krasnoyarsk"			} 
 		command = { type = remove_units which = land where = REB when = 2 value = "Irkutsk"				} 
 		command = { type = remove_units which = land where = REB when = 2 value = "Far East Siberia"	} 
+		command = { type = remove_units which = land where = REB when = 1 value = "Xinjiang"			} 
 		
 		command = { type = secederegion which = GER value = "Russia"			when = 2 } 
 		#command = { type = secederegion which = GER value = "Baltic States"	when = 2 } #May have allies 
@@ -707,6 +708,7 @@ event = {
 		command = { type = secedearea	which = JAP value = "Turkestan"			when = 2 } 
 		command = { type = secedearea	which = JAP value = "Kirgizistan"		when = 2 } 
 		command = { type = secedearea	which = JAP value = "Tadzjikistan"		when = 2 } 
+		command = { type = secedearea	which = JAP value = "Xinjiang"			when = 2 } 
 		command = { type = secedearea	which = JAP value = "China"				when = 1 } 
 		command = { type = secedeprovince which = JAP	value = 3632			when = 2 }
 		command = { type = secedeprovince which = JAP	value = 3633			when = 2 }
@@ -718,7 +720,7 @@ event = {
 		command = { type = secedeprovince which = JAP	value = 1593			when = 2 }
 		command = { type = secedeprovince which = JAP	value = 6966			when = 2 }
 		command = { type = secedeprovince which = JAP	value = 1555			when = 2 }
-		command = { trigger = { control = { province = 1433 data = -3 } } type = secedearea	which = JAP value = "Xinjiang"	when = 2 } 
+		
 
 		command = { trigger = { OR = { NOT = { exists = U42 } AND = { ispuppet = U42 NOT = { puppet = { country = U42 } } } } } type = local_setflag which = makePuppet }
 		command = { trigger = { local_flag = makePuppet NOT = { exists = U42 } }	type = secedeprovince	which = -3	value = 1847	when = 2 }
@@ -973,11 +975,19 @@ event = {
 		command = { type = remove_claim_region	which = "Krasnoyarsk"		}
 		command = { type = remove_claim_region	which = "Irkutsk"			}
 		command = { type = remove_claim_region	which = "Far East Siberia"	}
+		command = { type = remove_claim_area	which = "Xinjiang"			}
 		
 		command = { type = secederegion which = GER value = "Baltic States"		when = 1 }
 		command = { type = secederegion which = GER value = "Kaukasus"			when = 1 }
 		
-		command = { trigger = { control = { province = 1433 data = -3 } } 			type = secedearea		which = U87 value = "Xinjiang"	when = 2 } 
+		command = { trigger = { OR = { NOT = { exists = UPE } AND = { ispuppet = UPE NOT = { puppet = { country = UPE } } } } } type = local_setflag which = makePuppet }
+		command = { trigger = { local_flag = makePuppet NOT = { exists = UPE } }	type = secedeprovince 	which = -3	value = 1433 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = independence		which = UPE value = 1 }
+		command = { trigger = { local_flag = makePuppet }							type = make_puppet		which = UPE }
+		command = { trigger = { local_flag = makePuppet }							type = event			where = UPE which = 2400537 when = 0 } #strong puppet
+		command = { trigger = { local_flag = makePuppet }							type = event			where = UPE which = 112		when = 0 } #start dev
+		command = { trigger = { local_flag = makePuppet }							type = secedearea		which = UPE value = "Xinjiang"	when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet } 
 
 		command = { trigger = { OR = { NOT = { exists = MEN } AND = { ispuppet = MEN NOT = { puppet = { country = MEN } } } } }		type = local_setflag 	which = makePuppet }
 		command = { trigger = { local_flag = makePuppet NOT = { exists = MEN } }	type = secedeprovince	which = -3	value = 1404	when = 2 }
@@ -988,12 +998,12 @@ event = {
 		command = { trigger = { alliance = { country = MEN } }						type = event			where = MEN which = 113		when = 0 } #start dev 2->3
 		command = { trigger = { alliance = { country = MEN } }						type = secedearea		which = MEN value = "Mongolia"	when = 2 }
 		command = { trigger = { alliance = { country = MEN } }						type = secedearea		which = MEN value = "Chahar"	when = 2 }
-		command = { trigger = { alliance = { country = MEN } control = { province = 3740 data = -3 } } type = secedeprovince which = MEN value = 3740	when = 2 }
-		command = { trigger = { alliance = { country = MEN } control = { province = 1421 data = -3 } } type = secedeprovince which = MEN value = 1421	when = 2 }
-		command = { trigger = { alliance = { country = MEN } control = { province = 5504 data = -3 } } type = secedeprovince which = MEN value = 5504	when = 2 }
-		command = { trigger = { alliance = { country = MEN } control = { province = 5503 data = -3 } } type = secedeprovince which = MEN value = 5503	when = 2 }
-		command = { trigger = { alliance = { country = MEN } control = { province = 5502 data = -3 } } type = secedeprovince which = MEN value = 5502	when = 2 }
-		command = { trigger = { alliance = { country = MEN } control = { province = 3741 data = -3 } } type = secedeprovince which = MEN value = 3741	when = 2 }
+		command = { trigger = { alliance = { country = MEN } }						type = secedeprovince which = MEN value = 3740	when = 2 }
+		command = { trigger = { alliance = { country = MEN } }						type = secedeprovince which = MEN value = 1421	when = 2 }
+		#command = { trigger = { alliance = { country = MEN } }						type = secedeprovince which = MEN value = 5504	when = 2 }
+		#command = { trigger = { alliance = { country = MEN } }						type = secedeprovince which = MEN value = 5503	when = 2 }
+		#command = { trigger = { alliance = { country = MEN } }						type = secedeprovince which = MEN value = 5502	when = 2 }
+		#command = { trigger = { alliance = { country = MEN } }						type = secedeprovince which = MEN value = 3741	when = 2 }
 		#Buryatia probably kept under direct Japanese control since it contains the strategic trans-siberian railway, future status to be decided
 		
 		command = { trigger = { OR = { NOT = { exists = KYG } AND = { ispuppet = KYG NOT = { puppet = { country = KYG } } } } } type = local_setflag which = makePuppet }
@@ -1003,10 +1013,10 @@ event = {
 		command = { trigger = { local_flag = makePuppet }							type = event			where = KYG which = 2400537 when = 0 } #strong puppet
 		command = { trigger = { local_flag = makePuppet }							type = event			where = KYG which = 113		when = 0 } #start dev
 		command = { trigger = { local_flag = makePuppet }							type = secedearea		which = KYG value = "Kirgizistan"	when = 2 }
-		command = { trigger = { local_flag = makePuppet control = { province = 5490 data = -3 } } type = secedeprovince	which = KYG value = 5490 when = 2 }
-		command = { trigger = { local_flag = makePuppet control = { province = 3738 data = -3 } } type = secedeprovince	which = KYG value = 3738 when = 2 }
-		#command = { trigger = { local_flag = makePuppet control = { province = 1431 data = -3 } } type = secedeprovince	which = KYG value = 1431 when = 2 }
-		command = { trigger = { local_flag = makePuppet control = { province = 5482 data = -3 } } type = secedeprovince	which = KYG value = 5482 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = secedeprovince	which = KYG value = 5490 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = secedeprovince	which = KYG value = 3738 when = 2 }
+		#command = { trigger = { local_flag = makePuppet }							type = secedeprovince	which = KYG value = 1431 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = secedeprovince	which = KYG value = 5482 when = 2 }
 		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet } 
 		
 		command = { trigger = { OR = { NOT = { exists = TAJ } AND = { ispuppet = TAJ NOT = { puppet = { country = TAJ } } } } } type = local_setflag which = makePuppet }
@@ -1016,8 +1026,8 @@ event = {
 		command = { trigger = { local_flag = makePuppet }							type = event			where = TAJ which = 2400537 when = 0 } #strong puppet
 		command = { trigger = { local_flag = makePuppet }							type = event			where = TAJ which = 112		when = 0 } #start dev
 		command = { trigger = { local_flag = makePuppet }							type = secedearea		which = TAJ value = "Tadzjikistan"	when = 2 }
-		command = { trigger = { local_flag = makePuppet control = { province = 3739 data = -3 } } type = secedeprovince	which = TAJ value = 3739 when = 2 }
-		command = { trigger = { local_flag = makePuppet control = { province = 5481 data = -3 } } type = secedeprovince	which = TAJ value = 5481 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = secedeprovince	which = TAJ value = 3739 when = 2 }
+		command = { trigger = { local_flag = makePuppet }							type = secedeprovince	which = TAJ value = 5481 when = 2 }
 		command = { trigger = { local_flag = makePuppet }							type = local_clrflag	which = makePuppet }
 		
 		command = { 																type = construct which = ic where = 1372 value = -10 }
@@ -1071,6 +1081,7 @@ event = {
 		command = { type = add_claim_region	which = "Krasnoyarsk"		where = JAP	}
 		command = { type = add_claim_region	which = "Irkutsk"			where = JAP	}
 		command = { type = add_claim_region	which = "Far East Siberia"	where = JAP	}
+		command = { type = add_claim_area	which = "Xinjiang"			where = JAP	}
 	}
 }
 
