@@ -35,6 +35,8 @@ event = {
 		name = EVT_2400080_NAME
 		command = { type = dissent value = 15 }
 		command = { type = strength which = all when = 1 where = 0 value = -0.5 }
+		
+		command = { type = trigger which = 2007325 } #Percentages Agreement/Yalta Conference (Axis Version)
 	}
 }
 
@@ -89,13 +91,13 @@ event = {
 	style = 2
 
     trigger = {
-		#OR = {
-		#	event = 2007301
-		#	NOT = { minister = 30002 }
-		#}
-		#war = { country = GER }
-		#war = { country = JAP }
-        #lost_national = { value = 60 }
+		OR = {
+			event = 2007301
+			NOT = { minister = 30002 }
+		}
+		war = { country = GER }
+		war = { country = JAP }
+        lost_national = { value = 60 }
     }
 
     date = { day = 0 month = january year = 1933 }
@@ -588,6 +590,30 @@ event = {
 	}
 }
 
+
+
+#Percentages Agreement warning
+event = { 
+	id = 2007325
+	random = no 
+	persistent = yes
+	all = yes
+
+	name = "Percentages Agreement"
+	desc = "As the Allied fortunes turned sour, the Axis powers shifted their attention towards the division of the spoils of victory across Eurasia. Germany, as the dominant member of the Axis coalition, naturally showed the least interest in agreeing to the continent's partition into precise 'spheres of influence', preferring instead to leave many questions to be settled once military operations had concluded. Yet even Berlin implicitly recognized that the major Axis powers would each possess their own areas of primary responsibility. Mussolini, by contrast, felt much greater urgency to resolve the question of the post-war order. He watched with growing unease as Japanese armies advanced through Inner Asia towards regions bordering the Middle East and, potentially, Italy's own imperial sphere in East Africa. In particular, he was concerned about the future of the Red Sea and South Arabia, considered vital to Italian supply lines, but now increasingly threatened as the Japanese established contact with the Yemenis and the Saudis. In light of these concerns, Mussolini arranged a meeting between the Axis leaders, where they jotted down an informal 'percentages agreement', delineating their respective spheres of influence across post-war Asia. Germany promised to respect Japanese interests in India, Mongolia, Eastern Siberia, and the mountain republics of Kyrgyzstan and Tajikistan, while Japan recognized German/Italian predominance in Africa, Arabia, Pakistan, and the new Central Asian states of Uzbekistan and Turkmenistan. Meanwhile, separately from the conference, German and Japanese planning staffs finalized proposals for the administration of the occupied Soviet territories, divided roughly along the 70th meridian, and for the establishment of a number of autonomous and dependent states intended to prevent the re-emergence of a unified Eurasian power. Thus the future political order of Eurasia has been effectively decided well in advance of the Soviet Union's actual collapse."
+	style = 2
+	
+	action = {
+		name = "EVT_2400552_ACTA"
+		#Allies only
+		trigger = { OR = { war = { country = SOV } war = { country = ENG } alliance = { country = JAP } alliance = { country = GER } alliance = { ITA } } local_flag = AllInit }
+		
+		command = { type = relation which = GER value = 5 }
+		command = { type = relation which = ITA value = 5 }
+		command = { type = relation which = JAP value = 5 }
+		command = { }
+	}
+}
 
 
 #########################################################################
