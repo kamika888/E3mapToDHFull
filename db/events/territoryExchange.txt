@@ -408,13 +408,14 @@ event = {
 		}
 		NOT = {	war = { country = SOV }	}
 		alliance = { country = MEN }
-		OR = {
-			war = { country = JAP country = CHI }
-			alliance = { country = JAP country = CHI }
-		}
+		#OR = {
+		#	war = { country = JAP country = CHI }
+		#	alliance = { country = JAP country = CHI }
+		#}
 		OR = {
 			area = { area = "Chahar"			data = 1 value = 1 }
 			area = { area = "Suiyuan_Ningxia"	data = 1 value = 1 }
+			area = { area = "Alice Springs"		data = 1 value = 1 }
 			control = { province = 1209 }
 			control = { province = 5565 }
 		}
@@ -431,10 +432,11 @@ event = {
 	
 	action = {
 		name = "ACTION_NAME_OK" 
-		command = { type = secedearea		which = MEN value = "Chahar" when = 1 }
-		command = { type = secedearea		which = MEN value = "Suiyuan_Ningxia" when = 1 }
-		command = { type = secedeprovince	which = MEN value = 1209 when = 1 }
-		command = { type = secedeprovince	which = MEN value = 5565 when = 1 }
+		command = { type = secedearea		which = MEN value = "Chahar" 			when = 1 }
+		command = { type = secedearea		which = MEN value = "Suiyuan_Ningxia"	when = 1 }
+		command = { type = secedearea		which = MEN value = "Alice Springs"		when = 1 }
+		command = { type = secedeprovince	which = MEN value = 1209				when = 1 }
+		command = { type = secedeprovince	which = MEN value = 5565				when = 1 }
 	}
 }
 
@@ -446,6 +448,10 @@ event = {
 	persistent = yes
 
 	trigger = {
+		#OR = {
+		#	NOT = { event = 2012020 } #China surrendered
+		#	NOT = { exists = CHC }
+		#}
 		OR = { 
 			country = JAP
 			country = MAN
@@ -567,7 +573,7 @@ event = {
 			
 			control = { province = 568 }
 			control = { province = 570 }
-			control = { province = 746 }
+			#control = { province = 746 }
 			control = { province = 1248 }
 			control = { province = 1249 }
 			control = { province = 1312 }
@@ -576,13 +582,13 @@ event = {
 			control = { province = 1317 }
 			control = { province = 1318 }
 			control = { province = 1320 }
-			control = { province = 1321 }
+			#control = { province = 1321 }
 			control = { province = 1325 }
 			control = { province = 1880 }
 			control = { province = 1912 }
 			control = { province = 5608 }
 			control = { province = 5609 }
-			control = { province = 5610 }
+			#control = { province = 5610 }
 		}
 	}
 	
@@ -710,7 +716,7 @@ event = {
 		command = { type = secedeprovince	which = U87 value = 568		when = 1 }
 		command = { type = secedeprovince	which = U87 value = 570		when = 1 }
 		#command = { type = secedeprovince	which = U87 value = 696		when = 1 }
-		command = { type = secedeprovince	which = U87 value = 746		when = 1 }
+		#command = { type = secedeprovince	which = U87 value = 746		when = 1 }
 		command = { type = secedeprovince	which = U87 value = 1248	when = 1 }
 		command = { type = secedeprovince	which = U87 value = 1249	when = 1 }
 		command = { type = secedeprovince	which = U87 value = 1312	when = 1 }
@@ -721,13 +727,13 @@ event = {
 		command = { type = secedeprovince	which = U87 value = 1317	when = 1 }
 		command = { type = secedeprovince	which = U87 value = 1318	when = 1 }
 		command = { type = secedeprovince	which = U87 value = 1320	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 1321	when = 1 }
+		#command = { type = secedeprovince	which = U87 value = 1321	when = 1 }
 		command = { type = secedeprovince	which = U87 value = 1325	when = 1 }
 		command = { type = secedeprovince	which = U87 value = 1880	when = 1 }
 		command = { type = secedeprovince	which = U87 value = 1912	when = 1 }
 		command = { type = secedeprovince	which = U87 value = 5608	when = 1 }
 		command = { type = secedeprovince	which = U87 value = 5609	when = 1 }
-		command = { type = secedeprovince	which = U87 value = 5610	when = 1 }
+		#command = { type = secedeprovince	which = U87 value = 5610	when = 1 }
 		
 		command = { trigger = { ai = JAP } type = belligerence which = JAP value = -0.2 }
 	}
@@ -1519,8 +1525,18 @@ event = {
 
 	trigger = {	
 		NOT = { 
+			event = 2001095 #UK surrender
 			country = GRE
 			country = U33
+			country = ALB
+			AND = {
+				country = BUL
+				NOT = { ispuppet = BUL }
+			}
+			AND = {
+				country = ITA
+				NOT = { ispuppet = ITA }
+			}
 		}
 		alliance = { country = ENG }
 		alliance = { country = GRE }
@@ -1861,6 +1877,7 @@ event = {
 				alliance = { country = ITA }
 				NOT = { country = ITA }
 				NOT = { country = ALB }
+				NOT = { country = MTN }
 				OR = {
 					control = { province = 380	}
 					control = { province = 3359	}
@@ -1962,27 +1979,27 @@ event = {
 		command = { trigger = { NOT = { country = SER } alliance = { country = SER } }					type = secedeprovince 	which = SER value = 1896			when = 1 }
 		command = { trigger = { NOT = { country = SER } alliance = { country = SER } }					type = secedeprovince 	which = SER value = 7271			when = 1 }
 		
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 380				when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 3359			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 2325			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 7124			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 3357			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 6559			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 7937			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 381				when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 384				when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 389				when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 3373			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 2608			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 5464			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 7269			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 7315			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 1894			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 7270			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 3372			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 415				when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 1169			when = 1 }
-		command = { trigger = { NOT = { country = ITA country = ALB } alliance = { country = ITA } }	type = secedearea		which = ITA value = "Albania"		when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 380				when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 3359			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 2325			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 7124			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 3357			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 6559			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 7937			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 381				when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 384				when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 389				when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 3373			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 2608			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 5464			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 7269			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 7315			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 1894			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 7270			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 3372			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 415				when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedeprovince 	which = ITA value = 1169			when = 1 }
+		command = { trigger = { NOT = { country = ITA country = ALB country = MTN } alliance = { country = ITA } }	type = secedearea		which = ITA value = "Albania"		when = 1 }
 
 		command = { trigger = { NOT = { country = BUL } alliance = { country = BUL } }					type = secedeprovince 	which = BUL value = 6506			when = 1 }
 		command = { trigger = { NOT = { country = BUL } alliance = { country = BUL } }					type = secedeprovince 	which = BUL value = 1168			when = 1 }

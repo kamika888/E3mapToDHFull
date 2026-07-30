@@ -1401,10 +1401,15 @@ event = {
 
 	trigger = {	
 		war = { country = JAP }
-		NOT = {
-			flag = SOV_Lend_Lease_to_CHI1
-			flag = ENG_Lend_Lease_to_CHI1
-			flag = USA_Lend_Lease_to_CHI1
+		OR = {
+			event = 2003125 #Global Axis victory
+			NOT = {
+				flag = SOV_Lend_Lease_to_CHI1
+				flag = ENG_Lend_Lease_to_CHI1
+				flag = USA_Lend_Lease_to_CHI1
+				war = { country = JAP country = SOV }
+				war = { country = JAP country = USA }
+			}
 		}
 		flag = { which = japChi when = 1	value = 60 }
 		OR = { 
@@ -1414,8 +1419,6 @@ event = {
 				region = { region = "India" country = -2 value = 50 }
 			}
 		}
-		NOT = { war = { country = JAP country = SOV } }
-		NOT = { war = { country = JAP country = USA } }
 		NOT = { land_percentage = { country = JAP value = 0.9 } }
 		#OR = { 
 		#	lost_national = { value = 80 }
@@ -1445,13 +1448,14 @@ event = {
 	action = { 
 		name = EVT_2011017_ACTA
 		ai_chance = 99
-		command = { type = dissent value = 3 }
+		command = { type = dissent value = -1 }
 		command = { type = belligerence which = JAP value = -5 }
 		command = { type = trigger which = 2012018 }
 	} 
 	action = { 
-		name = EVT_2011015_ACTB
+		name = EVT_2011017_ACTB
 		ai_chance = 1
+		command = { type = dissent value = 1 }
 		command = { type = trigger which = 2012017 }
 		command = { type = belligerence which = JAP value = 15 }
 	}
@@ -1503,6 +1507,30 @@ event = {
 		command = { type = access which = JAP }
 		command = { type = access which = MAN }
 		command = { type = access which = MEN }
+		
+		command = { type = construct which = land_fort where = 5560 value = -6 }
+		command = { type = construct which = land_fort where = 5559 value = -6 }
+		command = { type = construct which = land_fort where = 1229 value = -6 }
+		command = { type = construct which = land_fort where = 2502 value = -6 }
+		command = { type = construct which = land_fort where = 1230 value = -6 }
+		command = { type = construct which = land_fort where = 1964 value = -6 }
+		command = { type = construct which = land_fort where = 1221 value = -4 }
+		command = { type = construct which = land_fort where = 2558 value = -4 }
+		
+		command = { type = construct which = land_fort where = 1227 value = -6 }
+		command = { type = construct which = land_fort where = 5562 value = -6 }
+		command = { type = construct which = land_fort where = 2508 value = -6 }
+		command = { type = construct which = land_fort where = 1222 value = -6 }
+		command = { type = construct which = land_fort where = 1218 value = -4 }
+		
+		command = { type = construct which = land_fort where = 1228 value = -6 }
+		command = { type = construct which = land_fort where = 2515 value = -6 }
+		command = { type = construct which = land_fort where = 1223 value = -6 }
+		command = { type = construct which = land_fort where = 2513 value = -6 }
+		
+		command = { type = construct which = land_fort where = 1267 value = -1 }
+		command = { type = construct which = land_fort where = 5573 value = -1 }
+		command = { type = construct which = land_fort where = 5619 value = -1 }
 		
 		command = { type = switch_allegiance which = -1 where = CHC }
 		command = { type = switch_allegiance which = -1 where = CHC }
@@ -1559,6 +1587,7 @@ event = {
 		command = { type = trigger which = 2012022 } #SIK
 
 		command = { type = event which = 2012019 where = U87 when = 0 }
+		command = { trigger = { NOT = { exists = U87 } } type = event which = 2012020 where = JAP when = 1 }
 	} 
 	action = {
 		name = EVT_2012018_ACTB
@@ -1583,6 +1612,7 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		command = { type = inherit which = CHI value = 1 }
+		command = { trigger = { war = { country = SIK } } type = inherit which = SIK value = 1 }
 		#TAG change mid game will:
 		#very likely CRASH MP game
 		#reset all triggered events without resetting the flags
@@ -1641,7 +1671,9 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
-		command = { type = dissent value = -3 }
+		command = { type = inherit which = CHI value = 0 }
+		command = { trigger = { war = { country = SIK } } type = inherit which = SIK value = 0 }
+		
 		#command = { type = make_puppet which = CHI }
 		command = { type = event which = 2400536 where = CHI when = 0 } #medium-strong puppet (Lvl4puppet -> Lvl6puppet)
 		command = { type = secedearea which = MEN value = "Chahar" when = 1 }
@@ -1689,18 +1721,9 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
-		command = { type = dissent value = -15 }
+		command = { type = dissent value = 5 } #Influx of a large quantity of ideologically unreliable cardres
 		command = { type = inherit which = CXB value = 1 }
-		command = { type = manpowerpool value = 5000 }
-		#More KMT defectors
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = militia when = 6 }
-		command = { type = add_division value = infantry when = 10 }
-		command = { type = add_division value = infantry when = 10 }
-		command = { type = free_supplies value = 20 } 
+		command = { type = free_supplies value = 5 } 
 	} 
 }
 
@@ -4041,6 +4064,9 @@ event = {
 		command = { type = end_non_aggression which = MAN where = SOV }
 		
 		command = { type = war which = SOV }
+		#counts as a manual declaration of war
+		command = { trigger = { alliance = { country = GER } } type = dissent value = -2 }
+		
 	}
 }
 
@@ -4438,6 +4464,8 @@ event = {
 	action = {
 		name = EVT_203211_ACTA
 		command = { trigger = { NOT = { military_control = { country = JAP country = IND } } } type = military_control which = JAP where = IND value = 1 }
+		
+		command = { type = set_domestic which = political_left value = 3 }
 		
 		command = { type = headofstate 				which = 250069 }
 		command = { type = headofgovernment			which = 250070 }

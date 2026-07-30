@@ -4396,7 +4396,7 @@ event = {
 	id = 2021002
 	random = no
 	country = YUG
-	one_action = yes
+	#one_action = yes
 
 	trigger = {
 		OR = {
@@ -4432,7 +4432,7 @@ event = {
 		name = EVT_6_ACTA
 		ai_chance = 97
 		command = { type = end_access which = GER }
-		command = { type = dissent value = -15 } #Some dissent removed, but deep divisions remain
+		command = { type = dissent value = -15 } #Some dissent removed, but deep divisions remain. Serbs are happy, but now Croats and Slovenes are even more pissed.
 		command = { type = leave_alliance when = 1 }
 		command = { type = peace which = ENG value = 1 }
 		command = { type = peace which = SOV value = 1 }
@@ -7157,6 +7157,91 @@ event = {
 	}
 }
 
+# Align Afghanistan
+event = {
+	id = 2003261
+	random = no
+	country = GER
+
+	decision = {
+		exists = AFG
+		NOT = { 
+			alliance = { country = AFG }
+			war = { country = AFG }
+		}
+		event = 2003047 # German diplomatic offensive
+		OR = {
+			event = 2001095 #UK surrender
+			event = 2007311 #USSR surrender
+			region = { 	region = "Central Asia" country = -3 data = 1 value = 50 } 
+		}
+	}
+
+	decision_trigger = {
+		#Thoroughly controls west and north approach
+		region = { 	region = "Central Asia"	country = -3 data = 1 value = 70 } 
+		region = { 	region = "Persia"		country = -3 data = 1 value = 70 } 
+		#Deployed significant forces ready to assist
+		OR = {
+			event = 2001095 #UK surrender
+			region = { 	region = "Persia"		country = -3 data = 1 value = 70 } 
+		}
+		OR = {
+			event = 2007311 #USSR surrender
+			region = { 	region = "Central Asia"	country = -3 data = 1 value = 70 } 
+		}
+		relation = { which = AFG value = 100 }
+		NOT = { 
+			event = 2003200
+			lost_national = { value = 20 }
+		}
+	}
+
+	trigger = { 
+		exists = AFG
+		NOT = { 
+			alliance = { country = AFG }
+			war = { country = AFG }
+		}
+		event = 2003047 # German diplomatic offensive
+		#Thoroughly controls west and north approach
+		OR = {
+			event = 2001095 #UK surrender
+			region = { 	region = "Persia"		country = -3 data = 1 value = 70 } 
+		}
+		OR = {
+			event = 2007311 #USSR surrender
+			region = { 	region = "Central Asia"	country = -3 data = 1 value = 70 } 
+		}
+		NOT = { 
+			event = 2003200
+			lost_national = { value = 20 }
+		}
+	}
+
+	name = EVT_2003261_NAME
+	desc = EVT_2003261_DESC
+  	style = 2
+  	#picture = "afghanistan_axis"
+	#decision_picture="decision_afghanistan_axis"
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 10
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = ACTION_NAME_OF_COURSE
+		ai_chance = 100
+		command = { type = event which = 2003117 where = AFG when = 0 }
+		command = { trigger = { NOT = { ai = GER } } type = military_control which = GER where = AFG value = 1 }
+	}
+	action = {
+		name = ACTION_NAME_NOT_INTERESTED
+		ai_chance = 0
+		command = { }
+	}
+}
+
 
 # Generic in case of Soviet icebreaker OR british surrender
 event = {
@@ -7347,7 +7432,8 @@ event = {
 		ai_chance = 0
 		command = { type = regime_falls	}
 		command = { type = relation which = GER value = -100 }
-		command = { type = alliance which = ENG }
+		command = { trigger = { war = { country = ENG country = GER } }				type = alliance	which = ENG }
+		command = { trigger = { NOT = { war = { country = ENG country = GER } } }	type = war		which = GER }
 	}
 }
 

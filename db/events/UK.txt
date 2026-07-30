@@ -748,6 +748,7 @@ event = {
 	id = 2185002
 	random = no
 	tag = { U02 IND }
+	persistent = yes
 
 	name = EVT_2185002_NAME
 	desc = EVT_2185002_DESC
@@ -777,7 +778,7 @@ event = {
 		command = { type = event which = 2400058 where = U02 when = 0  } #noExpEnforce
 		command = { type = event which = 2185003 where = U02 when = 15 } #civil war PAK
 		
-		command = { trigger = { ai = VIC } type = event which = 2401703 where = VIC when = 0  } #frontLeader30
+		command = { trigger = { ai = VIC alliance = { country = VIC country = ENG } } type = event which = 2401703 where = VIC when = 0  } #frontLeader30
 	}
 	action = {
 		name = "ACTION_NAME_GREAT" #Great
@@ -1925,6 +1926,7 @@ event = {
 	action = {
 		name = EVT_2001301_ACTA	#Join India
 		trigger = { 
+			exists = IND
 			OR = {
 				ai = no
 				country = UIC #Baroda and Gujarat
@@ -1948,6 +1950,14 @@ event = {
 						country = UBO #Travancore
 						country = UTL #Central India
 						country = UPS #Eastern India
+					}
+				}
+				AND = {
+					NOT = { exists = PAK }
+					OR = {
+						country = UGS #Punjab States
+						country = USN #Baluchistan
+						country = UTC #North-West Frontier
 					}
 				}
 			}
@@ -2008,6 +2018,7 @@ event = {
 	action = {
 		name = EVT_2001301_ACTB	#Join Pakistan
 		trigger = { 
+			exists = PAK
 			OR = {
 				ai = no
 				#country = UGS #Punjab States
@@ -2261,6 +2272,8 @@ event = {
 	action = {
 		name = EVT_2001301_ACTF #Split between India and Pakistan
 		trigger = { 
+			exists = IND
+			exists = PAK
 			country = UGS #only available to Punjab
 		}
 		
@@ -3496,7 +3509,7 @@ event = {
 event = { 
 	id = 2001060
 	random = no 
-	country = ENG
+	country = USA
 	
 	decision = {
 		local_flag = AllInit
@@ -3570,13 +3583,13 @@ event = {
 		ai_chance = 97
 		trigger = { atwar = no }
 		name = 145a
-		command = { type = alliance which = ENG when = 1 }
+		command = { type = alliance which = USA when = 1 }
 		command = { type = relation which = GER value = -100 }
 	}
 	action = {	
 		ai_chance = 3
 		name = 3404b
-		command = { type = relation which = ENG value = -50 }
+		command = { type = relation which = USA value = -50 }
 	}
 }
 ####### Central America
@@ -3614,7 +3627,7 @@ event = {
 event = { 
 	id = 2001061
 	random = no 
-	country = ENG
+	country = USA
 	
 	decision = {
 		local_flag = AllInit
@@ -3705,13 +3718,13 @@ event = {
 		ai_chance = 97
 		trigger = { atwar = no }
 		name = 145a
-		command = { type = alliance which = ENG when = 1 }
+		command = { type = alliance which = USA when = 1 }
 		command = { type = relation which = GER value = -100 }
 	}
 	action = {	
 		ai_chance = 3
 		name = 3404b
-		command = { type = relation which = ENG value = -50 }
+		command = { type = relation which = USA value = -50 }
 	}
 }
 ####### South America
@@ -3800,7 +3813,7 @@ event = {
 	
 	action = {
 		name = 145a
-		command = { type = alliance which = ENG when = 1 }
+		command = { type = alliance which = USA when = 1 }
 		command = { type = relation which = GER value = -100 }
 	}
 }
@@ -4967,7 +4980,7 @@ event = {
 		OR = {
 			NOT = { exists = U32 }
 			NOT = { atwar = U32 }
-			event = 2003202
+			event = 2003202 #GER surrender
 		}
 	}
 
