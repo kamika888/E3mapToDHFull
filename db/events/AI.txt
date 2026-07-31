@@ -1258,8 +1258,17 @@ event = {
 	trigger = {	
 		ai = yes
 		local_flag = AllInit
-		ic = 50
-		NOT = { ispuppet = yes }
+		OR = {
+			ic = 50
+			AND = {
+				country = ISR
+				atwar = no
+			}
+		}
+		NOT = { 
+			ispuppet = yes
+			local_flag = nonNuclear
+		}
 		#AI never builds more than 2 at a time
 		OR = {
 			AND = {
@@ -3832,6 +3841,31 @@ event = {
 		command = { type = local_setflag 	which = nukePenalty }
 	}
 }
+
+#Disable nuclear programs
+
+event = {
+	id = 2400081
+	random = no 
+	persistent = yes
+
+	name = AI_EVENT
+
+	action = {
+		name = "ACTION_NAME_OK"
+		trigger = { NOT = { local_flag = nonNuclear } }
+		command = { type = local_setflag which = nonNuclear }
+		command = { type = max_reactor_size value = 0 }
+		command = { type = disable_task which = nuke  }
+		command = { type = deactivate which = 7170    } # Nuclear Waste Bomb
+		command = { type = deactivate which = 7180    } # Semi-Fission Bomb
+		command = { type = deactivate which = 7190    } # Fission Bomb
+		command = { type = deactivate which = 16010   } # Miniaturised Fission Bomb
+		command = { type = deactivate which = 16020   } # Fussion Bomb	
+	}
+}
+
+
 
 
 ########################################################################
