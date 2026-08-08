@@ -5,7 +5,12 @@ event = {
 	id = 2007300
 	random = no
 	country = SOV
+	persistent = yes
 
+	decision = {
+	
+	}
+	decision_trigger = {}
 	trigger = {
 		event = 2007032 #bitter peace rejected/war resumed
 		war = { country = GER }
@@ -24,7 +29,7 @@ event = {
 	}
 
 	name = "Collapse of the Soviet Army"
-	desc = "With the loss of the major urban agglomerations and industrial hubs in central Russia, STAVKA planned to retreat to the Volga and continue resistance, or, failing that, further to the Ural mountains. However, once the enemy breached the Volga river, the supply, logistics, and even morale of the Red army began to rapidly crumble. The infrastructure of Siberia was still very underdeveloped and relied mainly on one major artery which was made unusable by the repeated German bombing. Loss of the oil fields in the Caucasus and the grain-producing regions of Western russia caused severe shortages and deprivation. Meanwhile, the Japanese broke the non-aggression pact and invaded from the East, capturing the main remaining ports used to receive Lend Lease aid. As a result, the Red Army could no longer sustain its operations. The morale of the Soviet soldiers and their faith in victory sharply faltered, and peasants started surrendering to the enemy or deserting the army and going back to their fields. Even Stalin had to reluctantly admit that the organized conventional resistance had became untenable. There was still a plan B - partisan warfare. The vast forests and swamps of Northern Russia appeared to afford such a possibility. But the Russian people, having just suffered a disasterous and demoralizing defeat, had little immediate enthusiasm for further self-sacrifice. They may change their minds, however, once they experience the horrors of the German occupation firsthand."
+	desc = "With the loss of the major urban agglomerations and industrial hubs in central Russia, STAVKA planned to retreat to the Volga and continue resistance, or, failing that, further to the Ural mountains. However, once the enemy breached the Volga river, the supply, logistics, and even morale of the Red army began to rapidly crumble. The infrastructure of Siberia was still very underdeveloped and relied mainly on one major artery which was made unusable by the repeated German bombing. Loss of the oil fields in the Caucasus and the grain-producing regions of Western russia caused severe shortages and deprivation. Meanwhile, the Japanese broke the non-aggression pact and invaded from the East, capturing the main remaining ports used to receive Lend Lease aid. As a result, the Red Army could no longer sustain its operations. The morale of the Soviet soldiers and their faith in victory sharply faltered, with peasants largely surrendering to the enemy or deserting the army and going back to their fields. Even Stalin had to reluctantly admit that the organized conventional resistance had became untenable. There was still a plan B - partisan warfare. The vast forests and swamps of Northern Russia appeared to afford such a possibility. But the Russian people, having just suffered a disasterous and demoralizing defeat, had little immediate enthusiasm for further self-sacrifice. They may change their minds, however, once they experience the horrors of the German occupation firsthand."
 	style = 2
 
 	date = { day = 0 month = january year = 1936 }
@@ -32,11 +37,445 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = EVT_2400080_NAME
-		command = { type = dissent value = 15 }
+		name = "We will continue the fight from the vast forests of Russia"
+		command = { type = dissent value =  5 }
+		command = { trigger = { puppet = { country = UTO } } type = inherit which = UTO value = 1 }
+		
+		#Need to also somehow clear build queue
+		
+		command = { type = remove_division which = 10848 value = 8620 }
+		command = { type = remove_division which = 10848 value = 8621 }
+		command = { type = remove_division which = 10848 value = 8622 }
+		command = { type = remove_division which = 10848 value = 8623 }
+		command = { type = remove_division which = 10848 value = 8624 }
+		command = { type = remove_division which = 10848 value = 8625 }
+		command = { type = remove_division which = 10848 value = 8626 }
+		command = { type = remove_division which = 10848 value = 8627 }
+		command = { type = remove_division which = 10848 value = 8628 }
+		command = { type = remove_division which = 10848 value = 8629 }
+		command = { type = remove_division which = 10848 value = 8630 }
+		command = { type = remove_division which = 10848 value = 8631 }
+		command = { type = remove_division which = 10848 value = 8632 }
+		command = { type = remove_division which = 10848 value = 8633 }
+		command = { type = remove_division which = 10848 value = 8634 }
+		command = { type = remove_division which = 10848 value = 8635 }
+		
+		command = { type = remove_units 		which = all where = SOV when = 2 value = "Central Asia" }
+		command = { type = remove_units 		which = all where = SOV when = 2 value = "Kazakstan" }
+		command = { type = remove_units 		which = all where = SOV when = 2 value = "Kaukasus" }
+		command = { type = remove_units 		which = all where = SOV when = 2 value = "Persia" }
+		
+		command = { type = demobilize which = armor 			when = 0 where = 0 value = 0  }
+		command = { type = demobilize which = light_armor 		when = 0 where = 0 value = 0  }
+		command = { type = demobilize which = motorized 		when = 0 where = 0 value = 0  }
+		command = { type = demobilize which = mechanized 		when = 0 where = 0 value = 0  }
+		command = { type = demobilize which = infantry			when = 0 where = 0 value = 80 }
+		command = { type = demobilize which = hq 				when = 0 where = 0 value = 3  }
+		
+		command = { type = demobilize which = land	 			when = 0 where = 0 value = 150 }
+		command = { type = demobilize which = air	 			when = 0 where = 0 value = 0   }
+		command = { type = demobilize which = naval	 			when = 0 where = 0 value = 0   }
+		
+		command = { type = event which = 9000081 				where = -1 when = 0 } #PartisanArmy
+		
+		command = { type = non_aggression which = SOV where = GER when = 1 } 
+		command = { type = non_aggression which = SOV where = NOR when = 1 } 
+		command = { type = non_aggression which = SOV where = SWE when = 1 } 
+		command = { type = non_aggression which = SOV where = FIN when = 1 } 
+		command = { type = non_aggression which = SOV where = HUN when = 1 } 
+		command = { type = non_aggression which = SOV where = ROM when = 1 } 
+		command = { type = non_aggression which = SOV where = TUR when = 1 } 
+		command = { type = non_aggression which = SOV where = PER when = 1 } 
+		command = { type = non_aggression which = SOV where = AFG when = 1 } 
+		command = { type = non_aggression which = SOV where = JAP when = 1 } 
+		command = { type = non_aggression which = SOV where = MAN when = 1 } 
+		command = { type = non_aggression which = SOV where = MEN when = 1 } 
+		command = { type = non_aggression which = SOV where = CHI when = 1 } 
+		command = { type = non_aggression which = SOV where = U87 when = 1 } 
+		
+		#command = { type = secederegion	which = GER value = "Central Asia"		when = 1 }
+		#command = { type = secederegion	which = GER value = "Kaukasus"			when = 1 }
+		#command = { type = secederegion	which = GER value = "Kazakstan"			when = 1 }
+		#command = { type = secederegion	which = GER value = "Persia"			when = 1 }
+
+		command = { type = control which = GER value = 1832 }
+		command = { type = control which = GER value = 163 }
+		command = { type = control which = GER value = 1422 }
+		command = { type = control which = GER value = 1423 }
+		command = { type = control which = GER value = 1424 }
+		command = { type = control which = GER value = 1425 }
+		command = { type = control which = GER value = 1426 }
+		command = { type = control which = GER value = 1427 }
+		command = { type = control which = GER value = 1428 }
+		command = { type = control which = GER value = 1429 }
+		command = { type = control which = GER value = 1485 }
+		command = { type = control which = GER value = 1487 }
+		command = { type = control which = GER value = 1488 }
+		command = { type = control which = GER value = 1489 }
+		command = { type = control which = GER value = 1490 }
+		command = { type = control which = GER value = 1491 }
+		command = { type = control which = GER value = 1550 }
+		command = { type = control which = GER value = 1551 }
+		command = { type = control which = GER value = 1555 }
+		command = { type = control which = GER value = 1556 }
+		command = { type = control which = GER value = 1568 }
+		command = { type = control which = GER value = 1569 }
+		command = { type = control which = GER value = 1576 }
+		command = { type = control which = GER value = 1578 }
+		command = { type = control which = GER value = 1579 }
+		command = { type = control which = GER value = 1580 }
+		command = { type = control which = GER value = 1581 }
+		command = { type = control which = GER value = 1582 }
+		command = { type = control which = GER value = 1583 }
+		command = { type = control which = GER value = 1584 }
+		command = { type = control which = GER value = 1585 }
+		command = { type = control which = GER value = 1586 }
+		command = { type = control which = GER value = 1587 }
+		command = { type = control which = GER value = 2868 }
+		command = { type = control which = GER value = 2869 }
+		command = { type = control which = GER value = 3474 }
+		command = { type = control which = GER value = 3475 }
+		command = { type = control which = GER value = 3476 }
+		command = { type = control which = GER value = 3477 }
+		command = { type = control which = GER value = 3478 }
+		command = { type = control which = GER value = 3479 }
+		command = { type = control which = GER value = 3480 }
+		command = { type = control which = GER value = 3481 }
+		command = { type = control which = GER value = 3482 }
+		command = { type = control which = GER value = 3483 }
+		command = { type = control which = GER value = 3484 }
+		command = { type = control which = GER value = 3485 }
+		command = { type = control which = GER value = 3486 }
+		command = { type = control which = GER value = 3487 }
+		command = { type = control which = GER value = 3488 }
+		command = { type = control which = GER value = 3489 }
+		command = { type = control which = GER value = 3490 }
+		command = { type = control which = GER value = 3491 }
+		command = { type = control which = GER value = 3492 }
+		command = { type = control which = GER value = 3493 }
+		command = { type = control which = GER value = 3494 }
+		command = { type = control which = GER value = 3495 }
+		command = { type = control which = GER value = 3496 }
+		command = { type = control which = GER value = 3497 }
+		command = { type = control which = GER value = 3499 }
+		command = { type = control which = GER value = 3500 }
+		command = { type = control which = GER value = 3501 }
+		command = { type = control which = GER value = 3502 }
+		command = { type = control which = GER value = 3503 }
+		command = { type = control which = GER value = 3505 }
+		command = { type = control which = GER value = 3506 }
+		command = { type = control which = GER value = 3507 }
+		command = { type = control which = GER value = 3508 }
+		command = { type = control which = GER value = 3510 }
+		command = { type = control which = GER value = 3511 }
+		command = { type = control which = GER value = 3512 }
+		command = { type = control which = GER value = 3513 }
+		command = { type = control which = GER value = 3514 }
+		command = { type = control which = GER value = 3515 }
+		command = { type = control which = GER value = 3516 }
+		command = { type = control which = GER value = 3517 }
+		command = { type = control which = GER value = 3518 }
+		command = { type = control which = GER value = 3519 }
+		command = { type = control which = GER value = 3520 }
+		command = { type = control which = GER value = 3521 }
+		command = { type = control which = GER value = 3522 }
+		command = { type = control which = GER value = 3523 }
+		command = { type = control which = GER value = 6493 }
+		command = { type = control which = GER value = 6494 }
+		command = { type = control which = GER value = 6949 }
+		command = { type = control which = GER value = 6950 }
+		command = { type = control which = GER value = 6951 }
+		command = { type = control which = GER value = 6952 }
+		command = { type = control which = GER value = 6953 }
+		command = { type = control which = GER value = 6954 }
+		command = { type = control which = GER value = 6955 }
+		command = { type = control which = GER value = 6956 }
+		command = { type = control which = GER value = 6957 }
+		command = { type = control which = GER value = 6958 }
+		command = { type = control which = GER value = 6959 }
+		command = { type = control which = GER value = 6960 }
+		command = { type = control which = GER value = 6961 }
+		command = { type = control which = GER value = 6962 }
+		command = { type = control which = GER value = 6963 }
+		command = { type = control which = GER value = 6964 }
+		command = { type = control which = GER value = 6965 }
+		command = { type = control which = GER value = 6966 }
+		command = { type = control which = GER value = 6967 }
+		command = { type = control which = GER value = 6968 }
+		command = { type = control which = GER value = 6969 }
+		command = { type = control which = GER value = 6970 }
+		command = { type = control which = GER value = 6971 }
+		command = { type = control which = GER value = 6972 }
+		command = { type = control which = GER value = 6973 }
+		command = { type = control which = GER value = 6974 }
+		command = { type = control which = GER value = 6975 }
+		command = { type = control which = GER value = 6976 }
+		command = { type = control which = GER value = 6977 }
+		command = { type = control which = GER value = 6978 }
+		command = { type = control which = GER value = 6979 }
+		command = { type = control which = GER value = 6980 }
+		command = { type = control which = GER value = 6981 }
+		command = { type = control which = GER value = 6982 }
+		command = { type = control which = GER value = 6983 }
+		command = { type = control which = GER value = 6984 }
+		command = { type = control which = GER value = 6985 }
+		command = { type = control which = GER value = 6986 }
+		command = { type = control which = GER value = 6987 }
+		command = { type = control which = GER value = 6988 }
+		command = { type = control which = GER value = 6989 }
+		command = { type = control which = GER value = 6990 }
+		command = { type = control which = GER value = 6991 }
+		command = { type = control which = GER value = 6992 }
+		command = { type = control which = GER value = 6993 }
+		command = { type = control which = GER value = 6994 }
+		command = { type = control which = GER value = 6995 }
+		command = { type = control which = GER value = 6996 }
+		command = { type = control which = GER value = 6997 }
+		command = { type = control which = GER value = 6998 }
+		command = { type = control which = GER value = 8001 }
+		command = { type = control which = GER value = 156 }
+		command = { type = control which = GER value = 157 }
+		command = { type = control which = GER value = 159 }
+		command = { type = control which = GER value = 160 }
+		command = { type = control which = GER value = 164 }
+		command = { type = control which = GER value = 243 }
+		command = { type = control which = GER value = 247 }
+		command = { type = control which = GER value = 261 }
+		command = { type = control which = GER value = 262 }
+		command = { type = control which = GER value = 263 }
+		command = { type = control which = GER value = 264 }
+		command = { type = control which = GER value = 265 }
+		command = { type = control which = GER value = 268 }
+		command = { type = control which = GER value = 271 }
+		command = { type = control which = GER value = 276 }
+		command = { type = control which = GER value = 278 }
+		command = { type = control which = GER value = 280 }
+		command = { type = control which = GER value = 282 }
+		command = { type = control which = GER value = 283 }
+		command = { type = control which = GER value = 284 }
+		command = { type = control which = GER value = 1150 }
+		command = { type = control which = GER value = 1384 }
+		command = { type = control which = GER value = 1526 }
+		command = { type = control which = GER value = 1552 }
+		command = { type = control which = GER value = 1577 }
+		command = { type = control which = GER value = 1828 }
+		command = { type = control which = GER value = 1829 }
+		command = { type = control which = GER value = 1833 }
+		command = { type = control which = GER value = 1834 }
+		command = { type = control which = GER value = 1836 }
+		command = { type = control which = GER value = 1839 }
+		command = { type = control which = GER value = 3454 }
+		command = { type = control which = GER value = 3458 }
+		command = { type = control which = GER value = 3459 }
+		command = { type = control which = GER value = 3460 }
+		command = { type = control which = GER value = 3461 }
+		command = { type = control which = GER value = 3462 }
+		command = { type = control which = GER value = 3463 }
+		command = { type = control which = GER value = 3464 }
+		command = { type = control which = GER value = 3465 }
+		command = { type = control which = GER value = 3466 }
+		command = { type = control which = GER value = 3467 }
+		command = { type = control which = GER value = 3468 }
+		command = { type = control which = GER value = 3469 }
+		command = { type = control which = GER value = 3544 }
+		command = { type = control which = GER value = 3545 }
+		command = { type = control which = GER value = 3572 }
+		command = { type = control which = GER value = 1525 }
+		command = { type = control which = GER value = 3648 }
+		command = { type = control which = GER value = 3650 }
+		command = { type = control which = GER value = 3651 }
+		command = { type = control which = GER value = 3654 }
+		command = { type = control which = GER value = 3658 }
+		command = { type = control which = GER value = 3659 }
+		command = { type = control which = GER value = 3660 }
+		command = { type = control which = GER value = 3668 }
+		command = { type = control which = GER value = 3670 }
+		command = { type = control which = GER value = 3671 }
+		command = { type = control which = GER value = 3690 }
+		command = { type = control which = GER value = 3701 }
+		command = { type = control which = GER value = 3711 }
+		command = { type = control which = GER value = 3712 }
+		command = { type = control which = GER value = 3713 }
+		command = { type = control which = GER value = 3714 }
+		command = { type = control which = GER value = 3715 }
+		command = { type = control which = GER value = 3716 }
+		command = { type = control which = GER value = 3717 }
+		command = { type = control which = GER value = 3730 }
+		command = { type = control which = GER value = 3731 }
+		command = { type = control which = GER value = 3734 }
+		command = { type = control which = GER value = 3736 }
+		command = { type = control which = GER value = 5693 }
+		command = { type = control which = GER value = 7087 }
+		command = { type = control which = GER value = 7157 }
+		command = { type = control which = GER value = 7159 }
+		command = { type = control which = GER value = 7160 }
+		command = { type = control which = GER value = 7161 }
+		command = { type = control which = GER value = 7383 }
+		command = { type = control which = GER value = 7384 }
+		command = { type = control which = GER value = 7385 }
+		command = { type = control which = GER value = 7386 }
+		command = { type = control which = GER value = 7387 }
+		command = { type = control which = GER value = 162 }
+		command = { type = control which = GER value = 255 }
+		command = { type = control which = GER value = 256 }
+		command = { type = control which = GER value = 257 }
+		command = { type = control which = GER value = 270 }
+		command = { type = control which = GER value = 1149 }
+		command = { type = control which = GER value = 1151 }
+		command = { type = control which = GER value = 1495 }
+		command = { type = control which = GER value = 1496 }
+		command = { type = control which = GER value = 1497 }
+		command = { type = control which = GER value = 1498 }
+		command = { type = control which = GER value = 1499 }
+		command = { type = control which = GER value = 1500 }
+		command = { type = control which = GER value = 1501 }
+		command = { type = control which = GER value = 1502 }
+		command = { type = control which = GER value = 1503 }
+		command = { type = control which = GER value = 1787 }
+		command = { type = control which = GER value = 1788 }
+		command = { type = control which = GER value = 1789 }
+		command = { type = control which = GER value = 1825 }
+		command = { type = control which = GER value = 1826 }
+		command = { type = control which = GER value = 1837 }
+		command = { type = control which = GER value = 1838 }
+		command = { type = control which = GER value = 1842 }
+		command = { type = control which = GER value = 1843 }
+		command = { type = control which = GER value = 1844 }
+		command = { type = control which = GER value = 1845 }
+		command = { type = control which = GER value = 1846 }
+		command = { type = control which = GER value = 1847 }
+		command = { type = control which = GER value = 1848 }
+		command = { type = control which = GER value = 1849 }
+		command = { type = control which = GER value = 1850 }
+		command = { type = control which = GER value = 1856 }
+		command = { type = control which = GER value = 1857 }
+		command = { type = control which = GER value = 1858 }
+		command = { type = control which = GER value = 1859 }
+		command = { type = control which = GER value = 1907 }
+		command = { type = control which = GER value = 2368 }
+		command = { type = control which = GER value = 2470 }
+		command = { type = control which = GER value = 2614 }
+		command = { type = control which = GER value = 2615 }
+		command = { type = control which = GER value = 2836 }
+		command = { type = control which = GER value = 2837 }
+		command = { type = control which = GER value = 2838 }
+		command = { type = control which = GER value = 2839 }
+		command = { type = control which = GER value = 2840 }
+		command = { type = control which = GER value = 2841 }
+		command = { type = control which = GER value = 2842 }
+		command = { type = control which = GER value = 2843 }
+		command = { type = control which = GER value = 2844 }
+		command = { type = control which = GER value = 2845 }
+		command = { type = control which = GER value = 2846 }
+		command = { type = control which = GER value = 2847 }
+		command = { type = control which = GER value = 2848 }
+		command = { type = control which = GER value = 2849 }
+		command = { type = control which = GER value = 2850 }
+		command = { type = control which = GER value = 2851 }
+		command = { type = control which = GER value = 3424 }
+		command = { type = control which = GER value = 3425 }
+		command = { type = control which = GER value = 3426 }
+		command = { type = control which = GER value = 3427 }
+		command = { type = control which = GER value = 3428 }
+		command = { type = control which = GER value = 3429 }
+		command = { type = control which = GER value = 3431 }
+		command = { type = control which = GER value = 3432 }
+		command = { type = control which = GER value = 3433 }
+		command = { type = control which = GER value = 3434 }
+		command = { type = control which = GER value = 3435 }
+		command = { type = control which = GER value = 3436 }
+		command = { type = control which = GER value = 3437 }
+		command = { type = control which = GER value = 3438 }
+		command = { type = control which = GER value = 3439 }
+		command = { type = control which = GER value = 3440 }
+		command = { type = control which = GER value = 3441 }
+		command = { type = control which = GER value = 3442 }
+		command = { type = control which = GER value = 3443 }
+		command = { type = control which = GER value = 3444 }
+		command = { type = control which = GER value = 3445 }
+		command = { type = control which = GER value = 3446 }
+		command = { type = control which = GER value = 3447 }
+		command = { type = control which = GER value = 3448 }
+		command = { type = control which = GER value = 3449 }
+		command = { type = control which = GER value = 3450 }
+		command = { type = control which = GER value = 3451 }
+		command = { type = control which = GER value = 3452 }
+		command = { type = control which = GER value = 3470 }
+		command = { type = control which = GER value = 3471 }
+		command = { type = control which = GER value = 3472 }
+		command = { type = control which = GER value = 3473 }
+		command = { type = control which = GER value = 4149 }
+		command = { type = control which = GER value = 4198 }
+		command = { type = control which = GER value = 4199 }
+		command = { type = control which = GER value = 4201 }
+		command = { type = control which = GER value = 4202 }
+		command = { type = control which = GER value = 4203 }
+		command = { type = control which = GER value = 4204 }
+		command = { type = control which = GER value = 4205 }
+		command = { type = control which = GER value = 4206 }
+		command = { type = control which = GER value = 4207 }
+		command = { type = control which = GER value = 4208 }
+		command = { type = control which = GER value = 4209 }
+		command = { type = control which = GER value = 4210 }
+		command = { type = control which = GER value = 4211 }
+		command = { type = control which = GER value = 4212 }
+		command = { type = control which = GER value = 4213 }
+		command = { type = control which = GER value = 4214 }
+		command = { type = control which = GER value = 4215 }
+		command = { type = control which = GER value = 4216 }
+		command = { type = control which = GER value = 4217 }
+		command = { type = control which = GER value = 4218 }
+		command = { type = control which = GER value = 4219 }
+		command = { type = control which = GER value = 4220 }
+		command = { type = control which = GER value = 4221 }
+		command = { type = control which = GER value = 4222 }
+		command = { type = control which = GER value = 4223 }
+		command = { type = control which = GER value = 4224 }
+		command = { type = control which = GER value = 4225 }
+		command = { type = control which = GER value = 4226 }
+		command = { type = control which = GER value = 4227 }
+		command = { type = control which = GER value = 4228 }
+		command = { type = control which = GER value = 4229 }
+		command = { type = control which = GER value = 4230 }
+		command = { type = control which = GER value = 4231 }
+		command = { type = control which = GER value = 4232 }
+		command = { type = control which = GER value = 4233 }
+		command = { type = control which = GER value = 4234 }
+		command = { type = control which = GER value = 6495 }
+		command = { type = control which = GER value = 6919 }
+		command = { type = control which = GER value = 7014 }
+		command = { type = control which = GER value = 7243 }
+		command = { type = control which = GER value = 7244 }
+		command = { type = control which = GER value = 7245 }
+		command = { type = control which = GER value = 7246 }
+		command = { type = control which = GER value = 7247 }
+		command = { type = control which = GER value = 7248 }
+		command = { type = control which = GER value = 7249 }
+		command = { type = control which = GER value = 7250 }
+		command = { type = control which = GER value = 7251 }
+		command = { type = control which = GER value = 7252 }
+		command = { type = control which = GER value = 7253 }
+		command = { type = control which = GER value = 7254 }
+		command = { type = control which = GER value = 7272 }
+		command = { type = control which = GER value = 7273 }
+		command = { type = control which = GER value = 7308 }
+		command = { type = control which = GER value = 7309 }
+		command = { type = control which = GER value = 7310 }
+		command = { type = control which = GER value = 7311 }
+		command = { type = control which = GER value = 7312 }
+		command = { type = control which = GER value = 7313 }
+	}
+	action = {
+		name = "The Soviet Army will fight for every inch of the motherland"
+		command = { type = dissent value = 20 }
 		command = { type = strength which = all when = 1 where = 0 value = -0.5 }
 		
-		command = { type = trigger which = 2007325 } #Percentages Agreement/Yalta Conference (Axis Version)
+		#to 0
+		command = { type = supplies 			value = -500000 }
+		command = { type = oilpool	 			value = -500000 }
+		command = { type = metalpool			value = -500000 }
+		command = { type = energypool 			value = -500000 }
+		command = { type = rarematerialspool	value = -500000 }
 	}
 }
 
@@ -2565,6 +3004,8 @@ event = {
 		ai_chance = 99
 		command = { type = belligerence value = 5 }
 		command = { type = sleepevent which = 2007033 } #Bitter Peace
+		
+		command = { type = trigger which = 2007325 } #Percentages Agreement/Yalta Conference (Axis Version)
 	}
 	action = {
 		name = "ACTIONNAME2024A" # Accept the conditions
