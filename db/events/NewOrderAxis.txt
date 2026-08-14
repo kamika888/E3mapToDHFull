@@ -1,15 +1,617 @@
+##########################################################################
+#  USSR Bitter Peace/Treaty of Brest Litovsk 2 (Germany will reject by default)
+##########################################################################
+event = {
+	id = 2007032
+	random = no
+	country = SOV
+
+	#decision = {
+	#	war = { country = GER }
+	#	NOT = { ispuppet = GER }
+	#	lost_national = { country = SOV value = 5 }
+	#}
+	#decision_trigger = {
+	#}
+	trigger = {
+		war = { country = GER }
+		NOT = { ispuppet = GER }
+		random = 35
+		OR = {
+			AND = {
+				control = { province = 56 data = -2 } # Paris is controlled by an enemy
+				lost_national = { country = SOV value = 35 }
+				NOT = { land_percentage = { country = GER value = 0.3 } } #SOV has not enough troops
+				NOT = { lost_national = { country = GER value = 7 } } #Germany is not losing national provinces
+				NOT = { war = { country = GER country = ENG } } #Germany is concentrated on the Soviet front
+				NOT = {	war = { country = GER country = VIC } }
+				NOT = { war = { country = GER country = USA } }
+				NOT = { war = { country = GER country = ITA } }
+			}
+			AND = {
+				NOT = { control = { province = 187 data = SOV } } # Leningrad
+				NOT = { control = { province = 163 data = SOV } } # Stalingrad
+				NOT = { control = { province = 175 data = SOV } } # Moscow
+				OR = {
+					NOT = { control = { province = 1907 data = SOV } } # Baku
+					NOT = { control = { province = 1828 data = SOV } } # Orenburg
+				}
+				NOT = { lost_national = { country = GER value = 7 } } #Germany is not losing national provinces
+				OR = { #one of the following must be true
+					local_flag = SOVMoscow  #Stalin remained in Moscow and was captured
+					NOT = { control = { province = 1575 data = SOV } } # Sverdlovsk
+					NOT = { control = { province = 1372 data = SOV } } # Vladivostok
+					AND = { 
+						nuked = -1  #was nuked at least once
+						NOT = { nuked = 1 } #SOV never launched nukes
+					}
+				}
+			}
+			AND = {
+				NOT = { nuked = 1 } #SOV never launched nukes
+				lost_national = { country = SOV value = 15 } #SOV is losing ground
+				nuked = { country = GER country = SOV data = 1 where = 175 } # Moscow nuked
+				OR = {
+					nuked = { country = GER country = SOV data = 8 }#SOV nuked 8 times by GER
+					AND = {
+						nuked = { country = GER country = SOV data = 1 where = 187 } # Leningrad nuked
+						nuked = { country = GER country = SOV data = 1 where = 163 } # Stalingrad nuked
+						nuked = { country = GER country = SOV data = 1 where = 1907 } # Baku nuked
+					}
+				}
+			}					
+		}
+	}
+	
+	name = "EVT_2624_NAME"
+	desc = "EVT_2624_DESC"
+	style = 2
+	picture = "news_paper"
+	
+	date = { day = 0 month = january year = 1936 }
+	offset = 10 # Check for trigger conditions every ten days
+	deathdate = { day = 29 month = december year = 1963 }
+	
+	action = {
+		name = EVT_2007032_ACTA
+		
+		command = { trigger = { war = { country = ENG country = GER }} type = relation which = ENG value = -15 }
+		command = { trigger = { war = { country = U01 country = GER }} type = relation which = U01 value = -15 }
+		command = { trigger = { war = { country = USA country = GER }} type = relation which = USA value = -15 }
+		command = { type = trigger which = 2003077 } # GER
+	}
+}
+event = {
+	id = 2003077
+	random = no
+	country = GER
+	
+	name = "EVT_2003077_NAME"
+	desc = "EVT_2003077_DESC"
+	style = 2
+	picture = "news_paper"
+	
+	action = {
+		name = "ACTIONNAME2024B" # No peace with the bolsheviks!
+		ai_chance = 99
+		command = { type = belligerence value = 5 }
+		command = { type = sleepevent which = 2007033 } #Bitter Peace
+		
+		command = { type = trigger which = 2007325 } #Percentages Agreement/Yalta Conference (Axis Version)
+	}
+	action = {
+		name = "ACTIONNAME2024A" # Accept the conditions
+		ai_chance = 1
+		command = { type = dissent value = 10 }
+		command = { type = event which = 2007033 where = SOV when = 1 } #Bitter Peace
+		command = { trigger = { war = { country = JAP country = SOV } } type = setflag which = JapanFullAxis } 
+	}
+}
+
+event = {
+	id = 2007033
+	random = no
+	country = SOV
+	
+	name = "EVT_2625_NAME"
+	desc = "EVT_2625_DESC"
+	style = 2
+	picture = "news_paper"
+
+    action = {
+        name = ACTION_NAME_OK
+		command = { type = leave_alliance when = 0 }
+		command = { type = peace which = GER value = 1 }
+		command = { type = peace which = JAP value = 1 }
+		command = { type = access which = GER }
+		command = { trigger = { alliance = { country = GER country = JAP } } type = access which = JAP }
+		command = { trigger = { alliance = { country = GER country = ITA } } type = access which = ITA }
+		command = { trigger = { alliance = { country = GER country = SLO } } type = access which = SLO }
+		command = { trigger = { alliance = { country = GER country = CRO } } type = access which = CRO }
+		command = { trigger = { alliance = { country = GER country = FIN } } type = access which = FIN }
+		command = { trigger = { alliance = { country = GER country = HUN } } type = access which = HUN }
+		command = { trigger = { alliance = { country = GER country = ROM } } type = access which = ROM }
+		command = { trigger = { alliance = { country = GER country = BUL } } type = access which = BUL }
+		command = { trigger = { alliance = { country = GER country = SPA } } type = access which = SPA }
+		command = { trigger = { alliance = { country = GER country = SWE } } type = access which = SWE }
+		command = { trigger = { alliance = { country = GER country = TUR } } type = access which = TUR }
+		
+		
+		command = { type = dissent value = -3 }
+		command = { type = event which = 2003113 where = SOV when = 0 }
+	}
+}
+
+
+event = {
+	id = 2003113
+	random = no
+	country = SOV
+	
+	name = "EVT_2625_NAME"
+	desc = "EVT_2625_DESC"
+	style = 2
+	picture = "news_paper"
+
+    action = {
+        name = ACTION_NAME_OK
+        command = { type = secederegion which = JAP value = Japan when = 1 }
+		command = { type = secederegion which = JAP value = Korea when = 1 }
+		command = { type = secederegion which = JAP value = China when = 1 }
+
+		#Will auto-neutral
+		command = { trigger = { puppet = { country = SIK country = SOV } } type = end_mastery which = SIK }
+		command = { trigger = { puppet = { country = MON country = SOV } } type = end_mastery which = MON }
+		command = { trigger = { puppet = { country = TAN country = SOV } } type = end_mastery which = TAN }
+		
+        # Some to Japan:
+		command = { trigger = { flag = JapanFullAxis } type = secedearea 		which = JAP value = "Sakhalin_Kuriles"	when = 2 } 
+        command = { trigger = { flag = JapanFullAxis } type = secedearea 		which = JAP value = "Primorski"	when = 2 } 
+		command = { trigger = { flag = JapanFullAxis } type = secedearea 		which = JAP value = "Mongolia"	when = 2 } 
+		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 1366		when = 2 } 
+		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 3532		when = 2 }
+		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 3533		when = 2 }
+		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 1368		when = 2 }
+		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 3534		when = 2 }
+		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 3535		when = 2 }
+		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 1366		when = 2 }
+		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 1366		when = 2 }
+		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 1366		when = 2 }
+		
+		command = { type = event which = 1014 where = SOV when = 0 } #End aid to China
+          
+        #Romania
+        command = { trigger = { alliance = { country = ROM country = GER } } type = secedearea which = ROM value = Bessarabia when = 2 }
+        command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 1565	when = 2 } 
+		command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 233	when = 2 } 
+		command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 1571	when = 2 } 
+		command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 3404	when = 2 } 
+		command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 3405	when = 2 } 
+		command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 231	when = 2 } 
+		command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 232	when = 2 } 
+
+		#Finland (or SCA)
+		command = { trigger = { alliance = { country = FIN country = GER } } type = secederegion which = FIN value = "Finland"	when = 2 }
+		command = { trigger = { alliance = { country = FIN country = GER } } type = secedearea which = FIN value = "Karelia"	when = 2 } 
+        #command = { trigger = { alliance = { country = FIN country = GER } } type = secedearea which = FIN value = "Lapland"	when = 2 } 
+		command = { trigger = { alliance = { country = FIN country = GER } } type = secedeprovince which = FIN value = 143	when = 2 } 
+		command = { trigger = { alliance = { country = FIN country = GER } } type = secedeprovince which = FIN value = 132	when = 2 } 
+
+		command = { trigger = { alliance = { country = SCA country = GER } } type = secederegion which = SCA value = "Finland"	when = 2 }
+		command = { trigger = { alliance = { country = SCA country = GER } } type = secedearea which = SCA value = "Karelia"	when = 2 } 
+        #command = { trigger = { alliance = { country = SCA country = GER } } type = secedearea which = SCA value = "Lapland"	when = 2 } 
+		command = { trigger = { alliance = { country = SCA country = GER } } type = secedeprovince which = SCA value = 143	when = 2 } 
+		command = { trigger = { alliance = { country = SCA country = GER } } type = secedeprovince which = SCA value = 132	when = 2 } 
+		
+		command = { type = secedeprovince which = SOV value = 3346	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 151	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 184	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 150	when = 2 } 
+		
+		command = { type = secederegion which = PER value = Persia when = 1 }
+		
+        command = { type = secederegion which = GER value = Sweden when = 1 }
+		command = { type = secederegion which = GER value = Norway when = 1 }
+		command = { type = secederegion which = GER value = Finland when = 1 }
+		command = { type = secederegion which = GER value = Czechoslovakia when = 1 }
+		command = { type = secederegion which = GER value = Hungary when = 1 }
+		command = { type = secederegion which = GER value = Romania when = 1 }
+		command = { type = secederegion which = GER value = Balkan when = 1 }
+		command = { type = secederegion which = GER value = Anatolia when = 1 }
+		command = { type = secederegion which = GER value = Persia when = 1 }
+		command = { type = secederegion which = GER value = "Middle East" when = 1 }
+        command = { type = secederegion which = GER value = Denmark when = 1 }
+        command = { type = secederegion which = GER value = Germany when = 1 }
+        command = { type = secederegion which = GER value = Austria when = 1 }
+		
+		
+		command = { type = secederegion which = GER value = Poland when = 1 }
+		command = { type = secederegion which = GER value = "Baltic States" when = 1 }
+		
+		command = { type = secederegion which = GER value = Ukraine when = 1 }
+        command = { type = secederegion which = GER value = Belarus when = 1 }
+        command = { type = secederegion which = GER value = Kaukasus when = 1 }
+		command = { type = secederegion which = GER value = "Southern Russia" when = 1 }
+        command = { type = secederegion which = GER value = "Western Russia" when = 1 }
+        command = { type = secederegion which = GER value = "Russia" when = 1 }
+		#command = { type = secederegion which = GER value = "White Sea Tundra" when = 1 } 
+		command = { type = secederegion which = GER value = "Karelia" when = 1 } 
+		command = { type = secederegion which = GER value = "Lapland" when = 1 } 
+		
+		command = { type = secedeprovince which = SOV value = 3346	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 153	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3615	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 165	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 1533	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3723	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3617	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3719	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 1774	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3722	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3724	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3721	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3718	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3725	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 1782	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3704	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 1780	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 1783	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3720	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3709	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3707	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3616	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 1841	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 171	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 170	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 1781	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3703	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3705	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3706	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3726	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3735	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 1778	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3733	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 1830	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3736	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3734	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3711	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3712	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 7384	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 3716	when = 2 } 
+		command = { type = secedeprovince which = SOV value = 7383	when = 2 } 
+		#command = { type = secedeprovince which = SOV value = 3463	when = 2 } 
+		#command = { type = secedeprovince which = SOV value = 3717	when = 2 } 
+		#command = { type = secedeprovince which = SOV value = 1839	when = 2 } 
+		#command = { type = secedeprovince which = SOV value = 7386	when = 2 } 
+		#command = { type = secedeprovince which = SOV value = 7387	when = 2 } 
+		#command = { type = secedeprovince which = SOV value = 1836	when = 2 } 
+		#command = { type = secedeprovince which = SOV value = 3452	when = 2 } 
+		#command = { type = secedeprovince which = SOV value = 1838	when = 2 } 
+		
+        command = { type = peace which = GER }
+        command = { type = peace which = ITA }
+        command = { type = peace which = JAP }
+        command = { type = peace which = SLO }
+        command = { type = peace which = HUN }
+        command = { type = peace which = FIN }
+        command = { type = peace which = SWE }
+        command = { type = peace which = ROM }
+        command = { type = peace which = BUL }
+        command = { type = peace which = PER }
+        command = { type = peace which = MAN }
+        command = { type = peace which = MEN }
+		
+        #command = { type = capital which = 1552 } # Omsk
+        command = { type = belligerence which = SOV value = -50 }
+
+        command = { type = set_relation which = GER value = 0 }
+        command = { type = relation which = ROM value = 20 }
+        command = { type = relation which = HUN value = 20 }
+        command = { type = relation which = FIN value = 20 }
+        command = { type = relation which = ENG value = -20 }
+        command = { type = relation which = VIC value = -20 }
+        command = { type = relation which = USA value = -20 }
+		
+        command = { type = non_aggression which = GER where = SOV }
+        command = { trigger = { flag = JapanFullAxis } type = non_aggression which = JAP where = SOV }
+		command = { type = trigger which = 2003111 } #Victory in the East
+		command = { type = sleepevent which = 2007034 } #Germany attacks w/o pact
+		command = { type = sleepevent which = 2003046 } #Unternehmen Barbarossa
+		command = { type = sleepevent which = 2007022 } #Claim Bessarabia
+    }
+}
+
+event = { #SOV Communist Puppets go to GER
+	id = 2003111
+	random = no
+	country = GER
+	
+	# Triggered by SOV 2007033
+	
+	name = "EVT_2003114_NAME"
+	desc = "EVT_2003114_DESC"
+	style = 2
+	picture = "anschluss"
+	
+	action = {
+		name = "ACTION_NAME_GREAT" # Great!
+		command = { type = add_claim_region	which = "Russia"	}
+		command = { type = add_claim_region	which = "Poland"	}
+		command = { type = add_claim_region	which = "Belarus"	}
+		command = { type = add_claim_region	which = "Ukraine"	}
+		command = { type = add_claim_region	which = "Kaukasus"	}
+		
+    	command = { trigger = { puppet = { country = U10 country = SOV } NOT = { exists = HOL } } type = setflag which = U10_SOV_puppet }
+    	command = { trigger = { puppet = { country = U11 country = SOV } NOT = { exists = VIC } } type = setflag which = U11_SOV_puppet }
+    	command = { trigger = { puppet = { country = U12 country = SOV } NOT = { exists = ENG } } type = setflag which = U12_SOV_puppet }
+    	command = { trigger = { puppet = { country = U13 country = SOV } NOT = { exists = HUN } } type = setflag which = U13_SOV_puppet }
+    	command = { trigger = { puppet = { country = U14 country = SOV } NOT = { exists = ITA } } type = setflag which = U14_SOV_puppet }
+    	command = { trigger = { puppet = { country = U15 country = SOV } NOT = { exists = POR } } type = setflag which = U15_SOV_puppet }
+    	command = { trigger = { puppet = { country = U16 country = SOV } NOT = { exists = AUS } } type = setflag which = U16_SOV_puppet }
+    	command = { trigger = { puppet = { country = U17 country = SOV } NOT = { exists = BEL } } type = setflag which = U17_SOV_puppet }
+    	command = { trigger = { puppet = { country = U18 country = SOV } NOT = { exists = LUX } } type = setflag which = U18_SOV_puppet }
+    	command = { trigger = { puppet = { country = U19 country = SOV } NOT = { exists = NOR } } type = setflag which = U19_SOV_puppet }
+    	command = { trigger = { puppet = { country = U20 country = SOV } NOT = { exists = FIN } } type = setflag which = U20_SOV_puppet }
+    	command = { trigger = { puppet = { country = U21 country = SOV } NOT = { exists = SWE } } type = setflag which = U21_SOV_puppet }
+    	command = { trigger = { puppet = { country = U22 country = SOV } NOT = { exists = DEN } } type = setflag which = U22_SOV_puppet }
+    	command = { trigger = { puppet = { country = U26 country = SOV } NOT = { exists = SCH } } type = setflag which = U26_SOV_puppet }
+    	command = { trigger = { puppet = { country = U27 country = SOV } NOT = { exists = YUG } } type = setflag which = U27_SOV_puppet }
+    	command = { trigger = { puppet = { country = U28 country = SOV } NOT = { exists = ALB } } type = setflag which = U28_SOV_puppet }
+    	command = { trigger = { puppet = { country = U29 country = SOV } NOT = { exists = BUL } } type = setflag which = U29_SOV_puppet }
+    	command = { trigger = { puppet = { country = U30 country = SOV } NOT = { exists = ROM } } type = setflag which = U30_SOV_puppet }
+    	command = { trigger = { puppet = { country = U31 country = SOV } NOT = { exists = CZE } } type = setflag which = U31_SOV_puppet }
+    	#command = { trigger = { puppet = { country = U32 country = SOV } NOT = { exists = POL } } type = setflag which = U32_SOV_puppet }
+    	command = { trigger = { puppet = { country = U33 country = SOV } NOT = { exists = GRE } } type = setflag which = U33_SOV_puppet }
+    	command = { trigger = { puppet = { country = U34 country = SOV } NOT = { exists = TUR } } type = setflag which = U34_SOV_puppet }
+    	command = { trigger = { puppet = { country = U35 country = SOV } NOT = { exists = SPA } } type = setflag which = U35_SOV_puppet }
+    	command = { trigger = { puppet = { country = ROM country = SOV } } type = setflag which = ROM_SOV_puppet }
+    	command = { trigger = { puppet = { country = HUN country = SOV } } type = setflag which = HUN_SOV_puppet }
+    	command = { trigger = { puppet = { country = SLO country = SOV } } type = setflag which = SLO_SOV_puppet }
+    	command = { trigger = { puppet = { country = BUL country = SOV } } type = setflag which = BUL_SOV_puppet }
+    	command = { trigger = { puppet = { country = YUG country = SOV } } type = setflag which = YUG_SOV_puppet }
+    	command = { trigger = { puppet = { country = TUR country = SOV } } type = setflag which = TUR_SOV_puppet }
+    	command = { trigger = { puppet = { country = PER country = SOV } } type = setflag which = PER_SOV_puppet }
+    	command = { trigger = { puppet = { country = NOR country = SOV } } type = setflag which = NOR_SOV_puppet }
+    	command = { trigger = { puppet = { country = SWE country = SOV } } type = setflag which = SWE_SOV_puppet }
+    	command = { trigger = { puppet = { country = FIN country = SOV } } type = setflag which = FIN_SOV_puppet }
+    	command = { trigger = { puppet = { country = SCA country = SOV } } type = setflag which = SCA_SOV_puppet }
+    	command = { trigger = { puppet = { country = GRE country = SOV } } type = setflag which = GRE_SOV_puppet }
+    	#if there are communist countries and regular versions exist, GER inherit communist countries
+		command = { trigger = { puppet = { country = U10 country = SOV } exists = HOL } type = setflag which = inherit_U10 }
+    	command = { trigger = { puppet = { country = U11 country = SOV } exists = VIC } type = setflag which = inherit_U11 }
+    	command = { trigger = { puppet = { country = U12 country = SOV } exists = ENG } type = setflag which = inherit_U12 }
+    	command = { trigger = { puppet = { country = U13 country = SOV } exists = HUN } type = setflag which = inherit_U13 }
+    	command = { trigger = { puppet = { country = U14 country = SOV } exists = ITA } type = setflag which = inherit_U14 }
+    	command = { trigger = { puppet = { country = U15 country = SOV } exists = POR } type = setflag which = inherit_U15 }
+    	command = { trigger = { puppet = { country = U16 country = SOV } exists = AUS } type = setflag which = inherit_U16 }
+    	command = { trigger = { puppet = { country = U17 country = SOV } exists = BEL } type = setflag which = inherit_U17 }
+    	command = { trigger = { puppet = { country = U18 country = SOV } exists = LUX } type = setflag which = inherit_U18 }
+    	command = { trigger = { puppet = { country = U19 country = SOV } exists = NOR } type = setflag which = inherit_U19 }
+    	command = { trigger = { puppet = { country = U20 country = SOV } exists = FIN } type = setflag which = inherit_U20 }
+    	command = { trigger = { puppet = { country = U21 country = SOV } exists = SWE } type = setflag which = inherit_U21 }
+    	command = { trigger = { puppet = { country = U22 country = SOV } exists = DEN } type = setflag which = inherit_U22 }
+    	command = { trigger = { puppet = { country = U26 country = SOV } exists = SCH } type = setflag which = inherit_U26 }
+    	command = { trigger = { puppet = { country = U27 country = SOV } exists = YUG } type = setflag which = inherit_U27 }
+    	command = { trigger = { puppet = { country = U28 country = SOV } exists = ALB } type = setflag which = inherit_U28 }
+    	command = { trigger = { puppet = { country = U29 country = SOV } exists = BUL } type = setflag which = inherit_U29 }
+    	command = { trigger = { puppet = { country = U30 country = SOV } exists = ROM } type = setflag which = inherit_U30 }
+    	command = { trigger = { puppet = { country = U31 country = SOV } exists = CZE } type = setflag which = inherit_U31 }
+    	#command = { trigger = { puppet = { country = U32 country = SOV } exists = POL } type = setflag which = inherit_U32 }
+    	command = { trigger = { puppet = { country = U33 country = SOV } exists = GRE } type = setflag which = inherit_U33 }
+    	command = { trigger = { puppet = { country = U34 country = SOV } exists = TUR } type = setflag which = inherit_U34 }
+    	command = { trigger = { puppet = { country = U35 country = SOV } exists = SPA } type = setflag which = inherit_U35 }
+		
+		#if there are communist countries and no regular versions exists, GER coups them (should turn them into regular countries)
+		command = { trigger = { flag = U10_SOV_puppet } type = make_puppet which = U10 }
+		command = { trigger = { flag = U10_SOV_puppet } type = coup_nation which = U10 }
+		command = { trigger = { flag = U10_SOV_puppet } type = clrflag which = U10_SOV_puppet }
+		command = { trigger = { flag = U11_SOV_puppet } type = make_puppet which = U11 }
+		command = { trigger = { flag = U11_SOV_puppet } type = coup_nation which = U11 }
+		command = { trigger = { flag = U11_SOV_puppet } type = clrflag which = U11_SOV_puppet }
+		command = { trigger = { flag = U12_SOV_puppet } type = make_puppet which = U12 }
+		command = { trigger = { flag = U12_SOV_puppet } type = coup_nation which = U12 }
+		command = { trigger = { flag = U12_SOV_puppet } type = clrflag which = U12_SOV_puppet }
+		command = { trigger = { flag = U13_SOV_puppet } type = make_puppet which = U13 }
+		command = { trigger = { flag = U13_SOV_puppet } type = coup_nation which = U13 }
+		command = { trigger = { flag = U13_SOV_puppet } type = clrflag which = U13_SOV_puppet }
+		command = { trigger = { flag = U14_SOV_puppet } type = make_puppet which = U14 }
+		command = { trigger = { flag = U14_SOV_puppet } type = coup_nation which = U14 }
+		command = { trigger = { flag = U14_SOV_puppet } type = clrflag which = U14_SOV_puppet }
+		command = { trigger = { flag = U15_SOV_puppet } type = make_puppet which = U15 }
+		command = { trigger = { flag = U15_SOV_puppet } type = coup_nation which = U15 }
+		command = { trigger = { flag = U15_SOV_puppet } type = clrflag which = U15_SOV_puppet }
+		command = { trigger = { flag = U16_SOV_puppet } type = make_puppet which = U16 }
+		command = { trigger = { flag = U16_SOV_puppet } type = coup_nation which = U16 }
+		command = { trigger = { flag = U16_SOV_puppet } type = clrflag which = U16_SOV_puppet }
+		command = { trigger = { flag = U17_SOV_puppet } type = make_puppet which = U17 }
+		command = { trigger = { flag = U17_SOV_puppet } type = coup_nation which = U17 }
+		command = { trigger = { flag = U17_SOV_puppet } type = clrflag which = U17_SOV_puppet }
+		command = { trigger = { flag = U18_SOV_puppet } type = make_puppet which = U18 }
+		command = { trigger = { flag = U18_SOV_puppet } type = coup_nation which = U18 }
+		command = { trigger = { flag = U18_SOV_puppet } type = clrflag which = U18_SOV_puppet }
+		command = { trigger = { flag = U19_SOV_puppet } type = make_puppet which = U19 }
+		command = { trigger = { flag = U19_SOV_puppet } type = coup_nation which = U19 }
+		command = { trigger = { flag = U19_SOV_puppet } type = clrflag which = U19_SOV_puppet }
+		command = { trigger = { flag = U20_SOV_puppet } type = make_puppet which = U20 }
+		command = { trigger = { flag = U20_SOV_puppet } type = coup_nation which = U20 }
+		command = { trigger = { flag = U20_SOV_puppet } type = clrflag which = U20_SOV_puppet }
+		command = { trigger = { flag = U21_SOV_puppet } type = make_puppet which = U21 }
+		command = { trigger = { flag = U21_SOV_puppet } type = coup_nation which = U21 }
+		command = { trigger = { flag = U21_SOV_puppet } type = clrflag which = U21_SOV_puppet }
+		command = { trigger = { flag = U22_SOV_puppet } type = make_puppet which = U22 }
+		command = { trigger = { flag = U22_SOV_puppet } type = coup_nation which = U22 }
+		command = { trigger = { flag = U22_SOV_puppet } type = clrflag which = U22_SOV_puppet }
+		command = { trigger = { flag = U26_SOV_puppet } type = make_puppet which = U26 }
+		command = { trigger = { flag = U26_SOV_puppet } type = coup_nation which = U26 }
+		command = { trigger = { flag = U26_SOV_puppet } type = clrflag which = U26_SOV_puppet }
+		command = { trigger = { flag = U27_SOV_puppet } type = make_puppet which = U27 }
+		command = { trigger = { flag = U27_SOV_puppet } type = coup_nation which = U27 }
+		command = { trigger = { flag = U27_SOV_puppet } type = clrflag which = U27_SOV_puppet }
+		command = { trigger = { flag = U28_SOV_puppet } type = make_puppet which = U28 }
+		command = { trigger = { flag = U28_SOV_puppet } type = coup_nation which = U28 }
+		command = { trigger = { flag = U28_SOV_puppet } type = clrflag which = U28_SOV_puppet }
+		command = { trigger = { flag = U29_SOV_puppet } type = make_puppet which = U29 }
+		command = { trigger = { flag = U29_SOV_puppet } type = coup_nation which = U29 }
+		command = { trigger = { flag = U29_SOV_puppet } type = clrflag which = U29_SOV_puppet }
+		command = { trigger = { flag = U30_SOV_puppet } type = make_puppet which = U30 }
+		command = { trigger = { flag = U30_SOV_puppet } type = coup_nation which = U30 }
+		command = { trigger = { flag = U30_SOV_puppet } type = clrflag which = U30_SOV_puppet }
+		command = { trigger = { flag = U31_SOV_puppet } type = make_puppet which = U31 }
+		command = { trigger = { flag = U31_SOV_puppet } type = coup_nation which = U31 }
+		command = { trigger = { flag = U31_SOV_puppet } type = clrflag which = U31_SOV_puppet }
+		command = { trigger = { flag = U32_SOV_puppet } type = make_puppet which = U32 }
+		command = { trigger = { flag = U32_SOV_puppet } type = coup_nation which = U32 }
+		command = { trigger = { flag = U32_SOV_puppet } type = clrflag which = U32_SOV_puppet }
+		command = { trigger = { flag = U33_SOV_puppet } type = make_puppet which = U33 }
+		command = { trigger = { flag = U33_SOV_puppet } type = coup_nation which = U33 }
+		command = { trigger = { flag = U33_SOV_puppet } type = clrflag which = U33_SOV_puppet }
+		command = { trigger = { flag = U34_SOV_puppet } type = make_puppet which = U34 }
+		command = { trigger = { flag = U34_SOV_puppet } type = coup_nation which = U34 }
+		command = { trigger = { flag = U34_SOV_puppet } type = clrflag which = U34_SOV_puppet }
+		command = { trigger = { flag = U35_SOV_puppet } type = make_puppet which = U35 }
+		command = { trigger = { flag = U35_SOV_puppet } type = coup_nation which = U35 }
+		command = { trigger = { flag = U35_SOV_puppet } type = clrflag which = U35_SOV_puppet }
+    	command = { trigger = { flag = ROM_SOV_puppet } type = make_puppet which = ROM }
+    	command = { trigger = { flag = ROM_SOV_puppet } type = coup_nation which = ROM }
+    	command = { trigger = { flag = ROM_SOV_puppet } type = clrflag which = ROM_SOV_puppet }
+    	command = { trigger = { flag = HUN_SOV_puppet } type = make_puppet which = HUN }
+    	command = { trigger = { flag = HUN_SOV_puppet } type = coup_nation which = HUN }
+    	command = { trigger = { flag = HUN_SOV_puppet } type = clrflag which = HUN_SOV_puppet }
+    	command = { trigger = { flag = SLO_SOV_puppet } type = make_puppet which = SLO }
+    	command = { trigger = { flag = SLO_SOV_puppet } type = coup_nation which = SLO }
+    	command = { trigger = { flag = SLO_SOV_puppet } type = clrflag which = SLO_SOV_puppet }
+    	command = { trigger = { flag = BUL_SOV_puppet } type = make_puppet which = BUL }
+    	command = { trigger = { flag = BUL_SOV_puppet } type = coup_nation which = BUL }
+    	command = { trigger = { flag = BUL_SOV_puppet } type = clrflag which = BUL_SOV_puppet }
+    	command = { trigger = { flag = YUG_SOV_puppet } type = make_puppet which = YUG }
+    	command = { trigger = { flag = YUG_SOV_puppet } type = coup_nation which = YUG }
+    	command = { trigger = { flag = YUG_SOV_puppet } type = clrflag which = YUG_SOV_puppet }
+    	command = { trigger = { flag = TUR_SOV_puppet } type = make_puppet which = TUR }
+    	command = { trigger = { flag = TUR_SOV_puppet } type = coup_nation which = TUR }
+    	command = { trigger = { flag = TUR_SOV_puppet } type = clrflag which = TUR_SOV_puppet }
+    	command = { trigger = { flag = PER_SOV_puppet } type = make_puppet which = PER }
+    	command = { trigger = { flag = PER_SOV_puppet } type = coup_nation which = PER }
+    	command = { trigger = { flag = PER_SOV_puppet } type = clrflag which = PER_SOV_puppet }
+    	command = { trigger = { flag = NOR_SOV_puppet } type = make_puppet which = NOR }
+    	command = { trigger = { flag = NOR_SOV_puppet } type = coup_nation which = NOR }
+    	command = { trigger = { flag = NOR_SOV_puppet } type = clrflag which = NOR_SOV_puppet }
+    	command = { trigger = { flag = SWE_SOV_puppet } type = make_puppet which = SWE }
+    	command = { trigger = { flag = SWE_SOV_puppet } type = coup_nation which = SWE }
+    	command = { trigger = { flag = SWE_SOV_puppet } type = clrflag which = SWE_SOV_puppet }
+    	command = { trigger = { flag = FIN_SOV_puppet } type = make_puppet which = FIN }
+    	command = { trigger = { flag = FIN_SOV_puppet } type = coup_nation which = FIN }
+    	command = { trigger = { flag = FIN_SOV_puppet } type = clrflag which = FIN_SOV_puppet }
+    	command = { trigger = { flag = SCA_SOV_puppet } type = make_puppet which = SCA }
+    	command = { trigger = { flag = SCA_SOV_puppet } type = coup_nation which = SCA }
+    	command = { trigger = { flag = SCA_SOV_puppet } type = clrflag which = SCA_SOV_puppet }
+    	command = { trigger = { flag = GRE_SOV_puppet } type = make_puppet which = GRE }	
+    	command = { trigger = { flag = GRE_SOV_puppet } type = coup_nation which = GRE }	
+    	command = { trigger = { flag = GRE_SOV_puppet } type = clrflag which = GRE_SOV_puppet }
+		#if there are communist countries and regular versions exists but is not allied with GER, GER inherit communist countries
+		command = { trigger = { flag = inherit_U10 } type = inherit which = U10 }
+		command = { trigger = { flag = inherit_U10 } type = clrflag which = inherit_U10 }
+		command = { trigger = { flag = inherit_U11 } type = inherit which = U11 }
+		command = { trigger = { flag = inherit_U11 } type = clrflag which = inherit_U11 }
+		command = { trigger = { flag = inherit_U12 } type = inherit which = U12 }
+		command = { trigger = { flag = inherit_U12 } type = clrflag which = inherit_U12 }
+		command = { trigger = { flag = inherit_U13 } type = inherit which = U13 }
+		command = { trigger = { flag = inherit_U13 } type = clrflag which = inherit_U13 }
+		command = { trigger = { flag = inherit_U14 } type = inherit which = U14 }
+		command = { trigger = { flag = inherit_U14 } type = clrflag which = inherit_U14 }
+		command = { trigger = { flag = inherit_U15 } type = inherit which = U15 }
+		command = { trigger = { flag = inherit_U15 } type = clrflag which = inherit_U15 }
+		command = { trigger = { flag = inherit_U16 } type = inherit which = U16 }
+		command = { trigger = { flag = inherit_U16 } type = clrflag which = inherit_U16 }
+		command = { trigger = { flag = inherit_U17 } type = inherit which = U17 }
+		command = { trigger = { flag = inherit_U17 } type = clrflag which = inherit_U17 }
+		command = { trigger = { flag = inherit_U18 } type = inherit which = U18 }
+		command = { trigger = { flag = inherit_U18 } type = clrflag which = inherit_U18 }
+		command = { trigger = { flag = inherit_U19 } type = inherit which = U19 }
+		command = { trigger = { flag = inherit_U19 } type = clrflag which = inherit_U19 }
+		command = { trigger = { flag = inherit_U20 } type = inherit which = U20 }
+		command = { trigger = { flag = inherit_U20 } type = clrflag which = inherit_U20 }
+		command = { trigger = { flag = inherit_U21 } type = inherit which = U21 }
+		command = { trigger = { flag = inherit_U21 } type = clrflag which = inherit_U21 }
+		command = { trigger = { flag = inherit_U22 } type = inherit which = U22 }
+		command = { trigger = { flag = inherit_U22 } type = clrflag which = inherit_U22 }
+		command = { trigger = { flag = inherit_U26 } type = inherit which = U26 }
+		command = { trigger = { flag = inherit_U26 } type = clrflag which = inherit_U26 }
+		command = { trigger = { flag = inherit_U27 } type = inherit which = U27 }
+		command = { trigger = { flag = inherit_U27 } type = clrflag which = inherit_U27 }
+		command = { trigger = { flag = inherit_U28 } type = inherit which = U28 }
+		command = { trigger = { flag = inherit_U28 } type = clrflag which = inherit_U28 }
+		command = { trigger = { flag = inherit_U29 } type = inherit which = U29 }
+		command = { trigger = { flag = inherit_U29 } type = clrflag which = inherit_U29 }
+		command = { trigger = { flag = inherit_U30 } type = inherit which = U30 }
+		command = { trigger = { flag = inherit_U30 } type = clrflag which = inherit_U30 }
+		command = { trigger = { flag = inherit_U31 } type = inherit which = U31 }
+		command = { trigger = { flag = inherit_U31 } type = clrflag which = inherit_U31 }
+		command = { trigger = { flag = inherit_U32 } type = inherit which = U32 }
+		command = { trigger = { flag = inherit_U32 } type = clrflag which = inherit_U32 }
+		command = { trigger = { flag = inherit_U33 } type = inherit which = U33 }
+		command = { trigger = { flag = inherit_U33 } type = clrflag which = inherit_U33 }
+		command = { trigger = { flag = inherit_U34 } type = inherit which = U34 }
+		command = { trigger = { flag = inherit_U34 } type = clrflag which = inherit_U34 }
+		command = { trigger = { flag = inherit_U35 } type = inherit which = U35 }
+		command = { trigger = { flag = inherit_U35 } type = clrflag which = inherit_U35 }
+		
+
+		command = { trigger = { alliance = { country = TUR } } type = trigger which = 2003060 } #Turkey earns its dividends
+		command = { type = belligerence which = GER value = -10 }
+		command = { trigger = { alliance = { country = ROM country = GER } } type = secederegion which = ROM value = "Romania" }
+		command = { trigger = { alliance = { country = FIN country = GER } } type = secederegion which = FIN value = "Finland" }
+		
+		command = { type = secedeprovince which = U42 value = 7313 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 1847 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 2368 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 7309 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 7246 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 7310 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 7311 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 3435 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 1857 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 1837 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 1849 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 3438 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 1844 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 3439 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 3437 	when = 2 }
+		command = { type = secedeprovince which = U42 value = 3436 	when = 2 }
+	}
+}
+
+
+#Percentages Agreement warning
+event = { 
+	id = 2007325
+	random = no 
+	persistent = yes
+	all = yes
+
+	name = "Percentages Agreement"
+	desc = "As the Soviet fortunes turned sour, the Axis powers shifted their attention towards the division of the spoils of victory across Eurasia. Germany, as the dominant member of the Axis coalition, naturally showed the least interest in agreeing to the continent's partition into precise 'spheres of influence', preferring instead to leave many questions to be settled once military operations had concluded. Yet even Berlin implicitly recognized that the major Axis powers would each possess their own areas of primary responsibility. Mussolini, by contrast, felt much greater urgency to resolve the question of the post-war order. He watched with growing unease as Japanese armies advanced through Inner Asia towards regions bordering the Middle East and, potentially, Italy's own imperial sphere in East Africa. In particular, he was concerned about the future of the Red Sea and South Arabia, considered vital to Italian supply lines, but now increasingly threatened as the Japanese established contact with the Yemenis and the Saudis. In light of these concerns, Mussolini arranged a meeting between the Axis leaders, where they jotted down an informal 'percentages agreement', delineating their respective spheres of influence across post-war Asia. Japan recognized German/Italian predominance in Africa, Arabia, and Afghanistan west of the Indus river, while Hitler reluctantly promised to respect Japanese interests in India, Mongolia, and China (including Xinjiang). Influence in Soviet Central Asia, where the pan-Turkic nationalists were now a predominant force, was to be divided equally. Meanwhile, separately from the conference, German and Japanese planning staffs finalized proposals for the administration of the occupied Soviet territories, divided roughly along the 70th east meridian, and for the establishment of a number of autonomous and dependent states intended to prevent the re-emergence of a unified Eurasian power. Thus the future political order of Eurasia has been effectively decided well in advance of the Soviet Union's actual collapse."
+	style = 2
+	
+	action = {
+		name = "EVT_2400552_ACTA"
+		#Allies only
+		trigger = { OR = { war = { country = SOV } war = { country = ENG } alliance = { country = JAP } alliance = { country = GER } alliance = { country = ITA } } local_flag = AllInit }
+		
+		command = { type = relation which = GER value = 5 }
+		command = { type = relation which = ITA value = 5 }
+		command = { type = relation which = JAP value = 5 }
+		command = { }
+	}
+}
+
 ################################################
-# Collapse of the Soviet Army - Help end the war faster if it's clear that the Soviets no longer stand a chance
+# Collapse of the Soviet Army
 ################################################
 event = {
 	id = 2007300
 	random = no
 	country = SOV
 
-	decision = {
-	
-	}
-	decision_trigger = {}
 	trigger = {
 		event = 2007032 #bitter peace rejected/war resumed
 		war = { country = GER }
@@ -28,7 +630,7 @@ event = {
 	}
 
 	name = "Collapse of the Soviet Army"
-	desc = "With the loss of the major urban agglomerations and industrial hubs in central Russia, STAVKA planned to retreat to the Volga and continue resistance, or, failing that, further to the Ural mountains. However, once the enemy breached the Volga river, the supply, logistics, and even morale of the Red army began to rapidly crumble. The infrastructure of Siberia was still very underdeveloped and relied mainly on one major artery which was made unusable by the repeated German bombing. Loss of the oil fields in the Caucasus and the grain-producing regions of Western russia caused severe shortages and outright starvation in the army. Meanwhile, the Japanese broke the non-aggression pact and invaded from the East, capturing the main remaining ports used to receive Lend Lease aid. As a result, the Red Army could no longer sustain its operations. The morale of the Soviet soldiers and their faith in victory sharply faltered, with peasants largely surrendering to the enemy or deserting the army and going back to their fields. Even Stalin had to reluctantly admit that the organized conventional resistance had became untenable. There was still a plan B - partisan warfare. The vast forests and swamps of Northern Russia appeared to afford such a possibility. But the Russian people, having just suffered a disasterous and demoralizing defeat, had little immediate enthusiasm for further self-sacrifice. They may change their minds, however, once they experience the horrors of the German occupation firsthand."
+	desc = "With the loss of the major urban agglomerations and industrial hubs in central Russia, STAVKA planned to retreat to the Volga and continue resistance, or, failing that, further to the Ural mountains. However, once the enemy breached the Volga river, the supply, logistics, and even morale of the Red army began to rapidly crumble. Loss of the oil fields in the Caucasus and the grain-producing regions of Western russia caused severe shortages and outright starvation in the army, while the infrastructure of Siberia was still very underdeveloped and relied mainly on one major artery which was made unusable by the repeated German bombing, while the remaining routes were crowded by the long lines of refugees fleeing the German advance in panic. Meanwhile, Japanese broke the non-aggression pact and invaded from the East, capturing the main remaining ports used to receive Lend Lease aid. As a result, the Red Army could no longer sustain its operations. The morale of the Soviet soldiers and their faith in victory sharply faltered, with peasants largely surrendering to the enemy or deserting the army and going back to their fields. Even Stalin had to reluctantly admit that the organized conventional resistance had became untenable. There was still a plan B - partisan warfare. The vast forests and swamps of Northern Russia appeared to afford such a possibility. But the Russian people, having just suffered a disasterous and demoralizing defeat, had little immediate enthusiasm for further self-sacrifice. They may change their minds, however, once they experience the horrors of the German occupation firsthand."
 	style = 2
 
 	date = { day = 0 month = january year = 1936 }
@@ -122,16 +724,19 @@ event = {
 		command = { type = demobilize which = light_armor 		when = 0 where = 0 value = 0  }
 		command = { type = demobilize which = motorized 		when = 0 where = 0 value = 0  }
 		command = { type = demobilize which = mechanized 		when = 0 where = 0 value = 0  }
-		command = { type = demobilize which = infantry			when = 0 where = 0 value = 200 }
+		command = { type = demobilize which = infantry			when = 0 where = 0 value = 300 }
 		command = { type = demobilize which = hq 				when = 0 where = 0 value = 3  }
 		
-		command = { type = demobilize which = land	 			when = 0 where = 0 value = 400 }
+		command = { type = demobilize which = land	 			when = 0 where = 0 value = 500 }
 		command = { type = demobilize which = air	 			when = 0 where = 0 value = 0   }
 		command = { type = demobilize which = naval	 			when = 0 where = 0 value = 0   }
 		
 		command = { type = event which = 9000081 				where = -1 when = 0 } #PartisanArmy
 		
 		command = { type = event which = 203112 				where = SOV when = 1 } #xinjiang defects
+		
+		command = { type = event which = 2400154				where = -1 when = 0  } #initial confusion
+		command = { type = event which = 2400164				where = -1 when = 60 } #recovery in 60 days
 		
 		#command = { type = non_aggression which = SOV where = GER when = 1 } 
 		#command = { type = non_aggression which = SOV where = NOR when = 1 } 
@@ -534,45 +1139,6 @@ event = {
 	}
 }
 
-event = {
-	id = 2007301
-	random = no
-	country = SOV
-
-	trigger = {
-		event = 2007300
-		war = { country = GER }
-		war = { country = JAP }
-		NOT = { control = { province = 187 data = SOV } } # Leningrad
-		NOT = { control = { province = 163 data = SOV } } # Stalingrad
-		NOT = { control = { province = 175 data = SOV } } # Moscow
-		
-		lost_national = { value = 70 }
-	}
-
-	name = "Anti-Stalin coup"
-	desc = "Despite all the purges and thorough vetting of all party, state, and military officials, Stalin could ultimately only delay, but not prevent a coup in the final stages of the war. With the remnants of the Soviet army in total dissaray as the German troops approached the Ural mountains from the West and Japanese and their allies marching from the East, the KGB led by Beria and backed by a number of prominent generals assasinated Stalin and improsoned Molotov. The new government then began negotiations for unconditional surrender with the Axis, hoping to appeal to the more Slavophile elements of the German and Japanese establishment to help preserve at least some semblance of a Russian state in the future."
-	style = 2
-
-	date = { day = 0 month = january year = 1936 }
-	offset = 20
-	deathdate = { day = 29 month = december year = 1963 }
-
-	action = {
-		name = EVT_2400080_NAME
-		command = { type = dissent value = -5 }
-		command = { type = regime_falls }
-		command = { type = domestic which = political_left value = -1 }
-		command = { type = headofstate which = 30094 } #Georgy M. Malenkov
-		command = { type = headofgovernment which = 30017 } #Beria
-		command = { type = foreignminister which = 30020 } #Andrey J. Vyshinsky
-		command = { type = armamentminister which = 30089 } #Georgiy K. Zhukov
-		command = { type = ministerofsecurity which = 30028 } #Beria
-		command = { type = sleepminister which = 30002 } #Stalin
-		command = { type = sleepminister which = 30021 } #Molotov
-	}
-}
-
 ####################
 # Soviet Surrender
 event = {
@@ -580,18 +1146,20 @@ event = {
     random = no
     country = SOV
     
-    name = EVT_2007180_NAME
-	desc = EVT_2007180_DESC
+	name = "Anti-Stalin coup"
+	desc = "Despite all the purges and thorough vetting of all party, state, and military officials, Stalin could ultimately only delay, but not prevent a coup in the final stages of the war. With the remnants of the Soviet army in total dissaray as the German and Japanese troops closing in on the last major hideouts of the Reds, the KGB led by Beria and backed by a number of prominent generals assasinated Stalin and improsoned Molotov. The new government then began negotiations for unconditional surrender with the Axis, hoping to end the pointless bloodshed and appeal to the more Slavophile elements of the German and Japanese establishment so as to preserve as much as possible of the Russian people. Our people have endured many catastrophes in their tragic history, including the brutal Mongol conquest followed by 250 of foreign rule. Surely, we will survive this defeat as well. But for now, we must strive to get in the enemy's good graces and to prove useful to their designs."
 	style = 2
 
     trigger = {
 		OR = {
-			event = 2007301
-			NOT = { minister = 30002 }
+			lost_national = { value = 70 }
+			AND = {
+				NOT = { minister = 30002 }
+				lost_national = { value = 60 }
+			}
 		}
 		war = { country = GER }
 		war = { country = JAP }
-        lost_national = { value = 60 }
     }
 
     date = { day = 0 month = january year = 1933 }
@@ -601,6 +1169,15 @@ event = {
     action = {
         name = EVT_2003200_ACTA
 		ai_chance = 100
+		command = { type = regime_falls }
+		command = { type = domestic which = political_left value = -1 }
+		command = { type = headofstate which = 30094 } #Georgy M. Malenkov
+		command = { type = headofgovernment which = 30017 } #Beria
+		command = { type = foreignminister which = 30020 } #Andrey J. Vyshinsky
+		command = { type = armamentminister which = 30089 } #Georgiy K. Zhukov
+		command = { type = ministerofsecurity which = 30028 } #Beria
+		command = { type = sleepminister which = 30002 } #Stalin
+		command = { type = sleepminister which = 30021 } #Molotov
 		
 		command = { trigger = { puppet = { country = AFG } } type = inherit which = AFG value = 1 }
 		command = { trigger = { puppet = { country = ALB } } type = inherit which = ALB value = 1 }
@@ -1083,31 +1660,6 @@ event = {
 		command = { type = relation which = GER value = 10 }
 		command = { type = relation which = JAP value = 10 }
 		command = { type = relation which = ITA value = 10 }
-	}
-}
-
-
-
-#Percentages Agreement warning
-event = { 
-	id = 2007325
-	random = no 
-	persistent = yes
-	all = yes
-
-	name = "Percentages Agreement"
-	desc = "As the Soviet fortunes turned sour, the Axis powers shifted their attention towards the division of the spoils of victory across Eurasia. Germany, as the dominant member of the Axis coalition, naturally showed the least interest in agreeing to the continent's partition into precise 'spheres of influence', preferring instead to leave many questions to be settled once military operations had concluded. Yet even Berlin implicitly recognized that the major Axis powers would each possess their own areas of primary responsibility. Mussolini, by contrast, felt much greater urgency to resolve the question of the post-war order. He watched with growing unease as Japanese armies advanced through Inner Asia towards regions bordering the Middle East and, potentially, Italy's own imperial sphere in East Africa. In particular, he was concerned about the future of the Red Sea and South Arabia, considered vital to Italian supply lines, but now increasingly threatened as the Japanese established contact with the Yemenis and the Saudis. In light of these concerns, Mussolini arranged a meeting between the Axis leaders, where they jotted down an informal 'percentages agreement', delineating their respective spheres of influence across post-war Asia. Japan recognized German/Italian predominance in Africa, Arabia, and Afghanistan west of the Indus river, while Hitler reluctantly promised to respect Japanese interests in India, Mongolia, and China (including Xinjiang). Influence in Soviet Central Asia, where the pan-Turkic nationalists were now a predominant force, was to be divided equally. Meanwhile, separately from the conference, German and Japanese planning staffs finalized proposals for the administration of the occupied Soviet territories, divided roughly along the 70th east meridian, and for the establishment of a number of autonomous and dependent states intended to prevent the re-emergence of a unified Eurasian power. Thus the future political order of Eurasia has been effectively decided well in advance of the Soviet Union's actual collapse."
-	style = 2
-	
-	action = {
-		name = "EVT_2400552_ACTA"
-		#Allies only
-		trigger = { OR = { war = { country = SOV } war = { country = ENG } alliance = { country = JAP } alliance = { country = GER } alliance = { country = ITA } } local_flag = AllInit }
-		
-		command = { type = relation which = GER value = 5 }
-		command = { type = relation which = ITA value = 5 }
-		command = { type = relation which = JAP value = 5 }
-		command = { }
 	}
 }
 
@@ -1684,6 +2236,9 @@ event = {
 
 
 
+
+
+#UK
 ###########################################
 # UK Negotiated peace that recognizes German supremacy in Europe
 ###########################################
@@ -1714,13 +2269,10 @@ event = {
 		#}
 		NOT = { lost_national = { country = GER value = 15 } }
 		
-		#Germany definitely won't accept as it feels it has too much of an advantage now
-		NOT = {
+		OR = {
 			flag = ENG_invaded
 			nuked = { country = ENG data = -2 } #nuked twice
-		}
-		
-		OR = {
+
 			local_flag = { which = shortagesFoodCounter	when = 1 value = 10  }
 			local_flag = { which = ENG_Ruin_react		when = 1 value = 300 }
 			dissent = 25
@@ -1775,6 +2327,7 @@ event = {
 	action = {
 		name = EVT_2001251_ACTA	
 		ai_chance = 1
+		trigger = { OR = {	flag = ENG_invaded nuked = { country = ENG data = -2 } } } #nuked twice
 		command = { type = dissent value = 10 }
 		command = { type = belligerence which = GER value = -10 }
 		command = { type = relation 	which = ITA value = -50 }
@@ -1784,6 +2337,25 @@ event = {
 	action = {
 		name = EVT_2001251_ACTB	
 		ai_chance = 99
+		trigger = { OR = {	flag = ENG_invaded nuked = { country = ENG data = -2 } } } #nuked twice
+		command = { }
+		command = { type = belligerence which = GER value = 20 }
+		command = { type = belligerence which = ENG value = -5 }
+	}
+	action = {
+		name = EVT_2001251_ACTA	
+		ai_chance = 99
+		trigger = { NOT = {	flag = ENG_invaded nuked = { country = ENG data = -2 } } } #nuked twice
+		command = { type = dissent value = 10 }
+		command = { type = belligerence which = GER value = -10 }
+		command = { type = relation 	which = ITA value = -50 }
+		command = { type = relation 	which = JAP value = -50 }
+		command = { type = event which = 2001252 where = ENG when = 0 }
+	}
+	action = {
+		name = EVT_2001251_ACTB	
+		ai_chance = 1
+		trigger = { NOT = {	flag = ENG_invaded nuked = { country = ENG data = -2 } } } #nuked twice
 		command = { }
 		command = { type = belligerence which = GER value = 20 }
 		command = { type = belligerence which = ENG value = -5 }
@@ -1793,7 +2365,7 @@ event = {
 event = {
 	id = 2001252
 	random = no
-	persistent = yes
+	country = ENG
 
 	name = EVT_2001252_NAME
 	desc = EVT_2001252_DESC
@@ -2151,7 +2723,6 @@ event = {
 		name = EVT_2003080_ACTI
 		command = { trigger = { war = { country = ENG country = ITA } } 		type = setflag which = ItaAxis }
 		command = { trigger = { war = { country = ENG country = JAP } } 		type = setflag which = JapAxis }
-		command = { trigger = { alliance = { country = ENG country = USA } }	type = setflag which = USAAllied }
 		command = { type = trigger which = 2001091 }
 	}
 }
@@ -2961,747 +3532,10 @@ event = {
 	}
 }
 
-##########################################################################
-#  USSR Bitter Peace (Germany will reject by default)
-##########################################################################
-event = {
-	id = 2007032
-	random = no
-	country = SOV
-
-	#decision = {
-	#	war = { country = GER }
-	#	NOT = { ispuppet = GER }
-	#	lost_national = { country = SOV value = 5 }
-	#}
-	#decision_trigger = {
-	#}
-	trigger = {
-		war = { country = GER }
-		NOT = { ispuppet = GER }
-		random = 35
-		OR = {
-			AND = {
-				control = { province = 56 data = -2 } # Paris is controlled by an enemy
-				lost_national = { country = SOV value = 35 }
-				NOT = { land_percentage = { country = GER value = 0.3 } } #SOV has not enough troops
-				NOT = { lost_national = { country = GER value = 7 } } #Germany is not losing national provinces
-				NOT = { war = { country = GER country = ENG } } #Germany is concentrated on the Soviet front
-				NOT = {	war = { country = GER country = VIC } }
-				NOT = { war = { country = GER country = USA } }
-				NOT = { war = { country = GER country = ITA } }
-			}
-			AND = {
-				NOT = { control = { province = 187 data = SOV } } # Leningrad
-				NOT = { control = { province = 163 data = SOV } } # Stalingrad
-				NOT = { control = { province = 175 data = SOV } } # Moscow
-				OR = {
-					NOT = { control = { province = 1907 data = SOV } } # Baku
-					NOT = { control = { province = 1828 data = SOV } } # Orenburg
-				}
-				NOT = { lost_national = { country = GER value = 7 } } #Germany is not losing national provinces
-				OR = { #one of the following must be true
-					local_flag = SOVMoscow  #Stalin remained in Moscow and was captured
-					NOT = { control = { province = 1575 data = SOV } } # Sverdlovsk
-					NOT = { control = { province = 1372 data = SOV } } # Vladivostok
-					AND = { 
-						nuked = -1  #was nuked at least once
-						NOT = { nuked = 1 } #SOV never launched nukes
-					}
-				}
-			}
-			AND = {
-				NOT = { nuked = 1 } #SOV never launched nukes
-				lost_national = { country = SOV value = 15 } #SOV is losing ground
-				nuked = { country = GER country = SOV data = 1 where = 175 } # Moscow nuked
-				OR = {
-					nuked = { country = GER country = SOV data = 8 }#SOV nuked 8 times by GER
-					AND = {
-						nuked = { country = GER country = SOV data = 1 where = 187 } # Leningrad nuked
-						nuked = { country = GER country = SOV data = 1 where = 163 } # Stalingrad nuked
-						nuked = { country = GER country = SOV data = 1 where = 1907 } # Baku nuked
-					}
-				}
-			}					
-		}
-	}
-	
-	name = "EVT_2624_NAME"
-	desc = "EVT_2624_DESC"
-	style = 2
-	picture = "news_paper"
-	
-	date = { day = 0 month = january year = 1936 }
-	offset = 10 # Check for trigger conditions every ten days
-	deathdate = { day = 29 month = december year = 1963 }
-	
-	action = {
-		name = EVT_2007032_ACTA
-		
-		command = { trigger = { war = { country = ENG country = GER }} type = relation which = ENG value = -15 }
-		command = { trigger = { war = { country = U01 country = GER }} type = relation which = U01 value = -15 }
-		command = { trigger = { war = { country = USA country = GER }} type = relation which = USA value = -15 }
-		command = { type = trigger which = 2003077 } # GER
-	}
-}
-event = {
-	id = 2003077
-	random = no
-	country = GER
-	
-	name = "EVT_2003077_NAME"
-	desc = "EVT_2003077_DESC"
-	style = 2
-	picture = "news_paper"
-	
-	action = {
-		name = "ACTIONNAME2024B" # No peace with the bolsheviks!
-		ai_chance = 99
-		command = { type = belligerence value = 5 }
-		command = { type = sleepevent which = 2007033 } #Bitter Peace
-		
-		command = { type = trigger which = 2007325 } #Percentages Agreement/Yalta Conference (Axis Version)
-	}
-	action = {
-		name = "ACTIONNAME2024A" # Accept the conditions
-		ai_chance = 1
-		command = { type = dissent value = 10 }
-		command = { type = event which = 2007033 where = SOV when = 1 } #Bitter Peace
-		command = { trigger = { war = { country = JAP country = SOV } } type = setflag which = JapanFullAxis } 
-	}
-}
-
-event = {
-	id = 2007033
-	random = no
-	country = SOV
-	
-	name = "EVT_2625_NAME"
-	desc = "EVT_2625_DESC"
-	style = 2
-	picture = "news_paper"
-
-    action = {
-        name = ACTION_NAME_OK
-		command = { type = leave_alliance when = 0 }
-		command = { type = peace which = GER value = 1 }
-		command = { type = peace which = JAP value = 1 }
-		command = { type = access which = GER }
-		command = { trigger = { alliance = { country = GER country = JAP } } type = access which = JAP }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = access which = ITA }
-		command = { trigger = { alliance = { country = GER country = SLO } } type = access which = SLO }
-		command = { trigger = { alliance = { country = GER country = CRO } } type = access which = CRO }
-		command = { trigger = { alliance = { country = GER country = FIN } } type = access which = FIN }
-		command = { trigger = { alliance = { country = GER country = HUN } } type = access which = HUN }
-		command = { trigger = { alliance = { country = GER country = ROM } } type = access which = ROM }
-		command = { trigger = { alliance = { country = GER country = BUL } } type = access which = BUL }
-		command = { trigger = { alliance = { country = GER country = SPA } } type = access which = SPA }
-		command = { trigger = { alliance = { country = GER country = SWE } } type = access which = SWE }
-		command = { trigger = { alliance = { country = GER country = TUR } } type = access which = TUR }
-		
-		
-		command = { type = dissent value = -3 }
-		command = { type = event which = 2003113 where = SOV when = 0 }
-		
-		command = { type = trigger which = 2001051 }
-	}
-}
-
-
-event = { 
-	id = 2001051 
-	random = no 
-	persistent = yes
-	all = yes
-
-    name = EVT_2001051_NAME
-    desc = EVT_2001051_DESC
-    style = 2
-	
-	action = {
-		name = "ACTION_NAME_HURRAH"
-		#Big Three only
-		trigger = { OR = { country = GER country = ITA AND = { country = JAP flag = JapanFullAxis } } local_flag = AllInit }
-		
-		command = { type = dissent	value = -10 }
-		
-		#POW release
-		command = { trigger = { country = GER }	type = manpowerpool value = 1000 }
-		command = { trigger = { country = ITA }	type = manpowerpool value =  300 }
-		command = { trigger = { country = JAP }	type = manpowerpool value =  300 }
-		
-		#forced labour
-		command = { trigger = { country = GER }	type = industrial_modifier which = ic  value = 4.0 }
-		command = { trigger = { country = ITA }	type = industrial_modifier which = ic  value = 1.0 }
-		command = { trigger = { country = JAP }	type = industrial_modifier which = ic  value = 1.0 }
-		
-		
-		#Soviet blueprints fall into Axis hands and scientists are won over by the Axis
-		#specifically nuclear and rocketry techs, plus one above
-		command = { trigger = { technology = { country = SOV value = 5470  } } 	type = gain_tech which = 5470  }
-		command = { trigger = { technology = { country = SOV value = 5480  } } 	type = gain_tech which = 5480  }
-		command = { trigger = { technology = { country = SOV value = 5490  } } 	type = gain_tech which = 5490  }
-		command = { trigger = { technology = { country = SOV value = 5500  } } 	type = gain_tech which = 5500  }
-		command = { trigger = { technology = { country = SOV value = 5510  } } 	type = gain_tech which = 5510  }
-		command = { trigger = { technology = { country = SOV value = 5520  } } 	type = gain_tech which = 5520  }
-		command = { trigger = { technology = { country = SOV value = 5530  } } 	type = gain_tech which = 5530  }
-		command = { trigger = { technology = { country = SOV value = 5540  } } 	type = gain_tech which = 5540  }
-		command = { trigger = { technology = { country = SOV value = 7170  } } 	type = gain_tech which = 7170  }
-		command = { trigger = { technology = { country = SOV value = 7180  } } 	type = gain_tech which = 7180  }
-		command = { trigger = { technology = { country = SOV value = 7190  } } 	type = gain_tech which = 7190  }
-		command = { trigger = { technology = { country = SOV value = 16010 } } 	type = gain_tech which = 16010 }
-		command = { trigger = { technology = { country = SOV value = 16020 } } 	type = gain_tech which = 16020 }
-		
-		command = { trigger = { technology = { country = SOV value = 5470  } } 	type = gain_tech which = 5480  }
-		command = { trigger = { technology = { country = SOV value = 5480  } } 	type = gain_tech which = 5490  }
-		command = { trigger = { technology = { country = SOV value = 5490  } } 	type = gain_tech which = 5500  }
-		command = { trigger = { technology = { country = SOV value = 5500  } } 	type = gain_tech which = 5510  }
-		command = { trigger = { technology = { country = SOV value = 5510  } } 	type = gain_tech which = 5520  }
-		command = { trigger = { technology = { country = SOV value = 5520  } } 	type = gain_tech which = 5530  }
-		command = { trigger = { technology = { country = SOV value = 5530  } } 	type = gain_tech which = 5540  }
-		command = { trigger = { technology = { country = SOV value = 5540  } } 	type = gain_tech which = 7170  }
-		command = { trigger = { technology = { country = SOV value = 7170  } } 	type = gain_tech which = 7180  }
-		command = { trigger = { technology = { country = SOV value = 7180  } } 	type = gain_tech which = 7190  }
-		command = { trigger = { technology = { country = SOV value = 7190  } } 	type = gain_tech which = 16010 }
-		command = { trigger = { technology = { country = SOV value = 16010 } } 	type = gain_tech which = 16020 }
-
-		command = { trigger = { technology = { country = SOV value = 5560  } } 	type = gain_tech which = 5560  }
-		command = { trigger = { technology = { country = SOV value = 7550  } } 	type = gain_tech which = 7550  }
-		command = { trigger = { technology = { country = SOV value = 7560  } } 	type = gain_tech which = 7560  }
-		command = { trigger = { technology = { country = SOV value = 7570  } } 	type = gain_tech which = 7570  }
-		command = { trigger = { technology = { country = SOV value = 7580  } } 	type = gain_tech which = 7580  }
-		command = { trigger = { technology = { country = SOV value = 7590  } } 	type = gain_tech which = 7590  }
-		
-		command = { trigger = { technology = { country = SOV value = 5560  } } 	type = gain_tech which = 7550  }
-		command = { trigger = { technology = { country = SOV value = 7550  } } 	type = gain_tech which = 7560  }
-		command = { trigger = { technology = { country = SOV value = 7560  } } 	type = gain_tech which = 7570  }
-		command = { trigger = { technology = { country = SOV value = 7570  } } 	type = gain_tech which = 7580  }
-		command = { trigger = { technology = { country = SOV value = 7580  } } 	type = gain_tech which = 7590  }
-		
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		
-		#British scientists contribute to research
-		command = { type = gain_tech which = -1  }
-		command = { type = gain_tech which = -1  }
-		command = { type = gain_tech which = -1  }
-		command = { type = gain_tech which = -1  }
-		command = { type = gain_tech which = -1  }
-		command = { type = gain_tech which = -1  }
-		command = { type = gain_tech which = -1  }
-		command = { type = gain_tech which = -1  }
-		command = { type = gain_tech which = -1  }
-		command = { type = gain_tech which = -1  }
-		command = { type = gain_tech which = -2  }
-		command = { type = gain_tech which = -2  }
-		command = { type = gain_tech which = -2  }
-		
-		#-2 years of war exhaustion
-		command = { trigger = { local_flag = { which = warDurationCount when = 1 value = 1 } } type = local_setflag which = warDurationCount when = 1 value = -1 }
-		command = { trigger = { local_flag = { which = warDurationCount when = 1 value = 1 } } type = local_setflag which = warDurationCount when = 1 value = -1 }
-	}
-	action = {
-		name = "ACTION_NAME_HURRAH"
-		#Minor Allies
-		trigger = { OR = { alliance = { country = GER } war = { country = SOV } } NOT = { country = GER country = ITA country = JAP } local_flag = AllInit }
-		
-		command = { type = dissent	value = -1  }
-		
-		#POW release
-		command = { trigger = { country = ROM }	type = manpowerpool value = 100 }
-		command = { trigger = { country = FIN }	type = manpowerpool value = 100 }
-		command = { trigger = { country = HUN }	type = manpowerpool value =  70 }
-		command = { trigger = { country = SLO }	type = manpowerpool value =  10 }
-		command = { trigger = { country = CRO }	type = manpowerpool value =  10 }
-	
-		#forced labour
-		command = { trigger = { country = ROM }	type = industrial_modifier which = ic  value = 0.4 }
-		command = { trigger = { country = FIN }	type = industrial_modifier which = ic  value = 0.4 }
-		command = { trigger = { country = HUN }	type = industrial_modifier which = ic  value = 0.3 }
-
-		command = { type = steal_tech which = SOV }
-		command = { type = steal_tech which = SOV }
-		
-		#-2 years of war exhaustion
-		command = { trigger = { local_flag = { which = warDurationCount when = 1 value = 1 } } type = local_setflag which = warDurationCount when = 1 value = -1 }
-		command = { trigger = { local_flag = { which = warDurationCount when = 1 value = 1 } } type = local_setflag which = warDurationCount when = 1 value = -1 }
-	}
-	action = {
-		name = EVT_2003290_ACTA
-		#USA, USSR, and whoever else is left
-		trigger = { OR = { alliance = { country = SOV } war = { country = GER } war = { country = JAP } } }
-		
-		command = { type = dissent	  value = 1   }
-	}
-	action = {
-		name = "ACTION_NAME_GREAT"
-		#Everyone else
-		trigger = { NOT = { country = GER country = ITA country = JAP alliance = { country = ENG } war = { country = GER } war = { country = JAP } } }
-		
-		command = { type = relation which = GER value = 10 }
-		command = { type = relation which = ITA value = 10 }
-		command = { type = relation which = JAP value = 10 }
-	}
-}
-
-event = {
-	id = 2003113
-	random = no
-	country = SOV
-	
-	name = "EVT_2625_NAME"
-	desc = "EVT_2625_DESC"
-	style = 2
-	picture = "news_paper"
-
-    action = {
-        name = ACTION_NAME_OK
-        command = { type = secederegion which = JAP value = Japan when = 1 }
-		command = { type = secederegion which = JAP value = Korea when = 1 }
-		command = { type = secederegion which = JAP value = China when = 1 }
-
-		#Will auto-neutral
-		command = { trigger = { puppet = { country = SIK country = SOV } } type = end_mastery which = SIK }
-		command = { trigger = { puppet = { country = MON country = SOV } } type = end_mastery which = MON }
-		command = { trigger = { puppet = { country = TAN country = SOV } } type = end_mastery which = TAN }
-		
-        # Some to Japan:
-		command = { trigger = { flag = JapanFullAxis } type = secedearea 		which = JAP value = "Sakhalin_Kuriles"	when = 2 } 
-        command = { trigger = { flag = JapanFullAxis } type = secedearea 		which = JAP value = "Primorski"	when = 2 } 
-		command = { trigger = { flag = JapanFullAxis } type = secedearea 		which = JAP value = "Mongolia"	when = 2 } 
-		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 1366		when = 2 } 
-		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 3532		when = 2 }
-		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 3533		when = 2 }
-		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 1368		when = 2 }
-		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 3534		when = 2 }
-		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 3535		when = 2 }
-		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 1366		when = 2 }
-		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 1366		when = 2 }
-		command = { trigger = { flag = JapanFullAxis } type = secedeprovince	which = JAP value = 1366		when = 2 }
-		
-		command = { type = event which = 1014 where = SOV when = 0 } #End aid to China
-          
-        #Romania
-        command = { trigger = { alliance = { country = ROM country = GER } } type = secedearea which = ROM value = Bessarabia when = 2 }
-        command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 1565	when = 2 } 
-		command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 233	when = 2 } 
-		command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 1571	when = 2 } 
-		command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 3404	when = 2 } 
-		command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 3405	when = 2 } 
-		command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 231	when = 2 } 
-		command = { trigger = { alliance = { country = ROM country = GER } } type = secedeprovince which = ROM value = 232	when = 2 } 
-
-		#Finland (or SCA)
-		command = { trigger = { alliance = { country = FIN country = GER } } type = secederegion which = FIN value = "Finland"	when = 2 }
-		command = { trigger = { alliance = { country = FIN country = GER } } type = secedearea which = FIN value = "Karelia"	when = 2 } 
-        #command = { trigger = { alliance = { country = FIN country = GER } } type = secedearea which = FIN value = "Lapland"	when = 2 } 
-		command = { trigger = { alliance = { country = FIN country = GER } } type = secedeprovince which = FIN value = 143	when = 2 } 
-		command = { trigger = { alliance = { country = FIN country = GER } } type = secedeprovince which = FIN value = 132	when = 2 } 
-
-		command = { trigger = { alliance = { country = SCA country = GER } } type = secederegion which = SCA value = "Finland"	when = 2 }
-		command = { trigger = { alliance = { country = SCA country = GER } } type = secedearea which = SCA value = "Karelia"	when = 2 } 
-        #command = { trigger = { alliance = { country = SCA country = GER } } type = secedearea which = SCA value = "Lapland"	when = 2 } 
-		command = { trigger = { alliance = { country = SCA country = GER } } type = secedeprovince which = SCA value = 143	when = 2 } 
-		command = { trigger = { alliance = { country = SCA country = GER } } type = secedeprovince which = SCA value = 132	when = 2 } 
-		
-		command = { type = secedeprovince which = SOV value = 3346	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 151	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 184	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 150	when = 2 } 
-		
-		command = { type = secederegion which = PER value = Persia when = 1 }
-		
-        command = { type = secederegion which = GER value = Sweden when = 1 }
-		command = { type = secederegion which = GER value = Norway when = 1 }
-		command = { type = secederegion which = GER value = Finland when = 1 }
-		command = { type = secederegion which = GER value = Czechoslovakia when = 1 }
-		command = { type = secederegion which = GER value = Hungary when = 1 }
-		command = { type = secederegion which = GER value = Romania when = 1 }
-		command = { type = secederegion which = GER value = Balkan when = 1 }
-		command = { type = secederegion which = GER value = Anatolia when = 1 }
-		command = { type = secederegion which = GER value = Persia when = 1 }
-		command = { type = secederegion which = GER value = "Middle East" when = 1 }
-        command = { type = secederegion which = GER value = Denmark when = 1 }
-        command = { type = secederegion which = GER value = Germany when = 1 }
-        command = { type = secederegion which = GER value = Austria when = 1 }
-		
-		
-		command = { type = secederegion which = GER value = Poland when = 1 }
-		command = { type = secederegion which = GER value = "Baltic States" when = 1 }
-		
-		command = { type = secederegion which = GER value = Ukraine when = 1 }
-        command = { type = secederegion which = GER value = Belarus when = 1 }
-        command = { type = secederegion which = GER value = Kaukasus when = 1 }
-		command = { type = secederegion which = GER value = "Southern Russia" when = 1 }
-        command = { type = secederegion which = GER value = "Western Russia" when = 1 }
-        command = { type = secederegion which = GER value = "Russia" when = 1 }
-		#command = { type = secederegion which = GER value = "White Sea Tundra" when = 1 } 
-		command = { type = secederegion which = GER value = "Karelia" when = 1 } 
-		command = { type = secederegion which = GER value = "Lapland" when = 1 } 
-		
-		command = { type = secedeprovince which = SOV value = 3346	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 153	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3615	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 165	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 1533	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3723	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3617	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3719	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 1774	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3722	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3724	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3721	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3718	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3725	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 1782	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3704	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 1780	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 1783	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3720	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3709	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3707	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3616	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 1841	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 171	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 170	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 1781	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3703	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3705	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3706	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3726	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3735	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 1778	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3733	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 1830	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3736	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3734	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3711	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3712	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 7384	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 3716	when = 2 } 
-		command = { type = secedeprovince which = SOV value = 7383	when = 2 } 
-		#command = { type = secedeprovince which = SOV value = 3463	when = 2 } 
-		#command = { type = secedeprovince which = SOV value = 3717	when = 2 } 
-		#command = { type = secedeprovince which = SOV value = 1839	when = 2 } 
-		#command = { type = secedeprovince which = SOV value = 7386	when = 2 } 
-		#command = { type = secedeprovince which = SOV value = 7387	when = 2 } 
-		#command = { type = secedeprovince which = SOV value = 1836	when = 2 } 
-		#command = { type = secedeprovince which = SOV value = 3452	when = 2 } 
-		#command = { type = secedeprovince which = SOV value = 1838	when = 2 } 
-		
-        command = { type = peace which = GER }
-        command = { type = peace which = ITA }
-        command = { type = peace which = JAP }
-        command = { type = peace which = SLO }
-        command = { type = peace which = HUN }
-        command = { type = peace which = FIN }
-        command = { type = peace which = SWE }
-        command = { type = peace which = ROM }
-        command = { type = peace which = BUL }
-        command = { type = peace which = PER }
-        command = { type = peace which = MAN }
-        command = { type = peace which = MEN }
-		
-        #command = { type = capital which = 1552 } # Omsk
-        command = { type = belligerence which = SOV value = -50 }
-
-        command = { type = set_relation which = GER value = 0 }
-        command = { type = relation which = ROM value = 20 }
-        command = { type = relation which = HUN value = 20 }
-        command = { type = relation which = FIN value = 20 }
-        command = { type = relation which = ENG value = -20 }
-        command = { type = relation which = VIC value = -20 }
-        command = { type = relation which = USA value = -20 }
-		
-        command = { type = non_aggression which = GER where = SOV }
-        command = { trigger = { flag = JapanFullAxis } type = non_aggression which = JAP where = SOV }
-		command = { type = trigger which = 2003111 } #Victory in the East
-		command = { type = sleepevent which = 2007034 } #Germany attacks w/o pact
-		command = { type = sleepevent which = 2003046 } #Unternehmen Barbarossa
-		command = { type = sleepevent which = 2007022 } #Claim Bessarabia
-    }
-}
-
-event = { #SOV Communist Puppets go to GER
-	id = 2003111
-	random = no
-	country = GER
-	
-	# Triggered by SOV 2007033
-	
-	name = "EVT_2003114_NAME"
-	desc = "EVT_2003114_DESC"
-	style = 2
-	picture = "anschluss"
-	
-	action = {
-		name = "ACTION_NAME_GREAT" # Great!
-		command = { type = add_claim_region	which = "Russia"	}
-		command = { type = add_claim_region	which = "Poland"	}
-		command = { type = add_claim_region	which = "Belarus"	}
-		command = { type = add_claim_region	which = "Ukraine"	}
-		command = { type = add_claim_region	which = "Kaukasus"	}
-		
-    	command = { trigger = { puppet = { country = U10 country = SOV } NOT = { exists = HOL } } type = setflag which = U10_SOV_puppet }
-    	command = { trigger = { puppet = { country = U11 country = SOV } NOT = { exists = VIC } } type = setflag which = U11_SOV_puppet }
-    	command = { trigger = { puppet = { country = U12 country = SOV } NOT = { exists = ENG } } type = setflag which = U12_SOV_puppet }
-    	command = { trigger = { puppet = { country = U13 country = SOV } NOT = { exists = HUN } } type = setflag which = U13_SOV_puppet }
-    	command = { trigger = { puppet = { country = U14 country = SOV } NOT = { exists = ITA } } type = setflag which = U14_SOV_puppet }
-    	command = { trigger = { puppet = { country = U15 country = SOV } NOT = { exists = POR } } type = setflag which = U15_SOV_puppet }
-    	command = { trigger = { puppet = { country = U16 country = SOV } NOT = { exists = AUS } } type = setflag which = U16_SOV_puppet }
-    	command = { trigger = { puppet = { country = U17 country = SOV } NOT = { exists = BEL } } type = setflag which = U17_SOV_puppet }
-    	command = { trigger = { puppet = { country = U18 country = SOV } NOT = { exists = LUX } } type = setflag which = U18_SOV_puppet }
-    	command = { trigger = { puppet = { country = U19 country = SOV } NOT = { exists = NOR } } type = setflag which = U19_SOV_puppet }
-    	command = { trigger = { puppet = { country = U20 country = SOV } NOT = { exists = FIN } } type = setflag which = U20_SOV_puppet }
-    	command = { trigger = { puppet = { country = U21 country = SOV } NOT = { exists = SWE } } type = setflag which = U21_SOV_puppet }
-    	command = { trigger = { puppet = { country = U22 country = SOV } NOT = { exists = DEN } } type = setflag which = U22_SOV_puppet }
-    	command = { trigger = { puppet = { country = U26 country = SOV } NOT = { exists = SCH } } type = setflag which = U26_SOV_puppet }
-    	command = { trigger = { puppet = { country = U27 country = SOV } NOT = { exists = YUG } } type = setflag which = U27_SOV_puppet }
-    	command = { trigger = { puppet = { country = U28 country = SOV } NOT = { exists = ALB } } type = setflag which = U28_SOV_puppet }
-    	command = { trigger = { puppet = { country = U29 country = SOV } NOT = { exists = BUL } } type = setflag which = U29_SOV_puppet }
-    	command = { trigger = { puppet = { country = U30 country = SOV } NOT = { exists = ROM } } type = setflag which = U30_SOV_puppet }
-    	command = { trigger = { puppet = { country = U31 country = SOV } NOT = { exists = CZE } } type = setflag which = U31_SOV_puppet }
-    	#command = { trigger = { puppet = { country = U32 country = SOV } NOT = { exists = POL } } type = setflag which = U32_SOV_puppet }
-    	command = { trigger = { puppet = { country = U33 country = SOV } NOT = { exists = GRE } } type = setflag which = U33_SOV_puppet }
-    	command = { trigger = { puppet = { country = U34 country = SOV } NOT = { exists = TUR } } type = setflag which = U34_SOV_puppet }
-    	command = { trigger = { puppet = { country = U35 country = SOV } NOT = { exists = SPA } } type = setflag which = U35_SOV_puppet }
-    	command = { trigger = { puppet = { country = ROM country = SOV } } type = setflag which = ROM_SOV_puppet }
-    	command = { trigger = { puppet = { country = HUN country = SOV } } type = setflag which = HUN_SOV_puppet }
-    	command = { trigger = { puppet = { country = SLO country = SOV } } type = setflag which = SLO_SOV_puppet }
-    	command = { trigger = { puppet = { country = BUL country = SOV } } type = setflag which = BUL_SOV_puppet }
-    	command = { trigger = { puppet = { country = YUG country = SOV } } type = setflag which = YUG_SOV_puppet }
-    	command = { trigger = { puppet = { country = TUR country = SOV } } type = setflag which = TUR_SOV_puppet }
-    	command = { trigger = { puppet = { country = PER country = SOV } } type = setflag which = PER_SOV_puppet }
-    	command = { trigger = { puppet = { country = NOR country = SOV } } type = setflag which = NOR_SOV_puppet }
-    	command = { trigger = { puppet = { country = SWE country = SOV } } type = setflag which = SWE_SOV_puppet }
-    	command = { trigger = { puppet = { country = FIN country = SOV } } type = setflag which = FIN_SOV_puppet }
-    	command = { trigger = { puppet = { country = SCA country = SOV } } type = setflag which = SCA_SOV_puppet }
-    	command = { trigger = { puppet = { country = GRE country = SOV } } type = setflag which = GRE_SOV_puppet }
-    	#if there are communist countries and regular versions exist, GER inherit communist countries
-		command = { trigger = { puppet = { country = U10 country = SOV } exists = HOL } type = setflag which = inherit_U10 }
-    	command = { trigger = { puppet = { country = U11 country = SOV } exists = VIC } type = setflag which = inherit_U11 }
-    	command = { trigger = { puppet = { country = U12 country = SOV } exists = ENG } type = setflag which = inherit_U12 }
-    	command = { trigger = { puppet = { country = U13 country = SOV } exists = HUN } type = setflag which = inherit_U13 }
-    	command = { trigger = { puppet = { country = U14 country = SOV } exists = ITA } type = setflag which = inherit_U14 }
-    	command = { trigger = { puppet = { country = U15 country = SOV } exists = POR } type = setflag which = inherit_U15 }
-    	command = { trigger = { puppet = { country = U16 country = SOV } exists = AUS } type = setflag which = inherit_U16 }
-    	command = { trigger = { puppet = { country = U17 country = SOV } exists = BEL } type = setflag which = inherit_U17 }
-    	command = { trigger = { puppet = { country = U18 country = SOV } exists = LUX } type = setflag which = inherit_U18 }
-    	command = { trigger = { puppet = { country = U19 country = SOV } exists = NOR } type = setflag which = inherit_U19 }
-    	command = { trigger = { puppet = { country = U20 country = SOV } exists = FIN } type = setflag which = inherit_U20 }
-    	command = { trigger = { puppet = { country = U21 country = SOV } exists = SWE } type = setflag which = inherit_U21 }
-    	command = { trigger = { puppet = { country = U22 country = SOV } exists = DEN } type = setflag which = inherit_U22 }
-    	command = { trigger = { puppet = { country = U26 country = SOV } exists = SCH } type = setflag which = inherit_U26 }
-    	command = { trigger = { puppet = { country = U27 country = SOV } exists = YUG } type = setflag which = inherit_U27 }
-    	command = { trigger = { puppet = { country = U28 country = SOV } exists = ALB } type = setflag which = inherit_U28 }
-    	command = { trigger = { puppet = { country = U29 country = SOV } exists = BUL } type = setflag which = inherit_U29 }
-    	command = { trigger = { puppet = { country = U30 country = SOV } exists = ROM } type = setflag which = inherit_U30 }
-    	command = { trigger = { puppet = { country = U31 country = SOV } exists = CZE } type = setflag which = inherit_U31 }
-    	#command = { trigger = { puppet = { country = U32 country = SOV } exists = POL } type = setflag which = inherit_U32 }
-    	command = { trigger = { puppet = { country = U33 country = SOV } exists = GRE } type = setflag which = inherit_U33 }
-    	command = { trigger = { puppet = { country = U34 country = SOV } exists = TUR } type = setflag which = inherit_U34 }
-    	command = { trigger = { puppet = { country = U35 country = SOV } exists = SPA } type = setflag which = inherit_U35 }
-		
-		#if there are communist countries and no regular versions exists, GER coups them (should turn them into regular countries)
-		command = { trigger = { flag = U10_SOV_puppet } type = make_puppet which = U10 }
-		command = { trigger = { flag = U10_SOV_puppet } type = coup_nation which = U10 }
-		command = { trigger = { flag = U10_SOV_puppet } type = clrflag which = U10_SOV_puppet }
-		command = { trigger = { flag = U11_SOV_puppet } type = make_puppet which = U11 }
-		command = { trigger = { flag = U11_SOV_puppet } type = coup_nation which = U11 }
-		command = { trigger = { flag = U11_SOV_puppet } type = clrflag which = U11_SOV_puppet }
-		command = { trigger = { flag = U12_SOV_puppet } type = make_puppet which = U12 }
-		command = { trigger = { flag = U12_SOV_puppet } type = coup_nation which = U12 }
-		command = { trigger = { flag = U12_SOV_puppet } type = clrflag which = U12_SOV_puppet }
-		command = { trigger = { flag = U13_SOV_puppet } type = make_puppet which = U13 }
-		command = { trigger = { flag = U13_SOV_puppet } type = coup_nation which = U13 }
-		command = { trigger = { flag = U13_SOV_puppet } type = clrflag which = U13_SOV_puppet }
-		command = { trigger = { flag = U14_SOV_puppet } type = make_puppet which = U14 }
-		command = { trigger = { flag = U14_SOV_puppet } type = coup_nation which = U14 }
-		command = { trigger = { flag = U14_SOV_puppet } type = clrflag which = U14_SOV_puppet }
-		command = { trigger = { flag = U15_SOV_puppet } type = make_puppet which = U15 }
-		command = { trigger = { flag = U15_SOV_puppet } type = coup_nation which = U15 }
-		command = { trigger = { flag = U15_SOV_puppet } type = clrflag which = U15_SOV_puppet }
-		command = { trigger = { flag = U16_SOV_puppet } type = make_puppet which = U16 }
-		command = { trigger = { flag = U16_SOV_puppet } type = coup_nation which = U16 }
-		command = { trigger = { flag = U16_SOV_puppet } type = clrflag which = U16_SOV_puppet }
-		command = { trigger = { flag = U17_SOV_puppet } type = make_puppet which = U17 }
-		command = { trigger = { flag = U17_SOV_puppet } type = coup_nation which = U17 }
-		command = { trigger = { flag = U17_SOV_puppet } type = clrflag which = U17_SOV_puppet }
-		command = { trigger = { flag = U18_SOV_puppet } type = make_puppet which = U18 }
-		command = { trigger = { flag = U18_SOV_puppet } type = coup_nation which = U18 }
-		command = { trigger = { flag = U18_SOV_puppet } type = clrflag which = U18_SOV_puppet }
-		command = { trigger = { flag = U19_SOV_puppet } type = make_puppet which = U19 }
-		command = { trigger = { flag = U19_SOV_puppet } type = coup_nation which = U19 }
-		command = { trigger = { flag = U19_SOV_puppet } type = clrflag which = U19_SOV_puppet }
-		command = { trigger = { flag = U20_SOV_puppet } type = make_puppet which = U20 }
-		command = { trigger = { flag = U20_SOV_puppet } type = coup_nation which = U20 }
-		command = { trigger = { flag = U20_SOV_puppet } type = clrflag which = U20_SOV_puppet }
-		command = { trigger = { flag = U21_SOV_puppet } type = make_puppet which = U21 }
-		command = { trigger = { flag = U21_SOV_puppet } type = coup_nation which = U21 }
-		command = { trigger = { flag = U21_SOV_puppet } type = clrflag which = U21_SOV_puppet }
-		command = { trigger = { flag = U22_SOV_puppet } type = make_puppet which = U22 }
-		command = { trigger = { flag = U22_SOV_puppet } type = coup_nation which = U22 }
-		command = { trigger = { flag = U22_SOV_puppet } type = clrflag which = U22_SOV_puppet }
-		command = { trigger = { flag = U26_SOV_puppet } type = make_puppet which = U26 }
-		command = { trigger = { flag = U26_SOV_puppet } type = coup_nation which = U26 }
-		command = { trigger = { flag = U26_SOV_puppet } type = clrflag which = U26_SOV_puppet }
-		command = { trigger = { flag = U27_SOV_puppet } type = make_puppet which = U27 }
-		command = { trigger = { flag = U27_SOV_puppet } type = coup_nation which = U27 }
-		command = { trigger = { flag = U27_SOV_puppet } type = clrflag which = U27_SOV_puppet }
-		command = { trigger = { flag = U28_SOV_puppet } type = make_puppet which = U28 }
-		command = { trigger = { flag = U28_SOV_puppet } type = coup_nation which = U28 }
-		command = { trigger = { flag = U28_SOV_puppet } type = clrflag which = U28_SOV_puppet }
-		command = { trigger = { flag = U29_SOV_puppet } type = make_puppet which = U29 }
-		command = { trigger = { flag = U29_SOV_puppet } type = coup_nation which = U29 }
-		command = { trigger = { flag = U29_SOV_puppet } type = clrflag which = U29_SOV_puppet }
-		command = { trigger = { flag = U30_SOV_puppet } type = make_puppet which = U30 }
-		command = { trigger = { flag = U30_SOV_puppet } type = coup_nation which = U30 }
-		command = { trigger = { flag = U30_SOV_puppet } type = clrflag which = U30_SOV_puppet }
-		command = { trigger = { flag = U31_SOV_puppet } type = make_puppet which = U31 }
-		command = { trigger = { flag = U31_SOV_puppet } type = coup_nation which = U31 }
-		command = { trigger = { flag = U31_SOV_puppet } type = clrflag which = U31_SOV_puppet }
-		command = { trigger = { flag = U32_SOV_puppet } type = make_puppet which = U32 }
-		command = { trigger = { flag = U32_SOV_puppet } type = coup_nation which = U32 }
-		command = { trigger = { flag = U32_SOV_puppet } type = clrflag which = U32_SOV_puppet }
-		command = { trigger = { flag = U33_SOV_puppet } type = make_puppet which = U33 }
-		command = { trigger = { flag = U33_SOV_puppet } type = coup_nation which = U33 }
-		command = { trigger = { flag = U33_SOV_puppet } type = clrflag which = U33_SOV_puppet }
-		command = { trigger = { flag = U34_SOV_puppet } type = make_puppet which = U34 }
-		command = { trigger = { flag = U34_SOV_puppet } type = coup_nation which = U34 }
-		command = { trigger = { flag = U34_SOV_puppet } type = clrflag which = U34_SOV_puppet }
-		command = { trigger = { flag = U35_SOV_puppet } type = make_puppet which = U35 }
-		command = { trigger = { flag = U35_SOV_puppet } type = coup_nation which = U35 }
-		command = { trigger = { flag = U35_SOV_puppet } type = clrflag which = U35_SOV_puppet }
-    	command = { trigger = { flag = ROM_SOV_puppet } type = make_puppet which = ROM }
-    	command = { trigger = { flag = ROM_SOV_puppet } type = coup_nation which = ROM }
-    	command = { trigger = { flag = ROM_SOV_puppet } type = clrflag which = ROM_SOV_puppet }
-    	command = { trigger = { flag = HUN_SOV_puppet } type = make_puppet which = HUN }
-    	command = { trigger = { flag = HUN_SOV_puppet } type = coup_nation which = HUN }
-    	command = { trigger = { flag = HUN_SOV_puppet } type = clrflag which = HUN_SOV_puppet }
-    	command = { trigger = { flag = SLO_SOV_puppet } type = make_puppet which = SLO }
-    	command = { trigger = { flag = SLO_SOV_puppet } type = coup_nation which = SLO }
-    	command = { trigger = { flag = SLO_SOV_puppet } type = clrflag which = SLO_SOV_puppet }
-    	command = { trigger = { flag = BUL_SOV_puppet } type = make_puppet which = BUL }
-    	command = { trigger = { flag = BUL_SOV_puppet } type = coup_nation which = BUL }
-    	command = { trigger = { flag = BUL_SOV_puppet } type = clrflag which = BUL_SOV_puppet }
-    	command = { trigger = { flag = YUG_SOV_puppet } type = make_puppet which = YUG }
-    	command = { trigger = { flag = YUG_SOV_puppet } type = coup_nation which = YUG }
-    	command = { trigger = { flag = YUG_SOV_puppet } type = clrflag which = YUG_SOV_puppet }
-    	command = { trigger = { flag = TUR_SOV_puppet } type = make_puppet which = TUR }
-    	command = { trigger = { flag = TUR_SOV_puppet } type = coup_nation which = TUR }
-    	command = { trigger = { flag = TUR_SOV_puppet } type = clrflag which = TUR_SOV_puppet }
-    	command = { trigger = { flag = PER_SOV_puppet } type = make_puppet which = PER }
-    	command = { trigger = { flag = PER_SOV_puppet } type = coup_nation which = PER }
-    	command = { trigger = { flag = PER_SOV_puppet } type = clrflag which = PER_SOV_puppet }
-    	command = { trigger = { flag = NOR_SOV_puppet } type = make_puppet which = NOR }
-    	command = { trigger = { flag = NOR_SOV_puppet } type = coup_nation which = NOR }
-    	command = { trigger = { flag = NOR_SOV_puppet } type = clrflag which = NOR_SOV_puppet }
-    	command = { trigger = { flag = SWE_SOV_puppet } type = make_puppet which = SWE }
-    	command = { trigger = { flag = SWE_SOV_puppet } type = coup_nation which = SWE }
-    	command = { trigger = { flag = SWE_SOV_puppet } type = clrflag which = SWE_SOV_puppet }
-    	command = { trigger = { flag = FIN_SOV_puppet } type = make_puppet which = FIN }
-    	command = { trigger = { flag = FIN_SOV_puppet } type = coup_nation which = FIN }
-    	command = { trigger = { flag = FIN_SOV_puppet } type = clrflag which = FIN_SOV_puppet }
-    	command = { trigger = { flag = SCA_SOV_puppet } type = make_puppet which = SCA }
-    	command = { trigger = { flag = SCA_SOV_puppet } type = coup_nation which = SCA }
-    	command = { trigger = { flag = SCA_SOV_puppet } type = clrflag which = SCA_SOV_puppet }
-    	command = { trigger = { flag = GRE_SOV_puppet } type = make_puppet which = GRE }	
-    	command = { trigger = { flag = GRE_SOV_puppet } type = coup_nation which = GRE }	
-    	command = { trigger = { flag = GRE_SOV_puppet } type = clrflag which = GRE_SOV_puppet }
-		#if there are communist countries and regular versions exists but is not allied with GER, GER inherit communist countries
-		command = { trigger = { flag = inherit_U10 } type = inherit which = U10 }
-		command = { trigger = { flag = inherit_U10 } type = clrflag which = inherit_U10 }
-		command = { trigger = { flag = inherit_U11 } type = inherit which = U11 }
-		command = { trigger = { flag = inherit_U11 } type = clrflag which = inherit_U11 }
-		command = { trigger = { flag = inherit_U12 } type = inherit which = U12 }
-		command = { trigger = { flag = inherit_U12 } type = clrflag which = inherit_U12 }
-		command = { trigger = { flag = inherit_U13 } type = inherit which = U13 }
-		command = { trigger = { flag = inherit_U13 } type = clrflag which = inherit_U13 }
-		command = { trigger = { flag = inherit_U14 } type = inherit which = U14 }
-		command = { trigger = { flag = inherit_U14 } type = clrflag which = inherit_U14 }
-		command = { trigger = { flag = inherit_U15 } type = inherit which = U15 }
-		command = { trigger = { flag = inherit_U15 } type = clrflag which = inherit_U15 }
-		command = { trigger = { flag = inherit_U16 } type = inherit which = U16 }
-		command = { trigger = { flag = inherit_U16 } type = clrflag which = inherit_U16 }
-		command = { trigger = { flag = inherit_U17 } type = inherit which = U17 }
-		command = { trigger = { flag = inherit_U17 } type = clrflag which = inherit_U17 }
-		command = { trigger = { flag = inherit_U18 } type = inherit which = U18 }
-		command = { trigger = { flag = inherit_U18 } type = clrflag which = inherit_U18 }
-		command = { trigger = { flag = inherit_U19 } type = inherit which = U19 }
-		command = { trigger = { flag = inherit_U19 } type = clrflag which = inherit_U19 }
-		command = { trigger = { flag = inherit_U20 } type = inherit which = U20 }
-		command = { trigger = { flag = inherit_U20 } type = clrflag which = inherit_U20 }
-		command = { trigger = { flag = inherit_U21 } type = inherit which = U21 }
-		command = { trigger = { flag = inherit_U21 } type = clrflag which = inherit_U21 }
-		command = { trigger = { flag = inherit_U22 } type = inherit which = U22 }
-		command = { trigger = { flag = inherit_U22 } type = clrflag which = inherit_U22 }
-		command = { trigger = { flag = inherit_U26 } type = inherit which = U26 }
-		command = { trigger = { flag = inherit_U26 } type = clrflag which = inherit_U26 }
-		command = { trigger = { flag = inherit_U27 } type = inherit which = U27 }
-		command = { trigger = { flag = inherit_U27 } type = clrflag which = inherit_U27 }
-		command = { trigger = { flag = inherit_U28 } type = inherit which = U28 }
-		command = { trigger = { flag = inherit_U28 } type = clrflag which = inherit_U28 }
-		command = { trigger = { flag = inherit_U29 } type = inherit which = U29 }
-		command = { trigger = { flag = inherit_U29 } type = clrflag which = inherit_U29 }
-		command = { trigger = { flag = inherit_U30 } type = inherit which = U30 }
-		command = { trigger = { flag = inherit_U30 } type = clrflag which = inherit_U30 }
-		command = { trigger = { flag = inherit_U31 } type = inherit which = U31 }
-		command = { trigger = { flag = inherit_U31 } type = clrflag which = inherit_U31 }
-		command = { trigger = { flag = inherit_U32 } type = inherit which = U32 }
-		command = { trigger = { flag = inherit_U32 } type = clrflag which = inherit_U32 }
-		command = { trigger = { flag = inherit_U33 } type = inherit which = U33 }
-		command = { trigger = { flag = inherit_U33 } type = clrflag which = inherit_U33 }
-		command = { trigger = { flag = inherit_U34 } type = inherit which = U34 }
-		command = { trigger = { flag = inherit_U34 } type = clrflag which = inherit_U34 }
-		command = { trigger = { flag = inherit_U35 } type = inherit which = U35 }
-		command = { trigger = { flag = inherit_U35 } type = clrflag which = inherit_U35 }
-		
-
-		command = { trigger = { alliance = { country = TUR } } type = trigger which = 2003060 } #Turkey earns its dividends
-		command = { type = belligerence which = GER value = -10 }
-		command = { trigger = { alliance = { country = ROM country = GER } } type = secederegion which = ROM value = "Romania" }
-		command = { trigger = { alliance = { country = FIN country = GER } } type = secederegion which = FIN value = "Finland" }
-		
-		command = { type = secedeprovince which = U42 value = 7313 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 1847 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 2368 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 7309 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 7246 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 7310 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 7311 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 3435 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 1857 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 1837 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 1849 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 3438 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 1844 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 3439 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 3437 	when = 2 }
-		command = { type = secedeprovince which = U42 value = 3436 	when = 2 }
-	}
-}
 
 
 #########################################################################
-#  Compromise peace with the Germans
+#  Compromise peace with the Germans if both are exhausted
 #########################################################################
 event = {
 	id = 2007200
@@ -4490,38 +4324,38 @@ event = {
 		command = { type = secedeprovince 	which = IRQ value = 6499		when = 2 } 
 		command = { type = secedeprovince 	which = IRQ value = 1822		when = 2 } 
 		
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 1481		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 1482		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 1483		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 1494		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 2824		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 2825		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 2826		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 2827		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 2833		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5353		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5354		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5355		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5356		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5357		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5358		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5359		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5360		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5361		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5362		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5363		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5364		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5365		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5366		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5367		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5368		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5369		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5370		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5371		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5372		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5373		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5378		when = 2 } 
-		command = { trigger = { flag = JapAxis } type = secedeprovince 	which = AFG value = 5341		when = 2 }
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 1481		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 1482		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 1483		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 1494		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 2824		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 2825		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 2826		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 2827		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 2833		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5353		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5354		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5355		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5356		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5357		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5358		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5359		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5360		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5361		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5362		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5363		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5364		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5365		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5366		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5367		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5368		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5369		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5370		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5371		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5372		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5373		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5378		when = 2 } 
+		command = { trigger = { flag = JapAxis puppet = { country = ENG } } type = secedeprovince 	which = AFG value = 5341		when = 2 }
 
 		command = { type = secederegion 	which = SPA value = "Morocco"		when = 2 }
 		command = { type = secedearea 		which = PER value = "South Persia" 	when = 2 }
@@ -4608,12 +4442,12 @@ event = {
 		command = { type = addclaim  			which = 6918		}
 		
 		
-		command = { type = secederegion		which = ITA value = "Ethiopia" 		when = 2 }
-		command = { type = secederegion		which = ITA value = "Libya" 		when = 2 }
-		command = { type = secederegion		which = ITA value = "Tunisia" 		when = 2 }
-		command = { type = secedearea 		which = ITA value = "Palestine" 	when = 2 }
-		command = { type = secedearea 		which = ITA value = "Transjordan"	when = 2 }
-		command = { type = secedearea 		which = ITA value = "Somalia"		when = 2 }
+		command = { 								type = secederegion		which = ITA value = "Ethiopia" 		when = 2 }
+		command = { 								type = secederegion		which = ITA value = "Libya" 		when = 2 }
+		command = { 								type = secederegion		which = ITA value = "Tunisia" 		when = 2 }
+		command = { 								type = secedearea 		which = ITA value = "Somalia"		when = 2 }
+		command = { trigger = { ispuppet = ENG }	type = secedearea 		which = ITA value = "Palestine" 	when = 2 }
+		command = { trigger = { ispuppet = ENG }	type = secedearea 		which = ITA value = "Transjordan"	when = 2 }
 	
 		command = { trigger = { OR = { NOT = { exists = ALB } AND = { ispuppet = ALB NOT = { puppet = { country = ALB } } } } } type = local_setflag which = makePuppet }
 		command = { trigger = { local_flag = makePuppet NOT = { exists = ALB } }	type = secedeprovince 	which = -3	value = 5466 when = 2 }
@@ -4732,7 +4566,7 @@ event = {
 	trigger = {
 		OR = {
 			event = 2001095 #UK surrender
-			NOT = { region = { region = "England"  country = ENG value = 1 } }
+			NOT = { region = { region = "England"  country = ENG value = 3 } }
 		}
 		OR = {
 			event = 2007311 #Soviet surrender
@@ -4842,7 +4676,9 @@ event = {
 			puppet = { country = VIC country = GER }
 		}
 		OR = {
+			event = 2001252 #ENG peace
 			puppet = { country = ENG country = GER }
+			NOT = { exists = ENG }
 			AND = {
 				control = { province = 19 	data = -2 } # London
 				region = { region = "England"  country = -2 value = 70 }
@@ -4850,7 +4686,8 @@ event = {
 			}
 		}
 		OR = {
-			event = 2007033 #bitter peace
+			event = 2007033 #SOV bitter peace
+			NOT = { exists = SOV }
 			AND = {
 				NOT = { control = { province = 175 	data = SOV } } # Moscow
 				NOT = { control = { province = 163 	data = SOV } } # Stalingrad
@@ -4862,7 +4699,7 @@ event = {
 			AND = {
 				OR = { 
 					NOT = { war = { country = CHI country = JAP } }
-					flag = { which = japChi when = 1	value = 55 }
+					flag = { which = japChi when = 1	value = 45 }
 				}
 				region = { region = "Philippines"	country = -2 value = 70 }
 				region = { region = "Indonesia"		country = -2 value = 70 }
@@ -5465,6 +5302,7 @@ event = {
 		event = 2049300
 		NOT = { 
 			ispuppet = USA
+			ispuppet = JAP
 			alliance = { country = USA country = GER }
 			alliance = { country = USA country = JAP }
 			alliance = { country = GER country = JAP }
