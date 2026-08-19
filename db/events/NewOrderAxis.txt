@@ -63,13 +63,13 @@ event = {
 		}
 	}
 	
-	name = "EVT_2624_NAME"
-	desc = "EVT_2624_DESC"
+	name = "EVT_2007032_NAME"
+	desc = "EVT_2007032_DESC"
 	style = 2
 	picture = "news_paper"
 	
 	date = { day = 0 month = january year = 1936 }
-	offset = 10 # Check for trigger conditions every ten days
+	offset = 10
 	deathdate = { day = 29 month = december year = 1963 }
 	
 	action = {
@@ -94,7 +94,9 @@ event = {
 	action = {
 		name = "ACTIONNAME2024B" # No peace with the bolsheviks!
 		ai_chance = 99
+		command = { type = dissent value = -0.5 } #Stalin looks desperate
 		command = { type = belligerence value = 5 }
+		
 		command = { type = sleepevent which = 2007033 } #Bitter Peace
 		
 		command = { type = trigger which = 2007325 } #Percentages Agreement/Yalta Conference (Axis Version)
@@ -113,14 +115,15 @@ event = {
 	random = no
 	country = SOV
 	
-	name = "EVT_2625_NAME"
-	desc = "EVT_2625_DESC"
+	name = "EVT_2007033_NAME"
+	desc = "EVT_2007033_DESC"
 	style = 2
 	picture = "news_paper"
 
     action = {
         name = ACTION_NAME_OK
 		command = { type = leave_alliance when = 0 }
+		command = { type = dissent value = 10 }
 		command = { type = peace which = GER value = 1 }
 		command = { type = peace which = JAP value = 1 }
 		command = { type = access which = GER }
@@ -137,7 +140,6 @@ event = {
 		command = { trigger = { alliance = { country = GER country = TUR } } type = access which = TUR }
 		
 		
-		command = { type = dissent value = -3 }
 		command = { type = event which = 2003113 where = SOV when = 0 }
 	}
 }
@@ -148,8 +150,8 @@ event = {
 	random = no
 	country = SOV
 	
-	name = "EVT_2625_NAME"
-	desc = "EVT_2625_DESC"
+	name = "EVT_2003113_NAME"
+	desc = "EVT_2003113_DESC"
 	style = 2
 	picture = "news_paper"
 
@@ -158,6 +160,12 @@ event = {
         command = { type = secederegion which = JAP value = Japan when = 1 }
 		command = { type = secederegion which = JAP value = Korea when = 1 }
 		command = { type = secederegion which = JAP value = China when = 1 }
+		
+		command = { type = demobilize which = armor 			when = 0 where = 0 value = 10  }
+		command = { type = demobilize which = light_armor 		when = 0 where = 0 value = 10  }
+		command = { type = demobilize which = infantry			when = 0 where = 0 value = 400 }
+		
+		command = { type = demobilize which = land	 			when = 0 where = 0 value = 500 }
 
 		#Will auto-neutral
 		command = { trigger = { puppet = { country = SIK country = SOV } } type = end_mastery which = SIK }
@@ -594,7 +602,7 @@ event = {
 	
 	action = {
 		name = "EVT_2400552_ACTA"
-		#Allies only
+		#Axis only
 		trigger = { OR = { war = { country = SOV } war = { country = ENG } alliance = { country = JAP } alliance = { country = GER } alliance = { country = ITA } } local_flag = AllInit }
 		
 		command = { type = relation which = GER value = 5 }
@@ -1146,8 +1154,8 @@ event = {
     random = no
     country = SOV
     
-	name = "Anti-Stalin coup"
-	desc = "Despite all the purges and thorough vetting of all party, state, and military officials, Stalin could ultimately only delay, but not prevent a coup in the final stages of the war. With the remnants of the Soviet army in total dissaray as the German and Japanese troops closing in on the last major hideouts of the Reds, the KGB led by Beria and backed by a number of prominent generals assasinated Stalin and improsoned Molotov. The new government then began negotiations for unconditional surrender with the Axis, hoping to end the pointless bloodshed and appeal to the more Slavophile elements of the German and Japanese establishment so as to preserve as much as possible of the Russian people. Our people have endured many catastrophes in their tragic history, including the brutal Mongol conquest followed by 250 of foreign rule. Surely, we will survive this defeat as well. But for now, we must strive to get in the enemy's good graces and to prove useful to their designs."
+    name = EVT_2007310_NAME
+	desc = EVT_2007310_DESC
 	style = 2
 
     trigger = {
@@ -1493,8 +1501,8 @@ event = {
     random = no
     tag = { GER }
     
-    name = EVT_2007311_NAME
-	desc = EVT_2007311_DESC
+    name = EVT_2007310_NAME
+	desc = EVT_2007310_DESC
     style = 2
 
     action = {
@@ -1620,7 +1628,7 @@ event = {
 	}
 	action = {
 		name = "ACTION_NAME_HURRAH"
-		#Minor Allies
+		#Minor Axis
 		trigger = { OR = { alliance = { country = GER } alliance = { country = JAP } war = { country = SOV } } NOT = { country = GER country = ITA country = JAP } local_flag = AllInit }
 		
 		command = { type = dissent	value = -1  }
@@ -1647,7 +1655,7 @@ event = {
 	}
 	action = {
 		name = EVT_2003290_ACTA
-		#Japan and whoever else is left
+		#Remaining Allies
 		trigger = { OR = { alliance = { country = SOV } war = { country = GER } war = { country = JAP } } }
 		
 		command = { type = dissent	  value = 1   }
@@ -3074,7 +3082,7 @@ event = {
 	}
 	action = {
 		name = "ACTION_NAME_HURRAH"
-		#Minor Allies
+		#Minor Axis
 		trigger = { OR = { alliance = { country = GER } war = { country = ENG } } NOT = { country = GER country = ITA country = JAP } local_flag = AllInit }
 		
 		command = { type = songs 	which = AxisVictory_OneVision.txt }
