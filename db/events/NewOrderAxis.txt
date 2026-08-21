@@ -2537,7 +2537,7 @@ event = {
 		name = EVT_2001251_ACTB	
 		ai_chance = 99
 		trigger = { OR = {	flag = ENG_invaded nuked = { country = ENG data = -2 } } } #nuked twice
-		command = { }
+		command = { type = dissent value = -0.5 } #Churchill looks desperate
 		command = { type = belligerence which = GER value = 20 }
 		command = { type = belligerence which = ENG value = -5 }
 	}
@@ -2555,7 +2555,7 @@ event = {
 		name = EVT_2001251_ACTB	
 		ai_chance = 1
 		trigger = { NOT = {	flag = ENG_invaded nuked = { country = ENG data = -2 } } } #nuked twice
-		command = { }
+		command = { type = dissent value = -0.5 } #Churchill looks desperate
 		command = { type = belligerence which = GER value = 20 }
 		command = { type = belligerence which = ENG value = -5 }
 	}
@@ -2573,48 +2573,56 @@ event = {
 
 	action = {
 		name = "ACTION_NAME_GREAT"
-		command = { type = remove_claim_region	which = "Germany"			where = ENG }
-		command = { type = remove_claim_region	which = "Austria"			where = ENG }
-		command = { type = remove_claim_region	which = "France"			where = ENG }
-		command = { type = remove_claim_region	which = "Benelux"			where = ENG }
-		command = { type = remove_claim_region	which = "Italy"				where = ENG }
-		command = { type = remove_claim_region	which = "Spain"				where = ENG }		
+		command = { type = remove_claim_region	which = "Germany"					where = ENG }
+		command = { type = remove_claim_region	which = "Austria"					where = ENG }
+		command = { type = remove_claim_region	which = "France"					where = ENG }
+		command = { type = remove_claim_region	which = "Benelux"					where = ENG }
+		command = { type = remove_claim_region	which = "Italy"						where = ENG }
+		command = { type = remove_claim_region	which = "Spain"						where = ENG }		
 		
 		
 		command = { trigger = { puppet = { country = POL } }						type = free_ic value = 5 }
 		
-		#command = { trigger = { puppet = { country = HOL } }						type = event			where = HOL which = 2400530 when = 0 } #indie
+		command = { trigger = { puppet = { country = HOL } }						type = event			where = HOL which = 2400530 when = 0 } #indie
 		#command = { trigger = { puppet = { country = BEL } }						type = event			where = BEL which = 2400530 when = 0 } #indie
 		#command = { trigger = { puppet = { country = U01 } }						type = event			where = U01 which = 2400530 when = 0 } #indie
 		command = { trigger = { puppet = { country = NOR } }						type = event			where = NOR which = 2400530 when = 0 } #indie
 		command = { trigger = { puppet = { country = U36 } }						type = event			where = U36 which = 2400530 when = 0 } #indie
-		command = { trigger = { puppet = { country = PER } }						type = event			where = PER which = 2400530 when = 0 } #indie
-		#command = { trigger = { puppet = { country = HOL } }						type = end_mastery		which = HOL }
+		#command = { trigger = { puppet = { country = PER } }						type = event			where = PER which = 2400530 when = 0 } #indie
+		command = { trigger = { puppet = { country = HOL } }						type = end_mastery		which = HOL }
 		#command = { trigger = { puppet = { country = BEL } }						type = end_mastery		which = BEL }
 		#command = { trigger = { puppet = { country = U01 } }						type = end_mastery		which = U01 }
 		command = { trigger = { puppet = { country = NOR } }						type = end_mastery		which = NOR }
-		command = { trigger = { puppet = { country = U36 } }						type = end_mastery		which = U36 }
-		command = { trigger = { puppet = { country = PER } }						type = end_mastery		which = PER }
+		command = { trigger = { puppet = { country = U36 } }						type = end_mastery		which = U36 } #DEI
+		command = { trigger = { puppet = { country = PER } }						type = end_mastery		which = PER } #will auto-neutral
 		
 		command = { trigger = { puppet = { country = POL country = ENG } } 			type = inherit which = POL }
-		command = { trigger = { puppet = { country = U01 country = ENG } NOT = { exists = VIC } }	type = inherit which = U01 }
-		command = { trigger = { puppet = { country = U01 } NOT = { alliance = { country = VIC } } }	type = event which = 3143	where = U01 when = 0 }
+		command = { trigger = { puppet = { country = U01 } NOT = { exists = VIC } }	type = event which = 2002065 where = GER when = 1 } #GER annex Free France	
+		command = { trigger = { puppet = { country = U01 } exists = VIC }			type = event which = 2002065 where = VIC when = 1 } #VIC annex Free France	
+		
 		#command = { trigger = { puppet = { country = HOL country = ENG } } 		type = inherit which = HOL }
 		command = { trigger = { puppet = { country = BEL country = ENG } } 			type = inherit which = BEL }
 		command = { trigger = { puppet = { country = ETH country = ENG } } 			type = inherit which = ETH }
-		
+
+		command = { type = add_claim_area	which = "Uganda"						where = ENG }
+		command = { type = add_claim_area	which = "Kongolese Jungle"				where = ENG }
+		command = { type = add_claim_area	which = "Shaba"							where = ENG }
+		command = { type = addclaim			which = 2751							where = ENG }
+		command = { type = addclaim			which = 1095							where = ENG }
+
+
 		command = { type = end_trades which = ETH where = ENG }
 		command = { type = end_trades which = POL where = ENG }
 		command = { type = end_trades which = VIC where = ENG }
-		
-		
+
+
 		command = { type = leave_alliance 		when  =  1 }
 		command = { type = peace which = GER	value =  1 }
 		command = { type = dissent 				value = -1 }
-		
+
 		command = { type = set_relation		which = GER value = 0 }
 		command = { type = non_aggression 	which = GER where = ENG when = 3600 }
-		
+
 		command = { trigger = { NOT = { puppet = { country = EGY } } } 				type = local_setflag which = makePuppet }
 		command = { trigger = { local_flag = makePuppet NOT = { exists = EGY } }	type = secedeprovince	which = -3	value = 903 when = 2 }
 		command = { trigger = { local_flag = makePuppet }							type = independence		which = EGY value = 1 }
@@ -3346,7 +3354,8 @@ event = {
 	
 	action = {
 		name = ACTION_NAME_DAMN
-		command = { trigger = { exists = U01 } 				type = event			which = 2002065 where = VIC when = 0 } #VIC annex Free France	
+		command = { trigger = { puppet = { country = U01 } NOT = { exists = VIC } }	type = event which = 2002065 where = GER when = 0 } #GER annex Free France	
+		command = { trigger = { puppet = { country = U01 } exists = VIC }			type = event which = 2002065 where = VIC when = 0 } #VIC annex Free France	
 		
 		command = { 										type = remove_units 	where = REB value = "India"			which = all	when = 2 }
 		command = { 										type = remove_units 	where = REB value = "Burma"			which = all	when = 1 }
@@ -5121,24 +5130,24 @@ event = {
 		command = { type = secederegion which = GER value = "Horn of Africa" 		when = 1 }
 		command = { type = secederegion which = GER value = "North Solomon Islands" when = 1 }
 		
-		command = { trigger = { OR = { puppet = { country = HOL } alliance = { country = HOL } } type = inherit which = HOL value = 1 }
+		command = { trigger = { OR = { puppet = { country = HOL } alliance = { country = HOL } } } type = inherit which = HOL value = 1 }
 		
 		#Undo "destroyers for bases"
-		command = { trigger = { ispuppet = ENG }	type = remove_core_area		which = "New Foundland" where = USA }
-		command = { trigger = { ispuppet = ENG }	type = remove_claim_region	which = "Caribbean" 	where = USA }
-		command = { trigger = { ispuppet = ENG }	type = remove_claim_area 	which = "Guayana" 		where = USA }
+		command = { trigger = { NOT = { ispuppet = ENG } }		type = remove_core_area		which = "New Foundland" where = USA }
+		command = { trigger = { NOT = { ispuppet = ENG } }		type = remove_claim_region	which = "Caribbean" 	where = USA }
+		command = { trigger = { NOT = { ispuppet = ENG } }		type = remove_claim_area 	which = "Guayana" 		where = USA }
 		
-		command = { trigger = { ispuppet = ENG }	type = secederegion 		value = "Eastern Canada" which = ENG when = 1 }
-		command = { trigger = { ispuppet = ENG }	type = secederegion 		value = "Caribbean" 	 which = ENG when = 1 }
-		command = { trigger = { ispuppet = ENG }	type = secederegion 		value = "Grand Colombia" which = ENG when = 1 }
+		command = { trigger = { NOT = { ispuppet = ENG } }		type = secederegion 		value = "Eastern Canada" which = ENG when = 1 }
+		command = { trigger = { NOT = { ispuppet = ENG } }		type = secederegion 		value = "Caribbean" 	 which = ENG when = 1 }
+		command = { trigger = { NOT = { ispuppet = ENG } }		type = secederegion 		value = "Grand Colombia" which = ENG when = 1 }
 		
-		command = { trigger = { ispuppet = ENG }	type = addcore				which = 894				where = USA } #Guantanamo
-		command = { trigger = { ispuppet = ENG }	type = addcore				which = 794				where = USA } #US VI
-		command = { trigger = { ispuppet = ENG }	type = addclaim				which = 895				where = USA } #Puerto Rico
+		command = { trigger = { NOT = { ispuppet = ENG } }		type = addcore				which = 894				where = USA } #Guantanamo
+		command = { trigger = { NOT = { ispuppet = ENG } }		type = addcore				which = 794				where = USA } #US VI
+		command = { trigger = { NOT = { ispuppet = ENG } }		type = addclaim				which = 895				where = USA } #Puerto Rico
 				
-		command = { trigger = { ispuppet = ENG }	type = secedeprovince		value = 894 when = 2 	which = USA }
-		command = { trigger = { ispuppet = ENG }	type = secedeprovince		value = 794 when = 2 	which = USA }
-		command = { trigger = { ispuppet = ENG }	type = secedeprovince		value = 895 when = 2 	which = USA }
+		command = { trigger = { NOT = { ispuppet = ENG } }		type = secedeprovince		value = 894 when = 2 	which = USA }
+		command = { trigger = { NOT = { ispuppet = ENG } }		type = secedeprovince		value = 794 when = 2 	which = USA }
+		command = { trigger = { NOT = { ispuppet = ENG } }		type = secedeprovince		value = 895 when = 2 	which = USA }
 		
 		command = { type = domestic		which = political_left value = -1 }
 		
