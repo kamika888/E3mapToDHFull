@@ -7,7 +7,7 @@
 
 country =
 { tag                    = GER
-  ai_settings			 = { flags = { RESInit = 1 Depression = 6 ideology = 1 inDefault = 1 } }
+  ai_settings			 = { flags = { RESInit = 1 Depression = 6 ideology = 1 inDefault = 1 invest_infra = 1 } }
   dissent				 = 8
   belligerence			 = 4
   capital                = 300
