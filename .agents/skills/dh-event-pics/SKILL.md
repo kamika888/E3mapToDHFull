@@ -26,14 +26,27 @@ This skill provides a streamlined tool and best practices for sourcing and proce
    ```bash
    python .agents/skills/dh-event-pics/scripts/process_event_pic.py "<IMAGE_URL_OR_FILE_TITLE>" "decision_<FILENAME_NO_EXT>" --decision
    ```
-   * For portrait/narrow source images requiring vertical alignment, pass `--crop-y` (0.0=top, 0.5=center/default, 1.0=bottom):
+   * For vertical portraits requiring top alignment, pass `--crop-y` (0.0=top, 0.5=center/default, 1.0=bottom):
    ```bash
-   python .agents/skills/dh-event-pics/scripts/process_event_pic.py "<URL_OR_TITLE>" "<NAME>" --crop-y 0.3
+   python .agents/skills/dh-event-pics/scripts/process_event_pic.py "<URL_OR_TITLE>" "<NAME>" --crop-y 0.05
+   ```
+   * For narrow portraits where cropping would cut off the chin or forehead, use `--pad`:
+   ```bash
+   python .agents/skills/dh-event-pics/scripts/process_event_pic.py "<URL_OR_TITLE>" "<NAME>" --pad
    ```
 4. **Reference:** Update the event/decision with `picture = "<FILENAME_NO_EXT>"` or `decision_picture = "decision_<FILENAME_NO_EXT>"`.
 5. **Visual Verification:** 
    - Visually inspect generated BMPs using `view_file` or generate a local HTML inspection gallery (`gallery.html`) to ensure correct composition, no head-clipping, and authentic period feel.
    - Verify BMP file exists in `gfx/events_pics/`, is uncompressed 24-bit BMP, and has exact dimensions (**400×232** for events, **224×48** for decisions).
+
+## Best Practices & Composition Guidelines
+
+- **Portraits & Aspect Ratio (400×232 = ~1.72:1):**
+  - Avoid tight headshots or extreme close-ups, as a wide landscape slice through a narrow face will cut off either the forehead or the chin.
+  - Prefer medium/half-length shots, seated poses at desks, podium speeches, or environmental/press photographs with generous margin around the head.
+  - If only a narrow vertical portrait exists, use `--pad` to preserve the complete head and shoulders with a subtle neutral blurred backdrop instead of over-zooming.
+- **Historical Event Priority:** For death, resignation, or crisis events, prioritize photographs of actual historical moments (lying-in-state, funeral corteges, courtroom trials, treaty signings, crisis protests) over static individual portraits where they exist.
+- **Strict Subject Verification:** Verify names, dates, and historical roles to avoid confusing historical figures with modern namesakes or similarly named landmarks/buildings.
 
 ## Technical Requirements
 
@@ -51,4 +64,4 @@ This skill provides a streamlined tool and best practices for sourcing and proce
 Direct downloads from `upload.wikimedia.org` frequently trigger `HTTP 429: Too many requests`.
 - Pass Wikimedia titles directly (e.g. `File:Example.jpg`) to `process_event_pic.py`, which automatically queries the MediaWiki API for the pre-cached 800px edge thumbnail.
 - Always include a custom `User-Agent: DHModdingTool/1.0 (contact@email.com)` header.
-- Add a 0.5s–1.0s delay between sequential automated downloads.
+- Add a 1.0s–1.5s delay between sequential automated downloads.
