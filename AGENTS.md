@@ -18,6 +18,7 @@ When working on this project, do not assume that conventional programming-langua
 * Do not rewrite unrelated portions of files.
 * When modifying an existing feature, first identify how the existing feature works and which files control it.
 * Prefer existing working examples within this project over generic knowledge about Hearts of Iron II, Darkest Hour, or other Paradox games.
+* All modified files MUST be saved in `Latin-1` (`cp1252`) encoding.
 
 
 ## Understanding the Project
