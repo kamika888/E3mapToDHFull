@@ -4,6 +4,7 @@ import urllib.request
 import urllib.parse
 import json
 import io
+from PIL import Image, ImageOps
 from PIL import Image, ImageOps, ImageFilter
 
 HEADERS = {
@@ -35,6 +36,7 @@ def resolve_wikimedia_thumb(file_or_url, width=800):
             
     return file_or_url
 
+def process_image(image_src, output_path, template_path, is_decision=False, crop_y=0.5):
 def process_image(image_src, output_path, template_path, is_decision=False, crop_y=0.5, pad=False):
     # crop_y: 0.0 = crop from very top, 0.5 = center (default), 1.0 = crop from bottom
     if os.path.exists(image_src):
@@ -58,11 +60,17 @@ def process_image(image_src, output_path, template_path, is_decision=False, crop
         target_size = (400, 232)
         template_filename = 'template.png'
     
+    # Resize and crop with configurable vertical crop position
     w, h = img.size
     target_w, target_h = target_size
     target_aspect = target_w / target_h
     source_aspect = w / h
 
+    if source_aspect > target_aspect:
+        # Source wider than target: crop sides, keep full height
+        new_w = int(h * target_aspect)
+        left = (w - new_w) // 2
+        img = img.crop((left, 0, left + new_w, h))
     if pad and source_aspect < 1.1:
         # Scale to match target height, pad sides with darkened blurred background
         scaled_h = target_h
@@ -74,6 +82,13 @@ def process_image(image_src, output_path, template_path, is_decision=False, crop
         bg.paste(img_scaled, (left_paste, 0))
         img_final = bg
     else:
+        # Source taller/narrower: crop height with configurable vertical position
+        new_h = int(w / target_aspect)
+        max_offset = max(0, h - new_h)
+        top_offset = int(max_offset * crop_y)
+        img = img.crop((0, top_offset, w, top_offset + new_h))
+
+    img = img.resize(target_size, Image.Resampling.LANCZOS)
         if source_aspect > target_aspect:
             # Source wider than target: crop sides, keep full height
             new_w = int(h * target_aspect)
@@ -94,16 +109,21 @@ def process_image(image_src, output_path, template_path, is_decision=False, crop
         if template.size != target_size:
             template = template.resize(target_size)
         
+        img = img.convert('RGBA')
+        img.paste(template, (0, 0), template)
         img_final = img_final.convert('RGBA')
         img_final.paste(template, (0, 0), template)
     
     # Save as BMP
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    img.convert('RGB').save(output_path, 'BMP')
+    print(f"Successfully processed and saved to {output_path} ({target_size[0]}x{target_size[1]}) [crop_y={crop_y}]")
     img_final.convert('RGB').save(output_path, 'BMP')
     print(f"Successfully processed and saved to {output_path} ({target_size[0]}x{target_size[1]}) [crop_y={crop_y}, pad={pad}]")
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
+        print("Usage: python process_event_pic.py <URL|FILE_TITLE|LOCAL_PATH> <OUTPUT_NAME_NO_EXT> [--decision] [--crop-y 0.0-1.0]")
         print("Usage: python process_event_pic.py <URL|FILE_TITLE|LOCAL_PATH> <OUTPUT_NAME_NO_EXT> [--decision] [--crop-y 0.0-1.0] [--pad]")
         print("  --crop-y: vertical crop position (0.0=top, 0.5=center/default, 1.0=bottom)")
         print("  --pad: pad narrow portraits with blurred backdrop instead of cropping")
@@ -123,4 +143,5 @@ if __name__ == "__main__":
     output_path = os.path.join(workspace_root, 'gfx', 'events_pics', f"{output_name}.bmp")
     template_path = os.path.join(workspace_root, 'gfx', 'events_pics', 'template.png')
     
+    process_image(src, output_path, template_path, is_decision, crop_y=crop_y)
     process_image(src, output_path, template_path, is_decision, crop_y=crop_y, pad=pad)
