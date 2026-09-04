@@ -41,6 +41,10 @@ This skill provides a streamlined tool and best practices for sourcing and proce
 
 ## Best Practices & Composition Guidelines
 
+- **Authentic Historical B&W vs Modern Color Photos:**
+  - Modern photographs (especially modern color photos of parliaments, council chambers, government buildings, modern tourist crowds, or restored artifacts) MUST NOT be used to represent historical elections or events.
+  - Prioritize authentic black-and-white historical photographs, newsreels, contemporary campaign posters, and archival documents from the relevant era (1930s–1950s).
+  - Thoroughly check colored imagery: unless it is verified contemporary color photography/propaganda from the 1930s-1950s (e.g. Agfacolor/Kodachrome), color photos may be modern and should be avoided.
 - **Portraits & Aspect Ratio (400x232 = ~1.72:1):**
   - Avoid tight headshots or extreme close-ups, as a wide landscape slice through a narrow face will cut off either the forehead or the chin.
   - Prefer medium/half-length shots, seated poses at desks, podium speeches, or environmental/press photographs with generous margin around the head.
@@ -64,4 +68,4 @@ This skill provides a streamlined tool and best practices for sourcing and proce
 Direct downloads from `upload.wikimedia.org` frequently trigger `HTTP 429: Too many requests`.
 - Pass Wikimedia titles directly (e.g. `File:Example.jpg`) to `process_event_pic.py`, which automatically queries the MediaWiki API for the pre-cached 800px edge thumbnail.
 - Always include a custom `User-Agent: DHModdingTool/1.0 (contact@email.com)` header.
-- Add a 1.0s–1.5s delay between sequential automated downloads.
+- Add a 1.0 - 1.5s delay between sequential automated downloads.
