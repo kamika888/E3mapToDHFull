@@ -1,405 +1,3 @@
-########################################
-# Armistice at Compiègne/Rethondes 1940
-########################################
-event = {
-	id = 2002004
-	random = no
-	country = VIC
-	style = 2
-	save_date = yes
-
-	trigger = {
-		war = { country = GER } 
-		lost_national = { country = VIC value = 5 } 
-		control = { province = 56 data = -2 } #paris lost
-		OR = { 
-			region = { region = "France" country = -2 data = 1 value = 50 } 
-			#Army destroyed
-			NOT = { land_percentage = { country = GER value = 0.4 } }
-			#Significant army group encircled at the maginot line
-			AND = { 
-				lost_national = { country = VIC value = 20 } 
-				control = { province = 3172	data = -2 } 
-				control = { province = 841	data = -2 } 
-				control = { province = 317	data = -2 } 
-				control = { province = 1643	data = -2 } 
-				control = { province = 73	data = -3 } 
-				garrison = { province = 73 	country = -3 type = land size = 25 area = yes }
-			}
-        }
-	}
-
-	date = { day = 0 month = january year = 1936 }
-	offset = 6
-	deathdate = { day = 29 month = december year = 1963 }
-
-	name = "EVT_2002004_NAME" #It is done!
-	desc = "EVT_2002004_DESC"
-
-	action = {
-		name = "EVT_2002004_ACTA"
-		command = { trigger = { control = { province = 59 data = VIC } } type = capital which = 59 } # Bordeaux - France +
-		#command = { type = dissent value = 10 }
-
-		#Petain government of 16 June under Lebrun (in case Fall of Paris did not fire)
-		command = { type = headofgovernment 		which = 5197 } #Petain (SC)
-		command = { type = foreignminister 			which = 5190 } #Baudouin (SC)
-		command = { type = ministerofintelligence 	which = 5412 } #Louis Rivet (ML)
-		command = { type = ministerofsecurity		which = 5413 } #Charles Pomaret (SD)
-		command = { type = armamentminister 		which = 5416 } #Yves Bouthillier (ML)
-		command = { type = chiefofstaff 			which = 5007 } #Weygand (PA) (as "Minister of National Defense")
-		command = { type = chiefofarmy 				which = 5415 } #Louis Colson (ML) (as "Minister of War")
-		command = { type = chiefofnavy 				which = 5009 } #Darlan (PA)
-		command = { type = chiefofair 				which = 5414 } #Bertrand Pujo (ML)
-
-		command = { type = trigger which = 2003001 }
-	} 
-}
-
-event = {
-	id = 2003001
-	random = no
-	country = GER
-	style = 2
-
-	name = "EVT_2003001_NAME" # France inquires about the conditions of armistice
-	desc = "EVT_2002004_DESC" # Same as French
-
-	action = {
-        ai_chance = 100
-		name = "EVT_2003001_ACTA" # Let us claim a historical partition
-		command = { type = setflag which = Rethondes2 } # North coast + Paris + Loire + Atlantic Coast
-
-		command = { type = event which = 2002006 where = VIC when = 2 } 
-    } 
-	action = {
-        ai_chance = 0
-		name = "EVT_2003001_ACTB" # Let us claim Paris and the north
-		command = { type = setflag which = Rethondes1 } # North coast + Paris
-		command = { type = belligerence which = GER value = -2 }
-		command = { type = dissent value = 2 } #a bit too lenient
-
-		command = { type = event which = 2002006 where = VIC when = 2 } 
-    } 
-	action = {
-        ai_chance = 0
-		name = "EVT_2003001_ACTC" # We want only unconditional surrender
-		command = { type = belligerence which = GER value = 10 }
-		command = { type = belligerence which = ENG value = -2 }
-		command = { type = belligerence which = SOV value = -2 }
-		command = { type = dissent value = 2 } #a bit too harsh
-    } 
-}
-##############################################
-# French decision
-##############################################
-event = {
-	id = 2002006
-	random = no
-	country = VIC
-	style = 2
-
-	name = EVT_2002006_NAME
-	desc = EVT_2002006_DESC
-
-	action = { 
-        trigger = { flag = Rethondes1 }
-        ai_chance = 100
-		name = EVT_2002006_ACTA
-		command = { type = secederegion which = -1 value = "France" when = 1 } 
-		command = { type = dissent value = 5 }
-		
-		command = { type = leave_alliance when = 1 }
-		command = { type = peace which = GER value = 1 }
-		command = { type = access which = GER }
-		command = { type = access which = ENG }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = access which = ITA }
-		command = { trigger = { alliance = { country = GER country = SPA } } type = access which = SPA }
-		
-	    command = { type = secederegion which = GER value = "Benelux" when = 1 }
-	    command = { type = secederegion which = GER value = "Germany" when = 1 }	
-		
-		command = { type = event which = 2400009 where = VIC when = 0 } #frontLeader no
-		command = { type = event which = 2401502 where = VIC when = 0 } #noExpGermany
-		command = { type = event which = 2400040 where = VIC when = 0 } #Exp_0
-		command = { type = event which = 2002007 where = GER when = 2 } #The armistice of Rethondes
-    } 
-	action = {
-        trigger = { flag = Rethondes2 }
-        ai_chance = 99
-		name = EVT_2002006_ACTB
-		command = { type = secederegion which = -1 value = "France" when = 1 } 
-		command = { type = dissent value = 10 }
-		
-		command = { type = leave_alliance when = 1 }
-		command = { type = peace which = GER value = 1 }
-		command = { type = access which = GER }
-		command = { type = access which = ENG }
-		command = { trigger = { alliance = { country = GER country = ITA } } type = access which = ITA }
-		command = { trigger = { alliance = { country = GER country = SPA } } type = access which = SPA }
-		
-	    command = { type = secederegion which = GER value = "Benelux" when = 1 }
-	    command = { type = secederegion which = GER value = "Germany" when = 1 }	
-		
-		
-		command = { type = event which = 2400009 where = VIC when = 0 } #frontLeader no
-		command = { type = event which = 2401502 where = VIC when = 0 } #noExpGermany
-		command = { type = event which = 2400040 where = VIC when = 0 } #Exp_0
-		command = { type = event which = 2002007 where = GER when = 2 } #The armistice of Rethondes
-    } 
-	action = {
-        trigger = { flag = Rethondes1 }
-        ai_chance = 0
-		name = "EVT_2002006_ACTC" # France fights on
-		command = { type = dissent value = 35 }
-		command = { type = capital which = 949 } # Alger - Algeria
-        command = { type = secedeprovince which = GER value = 72 when = 2 } # Strasbourg - France
-        command = { type = secedeprovince which = GER value = 73 when = 2 } # Metz - France
-        command = { type = secedeprovince which = GER value = 316 when = 2 } # Colmar - France
-		command = { type = trigger which = 2002020 } #French Fleet Seized
-		command = { type = remove_division which = 13500 value = 132 } #Courbet - Battleship 3
-        command = { type = remove_division which = 13500 value = 133 } #Paris - Battleship 3
-        command = { type = remove_division which = 13500 value = 136 } #Pluton - Light Cruiser 4
-        command = { type = remove_division which = 13500 value = 137 } #Jeanne d'Arc - Light Cruiser 4
-		command = { type = remove_division which = 13500 value = 139 } #4ème Flottille de Contre-Torpilleurs - Destroyer 1
-		command = { type = remove_division which = 13500 value = 138 } #5ème Flottille de Contre-Torpilleurs - Destroyer 1
-		command = { type = remove_division which = 13500 value = 150 } #1ère Flottille de Sous-Marins - Submarine 6
-		command = { type = remove_division which = 13500 value = 151 } #2ème Flottille de Sous-Marins - Submarine 6
-		command = { type = remove_division which = 13500 value = 120 } #1ère Flottille de Convoi - Transport 1
-		command = { type = remove_division which = 13500 value = 115 } #2ème Flottille de Convoi - Transport 2
-		
-		command = { type = clrflag which = Rethondes1 }
-    }
-	action = {
-        trigger = { flag = Rethondes2 }
-        ai_chance = 1
-		name = "EVT_2002006_ACTC" # France fights on
-		command = { type = dissent value = 30 }
-		command = { type = capital which = 949 } # Alger - Algeria +
-        command = { type = secedeprovince which = GER value = 72 when = 2 } # Strasbourg - France
-        command = { type = secedeprovince which = GER value = 73 when = 2 } # Metz - France
-        command = { type = secedeprovince which = GER value = 316 when = 2 } # Colmar - France
-		command = { type = trigger which = 2002020 } #French Fleet Seized
-		command = { type = remove_division which = 13500 value = 132 } #Courbet - Battleship 3
-        command = { type = remove_division which = 13500 value = 133 } #Paris - Battleship 3
-        command = { type = remove_division which = 13500 value = 136 } #Pluton - Light Cruiser 4
-        command = { type = remove_division which = 13500 value = 137 } #Jeanne d'Arc - Light Cruiser 4
-		command = { type = remove_division which = 13500 value = 139 } #4ème Flottille de Contre-Torpilleurs - Destroyer 1
-		command = { type = remove_division which = 13500 value = 138 } #5ème Flottille de Contre-Torpilleurs - Destroyer 1
-		command = { type = remove_division which = 13500 value = 150 } #1ère Flottille de Sous-Marins - Submarine 6
-		command = { type = remove_division which = 13500 value = 151 } #2ème Flottille de Sous-Marins - Submarine 6
-		command = { type = remove_division which = 13500 value = 120 } #1ère Flottille de Convoi - Transport 1
-		command = { type = remove_division which = 13500 value = 115 } #2ème Flottille de Convoi - Transport 2
-		
-		command = { type = clrflag which = Rethondes2 }
-    } 
-}
-
-event = {
-	id = 2002007
-	random = no
-	country = GER
-	style = 2
-
-	name = "EVT_2002007_NAME" #The armistice of Rethondes
-	desc = "EVT_2002007_DESC"
-
-	action = { trigger = { flag = Rethondes1 }
-		name = ACTION_NAME_OK
-		command = { type = dissent value = -10 }
-		command = { type = dissent value = 2   }
-		
-		#possible problem: A puppet will ALWAYS agree to grant military access, if requested. In reality, Vichy was very iffy about letting Germans use their territory except in special cases.
-		#possible solution: auto-cancel military access? Also, you can apparently buy blueprints from puppets, but they will demand cash
-		command = { type = remove_claim_region which = "France" }
-		command = { type = make_puppet which = VIC }
-		command = { type = access  	   which = VIC }
-		command = { type = event which = 2400538 where = VIC when = 0 } #Relatively strong puppet
-		
-		command = { type = secederegion which = VIC value = "France" when = 1 } 
-		
-		command = { type = secedearea which = GER value = "Bourgogne_Champagne" when = 2 }
-	    command = { type = secedearea which = GER value = "Lorraine_Alsace" 	when = 2 }
-	    command = { type = secedearea which = GER value = "Pas de Calais" 		when = 2 }
-	    command = { type = secedearea which = GER value = "Paris" 				when = 2 }
-	    command = { type = secedearea which = GER value = "Normandy" 			when = 2 }
-	    command = { type = secedearea which = GER value = "Brittany" 			when = 2 }
-		
-		command = { type = secedearea which = VIC value = "Loire" 				when = 2 }
-		command = { type = secedearea which = VIC value = "Aquitaine" 			when = 2 }
-		command = { type = secedearea which = VIC value = "Alpes_Provence" 		when = 2 }
-		command = { type = secedearea which = VIC value = "Pyrenees_Languedoc" 	when = 2 }
-		command = { type = secedearea which = VIC value = "Limousin_Auvergne" 	when = 2 }
-		
-		command = { type = secedeprovince which = ENG value = 7131 				when = 2 } 
-		command = { type = secedeprovince which = ENG value = 1720 				when = 2 } 
-		
-        command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 366 when = 2 } # Nice +
-		command = { trigger = { alliance = { country = GER country = SPA } } type = secedeprovince which = SPA value = 326 when = 2 } # Bayonne +
-        #command = { trigger = { alliance = { country = GER country = SPA } } type = secedeprovince which = SPA value = 358 when = 2 } # Perpignan +
-        #command = { trigger = { region = { region = Tunisia country = ITA value = 70 } } type = secederegion which = ITA value = Tunisia when = 1 }
-		#move capital to Vichy
-		
-		#command = { type = ai_prepare_war which = SOV }
-		command = { type = event which = 2002008 where = VIC when = 0 } # L'Etat Français
-		
-		command = { type = event which = 2002021 where = ENG when = 2 } # Fate of the channel islands
-    } 
-
-	action = { trigger = { flag = Rethondes2 }
-		name = ACTION_NAME_OK
-		command = { type = dissent value = -10 }
-		
-		#possible problem: A puppet will ALWAYS agree to grant military access, if requested. In reality, Vichy was very iffy about letting Germans use their territory except in special cases.
-		#possible solution: auto-cancel military access? Also, you can apparently buy blueprints from puppets, but they will demand cash
-		command = { type = remove_claim_region which = "France" }
-		command = { type = make_puppet which = VIC }
-		command = { type = access  	   which = VIC }
-		command = { type = event which = 2400538 where = VIC when = 0 } #Relatively strong puppet
-		
-		command = { type = secederegion which = VIC value = "France" when = 1 } 
-		
-	    command = { type = secedearea which = GER value = "Bourgogne_Champagne" when = 2 }
-	    command = { type = secedearea which = GER value = "Lorraine_Alsace" 	when = 2 }
-	    command = { type = secedearea which = GER value = "Pas de Calais" 		when = 2 }
-	    command = { type = secedearea which = GER value = "Paris" 				when = 2 }
-	    command = { type = secedearea which = GER value = "Normandy" 			when = 2 }
-	    command = { type = secedearea which = GER value = "Brittany" 			when = 2 }
-		command = { type = secedearea which = GER value = "Loire" 				when = 2 }
-		command = { type = secedearea which = GER value = "Aquitaine" 			when = 2 }
-		
-		command = { type = secedearea which = VIC value = "Alpes_Provence" 		when = 2 }
-		command = { type = secedearea which = VIC value = "Pyrenees_Languedoc" 	when = 2 }
-		command = { type = secedearea which = VIC value = "Limousin_Auvergne" 	when = 2 }
-		
-		command = { type = secedeprovince which = ENG value = 7131 				when = 2 } 
-		command = { type = secedeprovince which = ENG value = 1720 				when = 2 } 
-		
-        command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 366 when = 2 } # Nice +
-		command = { trigger = { alliance = { country = GER country = SPA } } type = secedeprovince which = SPA value = 326 when = 2 } # Bayonne +
-        #command = { trigger = { alliance = { country = GER country = SPA } } type = secedeprovince which = SPA value = 358 when = 2 } # Perpignan +
-        #command = { trigger = { region = { region = Tunisia country = ITA value = 60 } } type = secederegion which = ITA value = Tunisia when = 2 }
-		
-		#command = { type = ai_prepare_war which = SOV }
-		command = { type = event which = 2002008 where = VIC when = 0 } # L'Etat Français
-		
-		command = { type = event which = 2002021 where = ENG when = 2 } # Fate of the channel islands
-    } 
-}
-
-event = {
-	id = 2002020
-	random = no
-	country = ITA
-	style = 2
-
-	name = "EVT_2002020_NAME" #French Fleet Seized
-	desc = "EVT_2002020_DESC" 
-
-	action = {
-		name = "ACTION_NAME_GREAT" #Great
-		command = { type = dissent value = -1 }
-		command = { type = add_division which = "Courbet"		value = battleship 		when = 2 }
-		command = { type = add_division which = "Paris"			value = battleship 		when = 2 }
-		command = { type = add_division which = "Pluton"		value = light_cruiser 	when = 5 }
-		command = { type = add_division which = "Jeanne d'Arc"	value = light_cruiser 	when = 4 }
-		command = { type = add_division 						value = destroyer 		when = 5 }
-		command = { type = add_division 						value = destroyer 		when = 5 }
-		command = { type = add_division 						value = submarine 		when = 5 }
-		command = { type = add_division							value = submarine 		when = 5 }
-		command = { type = add_division							value = transport 		when = 2 }
-		command = { type = add_division							value = transport 		when = 2 }
-    } 
-}
-
-event = {
-	id = 2002021
-	random = no
-	country = ENG
-	style = 2
-
-	name = EVT_2002021_NAME
-	desc = EVT_2002021_DESC
-
-	action = {
-		name = EVT_2002021_ACTA
-		ai_chance = 100
-		trigger = {
-			exists = U56
-			NOT = { war = { country = ENG country = U56 } }
-			NOT = { war = { country = GER country = U56 } }
-		}
-		command = { type = dissent value = 0.1 }
-		command = { type = belligerence value = -0.5 }
-		command = { trigger = { control = { province = 7131 data = -3 } } type = secedeprovince which = U56 value = 7131 				when = 2 } 
-		command = { trigger = { control = { province = 1720 data = -3 } } type = secedeprovince which = U56 value = 1720 				when = 2 } 
-		
-		command = { type = event which = 2002022 where = GER when = 1 }
-    } 
-	action = {
-		name = EVT_2002021_ACTB
-		ai_chance = 0
-		trigger = {
-			OR = {
-				control = { province = 7131 data = -3 }
-				control = { province = 1720 data = -3 }
-			}
-		}
-		command = { type = event which = 2002023 where = ENG when = 30 }
-    } 
-}
-
-event = {
-	id = 2002022
-	random = no
-	country = GER
-	style = 2
-
-	name = EVT_2002022_NAME
-	desc = EVT_2002022_DESC 
-
-	action = {
-		name = EVT_2002022_ACTA
-		command = { type = dissent value = -0.5 }
-		command = { type = secedeprovince which = GER value = 7131 	when = 2 } 
-		command = { type = secedeprovince which = GER value = 1720 	when = 2 } 
-    } 
-}
-
-event = {
-	id = 2002023
-	random = no
-	country = ENG
-	style = 2
-
-	name = EVT_2002023_NAME
-	desc = EVT_2002023_DESC 
-
-	action = {
-		name = EVT_2002023_ACTA
-		trigger = {
-			NOT = { garrison = { country = -3 province = 7131 type = land size = 3 area = 3 } }
-			NOT = { garrison = { country = -3 province = 1720 type = land size = 3 area = 3 } }
-		}
-		command = { type = dissent value = 2 }
-    } 
-}
-
-event = {
-	id = 2002024
-	random = no
-	country = REB
-	style = 2
-
-	name = "AI_EVENT"
-
-	action = {
-		command = { }
-		command = { type = secedeprovince which = ENG value = 1720 when = 2 }
-		command = { type = secedeprovince which = ENG value = 7131 when = 2 }
-    } 
-}
-
 #Paris open city
 
 event = {
@@ -564,6 +162,410 @@ event = {
     } 
 }
 
+########################################
+# French Surrender
+########################################
+event = {
+	id = 2002004
+	random = no
+	country = VIC
+	style = 2
+	save_date = yes
+
+	trigger = {
+		war = { country = GER } 
+		lost_national = { country = VIC value = 5 } 
+		control = { province = 56 data = -2 } #paris lost
+		OR = { 
+			region = { region = "France" country = -2 data = 1 value = 50 } 
+			#Army destroyed
+			NOT = { land_percentage = { country = GER value = 0.4 } }
+			#Significant army group encircled at the maginot line
+			AND = { 
+				lost_national = { country = VIC value = 20 } 
+				control = { province = 3172	data = -2 } 
+				control = { province = 841	data = -2 } 
+				control = { province = 317	data = -2 } 
+				control = { province = 1643	data = -2 } 
+				control = { province = 73	data = -3 } 
+				garrison = { province = 73 	country = -3 type = land size = 25 area = yes }
+			}
+        }
+	}
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 6
+	deathdate = { day = 29 month = december year = 1963 }
+
+	name = "EVT_2002004_NAME" #It is done!
+	desc = "EVT_2002004_DESC"
+
+	action = {
+		name = "EVT_2002004_ACTA"
+		command = { trigger = { control = { province = 59 data = VIC } } type = capital which = 59 } # Bordeaux - France +
+		#command = { type = dissent value = 10 }
+
+		#Petain government of 16 June under Lebrun (in case Fall of Paris did not fire)
+		command = { type = headofgovernment 		which = 5197 } #Petain (SC)
+		command = { type = foreignminister 			which = 5190 } #Baudouin (SC)
+		command = { type = ministerofintelligence 	which = 5412 } #Louis Rivet (ML)
+		command = { type = ministerofsecurity		which = 5413 } #Charles Pomaret (SD)
+		command = { type = armamentminister 		which = 5416 } #Yves Bouthillier (ML)
+		command = { type = chiefofstaff 			which = 5007 } #Weygand (PA) (as "Minister of National Defense")
+		command = { type = chiefofarmy 				which = 5415 } #Louis Colson (ML) (as "Minister of War")
+		command = { type = chiefofnavy 				which = 5009 } #Darlan (PA)
+		command = { type = chiefofair 				which = 5414 } #Bertrand Pujo (ML)
+
+		command = { type = trigger which = 2003001 }
+	} 
+}
+
+event = {
+	id = 2003001
+	random = no
+	country = GER
+	style = 2
+
+	name = "EVT_2003001_NAME" # France inquires about the conditions of armistice
+	desc = "EVT_2002004_DESC" # Same as French event
+
+	action = {
+        ai_chance = 100
+		name = "EVT_2003001_ACTA" # Let us claim a historical partition
+		command = { type = setflag which = Rethondes2 } # North coast + Paris + Loire + Atlantic Coast
+
+		command = { type = event which = 2002006 where = VIC when = 2 } 
+    } 
+	action = {
+        ai_chance = 0
+		name = "EVT_2003001_ACTB" # Let us claim Paris and the north
+		command = { type = setflag which = Rethondes1 } # North coast + Paris
+		command = { type = belligerence which = GER value = -2 }
+		command = { type = dissent value = 2 } #a bit too lenient
+
+		command = { type = event which = 2002006 where = VIC when = 2 } 
+    } 
+	action = {
+        ai_chance = 0
+		name = "EVT_2003001_ACTC" # We want only unconditional surrender
+		command = { type = belligerence which = GER value = 10 }
+		command = { type = belligerence which = ENG value = -2 }
+		command = { type = belligerence which = SOV value = -2 }
+		command = { type = dissent value = 2 } #a bit too harsh
+    } 
+}
+
+##############################################
+# French decision / Armistice of Rethondes
+##############################################
+event = {
+	id = 2002006
+	random = no
+	country = VIC
+	style = 2
+
+	name = EVT_2002006_NAME
+	desc = EVT_2002006_DESC
+
+	action = { 
+        trigger = { flag = Rethondes1 }
+        ai_chance = 100
+		name = EVT_2002006_ACTA
+		command = { type = secederegion which = -1 value = "France" when = 1 } 
+		command = { type = dissent value = 5 }
+		
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = GER value = 1 }
+		command = { type = access which = GER }
+		command = { type = access which = ENG }
+		command = { trigger = { alliance = { country = GER country = ITA } } type = access which = ITA }
+		command = { trigger = { alliance = { country = GER country = SPA } } type = access which = SPA }
+		
+	    command = { type = secederegion which = GER value = "Benelux" when = 1 }
+	    command = { type = secederegion which = GER value = "Germany" when = 1 }	
+		
+		command = { type = event which = 2400009 where = VIC when = 0 } #frontLeader no
+		command = { type = event which = 2401502 where = VIC when = 0 } #noExpGermany
+		command = { type = event which = 2400040 where = VIC when = 0 } #Exp_0
+		command = { type = event which = 2002007 where = GER when = 2 } #The armistice of Rethondes
+    } 
+	action = {
+        trigger = { flag = Rethondes2 }
+        ai_chance = 99
+		name = EVT_2002006_ACTB
+		command = { type = secederegion which = -1 value = "France" when = 1 } 
+		command = { type = dissent value = 10 }
+		
+		command = { type = leave_alliance when = 1 }
+		command = { type = peace which = GER value = 1 }
+		command = { type = access which = GER }
+		command = { type = access which = ENG }
+		command = { trigger = { alliance = { country = GER country = ITA } } type = access which = ITA }
+		command = { trigger = { alliance = { country = GER country = SPA } } type = access which = SPA }
+		
+	    command = { type = secederegion which = GER value = "Benelux" when = 1 }
+	    command = { type = secederegion which = GER value = "Germany" when = 1 }	
+		
+		
+		command = { type = event which = 2400009 where = VIC when = 0 } #frontLeader no
+		command = { type = event which = 2401502 where = VIC when = 0 } #noExpGermany
+		command = { type = event which = 2400040 where = VIC when = 0 } #Exp_0
+		command = { type = event which = 2002007 where = GER when = 2 } #The armistice of Rethondes
+    } 
+	action = {
+        trigger = { flag = Rethondes1 }
+        ai_chance = 0
+		name = "EVT_2002006_ACTC" # France fights on
+		command = { type = dissent value = 35 }
+		command = { type = capital which = 949 } # Alger - Algeria
+        command = { type = secedeprovince which = GER value = 72 when = 2 } # Strasbourg - France
+        command = { type = secedeprovince which = GER value = 73 when = 2 } # Metz - France
+        command = { type = secedeprovince which = GER value = 316 when = 2 } # Colmar - France
+		command = { type = trigger which = 2002020 } #French Fleet Seized
+		command = { type = remove_division which = 13500 value = 132 } #Courbet - Battleship 3
+        command = { type = remove_division which = 13500 value = 133 } #Paris - Battleship 3
+        command = { type = remove_division which = 13500 value = 136 } #Pluton - Light Cruiser 4
+        command = { type = remove_division which = 13500 value = 137 } #Jeanne d'Arc - Light Cruiser 4
+		command = { type = remove_division which = 13500 value = 139 } #4ème Flottille de Contre-Torpilleurs - Destroyer 1
+		command = { type = remove_division which = 13500 value = 138 } #5ème Flottille de Contre-Torpilleurs - Destroyer 1
+		command = { type = remove_division which = 13500 value = 150 } #1ère Flottille de Sous-Marins - Submarine 6
+		command = { type = remove_division which = 13500 value = 151 } #2ème Flottille de Sous-Marins - Submarine 6
+		command = { type = remove_division which = 13500 value = 120 } #1ère Flottille de Convoi - Transport 1
+		command = { type = remove_division which = 13500 value = 115 } #2ème Flottille de Convoi - Transport 2
+		
+		command = { type = clrflag which = Rethondes1 }
+    }
+	action = {
+        trigger = { flag = Rethondes2 }
+        ai_chance = 1
+		name = "EVT_2002006_ACTC" # France fights on
+		command = { type = dissent value = 30 }
+		command = { type = capital which = 949 } # Alger - Algeria +
+        command = { type = secedeprovince which = GER value = 72 when = 2 } # Strasbourg - France
+        command = { type = secedeprovince which = GER value = 73 when = 2 } # Metz - France
+        command = { type = secedeprovince which = GER value = 316 when = 2 } # Colmar - France
+		command = { type = trigger which = 2002020 } #French Fleet Seized
+		command = { type = remove_division which = 13500 value = 132 } #Courbet - Battleship 3
+        command = { type = remove_division which = 13500 value = 133 } #Paris - Battleship 3
+        command = { type = remove_division which = 13500 value = 136 } #Pluton - Light Cruiser 4
+        command = { type = remove_division which = 13500 value = 137 } #Jeanne d'Arc - Light Cruiser 4
+		command = { type = remove_division which = 13500 value = 139 } #4ème Flottille de Contre-Torpilleurs - Destroyer 1
+		command = { type = remove_division which = 13500 value = 138 } #5ème Flottille de Contre-Torpilleurs - Destroyer 1
+		command = { type = remove_division which = 13500 value = 150 } #1ère Flottille de Sous-Marins - Submarine 6
+		command = { type = remove_division which = 13500 value = 151 } #2ème Flottille de Sous-Marins - Submarine 6
+		command = { type = remove_division which = 13500 value = 120 } #1ère Flottille de Convoi - Transport 1
+		command = { type = remove_division which = 13500 value = 115 } #2ème Flottille de Convoi - Transport 2
+		
+		command = { type = clrflag which = Rethondes2 }
+    } 
+}
+
+event = {
+	id = 2002007
+	random = no
+	country = GER
+	style = 2
+
+	name = "EVT_2002006_NAME"
+	desc = "EVT_2002006_DESC"
+
+	action = { trigger = { flag = Rethondes1 }
+		name = ACTION_NAME_OK
+		command = { type = dissent value = -10 }
+		command = { type = dissent value = 2   }
+		
+		#possible problem: A puppet will ALWAYS agree to grant military access, if requested. In reality, Vichy was very iffy about letting Germans use their territory except in special cases.
+		#possible solution: auto-cancel military access? Also, you can apparently buy blueprints from puppets, but they will demand cash
+		command = { type = remove_claim_region which = "France" }
+		command = { type = make_puppet which = VIC }
+		command = { type = access  	   which = VIC }
+		command = { type = event which = 2400538 where = VIC when = 0 } #Relatively strong puppet
+		
+		command = { type = secederegion which = VIC value = "France" when = 1 } 
+		
+		command = { type = secedearea which = GER value = "Bourgogne_Champagne" when = 2 }
+	    command = { type = secedearea which = GER value = "Lorraine_Alsace" 	when = 2 }
+	    command = { type = secedearea which = GER value = "Pas de Calais" 		when = 2 }
+	    command = { type = secedearea which = GER value = "Paris" 				when = 2 }
+	    command = { type = secedearea which = GER value = "Normandy" 			when = 2 }
+	    command = { type = secedearea which = GER value = "Brittany" 			when = 2 }
+		
+		command = { type = secedearea which = VIC value = "Loire" 				when = 2 }
+		command = { type = secedearea which = VIC value = "Aquitaine" 			when = 2 }
+		command = { type = secedearea which = VIC value = "Alpes_Provence" 		when = 2 }
+		command = { type = secedearea which = VIC value = "Pyrenees_Languedoc" 	when = 2 }
+		command = { type = secedearea which = VIC value = "Limousin_Auvergne" 	when = 2 }
+		
+		command = { type = secedeprovince which = ENG value = 7131 				when = 2 } 
+		command = { type = secedeprovince which = ENG value = 1720 				when = 2 } 
+		
+        command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 366 when = 2 } # Nice +
+		command = { trigger = { alliance = { country = GER country = SPA } } type = secedeprovince which = SPA value = 326 when = 2 } # Bayonne +
+        #command = { trigger = { alliance = { country = GER country = SPA } } type = secedeprovince which = SPA value = 358 when = 2 } # Perpignan +
+        #command = { trigger = { region = { region = Tunisia country = ITA value = 70 } } type = secederegion which = ITA value = Tunisia when = 1 }
+		#move capital to Vichy
+		
+		#command = { type = ai_prepare_war which = SOV }
+		command = { type = event which = 2002008 where = VIC when = 0 } # L'Etat Français
+		
+		command = { type = event which = 2002021 where = ENG when = 2 } # Fate of the channel islands
+    } 
+
+	action = { trigger = { flag = Rethondes2 }
+		name = ACTION_NAME_OK
+		command = { type = dissent value = -10 }
+		
+		#possible problem: A puppet will ALWAYS agree to grant military access, if requested. In reality, Vichy was very iffy about letting Germans use their territory except in special cases.
+		#possible solution: auto-cancel military access? Also, you can apparently buy blueprints from puppets, but they will demand cash
+		command = { type = remove_claim_region which = "France" }
+		command = { type = make_puppet which = VIC }
+		command = { type = access  	   which = VIC }
+		command = { type = event which = 2400538 where = VIC when = 0 } #Relatively strong puppet
+		
+		command = { type = secederegion which = VIC value = "France" when = 1 } 
+		
+	    command = { type = secedearea which = GER value = "Bourgogne_Champagne" when = 2 }
+	    command = { type = secedearea which = GER value = "Lorraine_Alsace" 	when = 2 }
+	    command = { type = secedearea which = GER value = "Pas de Calais" 		when = 2 }
+	    command = { type = secedearea which = GER value = "Paris" 				when = 2 }
+	    command = { type = secedearea which = GER value = "Normandy" 			when = 2 }
+	    command = { type = secedearea which = GER value = "Brittany" 			when = 2 }
+		command = { type = secedearea which = GER value = "Loire" 				when = 2 }
+		command = { type = secedearea which = GER value = "Aquitaine" 			when = 2 }
+		
+		command = { type = secedearea which = VIC value = "Alpes_Provence" 		when = 2 }
+		command = { type = secedearea which = VIC value = "Pyrenees_Languedoc" 	when = 2 }
+		command = { type = secedearea which = VIC value = "Limousin_Auvergne" 	when = 2 }
+		
+		command = { type = secedeprovince which = ENG value = 7131 				when = 2 } 
+		command = { type = secedeprovince which = ENG value = 1720 				when = 2 } 
+		
+        command = { trigger = { alliance = { country = GER country = ITA } } type = secedeprovince which = ITA value = 366 when = 2 } # Nice +
+		command = { trigger = { alliance = { country = GER country = SPA } } type = secedeprovince which = SPA value = 326 when = 2 } # Bayonne +
+        #command = { trigger = { alliance = { country = GER country = SPA } } type = secedeprovince which = SPA value = 358 when = 2 } # Perpignan +
+        #command = { trigger = { region = { region = Tunisia country = ITA value = 60 } } type = secederegion which = ITA value = Tunisia when = 2 }
+		
+		#command = { type = ai_prepare_war which = SOV }
+		command = { type = event which = 2002008 where = VIC when = 0 } # L'Etat Français
+		
+		command = { type = event which = 2002021 where = ENG when = 2 } # Fate of the channel islands
+    } 
+}
+
+event = {
+	id = 2002020
+	random = no
+	country = ITA
+	style = 2
+
+	name = "EVT_2002020_NAME" #French Fleet Seized
+	desc = "EVT_2002020_DESC" 
+
+	action = {
+		name = "ACTION_NAME_GREAT" #Great
+		command = { type = dissent value = -1 }
+		command = { type = add_division which = "Courbet"		value = battleship 		when = 2 }
+		command = { type = add_division which = "Paris"			value = battleship 		when = 2 }
+		command = { type = add_division which = "Pluton"		value = light_cruiser 	when = 5 }
+		command = { type = add_division which = "Jeanne d'Arc"	value = light_cruiser 	when = 4 }
+		command = { type = add_division 						value = destroyer 		when = 5 }
+		command = { type = add_division 						value = destroyer 		when = 5 }
+		command = { type = add_division 						value = submarine 		when = 5 }
+		command = { type = add_division							value = submarine 		when = 5 }
+		command = { type = add_division							value = transport 		when = 2 }
+		command = { type = add_division							value = transport 		when = 2 }
+    } 
+}
+
+#Fate of the Channel Islands
+
+event = {
+	id = 2002021
+	random = no
+	country = ENG
+	style = 2
+
+	name = EVT_2002021_NAME
+	desc = EVT_2002021_DESC
+
+	action = {
+		name = EVT_2002021_ACTA
+		ai_chance = 100
+		trigger = {
+			exists = U56
+			NOT = { war = { country = ENG country = U56 } }
+			NOT = { war = { country = GER country = U56 } }
+		}
+		command = { type = dissent value = 0.1 }
+		command = { type = belligerence value = -0.5 }
+		command = { trigger = { control = { province = 7131 data = -3 } } type = secedeprovince which = U56 value = 7131 				when = 2 } 
+		command = { trigger = { control = { province = 1720 data = -3 } } type = secedeprovince which = U56 value = 1720 				when = 2 } 
+		
+		command = { type = event which = 2002022 where = GER when = 1 }
+    } 
+	action = {
+		name = EVT_2002021_ACTB
+		ai_chance = 0
+		trigger = {
+			OR = {
+				control = { province = 7131 data = -3 }
+				control = { province = 1720 data = -3 }
+			}
+		}
+		command = { type = event which = 2002023 where = ENG when = 30 }
+    } 
+}
+
+event = {
+	id = 2002022
+	random = no
+	country = GER
+	style = 2
+
+	name = EVT_2002022_NAME
+	desc = EVT_2002022_DESC 
+
+	action = {
+		name = EVT_2002022_ACTA
+		command = { type = dissent value = -0.5 }
+		command = { type = secedeprovince which = GER value = 7131 	when = 2 } 
+		command = { type = secedeprovince which = GER value = 1720 	when = 2 } 
+    } 
+}
+
+event = {
+	id = 2002023
+	random = no
+	country = ENG
+	style = 2
+
+	name = EVT_2002023_NAME
+	desc = EVT_2002023_DESC 
+
+	action = {
+		name = EVT_2002023_ACTA
+		trigger = {
+			NOT = { garrison = { country = -3 province = 7131 type = land size = 3 area = 3 } }
+			NOT = { garrison = { country = -3 province = 1720 type = land size = 3 area = 3 } }
+		}
+		command = { type = dissent value = 2 }
+    } 
+}
+
+event = {
+	id = 2002024
+	random = no
+	country = REB
+	style = 2
+
+	name = "AI_EVENT"
+
+	action = {
+		command = { }
+		command = { type = secedeprovince which = ENG value = 1720 when = 2 }
+		command = { type = secedeprovince which = ENG value = 7131 when = 2 }
+    } 
+}
 
 ##########################
 # L'Etat Français
@@ -576,12 +578,12 @@ event = {
 	style = 2
 	save_date = yes
 
-	name = "EVT_2002007_NAME" # L'Etat Français
-	desc = "EVT_2002007_DESC"
+	name = "EVT_2002008_NAME" # L'Etat Français
+	desc = "EVT_2002008_DESC"
 	picture = "Petain"
 
 	action = {
-		name = "2002008text"
+		name = "EVT_2002008_ACTA"
         #move capital to Vichy
 		#Can't use FRA tag for France - there is some kind of hardcoded bullshit which causes expeditionary AI to completely break if FRA is a puppet of GER but not allied. It works fine if FRA is changed to any other tag though.
 		#Also can't change FRA to VIC with `country` command because this causes game crash. So using VIC as tag from the beginning.
