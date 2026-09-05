@@ -584,7 +584,6 @@ event = {
 
 	action = {
 		name = "EVT_2002008_ACTA"
-        #move capital to Vichy
 		#Can't use FRA tag for France - there is some kind of hardcoded bullshit which causes expeditionary AI to completely break if FRA is a puppet of GER but not allied. It works fine if FRA is changed to any other tag though.
 		#Also can't change FRA to VIC with `country` command because this causes game crash. So using VIC as tag from the beginning.
 		#command = { type = country 		which = VIC   } 
@@ -981,6 +980,7 @@ event = {
 
 	name = EVT_2002032_NAME
 	desc = EVT_2002032_DESC 
+	picture = "Petain"
 
 	action = {
 		name = "ACTION_NAME_OK"
@@ -1125,19 +1125,22 @@ event = {
 	trigger = { 
 		random = 50 
 		event = { id = 2002008 days = 500  }
-		NOT = { alliance = { country = VIC country = ENG } } 
+		OR = {
+			puppet = { country = VIC country = GER }
+			alliance = { country = VIC country = GER }
 		}
+	}
 
 	date = { day = 0 month = january year = 1936 }
 	offset = 30
 	deathdate = { day = 29 month = december year = 1963 }
 
-	name = 21name
-	desc = 21desc
-	picture = "Petain"
+	name = "EVT_2002031_NAME"
+	desc = "EVT_2002031_DESC"
 
-	action = { name = ACTION_NAME_OK
-		command = { type = dissent value = -3 }
+	action = { 
+		name = ACTION_NAME_OK
+		command = { type = dissent value = -1 }
 		#techteam
 		command = { type = sleepteam which = 5018 } #1942
 		command = { type = sleepteam which = 5020 } #1942
@@ -1253,7 +1256,6 @@ event = {
 	random = no
 	country = VIC
 	style = 2
-	picture = "news_paper"
 
 	name = EVT_2002009_NAME
 	desc = "4061desc"
@@ -1280,7 +1282,6 @@ event = {
 	random = no
 	country = U01
 	style = 2
-	picture = "news_paper"
 
 	name = EVT_2002009_NAME
 	desc = "4061desc"
@@ -1335,7 +1336,6 @@ event = {
 	random = no
 	country = GER
 	style = 2
-	picture = "news_paper"
 
 	name = EVT_2002009_NAME
 	desc = "4061desc"
@@ -1470,7 +1470,6 @@ event = {
 	random = no
 	country = VIC
 	style = 2
-	picture = "news_paper"
 
 	name = "4067name"
 	desc = "4067desc"
@@ -1595,7 +1594,6 @@ event = {
 	random = no
 	country = U01
 	style = 2
-	picture = "news_paper"
 
 	name = "4067name"
 	desc = "4067desc"
@@ -1736,7 +1734,6 @@ event = {
 	name = EVT_2002049_NAME
 	desc = EVT_2002049_DESC
   	style = 2
-	picture = "Hendaya"
 	
 	action = {
 		name = ACTION_NAME_COUP_SUCCEEDS
@@ -1804,7 +1801,7 @@ event = {
 }
 
 #########################################################################
-#  Japan and the SE Asian Colonies of Vichy France
+#  Japan gains access to North Indochina
 #########################################################################
 event = { 
 	id = 2011040
@@ -1826,13 +1823,12 @@ event = {
 	offset = 3
 	deathdate = { day = 29 month = december year = 1963 }
 	
-	name = "EVT_3803_NAME"
-	desc = "EVT_3803_DESC"
-	picture = "Petain"
+	name = "EVT_2011040_NAME"
+	desc = "EVT_2011040_DESC"
 	style = 2
 	
 	action = {
-		name = EVT_2011040_ACTA # Demand French Indochine
+		name = EVT_2011040_ACTA
 		command = { type = relation which = VIC value = -20 }
 		command = { type = relation which = ENG value = -15 }
 		command = { type = relation which = USA value = -15 }
@@ -1841,15 +1837,14 @@ event = {
 		command = { type = trigger which = 2002010 }
 	}
 }
-#  Japan demands French Indochina
+
 event = {
 	id = 2002010
 	random = no
 	country = VIC
 
-	name = EVT_2002010_NAME
-	desc = EVT_2002010_DESC
-	picture = "Petain"
+	name = "EVT_2011040_NAME"
+	desc = "EVT_2011040_DESC" #Same as Japanese event
 	style = 2
 
 	action = {
@@ -1863,7 +1858,7 @@ event = {
 		command = { type = relation which = USA value = -15 }
 	}
 	action = {
-		trigger = { war = { country = VIC country = GER } }
+		trigger = { NOT = { puppet = { country = VIC country = GER } } }
 		name = "ACTION_NAME_REFUSE" # Refuse
 		ai_chance = 0
 		command = { type = dissent value = -4 }
@@ -1886,9 +1881,8 @@ event = {
 
    # Triggered by VIC 2002010
 
-	name = EVT_2002010_NAME
-	desc = EVT_2002010_DESC
-	picture = "Petain"
+	name = "EVT_2011040_NAME"
+	desc = "EVT_2011040_DESC" #Same as Japanese event
 	style = 2
 
 	action = {
@@ -1923,13 +1917,12 @@ event = {
 
 	# Triggered by VIC 2186001
 
-	name = EVT_2002010_NAME
-	desc = EVT_2186002_DESC
-	picture = "Petain"
+	name = "EVT_2002040_NAME" #Invasion of French Indochina
+	desc = "EVT_2011002_DESC"
 	style = 2
 
 	action = {
-		name = "ACTION_NAME_GREAT" # Accept
+		name = "ACTION_NAME_GREAT"
 		command = { type = belligerence value = 5 } 
 		
 		command = { type = addclaim which = 2949 } 
@@ -1966,27 +1959,6 @@ event = {
 }
 
 #########################################################################
-#  Vichy refuses our demands
-#########################################################################
-event = { 
-	id = 2011003
-	random = no
-	country = JAP
-	
-	# Triggered by VIC 2002010
-	
-	name = "EVT_3805_NAME"
-	desc = "EVT_3805_DESC"
-	picture = "Petain"
-	style = 2
-	
-	action = {
-		name = ACTION_NAME_OK # Curses!
-		command = { }
-	}
-}
-
-#########################################################################
 #  Franco-Thai war
 #########################################################################
 
@@ -2016,7 +1988,6 @@ event = {
 	
 	name = EVT_2002040_NAME
 	desc = EVT_2002040_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -2043,7 +2014,6 @@ event = {
 	
 	name = EVT_2002041_NAME
 	desc = EVT_2002041_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -2063,7 +2033,6 @@ event = {
 	
 	name = EVT_2002041_NAME
 	desc = EVT_2002041_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -2116,7 +2085,6 @@ event = {
 	
 	name = EVT_2002042_NAME
 	desc = EVT_2002042_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -2144,7 +2112,6 @@ event = {
 	
 	name = EVT_2002043_NAME
 	desc = EVT_2002043_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -2172,7 +2139,6 @@ event = {
 	
 	name = EVT_2002043_NAME
 	desc = EVT_2002043_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -2217,7 +2183,6 @@ event = {
 	
 	name = EVT_2002045_NAME
 	desc = EVT_2002045_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -2252,7 +2217,6 @@ event = {
 	
 	name = EVT_2002045_NAME
 	desc = EVT_2002045_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -2325,7 +2289,6 @@ event = {
 	
 	name = EVT_2002050_NAME
 	desc = EVT_2002050_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -2341,7 +2304,6 @@ event = {
 	
 	name = EVT_2002050_NAME
 	desc = EVT_2002050_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -2402,7 +2364,6 @@ event = {
 	
 	name = EVT_2002050_NAME
 	desc = EVT_2002050_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -2461,7 +2422,6 @@ event = {
 
 	name = EVT_2002050_NAME
 	desc = EVT_2002050_DESC
-	picture = "Petain"
 	style = 2
 
 	action = {
@@ -2486,7 +2446,6 @@ event = {
 	
 	name = EVT_2002054_NAME
 	desc = EVT_2002054_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -2527,12 +2486,11 @@ event = {
 
 	# Triggered by JAP 2011040
 
-	name = "EVT_3707_NAME"
-	desc = "EVT_3707_DESC"
+	name = "EVT_2002050_NAME"
+	desc = "EVT_2002050_DESC"
 	style = 2
-  	picture = "news_paper"
-
-	action_a = {
+  
+	action = {
 		name = ACTION_NAME_OK # The Japs are getting dangerous
 		command = { type = dissent value = -1 }
 		command = { type = relation which = JAP value = -10 }
@@ -2561,10 +2519,10 @@ event = {
 		command = { type = relation which = SOV value = -20 }
 		command = { type = relation which = VIC value = -50 }
 		
-		command = { 					type = unlock_division which = 13500 value = 2024 }
-		command = {  					type = unlock_division which = 13500 value = 2025 }
-		command = { 					type = unlock_division which = 13500 value = 2038 }
-		command = { 					type = unlock_division which = 13500 value = 2039 }
+		command = { type = unlock_division which = 13500 value = 2024 }
+		command = { type = unlock_division which = 13500 value = 2025 }
+		command = { type = unlock_division which = 13500 value = 2038 }
+		command = { type = unlock_division which = 13500 value = 2039 }
     } 
 }
 event = {
@@ -2730,7 +2688,6 @@ event = {
 	
 	name = EVT_2001010_NAME
 	desc = EVT_2001010_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -3565,7 +3522,6 @@ event = {
 	
 	name = EVT_2001011_NAME
 	desc = EVT_2001011_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -3865,7 +3821,6 @@ event = {
 	
 	name = EVT_2001011_NAME
 	desc = EVT_2001011_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -4165,7 +4120,6 @@ event = {
 	
 	name = EVT_2001011_NAME
 	desc = EVT_2001011_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -4590,10 +4544,10 @@ event = {
 	random = no
 	country = VIC
 	style = 2
-	picture = "Mers-el-Kebir"
 
 	name = EVT_952_NAME
 	desc = EVT_952_DESC
+	picture = "battle_for_dakar"
 
 	action = {
 		name = "ACTION_NAME_GREAT" # Great! 
@@ -4609,10 +4563,10 @@ event = {
 	random = no
 	country = VIC
 	style = 2
-	picture = "Mers-el-Kebir"
 
 	name = EVT_953_NAME
 	desc = EVT_953_DESC
+	picture = "battle_for_dakar"
 
 	action = {
 		name = "ACTION_NAME_GREAT" # Great! 
@@ -5021,7 +4975,6 @@ event = {
 	random = no
 	country = VIC
 	style = 2
-	picture = "Petain"
 	persistent = yes
 
 	trigger = {
@@ -5041,7 +4994,7 @@ event = {
 	desc = EVT_970_DESC
 
 	action = {
-		name = "Army size exceeds 65 divisions"
+		name = EVT_970_ACTA
 		trigger = {
 			army = 66 #potentially over 800,000 men
 		}
@@ -5051,7 +5004,7 @@ event = {
 		command = { type = event which = 972 where = -1 when = 15 }
 	}
 	action = {
-		name = "More than 25 divisions stationed at home"
+		name = EVT_970_ACTB
 		trigger = {
 			garrison = { country = VIC province = 360 type = land size = 26 area = 3 }
 		}
@@ -5061,7 +5014,7 @@ event = {
 		command = { type = event which = 972 where = -1 when = 15 }
 	}
 	action = {
-		name = "Less than 10 divisions stationed at home"
+		name = EVT_970_ACTC
 		trigger = {
 			NOT = { garrison = { country = VIC province = 360 type = land size = 10 area = 3 } }
 		}
@@ -5077,7 +5030,6 @@ event = {
 	random = no
 	country = VIC
 	style = 2
-	picture = "Petain"
 	persistent = yes
 
 	name = EVT_971_NAME
@@ -5102,14 +5054,13 @@ event = {
 	random = no
 	country = VIC
 	style = 2
-	picture = "Petain"
 	persistent = yes
 
 	name = EVT_972_NAME
 	desc = EVT_972_DESC
 
 	action = {
-		name = "Army size exceeds 65 divisions"
+		name = EVT_970_ACTA
 		trigger = {
 			army = 66 #potentially over 800,000 men
 		}
@@ -5119,7 +5070,7 @@ event = {
 		command = { type = event which = 2002049 where = VIC when = 0 } #Vichy coup (chance of failure 15%, will happen though again if the problem is not resolved)
 	}
 	action = {
-		name = "More than 25 divisions stationed at home"
+		name = EVT_970_ACTB
 		trigger = {
 			garrison = { country = VIC province = 360 type = land size = 26 area = 3 }
 		}
@@ -5129,7 +5080,7 @@ event = {
 		command = { type = event which = 2002049 where = VIC when = 0 } #Vichy coup (chance of failure 15%, will happen though again if the problem is not resolved)
 	}
 	action = {
-		name = "Less than 10 divisions stationed at home"
+		name = EVT_970_ACTC
 		trigger = {
 			NOT = { garrison = { country = VIC province = 360 type = land size = 10 area = 3 } }
 		}
@@ -5151,7 +5102,6 @@ event = {
 	random = no
 	country = GER
 	style = 2
-	picture = "Petain"
 	persistent = yes
 
 	name = EVT_975_NAME
@@ -5169,7 +5119,7 @@ event = {
 	action = {
 		name = EVT_975_ACTB
 		ai_chance = 40
-		#about half the cost of 1 modern mult_role, though German airforce is even cheaper thanks to Goring, so this is a really attractive option
+		#about half the cost of 1 modern mult_role, though German airforce is even cheaper thanks to minister modifiers, so this is a really attractive option
 		command = { type = supplies		value = 2500  }
 		command = { type = local_setflag which = FRA_AIR when = 1 value = -1 }
 	}
@@ -5243,7 +5193,6 @@ event = {
 	random = no
 	tag = { ITA FIN HUN ROM BUL CRO }
 	style = 2
-	picture = "Petain"
 	persistent = yes
 
 	name = EVT_975_NAME
@@ -5278,7 +5227,7 @@ event = {
 }
 
 ####################################
-# Negotiations with Darlan
+# Negotiations with Darlan after Torch
 ####################################
 
 event = {
@@ -5609,7 +5558,6 @@ event = {
 	name = EVT_982_NAME
 	desc = EVT_982_DESC
 	style = 2
-	picture = "news_paper"
 
 	action = {
 		name = "ACTION_NAME_ACCEPT"
@@ -5982,7 +5930,7 @@ event = {
 	}
 }
 
-#French reunification VIC U01
+#French reunification Giraud and DeGaulle / VIC U01
 
 event = {
 	id = 984
@@ -5992,7 +5940,6 @@ event = {
 	name = EVT_984_NAME
 	desc = EVT_984_DESC
 	style = 2
-	picture = "news_paper"
 
 	#decision = {
 	#	event = 2002008 # French State
@@ -6056,7 +6003,6 @@ event = {
 	name = EVT_984_NAME
 	desc = EVT_984_DESC
 	style = 2
-	picture = "news_paper"
 
 	action = {
 		name = "ACTION_NAME_ACCEPT"
@@ -6083,7 +6029,6 @@ event = {
 	name = EVT_988_NAME
 	desc = EVT_988_DESC
 	style = 2
-	picture = "news_paper"
 
 	action = {
 		name = "EVT1914_2002550_TEXT" #Vive la France!
@@ -6149,7 +6094,7 @@ event = {
 }
 
 ##################################
-# Liberation of France / Operation Bright Moon
+# Liberation of France & Operation Bright Moon
 ##################################
 
 event = { 
@@ -6491,7 +6436,7 @@ event = {
 		event = 994
 		OR = {
 			AND = {
-				ai = yes #AI is retarded so needs a little help
+				ai = yes #AI needs a little help
 				area = { area = "Indochine" country = -3 value = 70 }
 			}
 			AND = {
@@ -6632,7 +6577,6 @@ event = {
 	
 	name = EVT_2002080_NAME
 	desc = EVT_2002080_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -6652,7 +6596,6 @@ event = {
 
 	name = EVT_2002081_NAME
 	desc = EVT_2002081_DESC
-	picture = "Petain"
 	style = 2
 
 	action = {
@@ -6680,7 +6623,6 @@ event = {
 
 	name = EVT_2002082_NAME
 	desc = EVT_2002082_DESC
-	picture = "Petain"
 	style = 2
 
 	action = {
@@ -6699,7 +6641,6 @@ event = {
 
 	name = EVT_2002083_NAME
 	desc = EVT_2002083_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -6737,7 +6678,6 @@ event = {
 
 	name = EVT_2002084_NAME
 	desc = EVT_2002084_DESC
-	picture = "Petain"
 	style = 2
 
 	action = {
@@ -6787,7 +6727,6 @@ event = {
 	
 	name = EVT_2002085_NAME
 	desc = EVT_2002085_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -6824,7 +6763,6 @@ event = {
 
 	name = EVT_2002086_NAME
 	desc = EVT_2002086_DESC
-	picture = "Petain"
 	style = 2
 
 	action = {
@@ -6843,7 +6781,6 @@ event = {
 	
 	name = EVT_2002088_NAME
 	desc = EVT_2002088_DESC
-	picture = "Petain"
 	style = 2
 	
 	trigger = {
@@ -6874,7 +6811,6 @@ event = {
 	
 	name = EVT_2002089_NAME
 	desc = EVT_2002089_DESC
-	picture = "Petain"
 	style = 2
 	
 	action = {
@@ -6904,7 +6840,6 @@ event = {
 	
 	name = EVT_2002090_NAME
 	desc = EVT_2002090_DESC
-	picture = "Appel_de_Gaulle"
 	style = 2
 	
 	trigger = {
@@ -6969,7 +6904,7 @@ event = {
 	name = EVT_2002060_NAME
 	desc = EVT_2002060_DESC
 	style = 2
-  	picture = "Peace_conference"
+  	picture = "ProtestAlexanderetta"
 
 	date = { day = 7 month = september year = 1938 }
 	offset = 1 
@@ -6998,7 +6933,7 @@ event = {
 	name = EVT_2002060_NAME
 	desc = EVT_2002060_DESC
 	style = 2
-  	picture = "Peace_conference"
+  	picture = "ProtestAlexanderetta"
 
 	action_a = {
 		name = "ACTION_NAME_OK"
@@ -7022,7 +6957,7 @@ event = {
 	name = EVT_2002060_NAME
 	desc = EVT_2002060_DESC
 	style = 2
-  	picture = "Peace_conference"
+  	picture = "ProtestAlexanderetta"
 
 	action_a = {
 		name = "ACTION_NAME_OK"
@@ -7073,11 +7008,11 @@ event = {
 	name = EVT_2002064_NAME
 	desc = EVT_2002064_DESC
 	style = 2
-  	picture = "Peace_conference"
+  	picture = "ProtestAlexanderetta"
 
 	action = {
 		name = EVT_2002064_ACTA
-		ai_chance = 95
+		ai_chance = 99
 		command = { type = dissent value = 5 }
 		command = { type = relation which = VIC value = -100 }
 		command = { type = relation which = ENG value = -50 }
@@ -7101,7 +7036,7 @@ event = {
 	}
 	action = {
 		name = "Give up on Hatay"
-		ai_chance = 5
+		ai_chance = 1
 		command = { type = dissent value = 25 }
 		command = { type = removecore which = 1159 }
 		command = { type = removeclaim which = 1159 }
@@ -7119,7 +7054,6 @@ event = {
 	name = "EVT_2015008_NAME"
 	desc = "EVT_2015008_DESC"
 	style = 2
-	picture = "news_paper"	
 
 	action = {
 		name = ACTION_NAME_OK
@@ -7135,8 +7069,6 @@ event = {
 	name = EVT_2015010_NAME
 	desc = EVT_2015010_DESC
 	style = 2
-	picture = "Wehrmacht"
-
 	
 	trigger = {
 		war = { country = GER country = VIC }
@@ -7167,7 +7099,6 @@ event = {
 	name = EVT_2015011_NAME
 	desc = EVT_2015011_DESC
 	style = 2
-	picture = "Wehrmacht"
 
 	action = {
 		name = EVT_2015011_ACTA
@@ -7184,7 +7115,6 @@ event = {
 	name = EVT_2015012_NAME
 	desc = EVT_2015012_DESC
 	style = 2
-	picture = "Wehrmacht"
 
 	action = {
 		name = ACTION_NAME_DAMN
@@ -7221,7 +7151,7 @@ event = {
 		minister = 5189 #Darlan HoG
         alliance = { country = ENG }
 		random = 80
-		}
+	}
 
 	date = { year = 1942 month = december day = 12 }
 	offset = 15
@@ -7229,7 +7159,6 @@ event = {
 
 	name = "EVT_355_NAME"
 	desc = "EVT_355_DESC"
-	picture = "minister_died"
 
 	action_a = {
 		name = "EVT_362_ACTC"
@@ -7257,7 +7186,6 @@ event = {
 
 	name = "EVT_106_NAME"
 	desc = "EVT_106_DESC"
-	picture = "minister_died"
 
 	action_a = {
 		name = "EVT_362_ACTC"
