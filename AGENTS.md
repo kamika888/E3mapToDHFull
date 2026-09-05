@@ -37,6 +37,7 @@ Do not assume that a command exists simply because a similarly named command exi
 
 * When working with localization CSV files, use the `csv-localization` skill.
 * When adding new decision and event images, use the `dh-event-pics` skill.
+* When adding or updating minister or leader portraits, use the `dh-portraits` skill.
 
 ## Persistent Reference Documentation
 

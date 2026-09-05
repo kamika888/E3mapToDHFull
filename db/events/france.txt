@@ -1,12 +1,11 @@
 ########################################
-# It is done!
+# Armistice at Compiègne/Rethondes 1940
 ########################################
 event = {
 	id = 2002004
 	random = no
 	country = VIC
 	style = 2
-	picture = "Petain"
 	save_date = yes
 
 	trigger = {
@@ -34,13 +33,25 @@ event = {
 	offset = 6
 	deathdate = { day = 29 month = december year = 1963 }
 
-	name = "4050name"
-	desc = "4050desc"
+	name = "EVT_2002004_NAME" #It is done!
+	desc = "EVT_2002004_DESC"
 
 	action = {
-		name = "evt_4050a"
+		name = "EVT_2002004_ACTA"
 		command = { trigger = { control = { province = 59 data = VIC } } type = capital which = 59 } # Bordeaux - France +
 		#command = { type = dissent value = 10 }
+
+		#Petain government of 16 June under Lebrun (in case Fall of Paris did not fire)
+		command = { type = headofgovernment 		which = 5197 } #Petain (SC)
+		command = { type = foreignminister 			which = 5190 } #Baudouin (SC)
+		command = { type = ministerofintelligence 	which = 5412 } #Louis Rivet (ML)
+		command = { type = ministerofsecurity		which = 5413 } #Charles Pomaret (SD)
+		command = { type = armamentminister 		which = 5416 } #Yves Bouthillier (ML)
+		command = { type = chiefofstaff 			which = 5007 } #Weygand (PA) (as "Minister of National Defense")
+		command = { type = chiefofarmy 				which = 5415 } #Louis Colson (ML) (as "Minister of War")
+		command = { type = chiefofnavy 				which = 5009 } #Darlan (PA)
+		command = { type = chiefofair 				which = 5414 } #Bertrand Pujo (ML)
+
 		command = { type = trigger which = 2003001 }
 	} 
 }
@@ -51,20 +62,32 @@ event = {
 	country = GER
 	style = 2
 
-	name = "4052name" # France enquires about the conditions of armistice
-	desc = "4053desc" # After the loss of Paris, the British offer an union to the French government. Before delivering his answer, he like to enquire about the conditions of armistice demanded by Germany. If you demand merciful conditions of armistice, the Frenchmen will be more disposed to collaborate and to refuse British approaches. If contrariwise you demand very hard conditions of armistice, they will have tendency to get closer to Britain. History is yours to make..
-	picture = "Petain"
+	name = "EVT_2003001_NAME" # France inquires about the conditions of armistice
+	desc = "EVT_2002004_DESC" # Same as French
 
 	action = {
         ai_chance = 100
-		name = "4053b" # Let us claim a historical partition
+		name = "EVT_2003001_ACTA" # Let us claim a historical partition
 		command = { type = setflag which = Rethondes2 } # North coast + Paris + Loire + Atlantic Coast
+
+		command = { type = event which = 2002006 where = VIC when = 2 } 
     } 
 	action = {
         ai_chance = 0
-		name = "4053a" # Let us claim Paris and the north
+		name = "EVT_2003001_ACTB" # Let us claim Paris and the north
 		command = { type = setflag which = Rethondes1 } # North coast + Paris
+		command = { type = belligerence which = GER value = -2 }
 		command = { type = dissent value = 2 } #a bit too lenient
+
+		command = { type = event which = 2002006 where = VIC when = 2 } 
+    } 
+	action = {
+        ai_chance = 0
+		name = "EVT_2003001_ACTC" # We want only unconditional surrender
+		command = { type = belligerence which = GER value = 10 }
+		command = { type = belligerence which = ENG value = -2 }
+		command = { type = belligerence which = SOV value = -2 }
+		command = { type = dissent value = 2 } #a bit too harsh
     } 
 }
 ##############################################
@@ -78,15 +101,6 @@ event = {
 
 	name = EVT_2002006_NAME
 	desc = EVT_2002006_DESC
-	picture = "Petain"
-
-	trigger = { 
-		event = 2003001 # France enquires about the conditions of armistice
-	}
-
-	date = { day = 0 month = january year = 1936 }
-	offset = 3
-	deathdate = { day = 29 month = december year = 1963 }
 
 	action = { 
         trigger = { flag = Rethondes1 }
@@ -111,29 +125,6 @@ event = {
 		command = { type = event which = 2002007 where = GER when = 2 } #The armistice of Rethondes
     } 
 	action = {
-        trigger = { flag = Rethondes1 }
-        ai_chance = 0
-		name = "4054c" # France fights on
-		command = { type = dissent value = 35 }
-		command = { type = capital which = 949 } # Alger - Algeria
-        command = { type = secedeprovince which = GER value = 72 when = 2 } # Strasbourg - France
-        command = { type = secedeprovince which = GER value = 73 when = 2 } # Metz - France
-        command = { type = secedeprovince which = GER value = 316 when = 2 } # Colmar - France
-		command = { type = trigger which = 2002020 } #French Fleet Seized
-		command = { type = remove_division which = 13500 value = 132 } #Courbet - Battleship 3
-        command = { type = remove_division which = 13500 value = 133 } #Paris - Battleship 3
-        command = { type = remove_division which = 13500 value = 136 } #Pluton - Light Cruiser 4
-        command = { type = remove_division which = 13500 value = 137 } #Jeanne d'Arc - Light Cruiser 4
-		command = { type = remove_division which = 13500 value = 139 } #4ème Flottille de Contre-Torpilleurs - Destroyer 1
-		command = { type = remove_division which = 13500 value = 138 } #5ème Flottille de Contre-Torpilleurs - Destroyer 1
-		command = { type = remove_division which = 13500 value = 150 } #1ère Flottille de Sous-Marins - Submarine 6
-		command = { type = remove_division which = 13500 value = 151 } #2ème Flottille de Sous-Marins - Submarine 6
-		command = { type = remove_division which = 13500 value = 120 } #1ère Flottille de Convoi - Transport 1
-		command = { type = remove_division which = 13500 value = 115 } #2ème Flottille de Convoi - Transport 2
-		
-		command = { type = clrflag which = Rethondes1 }
-    }
-	action = {
         trigger = { flag = Rethondes2 }
         ai_chance = 99
 		name = EVT_2002006_ACTB
@@ -157,9 +148,32 @@ event = {
 		command = { type = event which = 2002007 where = GER when = 2 } #The armistice of Rethondes
     } 
 	action = {
+        trigger = { flag = Rethondes1 }
+        ai_chance = 0
+		name = "EVT_2002006_ACTC" # France fights on
+		command = { type = dissent value = 35 }
+		command = { type = capital which = 949 } # Alger - Algeria
+        command = { type = secedeprovince which = GER value = 72 when = 2 } # Strasbourg - France
+        command = { type = secedeprovince which = GER value = 73 when = 2 } # Metz - France
+        command = { type = secedeprovince which = GER value = 316 when = 2 } # Colmar - France
+		command = { type = trigger which = 2002020 } #French Fleet Seized
+		command = { type = remove_division which = 13500 value = 132 } #Courbet - Battleship 3
+        command = { type = remove_division which = 13500 value = 133 } #Paris - Battleship 3
+        command = { type = remove_division which = 13500 value = 136 } #Pluton - Light Cruiser 4
+        command = { type = remove_division which = 13500 value = 137 } #Jeanne d'Arc - Light Cruiser 4
+		command = { type = remove_division which = 13500 value = 139 } #4ème Flottille de Contre-Torpilleurs - Destroyer 1
+		command = { type = remove_division which = 13500 value = 138 } #5ème Flottille de Contre-Torpilleurs - Destroyer 1
+		command = { type = remove_division which = 13500 value = 150 } #1ère Flottille de Sous-Marins - Submarine 6
+		command = { type = remove_division which = 13500 value = 151 } #2ème Flottille de Sous-Marins - Submarine 6
+		command = { type = remove_division which = 13500 value = 120 } #1ère Flottille de Convoi - Transport 1
+		command = { type = remove_division which = 13500 value = 115 } #2ème Flottille de Convoi - Transport 2
+		
+		command = { type = clrflag which = Rethondes1 }
+    }
+	action = {
         trigger = { flag = Rethondes2 }
         ai_chance = 1
-		name = "4054c" # France fights on
+		name = "EVT_2002006_ACTC" # France fights on
 		command = { type = dissent value = 30 }
 		command = { type = capital which = 949 } # Alger - Algeria +
         command = { type = secedeprovince which = GER value = 72 when = 2 } # Strasbourg - France
@@ -187,9 +201,8 @@ event = {
 	country = GER
 	style = 2
 
-	name = "4055name"
-	desc = "4055desc"
-	picture = "Petain"
+	name = "EVT_2002007_NAME" #The armistice of Rethondes
+	desc = "EVT_2002007_DESC"
 
 	action = { trigger = { flag = Rethondes1 }
 		name = ACTION_NAME_OK
@@ -508,6 +521,17 @@ event = {
 		command = { trigger = { flag = ParisOC }	type = urban_attack 		which = land value = 70  }
 		command = { trigger = { flag = ParisOC }	type = urban_defense 		which = land value = 110 }
 		command = { trigger = { flag = ParisOC }	type = clrflag 				which = ParisOC 		 }
+
+		#Petain government of 16 June under Lebrun, formed almost immediately after the fall of Paris
+		command = { type = headofgovernment 		which = 5197 } #Petain (SC)
+		command = { type = foreignminister 			which = 5190 } #Baudouin (SC)
+		command = { type = ministerofintelligence 	which = 5412 } #Louis Rivet (ML)
+		command = { type = ministerofsecurity		which = 5413 } #Charles Pomaret (SD)
+		command = { type = armamentminister 		which = 5416 } #Yves Bouthillier (ML)
+		command = { type = chiefofstaff 			which = 5007 } #Weygand (PA) (as "Minister of National Defense")
+		command = { type = chiefofarmy 				which = 5415 } #Louis Colson (ML) (as "Minister of War")
+		command = { type = chiefofnavy 				which = 5009 } #Darlan (PA)
+		command = { type = chiefofair 				which = 5414 } #Bertrand Pujo (ML)
     } 
 }
 
@@ -519,7 +543,6 @@ event = {
 
 	name = EVT_2002038_NAME
 	desc = EVT_2002038_DESC
-	picture = "Petain"
 	
 	action = { 
 		name = ACTION_NAME_OK
@@ -553,20 +576,15 @@ event = {
 	style = 2
 	save_date = yes
 
-	name = "4057name" # L'Etat Français
-	desc = "4057desc" # Field marshal Pétain uses the French defeat to take power. It flings a final blow to the Republic and sets up a strict regime, the French State. The emergence of such regime opens new geo-strategical opportunities for Germany.
+	name = "EVT_2002007_NAME" # L'Etat Français
+	desc = "EVT_2002007_DESC"
 	picture = "Petain"
 
 	action = {
 		name = "2002008text"
         #move capital to Vichy
-        command = { type = capital which = 360 } # Vichy - France +
-		#Disaster... There is some kind of hardcoded bullshit which causes expeditionary AI to become completely retarded if FRA is a puppet of GER but not allied. It works fine if FRA is changed to any other tag though.
-		#Possible solutions... 
-		#1. Change_tag FRA to VIC. Have to rewrite all the events, and "type=country" will crash in MP so need to have some alternative which is even less than ideal.
-		#2. Drop the whole "puppet" thing entirely. May be the best option for the forseable future, but it will look a bit weird that Petain is not a puppet, but De Gaulle is.
-		#3. Make FRA both puppet and allied, BUT write an event which regularly checks FRA territory for the presense of Axis troops/navy/air. Very performance heavy and also not foolproof. Subs can stay in ports only briefly when rebasing for example.
-		#4. Completely replace FRA with VIC from the very beginning?
+		#Can't use FRA tag for France - there is some kind of hardcoded bullshit which causes expeditionary AI to completely break if FRA is a puppet of GER but not allied. It works fine if FRA is changed to any other tag though.
+		#Also can't change FRA to VIC with `country` command because this causes game crash. So using VIC as tag from the beginning.
 		#command = { type = country 		which = VIC   } 
 		command = { type = local_setflag 	which = Vichy }
 		
@@ -641,8 +659,19 @@ event = {
 		
 		command = { type = set_domestic which = political_left	value = 4 } #Conservative
 		command = { type = set_domestic which = free_market 	value = 4 } #Reduce oil consumption
-		command = { type = headofstate which = 5188 }
-		command = { type = headofgovernment which = 5197 }
+
+		#Government of July 12th
+		command = { type = headofstate 				which = 5188 } #Petain (SC)
+		command = { type = headofgovernment 		which = 5197 } #Laval (PA)
+		command = { type = foreignminister 			which = 5190 } #Baudouin (SC)
+		command = { type = ministerofintelligence 	which = 5412 } #Louis Rivet (ML)
+		command = { type = ministerofsecurity		which = 5418 } #Adrien Marquet (PA)
+		command = { type = armamentminister 		which = 5416 } #Yves Bouthillier (ML)
+		command = { type = chiefofstaff 			which = 5007 } #Weygand (PA) (as "Minister of National Defense")
+		command = { type = chiefofarmy 				which = 5415 } #Louis Colson (ML) (as "Minister of War")
+		command = { type = chiefofnavy 				which = 5009 } #Darlan (PA)
+		command = { type = chiefofair 				which = 5414 } #Bertrand Pujo (ML)
+
 		command = { type = set_relation which = ENG value = -100 }
 		command = { type = set_relation which = USA value = -50 }
 		command = { type = set_relation which = ITA value = 50 }
@@ -1280,7 +1309,7 @@ event = {
 		command = { type = chiefofstaff 			which = 820054 } #Legentilhomme (SC)
 		command = { type = chiefofarmy 				which = 820092 } #Gaulle (SC)
 		command = { type = chiefofnavy 				which = 820091 } #Muselier (SC)
-		command = { type = chiefofair 				which = 820066 } #Valin (ML)
+		command = { type = chiefofair 				which = 820066 } #Valin (ML)NG where = U01 supplies = -5 value = 1 } 
 		
 		command = { type = add_corps which = "Troupes d'Afrique Centrale" value = land where = 1075 }  #+
 		command = { type = add_division which = "Equatorial Africa garrison" value = garrison when = 4 }
@@ -7121,6 +7150,10 @@ event = {
 		command = { 											type = event which = 2015012 where = VIC when = 6 }
 		command = { trigger = { alliance = { country = ENG } }	type = event which = 2015011 where = ENG when = 0 }
 		command = { trigger = { alliance = { country = ENG } }	type = event which = 2015012 where = ENG when = 6 }
+		
+		#Reynaud and Daladier swap posts
+		command = { trigger = { ai = yes } type = chiefofarmy		which = 5410 } #Paul Reynaud
+		command = { trigger = { ai = yes } type = foreignminister	which = 5036 } #Edouard Daladier
 	}
 }
 

@@ -328,9 +328,9 @@ inventions = { 3000027 }
    foreignminister        = {  type = 9 id = 5003  } 
    armamentminister       = {  type = 9 id = 5004  } 
    ministerofsecurity     = {  type = 9 id = 5005  } 
-   ministerofintelligence = {  type = 9 id = 5006  } 
+   ministerofintelligence = {  type = 9 id = 5412  } # Louis Rivet
    chiefofstaff           = {  type = 9 id = 5007  } 
-   chiefofarmy            = {  type = 9 id = 5008  } 
+   chiefofarmy            = {  type = 9 id = 5409  } # Edouard Daladier
    chiefofnavy            = {  type = 9 id = 5397  } # Georges Durand-Viel
    chiefofair             = {  type = 9 id = 5010  } 
   # #################
