@@ -1,7 +1,7 @@
 # GitHub Copilot Instructions
 
 Beware that the context may be compacted without warning, therefore you MUST
-periodically preserve important state in `memory/current-task.md` and other files in the `memory` directory.
+periodically preserve important state in the `/memories` folder.
 
 Do this especially when:
 - the conversation has become substantially longer than the task itself;
@@ -10,10 +10,6 @@ Do this especially when:
 - you have accumulated large amounts of debugging information;
 - you are about to begin a substantially different phase of the task;
 - you suspect context compaction may occur soon.
-
-Always ensure that `memory/current-task.md` contains enough information
-for another agent instance to continue the work without reconstructing
-the entire conversation.
 
 In addition, for long-running tasks, you should:
 * Plan the work before executing it.
