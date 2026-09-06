@@ -253,7 +253,7 @@ event = {
 	country = AUS
 
 	trigger = {
-		event = 2003005 #Rhineland. Nobody will take Germany seriously otherwise
+		event = 2003005 #Rhineland reoccupied. Nobody will take Germany seriously otherwise
 		OR = { random = 4 AND = { random = 55 year = 1938 } year = 1939 }
 		OR = {
 			AND = {
@@ -351,7 +351,7 @@ event = {
 	name = EVT_2003003_NAME
 	desc = EVT_2003003_DESC
 	style = 2
-	picture = "anschluss"
+	picture = "news_paper"
 
 	action = {
 		name = EVT_2003003_ACTA
@@ -461,7 +461,7 @@ event = {
 	name = EVT_2003013_NAME
 	desc = EVT_2003013_DESC
 	style = 2
-	picture = "anschluss"
+	picture = "news_paper"
 
 	action = {
 		name = EVT_2003013_ACTA
@@ -662,7 +662,7 @@ event = {
 		
 		command = { type = event which = 2001041 where = ENG when = 7 } #Actual conference
 		
-		#response mobilizations occurred only in France and countries neighboring Czechoslovakia. Have to delay for belligerence set to work properly
+		#response mobilizations occurred only in France and countries neighboring Czechoslovakia
 		command = { type = event which = 2025000 where = CZE when = 1 } 
 		command = { type = event which = 2025000 where = VIC when = 1 } 
 		command = { type = event which = 2025000 where = HUN when = 1 } 
@@ -1033,7 +1033,7 @@ event = {
 	name = "EVT_2035M_NAME"
 	desc = "EVT_2035M_DESC"
 	style = 2
-	picture = "Munich"
+	picture = "news_paper"
 
 	action_a = {
 		name = ACTION_NAME_OK
@@ -1154,7 +1154,7 @@ event = {
 	}
 
 	name = "EVT_2040_NAME"
-	desc = "EVT_2040_DESC"
+	desc = "EVT_2001026_DESC"
 	style = 2
 	picture = "German_mobilization2"
 	decision_picture = "decision_CZE_End"
@@ -1204,14 +1204,14 @@ event = {
 
 
 #########################################################################
-#  The End of Czechoslovakia - Slovakia Independent  *fixed for no ai czech and added chance for declaration of war by uk and ussr if the czech fight*
+#  The End of Czechoslovakia - Slovakia Independent
 #########################################################################
 event = {
 	id = 2025002
 	random = no
 	country = CZE
 	name = "EVT_2201_NAME"
-	desc = "EVT_2201_DESC"
+	desc = "EVT_2001026_DESC"
 	style = 2
 	picture = "German_mobilization2"
 
@@ -1241,7 +1241,7 @@ event = {
 		name = "ACTION_NAME_FIGHT" # Fight!
 		ai_chance = 0
 		command = { type = leave_alliance when = 1 }
-		command = { type = domestic which = political_left value = 2 }
+		command = { type = domestic which = political_left value = 4 }
 		command = { type = dissent value = 10 }
 		command = { type = relation which = GER value = -50 }
 		command = { type = relation which = SOV value = 25 }
@@ -1250,9 +1250,9 @@ event = {
 		command = { type = trigger which = 2001008 } #ENG
 		command = { type = trigger which = 2023001 } #ROM
 		command = { trigger = { ai = yes NOT = { policy = { type = professional_army value = 5 } } NOT = { local_flag = demob } } type = trigger which = 8300105 } 
-		command = { type = independence which = SLO value = 0 }
+		command = { type = civil_war which = SLO }
+		command = { type = secedearea which = SLO value = "Slovakia" when = 1 }
 		command = { type = event which = 2400530 where = SLO when = 0 }
-		command = { type = end_mastery which = SLO }
 		command = { type = trigger which = 2003017 } # Puppeted Slovakia
 	}
 }
@@ -1264,33 +1264,37 @@ event = {
 	id = 2025003
 	random = no
 	country = CZE
+
 	name = "EVT_2202_NAME"
-	desc = "EVT_2202_DESC"
+	desc = "EVT_2001026_DESC"
 	style = 2
-	picture = "news_paper"
+	picture = "German_mobilization2"
 
 	# Triggered by GER 2003015
 
 	action = {
 		name = "ACTIONNAME2202A" # Accept the inevitable (Game Over)
-		ai_chance = 100
+		ai_chance = 80
 		command = { type = leave_alliance when = 1 }
 		#This is needed to avoid annexation nationalism gain
-		command = { type = secedearea which = GER value = "Bohemia" 				when = 1 }
-		command = { type = secedearea which = GER value = "Central Africa Desert" 	when = 1 }
-		command = { type = secedearea which = HUN value = "Slovakia" 				when = 2 } 
+		command = { type = secedearea 		which = GER value = "Bohemia" 				when = 1 }
+		command = { type = secedearea 		which = GER value = "Central Africa Desert" when = 1 }
+		command = { type = secedearea 		which = HUN value = "Slovakia" 				when = 2 } 
+		command = { type = secedeprovince	which = HUN value = 499  					when = 2 }
+		command = { type = secedeprovince	which = HUN value = 3233 					when = 2 }
+		command = { type = secedeprovince	which = HUN value = 3230 					when = 2 }
 		command = { type = trigger which = 2003019 } # GER
 	}
 	action = {
 		name = "ACTION_NAME_FIGHT" # Fight!
-		ai_chance = 0
+		ai_chance = 20
 		command = { type = leave_alliance when = 1 }
 		command = { type = relation which = GER value = -50 }
 		command = { type = relation which = HUN value = -25 }
 		command = { type = relation which = SOV value = 20 }
 		command = { type = relation which = ENG value = 15 } # new for 1.3
 		command = { type = relation which = VIC value = 15 } # new for 1.3
-		command = { type = domestic which = political_left value = 2 }
+		command = { type = domestic which = political_left value = 4 }
 		command = { type = dissent value = 10 }
 		command = { type = trigger which = 2003018 } # GER
 	}
@@ -1309,7 +1313,7 @@ event = {
 	name = "EVT_2003016_NAME"
 	desc = "EVT_2003016_DESC"
   	style = 2
-	picture = "German_mobilization2"
+	picture = "news_paper"
 	
 	action = {
 		name = ACTION_NAME_OK
@@ -1343,7 +1347,7 @@ event = {
 	name = "EVT_2051_NAME"
 	desc = "EVT_2051_DESC"
 	style = 2
-	picture = "German_mobilization2"
+	picture = "news_paper"
 	
 	action = {
 		name = "ACTIONNAME2033A" # Install a Puppet
@@ -1366,7 +1370,7 @@ event = {
 	name = "EVT_2003018_NAME"
 	desc = "EVT_2003018_DESC"
   	style = 2
-	picture = "German_mobilization2"
+	picture = "news_paper"
 	
 	action = {
 		name = ACTION_NAME_OK
@@ -1406,7 +1410,7 @@ event = {
 }
 
 #########################################################################
-#  The End of Czechoslovakia - Czecho-Slovakia partitioned
+#  The End of Czechoslovakia - Czecho-Slovakia partitioned with Hungary
 #########################################################################
 event = {
 	id = 2003019
@@ -1418,7 +1422,7 @@ event = {
 	name = "EVT_2003019_NAME"
 	desc = "EVT_2003019_DESC"
   	style = 2
-	picture = "German_mobilization2"
+	picture = "news_paper"
 	
 	action = {
 		name = ACTION_NAME_OK
@@ -1445,7 +1449,7 @@ event = {
 	name = "EVT_2300_NAME"
 	desc = "EVT_2300_DESC"
 	style = 2
-	picture = "German_mobilization2"
+	picture = "news_paper"
 
 	action = {
 		name = ACTION_NAME_OK # Bohemia and Moravia to Germany
@@ -2054,7 +2058,7 @@ event = {
 	name = "EVT_2003029_NAME"
 	desc = "EVT_2003029_DESC"
 	style = 2
-	picture = "Mol_Rib"
+	picture = "news_paper"
 
 	date = { day = 2 month = january year = 1936 }
 	offset = 3 # Check for trigger conditions every three days
@@ -2098,7 +2102,7 @@ event = {
 	name = "EVT_2604_NAME"
 	desc = "EVT_2604_DESC"
 	style = 2
-	picture = "Mol_Rib"
+	picture = "news_paper"
 
 	action_a = {
 		name = EVT_2007042_ACTA
@@ -2199,7 +2203,8 @@ event = {
 	name = EVT_2003030_NAME
 	desc = EVT_2003030_DESC
 	style = 2
-	picture = "Mol_Rib"
+	picture = "news_paper"
+
 	action = {
 		name = EVT_2007042_ACTA
 		command = { type = relation which = SOV value = 20 }
@@ -2329,8 +2334,8 @@ event = {
 	name = 77007name
 	desc = 77007desc
 	style = 2
-	picture = "Mol_Rib"
-	decision_picture = "decision_MRPact"
+	picture = "news_paper"
+	picture = "decision_generic_negotiaton"
 
 	date = { day = 0 month = january year = 1936 }
 	offset = 20
@@ -2352,7 +2357,7 @@ event = {
 	name = 77007name
 	desc = 77007desc
 	style = 2
-	picture = "Mol_Rib"
+	picture = "news_paper"
 
 	action = {
 		name = 77008a
@@ -2876,7 +2881,7 @@ event = {
 	name = EVT_203102_NAME
 	desc = EVT_203102_DESC
 	style = 2
-	picture = "Croatia"
+	picture = "news_paper"
 
 	date = { day = 1 month = january year = 1936 }
 	offset = 15
@@ -2901,7 +2906,7 @@ event = {
 	
 	name = EVT_203103_NAME
 	desc = EVT_203103_DESC
-    picture = "independent_croatia"
+	picture = "news_paper"
 	style = 2
 
 	action = {
@@ -2984,7 +2989,7 @@ event = {
 	name = EVT_2788_NAME
 	desc = EVT_2788_DESC
   	style = 2
-  	picture = "Destroy_Maginot"
+	picture = "news_paper"
 	
 	decision = {
 		war = { country = CZE }
@@ -3047,7 +3052,7 @@ event = {
 	name = "EVT_2789_NAME"
 	desc = "EVT_2789_DESC"
   	style = 2
-  	picture = "Destroy_Maginot"
+	picture = "news_paper"
 	
 	decision = {
 		war = { country = VIC }
@@ -3246,7 +3251,7 @@ event = {
 	name = "evt_4700_name"
 	desc = "fg_event15_desc"
 	style = 2
-	picture = "Wehrmacht"
+	picture = "news_paper"
 	decision_picture = "decision_fall_gelb"
 	
 	action = {
@@ -3833,7 +3838,7 @@ event = {
 	name = EVT_2025009_NAME
 	desc = EVT_2025009_DESC
 	style = 2
-	picture = "Hendaya"
+	picture = "news_paper"
 	
 	action = {
 		name = "ACTION_NAME_GREAT" #Great
@@ -4215,8 +4220,8 @@ event = {
 	random = no 
 	country = GER
 
-	name = "4706name"
-	desc = "2003048desc"
+	name = EVT_2003050_NAME
+	desc = EVT_2003050_DESC
 	style = 2
 	picture = "Montoire"
 
@@ -4295,7 +4300,7 @@ event = {
 	name = EVT_2003056_NAME
 	desc = 6desc
   	style = 2
-  	picture = "Reichstag"
+  	picture = "news_paper"
 
 	date = { day = 0 month = january year = 1936 }
 	offset = 3
@@ -4480,7 +4485,7 @@ event = {
 	name = EVT_3_NAME
 	desc = EVT_3_DESC
 	style = 2
-  	picture = "anschluss"
+  	picture = "news_paper"
 
 	action = {
 		name = EVT_4_ACTA
@@ -4588,7 +4593,7 @@ event = {
 	name = EVT_2003059_NAME
 	desc = 14desc
 	style = 2
-  	picture = "Hitler_Turkey"
+  	picture = "news_paper"
 	decision_picture = "decision_generic_negotiaton"
 
 	date = { day = 0 month = january year = 1936 }
@@ -4615,7 +4620,7 @@ event = {
 	name = 14name
 	desc = 14desc
 	style = 2
-  	picture = "Hitler_Turkey"
+  	picture = "news_paper"
 
 	action = { 
 		ai_chance = 90
@@ -4645,7 +4650,7 @@ event = {
 	name = EVT_2003044_NAME
 	desc = EVT_2003044_DESC
 	style = 2
-  	picture = "Hitler_Turkey"
+  	picture = "news_paper"
 
 	action = {
 		name = EVT_2003044_ACTA
@@ -4677,7 +4682,7 @@ event = {
 	name = 16name
 	desc = 16desc
 	style = 2
-  	picture = "Hitler_Turkey"
+  	picture = "news_paper"
 
 	date = { day = 0 month = january year = 1936 }
 	offset = 21
@@ -4782,7 +4787,7 @@ event = {
 	name = EVT_2014002_NAME
 	desc = EVT_2014002_DESC
 	style = 2
-	picture = "Hendaya"
+  	picture = "news_paper"
 	
 	action = {
 		name = EVT_2014002_ACTA
@@ -4814,7 +4819,7 @@ event = {
 	name = EVT_2008014_NAME
 	desc = EVT_2008014_DESC
 	style = 2
-	picture = "Hendaya"
+  	picture = "news_paper"
 	
 	action = {
 		name = EVT_2008014_ACTA
@@ -4852,7 +4857,7 @@ event = {
 	name = EVT_2008015_NAME
 	desc = EVT_2008015_DESC
 	style = 2
-	picture = "Hendaya"
+  	picture = "news_paper"
 	
 	action = {
 		name = EVT_2008015_ACTA
@@ -4868,7 +4873,7 @@ event = {
 	name = EVT_2008016_NAME
 	desc = EVT_2008016_DESC
 	style = 2
-	picture = "Hendaya"
+  	picture = "news_paper"
 	
 	action = {
 		name = EVT_2008016_ACTA
@@ -4903,7 +4908,7 @@ event = {
 	name = EVT_2008017_NAME
 	desc = EVT_2008017_DESC
 	style = 2
-	picture = "Hendaya"
+  	picture = "news_paper"
 	
 	action = {
 		name = ACTION_NAME_DAMN
@@ -5007,7 +5012,7 @@ event = {
 	name = EVT_2006005_NAME
 	desc = EVT_2006005_DESC
 	style = 2
-	picture = "Petain"
+  	picture = "news_paper"
 	
 	action = {
 		name = EVT_2006005_ACTA
@@ -5038,7 +5043,7 @@ event = {
 	name = EVT_2006007_NAME
 	desc = EVT_2006007_DESC
 	style = 2
-	picture = "Petain"
+  	picture = "news_paper"
 	
 	action = {
 		name = EVT_2006007_ACTA
@@ -5068,7 +5073,7 @@ event = {
 	name = EVT_2025004_NAME
 	desc = EVT_2025004_DESC
 	style = 2
-	picture = "German_mobilization2"
+  	picture = "news_paper"
 	
 	action = {
 		name = EVT_2025004_ACTA
@@ -5097,7 +5102,7 @@ event = {
 	name = EVT_2025008_NAME
 	desc = EVT_2025008_DESC
 	style = 2
-	picture = "German_mobilization2"
+  	picture = "news_paper"
 	
 	action = {
 		name = EVT_2025008_ACTA
@@ -5117,7 +5122,7 @@ event = {
 	name = 450name
 	desc = 450desc
 	style = 2
-	picture = "Churchill"
+  	picture = "news_paper"
 
 	decision = {
 		war = { country = ENG country = GER }
@@ -5446,7 +5451,7 @@ event = {
 	name = EVT_2001016_NAME
 	desc = EVT_2001016_DESC
 	style = 2
-	picture = "Narvik"
+  	picture = "news_paper"
 
 	decision = {
 		war = { country = ENG }
@@ -5512,7 +5517,7 @@ event = {
 	name = EVT_2001017_NAME
 	desc = EVT_2001017_DESC
 	style = 2
-	picture = "SCW_German_Intervention"
+  	picture = "news_paper"
 
 	decision = {
 		war = { country = ENG }
@@ -5753,7 +5758,7 @@ event = {
 	name = 9025name
 	desc = 9017desc
 	style = 2
-	picture = "Narvik"
+  	picture = "news_paper"
 
 	trigger = { 
 		NOT = { flag = BaltiqueSOV }
@@ -5798,7 +5803,7 @@ event = {
 	name = 9026name
 	desc = 9017desc
 	style = 2
-	picture = "Narvik"
+  	picture = "news_paper"
 
 	trigger = { 
 		flag = BaltiqueSOV 
@@ -5866,8 +5871,8 @@ event = { # operation tannenbaum
 	name = "EVT_2003108_NAME"
 	desc = "EVT_2003108_DESC"
 	style = 2
-	picture = "Poland_Invasion"
-	decision_picture = "decision_Rhineland"
+	picture = "news_paper"
+	decision_picture = "decision_generic_negotiaton"
 
 	date = { day = 0 month = january year = 1939 }
 	offset = 300
@@ -5924,7 +5929,7 @@ event = { # swiss forced trade
 	name = "EVT_2003109_NAME"
 	desc = "EVT_2003109_DESC"
 	style = 2
-	picture = "Hitler_Turkey"
+	picture = "news_paper"
 	decision_picture = "decision_generic_negotiaton"
 
 	date = { day = 0 month = january year = 1939 }
@@ -5961,7 +5966,7 @@ event = {
 	name = EVT_2003070_NAME
 	desc = EVT_2003070_DESC
 	style = 2
-	picture = "Fall_Weserubung"
+	picture = "news_paper"
 
 	trigger = {
 		war = { country = DEN }
@@ -6006,7 +6011,7 @@ event = {
 	name = EVT_2003071_NAME
 	desc = EVT_2003071_DESC
 	style = 2
-	picture = "Fall_Weserubung"
+	picture = "news_paper"
 
 	action = {
 		name = EVT_2003071_ACTA
@@ -6060,7 +6065,7 @@ event = {
 	name = EVT_2003072_NAME
 	desc = EVT_2003072_DESC
 	style = 2
-	picture = "Fall_Weserubung"
+	picture = "news_paper"
 
 	action = {
 		name = ACTION_NAME_GREAT
@@ -6098,7 +6103,7 @@ event = {
 	name = EVT_2003073_NAME
 	desc = EVT_2003073_DESC
 	style = 2
-	picture = "Fall_Weserubung"
+	picture = "news_paper"
 
 	action = {
 		name = ACTION_NAME_GREAT
@@ -6131,7 +6136,7 @@ event = {
 	name = EVT_2003074_NAME
 	desc = EVT_2003074_DESC
 	style = 2
-	picture = "Fall_Weserubung"
+	picture = "news_paper"
 
 	action = {
 		name = ACTION_NAME_GREAT
@@ -6158,7 +6163,7 @@ event = {
 	name = EVT_2003075_NAME
 	desc = EVT_2003075_DESC
 	style = 2
-	picture = "Fall_Weserubung"
+	picture = "news_paper"
 
 	decision = {
 		puppet = { country = DEN country = GER }
@@ -6201,7 +6206,7 @@ event = {
 	name = EVT_2003076_NAME
 	desc = EVT_2003076_DESC
 	style = 2
-	picture = "Fall_Weserubung"
+	picture = "news_paper"
 
 	action = {
 		name = EVT_2003076_ACTA
@@ -6248,7 +6253,7 @@ event = {
 	name = EVT_2003079_NAME
 	desc = EVT_2003079_DESC
 	style = 2
-	picture = "Narvik"
+	picture = "news_paper"
 
 	trigger = {
 		event = 2003072
@@ -6377,7 +6382,7 @@ event = {
 	desc = 2003112desc
   	style = 2
   	picture = "hungary_axis"
-	decision_picture="decision_hungary_axis"
+	decision_picture = "decision_hungary_axis"
 
 	date = { day = 0 month = january year = 1936 }
 	offset = 10
@@ -6477,7 +6482,7 @@ event = {
 	desc = 2003250desc
   	style = 2
   	picture = "bulgaria_axis"
-	decision_picture="decision_bulgaria_axis"
+	decision_picture = "decision_bulgaria_axis"
 
 	date = { day = 0 month = january year = 1936 }
 	offset = 10
@@ -6572,7 +6577,7 @@ event = {
 	desc = 2003252desc
   	style = 2
   	picture = "romania_axis"
-	decision_picture="decision_romania_axis"
+	decision_picture = "decision_romania_axis"
 
 	date = { day = 0 month = january year = 1936 }
 	offset = 10
@@ -6691,7 +6696,7 @@ event = {
 	name = EVT_2025006_NAME
 	desc = EVT_2025006_DESC
   	style = 2
-  	picture = "Rapallo_conference"
+  	picture = "news_paper"
 	decision_picture="decision_generic_negotiaton"
 
 	date = { day = 0 month = january year = 1936 }
@@ -6906,7 +6911,7 @@ event = {
 	name = EVT_2014001_NAME
 	desc = EVT_2014001_DESC
   	style = 2
-  	picture = "swedish_volunteers"
+  	picture = "news_paper"
 	decision_picture="decision_generic_negotiaton"
 
 	date = { day = 0 month = january year = 1936 }
@@ -7140,8 +7145,6 @@ event = {
 	name = EVT_2003260_NAME
 	desc = EVT_2003260_DESC
   	style = 2
-  	#picture = "iran_axis"
-	#decision_picture="decision_iran_axis"
 
 	date = { day = 0 month = january year = 1936 }
 	offset = 10
@@ -7229,8 +7232,6 @@ event = {
 	name = EVT_2003261_NAME
 	desc = EVT_2003261_DESC
   	style = 2
-  	#picture = "afghanistan_axis"
-	#decision_picture="decision_afghanistan_axis"
 
 	date = { day = 0 month = january year = 1936 }
 	offset = 10
@@ -7423,8 +7424,7 @@ event = {
 	name = EVT_2003117_NAME
 	desc = EVT_2003117_DESC
   	style = 2
-  	picture = "romania_axis"
-
+	picture = "news_paper"
 
 	action = {
 		name = 2003113a
