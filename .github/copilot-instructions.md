@@ -1,23 +1,28 @@
-# GitHub Copilot Instructions
+# Agent Instructions
 
-Beware that the context may be compacted without warning, therefore you MUST
-periodically preserve important state in the `/memories` folder.
+## Context Management
 
-Do this especially when:
-- the conversation has become substantially longer than the task itself;
-- you have completed a major investigation;
-- you have discovered important facts that would be expensive to rediscover;
-- you have accumulated large amounts of debugging information;
-- you are about to begin a substantially different phase of the task;
-- you suspect context compaction may occur soon.
+Keep the active context focused on information needed for the current task. Conversation context may be compacted, so preserve important state in persistent memory.
 
-In addition, for long-running tasks, you should:
-* Plan the work before executing it.
-* Break large tasks into small, independently verifiable units.
-* For tasks involving many similar items, test the procedure on one or a few items before processing the entire set.
-* Keep a log of what has been done, and what remains to be done in persistent state files.
-* Read the state files before executing next steps, to avoid duplicating work or losing track of progress.
+### Large files
 
-## Verification
+**Do not read large files in their entirety by default.**
 
-Before declaring a large task complete, verify that all requested items were processed and that the resulting files are actually correct.
+When working with a large file (50KB or greater):
+
+* Search for relevant sections, symbols, records, or ranges first.
+* Read and modify the file in logical chunks rather than loading the entire file into context.
+* Avoid re-reading the entire file merely to verify a localized change; verify the affected portions instead.
+* Prefer incremental edits and targeted tests over rewriting the entire file with a script.
+* If the task naturally divides into independent sections, process them independently and use subagents when practical.
+* Only load the entire file when its complete contents are genuinely required to reason about the task.
+
+### Persistent memory
+
+Use the `memory` tool extensively to preserve important task state.
+
+Update persistent memory after major discoveries, decisions, completed phases, failed approaches, or whenever information would otherwise need to be reconstructed after context compaction.
+
+Keep memory concise: record conclusions, current state, relevant files, tests, and next steps—not conversation transcripts or large code blocks.
+
+Before starting work, inspect relevant existing memory. After compaction, use persistent memory to reconstruct the task state before proceeding.
