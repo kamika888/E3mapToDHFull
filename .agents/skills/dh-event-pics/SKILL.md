@@ -41,6 +41,12 @@ This skill provides a streamlined tool and best practices for sourcing and proce
 
 ## Best Practices & Composition Guidelines
 
+- **Crop Review:**
+  - Review the processed image at its final **400x232** event size, not only the source image.
+  - For narrow or tall sources, compare several `--crop-y` positions before choosing padding.
+  - For portrait sources, reject any crop where the eyes are hidden or most of the face is clipped.
+  - Keep temporary crop variants outside `gfx/events_pics/` or delete them after selection so they cannot be mistaken for event assets.
+
 - **Authentic Historical B&W vs Modern Color Photos:**
   - Modern photographs (especially modern color photos of parliaments, council chambers, government buildings, modern tourist crowds, or restored artifacts) MUST NOT be used to represent historical elections or events.
   - Prioritize authentic black-and-white historical photographs, newsreels, contemporary campaign posters, and archival documents from the relevant era (1930s–1950s).
@@ -48,7 +54,7 @@ This skill provides a streamlined tool and best practices for sourcing and proce
 - **Portraits & Aspect Ratio (400x232 = ~1.72:1):**
   - Avoid tight headshots or extreme close-ups, as a wide landscape slice through a narrow face will cut off either the forehead or the chin.
   - Prefer medium/half-length shots, seated poses at desks, podium speeches, or environmental/press photographs with generous margin around the head.
-  - If only a narrow vertical portrait exists, use `--pad` to preserve the complete head and shoulders with a subtle neutral blurred backdrop instead of over-zooming.
+  - If only a narrow vertical portrait exists, compare vertical crop positions first. Use `--pad` to preserve the complete head and shoulders with a subtle neutral blurred backdrop only when cropping cannot produce a legible face.
 - **Historical Event Priority:** For death, resignation, or crisis events, prioritize photographs of actual historical moments (lying-in-state, funeral corteges, courtroom trials, treaty signings, crisis protests) over static individual portraits where they exist.
 - **Strict Subject Verification:** Verify names, dates, and historical roles to avoid confusing historical figures with modern namesakes or similarly named landmarks/buildings.
 
