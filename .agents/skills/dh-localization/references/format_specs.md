@@ -34,6 +34,8 @@ EVT_2003295_NAME;Percentages Agreement;Percentages Agreement;Percentages Agreeme
 3. **File Terminator**: Every localization CSV must end with `#EOF;;;;;;;;;;;X\r\n`.
 4. **Section Organization**: Entries in `config/modtext.csv` are organized under section headers (e.g. `#NewOrderAllied.txt;;;;;;;;;;;X`) and sorted numerically by event ID within that section.
 5. **No End-of-File Appending**: Never append new keys at the end of the file; always place them within their corresponding file/ID group.
+6. **Forbidden Characters**: Strings CANNOT contain `;`, `"`, `#`, `%`.
+7. **Line Breaks**: Line breaks within event text strings must use the format `\n \n`.
 
 ---
 

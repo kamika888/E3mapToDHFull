@@ -49,6 +49,8 @@ Run `extract_strings.py` again to confirm that 0 unlocalized strings or missing 
 4. **File Termination**: Localization files must end with `#EOF;;;;;;;;;;;X\r\n`.
 5. **Grouping**: Never append at the end of CSV files. Always insert new keys within their matching section header (e.g. `#NewOrderAllied.txt;;;;;;;;;;;X`) and maintain numerical ID sorting.
 6. **Max length**: Max length of the event/decision description is 1600 characters. Ideally, keep descriptions closer to 1200 characters, and event name under 40 characters.
+7. **Forbidden Characters**: Strings CANNOT contain the following characters: `;`, `"`, `#`, `%`.
+8. **Line Breaks**: Line breaks within event text strings have to be inserted in the following format: `\n \n`.
 
 ## References
 * [Localization Format Specifications](./references/format_specs.md)
