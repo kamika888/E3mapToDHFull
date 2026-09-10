@@ -9,7 +9,7 @@ from PIL import Image, ImageOps, ImageFilter
 import time
 
 HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    'User-Agent': 'DHModdingTool/1.0 (contact@modding.org)'
 }
 
 import hashlib
@@ -22,6 +22,7 @@ def resolve_wikimedia_thumb(file_or_url, width=800):
         search_url = f"https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={urllib.parse.quote(query)}&srnamespace=6&format=json"
         req = urllib.request.Request(search_url, headers=HEADERS)
         try:
+            time.sleep(1.5)
             with urllib.request.urlopen(req, timeout=15) as resp:
                 data = json.loads(resp.read().decode('utf-8'))
                 search = data.get('query', {}).get('search', [])
@@ -29,6 +30,7 @@ def resolve_wikimedia_thumb(file_or_url, width=800):
                     title = search[0]['title']
                     info_url = f"https://commons.wikimedia.org/w/api.php?action=query&titles={urllib.parse.quote(title)}&prop=imageinfo&iiprop=url&iiurlwidth={width}&format=json"
                     req_info = urllib.request.Request(info_url, headers=HEADERS)
+                    time.sleep(1.5)
                     with urllib.request.urlopen(req_info, timeout=15) as resp_info:
                         info_data = json.loads(resp_info.read().decode('utf-8'))
                         for page in info_data.get('query', {}).get('pages', {}).values():
@@ -36,7 +38,10 @@ def resolve_wikimedia_thumb(file_or_url, width=800):
                                 info = page['imageinfo'][0]
                                 return info.get('thumburl') or info.get('url')
         except Exception as e:
-            print(f"Wikimedia API resolution error for {file_or_url}: {e}")
+            try:
+                print(f"Wikimedia API resolution error for {repr(file_or_url)}: {e}")
+            except Exception:
+                pass
     return file_or_url
 
 def process_image(image_src, output_path, template_path, is_decision=False, crop_y=0.5, pad=False):
@@ -46,7 +51,11 @@ def process_image(image_src, output_path, template_path, is_decision=False, crop
             data = f.read()
     else:
         resolved_url = resolve_wikimedia_thumb(image_src)
+        if not resolved_url or not resolved_url.startswith("http"):
+            raise ValueError(f"Could not resolve image source to a valid URL: {image_src} (Resolved to: {resolved_url})")
+        
         req = urllib.request.Request(resolved_url, headers=HEADERS)
+        time.sleep(2.0) # Always sleep before download too
         with urllib.request.urlopen(req, timeout=15) as response:
             data = response.read()
     
