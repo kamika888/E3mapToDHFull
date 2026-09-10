@@ -6,33 +6,37 @@ import json
 import io
 from PIL import Image, ImageOps, ImageFilter
 
+import time
+
 HEADERS = {
-    'User-Agent': 'DHModdingTool/1.0 (https://github.com/kamika888; darkesthourmod@gmail.com)'
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 }
 
+import hashlib
+
 def resolve_wikimedia_thumb(file_or_url, width=800):
-    """If file_or_url is a Wikimedia Commons File title or wiki URL, resolve to 800px edge thumbnail."""
-    title = None
-    if file_or_url.startswith("File:"):
-        title = file_or_url
-    elif "commons.wikimedia.org/wiki/File:" in file_or_url:
-        title = "File:" + file_or_url.split("commons.wikimedia.org/wiki/File:")[1].split("?")[0]
-        title = urllib.parse.unquote(title)
-        
-    if title:
-        api_url = f"https://commons.wikimedia.org/w/api.php?action=query&titles={urllib.parse.quote(title)}&prop=imageinfo&iiprop=url&iiurlwidth={width}&format=json"
-        req = urllib.request.Request(api_url, headers=HEADERS)
+    """If file_or_url is a Wikimedia Commons File title or query, resolve using MediaWiki search + API."""
+    if file_or_url.startswith("File:") or not file_or_url.startswith("http"):
+        query = file_or_url[5:] if file_or_url.startswith("File:") else file_or_url
+        query = query.replace("_", " ")
+        search_url = f"https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={urllib.parse.quote(query)}&srnamespace=6&format=json"
+        req = urllib.request.Request(search_url, headers=HEADERS)
         try:
-            with urllib.request.urlopen(req, timeout=10) as r:
-                data = json.loads(r.read().decode('utf-8'))
-                pages = data.get('query', {}).get('pages', {})
-                for p in pages.values():
-                    info = p.get('imageinfo', [])
-                    if info:
-                        return info[0].get('thumburl') or info[0].get('url')
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                data = json.loads(resp.read().decode('utf-8'))
+                search = data.get('query', {}).get('search', [])
+                if search:
+                    title = search[0]['title']
+                    info_url = f"https://commons.wikimedia.org/w/api.php?action=query&titles={urllib.parse.quote(title)}&prop=imageinfo&iiprop=url&iiurlwidth={width}&format=json"
+                    req_info = urllib.request.Request(info_url, headers=HEADERS)
+                    with urllib.request.urlopen(req_info, timeout=15) as resp_info:
+                        info_data = json.loads(resp_info.read().decode('utf-8'))
+                        for page in info_data.get('query', {}).get('pages', {}).values():
+                            if 'imageinfo' in page:
+                                info = page['imageinfo'][0]
+                                return info.get('thumburl') or info.get('url')
         except Exception as e:
-            print(f"Warning: Failed to resolve Wikimedia API thumb for {title}: {e}")
-            
+            print(f"Wikimedia API resolution error for {file_or_url}: {e}")
     return file_or_url
 
 def process_image(image_src, output_path, template_path, is_decision=False, crop_y=0.5, pad=False):
