@@ -9,7 +9,7 @@ event = {
 	name = EVT_1_NAME
 	desc = EVT_1_DESC
 	style = 2
-  	picture = "news_paper"
+	
 	trigger = {
 		NOT = {	ispuppet = JAP }
 	}
@@ -147,7 +147,6 @@ event = {
 	name = EVT_2011050_NAME
 	desc = EVT_2011050_DESC
 	style = 2
- 	picture = "news_paper"
 	
 	action = {
 		name = EVT_2011050_ACTA
@@ -171,7 +170,6 @@ event = {
 	name = EVT_2011050_NAME
 	desc = EVT_2011050_DESC
 	style = 2
- 	picture = "news_paper"
 	
 	action = {
 		name = EVT_2011051_ACTA
@@ -201,7 +199,6 @@ event = {
 	name = EVT_2011052_NAME
 	desc = EVT_2011052_DESC
 	style = 2
- 	picture = "news_paper"
 	
 	action = {
 		name = EVT_2011052_ACTA
@@ -304,7 +301,6 @@ event = {
 	name = EVT_2011053_NAME
 	desc = EVT_2011053_DESC
 	style = 2
- 	picture = "news_paper"
 	
 	action = {
 		name = "ACTION_NAME_GREAT"
@@ -335,7 +331,6 @@ event = {
 	name = EVT_2011053_NAME
 	desc = EVT_2011053_DESC
 	style = 2
- 	picture = "news_paper"
 	
 	action = {
 		name = EVT_2011054_ACTA
@@ -540,6 +535,9 @@ event = {
 		command = { trigger = { ai = CHI } type = event which = 2400190 where = CHI when = 0 } #Grand offensive
 		
 		command = { trigger = { NOT = { flag = CHC_partisan } } type = event which = 1330110101 where = CHC when = 60   } #CHC expanding partisans
+
+		
+		command = { type = event which = 2011003 where = REB when = 20 } #sleep Nanjing Massacare if the city is taken fast
 	}
 	action = {
 		name = EVT_2011000_ACTB
@@ -645,13 +643,12 @@ event = {
 
 	name = EVT_1330110078_NAME
 	desc = EVT_1330110078_DESC
+	style = 2
+	picture = "ccip_shanghai"
 	
 	date = { day = 0 month = january year = 1936 }
 	offset = 3
 	deathdate = { day = 29 month = august year = 1963 }
-	
-	picture = "ccip_shanghai"
-	style = 2
 
 	action = {
 		name = ACTION_NAME_FIGHT
@@ -668,9 +665,8 @@ event = {
 	
 	name = EVT_1330110078_NAME
 	desc = EVT_1330110079_DESC
-	
-	picture = "ccip_shanghai"
 	style = 2
+	picture = "ccip_shanghai"
 	
 	action = {
 		name = ACTION_NAME_FIGHT
@@ -708,9 +704,8 @@ event = {
 
 	name = EVT_1330110081_NAME
 	desc = EVT_1330110081_DESC
-	
-	picture = "ccip_shm"
 	style = 2
+	picture = "ccip_shm"
 	
 	action = {
 		name = ACTION_NAME_DAMN
@@ -736,9 +731,8 @@ event = {
 
 	name = EVT_1330110083_NAME #Battle of Nanjing
 	desc = EVT_1330110083_DESC
-
-	picture = "ccip_nanjing_map"
 	style = 2
+	picture = "ccip_nanjing_map"
 
 	action = {
 		ai_chance = 99
@@ -772,8 +766,8 @@ event = {
 		command = { type = dissent 						value = 3  }
 		command = { type = belligerence which = JAP 	value = -5 }
 		command = { trigger = { control = { province = 1235 } } type = construct which = land_fort where = 1235  value = -2 }
-		command = { type = sleepevent which = 2012001 } # Nanjing Massacre, happened partly due to exhaustion by Japanese troops and stronger than expected defense.
-		command = { type = sleepevent which = 2011007 }
+		command = { type = sleepevent which = 2012001 }
+		command = { type = sleepevent which = 2011007 } # Nanjing Massacre, happened partly due to exhaustion by Japanese troops and stronger than expected defense.
         command = { type = relation which = ENG value = -15 }
 		command = { type = relation which = USA value = -15 }
 		command = { type = relation which = VIC value = -15 }
@@ -800,9 +794,8 @@ event = {
 
 	name = EVT_1330110082_NAME 
 	desc = EVT_1330110082_DESC
-
-	picture = "ccip_cw"
 	style = 2
+	picture = "ccip_cw"
 
 	action = {
 		trigger = {
@@ -880,11 +873,10 @@ event = {
 		}
 	}
 	
-	picture = "ccip_gmd"
-	style = 2
-
 	name = EVT_1330110084_NAME #Army Recovers
 	desc = EVT_1330110084_DESC
+	style = 2
+	picture = "ccip_gmd"
 
 	date = { day = 2 month = january year = 1933 }
 	offset = 2
@@ -920,12 +912,11 @@ event = {
 			war = { country = VIC }
 		}
 	}
-	
-	picture = "ccip_cw"
-	style = 2
 
 	name = "EVT_1330110090_NAME"
 	desc = "EVT_1330110090_DESC"
+	style = 2
+	picture = "ccip_allies"
 
 	date = { day = 2 month = january year = 1936 }
 	offset = 15
@@ -941,6 +932,23 @@ event = {
 #########################################################################
 #  The Nanking Massacre
 #########################################################################
+
+event = { 
+	id = 2011003
+	random = no
+	
+	name = "AI_EVENT"
+	
+	action = {
+		trigger = {
+			war = { country = JAP country = CHI }
+			NOT = { control = { province = 1235 data = CHI } }
+			NOT = { event = 2011007	}
+		}
+		command = { type = sleepevent which = 2011007 }
+	}
+}
+
 event = { 
 	id = 2011007
 	random = no
@@ -955,12 +963,13 @@ event = {
 	name = "EVT_3802_NAME"
 	desc = "EVT_3802_DESC"
 	style = 2
- 	picture = "news_paper"
+	picture = "ccip_njm"
+
 	date = { day = 2 month = january year = 1936 }
 	offset = 7
 	deathdate = { day = 29 month = december year = 1963 }
 	
-	action_a = {
+	action = {
 		name = "ACTIONNAME3802A" # That will hurt us more than them!
 		command = { type = dissent value = -2 }
 		command = { type = belligerence 		which = JAP 	value = 10 }
@@ -989,7 +998,6 @@ event = {
 	name = EVT_89_NAME
 	desc = EVT_89_DESC
 	style = 2
-	picture = "news_paper"
 
 	trigger = {
 		war = { country = ENG country = GER }
@@ -1056,7 +1064,7 @@ event = {
 	name = EVT_2011009_NAME
 	desc = "EVT_3806_DESC"
 	style = 2
- 	picture = "news_paper"
+
 	action = {
 		name = EVT_2011009_ACTA # Lean on Siam
 		command = { type = trigger which = 2059001 } # Siam/Thailand
@@ -1073,7 +1081,7 @@ event = {
 	name = "EVT_4500_NAME"
 	desc = "EVT_4500_DESC"
 	style = 2
- 	picture = "news_paper"
+
 	action_a = {
 		name = "ACTION_NAME_ACCEPT" # Accept
 		ai_chance = 99
@@ -1128,7 +1136,7 @@ event = {
 	name = "EVT_3808_NAME"
 	desc = "EVT_3808_DESC"
 	style = 2
- 	picture = "news_paper"
+
 	action_a = {
 		name = ACTION_NAME_OK # Excellent!
 		command = { type = make_puppet which = SIA }
@@ -1155,7 +1163,7 @@ event = {
 	name = "EVT_3809_NAME"
 	desc = "EVT_3809_DESC"
 	style = 2
- 	picture = "news_paper"
+
 	action = {
 		name = EVT_2011011_ACTA
 		command = { }
@@ -1185,7 +1193,6 @@ event = {
 	name = "EVT_3813_NAME"
 	desc = "EVT_3813_DESC"
   	style = 2
- 	picture = "news_paper"
 	
 	date = { day = 0 month = january year = 1939 }
 	offset = 10
@@ -1214,7 +1221,6 @@ event = {
 	name = "EVT_3813_NAME"
 	desc = "EVT_3813_DESC"
   	style = 2
- 	picture = "news_paper"
 
 	action = {
 		ai_chance = 100
@@ -1242,7 +1248,6 @@ event = {
 	name = EVT_2059004_NAME
 	desc = EVT_2059004_DESC
 	style = 2
-	picture = "news_paper"
 
 	action = {
 		name = ACTION_NAME_OK
@@ -1302,7 +1307,6 @@ event = {
 	name = EVT_2059005_NAME
 	desc = EVT_2059005_DESC
 	style = 2
-	picture = "news_paper"
 
 	action = {
 		name = ACTION_NAME_OK
@@ -1326,7 +1330,6 @@ event = {
 	name = EVT_2059006_NAME
 	desc = EVT_2059006_DESC
 	style = 2
-	picture = "news_paper"
 
 	action = {
 		name = ACTION_NAME_OK
@@ -1369,7 +1372,6 @@ event = {
 	name = EVT_2059007_NAME
 	desc = EVT_2059007_DESC
 	style = 2
-	picture = "news_paper"
 
 	action = {
 		name = EVT_2059007_ACTA
@@ -1398,7 +1400,6 @@ event = {
 	name = EVT_2011015_NAME
 	desc = EVT_2011015_DESC
   	style = 2
-  	picture = "news_paper"
 
 	trigger = {	
 		war = { country = JAP }
@@ -1450,7 +1451,6 @@ event = {
 	name = EVT_2011017_NAME
 	desc = EVT_2011017_DESC
   	style = 2
-  	picture = "news_paper"
 
 	action = { 
 		name = EVT_2011017_ACTA
@@ -1476,7 +1476,6 @@ event = {
 	name = EVT_2012017_NAME
 	desc = EVT_2012017_DESC
   	style = 2
-  	picture = "news_paper"
 
 	action = { 
 		name = EVT_2012017_ACTA
@@ -1499,7 +1498,6 @@ event = {
 	name = EVT_2012018_NAME
 	desc = EVT_2012018_DESC
   	style = 2
-  	picture = "news_paper"
 
 	action = { 
 		name = EVT_2012018_ACTA
@@ -1620,7 +1618,6 @@ event = {
 	name = EVT_2012019_NAME
 	desc = EVT_2012019_DESC
   	style = 2
-  	picture = "news_paper"
 
 	action = {
 		name = ACTION_NAME_OK
@@ -1680,7 +1677,6 @@ event = {
 	name = EVT_2012020_NAME
 	desc = EVT_2012020_DESC
   	style = 2
-  	picture = "news_paper"
 
 	action = {
 		name = ACTION_NAME_OK
@@ -1731,7 +1727,6 @@ event = {
 	name = EVT_2012021_NAME
 	desc = EVT_2012021_DESC
   	style = 2
-  	picture = "news_paper"
 
 	action = {
 		name = ACTION_NAME_OK
@@ -1850,7 +1845,6 @@ event = {
 	name = EVT_2012022_NAME
 	desc = EVT_2012022_DESC
   	style = 2
-  	picture = "news_paper"
 
 	action = {
 		name = ACTION_NAME_OK
@@ -1966,7 +1960,6 @@ event = {
 	name = EVT_2141020_NAME
 	desc = EVT_2141020_DESC
 	style = 2
- 	picture = "news_paper"
 	
 	date = { year = 1936 month = january day = 1 }
 	offset = 5
@@ -2003,7 +1996,6 @@ event = {
 	name = EVT_2141021_NAME
 	desc = EVT_2141021_DESC
 	style = 2
- 	picture = "news_paper"
 	
 	action = {
 		name = "ACTION_NAME_HURRAH" 
@@ -2036,7 +2028,6 @@ event = {
 	name = EVT_2141022_NAME
 	desc = EVT_2141022_DESC
 	style = 2
- 	picture = "news_paper"
 	
 	date = { year = 1936 month = january day = 1 }
 	offset = 10
@@ -2062,7 +2053,6 @@ event = {
 	name = EVT_2141023_NAME
 	desc = EVT_2141023_DESC
 	style = 2
- 	picture = "news_paper"
 	
 	action = {
 		name = EVT_2141023_ACTA 
@@ -2084,7 +2074,6 @@ event = {
 	name = EVT_2141025_NAME
 	desc = EVT_2141025_DESC
 	style = 2
- 	picture = "news_paper"
 	
 	date = { year = 1936 month = january day = 1 }
 	offset = 10
@@ -2210,7 +2199,6 @@ event = {
 	name = EVT_2141030_NAME
 	desc = EVT_2141030_DESC
 	style = 2
- 	picture = "news_paper"
 	
 	date = { day = 1 month = january year = 1936 }
 	offset = 15
@@ -2423,7 +2411,6 @@ event = {
 	name = EVT_2141031_NAME
 	desc = EVT_2141031_DESC
 	style = 2
- 	picture = "news_paper"
 	
 	action = {
 		name = ACTION_NAME_DAMN 
@@ -2554,7 +2541,6 @@ event = {
 	name = EVT_2141032_NAME
 	desc = EVT_2141032_DESC
 	style = 2
- 	picture = "news_paper"
 	
 	#may need to disable?
 	date = { day = 1 month = january year = 1936 }
@@ -2732,7 +2718,6 @@ event = {
 	name = "EVT_3835_NAME" 
 	desc = "EVT_3835_DESC"
 	style = 2
- 	picture = "news_paper"
 
 	date = { day = 0 month = february year = 1936 }
 	offset = 14
@@ -2758,7 +2743,6 @@ event = {
 	name = "EVT_2035B_NAME"
 	desc = "EVT_2035B_DESC"
 	style = 2
-  	picture = "news_paper"
 
 	action = {
 		ai_chance = 100
@@ -2802,7 +2786,7 @@ event = {
 	name = EVT_2012002_NAME
 	desc = "EVT_4103_DESC"
   	style = 2
-  	picture = "ccip_wjw"
+  	picture = "china_germany"
 
 	action = {
 		name = ACTION_NAME_OK
@@ -2864,7 +2848,7 @@ event = {
 	name = "EVT_4103_NAME"
 	desc = "EVT_4103_DESC"
   	style = 2
-  	picture = "ccip_wjw"
+  	picture = "china_germany_end"
 
 	action = {
 		name = ACTION_NAME_OK
@@ -2923,7 +2907,7 @@ event = {
 	name = EVT_73_NAME
 	desc = EVT_73_DESC
   	style = 2
-  	picture = "news_paper"
+	
 	action_a = {
 		name = EVT_73_ACTA
 		command = { type = relation 	which = SOV value = -10 }
@@ -2946,7 +2930,6 @@ event = {
 	name = EVT_24_NAME
 	desc = EVT_24_DESC
 	style = 2
- 	picture = "news_paper"
 
 	trigger = {
 		random = 30
@@ -2984,7 +2967,6 @@ event = {
 	name = EVT_25_NAME
 	desc = EVT_25_DESC
 	style = 2
- 	picture = "news_paper"
 
 	# triggered by 2011024
 
@@ -3011,7 +2993,6 @@ event = {
 	name = EVT_22_NAME
 	desc = EVT_2011023_DESC
 	style = 2
- 	picture = "news_paper"
 
 	trigger = {
 		event = 2011024
@@ -3106,7 +3087,6 @@ event = {
 	name = EVT_23_NAME
 	desc = EVT_2007009_DESC
 	style = 2
- 	picture = "news_paper"
 
 	# triggered by 2011023
 
@@ -3129,7 +3109,6 @@ event = {
 	name = EVT_2011013_NAME
 	desc = EVT_2011013_DESC
 	style = 2
- 	picture = "news_paper"
 
 	trigger = {
 		event = 2007009
@@ -3214,7 +3193,6 @@ event = {
 	name = EVT_2011014_NAME
 	desc = EVT_2011014_DESC
 	style = 2
- 	picture = "news_paper"
 
 	# triggered by 2011023
 
@@ -3254,7 +3232,6 @@ event = {
 	name = EVT_2186003_NAME
 	desc = EVT_2186003_DESC
 	style = 2
- 	picture = "news_paper"
 
 	trigger = {
 		event = 2007009
@@ -3333,7 +3310,6 @@ event = {
 	name = EVT_2011016_NAME
 	desc = EVT_2011016_DESC
 	style = 2
- 	picture = "news_paper"
 
 	# triggered by 2011023
 
@@ -3751,11 +3727,10 @@ event = {
 	id = 2011026
 	random = no
 	country = JAP
-	style = 2
-	picture = "Pearl_harbor"
 
 	name = 18name
 	desc = EVT_19_DESC
+	style = 2
 
 	action = {
 		name = ACTION_NAME_OK
@@ -3767,11 +3742,10 @@ event = {
 	id = 2011027
 	random = no
 	country = JAP
-	style = 2
-	picture = "Pearl_harbor"
 
 	name = 19name
 	desc = EVT_19_DESC
+	style = 2
 
 	action = {
 		name = ACTION_NAME_OK
@@ -3866,7 +3840,6 @@ event = {
 	name = EVT_2006040_NAME
 	desc = EVT_2006040_DESC
   	style = 2
-  	picture = "Pact_of_Steel"
 	
 	action = {
 		name = 459a
@@ -3914,7 +3887,6 @@ event = {
 	name = EVT_2006041_NAME
 	desc = EVT_2006041_DESC
   	style = 2
-  	picture = "Pact_of_Steel"
 	
 	action = {
 		name = "ACTION_NAME_GREAT" # Great! 
@@ -3931,7 +3903,6 @@ event = {
 	name = EVT_2006042_NAME
 	desc = EVT_2006042_DESC
   	style = 2
-  	picture = "Pact_of_Steel"
 	
 	action = {
 		name = EVT_2006042_ACTA
@@ -3959,7 +3930,6 @@ event = {
 	name = EVT_2006043_NAME
 	desc = EVT_2006043_DESC
   	style = 2
-  	picture = "Pact_of_Steel"
 	
 	action = {
 		name = EVT_2006043_ACTA
@@ -3978,7 +3948,6 @@ event = {
 	name = EVT_2006044_NAME
 	desc = EVT_2006044_DESC
   	style = 2
-  	picture = "Pact_of_Steel"
 	
 	trigger = {
 		war = { country = SOV }
@@ -4036,7 +4005,6 @@ event = {
 	name = EVT_2006045_NAME
 	desc = EVT_2006045_DESC
   	style = 2
-  	picture = "Pact_of_Steel"
 	
 	action = {
 		name = EVT_2006045_ACTA
@@ -4090,7 +4058,6 @@ event = {
 	name = EVT_2006046_NAME
 	desc = EVT_2006046_DESC
   	style = 2
-  	picture = "Pact_of_Steel"
 	
 	action = {
 		name = EVT_2006046_ACTA
@@ -4160,8 +4127,8 @@ event = {
 		}
 	}
 
-	name = "Strike North"
-	desc = "Despite the setbacks of the earlier border conflicts, the Kwantung Army stood ready to strike once again against Japan's northern rival. Now, the time has finally come to eliminate the northern threat to the Empire once and for all, and secure the vast resources of Siberia for ourselves!"
+	name = EVT_2006047_NAME
+	desc = EVT_2006047_DESC
   	style = 2
 	
 	date = { day = 1 month = january year = 1936 }
@@ -4169,6 +4136,7 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
+		name = EVT_2006047_ACTA
 		#+3 dissent if had a NAP, but it's worth it
 		command = { type = clrflag which = JAP_SOV_NAP }
 		command = { trigger = { non_aggression = { country = JAP country = SOV } } type = local_setflag which = dissentReduce5 when = 1 value = 1 }
@@ -4181,7 +4149,6 @@ event = {
 		command = { type = war which = SOV }
 		#counts as a manual declaration of war
 		command = { trigger = { alliance = { country = GER } } type = dissent value = -2 }
-		
 	}
 }
 
@@ -4209,8 +4176,7 @@ event = {
 	
 	name = EVT_203200_NAME
 	desc = EVT_203200_DESC
-	style = 0
-	picture = "Croatia"
+	style = 2
 
 	#date = { day = 1 month = january year = 1936 }
 	#offset = 15
@@ -4278,7 +4244,7 @@ event = {
 	
 	name = EVT_203201_NAME
 	desc = EVT_203201_DESC
-	style = 0
+	style = 2
 	
 	trigger = {
 		control = { province = 1205 data = U87 } #Beijing
@@ -4332,7 +4298,7 @@ event = {
 	
 	name = EVT_203202_NAME
 	desc = EVT_203202_DESC
-	style = 0
+	style = 2
 	
 	trigger = {
 		control = { province = 1235 data = U87 } #Nanjing
@@ -4396,7 +4362,7 @@ event = {
 	
 	name = EVT_203203_NAME
 	desc = EVT_203203_DESC
-	style = 0
+	style = 2
 	
 	trigger = {
 		alliance = { country = JAP }
@@ -4431,7 +4397,7 @@ event = {
 	
 	name = EVT_203204_NAME
 	desc = EVT_203204_DESC
-	style = 0
+	style = 2
 	
 	trigger = {
 		alliance = { country = JAP }
@@ -4473,7 +4439,7 @@ event = {
 	
 	name = EVT_203205_NAME
 	desc = EVT_203205_DESC
-	style = 0
+	style = 2
 	
 	trigger = {
 		alliance = { country = JAP }
@@ -4519,7 +4485,6 @@ event = {
 	id = 203210
 	random = no
 	country = JAP
-	style = 2
 	
 	decision = {
 		NOT = {	exists = IND }
@@ -4531,6 +4496,7 @@ event = {
 	
 	name = EVT_203210_NAME
 	desc = EVT_203210_DESC
+	style = 2
 
 	date = { day = 1 month = january year = 1936 }
 	offset = 5
@@ -4831,7 +4797,7 @@ event = {
 	action = {
 		name = ACTION_NAME_GREAT
 		command = { type = supplies value = -500 }
-		command = { trigger = { NOT = { military_control = { country = GER country = IND } } } type = military_control which = GER where = IND value = 1 }
+		#command = { trigger = { NOT = { military_control = { country = GER country = IND } } } type = military_control which = GER where = IND value = 1 }
 		command = { type = relation which = IND value = 30 }
 		command = { type = event which = 203216 where = IND when = 0 }
 	}
@@ -4864,7 +4830,7 @@ event = {
 ### Indonesia raised a total of ~100,000k collaborators, from which about 60k PETA and 40k Heiho (gendarmerie), some sources give much greater figures.
 ### This is more than what would normally be gained through occupied overseas MP gain for Japan. However, there was no official puppet government
 ### There is the same problem with AI - Japan will not garrison the beaches of INO. Leave most beaches under Japanese control?
-### For now, no independence route - just MP gain for japan
+### For now, no independence route - just MP gain for japan and free-ish garrisons for AI
 ##########################################
 
 event = {
@@ -4885,7 +4851,7 @@ event = {
 	
 	name = EVT_203220_NAME
 	desc = EVT_203220_DESC
-	style = 0
+	style = 2
 
 	date = { day = 1 month = january year = 1936 }
 	offset = 15
