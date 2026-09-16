@@ -13841,6 +13841,7 @@ event = {
 		NOT = { local_flag = noChange }
 		NOT = { local_flag = { which = war_preparedness when = 1 value = 1 } }
 		NOT = { policy = { type = interventionism value = 10 } }
+		
 		#trying to exclude wars with substantially weaker opponents from the equation, so that for example China's internal squabbles don't actually make it all that prepared for war against Japan etc
 		OR = {
 			#major tier (100+ IC)
@@ -14011,6 +14012,86 @@ event = {
 
 	action = {
 		name = ACTION_NAME_DAMN
+		ai_chance = 100
+		trigger = {
+			#no penalty for AI at higher difficulty when at war with player
+			ai = yes
+			difficulty = 3 #Hard or Very Hard
+			#majors only
+			OR = {
+				AND = {
+					war = { country = SOV }
+					NOT = { ai = SOV }
+				}
+				AND = {
+					war = { country = USA }
+					NOT = { ai = USA }
+				}
+				AND = {
+					war = { country = VIC }
+					NOT = { ai = VIC }
+				}
+				AND = {
+					war = { country = ENG }
+					NOT = { ai = ENG }
+				}
+				AND = {
+					war = { country = GER }
+					NOT = { ai = GER }
+				}
+				AND = {
+					war = { country = JAP }
+					NOT = { ai = JAP }
+				}
+				AND = {
+					war = { country = ITA }
+					NOT = { ai = ITA }
+				}
+				AND = {
+					war = { country = CHI }
+					NOT = { ai = CHI }
+				}
+				AND = {
+					war = { country = CHC }
+					NOT = { ai = CHC }
+				}
+				AND = {
+					war = { country = SPA }
+					NOT = { ai = SPA }
+				}
+				AND = {
+					war = { country = SPR }
+					NOT = { ai = SPR }
+				}
+			}
+		}
+			
+		command = { trigger = { policy = { type = interventionism value = 1 } NOT = { policy = { type = interventionism value = 2  } } } type = local_setflag which = war_preparedness when = 0 value = 1 }
+		command = { trigger = { policy = { type = interventionism value = 2 } NOT = { policy = { type = interventionism value = 3  } } } type = local_setflag which = war_preparedness when = 0 value = 2 }
+		command = { trigger = { policy = { type = interventionism value = 3 } NOT = { policy = { type = interventionism value = 4  } } } type = local_setflag which = war_preparedness when = 0 value = 3 }
+		command = { trigger = { policy = { type = interventionism value = 4 } NOT = { policy = { type = interventionism value = 5  } } } type = local_setflag which = war_preparedness when = 0 value = 4 }
+		command = { trigger = { policy = { type = interventionism value = 5 } NOT = { policy = { type = interventionism value = 6  } } } type = local_setflag which = war_preparedness when = 0 value = 5 }
+		command = { trigger = { policy = { type = interventionism value = 6 } NOT = { policy = { type = interventionism value = 7  } } } type = local_setflag which = war_preparedness when = 0 value = 6 }
+		command = { trigger = { policy = { type = interventionism value = 7 } NOT = { policy = { type = interventionism value = 8  } } } type = local_setflag which = war_preparedness when = 0 value = 7 }
+		command = { trigger = { policy = { type = interventionism value = 8 } NOT = { policy = { type = interventionism value = 9  } } } type = local_setflag which = war_preparedness when = 0 value = 8 }
+		command = { trigger = { policy = { type = interventionism value = 9 } NOT = { policy = { type = interventionism value = 10 } } } type = local_setflag which = war_preparedness when = 0 value = 9 }
+		
+		command = { type = local_setflag which = MIL_Increasing }
+
+		command = { trigger = { policy = { type = interventionism value = 1 } NOT = { policy = { type = interventionism value = 2  } } } type = event which = 3062	where = -1 when = 360  } #1.0 year
+		command = { trigger = { policy = { type = interventionism value = 2 } NOT = { policy = { type = interventionism value = 3  } } } type = event which = 3062	where = -1 when = 540  } #1.5 years
+		command = { trigger = { policy = { type = interventionism value = 3 } NOT = { policy = { type = interventionism value = 4  } } } type = event which = 3062	where = -1 when = 720  } #2.0 years
+		command = { trigger = { policy = { type = interventionism value = 4 } NOT = { policy = { type = interventionism value = 5  } } } type = event which = 3062	where = -1 when = 900  } #2.5 years
+		command = { trigger = { policy = { type = interventionism value = 5 } NOT = { policy = { type = interventionism value = 6  } } } type = event which = 3062	where = -1 when = 1080 } #3.0 years
+		command = { trigger = { policy = { type = interventionism value = 6 } NOT = { policy = { type = interventionism value = 7  } } } type = event which = 3062	where = -1 when = 1260 } #3.5 years
+		command = { trigger = { policy = { type = interventionism value = 7 } NOT = { policy = { type = interventionism value = 8  } } } type = event which = 3062	where = -1 when = 1440 } #4.0 years
+		command = { trigger = { policy = { type = interventionism value = 8 } NOT = { policy = { type = interventionism value = 9  } } } type = event which = 3062	where = -1 when = 1620 } #4.5 years
+		command = { trigger = { policy = { type = interventionism value = 9 } NOT = { policy = { type = interventionism value = 10 } } } type = event which = 3062	where = -1 when = 1800 } #5.0 years
+		command = { trigger = { policy = { type = interventionism value = 10 } } 														 type = local_clrflag 		which = MIL_Increasing }
+	}
+	action = {
+		name = ACTION_NAME_DAMN
+		ai_chance = 0
 		trigger = { policy = { type = interventionism value = 1 } NOT = { policy = { type = interventionism value = 2 } } }
 		
 		command = { type = surprise 			 		which = naval 					value = -9    }
@@ -14051,6 +14132,7 @@ event = {
 	}
 	action = {
 		name = ACTION_NAME_DAMN
+		ai_chance = 0
 		trigger = { policy = { type = interventionism value = 2 } NOT = { policy = { type = interventionism value = 3 } } }
 		
 		command = { type = surprise 			 		which = naval 					value = -8    }
@@ -14090,6 +14172,7 @@ event = {
 	}
 	action = {
 		name = ACTION_NAME_DAMN
+		ai_chance = 0
 		trigger = { policy = { type = interventionism value = 3 } NOT = { policy = { type = interventionism value = 4 } } }
 		
 		command = { type = surprise 			 		which = naval 					value = -7    }
@@ -14129,6 +14212,7 @@ event = {
 	}
 	action = {
 		name = ACTION_NAME_DAMN
+		ai_chance = 0
 		trigger = { policy = { type = interventionism value = 4 } NOT = { policy = { type = interventionism value = 5 } } }
 		
 		command = { type = surprise 			 		which = naval 					value = -6    }
@@ -14168,6 +14252,7 @@ event = {
 	}
 	action = {
 		name = ACTION_NAME_DAMN
+		ai_chance = 0
 		trigger = { policy = { type = interventionism value = 5 } NOT = { policy = { type = interventionism value = 6 } } }
 		
 		command = { type = surprise 			 		which = naval 					value = -5    }
@@ -14207,6 +14292,7 @@ event = {
 	}
 	action = {
 		name = ACTION_NAME_DAMN
+		ai_chance = 0
 		trigger = { policy = { type = interventionism value = 6 } NOT = { policy = { type = interventionism value = 7 } } }
 		
 		command = { type = surprise 			 		which = naval 					value = -4    }
@@ -14246,6 +14332,7 @@ event = {
 	}
 	action = {
 		name = ACTION_NAME_DAMN
+		ai_chance = 0
 		trigger = { policy = { type = interventionism value = 7 } NOT = { policy = { type = interventionism value = 8 } } }
 		
 		command = { type = surprise 			 		which = naval 					value = -3    }
@@ -14285,6 +14372,7 @@ event = {
 	}
 	action = {
 		name = ACTION_NAME_DAMN
+		ai_chance = 0
 		trigger = { policy = { type = interventionism value = 8 } NOT = { policy = { type = interventionism value = 9 } } }
 		
 		command = { type = surprise 			 		which = naval 					value = -2    }
@@ -14324,6 +14412,7 @@ event = {
 	}
 	action = {
 		name = ACTION_NAME_DAMN
+		ai_chance = 0
 		trigger = { policy = { type = interventionism value = 9 } NOT = { policy = { type = interventionism value = 10 } } }
 		
 		command = { type = surprise 			 		which = naval 					value = -1    }
