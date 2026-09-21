@@ -8,15 +8,20 @@ description: >-
 
 This skill provides a streamlined tool and best practices for sourcing and processing event images to meet the mod's technical and historical requirements.
 
-## Fast Workflow
+## Workflow 
+
+Follow these steps strictlyin order. PROCESS ONE IMAGE AT A TIME. When completed processing for one image, mark it as done in the planning document, then proceed to the next one.
 
 1. **Identify:** Read the event/decision including the localization and determine what historical subject or event the picture should depict, and for which country this event will fire.
 2. **Find & Verify Source:** 
+   - Do NOT use `fetch_webpage` or run python scripts for this step. Use the browser intergration. Attempt `navigate_page` first if a browser session already exists. If it doesn't, use `open_browser_page`.
    - Search across diverse sources (Wikimedia Commons, historical archives, baike/wikipedia, google images, etc).
+   - Use browser tools including `screenshot_page` as needed to locate a thematically appropriate image.
+   - Once a suitable image is found, find the URL of the image (using page DOM or other means). Do NOT guess the URL.
    - **Acceptable Media:**
-     - Primary: Authentic historical photographs from the relevant era/conflict.
+     - Primary: Authentic historical photographs from the relevant era/conflict, directly relevant to the subject of the event.
      - Secondary (acceptable when photos are absent or low quality): Period artwork, contemporary propaganda posters/paintings, historical maps, and monument sculptures.
-   - **Avoid:** Modern photographs (e.g. modern buildings, contemporary tourists, modern military units), out-of-period imagery, corrupted solid color images, and low-relevance generic search matches.
+   - **Unacceptable Media:** Modern photographs (e.g. modern buildings, contemporary tourists, modern military units), out-of-period imagery, corrupted solid color images, and low-relevance generic search matches.
 3. **Process:** Run the processing script to fetch the image from a URL, local file, or Wikimedia file title, resize/crop it, apply the appropriate template overlay, and save it to `gfx/events_pics/`:
    * For regular event pictures:
    ```bash
@@ -34,10 +39,14 @@ This skill provides a streamlined tool and best practices for sourcing and proce
    ```bash
    python .agents/skills/dh-event-pics/scripts/process_event_pic.py "<URL_OR_TITLE>" "<NAME>" --pad
    ```
-4. **Reference:** Update the event/decision with `picture = "<FILENAME_NO_EXT>"` or `decision_picture = "decision_<FILENAME_NO_EXT>"`.
-5. **Visual Verification:** 
-   - Visually inspect generated BMPs using `view_file` or generate a local HTML inspection gallery (`gallery.html`) to ensure correct composition, no head-clipping, and authentic period feel.
-   - Verify BMP file exists in `gfx/events_pics/`, is uncompressed 24-bit BMP, and has exact dimensions (**400x232** for events, **224x48** for decisions).
+4. **Visual Verification:**
+   - Convert the BMP to a temporary PNG for visual inspection.
+   - Submit the image to the visual processor using `view_file`.
+   - Briefly describe what is visible in the image, write it into the chat output.
+   - Evaluate whether it meets all historical, thematic, composition, and relevance rules.
+   - If the image is invalid or has issues (e.g. text document, severe pillarboxing, wrong time period, low relevance): **go back to step one and select a new image. Do not proceed to the next image until a suitable replacement has been found.**
+   -Once verified as correct, clean up the temporary PNG file.
+5. **Reference:** Update the event/decision with `picture = "<FILENAME_NO_EXT>"` or `decision_picture = "decision_<FILENAME_NO_EXT>"`.
 
 ## Best Practices & Composition Guidelines
 
