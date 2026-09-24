@@ -14,9 +14,11 @@ Follow these steps strictlyin order. PROCESS ONE IMAGE AT A TIME. When completed
 
 1. **Identify:** Read the event/decision including the localization and determine what historical subject or event the picture should depict, and for which country this event will fire.
 2. **Find & Verify Source:** 
+   ### Copilot instructions
    - Do NOT use `fetch_webpage` or run python scripts for this step. Use the browser intergration. Attempt `navigate_page` first if a browser session already exists. If it doesn't, use `open_browser_page`.
-   - Search across diverse sources (Wikimedia Commons, historical archives, baike/wikipedia, google images, etc).
    - Use browser tools including `screenshot_page` as needed to locate a thematically appropriate image.
+   ### End Copilot instructions
+   - Search across diverse sources (Wikimedia Commons, historical archives, baike/wikipedia, google images, etc).
    - Once a suitable image is found, find the URL of the image (using page DOM or other means). Do NOT guess the URL.
    - **Acceptable Media:**
      - Primary: Authentic historical photographs from the relevant era/conflict, directly relevant to the subject of the event.
@@ -41,7 +43,7 @@ Follow these steps strictlyin order. PROCESS ONE IMAGE AT A TIME. When completed
    ```
 4. **Visual Verification:**
    - Convert the BMP to a temporary PNG for visual inspection.
-   - Submit the image to the visual processor using `view_file`.
+   - Submit the image to the visual processor (Copilot:`view_image`).
    - Briefly describe what is visible in the image, write it into the chat output.
    - Evaluate whether it meets all historical, thematic, composition, and relevance rules.
    - If the image is invalid or has issues (e.g. text document, severe pillarboxing, wrong time period, low relevance): **go back to step one and select a new image. Do not proceed to the next image until a suitable replacement has been found.**
