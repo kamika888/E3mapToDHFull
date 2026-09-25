@@ -5493,6 +5493,13 @@ event = {
 
 	trigger = { 
 		ai = yes
+		#At Hard or above, the default behavior applies
+		NOT = { 
+			AND = { 
+				difficulty = 4
+				local_flag = atWarVsPlayer
+			}
+		}
 		OR = {
 			AND = { local_flag = { which = dissent when = 1 value = 5  } NOT = { dissent = 5  } }
 			AND = { local_flag = { which = dissent when = 1 value = 10 } NOT = { dissent = 10 } }
@@ -5610,7 +5617,14 @@ event = {
 	persistent = yes
 
 	trigger = { 
-		ai = no
+		OR = {
+			ai = no
+			#At Hard or above, the default behavior applies
+			AND = { 
+				difficulty = 4
+				local_flag = atWarVsPlayer
+			}
+		}
 		local_flag = { which = dissent when = 1 value = 1 }
 	}
 
@@ -5623,7 +5637,7 @@ event = {
 	deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
-		name = "Undoing ai cheats"
+		name = "Removing ai penalties"
 		command = { trigger = { local_flag = { which = dissent when = 1 value = 5  } } type = industrial_modifier which = ic value = 5 }
 		command = { trigger = { local_flag = { which = dissent when = 1 value = 10 } } type = industrial_modifier which = ic value = 5 }
 		command = { trigger = { local_flag = { which = dissent when = 1 value = 15 } } type = industrial_modifier which = ic value = 5 }
