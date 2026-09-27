@@ -204,6 +204,11 @@ country =
    {  id       = {  type = 14000 id = 9000  } 
      location = 463 
      name     = "Oberkommando des Bundesheeres" 
+     Division = { 
+      id = { type = 14000 id = 1706 } 
+      name = "Generalstab des Bundesheeres"  
+      type = hq         model = 1 strength = 80
+     }
      Division = 
      {  id       = {  type = 14000 id = 9001  } 
        name     = "Schnelle Division" 
@@ -215,7 +220,7 @@ country =
       } 
      Division = 
      {  id       = {  type = 14000 id = 9002  } 
-       name     = "1. Division" 
+       name     = "1. 'Burgenland' Division" 
        type     = infantry 
        model    = 7 
        strength = 35
@@ -224,7 +229,7 @@ country =
       } 
      Division = 
      {  id       = {  type = 14000 id = 9003  } 
-       name     = "2. Division" 
+       name     = "2. 'Wien' Division" 
        type     = infantry 
        strength = 30 
        model    = 7
@@ -236,7 +241,7 @@ country =
      name     = "3. 'Niederösterreich' Division" 
      Division = 
      {  id       = {  type = 14000 id = 9005  } 
-       name     = "3. Division" 
+       name     = "3. 'Niederösterreich' Division" 
        type     = infantry 
 	   strength = 30 
        model    = 6 
@@ -248,7 +253,7 @@ country =
      name     = "4. 'Oberösterreich' Division" 
      Division = 
      {  id       = {  type = 14000 id = 9007  } 
-       name     = "4. Division"
+       name     = "4. 'Oberösterreich' Division"
        type     = infantry
        strength = 30
        model    = 7
@@ -260,7 +265,7 @@ country =
      name     = "5. 'Steiermark' Division" 
      Division = 
      {  id       = {  type = 14000 id = 9009  } 
-       name     = "5. Division" 
+       name     = "5. 'Steiermark' Division" 
        type     = bergsjaeger 
        strength = 40 
        model    = 7 
@@ -274,7 +279,7 @@ country =
      name     = "6. 'Salzburg, Nordtirol und Vorarlberg' Division" 
      Division = 
      {  id       = {  type = 14000 id = 9011  } 
-       name     = "6. Division" 
+       name     = "6. 'Salzburg' Division" 
        type     = bergsjaeger
        strength = 25 
        model    = 7 
@@ -286,11 +291,35 @@ country =
      name     = "7. 'Kärnten und Osttirol' Division" 
      Division = 
      {  id       = {  type = 14000 id = 9013  } 
-       name     = "7. Division" 
+       name     = "7. 'Kärnten' Division" 
        type     = bergsjaeger 
        strength = 25 
        model    = 7 
       } 
     } 
+
+	airunit = { 
+	location = 463 #Wien 
+	id = { type = 14000 id = 9014 } 
+	name = "I./Fliegerregiment Nr. 1"
+	base = 463
+		division = { id = { type = 14000 id = 9015 } name = "1./ 2. Bomberstaffel"   type = tactical_bomber model = 4 strength = 30 }
+	}
+	
+	airunit = { 
+	location = 463 #Wien 
+	id = { type = 14000 id = 9016 } 
+	name = "II./Fliegerregiment Nr. 1"
+	base = 463	
+		division = { id = { type = 14000 id = 9017 } name = "1./2./3. Jagdstaffel"   type = interceptor model = 7 strength = 30 }
+	}
+	
+	airunit = { 
+	location = 463 #Wien 
+	id = { type = 14000 id = 9018 } 
+	name = "Fliegerregiment Nr. 2"
+	base = 463	
+		division = { id = { type = 14000 id = 9019 } name = "4./5./6. Jagdstaffel"   type = interceptor model = 7 strength = 30 }
+	}
   } 
  

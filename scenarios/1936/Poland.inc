@@ -678,6 +678,12 @@ landunit =
        type  = tactical_bomber 
        model = 4
       } 
+     Division = 
+     {  id    = {  type = 18600 id = 70  } 
+       name  = "4 Grupa Aeronautyczna" 
+       type  = cas 
+       model = 0
+      } 
     } 
 	
 landdivision = { dormant = yes id = { type = 12700 id = 10100 }  name = "Warsaw City Center" 		type = militia  model = 6  strength = 60 }

@@ -521,5 +521,46 @@ inventions = { 3000027 }
        model    = 3 
       } 
     } 
+
+airunit = {
+	location = 207
+	base = 207
+	id = { type = 26000 id = 100 }
+	name = "1. Vzdusného Armády divize"
+		division = { id = { type = 26000 id = 101 } name = "1. Vzduch divize" type = interceptor model = 7 strength = 100 }
+	}
+		
+airunit = {
+	location = 207
+	base = 207
+	id = { type = 26000 id = 102 }
+	name = "2. Vzdusného Armády divize"
+		division = { id = { type = 26000 id = 103 } name = "2. Vzduch divize" type = interceptor model = 7 strength = 35 }
+	}
+		
+airunit = {
+	location = 207
+	base = 207
+	id = { type = 26000 id = 104 }
+	name = "3. Vzdusného Armády divize"
+		division = { id = { type = 26000 id = 105 } name = "3. Vzduch divize" type = interceptor model = 7 strength = 35 }
+	}
+		
+airunit = {
+	location = 207
+	base = 207
+	id = { type = 26000 id = 106 }
+	name = "4. Vzdusného Armády divize"
+		division = { id = { type = 26000 id = 107 } name = "4. Vzduch divize" type = interceptor model = 7 strength = 100 }
+	}
+
+airunit = {
+	location = 207
+	base = 207
+	id = { type = 26000 id = 108 }
+	name = "Bombardér brigáda"
+		division = { id = { type = 26000 id = 109 } name = "5. bombardovací pluk" type = tactical_bomber model = 4 strength = 75  }
+		division = { id = { type = 26000 id = 110 } name = "6. bombardovací pluk" type = tactical_bomber model = 4 strength = 100 }
+	}
   } 
  

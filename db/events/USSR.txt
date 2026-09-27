@@ -13,6 +13,8 @@ event = {
 		event = 2003025 #M-R pact
 	}
 	decision_trigger = {
+		#If USSR waits too long, Germany will not feel obligated to fulfill the original agreement
+		region = { region = "Poland" country = POL value = 40 }
 		OR = {
 			lost_national = { country = POL value = 18 }
 			NOT = { control = { province = 485 data = POL } } #Warsaw
@@ -25,9 +27,25 @@ event = {
 		NOT = { war = { country = SOV country = POL } }
 		event = 2003025 #M-R pact
 		OR = {
-			lost_national = { country = POL value = 18 }
-			NOT = { control = { province = 485 data = POL } } #Warsaw
-			event = { id = 2003036 days = 180 } 
+			AND = {
+				NOT = { ai = GER }
+				difficulty = 3
+				OR = {
+					NOT = { control = { province = 485 data = POL } } #Warsaw
+					lost_national = { country = POL value = 40 } ~28 provinces
+				}
+			}
+			AND = {
+				OR = {
+					ai = GER
+					NOT = { difficulty = 3 }
+				}
+				OR = {
+					NOT = { control = { province = 485 data = POL } } #Warsaw
+					lost_national = { country = POL value = 18 }
+					event = { id = 2003036 days = 180 } 
+				}
+			}
 		}
 	}
 	
@@ -113,7 +131,7 @@ event = {
 	action = {
 		name = EVT_2007019_ACTA
 		ai_chance = 100
-		command = { type = dissent value = 3 } #Poles and many others are upset. Are the British guarantees truly meaningful?
+		command = { type = dissent value = 2 } #Poles and many hawks are upset.
 		command = { type = relation which = POL value = -50 }
 		command = { type = relation which = EST value = -30 }
 		command = { type = relation which = LAT value = -30 }
@@ -126,7 +144,7 @@ event = {
 	action = {
 		name = EVT_2007019_ACTB
 		ai_chance = 0
-		command = { type = dissent value = 2 } #Socialists and Communists are upset. The military is upset - Britain is up against an impossible challenge
+		command = { type = dissent value = 1 } #Socialists and Communists are upset. The military is upset - Britain is up against an impossible challenge
 		command = { type = sleepevent which = 20070210 }
 		#The non-aggression will expire on its own. The USSR is now in a full-scale war with the Allies. German AI will not do Barbarossa.
 	}

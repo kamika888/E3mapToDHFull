@@ -993,6 +993,22 @@ landunit =
           }
         }
 
+	landunit =
+	{ 
+		id       = { type = 23500 id = 700 }
+		location = 406 # Pola
+		name     = "Comando Reggimento San Marco"
+			division = { 
+				id = { type = 23500 id = 701 }
+				name = "1a Reggimento San Marco"
+				type = marine 
+				model = 2 
+				strength = 10 
+				experience = 10 
+			}
+	}  
+
+
      
     ####################################################################
        ### Italian Navy OOB ###
