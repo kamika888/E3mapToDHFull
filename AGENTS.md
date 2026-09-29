@@ -38,6 +38,8 @@ Do not assume that a command exists simply because a similarly named command exi
 * When working with localization CSV files, use the `csv-localization` skill.
 * When adding new decision and event images, use the `dh-event-pics` skill.
 * When adding or updating minister or leader portraits, use the `dh-portraits` skill.
+* When debugging or single-stepping the hourly game loop or inspecting runtime date memory structures in x32dbg, use the `dh-hour-cycle` skill.
+* When automating game launch and save selection, use the `dh-savegame-flow` skill.
 
 ## Persistent Reference Documentation
 

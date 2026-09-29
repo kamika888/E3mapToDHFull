@@ -1,7 +1,7 @@
 ﻿---
 name: dh-savegame-flow
 description: >-
-  Automated UI control flow and coordinate reference for Darkest Hour (v1.05.2, checksum TENE) under x32dbg via Windows MCP. Covers game launch, menu navigation, savegame loading, button geometry, coordinate mapping, the Exit button trap post-mortem, and in-game date verification.
+  Automated UI control flow and coordinate reference for Darkest Hour (checksum TENE) under x32dbg via Windows MCP.
 ---
 
 # Darkest Hour Savegame Loading & UI Automation Flow
@@ -142,7 +142,7 @@ Darkest Hour runs in a 1024x768 DirectDraw canvas. In windowed mode on Windows 1
     $$X_{\text{screen}} = 2 + 3 + X_{\text{client}} = 5 + X_{\text{client}}$$
     $$Y_{\text{screen}} = 0 + 31 + Y_{\text{client}} = 31 + Y_{\text{client}}$$
 
-### 2. The 31px vs 40px Trap (The Exit Button Post-Mortem)
+### 2. The 31px vs 40px Trap
 Main menu buttons are spaced by a pitch of **40px** (27px height + 13px gap).
 Because the window title bar is **31px**, mixing up client coordinates with window coordinates shifts clicks by approximately one button position down the stack. Compounding offsets or applying an offset twice quickly pushes the click from Single Player ($Y = 481$) straight into Exit ($Y = 601$).
 
@@ -154,3 +154,28 @@ Because the window title bar is **31px**, mixing up client coordinates with wind
 ### 4. Static vs Dynamic UI Elements
 - **Static Elements**: All main menu buttons, scenario selection lists, country flags, and bottom action buttons have fixed, hardcoded coordinates across all runs at 1024x768.
 - **Dynamic Elements**: Modal dialogs with variable text length (e.g. Scenario Briefing) expand dynamically. Rely on keyboard shortcuts (`Enter` / `Esc`) rather than absolute click coordinates for modal dialogs.
+
+---
+
+## 4. Capturing Screenshots
+
+When `Darkest Hour.exe` is frozen by a breakpoint or paused in x32dbg, its Win32 message pump is stopped and the DirectDraw surface cannot process standard GDI or window-capture messages.
+
+To successfully capture screenshots while frozen without hanging or returning empty/stale frames:
+
+- **Mandatory Screenshot Parameters**:
+   Always pass these exact parameters to `screenshot_control`:
+   ```json
+   {
+     "action": "capture",
+     "annotate": false,
+     "outputMode": "inline",
+     "target": "window",
+     "imageFormat": "png",
+     "windowHandle": "<HWND>"
+   }
+   ```
+
+- **Deadlock Caution on Paused Windows**:
+   * **NEVER call `window_management(action="activate")`** on a debugger-paused window.
+   * Calling `SetForegroundWindow` on a frozen thread forces Windows to wait for the message queue to synchronize, causing the MCP tool call to deadlock until the 180-second timeout expires.
