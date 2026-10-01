@@ -5418,9 +5418,9 @@ event = {
 		ai_chance = 0
 		command = { type = belligerence which = ENG value =   4 }
 		command = { type = belligerence which = GER value = -10 }
-		command = { type = relation 	which = GRE value = -50 }
-		command = { type = relation 	which = USA value = -10 }
-		command = { type = relation 	which = SOV value = -10 }
+		command = { type = relation 	which = GRE value = -25 }
+		command = { type = relation 	which = USA value = -12 }
+		command = { type = relation 	which = SOV value = -12 }
 		command = { type = dissent					value = 2.0 }
 	}
 }
@@ -5474,6 +5474,13 @@ event = {
 		command = { trigger = { garrison = { country = U02 province = 3355 type = land size = 5 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
 		command = { trigger = { garrison = { country = U02 province = 3355 type = land size = 6 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
 		
+		command = { trigger = { garrison = { country = POL province = 3355 type = land size = 1 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = POL province = 3355 type = land size = 2 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = POL province = 3355 type = land size = 3 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = POL province = 3355 type = land size = 4 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = POL province = 3355 type = land size = 5 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		command = { trigger = { garrison = { country = POL province = 3355 type = land size = 6 area = 3 } } type = local_setflag which = GRELustre when = 1 value = 1 }
+		
 		command = { trigger = { NOT = { local_flag = { which = GRELustre when = 1 value = 6 } } } type = event which = 2600012 where = ENG when = 0 }
 	}
 }
@@ -5492,12 +5499,151 @@ event = {
 		command = { type = belligerence which = ENG value =   6 } #more belligerence because made false promises
 		command = { type = belligerence which = GER value = -10 }
 		command = { type = relation 	which = GRE value = -50 }
-		command = { type = relation 	which = USA value = -10 }
-		command = { type = relation 	which = SOV value = -10 }
+		command = { type = relation 	which = USA value = -25 }
+		command = { type = relation 	which = SOV value = -25 }
 		command = { type = dissent					value = 2.0 }
 	}
 }
 
+#BEF France - force England to assist France
+
+event = {
+	id = 2600020
+	random = no
+	country = ENG
+	save_date = yes
+
+	trigger = {
+		war = { country = GER }
+		alliance = { country = VIC }
+		NOT = { flag = ENG_invaded }
+		NOT = { lost_VP = { country = VIC value = 15 } }
+	}
+
+	date = { day = 6 month = january year = 1936 }
+	offset = 5
+	deathdate = { day = 29 month = december year = 1999 }
+
+	name = EVT_2600020_NAME
+	desc = EVT_2600020_DESC
+	style = 2
+
+	action = {
+		name = EVT_2600020_ACTA
+		ai_chance = 100
+		command = { type = setflag which = BEF_France }
+		
+		#AI will always deliver troops, and they will go as exp_forces to France, which will make it very difficult to count them
+		command = { trigger = { ai = no  } type = event which = 2600021 where = REB when = 60 }
+	}
+	action = {
+		name = EVT_2600020_ACTB
+		ai_chance = 0
+		command = { type = belligerence which = ENG value =  10 }
+		command = { type = belligerence which = GER value = -15 }
+		command = { type = relation 	which = VIC value = -50 }
+		command = { type = relation 	which = USA value = -25 }
+		command = { type = relation 	which = SOV value = -25 }
+		command = { type = dissent					value = 5.0 }
+	}
+}
+
+event = {
+	id = 2600021
+	random = no
+	persistent = yes
+
+	style = 2
+
+	action = {
+		trigger = { area = { area = "Pas de Calais" 	country = VIC data = 1 value = 90 } }
+		
+		command = { type = local_clrflag which = VIC_BEF }
+	
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 1	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 2	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 3	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 4	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 5	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 6	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 7	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 8	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 9	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 10	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 11	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 12	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 13	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 14	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 15	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 16	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 17	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 18	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 19	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = ENG province = 7089	type = land size = 20	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		
+		command = { trigger = { garrison = { country = CAN province = 7089	type = land size = 1	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = CAN province = 7089	type = land size = 2	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = CAN province = 7089	type = land size = 3	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = CAN province = 7089	type = land size = 4	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = CAN province = 7089	type = land size = 5	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = CAN province = 7089	type = land size = 6	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		
+		command = { trigger = { garrison = { country = AST province = 7089	type = land size = 1	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = AST province = 7089	type = land size = 2	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = AST province = 7089	type = land size = 3	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = AST province = 7089	type = land size = 4	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = AST province = 7089	type = land size = 5	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = AST province = 7089	type = land size = 6	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		
+		command = { trigger = { garrison = { country = NZL province = 7089	type = land size = 1	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = NZL province = 7089	type = land size = 2	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = NZL province = 7089	type = land size = 3	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = NZL province = 7089	type = land size = 4	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = NZL province = 7089	type = land size = 5	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = NZL province = 7089	type = land size = 6	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		
+		command = { trigger = { garrison = { country = SAF province = 7089	type = land size = 1	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = SAF province = 7089	type = land size = 2	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = SAF province = 7089	type = land size = 3	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = SAF province = 7089	type = land size = 4	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = SAF province = 7089	type = land size = 5	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = SAF province = 7089	type = land size = 6	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		
+		command = { trigger = { garrison = { country = U02 province = 7089	type = land size = 1	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = U02 province = 7089	type = land size = 2	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = U02 province = 7089	type = land size = 3	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = U02 province = 7089	type = land size = 4	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = U02 province = 7089	type = land size = 5	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		command = { trigger = { garrison = { country = U02 province = 7089	type = land size = 6	area = 1 } } type = local_setflag which = VIC_BEF when = 1 value = 1 }
+		
+		command = { trigger = { NOT = { event = 2003045 }	NOT = { local_flag = { which = VIC_BEF when = 1 value = 10 } } } 	type = event which = 2600022 where = ENG when = 0 }
+		command = { trigger = { event = 2003045 			NOT = { local_flag = { which = VIC_BEF when = 1 value = 20 } } }	type = event which = 2600022 where = ENG when = 0 }
+	}
+}
+
+event = {
+	id = 2600022
+	random = no
+	country = ENG
+	persistent = yes
+
+	name = EVT_2600022_NAME
+	desc = EVT_2600022_DESC
+	style = 2
+
+	action = {
+		name = EVT_2600022_ACTA
+		command = { type = belligerence which = ENG value =  15 } #more belligerence because made false promises
+		command = { type = belligerence which = GER value = -15 }
+		command = { type = relation 	which = VIC value = -75 }
+		command = { type = relation 	which = USA value = -50 }
+		command = { type = relation 	which = SOV value = -50 }
+		command = { type = dissent					value = 5.0 }
+		
+		command = { type = sleepevent 	which = 2600021 }
+		command = { type = sleepevent 	which = 2600022 }
+	}
+}
 
 
 

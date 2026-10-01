@@ -1742,31 +1742,60 @@ landunit =
 		date  = {  year = 1964 } 
 		} 
 		
-	landdivision = { dormant = yes id = { type = 23500 id = 1000 }  name = "52a Divisione" 				locked = yes	type = garrison			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1001 }  name = "Guarnigione di Tripoli 1"	locked = yes	type = infantry			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1002 }  name = "Guarnigione di Tripoli 2"	locked = yes	type = militia			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1003 }  name = "Guarnigione di Benghazi 1"	locked = yes	type = infantry			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1004 }  name = "Guarnigione di Benghazi 2"	locked = yes	type = militia			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1005 }  name = "Guarnigione di Tobruk 1"	locked = yes	type = infantry			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1006 }  name = "Guarnigione di Tobruk 2"	locked = yes	type = militia			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1007 }  name = "Guarnigione di Zawiya"		locked = yes	type = militia			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1008 }  name = "Guarnigione di Khums"		locked = yes	type = militia			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1009 }  name = "Guarnigione di Misrata"		locked = yes	type = militia			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1010 }  name = "Guarnigione di Sirt"		locked = yes	type = militia			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1011 }  name = "Guarnigione di Bin Jawad"	locked = yes	type = militia			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1012 }  name = "Guarnigione di Brega"		locked = yes	type = militia			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1013 }  name = "Guarnigione di Adjabiya"	locked = yes	type = militia			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1014 }  name = "Guarnigione di Marj"		locked = yes	type = militia			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1015 }  name = "Guarnigione di Beida"		locked = yes	type = militia			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1016 }  name = "Guarnigione di Derna"		locked = yes	type = militia			model = 5	strength = 5 }
-	#landdivision = { dormant = yes id = { type = 23500 id = 1017 }  name = "Guarnigione di Bardia"		locked = yes	type = militia			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1000 }  name = "52a Divisione" 				locked = yes	type = garrison			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1001 }  name = "Guarnigione di Tripoli 1"	locked = yes	type = infantry			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1002 }  name = "Guarnigione di Tripoli 2"	locked = yes	type = militia			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1003 }  name = "Guarnigione di Benghazi 1"	locked = yes	type = infantry			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1004 }  name = "Guarnigione di Benghazi 2"	locked = yes	type = militia			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1005 }  name = "Guarnigione di Tobruk 1"	locked = yes	type = infantry			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1006 }  name = "Guarnigione di Tobruk 2"	locked = yes	type = militia			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1007 }  name = "Guarnigione di Zawiya"		locked = yes	type = militia			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1008 }  name = "Guarnigione di Khums"		locked = yes	type = militia			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1009 }  name = "Guarnigione di Misrata"		locked = yes	type = militia			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1010 }  name = "Guarnigione di Sirt"		locked = yes	type = militia			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1011 }  name = "Guarnigione di Bin Jawad"	locked = yes	type = militia			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1012 }  name = "Guarnigione di Brega"		locked = yes	type = militia			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1013 }  name = "Guarnigione di Adjabiya"	locked = yes	type = militia			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1014 }  name = "Guarnigione di Marj"		locked = yes	type = militia			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1015 }  name = "Guarnigione di Beida"		locked = yes	type = militia			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1016 }  name = "Guarnigione di Derna"		locked = yes	type = militia			model = 4	strength = 5 }
+	#landdivision = { dormant = yes id = { type = 23500 id = 1017 }  name = "Guarnigione di Bardia"		locked = yes	type = militia			model = 4	strength = 5 }
 	
-	landdivision = { dormant = yes id = { type = 23500 id = 1021 }  name = "Guarnigione della Sard. 1"	locked = yes	type = garrison			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1022 }  name = "Guarnigione della Sard. 2"	locked = yes	type = garrison			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1023 }  name = "Guarnigione della Sard. 3"	locked = yes	type = garrison			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1024 }  name = "Guarnigione della Sard. 4"	locked = yes	type = garrison			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1025 }  name = "Guarnigione della Sard. 5"	locked = yes	type = garrison			model = 5	strength = 5 }
-	landdivision = { dormant = yes id = { type = 23500 id = 1026 }  name = "Guarnigione della Sard. 6"	locked = yes	type = garrison			model = 5	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1021 }  name = "Guarnigione della Sard. 1"	locked = yes	type = garrison			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1022 }  name = "Guarnigione della Sard. 2"	locked = yes	type = garrison			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1023 }  name = "Guarnigione della Sard. 3"	locked = yes	type = garrison			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1024 }  name = "Guarnigione della Sard. 4"	locked = yes	type = garrison			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1025 }  name = "Guarnigione della Sard. 5"	locked = yes	type = garrison			model = 4	strength = 5 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1026 }  name = "Guarnigione della Sard. 6"	locked = yes	type = garrison			model = 4	strength = 5 }
+	
+	landdivision = { dormant = yes id = { type = 23500 id = 1101 }  name = "Guarnigione della Patr. 1"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1102 }  name = "Guarnigione della Patr. 2"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1103 }  name = "Guarnigione della Patr. 3"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1104 }  name = "Guarnigione della Patr. 4"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1105 }  name = "Guarnigione della Patr. 5"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1106 }  name = "Guarnigione della Patr. 6"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1107 }  name = "Guarnigione della Patr. 7"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1108 }  name = "Guarnigione della Patr. 8"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1109 }  name = "Guarnigione della Patr. 9"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1110 }  name = "Guarnigione della Patr. 10"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1111 }  name = "Guarnigione della Patr. 11"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1112 }  name = "Guarnigione della Patr. 12"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1113 }  name = "Guarnigione della Patr. 13"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1114 }  name = "Guarnigione della Patr. 14"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1115 }  name = "Guarnigione della Patr. 15"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1116 }  name = "Guarnigione della Patr. 16"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1117 }  name = "Guarnigione della Patr. 17"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1118 }  name = "Guarnigione della Patr. 18"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1119 }  name = "Guarnigione della Patr. 19"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1120 }  name = "Guarnigione della Patr. 20"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1121 }  name = "Guarnigione della Patr. 21"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1122 }  name = "Guarnigione della Patr. 22"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1123 }  name = "Guarnigione della Patr. 23"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1124 }  name = "Guarnigione della Patr. 24"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1125 }  name = "Guarnigione della Patr. 25"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1126 }  name = "Guarnigione della Patr. 26"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1127 }  name = "Guarnigione della Patr. 27"	locked = yes	type = garrison			model = 4	strength = 100 }
+	landdivision = { dormant = yes id = { type = 23500 id = 1128 }  name = "Guarnigione della Patr. 28"	locked = yes	type = garrison			model = 4	strength = 100 }
 
 	landdivision = { dormant = yes id = { type = 23500 id = 11165 } name = "50a Divisione 'Regina'" 	type = infantry			model = 10	}
 	

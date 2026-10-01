@@ -2254,38 +2254,57 @@ landunit =
     }
 
 
-	landdivision = { dormant = yes id = { type = 12700 id = 10001 }  name = "1. Home Guard"   type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10002 }  name = "2. Home Guard"   type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10003 }  name = "3. Home Guard"   type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10004 }  name = "4. Home Guard"   type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10005 }  name = "5. Home Guard"   type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10006 }  name = "6. Home Guard"   type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10007 }  name = "7. Home Guard"   type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10008 }  name = "8. Home Guard"   type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10009 }  name = "9. Home Guard"   type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10010 }  name = "10. Home Guard"  type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10011 }  name = "11. Home Guard"  type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10012 }  name = "12. Home Guard"  type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10013 }  name = "13. Home Guard"  type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10014 }  name = "14. Home Guard"  type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10015 }  name = "15. Home Guard"  type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10016 }  name = "16. Home Guard"  type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10017 }  name = "17. Home Guard"  type = garrison model = 5 extra = artillery brigade_model = 9 }
-	landdivision = { dormant = yes id = { type = 12700 id = 10018 }  name = "18. Home Guard"  type = garrison model = 5 extra = artillery brigade_model = 9 }
-	
+	landdivision = { dormant = yes id = { type = 12700 id = 10001 }  name = "1. Home Guard"   type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10002 }  name = "2. Home Guard"   type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10003 }  name = "3. Home Guard"   type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10004 }  name = "4. Home Guard"   type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10005 }  name = "5. Home Guard"   type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10006 }  name = "6. Home Guard"   type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10007 }  name = "7. Home Guard"   type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10008 }  name = "8. Home Guard"   type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10009 }  name = "9. Home Guard"   type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10010 }  name = "10. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10011 }  name = "11. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10012 }  name = "12. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10013 }  name = "13. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10014 }  name = "14. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10015 }  name = "15. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10016 }  name = "16. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10017 }  name = "17. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10018 }  name = "18. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10019 }  name = "19. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10020 }  name = "20. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10021 }  name = "21. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10022 }  name = "22. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10023 }  name = "23. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10024 }  name = "24. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10025 }  name = "25. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10026 }  name = "26. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10027 }  name = "27. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10028 }  name = "28. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10029 }  name = "29. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10030 }  name = "30. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10031 }  name = "31. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10032 }  name = "32. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10033 }  name = "33. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10034 }  name = "34. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10035 }  name = "35. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10036 }  name = "36. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+	landdivision = { dormant = yes id = { type = 12700 id = 10037 }  name = "37. Home Guard"  type = garrison model = 4 extra = artillery brigade_model = 7 strength = 50 locked = yes }
+
 	#2405000 Wilfred
-	landdivision = { dormant = yes id = { type = 12700 id = 10020 }  name = "5th 'Globe Trotters' Division" 	type = infantry 	model = 10 											}
-	landdivision = { dormant = yes id = { type = 12700 id = 10021 }  name = "49th 'West Riding' Division"  		type = infantry 	model = 10 											}
-	landdivision = { dormant = yes id = { type = 12700 id = 10022 }  name = "1st Infantry Division"  			type = infantry 	model = 10 											}
+	landdivision = { dormant = yes id = { type = 12700 id = 810 }  name = "5th 'Globe Trotters' Division" 		type = infantry 	model = 10 											}
+	landdivision = { dormant = yes id = { type = 12700 id = 811 }  name = "49th 'West Riding' Division"  		type = infantry 	model = 10 											}
+	landdivision = { dormant = yes id = { type = 12700 id = 812 }  name = "1st Infantry Division"  				type = infantry 	model = 10 											}
 	
 	#2401700 Wilfred withdrawal
-	landdivision = { dormant = yes id = { type = 12700 id = 10023 }  name = "5th 'Globe Trotters' Division" 	type = infantry 	model = 10 											}
-	landdivision = { dormant = yes id = { type = 12700 id = 10024 }  name = "49th 'West Riding' Division"  		type = infantry 	model = 10 											}
-	landdivision = { dormant = yes id = { type = 12700 id = 10025 }  name = "1st Infantry Division"  			type = infantry 	model = 10 											}
+	landdivision = { dormant = yes id = { type = 12700 id = 820 }  name = "5th 'Globe Trotters' Division" 		type = infantry 	model = 10 											}
+	landdivision = { dormant = yes id = { type = 12700 id = 821 }  name = "49th 'West Riding' Division"  		type = infantry 	model = 10 											}
+	landdivision = { dormant = yes id = { type = 12700 id = 822 }  name = "1st Infantry Division"  				type = infantry 	model = 10 											}
 	
 	#2405030 Torch
-	landdivision = { dormant = yes id = { type = 14800 id = 807 }	 name = "78th 'Battleaxe' Division" 		type = infantry 	model = 10	extra = engineer  brigade_model = 4 	} 
-	landdivision = { dormant = yes id = { type = 14800 id = 808 }	 name = "1st/3rd Special Service Brigades" 	type = marine 		model = 4	strength = 80							} 
+	landdivision = { dormant = yes id = { type = 14800 id = 807 }  name = "78th 'Battleaxe' Division" 			type = infantry 	model = 10	extra = engineer  brigade_model = 4		} 
+	landdivision = { dormant = yes id = { type = 14800 id = 808 }  name = "1st/3rd Special Service Brigades" 	type = marine 		model = 4	strength = 80							} 
 	
 	#2405040 Overlord
 	landdivision = { dormant = yes id = { type = 14800 id = 832 }  name = "21st Army Group HQ" 					type = hq 			model = 4										 	}
