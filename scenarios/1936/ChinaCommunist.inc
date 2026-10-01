@@ -17,6 +17,7 @@ country =
 	supplies               = 800 
 	money                  = 50 
     manpower               = 1000
+  dissent = 3
   free = { 
 	ic = 7 
 	energy = 7
