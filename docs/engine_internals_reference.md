@@ -354,13 +354,13 @@ The game engine maintains an array of 28 diplomatic actions indexed `0` through 
 ### 7.3 Embargo Architecture & Runtime Representation
 Darkest Hour contains a complete internal trade and technology embargo subsystem:
 - **Country Data Offsets**:
-  - `[Country + 288 + 448]`: Hash/set of active technology embargoes.
-  - `[Country + 288 + 516]`: Hash/set of active trade embargoes.
+  - `[Country + 0x120 + 0x1c0]` (`[Country + 288 + 448]`): List/set of active trade embargoes.
+  - `[Country + 0x120 + 0x204]` (`[Country + 288 + 516]`): List/set of active technology embargoes / AI preference restrictions.
 - **Validation Functions**:
-  - `CCountry::HasTechEmbargoAgainst(tag)`: `sub_4A74E0` (`0x004A74E0`), checks tech embargo set.
-  - `CCountry::HasTradeEmbargoAgainst(tag)`: `sub_4A7500` (`0x004A7500`), checks trade embargo set.
-- **Trade Deal Checks**: `sub_5FE2F0` and tooltip generator `0x0061C950` explicitly call `sub_4A7500`. If an embargo is active between either party, the trade option is blocked with tooltip string `DIPROL_TRADE_EMBARGO` (*"We or they are currently under a trade embargo"*).
-- **Event Command Pipeline**: Scripted event command `type = embargo which = TAG where = TAG value = X` is deserialized as `CExecuteEventEffectCommand` (Command ID 278, Sub-effect 330) and executed in `CCountry::ExecuteEmbargoCommand` (`0x00494B90` / `0x00494C41`).
+  - `CCountry::HasTradeEmbargoAgainst(tag)`: `sub_4A74E0` (`0x004A74E0`), checks trade embargo set (`+0x1c0`).
+  - `CCountry::HasTechEmbargoAgainst(tag)`: `sub_4A7500` (`0x004A7500`), checks tech embargo set (`+0x204`).
+- **Trade Deal Checks**: Trade dialogs (`0x005FE241`) and tooltip generator (`0x0061DA1F`) explicitly call `sub_4A74E0`. If an embargo is active between either party, the trade option is blocked with tooltip string `DIPROL_TRADE_EMBARGO` (*"We or they are currently under a trade embargo"*).
+- **Event Command Pipeline**: Scripted event command `type = embargo which = TAG where = TAG value = X` is deserialized as `CExecuteEventEffectCommand` (Command ID 278, Sub-effect 330) and executed in `CCountry::ExecuteEmbargoCommand` (`0x00494B90` / `0x00494C41`). Value 1 updates the Trade Embargo list (`+0x1c0`), while Value 2 updates the Tech Embargo list (`+0x204`).
 
 ### 7.4 Puppet Trade Mechanics & Master Relationships
 - **Master Tag Resolution**:
@@ -393,3 +393,38 @@ Darkest Hour contains a complete internal trade and technology embargo subsystem
   - Replaces the 51-byte hardcoded check with a call to `fn_is_puppet_trade_blocked` (`0x007E2DB0`).
   - When allowed (Mode 1, or Mode 2 without embargo), execution jumps to `0x0044EB6C` to calculate normal land-transit or sea/convoy efficiency.
   - When blocked (Mode 0, or Mode 2 with master embargo), execution jumps to `0x0044F49B` (efficiency stays $0.0f$).
+
+
+### 7.6 Configurable Puppet Trade & Master Veto Implementation
+- **Configuration Mechanism**:
+  - Setting key `AllowPuppetTrade` under `[Diplomacy]` in `mod_settings.ini`.
+  - Values:
+    - `0`: Vanilla behavior (puppets can only trade with their master).
+    - `1`: Free trade (puppets can trade with any non-war nation).
+    - `2`: Free trade with Master Veto (puppets trade freely, but automatically respect master trade embargoes, master tech/AI embargoes, and master war enemies).
+- **Startup Loader Hook (`0x00791FE9` -> `0x007E2D30`)**:
+  - Intercepts early engine startup in `sub_791FE9` (`0x00792BA3`).
+  - Dynamically resolves `GetPrivateProfileIntA` from `kernel32.dll` via existing IAT imports (`LoadLibraryA` at `[0x007E3054]`, `GetProcAddress` at `[0x007E3080]`).
+  - Reads `mod_settings.ini` from the active mod directory (fallback to root `.\mod_settings.ini`), defaulting to `2`.
+  - Stores result in global variable `g_nPuppetTradeMode` at `0x00880780`.
+- **Master Hostility Subroutine (`fn_is_master_hostile` at `0x007E2E4D`)**:
+  - Evaluates whether a subject's trade partner is blocked by the master nation.
+  - Safe register architecture: Preserves `ebp` and stack frame across calls.
+  - Three-tier hostility checks:
+    1. **Trade Embargo**: Calls `0x004A74E0` (`CCountry::HasTradeEmbargoAgainst`, checking `[master + 0x120 + 0x1c0]`).
+    2. **Tech & AI Embargo**: Calls `0x004A7500` (`CCountry::HasTechEmbargoAgainst`, checking `[master + 0x120 + 0x204]`).
+    3. **War Matrix**: Dereferences `[master + 0x12da]` and checks byte `[relation_array + (11 * tag + 11) * 4]`.
+  - Returns `1` (blocked/vetoed) if any check triggers, otherwise `0` (allowed).
+- **Unified Validation Function (`fn_is_puppet_trade_blocked` at `0x007E2DB0`)**:
+  - Called by all diplomacy validation, UI tooltip, AI evaluation, and trade efficiency hooks.
+  - In Mode 0: Enforces vanilla master-only checks.
+  - In Mode 1: Bypasses puppet restrictions entirely.
+  - In Mode 2: Bilaterally evaluates `fn_is_master_hostile` for Actor's Master vs Target, and Target's Master vs Actor.
+- **Hooked Engine Locations**:
+  - `0x004A16E9`: `CanPerformDiplomacyAction` Case 0x12 (`DIP_OFFER_TA`) -> Trampoline at `0x007E2EA0`.
+  - `0x004A179F`: `CanPerformDiplomacyAction` Case 0x15 (`DIP_TRADE`) -> Trampoline at `0x007E2EC0`.
+  - `0x0061D84B`: `CDiplomacyDialog` Case 0x12 Tooltip (`DIPROL_SAT`) -> Trampoline at `0x007E2EE0`.
+  - `0x0061D941`: `CDiplomacyDialog` Case 0x15 Tooltip (`DIPROL_SAT`) -> Trampoline at `0x007E2F10`.
+  - `0x0067B384`: AI Proposal Puppet Evaluation -> Trampoline at `0x007E2F40`.
+  - `0x0067C784`: AI Scoring Puppet Evaluation -> Trampoline at `0x007E2F60`.
+  - `0x0044EB39`: `CalculateTradeEfficiencies` Hardcoded 0% Puppet Block -> Trampoline at `0x007E2F90`.
