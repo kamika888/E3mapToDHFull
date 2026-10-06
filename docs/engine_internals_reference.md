@@ -302,3 +302,94 @@ The detailed mathematical formulas, wartime scaling modifiers (including the rea
   * `0x467`: `home_peace_cap` (`[local_12c + 0x70]`)
   * `0x468`: `war_zone_odds` (`[local_12c + 0x64]`, default `2.0`)
   * `0x469`: `area_multiplier` list (`[local_12c + 0x78]`)
+
+
+---
+
+## 7. Diplomacy Subsystem & Command Architecture
+
+### 7.1 Deterministic Command Queue & Execution Model
+In the Darkest Hour / Europa Engine, multiplayer simulations run under a deterministic lockstep model. Consequently:
+- **No Direct State Mutations in UI**: Clicking buttons in the interface does not directly mutate country relations, alliances, or trade treaties.
+- **Unified Command Dispatch**: All player actions -- both bilateral pacts (Trade Agreement, Alliance) and unilateral toggles (e.g., `DONTSENDFORCES` [Action 27, Command 340], `CANCEL_MILITARY_ACCESS`, `MOBILIZE`, `RELEASE_PUPPET`) -- are packaged into concrete `CCommand` instances and queued into `CCommandQueue`.
+- **Hourly Execution Tick**: On the hourly simulation tick, the queue processes packets identically across all network clients via `CCountry::ExecuteCommand` (`0x004A8C90`), ensuring synchronization without desyncs (OOS).
+
+### 7.2 Catalog of the 28 Hardcoded Diplomatic Actions
+The game engine maintains an array of 28 diplomatic actions indexed `0` through `27` (`sub_585B10` at `0x00585B10` and `CCountry::CanPerformDiplomacyAction` at `0x004A1050`). When opening the diplomacy window (`sub_61A...`), the dialog builds its action table from these entries:
+
+| Action ID | Internal Key | In-Game Name | Command ID | UI Status | Engine Functionality & Historical Notes |
+|:---|:---|:---|:---|:---|:---|
+| **0** | `DIP_DECLARE_WAR` | Declare War | 315 | Active | Standard declaration of war. |
+| **1** | `DIP_OFFER_ALLIANCE` | Offer Alliance | 316 | Active | Bilateral alliance offer between two unaligned nations. |
+| **2** | `DIP_BRING_TO_ALLIANCE` | Bring to Alliance | 317 | Active | Alliance leader invites a third nation into the existing alliance. |
+| **3** | `DIP_JOIN_ALLIANCE` | Join Alliance | 318 | Active | Non-aligned country requests admission into an existing alliance. |
+| **4** | `DIP_LEAVE_ALLIANCE` | Leave Alliance | 319 | Active | Peacetime exit from an alliance. |
+| **5** | `DIP_BAN_FROM_ALLIANCE` | Ban from alliance | 320 | Active | Alliance leader expels a member nation. |
+| **6** | `DIP_INFLUENCE_NATION` | Influence Nation | 321 | Active | Costs money; pulls target domestic policy sliders towards actor. |
+| **7** | `DIP_COUP_NATION` | Coup Nation | 322 | **Omitted from Diplo UI** | **Legacy HoI2 action.** In *HoI2: Doomsday*, coups were migrated to the Intelligence/Espionage screen (`SPY_COUP`). Retained in internal enum but not populated in Diplo dialog. |
+| **8** | `DIP_ASK_FOR_MILITARY_ACCESS` | Ask for Military Access | 323 | Active | Requests passage through target territory. |
+| **9** | `DIP_CANCEL_MILITARY_ACCESS` | Cancel Military Access | 324 | Active | Cancels military access previously granted to target. |
+| **10** | `DIP_REVOKE_MILITARY_ACCESS` | Revoke Military Access | 325 | Active | Revokes access actor possesses through target territory. |
+| **11** | `DIP_ASSUME_MILITARY_CONTROL` | Assume Military Control | 326 | Active | Transfers operational command of ally divisions to actor. |
+| **12** | `DIP_CANCEL_MILITARY_CONTROL` | Relinquish Military Control | -- | Active | Returns operational military control to ally. |
+| **13** | `DIP_SEND_EXPEDITIONARY_FORCE` | Send Expeditionary Force | 327 | Active | Transfers selected divisions to ally control. |
+| **14** | `DIP_GUARANTEE_INDEPENDENCE` | Guarantee Independence | 328 | Active | Grants CB and mitigates dissent if target is attacked. |
+| **15** | `DIP_ANNEX_NATION` | Annex Nation | 329 | Contextual | Available when target is fully occupied (100% of Victory Points controlled). |
+| **16** | `DIP_PUPPET_REGIME` | Puppet Regime | -- | **Omitted from Diplo UI** | **Legacy HoI1 action.** Peacetime puppet ultimatum. Superseded in DH by peace negotiations (`Sue for Peace`), liberation, and events. |
+| **17** | `DIP_DEMAND_TERRITORY` | Demand Territory | 330 | Active | Demands national claims from target country. |
+| **18** | `DIP_TRADE` | Open Negotiations | 331 | Active | Bilateral one-time deal interface (provinces, tech blueprints, stockpiles). |
+| **19** | `DIP_OFFER_NON_AGGRESSION` | Offer Non-Aggression Pact | 332 | Active | Proposes bilateral Non-Aggression Pact. |
+| **20** | `DIP_CANCEL_NA` | Cancel Non-Aggression Pact | 333 | Contextual | Visible only when an active Non-Aggression Pact exists. |
+| **21** | `DIP_OFFER_TA` | Offer Trade Agreement | 334 | Active | Establishes daily recurring resource trade agreement. |
+| **22** | `DIP_CANCEL_TA` | Break Trade Agreement | 335 | Contextual | Visible only when an active trade agreement exists with target. |
+| **23** | `DIP_CANCEL_PT` | Cancel Peace Treaty | 336 | **Omitted from Diplo UI** | **Engine-only command.** Backend command to break post-war truce early. Not added to UI dialog; truces expire on timers or break via events. |
+| **24** | `DIP_SUE_FOR_PEACE` | Sue For Peace | 337 | Contextual | Available when at war with target; opens peace negotiation conditions. |
+| **25** | `DIP_RELEASE_PUPPET` | Release Puppet | 338 | Contextual | Visible only when viewing actor own puppet; grants independence. |
+| **26** | `LIBERATE_NATION` | Liberate Nation | 339 | Contextual | Releases a sovereign or puppet nation from non-core occupied territory. |
+| **27** | `DONTSENDFORCES` | Don't Send Expeditionary Forces | 340 | Contextual | Darkest Hour innovation. One-sided toggle to prevent ally AI spamming units. |
+
+#### Unused Legacy CSV Strings
+- `DIP_REQUEST_SPECIFIC_ATTACK` (*"Request Specific Attack"*, `text.csv` line 694) and `DIP_OFFER_LEND_LEASE` (*"Offer Lend Lease"*, `text.csv` line 697) are pre-release HoI2 text entries. They have **zero references** in `Darkest Hour.exe` and were never compiled into executable logic.
+
+### 7.3 Embargo Architecture & Runtime Representation
+Darkest Hour contains a complete internal trade and technology embargo subsystem:
+- **Country Data Offsets**:
+  - `[Country + 288 + 448]`: Hash/set of active technology embargoes.
+  - `[Country + 288 + 516]`: Hash/set of active trade embargoes.
+- **Validation Functions**:
+  - `CCountry::HasTechEmbargoAgainst(tag)`: `sub_4A74E0` (`0x004A74E0`), checks tech embargo set.
+  - `CCountry::HasTradeEmbargoAgainst(tag)`: `sub_4A7500` (`0x004A7500`), checks trade embargo set.
+- **Trade Deal Checks**: `sub_5FE2F0` and tooltip generator `0x0061C950` explicitly call `sub_4A7500`. If an embargo is active between either party, the trade option is blocked with tooltip string `DIPROL_TRADE_EMBARGO` (*"We or they are currently under a trade embargo"*).
+- **Event Command Pipeline**: Scripted event command `type = embargo which = TAG where = TAG value = X` is deserialized as `CExecuteEventEffectCommand` (Command ID 278, Sub-effect 330) and executed in `CCountry::ExecuteEmbargoCommand` (`0x00494B90` / `0x00494C41`).
+
+### 7.4 Puppet Trade Mechanics & Master Relationships
+- **Master Tag Resolution**:
+  - Actor master tag: `*(*(Country_Actor + 0x12da) + 0x3b30)` (returns `0` if independent).
+  - Target master tag: `*(*(Country_Target + 0x12da) + 0x3b30)` (returns `0` if independent).
+- **Engine Trade Blocks (Vanilla)**:
+  - `CCountry::CanPerformDiplomacyAction`:
+    - Case `0x12` (`DIP_OFFER_TA` at `0x004A16CC`): Rejects action if either party is a puppet and the other party is not their master.
+    - Case `0x15` (`DIP_TRADE` at `0x004A1782`): Performs identical master-only verification.
+  - Tooltip Handler (`0x0061D84B` / `0x0061D941`): Jumps to `0x0061DA73` to display `DIPROL_SAT` (*"Puppet states of other nations are not free to do that"*).
+  - AI Trade Evaluations (`0x0067B384` and `0x0067C78A`): AI evaluates puppet status and rejects proposing trades to non-masters.
+
+### 7.5 Trade Efficiency Pipeline & Puppet Restrictions
+- **Trade Efficiency Table (`m_TradeEfficiency`)**:
+  - Located at offset `+0xF4EE` within `CCountry` (`float m_TradeEfficiency[344]`).
+  - Represents direct trade efficiency ($0.0$ to $1.0$) between the country and each target country tag.
+  - Calculated for all active countries at scenario start (`0x00485E5B`) and during daily country updates (`0x004832C3`) inside `CCountry::CalculateTradeEfficiencies` (`0x0044E800`).
+- **Hardcoded Puppet Zero-Efficiency Block (Vanilla)**:
+  - In `CCountry::CalculateTradeEfficiencies` (`0x0044EB23` to `0x0044EB66`):
+    - Initializes target efficiency to $0.0f$ (`0x0044EB27`).
+    - At `0x0044EB39`: Checks if actor is a puppet (`test al, al`). If target is not actor's master (`cmp [esp+0x3c], edi`), jumps to `0x0044F49B` (skipping route calculation and leaving efficiency at $0.0f$).
+    - At `0x0044EB4F`: Checks if target is a puppet. If actor is not target's master, jumps to `0x0044F49B` (leaving efficiency at $0.0f$).
+  - Consequently, in vanilla any trade agreement involving a puppet and a non-master was mathematically locked to 0% efficiency, even if established by event or save-file edit.
+- **Consumers of Trade Efficiency**:
+  - **Trade Dialog UI** (`0x0060646F` / `0x00647BC0`): Averages actor and target efficiency `(eff1 + eff2) * 0.5 * 100.0%` and displays string `TA_EFF_EST` (*"Estimated Effectiveness: %.2f%%"*).
+  - **Trade Deal Creation** (`0x00781F4F`): Initializes deal efficiency `[CTradeDeal + 0x46]` from `(eff1 + eff2) * 0.5`.
+  - **Daily Trade Deal Updates** (`0x0058A870`): Iterates all active deals and updates `[CTradeDeal + 0x46]` from current country efficiencies.
+  - **Daily Deliveries**: Resource amounts transferred each hour/day are multiplied by deal efficiency `[CTradeDeal + 0x46]`.
+- **Configurable Hook (`0x0044EB39`)**:
+  - Replaces the 51-byte hardcoded check with a call to `fn_is_puppet_trade_blocked` (`0x007E2DB0`).
+  - When allowed (Mode 1, or Mode 2 without embargo), execution jumps to `0x0044EB6C` to calculate normal land-transit or sea/convoy efficiency.
+  - When blocked (Mode 0, or Mode 2 with master embargo), execution jumps to `0x0044F49B` (efficiency stays $0.0f$).
