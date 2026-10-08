@@ -3132,7 +3132,7 @@ event = {
     picture = "news_paper"
 
     date = { day = 0 month = july year = 1936 }
-    offset = 29
+    offset = 25
     deathdate = { day = 29 month = december year = 1936 }
 
     action = {
@@ -3171,6 +3171,8 @@ event = {
 		command = { type = relation		which = GER value = -10 }
 		command = { type = relation		which = ITA value = -10 }
 		command = { type = relation		which = SOV value = -10 }
+
+		command = { type = trigger which = 2001183 }
 	}
 }
 
@@ -3204,6 +3206,70 @@ event = {
 		command = { type = relation		which = ENG value = -100 }
 		command = { type = relation		which = GER value =  100 }
 		command = { type = relation		which = SOV value =  50  }
+	}
+}
+
+event = {
+	id = 2001183
+	random = no
+	persistent = yes
+	all = yes
+
+	name = EVT_2001180_NAME
+	desc = EVT_2001180_DESC
+	style = 2
+  	picture = "generic_negotiaton"
+
+	action = {
+		name = ACTION_NAME_OK
+		trigger = { NOT = { local_flag = black_sea_power } }
+		command = { type = relation		which = TUR value =   5 }
+		#Cannot be done within the same event, remove_units where = -1 evaluates to the wrong country
+		command = { 
+			trigger = {
+				OR = {
+					garrison = { country = -1 province = 2465 type = naval size = 1 area = 2 }
+					garrison = { country = -1 province = 422  type = naval size = 1 area = 2 }
+					garrison = { country = -1 province = 436  type = naval size = 1 area = 2 }
+					garrison = { country = -1 province = 253  type = naval size = 1 area = 2 }
+					garrison = { country = -1 province = 3431 type = naval size = 1 area = 2 }
+					garrison = { country = -1 province = 269  type = naval size = 1 area = 1 }
+					garrison = { country = -1 province = 409  type = naval size = 1 area = 1 }
+					garrison = { country = -1 province = 440  type = naval size = 1 area = 1 }
+				}
+			}
+			type = event which = 2001184 where = -1 when = 0 }
+	}
+	action = {
+		name = ACTION_NAME_OK
+		trigger = { local_flag = black_sea_power NOT = { country = TUR } }
+		command = { type = relation		which = TUR value =  10 }
+		command = { }
+	}
+}
+
+event = {
+	id = 2001184
+	random = no
+	persistent = yes
+
+	name = EVT_2001180_NAME
+	desc = EVT_2001180_DESC
+	style = 2
+  	picture = "generic_negotiaton"
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = remove_units which = naval where = -1 when = 2 value = "Black Sea" }
+		command = { type = remove_units which = naval where = -1 when = 2 value = "Romania" }
+		command = { type = remove_units which = naval where = -1 when = 2 value = "Bulgaria" }
+		command = { type = remove_units which = naval where = -1 when = 2 value = "Ukraine" }
+		command = { type = remove_units which = naval where = -1 when = 2 value = "Russia" }
+		command = { type = remove_units which = naval where = -1 when = 2 value = "Kaukasus" }
+		command = { type = remove_units which = naval where = -1 when = 1 value = "Anatolian North Coast" }
+		command = { type = remove_units which = naval where = -1 when = 1 value = "Bosphorus" }
+
+		command = { }
 	}
 }
 
