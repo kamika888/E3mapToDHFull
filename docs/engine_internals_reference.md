@@ -428,3 +428,223 @@ Darkest Hour contains a complete internal trade and technology embargo subsystem
   - `0x0067B384`: AI Proposal Puppet Evaluation -> Trampoline at `0x007E2F40`.
   - `0x0067C784`: AI Scoring Puppet Evaluation -> Trampoline at `0x007E2F60`.
   - `0x0044EB39`: `CalculateTradeEfficiencies` Hardcoded 0% Puppet Block -> Trampoline at `0x007E2F90`.
+
+
+### 7.7 Configurable Expeditionary Forces to Human Players (AllowExpForcesToPlayers)
+
+- **Problem Statement**:
+  1. **Peacetime Front Leadership Suppression**: In vanilla Darkest Hour, `Front::GetLeadingCountry` (`0x004CCB2C`) queries `Country::IsAI()` (`0x004CCCB6`). If the territory owner is a human player, the country is unconditionally skipped from Front Leader selection (`0x004CCCC2 -> jmp 0x004CCB54`). Consequently, allied troops stationed on human soil (such as British troops in France) are treated as commanding an English front, and Britain never transfers operational control to the player.
+  2. **Garrison AI Homeland Dispatch Gate**: In `CGarrisonAI::FindAlliedFrontNeedingTroops` (`0x00695520`), the AI iterates allied nations and checks `g_bIsHuman[ally_tag]` (`0x00695596`). If the ally is human, the front is skipped entirely (`0x0069559F -> jnz 0x006955D3`). This prevents the British AI from ever shipping homeland reserves (e.g. BEF Corps) overseas to defend a human-controlled France.
+  3. **Infinite Embark/Recall Loop via Refusal Bypass**: If peacetime control transfer is forced without checking diplomatic refusal, setting *"We do not want expeditionary forces from [Country]"* (`dont_want_exp_forces = yes`) successfully blocks the handover upon arrival, but does not block the overseas dispatch in `CGarrisonAI`. Troops repeatedly ship overseas, land, get rejected, return home, and ship again.
+
+- **Unified Configuration Toggle (`mod_settings.ini`)**:
+  - Setting key `AllowExpForcesToPlayers` under `[Diplomacy]`.
+  - Values:
+    - `0`: Vanilla behavior (AI does not dispatch overseas garrisons to human players, default).
+    - `1`: Modified behavior (AI sends overseas garrison reinforcements and transfers operational control on human soil, unless refused via `dont_want_exp_forces`).
+  - Stored at runtime in global variable `g_nAllowExpForcesToPlayers` at address `0x0088077C`.
+
+- **Sequential Inline INI Loader (`0x007E2D80` - `0x007E2DAF`)**:
+  - Reuses the startup loader initialized for `AllowPuppetTrade` without code duplication:
+    - `ebx`: Function pointer to `GetPrivateProfileIntA`.
+    - `edi`: Pointer to section string `"Diplomacy"` (`0x008807B0`).
+    - `esi`: Pointer to formatted mod path buffer (`0x00880800`).
+  - Sequentially reads:
+    1. `AllowPuppetTrade` (default 2) -> `[0x00880780]` (offset `0x003E2D8C` - `0x003E2D9B`).
+    2. `AllowExpForcesToPlayers` (default 0) -> `[0x0088077C]` (offset `0x003E2D9C` - `0x003E2DAB`).
+  - Fits completely within the 48 available padding bytes before `0x007E2DB0` (`CanPerformDiplomacyAction`).
+
+- **Multi-Hook Layout in `.text` Cave 2 (`0x007E2FB3` - `0x007E3000`)**:
+  - **Hook 1 (Front Leader Recognition @ `0x007E2FB3`, 23 bytes)**:
+    - Call site at `0x004CCCB6` (17 bytes: `call [edx+0x1C]; jmp 0x007E2FB3; nop * 9`).
+    - Logic:
+      - Checks `cmp dword ptr [0x0088077C], 1`.
+      - If 1: Jumps directly to `0x004CCCC7` (accepts human player as Front Leader candidate).
+      - If 0: Tests `al` (`IsAI()`). If human (0), jumps to `0x004CCB54` (vanilla skip); if AI (1), jumps to `0x004CCCC7` (vanilla accept).
+  - **Hook 2 (Garrison AI Homeland Dispatch & Refusal Check @ `0x007E2FCA`, 48 bytes)**:
+    - Call site at `0x00695593` (14 bytes: `mov ecx, [esi+6]; jmp 0x007E2FCA; nop * 6`).
+    - Logic:
+      - Checks `cmp dword ptr [0x0088077C], 0`.
+      - If 0 (Vanilla): Tests `[ecx*4 + 0x00DC0FD4]` (`IsHuman`). If human, skips ally (`0x006955D3`); if AI, evaluates front (`0x006955A1`).
+      - If 1 (Modified): Resolves caller country struct `[ebp+0x0A]`, retrieves caller tag `[eax+0x06]`, indexes target ally's refusal table `[esi + caller_tag + 0x11862]` (`dont_want_exp_forces`).
+        - If refused (`1`): Skips ally (`0x006955D3`).
+        - If accepted (`0`): Evaluates front for reinforcements (`0x006955A1`).
+
+
+### 7.8 Checksum Synchronization and Config Relocation (`db/mod_settings.ini`)
+
+To prevent multiplayer desynchronization and ensure that modified gameplay rules cannot accidentally connect to vanilla or mismatched clients, the engine's checksum pipeline and configuration path were restructured:
+
+- **Path Relocation to `db/` Hierarchy**:
+  - `mod_settings.ini` was relocated from the mod root directory to `db/mod_settings.ini` (e.g., `Mods\<Mod>\db\mod_settings.ini` with root fallback to `db\mod_settings.ini`).
+  - Path buffers and format strings in `.data` (`0x00880750`):
+    - `0x008807D4`: `".\\%s\\db\\mod_settings.ini\0"` (mod-specific formatted path).
+    - `0x008807F0`: `".\\db\\mod_settings.ini\0"` (root fallback path).
+    - `0x00880810`: `"db\\mod_settings.ini\0"` (relative path passed to engine file-hashing routine).
+    - `0x00880830`: Formatted path buffer (128 bytes) pre-initialized with fallback path and populated by `sprintf`.
+  - Sequential loader (`0x007E2D30`) passes `0x00880830` to `GetPrivateProfileIntA`.
+
+- **Engine Checksum Pipeline Architecture**:
+  - **`FUN_0042E3D0` (`0x0042E3D0`)**: Top-level checksum calculation function.
+    - Initializes global 32-bit checksum accumulator `DAT_00893644 = 0`.
+    - Iterates over ~35 core database files (`db\building_costs.txt`, `db\country.csv`, `db\misc.txt`, brigade files, `db\mission_eff.csv`, etc.).
+    - Calls `FUN_0042E2C0(const char* rel_path)` for each file and accumulates the return value: `DAT_00893644 += FUN_0042E2C0(...)`.
+    - Converts `DAT_00893644` into four uppercase ASCII letters:
+      $$\text{Char}_0 = (S \pmod{26}) + \text{'A'}, \quad \text{Char}_1 = ((S \gg 4) \pmod{26}) + \text{'A'}, \dots$$
+      Stored into `DAT_00893648` as `"Darkest Hour v 1.05.2 (%s)"`.
+  - **`FUN_0042E2C0` (`0x0042E2C0`)**: Native file checksum calculator.
+    - If a mod is active (`DAT_00DC3A00 != 0`), attempts `fopen("%s\\%s", mod_path, rel_path)`.
+    - If not found or no mod, falls back to `fopen(rel_path, "rb")`.
+    - Sums all signed/unsigned bytes in the file byte-by-byte via `fread` and returns the integer sum. Returns `0` if file does not exist.
+
+- **Inline Checksum Hook (`0x0042E710` - `0x0042E758`, File Offset `0x0002E710`)**:
+  - Fits completely inline across 72 bytes at the tail of `FUN_0042E3D0` without requiring external code caves or jumps:
+    ```x86asm
+    0042E710: 68 68 B1 83 00       push 0x83B168                 ; "db\ministers\minister_personalities.txt"
+    0042E715: 01 05 44 36 89 00    add [0x00893644], eax         ; accumulate policy_effects.csv sum
+    0042E71B: E8 A0 FB FF FF       call 0x0042E2C0               ; hash minister personalities
+    0042E720: 68 54 B1 83 00       push 0x83B154                 ; "db\mission_eff.csv"
+    0042E725: 01 05 44 36 89 00    add [0x00893644], eax         ; accumulate minister personalities sum
+    0042E72B: E8 90 FB FF FF       call 0x0042E2C0               ; hash mission_eff.csv
+    0042E730: 68 10 08 88 00       push 0x00880810               ; "db\mod_settings.ini"
+    0042E735: 01 05 44 36 89 00    add [0x00893644], eax         ; accumulate mission_eff.csv sum
+    0042E73B: E8 80 FB FF FF       call 0x0042E2C0               ; hash db\mod_settings.ini
+    0042E740: 83 C4 20             add esp, 0x20                 ; clean up 8 stacked arguments (32 bytes)
+    0042E743: 01 05 44 36 89 00    add [0x00893644], eax         ; accumulate db\mod_settings.ini sum
+    0042E749: BE 1A 00 00 00       mov esi, 0x1A                 ; restore divisor 26 for modulo conversion
+    0042E74E: A1 44 36 89 00       mov eax, [0x00893644]         ; eax = total checksum
+    0042E753: 8B C8                mov ecx, eax                  ; ecx = total checksum
+    0042E755: 90 90 90             nop * 3
+    ```
+  - Directly falls through into `0x0042E758` (`cdq; idiv esi`) for normal 4-letter conversion.
+
+- **Verified Runtime Checksum Matrix**:
+  - Pristine unmodified Darkest Hour Light: **`TENE`**
+  - Patched with `AllowExpForcesToPlayers = 1`: **`EGNR`**
+  - Patched with `AllowExpForcesToPlayers = 0`: **`DGNR`**
+  - Any alteration to `AllowPuppetTrade` or `AllowExpForcesToPlayers` immediately shifts the byte sum and alters the 4-letter checksum, natively preventing desynchronization in multiplayer.
+
+---
+
+## 8. Dynamic Straits Subsystem Architecture & Hook Specifications
+
+### 8.1 Engine Limitations of Vanilla Straits
+In vanilla Darkest Hour / Europa Engine, naval strait passage logic suffers from several severe architectural constraints:
+1. **Hardcoded Static Table**: Vanilla registers only 12 hardcoded straits stored in a static array in `.data` (`0x00DC9B60` - `0x00DC9BF0`). Each entry is a 12-byte struct `(SeaProv: int16, Type: int16, LandProv1..4: int16)`.
+2. **Immutability at Runtime**: Strait passage rules cannot be altered by events, decisions, or scenario scripting.
+3. **Hardcoded Allied-Only Exception**: Only sea province `397` (Bosphorus) supported restricted passage rules (Allied-only), explicitly hardcoded into the movement check function `0x005846B0` and UI tooltip formatter `0x005EC5CE`, loading hardcoded string `STRAIT_BOS`. Other straits could not use this rule.
+4. **Single-Controller UI Bias**: When multiple land provinces control a strait (e.g. Gibraltar and Ceuta), the tooltip only referenced the first province and displayed the flag of whatever country controlled slot 1, even if another land controller was actively blocking the strait.
+5. **No Scripted Event Command**: No native command existed to open, close, or toggle strait passage dynamically.
+
+### 8.2 Configuration & Database Specification (`db/straits.csv`)
+To overcome these limitations while maintaining 100% backwards compatibility, the Dynamic Straits subsystem was integrated via Patch v7:
+
+- **Unified Configuration Toggle (`db/mod_settings.ini`)**:
+  - Section `[Map]`: `EnableCustomStraits = 1` (default `0`).
+  - When set to `0`: Engine retains vanilla static tables and logic.
+  - When set to `1`: Dynamic CSV loader and runtime hooks are active.
+
+- **Data File Resolution Hierarchy**:
+  1. `map\<current_map>\straits.csv` (e.g. `map\Map_3\straits.csv` for mod-specific map layouts).
+  2. `db\straits.csv` (mod-wide fallback).
+  3. Hardcoded baseline table in memory (fallback if no CSV is found).
+
+- **Database File Format (`db/straits.csv`)**:
+  - Columns: `SeaProv;LandProv1;LandProv2;LandProv3;LandProv4;Type;Name`
+  - Up to 4 controlling land provinces per strait (unused slots set to `0`).
+  - Maximum capacity: 64 straits (expanded from 12).
+  - Types in CSV (aligned 1-to-1 with event command and flag values):
+    - `1`: **Always Open** (unconditional free passage for all nations, peace or wartime).
+    - `2`: **Closed by Controller** (transit blocked to all non-controllers; controller fleets retain passage).
+    - `3`: **Normal Strait** (passage permitted unless at war with any land controller).
+    - `4`: **Allied-Only Strait** (passage permitted only to land controllers and wartime allies).
+    - `5`: **Montreux Convention Strait** (Black Sea powers peacetime passage; non-Black Sea powers allied at war only).
+
+### 8.3 Runtime Scripting & Dynamic State Machine
+
+Modders can dynamically inspect and modify strait passage rules at runtime using two interchangeable mechanisms:
+
+1. **Native DHFScript Event Command**:
+   ```dhfscript
+   command = { type = strait which = <sea_province_id> value = <1/2/3/4/5> }
+   ```
+   - `which`: Sea province ID of the strait (e.g. `2430` for Gibraltar, `2453` for Suez, `397` for Bosphorus).
+   - `value`:
+     - `1`: **Always Open** (unconditional free passage for all nations, peace or wartime; appends `STRAIT_OPEN`).
+     - `2`: **Closed by Controller** (transit blocked to all non-controllers; controller fleets retain passage; appends `STRAIT_CLOSED`).
+     - `3`: **Normal Strait** (passage permitted as long as not at war with any controlling land province).
+     - `4`: **Allied-Only Strait** (passage permitted only to land controllers and wartime allies; appends `STRAIT_ALLIED_ONLY`).
+     - `5`: **Montreux Convention Strait** (Black Sea powers peacetime passage; non-Black Sea powers allied at war only; appends `STRAIT_MONTREUX`).
+
+2. **Global Flag Bridge & Save-Game Persistence**:
+   - The command automatically updates the engine's internal global flag `strait_<sea_province_id> = <value>`.
+   - Modders can also manipulate or query this flag directly:
+     ```dhfscript
+     # Set or change status:
+     command = { type = setflag which = strait_2430 value = 2 }
+
+     # Trigger check:
+     trigger = { flag = { which = strait_2430 value = 2 } }
+     ```
+   - **Zero-Loss Save/Load Persistence**: Because the engine natively serializes all global flags into scenario and save files within the `flags = { ... }` block, runtime strait alterations persist across save and load cycles without requiring custom binary save serialization hooks.
+
+### 8.4 Binary Hook Architecture & Memory Layout
+
+Patch v7 injects 7 cooperative hooks across `.text` call sites into dedicated subroutines in the `.mod` section (`0x007E3000`+):
+
+```
++-----------------------------------------------------------------------------------+
+| .text Call Sites                                                                  |
+|                                                                                   |
+| 0x007E2DA7: fn_init_straits               --> Reads EnableCustomStraits from INI  |
+| 0x0058444F: CSV Loader Hook               --> Calls fn_load_straits_csv           |
+| 0x005846B0: IsStraitBlocked Hook          --> Calls fn_custom_strait_check        |
+| 0x005342F5: Script Token Lexer Hook (7a)  --> Resolves "strait" token (0x69A)    |
+| 0x0053437D: Script Token Direct Hook (7b) --> Resolves "strait" token (0x69A)    |
+| 0x0070A5C0: Command Parser Hook (8)       --> Routes 0x69A -> 0x13E opcode        |
+| 0x00713861: Command Executor Hook (9)     --> Executes fn_exec_strait_cmd         |
+| 0x005EC3F5: UI Blocker Prov Hook (6a)     --> Identifies blocking controller prov |
+| 0x005EC47E: UI Prov Names Hook (6b)       --> Formats multi-prov names ("A and B")|
+| 0x005EC580: UI Country Deduplication (6c) --> Formats unique blocker nations       |
+| 0x005EC5CE: UI Allied Text Hook (6d)      --> Displays STRAIT_ALLIED_ONLY string  |
++-----------------------------------------------------------------------------------+
+```
+
+#### Detailed Hook Specifications:
+1. **Startup & CSV Loader (`0x007E4400`)**:
+   - Called during map initialization at `0x0058444F`.
+   - Checks `EnableCustomStraits`. If disabled or file missing, loads default 5-strait table (`tbl_default_straits`).
+   - If enabled, parses up to 64 lines from `straits.csv` using custom integer scanner `fn_parse_int`.
+   - Stores parsed entries in global array `g_Straits` at `0x007E50C0` (64 entries * 12 bytes = 768 bytes).
+
+2. **Dynamic Passage Evaluation (`0x007E4670`, Call Site `0x005846B0`)**:
+   - Replaces vanilla hardcoded loop in `IsStraitBlocked`.
+   - First checks if global flag `strait_<sea_prov>` exists via `CScriptParser::GetFlag(ecx=[0x00D77B70], name)`:
+     - `1`: Returns `0` (Open).
+     - `2`: Returns `1` (Blocked).
+     - `3`: Evaluates Normal rule against all defined land controllers.
+     - `4`: Evaluates Allied-Only rule against all defined land controllers.
+     - `0` / missing: Evaluates default rule loaded from CSV (`Type 2` -> Normal, `Type 3` -> Allied-only).
+
+3. **Event Command Token Resolution & Execution**:
+   - **Hooks 7a & 7b (`fn_hook_lookup_token` @ `0x005342F5` & `fn_hook_lookup_direct` @ `0x0053437D`)**: Hooked into `CScriptParser::LookupToken` and `LookupTokenDirect`. Evaluates vanilla hash map lookup first, preserving all vanilla tokens completely intact (including `0x699` / `remove_claim_region`), and intercepts unrecognized tokens to resolve keyword `"strait"` as token ID `0x69A`.
+   - **Hook 8 (`fn_command_mapper_hook` @ `0x0070A5C0`)**: Maps token `0x69A` to command action opcode `0x13E` in the event compiler switch table.
+   - **Hook 9 (`fn_command_executor_hook` @ `0x00713861`)**: Intercepts command dispatch at `0x00713861`. If `eax == 0x13E`, branches to `fn_exec_strait_cmd`:
+     - Reads float value from `[esi+8]` and sea prov ID from `[esi+0x0C]`.
+     - Formats flag string `"strait_%d"`.
+     - Calls `CScriptParser::SetFlag(ecx=[0x00D77B70], name, val)`.
+
+4. **UI Tooltip & Natural Language Grammar Engine**:
+   - **Hook 6a (`0x005EC3F5`)**: Queries the current viewer country. If the strait is blocked, iterates all controlling provinces and returns the province ID of the first controller currently at war, ensuring the sidebar flag icon reflects the hostile blocking nation rather than an uninvolved co-controller.
+   - **Hook 6b (`0x005EC47E`)**: Iterates all controlling land provinces, retrieves their localized names, and concatenates them with grammatical conjunctions:
+     - 1 province: `"Gibraltar"`
+     - 2 provinces: `"Gibraltar and Ceuta"`
+     - 3+ provinces: `"Gibraltar, Ceuta and Tangier"`
+     - Populates localized token `%s` in `STRAIT_CONTROLLER` (*"The controller of %s decides who goes through this strait."*).
+   - **Hook 6c (`0x005EC580` / `0x005EC59A`)**: Deduplicates land controllers into unique nations. If all land controllers are held by the same country (e.g. UK holding both sides), the nation is listed only once. If held by multiple countries (e.g. Poland and UK), they are formatted as `"Poland and United Kingdom"` into `STRAIT_BLOCKED` (*"This is possible as long as you are not at war with %s."*).
+   - **Hook 6d (`0x005EC5CE` / `0x005F1AD9`)**: Replaces hardcoded check for province 397. Dynamically evaluates runtime strait type and appends dedicated localized explanations from `config/modtext.csv`:
+     - **Type 1 (Force Open)**: Appends `STRAIT_OPEN` (*"(The strait controller has declared this strait open to all military vessels and commercial shipping.)"*).
+     - **Type 2 (Closed by Controller)**: Appends `STRAIT_CLOSED` (*"(The strait controller has exercised his right to block this strait to all military vessels and cargo.)"*). The controller's own fleets retain passage; all non-controllers are blocked.
+     - **Type 3 (Normal Strait)**: Standard passage rules (open if at peace with controllers; no extra suffix).
+     - **Type 4 (Allied-Only Strait)**: Appends `STRAIT_ALLIED_ONLY` (*"(Please note that this is an Allied-only strait, and the controller will only allow through allies at war.)"*).
+     - **Type 5 (Montreux Convention Strait)**: Appends `STRAIT_MONTREUX` (*"(Please note that this strait is governed by the Montreux Convention: Black Sea powers have passage rights in peacetime, while other nations may only transit if allied to the controller during wartime.)"*). If a strait's default type is Montreux (e.g. Bosphorus 397), runtime value 4 automatically evaluates to Montreux (5) for script convenience.

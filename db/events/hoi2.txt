@@ -3140,14 +3140,12 @@ event = {
 		command = { type = dissent 		value = 2  }
 		command = { type = free_ic  	value = -2 }
 		command = { type = free_money 	value = -1 }
-		command = { type = construct which = coastal_fort where = 7057 value = 1 }
-		command = { type = construct which = coastal_fort where = 409  value = 1 }
-		command = { type = setflag which = Montreux }
+		command = { type = trigger which = 2001181 }
     }
     action = {
 		name = EVT_2001180_ACTB
 		command = { type = dissent value = -0.5 }
-		command = { type = trigger which = 2001181 }
+		command = { type = trigger which = 2001182 }
     }
 } 
 
@@ -3156,31 +3154,56 @@ event = {
 	random = no
 	country = TUR
 
-	name = EVT_2001181_NAME
-	desc = EVT_2001181_DESC
+	name = EVT_2001180_NAME
+	desc = EVT_2001180_DESC
 	style = 2
   	picture = "generic_negotiaton"
 
 	action = {
-		name = EVT_2001181_ACTA
+		name = ACTION_NAME_GREAT
+		command = { type = construct	which = coastal_fort where = 7057 value = 1 }
+		command = { type = construct	which = coastal_fort where = 409  value = 1 }
+		command = { type = setflag		which = Montreux }
+		command = { type = setflag 		which = "strait_397" value = 5 }
+
+		command = { type = dissent		value = -1 }
+		command = { type = relation		which = ENG value =  50 }
+		command = { type = relation		which = GER value = -10 }
+		command = { type = relation		which = ITA value = -10 }
+		command = { type = relation		which = SOV value = -10 }
+	}
+}
+
+event = {
+	id = 2001182
+	random = no
+	country = TUR
+
+	name = EVT_2001182_NAME
+	desc = EVT_2001182_DESC
+	style = 2
+  	picture = "generic_negotiaton"
+
+	action = {
+		name = EVT_2001182_ACTA
 		ai_chance = 95
-		command = { type = dissent value = 5 }
-		command = { type = relation which = VIC value = -50 }
-		command = { type = relation which = ENG value = -100 }
-		command = { type = relation which = GER value = 100 }
-		command = { type = relation which = SOV value = 50 }
-		#command = { type = domestic which = political_left value = -1 } #fascist?
-		command = { type = setflag which = TurkeyUpsetAtAllies } 
+		command = { type = dissent		value = 5 }
+		command = { type = relation		which = VIC value =  -50 }
+		command = { type = relation		which = ENG value = -100 }
+		command = { type = relation		which = GER value =  100 }
+		command = { type = relation		which = SOV value =   50 }
+		#command = { type = domestic	which = political_left value = -1 } #fascist?
+		command = { type = setflag		which = TurkeyUpsetAtAllies } 
 		command = { trigger = { ai = yes } type = ai which = "neutrality30.ai" }
 	}
 	action = {
-		name = EVT_2001181_ACTB
+		name = EVT_2001182_ACTB
 		ai_chance = 5
-		command = { type = dissent value = 25 }
-		command = { type = relation which = VIC value = -50 }
-		command = { type = relation which = ENG value = -100 }
-		command = { type = relation which = GER value = 100 }
-		command = { type = relation which = SOV value = 50 }
+		command = { type = dissent 		value = 25 }
+		command = { type = relation		which = VIC value = -50  }
+		command = { type = relation		which = ENG value = -100 }
+		command = { type = relation		which = GER value =  100 }
+		command = { type = relation		which = SOV value =  50  }
 	}
 }
 
@@ -3191,12 +3214,14 @@ event = {
 	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 UTC UER UPE }
 	
 	trigger = {
-		NOT = { local_flag = TurkishStraitsController }
+		NOT = { local_flag = TurkishStraitsToll }
 		flag = Montreux
-		control = { province = 409 data = -1 }  #Istanbul
-		control = { province = 2613 data = -1 } #Gallipoli
-		control = { province = 4133 data = -1 } #Canakkale
-		control = { province = 439 data = -1 }  #Izmit
+		flag = { which = "strait_397" when = 0 value = 5 }
+		control = { province = 409	data = -1 } #Istanbul
+		control = { province = 2613	data = -1 } #Gallipoli
+		control = { province = 4133	data = -1 } #Canakkale
+		control = { province = 439	data = -1 } #Izmit
+		NOT = { atwar = yes }
 	}
 	
 	name = EVT_2001185_NAME
@@ -3212,7 +3237,7 @@ event = {
 		name = EVT_2001185_ACTA
 		command = { type = free_ic  	value = 5 }
 		command = { type = free_money 	value = 2 }
-		command = { type = local_setflag which = TurkishStraitsController }
+		command = { type = local_setflag which = TurkishStraitsToll }
     }
 } 
 
@@ -3223,14 +3248,16 @@ event = {
 	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 UTC UER UPE }
 	
 	trigger = {
-		local_flag = TurkishStraitsController
+		local_flag = TurkishStraitsToll
 		NOT = {
 			AND = {
 				flag = Montreux
-				control = { province = 409 data = -1 }  #Istanbul
-				control = { province = 2613 data = -1 } #Gallipoli
-				control = { province = 4133 data = -1 } #Canakkale
-				control = { province = 439 data = -1 }  #Izmit
+				flag = { which = "strait_397" when = 0 value = 5 }
+				control = { province = 409	data = -1 } #Istanbul
+				control = { province = 2613	data = -1 } #Gallipoli
+				control = { province = 4133	data = -1 } #Canakkale
+				control = { province = 439	data = -1 } #Izmit
+				NOT = { atwar = yes }
 			}
 		}
 	}
@@ -3248,9 +3275,146 @@ event = {
 		name = EVT_2001186_ACTA
 		command = { type = free_ic  	value = -5 }
 		command = { type = free_money 	value = -2 }
-		command = { type = local_clrflag which = TurkishStraitsController }
+		command = { type = local_clrflag which = TurkishStraitsToll }
     }
 } 
+
+#########################################################################
+#  Turkish Straits - Closure and Reopening Decisions
+#  Montreux Convention Article 21
+#########################################################################
+
+# Close the Turkish Straits
+event = {
+	id = 2010050
+	random = no
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 UTC UER UPE }
+	persistent = yes
+
+	decision = {
+		flag = Montreux
+		flag = { which = "strait_397" when = 0 value = 5 }
+		control = { province = 409	data = -1 } #Istanbul
+		control = { province = 2613	data = -1 } #Gallipoli
+		control = { province = 4133	data = -1 } #Canakkale
+		control = { province = 439	data = -1 } #Izmit
+	}
+
+	decision_trigger = {
+
+	}
+
+	trigger = {
+		flag = Montreux
+		flag = { which = "strait_397" when = 0 value = 5 }
+		control = { province = 409	data = -1 } #Istanbul
+		control = { province = 2613	data = -1 } #Gallipoli
+		control = { province = 4133	data = -1 } #Canakkale
+		control = { province = 439	data = -1 } #Izmit
+		NOT = { atwar = yes } #When at war, automatically permits allies, denies everyone else
+		flag = { which = Threat_level_EU when = 1 value = 7 }
+	}
+
+	name = "DEC_2010050_NAME"
+	desc = "DEC_2010050_DESC"
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 14
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "DEC_2010050_ACTA"
+		#command = { type = strait 		which = 397 		 value = 2 }
+		command = { type = setflag 		which = "strait_397" value = 2 }
+
+		command = { trigger = { local_flag = TurkishStraitsToll } type = free_ic  		value =  -5 }
+		command = { trigger = { local_flag = TurkishStraitsToll } type = free_money 	value =  -2 }
+		command = { trigger = { local_flag = TurkishStraitsToll } type = local_clrflag	which = TurkishStraitsToll }
+
+		command = { type = belligerence			value =  10 }
+		command = { type = relation which = SOV value = -40 }
+		command = { type = relation which = ENG value = -20 }
+		command = { type = relation which = GER value = -20 }
+		command = { type = relation which = ITA value = -20 }
+		command = { type = relation which = VIC value = -20 }
+
+		#Turkey is not supposed to block passage unless at war or "threatened by war".
+		#It gets a lot of leeway in deciding what constitutes a threat, but blocking without an clear reason would be considered aggressive behavior.
+		command = { trigger = { NOT = { atwar = yes flag = { which = Threat_level_EU when = 1 value = 7 } } }  type = belligerence	value =  10 }
+		command = { trigger = { NOT = { atwar = yes flag = { which = Threat_level_EU when = 1 value = 6 } } }  type = belligerence	value =  10 }
+		command = { trigger = { NOT = { atwar = yes flag = { which = Threat_level_EU when = 1 value = 5 } } }  type = belligerence	value =  10 }
+		command = { trigger = { NOT = { atwar = yes flag = { which = Threat_level_EU when = 1 value = 4 } } }  type = belligerence	value =  10 }
+		command = { trigger = { NOT = { atwar = yes flag = { which = Threat_level_EU when = 1 value = 3 } } }  type = belligerence	value =  10 }
+		command = { trigger = { NOT = { atwar = yes flag = { which = Threat_level_EU when = 1 value = 2 } } }  type = belligerence	value =  10 }
+
+		#Unhappy commerce class
+		command = { trigger = { NOT = { atwar = yes flag = { which = Threat_level_EU when = 1 value = 7 } } }  type = dissent		value =   1 }
+		command = { trigger = { NOT = { atwar = yes flag = { which = Threat_level_EU when = 1 value = 6 } } }  type = dissent		value =   1 }
+		command = { trigger = { NOT = { atwar = yes flag = { which = Threat_level_EU when = 1 value = 5 } } }  type = dissent		value =   1 }
+		command = { trigger = { NOT = { atwar = yes flag = { which = Threat_level_EU when = 1 value = 4 } } }  type = dissent		value =   1 }
+		command = { trigger = { NOT = { atwar = yes flag = { which = Threat_level_EU when = 1 value = 3 } } }  type = dissent		value =   1 }
+		command = { trigger = { NOT = { atwar = yes flag = { which = Threat_level_EU when = 1 value = 2 } } }  type = dissent		value =   1 }
+	}
+}
+
+# Reopen the Turkish Straits
+event = {
+	id = 2010051
+	random = no
+	country = TUR
+	persistent = yes
+
+	decision = {
+		flag = Montreux
+		flag = { which = "strait_397" when = 0 value = 2 }
+		control = { province = 409	data = -1 } #Istanbul
+		control = { province = 2613	data = -1 } #Gallipoli
+		control = { province = 4133	data = -1 } #Canakkale
+		control = { province = 439	data = -1 } #Izmit
+	}
+
+	decision_trigger = {
+
+	}
+
+	trigger = {
+		flag = Montreux
+		flag = { which = "strait_397" when = 0 value = 2 }
+		control = { province = 409	data = -1 } #Istanbul
+		control = { province = 2613	data = -1 } #Gallipoli
+		control = { province = 4133	data = -1 } #Canakkale
+		control = { province = 439	data = -1 } #Izmit
+		OR = { 
+			atwar = yes
+			NOT = { flag = { which = Threat_level_EU when = 1 value = 7 } }
+		}
+	}
+
+	name = "DEC_2010051_NAME"
+	desc = "DEC_2010051_DESC"
+	style = 2
+	picture = "news_paper"
+
+	date = { day = 0 month = january year = 1936 }
+	offset = 14
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		name = "DEC_2010051_ACTA"
+		#command = { type = strait 		which = 397 		 value = 5 }
+		command = { type = setflag 		which = "strait_397" value = 5 }
+
+		command = { type = belligerence			value =  -5 }
+		command = { type = relation which = SOV value =  20 }
+		command = { type = relation which = ENG value =  10 }
+		command = { type = relation which = GER value =  10 }
+		command = { type = relation which = ITA value =  10 }
+		command = { type = relation which = VIC value =  10 }
+	}
+}
+
 
 #End of Chaco war
 

@@ -289,6 +289,7 @@ event = {
 		# Sets (when = 0) or modifies (add to current flag value, when = 1) a Global flag, visible for all countries.
 		# Value can be a positive or a negative integer (!) number. Flag value (set or calculated) can be from 0 to 32767.
 	type = clrflag which = <keyname> # Clears Global flag (sets value to 0), visible for all countries
+		# Note: Flags named "strait_<sea_prov_id>" (values 1-5) dynamically override passage rules for custom straits (see Straits & Canals below).
 	
 	type = local_setflag which = <keyname> # Sets Local flag to 1, visible only for this country
 	type = local_setflag which = <keyname> when = 0(default)/1 value = X (default value 1, 0 translates to 1 too)
@@ -577,6 +578,19 @@ event = {
 	type = trigger which = <event id> # Immediately trigger another event
 	type = sleepevent which = <event id>
 	type = endgame value = <type> # Sets conditions for when the scenario ends valid types listed below
+
+# Straits & Canals:
+	type = strait which = <sea prov id> value = <1/2/3/4/5> # Changes passage rules and access for a sea province strait at runtime
+		# which = sea province ID of the strait (defined in db/straits.csv or map/<map_dir>/straits.csv)
+		# value = 1 : Force Open (unconditional free passage for all nations, peace or wartime; appends STRAIT_OPEN to tooltip)
+		# value = 2 : Closed by Controller (passage blocked to all non-controllers; controller fleets retain passage; appends STRAIT_CLOSED to tooltip)
+		# value = 3 : Normal Strait (passage allowed as long as you are not at war with any land controller)
+		# value = 4 : Allied-Only Strait (passage allowed only to land controllers and their wartime allies; neutrals and enemies blocked)
+		#             Note: If the strait's default type is Montreux (e.g. Bosphorus), value = 4 also evaluates to Montreux for compatibility.
+		# value = 5 : Montreux Convention Strait (Black Sea powers identified by local_flags = { black_sea_power = 1 } pass in peacetime; non-Black Sea powers only transit if allied to controller at war; controller always passes)
+		# Note: This command updates and synchronizes with the global flag "strait_<sea_prov_id> = <value>", which seamlessly persists across save games.
+		# Alternatively, the same state can be set directly via:
+		#   type = setflag which = strait_<sea prov id> value = <1/2/3/4/5>
 
 # Nuclear:
 	type = max_reactor_size value = X # Set the max size of nuclear reactor buildings.
