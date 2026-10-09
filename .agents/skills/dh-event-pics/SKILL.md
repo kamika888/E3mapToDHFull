@@ -12,13 +12,13 @@ This skill provides a streamlined tool and best practices for sourcing and proce
 
 Follow these steps strictlyin order. PROCESS ONE IMAGE AT A TIME. When completed processing for one image, mark it as done in the planning document, then proceed to the next one.
 
-1. **Identify:** Read the event/decision including the localization and determine what historical subject or event the picture should depict, and for which country this event will fire.
+1. **Identify:** Read the event/decision including the description localization and determine what historical subject or event the picture should depict, and for which country this event will fire.
 2. **Find & Verify Source:** 
    ### Copilot instructions
    - Do NOT use `fetch_webpage` or run python scripts for this step. Use the browser intergration. Attempt `navigate_page` first if a browser session already exists. If it doesn't, use `open_browser_page`.
    - Use browser tools including `screenshot_page` as needed to locate a thematically appropriate image.
    ### End Copilot instructions
-   - Search across diverse sources (Wikimedia Commons, historical archives, baike/wikipedia, google images, etc).
+   - Start with Google Images but search across diverse sources (historical archives, baike/wikimedia commons, etc).
    - Once a suitable image is found, find the URL of the image (using page DOM or other means). Do NOT guess the URL.
    - **Acceptable Media:**
      - Primary: Authentic historical photographs from the relevant era/conflict, directly relevant to the subject of the event.
