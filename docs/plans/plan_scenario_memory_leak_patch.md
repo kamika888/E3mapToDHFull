@@ -41,9 +41,9 @@ All issues have been **systematically diagnosed, resolved, and verified** across
 * **Outcome**:
   * Unload freeze eliminated (reduced from 5+ minutes to **1-2 seconds**).
   * 16 MB heap segments on reload reduced by **83%** (from 60 segments to 10 segments).
-
-  
   * Memory leak still observed, although reduced from 144MB to 137MB.
+  * 
+
 ### Strategy 4: Native `CEventAction` Command Deallocation (Implemented & Verified - Patch 8)
 * **Concept**: Fix Paradox's engine-level memory leak where `CEventAction` destructs list nodes without freeing `pData` (`CEventCommand*`).
 * **Root Cause Details**:

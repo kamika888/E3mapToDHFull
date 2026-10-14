@@ -172,6 +172,8 @@ To successfully capture screenshots while frozen without hanging or returning em
      "outputMode": "inline",
      "target": "window",
      "imageFormat": "png",
+     "includeCursor": true,
+     "includeImage": true,
      "windowHandle": "<HWND>"
    }
    ```
