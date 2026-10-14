@@ -58,10 +58,18 @@ This reference library is divided into specialized modular guides:
 * Root cause specification of the 60-entry tile header limit and access violation crash at `0x004DB0DF`.
 * Complete mod audit of 17 failing tiles in `lightmap3.tbl`.
 
+### 9. [Naval AI Architecture & Base Fallbacks](naval_ai.md)
+* Base fleet construction pipeline (`0x00663BA0`) and empty fleet pruning exemption.
+* Base population logic (`FUN_00664400` @ `0x00664400`) and the `admiral = { base = { ... } }` script query.
+* Hardcoded vanilla HoI2 province fallbacks for Germany (5, 21), Great Britain (32, 365), and USA (633, 765, 663).
+* Root cause of the USA "ghost fleet" (`location = 0`, `base = 633`) due to E3Map province ID remapping (633 = Richmond, 632 = Norfolk).
+* Mod-level resolution and engine binary patch specification (`0x006644CB`).
+
 ---
 
 ## Custom Engine Modifications & Patch Plans
 
 For custom engine modifications, binary hooks, and behavioral patches introduced compared to retail release, consult the dedicated plans in:
 * **[Custom Modifications & Patch Plans Index](../plans/README.md)**
+
 
