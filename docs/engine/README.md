@@ -51,6 +51,13 @@ This reference library is divided into specialized modular guides:
 * Movement evaluation pipeline in `IsStraitBlocked` (`FUN_004ed1c0` @ `0x004ED1C0`).
 * Province 397 (Bosphorus) hardcoded allied-only exception and single-controller limitations.
 
+### 8. [Map & Lightmap Engine](map_and_lightmap_engine.md)
+* Coordinate system, $32 \times 32$ tile grid, and $29,952 \times 11,520$ E3 map dimensions.
+* Zoom level indexing (`DAT_00a98464`), `lightmap1.tbl` to `lightmap4.tbl` scale factors.
+* Binary archive layout, 16-bit header word packing, and 6-bit province reference bitfield.
+* Root cause specification of the 60-entry tile header limit and access violation crash at `0x004DB0DF`.
+* Complete mod audit of 17 failing tiles in `lightmap3.tbl`.
+
 ---
 
 ## Custom Engine Modifications & Patch Plans

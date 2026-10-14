@@ -17,6 +17,7 @@ This directory contains comprehensive architectural documentation, reverse engin
 | **Patch 6 Ext** | Black Sea Naval Trade Prohibition | `0x005FD41C` (`0x001FD41C`) | `0x00DCA100` (.mod cave) | `local_flags = { black_sea_power = 1 }` | [`plan_black_sea_naval_trade.md`](plan_black_sea_naval_trade.md) |
 | **Patch 7** | Large Address Aware (LAA) Flag | PE Header `0x00000116` | Characteristics bit `0x20` | N/A (PE Flag) | [`plan_large_address_aware.md`](plan_large_address_aware.md) |
 | **Patch 8** | Scenario Unload Event Deallocation Cave | `0x0070287B` (`0x0030287B`) | `0x00DCA000` (.mod cave) | Automatic | [`plan_scenario_memory_leak_patch.md`](plan_scenario_memory_leak_patch.md) |
+| **Patch 9** | Map Tile High-Memory Signed Comparison Fix | `0x004DB0C5` (`0x000DB0C5`) | `0x000DB0C5` (Inline 1 byte) | Automatic | [`plan_map_tile_high_memory_guard.md`](plan_map_tile_high_memory_guard.md) |
 
 ---
 
@@ -51,6 +52,9 @@ Sets bit `0x0020` in the PE file header, unlocking up to 4 GB of virtual address
 
 ### 9. [Scenario Memory Leak Patch](plan_scenario_memory_leak_patch.md)
 Injects an event list deallocation cave at scenario teardown (`0x0070287B`), preventing event and decision memory leaks when returning to the main menu or reloading saves.
+
+### 10. [Map Tile High-Memory Signed Comparison Fix](plan_map_tile_high_memory_guard.md)
+Patches the signed comparison branch `JLE` (`7E 02`) to unsigned `JBE` (`76 02`) in `FUN_004dafb0` (`0x004DB0C5`), preventing out-of-bounds pointer underruns in high virtual memory ($\ge 0\text{x}80000000$) from bypassing validation and dereferencing invalid province structures.
 
 ---
 

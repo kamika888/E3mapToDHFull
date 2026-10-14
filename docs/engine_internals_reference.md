@@ -22,6 +22,7 @@ docs/
 |   +-- garrison_ai.md              <-- UpdateGarrisons formulas, threat scaling, quotas
 |   +-- diplomacy.md                <-- 28 diplo actions, queue model, embargoes, trade eff
 |   +-- straits.md                  <-- The 5 hardcoded straits, single-controller, Bosphorus exception
+|   +-- map_and_lightmap_engine.md  <-- Tile grid, lightmap formats, 6-bit index overflow limit
 +-- plans/                          <-- Custom Engine Modifications & Binary Patches
 |   +-- README.md                   <-- Master Patch Catalog & Verification Matrix
 |   +-- plan_unit_control_transfer.md   <-- Patch 1: Peacetime Front Leader Recognition
@@ -50,6 +51,7 @@ The [`docs/engine/`](engine/README.md) directory documents the unmodified retail
 | **[`garrison_ai.md`](engine/garrison_ai.md)** | Garrison AI Mechanics | In-depth formulas for `CGarrisonAI::UpdateGarrisons` (`0x0068BA50`), emergency homeland collapse triggers, wartime threat scaling, the rear-area / 2 "invisible factor", and province priority allocation. |
 | **[`diplomacy.md`](engine/diplomacy.md)** | Diplomacy Subsystem | Deterministic command queue, complete catalog of all 28 hardcoded diplomatic actions, embargo storage offsets (`+0x1C0`, `+0x204`), vanilla puppet trade constraints, and the bilateral trade efficiency pipeline (`m_TradeEfficiency`). |
 | **[`straits.md`](engine/straits.md)** | Naval Straits (Vanilla) | The 5 hardcoded vanilla straits in machine code (`FUN_004ed1c0`), single-controller limitation, province 397 (Bosphorus) exception, and engine limitations. |
+| **[`map_and_lightmap_engine.md`](engine/map_and_lightmap_engine.md)** | Map & Lightmap Engine | $32 \times 32$ tile grid, $29,952 \times 11,520$ E3 mapping, zoom levels 0-3, binary `lightmapX.tbl` format, 6-bit index limit, and the 60-entry tile header crash. |
 
 ---
 
@@ -70,6 +72,7 @@ All custom behavioral modifications, binary hooks, and engine enhancements compa
 | **Patch 6 Ext** | Montreux Naval Trade Prohibition | `0x005FD41C` (`0x001FD41C`) | `0x00DCA100` (.mod cave) | `local_flags = { black_sea_power = 1 }` | [`plan_black_sea_naval_trade.md`](plans/plan_black_sea_naval_trade.md) |
 | **Patch 7** | Large Address Aware (LAA) Flag | PE Header `0x00000116` | Bit `0x20` | N/A (PE Flag) | [`plan_large_address_aware.md`](plans/plan_large_address_aware.md) |
 | **Patch 8** | Scenario Memory Leak Deallocation Cave | `0x0070287B` (`0x0030287B`) | `0x00DCA000` (.mod cave) | Automatic | [`plan_scenario_memory_leak_patch.md`](plans/plan_scenario_memory_leak_patch.md) |
+| **Patch 9** | Map Tile High-Memory Signed Comparison Fix | `0x004DB0C5` (`0x000DB0C5`) | Inline (1 byte) | Automatic | [`plan_map_tile_high_memory_guard.md`](plans/plan_map_tile_high_memory_guard.md) |
 
 ### Automated Patcher Script
 All patches above are bundled into the automated deployment script:
