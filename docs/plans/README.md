@@ -18,6 +18,7 @@ This directory contains comprehensive architectural documentation, reverse engin
 | **Patch 7** | Large Address Aware (LAA) Flag | PE Header `0x00000116` | Characteristics bit `0x20` | N/A (PE Flag) | [`plan_large_address_aware.md`](plan_large_address_aware.md) |
 | **Patch 8** | Scenario Unload Event Deallocation Cave | `0x0070287B` (`0x0030287B`) | `0x00DCA000` (.mod cave) | Automatic | [`plan_scenario_memory_leak_patch.md`](plan_scenario_memory_leak_patch.md) |
 | **Patch 9** | Map Tile High-Memory Signed Comparison Fix | `0x004DB0C5` (`0x000DB0C5`) | `0x000DB0C5` (Inline 1 byte) | Automatic | [`plan_map_tile_high_memory_guard.md`](plan_map_tile_high_memory_guard.md) |
+| **Patch 10** | Silent Events for Player Countries | `0x007123CB` (`0x003123CB`) | `0x00DCA200` (.mod cave) | `flag = "ENGINE:SILENT_EVENT"` | [`plan_silent_events.md`](plan_silent_events.md) |
 
 ---
 
@@ -55,6 +56,9 @@ Injects an event list deallocation cave at scenario teardown (`0x0070287B`), pre
 
 ### 10. [Map Tile High-Memory Signed Comparison Fix](plan_map_tile_high_memory_guard.md)
 Patches the signed comparison branch `JLE` (`7E 02`) to unsigned `JBE` (`76 02`) in `FUN_004dafb0` (`0x004DB0C5`), preventing out-of-bounds pointer underruns in high virtual memory ($\ge 0\text{x}80000000$) from bypassing validation and dereferencing invalid province structures.
+
+### 11. [Silent Events for Player-Controlled Countries](plan_silent_events.md)
+Executes scripted maintenance events silently in the background for human players without displaying modal dialog windows or pausing the simulation, using the positive trigger marker `OR = { flag = "ENGINE:SILENT_EVENT" random = 100 }` to ensure 100% graceful dual compatibility with unmodified retail binaries.
 
 ---
 

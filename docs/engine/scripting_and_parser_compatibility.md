@@ -291,7 +291,66 @@ save_date = {
 
 ---
 
-## 6. Verification Checklist
+## 6. Silent Events for Player-Controlled Countries
+
+### 6.1 The Maintenance Event Dilemma
+Many advanced modding systems require recurring background maintenance events (e.g. dynamic oil consumption, GDP recalculation, supply network maintenance). Because commands and triggers operate within country scope, they must fire for the country being evaluated.
+
+In retail Darkest Hour, whenever an event triggers for a human-controlled country:
+1. The engine forces a **modal dialog popup**.
+2. The simulation **pauses**.
+3. The player must click an action button to dismiss the dialog.
+
+### 6.2 The Solution: The Positive Trigger Marker Pattern
+To eliminate popups without breaking retail compatibility, use a positive `OR` block containing a custom flag marker and a guaranteed retail fallback (`random = 100`):
+
+```text
+event = {
+    id = 30000
+    random = no
+    persistent = yes
+
+    trigger = {
+        # Actual gameplay conditions:
+        local_flag = AllInit
+
+        # Engine silent directive with guaranteed retail fallback:
+        OR = {
+            flag = "ENGINE:SILENT_EVENT"
+            random = 100
+        }
+    }
+
+    date = { day = 1 month = january year = 1936 }
+    offset = 4
+    deathdate = { day = 29 month = december year = 1963 }
+
+    name = "EVT_OIL_RECALCULATION"
+    desc = "EVT_OIL_RECALCULATION_DESC"
+    style = 2
+
+    action = {
+        name = "ACTION_OK"
+        command = { type = oilpool value = -50 }
+    }
+}
+```
+
+### 6.3 Dual Engine Execution Behavior
+
+| Engine Variant | Trigger Evaluation | Dialog Display | Action Resolution | Savedebug / Errors |
+|---|---|---|---|---|
+| **Retail `Darkest Hour.exe`** | `random = 100` satisfies `OR` (evaluates `true`) | Normal modal popup with real localized text | Player button click | 0 errors, 0 warnings |
+| **Custom Binary (Patch 10)** | Flag parser detects `"ENGINE:SILENT_EVENT"` $\rightarrow$ sets `m_bSilent = 1` | **Suppressed** (bypasses dialog) | Native action resolution at `0x0071248E` (Action A or `ai_chance` roll) | 0 errors, recorded in save history |
+
+### 6.4 Key Dispatch Internals
+- **Flag Parser Hooks (`0x007333FF`, `0x007334D5`)**: Matches string tokens against `"ENGINE:SILEN"` or `"ENGINE_SILEN"` and marks the loading `CEvent` struct (`[CEvent + 0x23BF] = 1`).
+- **Dispatcher Intercept (`0x007123CB`)**: At player event dispatch, tests `[EDI + 0x23BF] == 1`.
+- **The `0x0071248E` Bypass**: Vanilla AI dispatch at `0x00712458` checks `CCountry::IsAi()`, aborting human events. Diverting directly to `0x0071248E` bypasses the check, rolls the action via `0x007120b0`, dispatches message packet `0x84`, and executes commands in `0x00711c60`.
+
+---
+
+## 7. Verification Checklist
 
 Before deploying any new custom script constructs into production mod files, verify:
 
@@ -299,3 +358,4 @@ Before deploying any new custom script constructs into production mod files, ver
 2. [ ] **Fatal Popup Absence**: Verify the scenario loads to the main menu and in-game UI without prompting `"Critical error! ... found in external files"`.
 3. [ ] **Parameter Minimalism**: Confirm that carrier commands omit `which` if unused, relying strictly on `name = "..."`.
 4. [ ] **Encoding Integrity**: Verify that all modified `.txt` and `.eug` files are saved in strict **Latin-1 (`cp1252`)** encoding.
+

@@ -36,6 +36,8 @@ docs/
 |   +-- plan_black_sea_naval_trade.md   <-- Patch 6 Ext: Montreux Naval Trade Prohibition
 |   +-- plan_large_address_aware.md     <-- Patch 7: Large Address Aware (LAA) 4GB Flag
 |   +-- plan_scenario_memory_leak_patch.md <-- Patch 8: Scenario Unload Deallocation Cave
+|   +-- plan_map_tile_high_memory_guard.md <-- Patch 9: Map Tile High-Memory Signed Guard
+|   +-- plan_silent_events.md           <-- Patch 10: Silent Events for Player Countries
 ```
 
 ---
@@ -77,6 +79,7 @@ All custom behavioral modifications, binary hooks, and engine enhancements compa
 | **Patch 7** | Large Address Aware (LAA) Flag | PE Header `0x00000116` | Bit `0x20` | N/A (PE Flag) | [`plan_large_address_aware.md`](plans/plan_large_address_aware.md) |
 | **Patch 8** | Scenario Memory Leak Deallocation Cave | `0x0070287B` (`0x0030287B`) | `0x00DCA000` (.mod cave) | Automatic | [`plan_scenario_memory_leak_patch.md`](plans/plan_scenario_memory_leak_patch.md) |
 | **Patch 9** | Map Tile High-Memory Signed Comparison Fix | `0x004DB0C5` (`0x000DB0C5`) | Inline (1 byte) | Automatic | [`plan_map_tile_high_memory_guard.md`](plans/plan_map_tile_high_memory_guard.md) |
+| **Patch 10** | Silent Events for Player Countries | `0x007123CB` (`0x003123CB`) | `0x00DCA200` (.mod cave) | `flag = "ENGINE:SILENT_EVENT"` | [`plan_silent_events.md`](plans/plan_silent_events.md) |
 
 ### Automated Patcher Script
 All patches above are bundled into the automated deployment script:
