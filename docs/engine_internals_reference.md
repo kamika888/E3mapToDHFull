@@ -24,6 +24,7 @@ docs/
 |   +-- straits.md                  <-- The 5 hardcoded straits, single-controller, Bosphorus exception
 |   +-- map_and_lightmap_engine.md  <-- Tile grid, lightmap formats, 6-bit index overflow limit
 |   +-- naval_ai.md                 <-- Naval base selection, base fleet generation, hardcoded HoI2 fallbacks
+|   +-- scripting_and_parser_compatibility.md <-- Parser internals, DAT_00dc4b60, proxy triggers, carrier commands
 +-- plans/                          <-- Custom Engine Modifications & Binary Patches
 |   +-- README.md                   <-- Master Patch Catalog & Verification Matrix
 |   +-- plan_unit_control_transfer.md   <-- Patch 1: Peacetime Front Leader Recognition
@@ -54,6 +55,7 @@ The [`docs/engine/`](engine/README.md) directory documents the unmodified retail
 | **[`straits.md`](engine/straits.md)** | Naval Straits (Vanilla) | The 5 hardcoded vanilla straits in machine code (`FUN_004ed1c0`), single-controller limitation, province 397 (Bosphorus) exception, and engine limitations. |
 | **[`map_and_lightmap_engine.md`](engine/map_and_lightmap_engine.md)** | Map & Lightmap Engine | $32 \times 32$ tile grid, $29,952 \times 11,520$ E3 mapping, zoom levels 0-3, binary `lightmapX.tbl` format, 6-bit index limit, and the 60-entry tile header crash. |
 | **[`naval_ai.md`](engine/naval_ai.md)** | Naval AI Subsystem | Base fleet construction (`0x00663BA0`), base population (`0x00664400`), hardcoded vanilla HoI2 base fallbacks (GER, ENG, USA), and the USA ghost fleet `location = 0` bug. |
+| **[`scripting_and_parser_compatibility.md`](engine/scripting_and_parser_compatibility.md)** | Scripting & Savegame Parser | Event trigger/command parsers (`FUN_0072bbf0`, `FUN_0070c2b0`), `.eug` top-level tokens (`FUN_00534a40`), error counter `DAT_00dc4b60`, proxy triggers, carrier commands, and `save_date` / `flags` persistence. |
 
 ---
 

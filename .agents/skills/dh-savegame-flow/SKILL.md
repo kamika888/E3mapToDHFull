@@ -1,12 +1,12 @@
 ﻿---
 name: dh-savegame-flow
 description: >-
-  Automated UI control flow and coordinate reference for Darkest Hour (checksum TENE) under x32dbg via Windows MCP.
+  Automated UI control flow and coordinate reference for Darkest Hour under x32dbg via Windows MCP.
 ---
 
 # Darkest Hour Savegame Loading & UI Automation Flow
 
-This skill provides verified coordinates, window geometry, debugger launch instructions, and input procedures for driving **Darkest Hour** (v1.05.2, checksum TENE, 32-bit x86) through its main menu to load a savegame and verify date progression using the Windows MCP and x64dbg MCP.
+This skill provides verified coordinates, window geometry, debugger launch instructions, and input procedures for driving **Darkest Hour** (v1.05.2, 32-bit x86) through its main menu to load a savegame and verify date progression using the Windows MCP and x64dbg MCP.
 
 ---
 

@@ -65,6 +65,13 @@ This reference library is divided into specialized modular guides:
 * Root cause of the USA "ghost fleet" (`location = 0`, `base = 633`) due to E3Map province ID remapping (633 = Richmond, 632 = Norfolk).
 * Mod-level resolution and engine binary patch specification (`0x006644CB`).
 
+### 10. [Scripting Parser & Backwards Compatibility](scripting_and_parser_compatibility.md)
+* DHFScript parser error reporting pipeline, `savedebug.txt` formatting, and the `DAT_00dc4b60` error counter.
+* The "Unfamiliar Keyword Crash": why raw unknown tokens trigger fatal MessageBox popups at `0x00794285`.
+* The "Proxy Trigger" pattern: using string-accepting native triggers (`flag`, `local_flag`) to evaluate custom conditions in modified binaries while remaining 100% error-free in retail.
+* Carrier Commands: why `which` is optional in `FUN_0070c2b0`, catalog of benign carrier commands (`protect`, `songs`), and runtime command shielding with `trigger = { year = 9999 }`.
+* Scenario & Savegame (`.eug`) parser (`FUN_00534a40`): the 17 allowed top-level tokens, native integer storage in `save_date = { }`, and string flag payloads in `globaldata = { flags = { } }`.
+
 ---
 
 ## Custom Engine Modifications & Patch Plans
