@@ -52,7 +52,7 @@ The [`docs/engine/`](engine/README.md) directory documents the unmodified retail
 | **[`data_structures.md`](engine/data_structures.md)** | Data Structures & Tables | Pointer arrays (`DAT_00DC0FD4`, `DAT_0089CAD8`, `pDateStruct`), universal Country Tags enum, `Country`, `CGarrisonAI`, `CFront`, `CArmy`, and singly-linked list traversal. |
 | **[`subsystems_and_calling.md`](engine/subsystems_and_calling.md)** | Subsystems & Calling ABI | MSVC x86 ABI rules (caller-saved `EAX/ECX/EDX` vs callee-saved `EBX/ESI/EDI/EBP`), `__thiscall`/`__cdecl`/`__fastcall`, and directory of 21+ key engine routines. |
 | **[`reverse_engineering_tools.md`](engine/reverse_engineering_tools.md)** | Debugging & Tool Workflows | x32dbg automation via x64dbg MCP, Ghidra MCP static workflows, the DirectDraw desktop deadlock trap, static 1024x768 UI coordinates, and trampoline splicing. |
-| **[`garrison_ai.md`](engine/garrison_ai.md)** | Garrison AI Mechanics | In-depth formulas for `CGarrisonAI::UpdateGarrisons` (`0x0068BA50`), emergency homeland collapse triggers, wartime threat scaling, the rear-area / 2 "invisible factor", and province priority allocation. |
+| **[`garrison_ai.md`](engine/garrison_ai.md)** | Garrison AI Mechanics | In-depth formulas for `CGarrisonAI::UpdateGarrisons` (`0x0068BA50`), emergency homeland collapse triggers, wartime threat scaling, the rear-area / 2 "invisible factor", province priority allocation, and allied territory garrison mechanics/limitations. |
 | **[`diplomacy.md`](engine/diplomacy.md)** | Diplomacy Subsystem | Deterministic command queue, complete catalog of all 28 hardcoded diplomatic actions, embargo storage offsets (`+0x1C0`, `+0x204`), vanilla puppet trade constraints, and the bilateral trade efficiency pipeline (`m_TradeEfficiency`). |
 | **[`straits.md`](engine/straits.md)** | Naval Straits (Vanilla) | The 5 hardcoded vanilla straits in machine code (`FUN_004ed1c0`), single-controller limitation, province 397 (Bosphorus) exception, and engine limitations. |
 | **[`map_and_lightmap_engine.md`](engine/map_and_lightmap_engine.md)** | Map & Lightmap Engine | $32 \times 32$ tile grid, $29,952 \times 11,520$ E3 mapping, zoom levels 0-3, binary `lightmapX.tbl` format, 6-bit index limit, and the 60-entry tile header crash. |
@@ -80,6 +80,7 @@ All custom behavioral modifications, binary hooks, and engine enhancements compa
 | **Patch 8** | Scenario Memory Leak Deallocation Cave | `0x0070287B` (`0x0030287B`) | `0x00DCA000` (.mod cave) | Automatic | [`plan_scenario_memory_leak_patch.md`](plans/plan_scenario_memory_leak_patch.md) |
 | **Patch 9** | Map Tile High-Memory Signed Comparison Fix | `0x004DB0C5` (`0x000DB0C5`) | Inline (1 byte) | Automatic | [`plan_map_tile_high_memory_guard.md`](plans/plan_map_tile_high_memory_guard.md) |
 | **Patch 10** | Silent Events for Player Countries | `0x007123CB` (`0x003123CB`) | `0x00DCA200` (.mod cave) | `flag = "ENGINE:SILENT_EVENT"` | [`plan_silent_events.md`](plans/plan_silent_events.md) |
+| **Patch 11** | Allied Territory Garrison AI | `0x0068D8B9`, `0x0068C18E`, `0x00693A86` | `0x00DCA300` - `0x00DCAA00` | `area_multiplier`, `province_priorities` | [`plan_allied_garrison_ai.md`](plans/plan_allied_garrison_ai.md) |
 
 ### Automated Patcher Script
 All patches above are bundled into the automated deployment script:
