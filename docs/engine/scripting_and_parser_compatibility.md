@@ -146,20 +146,9 @@ A "carrier command" is a valid command type in retail Darkest Hour that is repur
 | **`type = mine`** | `0x10f` (271) | `0x00f` (15) | Legacy EU2 mining command. Inert in DH WWII simulation. | **VIABLE**. |
 | **`type = flag_ext`** | `0x1fa` (506) | `0x0f2` (242) | Darkest Hour extended flag command. | **VIABLE** for flag-centric logic. |
 
-### 3.3 The Execution Guard: `trigger = { year = 9999 }`
+### 3.3 Clean Execution Without Dummy Triggers
 
-Even when using benign commands like `protect`, Darkest Hour provides a built-in mechanism to guarantee that retail will **never** execute the carrier command at runtime:
-
-```text
-command = {
-    trigger = { year = 9999 }
-    type = protect
-    name = "CUSTOM: strait_access id=2490 access=allied"
-}
-```
-
-* **Retail Execution**: Before executing any command inside an action block (in `FUN_00713790` for AI decisions or `FUN_0071ebc0` for human event windows), the engine evaluates the command's internal `trigger`. Because `year = 9999` evaluates to `false`, the retail engine skips the command entirely.
-* **Custom Binary Execution**: The custom engine intercepts action execution or event loading. When it encounters a command with the `"CUSTOM:"` prefix in its `name` attribute, it executes the custom logic regardless of the dummy trigger condition.
+Because `type = protect` is already a complete, inert no-op in the retail executable (`case 0x029:` in `FUN_00713790` and `FUN_0071ebc0` is an empty stub), custom commands using this carrier do **not** require dummy execution guards (such as `trigger = { year = 9999 }`). The retail engine parses and executes the command harmlessly with zero side effects on audio, graphics, or simulation state.
 
 ---
 
@@ -266,8 +255,7 @@ trigger = {
 action = {
     name = "ACTION_OK"
     command = {
-        trigger = { year = 9999 }  # Neutralizes any potential execution in retail engine
-        type = protect              # Inert EU2 legacy no-op command
+        type = protect              # Inert EU2 legacy no-op command in retail
         name = "CUSTOM: SET_STRAIT_ACCESS ID=2490 ACCESS=ALLIED" # Payload
     }
 }
@@ -350,7 +338,78 @@ event = {
 
 ---
 
-## 7. Verification Checklist
+## 7. Runtime Binary Identification via Global Flag `GAME_VERSION`
+
+### 7.1 Purpose & Motivation
+When authoring hybrid scripts intended to run on both the retail executable (`Darkest Hour_original.exe`) and the modified engine (`Darkest Hour.exe`), modders often need to conditionally execute commands or triggers based on which binary is running. 
+
+Because `type = protect` is a no-op in retail, custom commands can run safely, but there are scenarios where a modder needs:
+1. Commands that should **ONLY** run on the retail binary (e.g. legacy fallback mechanics or user informational popups).
+2. Triggers that should branch differently depending on whether extended engine features (such as custom straits or silent events) are supported.
+
+### 7.2 Automatic Global Flag Initialization
+The patched executable natively sets a global flag named `GAME_VERSION` upon loading any scenario or savegame (`FUN_0042e9b0` exit hook at `0x0042ebf9`):
+* **Modified Executable**: On every game start or save load, the engine calls `CFlagsDictionary::SetFlag("GAME_VERSION", 1)`.
+  * The integer value defaults to `1` in the binary, and can optionally be configured via `[Engine] GameVersion = X` in `db/mod_settings.ini`.
+* **Retail Executable**: The retail binary has no knowledge of this hook and **never** sets the `GAME_VERSION` flag.
+
+### 7.3 Scripting Patterns for Engine Detection
+
+#### Pattern A: Execute ONLY on the Modified Binary
+```text
+trigger = {
+    flag = "GAME_VERSION"
+}
+```
+Or checking for a specific version:
+```text
+trigger = {
+    flag = { which = "GAME_VERSION" value = 1 }
+}
+```
+
+#### Pattern B: Execute ONLY on the Retail Executable
+```text
+trigger = {
+    NOT = { flag = "GAME_VERSION" }
+}
+```
+
+#### Pattern C: Dual-Branch Decision / Event
+```text
+event = {
+    id = 30001
+    random = no
+    country = GER
+
+    name = "EVT_ENGINE_AWARE"
+    desc = "EVT_ENGINE_AWARE_DESC"
+    style = 2
+
+    # Action for Modified Binary:
+    action = {
+        trigger = { flag = "GAME_VERSION" }
+        name = "ACTION_EXTENDED_ENGINE"
+        command = { type = protect name = "CUSTOM: ADVANCED_FEATURE" }
+    }
+
+    # Fallback Action for Retail Binary:
+    action = {
+        trigger = { NOT = { flag = "GAME_VERSION" } }
+        name = "ACTION_LEGACY_RETAIL"
+        command = { type = supplies value = 100 }
+    }
+}
+```
+
+### 7.4 Savegame Behavior & Caveats
+When saving a game in the modified binary, the engine writes `GAME_VERSION = 1` into the savegame's `globaldata = { flags = { ... } }` block.
+* Loading this savegame in retail will cause retail to parse the flag as a standard string flag, meaning the flag will persist in that specific savegame session.
+* Because reverting mid-campaign between different binary versions is unsupported, this persistence is normal and expected.
+
+---
+
+## 8. Verification Checklist
 
 Before deploying any new custom script constructs into production mod files, verify:
 
@@ -358,4 +417,5 @@ Before deploying any new custom script constructs into production mod files, ver
 2. [ ] **Fatal Popup Absence**: Verify the scenario loads to the main menu and in-game UI without prompting `"Critical error! ... found in external files"`.
 3. [ ] **Parameter Minimalism**: Confirm that carrier commands omit `which` if unused, relying strictly on `name = "..."`.
 4. [ ] **Encoding Integrity**: Verify that all modified `.txt` and `.eug` files are saved in strict **Latin-1 (`cp1252`)** encoding.
+
 
