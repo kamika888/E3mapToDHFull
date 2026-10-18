@@ -12176,3 +12176,792 @@ event = {
 		command = { type = local_setflag which = UnionBonds when = 0 value = 3	} #Overextended Union
 	}
 }
+####################################################################################
+# Re-emergence of Sovereign / Partitioned Austria and Germany after WW2
+####################################################################################
+
+####################################################################################
+# Austrian Question: Soviet Initiative
+####################################################################################
+
+event = {
+	id = 2050200
+	random = no
+	country = SOV
+
+	name = EVT_2050200_NAME
+	desc = EVT_2050200_DESC
+	style = 2
+	picture = "austrian_state_treaty_negotiations_1955"
+
+	trigger = {
+		flag = { which = GAME_VERSION when = 1 value = 1 }
+		OR = {
+			event = { id = 2003202 days = 1800 } # ~5 years from conclusion of WW2
+			AND = {
+				year = 1950
+				NOT = { exists = GER }
+			}
+		}
+		NOT = {
+			exists = AUS
+			exists = U16
+			war = { country = SOV country = USA }
+			#atwar = yes
+		}
+		control = { province = 463 data = SOV } # Vienna
+		control = { province = 462 data = USA } # Salzburg
+	}
+
+	date = { day = 0 month = january year = 1948 }
+	offset = 30
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		ai_chance = 90
+		name = EVT_2050200_ACTA
+		command = { type = event which = 2050201 where = USA when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = EVT_2050200_ACTB
+		command = { type = dissent value = 2 }
+		command = { type = belligerence value = 2 }
+		command = { type = relation which = USA value = -25 }
+		command = { type = event which = 2050202 where = USA when = 0 }
+		command = { type = event which = 2050203 where = SOV when = 1 }
+	}
+}
+
+####################################################################################
+# Austrian Question: Western Decision
+####################################################################################
+
+event = {
+	id = 2050201
+	random = no
+	country = USA
+
+	name = EVT_2050201_NAME
+	desc = EVT_2050201_DESC
+	style = 2
+	picture = "western_allies_austria_conference_1955"
+
+	action = {
+		ai_chance = 95
+		name = EVT_2050201_ACTA
+		command = { type = event which = 2050204 where = USA when = 0 }
+	}
+	action = {
+		ai_chance = 5
+		name = EVT_2050201_ACTB
+		command = { type = dissent value = 2 }
+		command = { type = belligerence value = 2 }
+		command = { type = relation which = SOV value = -25 }
+		command = { type = event which = 2050202 where = USA when = 0 }
+		command = { type = event which = 2050203 where = SOV when = 0 }
+	}
+}
+
+####################################################################################
+# Austria Divided: Proclamation of West Austria (Salzburg)
+####################################################################################
+
+event = {
+	id = 2050202
+	random = no
+	country = USA
+
+	name = EVT_2050202_NAME
+	desc = EVT_2050202_DESC
+	style = 2
+	picture = "west_austria_salzburg_administration"
+
+	action = {
+		name = EVT_2050202_ACTA
+		command = { type = remove_claim_region 	which = "Austria"			where = ENG }
+		command = { type = remove_claim_region 	which = "Austria"			where = USA }
+		command = { type = independence which = AUS value = 1 }
+		command = { type = make_puppet which = AUS }
+		command = { type = alliance which = AUS where = 2 }
+		command = { type = event which = 2050208 where = AUS when = 0 }
+	}
+}
+
+####################################################################################
+# Austria Divided: Proclamation of East Austria (Vienna)
+####################################################################################
+
+event = {
+	id = 2050203
+	random = no
+	country = SOV
+
+	name = EVT_2050203_NAME
+	desc = EVT_2050203_DESC
+	style = 2
+	picture = "soviet_zone_austria_vienna"
+
+	action = {
+		name = EVT_2050203_ACTA
+		command = { type = remove_claim_region 	which = "Austria"			where = SOV }
+		command = { type = independence which = U16 value = 1 }
+		command = { type = make_puppet which = U16 }
+		command = { type = alliance which = U16 where = 3 }
+		command = { type = event which = 2050209 where = U16 when = 0 }
+	}
+}
+
+####################################################################################
+# Unified Austria: Western Ratification of Austrian State Treaty
+####################################################################################
+
+event = {
+	id = 2050204
+	random = no
+	country = USA
+
+	name = EVT_2050204_NAME
+	desc = EVT_2050204_DESC
+	style = 2
+	picture = "austrian_state_treaty_signing_belvedere_1955"
+
+	action = {
+		name = EVT_2050204_ACTA
+		command = { type = remove_claim_region 	which = "Austria"			where = ENG }
+		command = { type = remove_claim_region 	which = "Austria"			where = USA }
+		command = { type = independence which = AUS value = 1 }
+		command = { type = event where = AUS which = 2400530 when = 0 } #legit indie
+		command = { type = event which = 2050205 where = SOV when = 0 }
+		command = { type = event which = 2050206 where = USA when = 0 }
+		command = { type = event which = 2050207 where = AUS when = 0 }
+	}
+}
+
+####################################################################################
+# Unified Austria: Soviet Troop Withdrawal and Handover
+####################################################################################
+
+event = {
+	id = 2050205
+	random = no
+	country = SOV
+
+	name = EVT_2050205_NAME
+	desc = EVT_2050205_DESC
+	style = 2
+	picture = "soviet_zone_austria_vienna"
+
+	action = {
+		name = EVT_2050205_ACTA
+		command = { type = remove_claim_region 	which = "Austria"			where = SOV }
+		command = { type = secederegion which = AUS value = "Austria" when = 1 }
+		command = { type = non_aggression which = SOV where = AUS when = 7200 }
+		command = { type = guarantee which = AUS }
+		command = { type = set_relation which = AUS value = 50 }
+	}
+}
+
+####################################################################################
+# Unified Austria: Western Troop Withdrawal
+####################################################################################
+
+event = {
+	id = 2050206
+	random = no
+	country = USA
+
+	name = EVT_2050206_NAME
+	desc = EVT_2050206_DESC
+	style = 2
+	picture = "west_austria_salzburg_administration"
+
+	action = {
+		name = EVT_2050206_ACTA
+		command = { type = secederegion which = AUS value = "Austria" when = 1 }
+		command = { type = non_aggression which = USA where = AUS when = 7200 }
+		command = { type = non_aggression which = ENG where = AUS when = 7200 }
+		command = { type = non_aggression which = VIC where = AUS when = 7200 }
+		command = { type = guarantee which = AUS }
+		command = { type = set_relation which = AUS value = 50 }
+	}
+}
+
+####################################################################################
+# Unified Austria: Sovereign Declaration of Permanent Neutrality
+####################################################################################
+
+event = {
+	id = 2050207
+	random = no
+	country = AUS
+
+	name = EVT_2050207_NAME
+	desc = EVT_2050207_DESC
+	style = 2
+	picture = "austrian_state_treaty_signing_belvedere_1955"
+
+	action = {
+		name = EVT_2050207_ACTA
+		command = { type = access which = USA }
+		command = { type = access which = ENG }
+		command = { type = access which = VIC }
+		command = { type = access which = CAN }
+		command = { type = access which = SOV }
+		command = { type = access which = U32 }
+
+		#Give one month to withdraw, then revoke access
+		command = { type = event where = -1 which = 3141 when = 30 }
+
+		command = { type = flag_ext 	where = AUS which = "_neutral" }
+		command = { type = capital which = 463 } # Vienna
+		command = { type = set_domestic which = political_left	value = 6 }
+		command = { type = set_domestic which = free_market		value = 3 }
+		command = { type = set_domestic which = freedom			value = 9 }
+		command = { type = set_domestic which = defense_lobby	value = 4 }
+		command = { type = set_domestic which = interventionism	value = 2 }
+		command = { type = headofstate which = 115014 } # Karl Renner (SL)
+		command = { type = headofgovernment which = 115023 } # Adolf Schärf (SD)
+		command = { type = foreignminister which = 115033 } # Leopold Figl (ML)
+		command = { type = armamentminister which = 115044 } # Eduard Heinl (ML)
+		command = { type = ministerofsecurity which = 115175 } # Oskar Helmer (SD)
+		command = { type = ministerofintelligence which = 115069 } # Julius Raab (SL)
+		command = { type = chiefofstaff which = 115173 } # Erwin Fussenegger (ML)
+		command = { type = chiefofarmy which = 115174 } # Ferdinand Graf (ML)
+		command = { type = chiefofnavy which = 115093 } # Eric von Klopfenburg (SL)
+		command = { type = chiefofair which = 115098 } # Julius Yllam (SC)
+		
+		command = { type = non_aggression which = AUS where = SOV when = 7200 }
+		command = { type = non_aggression which = AUS where = USA when = 7200 }
+		command = { type = non_aggression which = AUS where = ENG when = 7200 }
+		command = { type = non_aggression which = AUS where = FRA when = 7200 }
+
+		command = { type = secederegion which = AUS value = "Austria" when = 2 }
+		#command = { type = supplies value = 2000 }
+		#command = { type = money value = 500 }
+		#command = { type = manpowerpool value = 50 }
+		#command = { type = dissent value = -10 }
+	}
+}
+
+####################################################################################
+# West Austria: Provisional Administration in Salzburg
+####################################################################################
+
+event = {
+	id = 2050208
+	random = no
+	country = AUS
+
+	name = EVT_2050208_NAME
+	desc = EVT_2050208_DESC
+	style = 2
+	picture = "west_austria_salzburg_administration"
+
+	action = {
+		name = EVT_2050208_ACTA
+		command = { type = capital which = 462 } # Salzburg
+		command = { type = set_domestic which = political_left	value = 5 }
+		command = { type = set_domestic which = free_market		value = 3 }
+		command = { type = set_domestic which = freedom			value = 9 }
+		command = { type = set_domestic which = defense_lobby	value = 4 }
+		command = { type = set_domestic which = interventionism	value = 4 }
+		command = { type = headofstate which = 115105 } # Theodor Körner (SC)
+		command = { type = headofgovernment which = 115107 } # Leopold Figl (ML)
+		command = { type = foreignminister which = 115032 } # Karl Gruber (ML)
+		command = { type = armamentminister which = 115044 } # Eduard Heinl (ML)
+		command = { type = ministerofsecurity which = 115110 } # Josef GerÃ¶ (SL)
+		command = { type = ministerofintelligence which = 115069 } # Julius Raab (ML)
+		command = { type = chiefofstaff which = 115173 } # Erwin Fussenegger (ML)
+		command = { type = chiefofarmy which = 115174 } # Ferdinand Graf (ML)
+		command = { type = chiefofnavy which = 115092 } # Robert Winterstein (SC)
+		command = { type = chiefofair which = 115098 } # Julius Yllam (SC)
+
+		command = { type = military_control which = USA where = AUS value = 1 }
+
+		command = { type = secedeprovince	which = AUS value = 373 					when = 2 }
+		command = { type = secedeprovince	which = AUS value = 377 					when = 2 }
+		command = { type = secedeprovince	which = AUS value = 7040 					when = 2 }
+		command = { type = secedeprovince	which = AUS value = 2327 					when = 2 }
+		command = { type = secedeprovince	which = AUS value = 462 					when = 2 }
+		command = { type = secedeprovince	which = AUS value = 461 					when = 2 }
+		command = { type = secedeprovince	which = AUS value = 460 					when = 2 }
+		command = { type = secedeprovince	which = AUS value = 3375					when = 2 }
+		command = { type = secedeprovince	which = AUS value = 3376 					when = 2 }
+		command = { type = secedeprovince	which = AUS value = 3217 					when = 2 }
+		#command = { type = supplies value = 1500 }
+		#command = { type = money value = 300 }
+		#command = { type = manpowerpool value = 30 }
+		#command = { type = dissent value = 5 }
+	}
+}
+
+####################################################################################
+# East Austria: Socialist Administration in Vienna
+####################################################################################
+
+event = {
+	id = 2050209
+	random = no
+	country = U16
+
+	name = EVT_2050209_NAME
+	desc = EVT_2050209_DESC
+	style = 2
+	picture = "soviet_zone_austria_vienna"
+
+	action = {
+		name = EVT_2050209_ACTA
+		command = { type = capital which = 463 } # Vienna
+		command = { type = set_domestic which = political_left	value = 9 }
+		command = { type = set_domestic which = free_market		value = 3 }
+		command = { type = set_domestic which = freedom			value = 9 }
+		command = { type = set_domestic which = defense_lobby	value = 4 }
+		command = { type = set_domestic which = interventionism	value = 5 }
+		command = { type = headofstate which = 895027 } # Johann Koplenig (LE)
+		command = { type = headofgovernment which = 895028 } # Ernst Fischer (LE)
+		command = { type = foreignminister which = 895007 } # Alfred Klahr (LE)
+		command = { type = armamentminister which = 895013 } # Erwin Puschmann (LE)
+		command = { type = ministerofsecurity which = 895029 } # Franz Honner (LE)
+		command = { type = ministerofintelligence which = 895018 } # Richard Bernaschek (LE)
+		command = { type = chiefofstaff which = 895020 } # Ferdinand Strasser (LE)
+		command = { type = chiefofarmy which = 895021 } # Richard Bernaschek (LE)
+		command = { type = chiefofnavy which = 895022 } # Eric von Klopfenburg (LE)
+		command = { type = chiefofair which = 895024 } # Artur Breycha-Vauthier (LE)
+
+		command = { type = military_control which = SOV where = U16 value = 1 }
+		
+		command = { type = secedeprovince	which = U16 value = 463 					when = 2 }
+		command = { type = secedeprovince	which = U16 value = 464 					when = 2 }
+		command = { type = secedeprovince	which = U16 value = 465 					when = 2 }
+		command = { type = secedeprovince	which = U16 value = 2328 					when = 2 }
+		command = { type = secedeprovince	which = U16 value = 2329 					when = 2 }
+		#command = { type = supplies value = 1500 }
+		#command = { type = money value = 300 }
+		#command = { type = manpowerpool value = 30 }
+		#command = { type = dissent value = 5 }
+	}
+}
+
+####################################################################################
+# German Question: The Stalin Note
+####################################################################################
+
+event = {
+	id = 2050210
+	random = no
+	country = SOV
+
+	name = EVT_2050210_NAME
+	desc = EVT_2050210_DESC
+	style = 2
+	picture = "stalin_note_germany_1952"
+
+	trigger = {
+		flag = { which = GAME_VERSION when = 1 value = 1 }
+		OR = {
+			event = { id = 2003202 days = 1800 } # ~5 years from conclusion of WW2
+			AND = {
+				year = 1950
+				NOT = { exists = GER }
+			}
+		}
+		NOT = {
+			exists = DFR
+			exists = DDR
+			war = { country = SOV country = USA }
+			#atwar = yes
+		}
+		control = { province = 7266 data = SOV } # East Berlin
+		OR = {
+			control = { province = 75 data = USA } # Cologne / Bonn
+			control = { province = 75 data = ENG }
+			control = { province = 75 data = FRA }
+		}
+	}
+
+	date = { day = 0 month = january year = 1948 }
+	offset = 30
+	deathdate = { day = 29 month = december year = 1963 }
+
+	action = {
+		ai_chance = 90
+		name = EVT_2050210_ACTA
+		command = { type = event which = 2050211 where = USA when = 0 }
+	}
+	action = {
+		ai_chance = 10
+		name = EVT_2050210_ACTB
+		command = { type = belligerence value = 3 }
+		command = { type = dissent value = 1 }
+		command = { type = relation which = USA value = -30 }
+		command = { type = event which = 2050212 where = USA when = 0 }
+		command = { type = event which = 2050213 where = SOV when = 0 }
+	}
+}
+
+####################################################################################
+# German Question: Western Decision
+####################################################################################
+
+event = {
+	id = 2050211
+	random = no
+	country = USA
+
+	name = EVT_2050211_NAME
+	desc = EVT_2050211_DESC
+	style = 2
+	picture = "four_powers_berlin_conference_1954"
+
+	action = {
+		ai_chance = 5
+		name = EVT_2050211_ACTA
+		command = { type = dissent value = 5 }
+		command = { type = domestic which = interventionism value = -1 } #militarism down
+		command = { type = relation which = FRA value = -30 }
+		command = { type = relation which = ENG value = -30 }
+		command = { type = relation which = SOV value = 30 }
+		command = { type = event which = 2050216 where = USA when = 0 }
+	}
+	action = {
+		ai_chance = 95
+		name = EVT_2050211_ACTB
+		command = { type = relation which = SOV value = -30 }
+		command = { type = relation which = FRA value = 15 }
+		command = { type = relation which = ENG value = 15 }
+		command = { type = event which = 2050212 where = USA when = 0 }
+		command = { type = event which = 2050213 where = SOV when = 0 }
+	}
+}
+
+####################################################################################
+# Germany Divided: Proclamation of the Federal Republic of Germany (Bonn)
+####################################################################################
+
+event = {
+	id = 2050212
+	random = no
+	country = USA
+
+	name = EVT_2050212_NAME
+	desc = EVT_2050212_DESC
+	style = 2
+	picture = "adenauer_mccloy_bonn_1952"
+
+	action = {
+		name = EVT_2050212_ACTA
+		command = { type = remove_claim_region 	which = "Germany"			where = ENG }
+		command = { type = remove_claim_region 	which = "Germany"			where = USA }
+		command = { type = independence which = DFR value = 1 }
+		command = { type = make_puppet which = DFR }
+		command = { type = alliance which = DFR where = 2 }
+		command = { type = event where = DFR which = 2400537 when = 0 } #medium-strong puppet
+		command = { type = event which = 2050214 where = DFR when = 0 }
+	}
+}
+
+####################################################################################
+# Germany Divided: Proclamation of the German Democratic Republic (East Berlin)
+####################################################################################
+
+event = {
+	id = 2050213
+	random = no
+	country = SOV
+
+	name = EVT_2050213_NAME
+	desc = EVT_2050213_DESC
+	style = 2
+	picture = "proclamation_gdr_east_berlin_1949"
+
+	action = {
+		name = EVT_2050213_ACTA
+		command = { type = remove_claim_region 	which = "Germany"			where = SOV }
+		command = { type = independence which = DDR value = 1 }
+		command = { type = make_puppet which = DDR }
+		command = { type = alliance which = DDR where = 3 }
+		command = { type = event where = DDR which = 2400537 when = 0 } #medium-strong puppet
+		command = { type = event which = 2050215 where = DDR when = 0 }
+	}
+}
+
+####################################################################################
+# West Germany: Promulgation of Basic Law in Bonn
+####################################################################################
+
+event = {
+	id = 2050214
+	random = no
+	country = DFR
+
+	name = EVT_2050214_NAME
+	desc = EVT_2050214_DESC
+	style = 2
+	picture = "bundestag_bonn_basic_law_1949"
+
+	action = {
+		name = EVT_2050214_ACTA
+		command = { type = capital which = 75 } # Bonn
+		command = { type = set_domestic which = political_left	value = 5 }
+		command = { type = set_domestic which = free_market		value = 3 }
+		command = { type = set_domestic which = freedom			value = 9 }
+		command = { type = set_domestic which = defense_lobby	value = 4 }
+		command = { type = set_domestic which = interventionism	value = 5 }
+		command = { type = headofstate which = 630001 } # Theodor Heuss (SL)
+		command = { type = headofgovernment which = 630002 } # Konrad Adenauer (ML)
+		command = { type = foreignminister which = 630003 } # Konrad Adenauer (ML)
+		command = { type = armamentminister which = 630017 } # Ludwig Erhard (ML)
+		command = { type = ministerofsecurity which = 630040 } # Robert Lehr (ML)
+		command = { type = ministerofintelligence which = 630026 } # Reinhard Gehlen (SC)
+		command = { type = chiefofstaff which = 630078 } # Adolf Heusinger (ML)
+		command = { type = chiefofarmy which = 630008 } # Hans Speidel (ML)
+		command = { type = chiefofnavy which = 630068 } # Erich Topp (ML)
+		command = { type = chiefofair which = 630053 } # Johannes Steinhoff (SC)
+
+		command = { type = military_control which = USA where = DFR value = 1 }
+
+		command = { type = secedearea		which = DFR value = "Hannover_Magdeburg" 	when = 2 }
+		command = { type = secedearea		which = DFR value = "Westphalen" 			when = 2 }
+		command = { type = secedearea		which = DFR value = "Hessen" 				when = 2 }
+		command = { type = secedearea		which = DFR value = "Bavaria"	 			when = 2 }
+		command = { type = secedearea		which = DFR value = "Baden_Wurttemberg" 	when = 2 }
+		command = { type = secedeprovince	which = DFR value = 3251 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 314 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 1014 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 87	 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 1904 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 66	 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 75	 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 6521 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 7189 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 1016 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 1018 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 66 						when = 2 }
+		command = { type = secedeprovince	which = DFR value = 6521 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 75	 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 88	 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 89	 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 90	 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 7986 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 7045 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 2370 					when = 2 }
+		#command = { type = supplies value = 3000 }
+		#command = { type = money value = 800 }
+		#command = { type = manpowerpool value = 100 }
+		#command = { type = dissent value = -5 }
+	}
+}
+
+####################################################################################
+# East Germany: Founding of the German Democratic Republic
+####################################################################################
+
+event = {
+	id = 2050215
+	random = no
+	country = DDR
+
+	name = EVT_2050215_NAME
+	desc = EVT_2050215_DESC
+	style = 2
+	picture = "proclamation_gdr_east_berlin_1949"
+
+	action = {
+		name = EVT_2050215_ACTA
+		command = { type = capital which = 7266 } # East Berlin
+		command = { type = access which = DFR } # Allow transit to West Berlin (300)
+		command = { type = set_domestic which = political_left	value = 9 }
+		command = { type = set_domestic which = free_market		value = 3 }
+		command = { type = set_domestic which = freedom			value = 9 }
+		command = { type = set_domestic which = defense_lobby	value = 4 }
+		command = { type = set_domestic which = interventionism	value = 6 }
+		command = { type = headofstate which = 625034 } # Wilhelm Pieck (LE)
+		command = { type = headofgovernment which = 625069 } # Otto Grotewohl (LWR)
+		command = { type = foreignminister which = 625003 } # Georg Dertinger (LE)
+		command = { type = armamentminister which = 625004 } # Willi Stoph (LE)
+		command = { type = ministerofsecurity which = 625005 } # Karl Steinhoff (LE)
+		command = { type = ministerofintelligence which = 625006 } # Wilhelm Zaisser (LE)
+		command = { type = chiefofstaff which = 625027 } # Erwin Jollasse (LE)
+		command = { type = chiefofarmy which = 625008 } # Hans Kahle (LE)
+		command = { type = chiefofnavy which = 625009 } # Fritz Scheelen (LE)
+		command = { type = chiefofair which = 625033 } # Wilhelm Speidel (LE)
+
+		command = { type = military_control which = SOV where = DDR value = 1 }
+
+		command = { type = secedearea 		which = DDR value = "Sachsen"	when = 2 }
+		command = { type = secedeprovince 	which = DDR value = 3239		when = 2 } # Goerlitz
+		command = { type = secedeprovince 	which = DDR value = 296			when = 2 } # Rostock
+		command = { type = secedeprovince 	which = DDR value = 3244		when = 2 } # Schwerin
+		command = { type = secedeprovince 	which = DDR value = 3245		when = 2 } # Neubrandenburg
+		command = { type = secedeprovince 	which = DDR value = 297			when = 2 } # Neuruppin
+		command = { type = secedeprovince 	which = DDR value = 299			when = 2 } # Potsdam
+		command = { type = secedeprovince 	which = DDR value = 301			when = 2 } # Stralsund
+		command = { type = secedeprovince 	which = DDR value = 309			when = 2 } # Cottbus
+		command = { type = secedeprovince 	which = DDR value = 546			when = 2 } # Frankfurt (Oder)
+		command = { type = secedeprovince 	which = DDR value = 7190		when = 2 } # Anklam
+		command = { type = secedeprovince 	which = DDR value = 7266		when = 2 } # East Berlin
+		#command = { type = supplies value = 2500 }
+		#command = { type = money value = 500 }
+		#command = { type = manpowerpool value = 80 }
+		#command = { type = dissent value = -5 }
+	}
+}
+
+####################################################################################
+# Unified Germany: Western Ratification of the German Peace Treaty
+####################################################################################
+
+event = {
+	id = 2050216
+	random = no
+	country = USA
+
+	name = EVT_2050216_NAME
+	desc = EVT_2050216_DESC
+	style = 2
+	picture = "four_powers_berlin_conference_1954"
+
+	action = {
+		name = EVT_2050216_ACTA
+		command = { type = remove_claim_region 	which = "Germany"			where = USA }
+		command = { type = remove_claim_region 	which = "Germany"			where = ENG }
+		command = { type = independence which = DFR value = 1 }
+		command = { type = event where = DFR which = 2400530 when = 0 } #legit indie
+		command = { type = event which = 2050217 where = SOV when = 0 }
+		command = { type = event which = 2050218 where = USA when = 0 }
+		command = { type = event which = 2050219 where = DFR when = 0 }
+	}
+}
+
+####################################################################################
+# Unified Germany: Soviet Troop Withdrawal and Handover
+####################################################################################
+
+event = {
+	id = 2050217
+	random = no
+	country = SOV
+
+	name = EVT_2050217_NAME
+	desc = EVT_2050217_DESC
+	style = 2
+	picture = "stalin_note_germany_1952"
+
+	action = {
+		name = EVT_2050217_ACTA
+		# Secede Soviet Zone provinces to DFR without touching Polish / Oder-Neisse territory
+		command = { type = secedearea 		which = DFR value = "Sachsen"	when = 2 }
+		command = { type = secedeprovince 	which = DFR value = 3239		when = 2 } # Goerlitz
+		command = { type = secedeprovince 	which = DFR value = 296			when = 2 } # Rostock
+		command = { type = secedeprovince 	which = DFR value = 3244		when = 2 } # Schwerin
+		command = { type = secedeprovince 	which = DFR value = 3245		when = 2 } # Neubrandenburg
+		command = { type = secedeprovince 	which = DFR value = 297			when = 2 } # Neuruppin
+		command = { type = secedeprovince 	which = DFR value = 299			when = 2 } # Potsdam
+		command = { type = secedeprovince 	which = DFR value = 301			when = 2 } # Stralsund
+		command = { type = secedeprovince 	which = DFR value = 309			when = 2 } # Cottbus
+		command = { type = secedeprovince 	which = DFR value = 546			when = 2 } # Frankfurt (Oder)
+		command = { type = secedeprovince 	which = DFR value = 7190		when = 2 } # Anklam
+		command = { type = secedeprovince 	which = DFR value = 7266		when = 2 } # East Berlin
+		command = { type = non_aggression 	which = SOV where = DFR when = 7200 }
+		command = { type = guarantee 		which = DFR }
+		command = { type = set_relation 	which = DFR value = 50 }
+	}
+}
+
+####################################################################################
+# Unified Germany: Western Troop Withdrawal
+####################################################################################
+
+event = {
+	id = 2050218
+	random = no
+	country = USA
+
+	name = EVT_2050218_NAME
+	desc = EVT_2050218_DESC
+	style = 2
+	picture = "adenauer_mccloy_bonn_1952"
+
+	action = {
+		name = EVT_2050218_ACTA
+		command = { type = secedearea		which = DFR value = "Holstein_Mecklemburg" 	when = 2 }
+		command = { type = secedearea		which = DFR value = "Hannover_Magdeburg" 	when = 2 }
+		command = { type = secedearea		which = DFR value = "Westphalen" 			when = 2 }
+		command = { type = secedearea		which = DFR value = "Hessen" 				when = 2 }
+		command = { type = secedearea		which = DFR value = "Bavaria"	 			when = 2 }
+		command = { type = secedearea		which = DFR value = "Baden_Wurttemberg" 	when = 2 }
+		command = { type = secedeprovince	which = DFR value = 3251 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 314 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 1014 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 87	 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 1904 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 66	 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 75	 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 6521 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 7189 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 1016 					when = 2 }
+		command = { type = secedeprovince	which = DFR value = 1018 					when = 2 }
+		command = { type = non_aggression	which = USA where = DFR when = 7200 }
+		command = { type = guarantee 		which = DFR }
+		command = { type = relation 		which = DFR value = 50 }
+	}
+}
+
+####################################################################################
+# Unified Germany: Sovereign Proclamation of Reunified Neutral Germany
+####################################################################################
+
+event = {
+	id = 2050219
+	random = no
+	country = DFR
+
+	name = EVT_2050219_NAME
+	desc = EVT_2050219_DESC
+	style = 2
+	picture = "bundestag_bonn_basic_law_1949"
+
+	action = {
+		name = EVT_2050219_ACTA
+		command = { type = access which = USA }
+		command = { type = access which = ENG }
+		command = { type = access which = VIC }
+		command = { type = access which = CAN }
+		command = { type = access which = SOV }
+		command = { type = access which = U32 }
+
+		#Give one month to withdraw, then revoke access
+		command = { type = event where = -1 which = 3141 when = 30 }
+
+		command = { type = flag_ext 	where = DFR which = "_neutral" }
+		command = { type = capital which = 300 } # Berlin
+		command = { type = set_domestic which = political_left value = 6 }
+		command = { type = set_domestic which = free_market value = 3 }
+		command = { type = set_domestic which = freedom value = 9 }
+		command = { type = set_domestic which = defense_lobby value = 2 }
+		command = { type = set_domestic which = interventionism value = 3 }
+		command = { type = headofstate which = 630051 } # Theodor Heuss (SL)
+		command = { type = headofgovernment which = 630011 } # Kurt Schumacher (SD)
+		command = { type = foreignminister which = 630014 } # Erich Ollenhauer (SD)
+		command = { type = armamentminister which = 630018 } # Heinrich Wilhelm Kopf (SD)
+		command = { type = ministerofsecurity which = 630021 } # Gustav Heinemann (SL)
+		command = { type = ministerofintelligence which = 630025 } # Hans Ehard (SC)
+		command = { type = chiefofstaff which = 630030 } # Hans Speidel (SD)
+		command = { type = chiefofarmy which = 630032 } # Oskar Hansen (SD)
+		command = { type = chiefofnavy which = 630034 } # Conrad Patzig (SD)
+		command = { type = chiefofair which = 630037 } # Josef Kammhuber (SD)
+		command = { type = non_aggression which = DFR where = SOV when = 7200 }
+		command = { type = non_aggression which = DFR where = USA when = 7200 }
+		command = { type = non_aggression which = DFR where = ENG when = 7200 }
+		command = { type = non_aggression which = DFR where = FRA when = 7200 }
+		#command = { type = supplies value = 5000 }
+		#command = { type = money value = 1000 }
+		#command = { type = manpowerpool value = 150 }
+		#command = { type = dissent value = -15 }
+
+		command = { type = inherit which = U23 value = 1 } #Saarland
+
+		command = { type = secedearea which = USA value = "Austria"	when = 1 }
+	}
+}
