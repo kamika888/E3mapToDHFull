@@ -133,29 +133,36 @@ In vanilla Darkest Hour, `CMilitaryAI::DistributeArmiesToMinisters` (`0x00695A00
 
 ---
 
-## 5. Dual-Switch Configuration & Control Gates
+## 5. Modular 3-Mode Configuration & Control Gates
 
-Patch 11 incorporates a modular two-tier control architecture allowing full engine-wide or country-specific toggles:
+Patch 11 incorporates a modular two-tier control architecture allowing full engine-wide or country-specific toggles with three operational modes:
 
 ### 5.1 Global Engine Setting (`db\mod_settings.ini`)
 ```ini
 [AI]
 ; Enable Allied Territory Garrison AI:
-; 0 = Vanilla behavior (AI only garrisons owned/controlled provinces and repatriates from allied soil)
-; 1 = Enabled (AI can station and garrison divisions in allied territory based on priorities and area_multiplier, default)
-EnableAlliedGarrison = 1
+; 0 = No foreign garrisons outside directly controlled territory (vanilla DH behavior)
+; 1 = Allow garrisons in ally territory only
+; 2 = Allow garrisons in ally and military access territory (default)
+EnableAlliedGarrison = 2
 ```
-- Loaded via `GetPrivateProfileIntA` into global memory `[0x00DCA290]`.
+- Loaded via `GetPrivateProfileIntA` with default `2` into global memory `[0x00DCA290]`.
 - If set to `0`, all hooks route through Control Gates directly back to vanilla Darkest Hour execution paths.
+- If set to `1`, only domestic and allied territory qualifies; military access nations are excluded.
+- If set to `2`, domestic, allied, and military access nations qualify.
 
-### 5.2 Country-Specific Toggle (`no_allied_garrison` Local Flag)
-- If a nation sets `no_allied_garrison != 0` via AI flags (`flags = { no_allied_garrison = 1 }`), scenario `.inc` files, or event scripting (`type = local_setflag which = no_allied_garrison value = 1`):
-  - The nation disables allied territory garrison evaluations and immediately falls back to vanilla repatriation.
-- If the flag is omitted or set to `0`, the nation utilizes the enhanced allied garrison AI.
+### 5.2 Country-Specific Override (`no_foreign_garrison` Local Flag)
+- If a nation sets `no_foreign_garrison` via AI flags (`flags = { no_foreign_garrison = <value> }`), scenario `.inc` files, or event scripting (`type = local_setflag which = no_foreign_garrison value = <value>`):
+  - **`0`**: Allow ally and military access garrisons (default; inherits global setting).
+  - **`1`**: Allow only ally garrisons (disallows military access territory, even if global setting is 2).
+  - **`2`**: Allow no foreign garrisons, ally or military access (forces vanilla DH behavior for this specific country).
+- If the flag is omitted or set to `0`, the nation inherits the global `EnableAlliedGarrison` setting.
 
 ### 5.3 Control Gates & Pointer Bounds Protection
-- **`CheckCountry` (`0x00DCAD34`)**: Validates pointer bounds (`eax >= 0x10000` and `eax <= 0x7FFE0000`) before accessing `[CCountry + 0x120]`, protecting against invalid pointer dereferences.
-- **`Gate A` (`0x00DCAD80`)**: Gates Hook 1 (`0x0068D8B9`).
-- **`Gate M` (`0x00DCADB0`)**: Gates Hook 13 (`0x00696ECD`).
-- **`Gate I` (`0x00DCADE0`)**: Gates Hook 11 (`0x00693A86`).
-- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` (Verified SHA256: `9AD3239A979C8E9F8B8124E46C64EA2FB7A4E4A98DAFD5F61C75BE58269D3912`).
+- **`CheckCountry` (`0x00DCAD34`)**: Validates pointer bounds (`eax >= 0x10000` and `eax <= 0x7FFE0000`) before accessing `[CCountry + 0x120 + 0x4C]`. Searches for `"no_foreign_garrison"` (`0x00DCAD20`) via `std::map::find`. Returns mode `0`, `1`, or `2` in `AL`.
+- **`Gate A` (`0x00DCAD98`)**: Gates Hook 1 (`0x0068D8B9`). Reads `[ebp - 0x18] -> [0x0A]`, calls `CheckCountry`. If `AL > 0` jumps to `Cave A` (`0x00DCA320`), else vanilla `0x0068D8C1`.
+- **`Gate M` (`0x00DCADC0`)**: Gates Hook 13 (`0x00696ECD`). Reads `[ebp - 0xbc]`, calls `CheckCountry`. If `AL > 0` jumps to `Cave M` (`0x00DCAA00`), else vanilla `0x00696ED3`.
+- **`Gate I` (`0x00DCADE8`)**: Gates Hook 11 (`0x00693A86`). Reads `[ebx + 0x0A]`, calls `CheckCountry`. If `AL > 0` jumps to `Cave I` (`0x00DCA825`), else vanilla `0x00693A8F`.
+- **`IsAlliedOrAccess` (`0x00DCA700`)**: Evaluates major faction, bilateral alliance (`0x00586230`), and—if effective mode == 2—military access (`0x005861A0`).
+- **`Hook 14` (`0x00522B23` / `0x00DCA780`)**: Intercepts `CUnit::CanFleetEnterProvince` (`0x00522a60`) to allow transports to enter friendly military access ports and disembark units during peacetime when Mode == 2.
+- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` (Verified SHA256: `F12C176F16D2636C0483C772ED8F704608AC42157CAC3D0CF73B747D158387EC`).
