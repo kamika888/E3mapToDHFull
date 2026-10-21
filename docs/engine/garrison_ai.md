@@ -482,7 +482,7 @@ Once overseas transport fleets disembark divisions at an allied/access port (e.g
     3. `IsNavalOrAirUnit(pArmy) == 0` (land army only).
     4. `CanMove(pArmy) == 1` (mobile unit).
     5. Valid province location and area pointer.
-    6. Calls `IsAlliedOrAccess_Switchable` (`0x00DCA700`) and verifies the area has an active `area_multiplier` or `country_priorities` border.
+    6. Calls `IsAlliedOrAccess_Switchable(myCountry, [pProvince + 0x3D8])` (`0x00DCAC00`); armies standing on territory that fails the check (e.g. a neutral country where we only hold a Non-Aggression Pact / Military Access) are NOT registered, so `CGarrisonAI::Update` cannot pin them with Mission 7 and `ManageExpeditionaryForces` (`0x006939F0`) can repatriate them.
   - Calls `CGarrisonAI::RegisterArmy(pArmy)` (`call dword ptr [edx + 0x1A8]`).
   - Handover function `FUN_006aa000` updates `[pArmy + 0x1F4] = CGarrisonAI` and inserts the army into `CGarrisonAI::m_ArmyList`.
 
@@ -519,7 +519,7 @@ For per-nation control, the engine inspects each nation's local flags (`[pCountr
 The toggles are enforced uniformly via `DetermineGarrisonMode` (`0x00DCAB60`) and `IsAlliedOrAccess_Switchable` (`0x00DCA700` -> `0x00DCAC00`):
 - **`DetermineGarrisonMode(CCountry* pCountry)` (`0x00DCAB60`)**:
   - Reads global `g_nEnableAlliedGarrison` (`[0x00DCAB00]`). If `<= 0`, immediately returns `AL = 0`.
-  - Validates `pCountry` (`0x00100000 <= pCountry < 0x7FFF0000`) and `pCountry->m_pAI` (`[pCountry + 0x120]`).
+  - Validates `pCountry` (`0x00010000 <= pCountry <= 0xFFFE0000`) and `pCountry->m_pAI` (`[pCountry + 0x120]`). The upper bound covers Large Address Aware (Patch 7) heap allocations above `0x80000000` (e.g. post-independence `AUS` at `0x84D8C008` in E3mod).
   - Queries `CStringMap::Lookup(pAI + 0x4C, "no_foreign_garrison")` (`0x006AF430` with key string at `0x00DCAB04`).
   - Reloads `edx = [0x00DCAB00]` after `Lookup` (since `0x006AF430` clobbers `edx`), then applies the clamping hierarchy:
     - If `no_foreign_garrison == 0` (or not found): returns `AL = dl` (`EnableAlliedGarrison`).
@@ -530,11 +530,12 @@ The toggles are enforced uniformly via `DetermineGarrisonMode` (`0x00DCAB60`) an
   - Calls `DetermineGarrisonMode(CountryA)` (`0x00DCAB60`) and saves effective mode (`0`, `1`, or `2`) in `[ebp - 4]`.
   - If effective mode `== 0`, returns `AL = 0`.
   - Evaluates Alliance status (valid in Mode `>= 1`):
-    1. Same major faction (`[A + 0x3350] != 0 && [A + 0x3350] == [B + 0x3350]`) -> returns `1`.
-    2. Master/puppet relationship (`[A + 0x3B30] == B.tag` or `[B + 0x3B30] == A.tag`) -> returns `1`.
-    3. Bilateral alliance (`0x005861E0`, diplomatic relation `+0x36`) -> returns `1`.
+    1. `CCountry::IsAlliedOrPuppet` (`0x0044A690`): not at war (`+0x2C`), co-belligerent (`+0x32`), master/puppet (`[dip + 0x3B30]` either direction), alliance (`+0x31`) -> returns `1`.
+    2. Same major faction (`[A + 0x3350] != 0 && [A + 0x3350] == [B + 0x3350]`) -> returns `1`.
+    3. Bilateral alliance byte (`+0x33`) -> returns `1`.
+    - **Do NOT use `0x005861E0`**: it reads relation `+0x36`, which is a **Non-Aggression Pact**, not an alliance. Using it made every NAP partner (e.g. Austria after the State Treaty, events `2050205`-`2050207`) count as an ally, so occupiers spread out over the whole country instead of withdrawing.
   - Evaluates Military Access status (valid ONLY if effective mode `>= 2`):
     - Checks `cmp byte ptr [ebp - 4], 2; jb ret_false`.
     - Calls `0x005861A0` (diplomatic relation `+0x37`, `CountryA` has Military Access to `CountryB`) or `0x00586230` (`+0x32` co-belligerent access). Returns `1` if granted, `0` otherwise.
-- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` (Verified SHA256: `B92EFFDC4B9AEAE2620BD2214130EBF20F2CEEB6E4559408802CF3D8EFAE906C`).
+- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` (Verified SHA256: `97644285B95A26C883BE280FEA0CCF49814BCFA3A536F4D22B19566DDC0A2B97`; previous build `B92EFFDC4B9AEAE2620BD2214130EBF20F2CEEB6E4559408802CF3D8EFAE906C`).
 
