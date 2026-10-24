@@ -537,5 +537,10 @@ The toggles are enforced uniformly via `DetermineGarrisonMode` (`0x00DCAB60`) an
   - Evaluates Military Access status (valid ONLY if effective mode `>= 2`):
     - Checks `cmp byte ptr [ebp - 4], 2; jb ret_false`.
     - Calls `0x005861A0` (diplomatic relation `+0x37`, `CountryA` has Military Access to `CountryB`) or `0x00586230` (`+0x32` co-belligerent access). Returns `1` if granted, `0` otherwise.
-- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` (Verified SHA256: `97644285B95A26C883BE280FEA0CCF49814BCFA3A536F4D22B19566DDC0A2B97`; previous build `B92EFFDC4B9AEAE2620BD2214130EBF20F2CEEB6E4559408802CF3D8EFAE906C`).
+- **Overseas Land Repatriation Target Fix (`0x00693CD3` / `0x00293CD3`)**:
+  - In `CMilitaryAI::ManageExpeditionaryForces` (`0x006939F0`), the engine iterates candidate repatriation destination areas at line `0x00693CD3`.
+  - Vanilla read `mov eax, dword ptr [eax + 0xE86E]`, which points exclusively to `m_homeAreas` (contiguous areas on the capital's home continent). For overseas nations with no contiguous continental core in the theater (e.g. `USA` with capital in North America, or `ENG` on the European continent), `[pCountry + 0xE86E]` is `0x00000000` (`NULL`).
+  - At line `0x00693CE5: je 0x693EB1`, the engine immediately aborted repatriation if `[pCountry + 0xE86E] == NULL`, permanently stranding overseas armies in foreign/neutral lands (such as US and British divisions in post-treaty Austria) without ever considering their overseas occupation zones or bases.
+  - Patched `0x00693CD3` to `mov eax, dword ptr [eax + 0xE880]` (`m_allAreas`), which contains all controlled areas worldwide (e.g. US Bavaria, British Northern Germany). This allows overseas divisions stranded in landlocked foreign territory to compute distance to their adjacent occupation zones and march overland across the border.
+- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` (Verified SHA256: `57E8ABFC9E898B0316E03D26AA3B23753ACEFDA040A3E17E1C9501DFD10493C8`; previous build `97644285B95A26C883BE280FEA0CCF49814BCFA3A536F4D22B19566DDC0A2B97`).
 
