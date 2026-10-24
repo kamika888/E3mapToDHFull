@@ -122,3 +122,49 @@ In `CCountry::CalculateTradeEfficiencies` (`0x0044EB23` to `0x0044EB66`):
 - **Daily Trade Deal Updates** (`0x0058A870`): Iterates all active deals and updates `[CTradeDeal + 0x46]` from current country efficiencies.
 - **Daily Deliveries**: Resource amounts transferred each hour/day are multiplied by deal efficiency `[CTradeDeal + 0x46]`.
 
+
+---
+
+## 5. `CDiplomacy` In-Memory Data Structures & Relation Record Layout
+
+Base pointer retrieved from `[pCountry + 0x12DA]`:
+
+### 5.1 Relation Array Geometry & Address Formula
+At `[pCountry + 0x12DA] + 0x0C`, the engine maintains a flat array of **344 relation records**, exactly 44 (`0x2C`) bytes per country tag:
+```c
+struct SCountryRelation {
+    float   m_fValue;          // +0x00: Diplomatic relation value (-200.0 to +200.0)
+    uint8_t m_pad0[0x24];      // +0x04..+0x27: Internal diplomatic metrics & date stamps
+    int32_t m_nFrustration;    // +0x28: Diplomatic frustration / tension
+    uint8_t m_bAtWar;          // +0x2C: At-war flag (1 = active war, 0 = peace)
+    uint8_t m_pad1[5];         // +0x2D..+0x31: Padding & flags
+    uint8_t m_bMilControl;     // +0x32: Military control / guarantee flag
+    uint8_t m_pad2[3];         // +0x33..+0x35: Padding
+    uint8_t m_bNAP;            // +0x36: Non-Aggression Pact active (1 = yes, 0 = no)
+    uint8_t m_bAccess;         // +0x37: Military Access granted to actor (1 = yes, 0 = no)
+}; // sizeof = 44 (0x2C) bytes
+```
+
+- **Lookup Address Calculation**:
+  The engine uses fast shift-and-add assembly sequences to compute the offset for target country tag `T`:
+  ```asm
+  lea edx, [eax + eax*4]   ; edx = 5 * T
+  lea eax, [eax + edx*2]   ; eax = 11 * T
+  ; eax * 4 = 44 * T (0x2C * T)
+  ; Access byte (+0x37): byte ptr [ecx + eax*4 + 0x37]
+  ; NAP byte (+0x36):    byte ptr [ecx + eax*4 + 0x36]
+  ```
+
+### 5.2 Key Diplomatic Queries
+- **`CDiplomacy::HasAccessTo(target_tag)` (`0x005861A0`)**:
+  Queries relation record byte `+0x37`. Returns `1` if `access = yes` is active from target, `0` otherwise.
+- **`CDiplomacy::IsNonAggressionPactWith(target_tag)` (`0x005861E0`)**:
+  Queries relation record byte `+0x36`. Returns `1` if a Non-Aggression Pact is active, `0` otherwise.
+- **Master / Puppet Relationship (`[pDiplomacy + 0x3B30]`)**:
+  Stores the 32-bit integer tag of the master country (`0` if the country is sovereign).
+
+> [!IMPORTANT]
+> **Alliances are NOT stored in `relation = { ... }` records**:
+> In the Europa engine, alliances do not exist as bilateral flags inside country relation records. Alliances exist **exclusively** via:
+> 1. `[pCountry + 0x3350]` (`m_pAlliance`): A pointer to the shared `CAlliance` container. All members of the same major alliance or faction share the exact same `m_pAlliance` pointer.
+> 2. `[pCountry->m_pDiplomacy + 0x3B30]`: Master/puppet ties.

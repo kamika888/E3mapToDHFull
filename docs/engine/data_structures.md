@@ -56,9 +56,19 @@ Offset          Type                Description
                 [[+0x120]+0xB8]+24  Virtual method: IsAtWar / CanCooperate(target_tag)
                 +0x1C0              Trade Embargo container (HasTradeEmbargoAgainst @ 0x004A74E0)
                 +0x204              Tech Embargo container (HasTechEmbargoAgainst @ 0x004A7500)
-+0x12DA         CAlliance*          Diplomatic Relations / Master Relationship pointer
++0x12DA         CDiplomacy*         Diplomatic Relations & Master Relationship pointer
+                +0x0C               Array of 344 relation records (44 bytes / 0x2C per tag)
+                                    Record internal offsets:
+                                      +0x00..+0x03: value (float, -200.0 to +200.0)
+                                      +0x2C: atwar (byte, 1 = at war with target)
+                                      +0x32: military control / guarantee (byte)
+                                      +0x36: m_bNAP (Non-Aggression Pact byte, queried by 0x005861E0)
+                                      +0x37: m_bAccess (Military Access byte, queried by 0x005861A0)
                 +0x3B30             Master Country Tag (0 = sovereign)
-+0x3350         CAlliance*          Alliance container pointer
++0x3350         CAlliance*          Alliance / Major Faction container pointer
+                                    (All members of the same alliance share an identical m_pAlliance pointer.
+                                     Note: Bilateral alliances are NOT stored as flags in relation records;
+                                     alliances exist strictly via m_pAlliance and puppet/master relations)
                 +0x22               Pointer to alliance member container
                 [[+0x3350]+0x22]+4  Head node of ally country tags linked list
 +0xE86E         FrontNode*          Head of active Fronts linked list (CFront*)

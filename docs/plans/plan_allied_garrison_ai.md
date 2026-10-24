@@ -158,11 +158,34 @@ EnableAlliedGarrison = 2
   - **`2`**: Allow no foreign garrisons, ally or military access (forces vanilla DH behavior for this specific country).
 - If the flag is omitted or set to `0`, the nation inherits the global `EnableAlliedGarrison` setting.
 
-### 5.3 Control Gates & Pointer Bounds Protection
-- **`CheckCountry` (`0x00DCAD34`)**: Validates pointer bounds (`eax >= 0x10000` and `eax <= 0x7FFE0000`) before accessing `[CCountry + 0x120 + 0x4C]`. Searches for `"no_foreign_garrison"` (`0x00DCAD20`) via `std::map::find`. Returns mode `0`, `1`, or `2` in `AL`.
-- **`Gate A` (`0x00DCAD98`)**: Gates Hook 1 (`0x0068D8B9`). Reads `[ebp - 0x18] -> [0x0A]`, calls `CheckCountry`. If `AL > 0` jumps to `Cave A` (`0x00DCA320`), else vanilla `0x0068D8C1`.
-- **`Gate M` (`0x00DCADC0`)**: Gates Hook 13 (`0x00696ECD`). Reads `[ebp - 0xbc]`, calls `CheckCountry`. If `AL > 0` jumps to `Cave M` (`0x00DCAA00`), else vanilla `0x00696ED3`.
-- **`Gate I` (`0x00DCADE8`)**: Gates Hook 11 (`0x00693A86`). Reads `[ebx + 0x0A]`, calls `CheckCountry`. If `AL > 0` jumps to `Cave I` (`0x00DCA825`), else vanilla `0x00693A8F`.
-- **`IsAlliedOrAccess` (`0x00DCA700`)**: Evaluates major faction, bilateral alliance (`0x00586230`), and—if effective mode == 2—military access (`0x005861A0`).
-- **`Hook 14` (`0x00522B23` / `0x00DCA780`)**: Intercepts `CUnit::CanFleetEnterProvince` (`0x00522a60`) to allow transports to enter friendly military access ports and disembark units during peacetime when Mode == 2.
-- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` (Verified SHA256: `F12C176F16D2636C0483C772ED8F704608AC42157CAC3D0CF73B747D158387EC`).
+### 5.3 Control Gates & Implementation Details
+- **`DetermineGarrisonMode` (`0x00DCAB60`)**:
+  - Reads global `EnableAlliedGarrison` (`[0x00DCAB00]`). Returns `AL = 0` if disabled.
+  - Queries `no_foreign_garrison` from `pCountry->m_pAI->m_flags` (`[pCountry + 0x120 + 0x4C]`).
+  - Clamps effective mode to `0` (disabled), `1` (allied only), or `2` (allied and military access).
+- **`IsAlliedOrAccess` (`0x00DCAC00`)**:
+  - Section 1: Verifies parameters and determines effective mode (`0x00DCAB60`).
+  - Section 2 (Alliance Check): Checks major faction alliance (`[pCountry + 0x3350]`) and master/puppet relations (`[pDiplomacy + 0x3B30]`). Returns `AL = 1` if allied.
+  - Fix 1 (NAP Disambiguation): The 22-byte call to `0x005861E0` (Non-Aggression Pact, offset `+0x36`) was permanently replaced with NOPs at `0x00DCAC73 - 0x00DCAC88`. NAPs never count as alliances.
+  - Section 3 (Mode Check): `cmp byte ptr [ebp - 4], 2; jb ret_false`. Mode 1 strictly rejects non-allies, ensuring occupation troops withdraw under `no_foreign_garrison = 1` or `EnableAlliedGarrison = 1`.
+  - Section 4 (Military Access): If Mode 2, queries `CDiplomacy::HasAccessTo` (`0x005861A0`, offset `+0x37`) in both directions. Returns `AL = 1` if access is granted.
+- **Rogue Foreign Area Injection Bypass (`Cave A` @ `0x00DCA320`)**:
+  - Fix 2: Jumps at `0x00DCA336` and `0x00DCA384` are permanently redirected to `0x00DCA43A` (clean exit of Cave A).
+  - Bypasses the Phase 3 Fallback division-list scanner (`0x00DCAEB0`), ensuring areas not explicitly configured in `area_multiplier` are never evaluated or garrisoned.
+- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `3D854CE604A1F5C6EED514FD775189F57D1CDEF9A3CC6B379563B6E0EA8D7FBD`).
+
+---
+
+## 6. Pending Challenge: Landlocked Overseas Repatriation (Issue 3)
+
+### 6.1 Problem Architecture
+In `CMilitaryAI::ManageExpeditionaryForces` (`0x006939F0`):
+- For overseas nations (e.g. USA or UK in Austria) with zero continental sovereign territory:
+  - `CanMarchTo` to domestic homeland fails across the ocean.
+  - `0x006AAFF0` (naval transport) fails because Austria is landlocked.
+  - Vanilla aborts at `0x00693E57: je 0x693EB1`, leaving divisions permanently trapped.
+
+### 6.2 Solution Design
+Hook at `0x00693E57` (failure branch of naval transport):
+- Does NOT disturb normal naval transport for coastal units (e.g. British divisions in France returning across the Channel).
+- Only when both overland domestic march and naval transport have failed, triggers an allied overland fallback to find adjacent allied territory (e.g. West Germany or Italy) via `CanMarchTo`, issuing a native march order across the border.

@@ -529,18 +529,49 @@ The toggles are enforced uniformly via `DetermineGarrisonMode` (`0x00DCAB60`) an
   - If `CountryA == CountryB`, returns `AL = 1` (domestic territory is always valid regardless of switches).
   - Calls `DetermineGarrisonMode(CountryA)` (`0x00DCAB60`) and saves effective mode (`0`, `1`, or `2`) in `[ebp - 4]`.
   - If effective mode `== 0`, returns `AL = 0`.
-  - Evaluates Alliance status (valid in Mode `>= 1`):
-    1. `CCountry::IsAlliedOrPuppet` (`0x0044A690`): not at war (`+0x2C`), co-belligerent (`+0x32`), master/puppet (`[dip + 0x3B30]` either direction), alliance (`+0x31`) -> returns `1`.
-    2. Same major faction (`[A + 0x3350] != 0 && [A + 0x3350] == [B + 0x3350]`) -> returns `1`.
-    3. Bilateral alliance byte (`+0x33`) -> returns `1`.
-    - **Do NOT use `0x005861E0`**: it reads relation `+0x36`, which is a **Non-Aggression Pact**, not an alliance. Using it made every NAP partner (e.g. Austria after the State Treaty, events `2050205`-`2050207`) count as an ally, so occupiers spread out over the whole country instead of withdrawing.
-  - Evaluates Military Access status (valid ONLY if effective mode `>= 2`):
-    - Checks `cmp byte ptr [ebp - 4], 2; jb ret_false`.
-    - Calls `0x005861A0` (diplomatic relation `+0x37`, `CountryA` has Military Access to `CountryB`) or `0x00586230` (`+0x32` co-belligerent access). Returns `1` if granted, `0` otherwise.
-- **Overseas Land Repatriation Target Fix (`0x00693CD3` / `0x00293CD3`)**:
-  - In `CMilitaryAI::ManageExpeditionaryForces` (`0x006939F0`), the engine iterates candidate repatriation destination areas at line `0x00693CD3`.
-  - Vanilla read `mov eax, dword ptr [eax + 0xE86E]`, which points exclusively to `m_homeAreas` (contiguous areas on the capital's home continent). For overseas nations with no contiguous continental core in the theater (e.g. `USA` with capital in North America, or `ENG` on the European continent), `[pCountry + 0xE86E]` is `0x00000000` (`NULL`).
-  - At line `0x00693CE5: je 0x693EB1`, the engine immediately aborted repatriation if `[pCountry + 0xE86E] == NULL`, permanently stranding overseas armies in foreign/neutral lands (such as US and British divisions in post-treaty Austria) without ever considering their overseas occupation zones or bases.
-  - Patched `0x00693CD3` to `mov eax, dword ptr [eax + 0xE880]` (`m_allAreas`), which contains all controlled areas worldwide (e.g. US Bavaria, British Northern Germany). This allows overseas divisions stranded in landlocked foreign territory to compute distance to their adjacent occupation zones and march overland across the border.
-- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` (Verified SHA256: `57E8ABFC9E898B0316E03D26AA3B23753ACEFDA040A3E17E1C9501DFD10493C8`; previous build `97644285B95A26C883BE280FEA0CCF49814BCFA3A536F4D22B19566DDC0A2B97`).
+  - **Alliance Evaluation (Section 2, Valid in Mode >= 1)**:
+    1. Major Faction Alliance: `[CountryA + 0x3350] != 0 && [CountryA + 0x3350] == [CountryB + 0x3350]` -> returns `1`.
+    2. Master / Puppet Relationships: `[CountryA->diplomacy + 0x3B30] == CountryB->tag` or `[CountryB->diplomacy + 0x3B30] == CountryA->tag` -> returns `1`.
+    - **NAP Check Removal**: In previous builds, `0x005861E0` (Non-Aggression Pact, offset `+0x36`) was erroneously called inside the alliance block. Lines `0x00DCAC73` to `0x00DCAC88` (22 bytes) are now completely NOPed out. NAPs never qualify as an alliance or grant foreign garrison rights.
+  - **Mode Check**: `cmp byte ptr [ebp - 4], 2; jb ret_false`. If Mode is `1` (`no_foreign_garrison = 1`), execution branches immediately to `ret_false` (`AL = 0`), ensuring non-allies (including NAP and military access nations) are strictly excluded and troops repatriate.
+  - **Military Access Evaluation (Section 4, Valid ONLY in Mode 2)**:
+    - Calls `CDiplomacy::HasAccessTo` (`0x005861A0`, querying relation offset `+0x37`) in both directions:
+      - `CountryA` granted access to `CountryB` (`call 0x005861A0`) -> returns `1`.
+      - `CountryB` granted access to `CountryA` (`call 0x005861A0`) -> returns `1`.
+    - Note: Function `0x0044A690` queries relation offset `+0x32` (military control/guarantee) rather than `access = yes` (`+0x37`) and must not be used for access validation.
+- **Rogue Foreign Area Injection Bypass (`Cave A` @ `0x00DCA320`)**:
+  - In earlier versions, when `Cave A` finished scanning configured `area_multiplier` priorities (`[pAI + 0x358]`), instructions at `0x00DCA336` and `0x00DCA384` jumped to `0x00DCAEB0` ("Phase 3 Fallback").
+  - `0x00DCAEB0` iterated all national divisions (`pCountry + 0x4508`) and forcibly injected any foreign area containing a division into the shortage evaluation list with default priority 1.0. This caused unwanted garrison suction (e.g. a single transiting division through Yugoslavia or Hungary triggering deployment of entire armies).
+  - Both jump sites (`0x00DCA336` and `0x00DCA384`) are now permanently redirected to `jmp 0x00DCA43A` (clean exit of Cave A), which pops registers `edi, ebx, edx, ecx, eax`, clears scratch pointers, and cleanly returns to `0x0068D8C1`. Only areas explicitly defined in `area_multiplier` are evaluated.
+- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `3D854CE604A1F5C6EED514FD775189F57D1CDEF9A3CC6B379563B6E0EA8D7FBD`).
+
+---
+
+## 6. Pending Architectural Challenges: Landlocked Overseas Repatriation (Issue 3)
+
+### 6.1 Problem Statement
+When foreign troops are required to withdraw (e.g. American and British occupation divisions in Austria after the Austrian State Treaty, events `2050205`-`2050207`):
+1. In `CMilitaryAI::ManageExpeditionaryForces` (`0x006939F0`), the engine iterates `m_controlledAreasList` (`0x00693CD3`) searching for candidate domestic provinces to march to.
+2. For overseas nations with no sovereign or occupation territory remaining on the European continent (e.g. once West Germany is sovereign):
+   - `CanMarchTo` to domestic homeland (North America or British Isles) returns `0` due to the oceanic barrier.
+   - The engine falls through to `0x006AAFF0` (naval transport). Because Austria is landlocked with no naval port, `0x006AAFF0` fails and returns `EAX = 0`.
+   - At line `0x00693E57: je 0x693EB1`, the vanilla engine aborts repatriation. The foreign divisions are permanently stranded in landlocked neutral territory.
+
+### 6.2 Previous Flawed Hook Site
+An earlier implementation hooked `0x00693E2C` (interception of `CanMarchTo`). This was flawed because:
+- It executed **before** `0x006AAFF0` (naval transport).
+- For coastal units that legally require naval evacuation across the sea (e.g. British divisions in France returning to Dover/Portsmouth), intercepting at `0x00693E2C` bypassed normal naval evacuation and corrupted destination registers.
+
+### 6.3 Intended Solution Topology
+The correct hook site is at `0x00693E57` (`0F 84 54 00 00 00: je 0x693EB1`):
+```asm
+; Vanilla 0x00693E50:
+call 0x006AAFF0       ; Attempt native naval transport
+test eax, eax
+jnz 0x00693E59        ; If naval transport succeeded -> proceed as vanilla!
+; If naval transport failed (eax == 0):
+jmp Cave_LandlockedRepatriationFallback ; Hook at 0x00693E57 (6 bytes)
+```
+- **Execution Condition**: Fires **only** after both overland domestic march and naval transport have failed. Coastal evacuations are 100% unaffected.
+- **Cave Logic**: Iterates friendly allied nations (e.g. West Germany, Italy), verifies land connectivity via `CanMarchTo(division, allied_prov_id) == 1`, and dispatches an overland move order (`0x00522770` / `0x0045FED0`) across the border to evacuate the landlocked neutral territory.
 
