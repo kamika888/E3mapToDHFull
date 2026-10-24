@@ -404,7 +404,7 @@ To overcome the four engine barriers documented in Section 9, **Patch 11** injec
 | **Engine Fix** | `0x0068DFCA` | `0x0028DFCA` | 6 bytes | In-line patch | Phase 4 Transport Dispatch loop fix (`jne 0x0068DB06` instead of aborting to `0x0068DB11`) |
 | **Hook 7** | `0x0068E291` | `0x0028E291` | 6 bytes | `Cave E` (`0x00DCA5D0`) | Area metadata restoration (`orig_56`, `orig_5A`, `orig_5E`) & state cleanup at `UpdateGarrisons` exit |
 | **Hook 8** | `0x0069F815` | `0x0029F815` | 12 bytes | `Cave H` (`0x00DCA7E0`) | `CAITransportMinister::Update` transport mission execution to allied ports |
-| **Hook 9** | `0x00693A86` | `0x00293A86` | 9 bytes | `Cave I` (`0x00DCA820`) | Peacetime foreign garrison repatriation & evacuation bypass (guarded by active `area_multiplier`) |
+| **Hook 9** | `0x00693CBD` | `0x00293CBD` | 7 bytes | `Cave I` (`0x00DCA820`) | Peacetime foreign garrison repatriation & evacuation bypass (relocated to Stage 2 entry; Stage 1 wartime expeditionary transfers preserved) |
 | **Hook 10** | `0x0068C742` | `0x0028C742` | 7 bytes | `Cave J` (`0x00DCA690`) | Peacetime overseas area need preservation (bypasses zero-wipe) |
 | **Hook 11** | `0x0068B978` | `0x0028B978` | 12 bytes | `Cave L1` (`0x00DCA8F0`) | Interior province priority preservation (bypasses anti-partisan zero-wipe) |
 | **Hook 12** | `0x0068B89E` | `0x0028B89E` | 13 bytes | `Cave L2` (`0x00DCA920`) | Dynamic border threat inheritance from `country_priorities` |
@@ -453,7 +453,7 @@ In Phase 4 (`0x0068D922` - `0x0068DF9C`), the engine scans queued shortage areas
 Once troops arrive in an allied theater:
 - **Repatriation Bypass (`Cave I` @ `0x00DCA820`)**:
   - Hourly, `CAIUnitMinister::ManageExpeditionaryForces` (`0x006939F0`) inspects foreign units to repatriate them.
-  - Hook 9 calls Cave I at `0x00693A86`.
+  - Hook 9 calls Cave I at `0x00693CBD` (entry of Stage 2 Repatriation, preserving Stage 1 wartime expeditionary transfers to defending allies).
   - Cave I checks `IsAlliedOrAccess_Switchable(pUnitOwner, pProvController)` (`0x00DCA700`) and verifies whether an active `area_multiplier` or `country_priorities` border applies to the area. If permitted by the current mode and priorities, repatriation is bypassed (`jmp 0x00693EB1`); otherwise vanilla repatriation evacuates the units home.
 - **Inland Walking Orders**:
   - In `CGarrisonAI::Update`, `EvaluateStrategicRedeployment` (`0x006AC380`) returns 0 during peacetime.

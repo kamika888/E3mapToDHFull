@@ -35,7 +35,7 @@ Patch 11 introduces **13 hooks** across 4 key engine subsystems, utilizing dedic
 | **Hook 6** | `0x0068DA09` | `0x0028DA09` | 8 bytes | `Cave D` (`0x00DCA5A0`) | Foreign allied destination province & debarkation port recognition |
 | **Hook 7** | `0x0068E291` | `0x0028E291` | 6 bytes | `Cave E` (`0x00DCA600`) | State cleanup at completion of `UpdateGarrisons` |
 | **Hook 8** | `0x0069F815` | `0x0029F815` | 12 bytes | `Cave H` (`0x00DCA7E0`) | `CAITransportMinister` transport mission execution to allied ports |
-| **Hook 9** | `0x00693A86` | `0x00293A86` | 9 bytes | `Cave I` (`0x00DCA820`) | Peacetime foreign garrison repatriation bypass |
+| **Hook 9** | `0x00693CBD` | `0x00293CBD` | 7 bytes | `Cave I` (`0x00DCA820`) | Peacetime foreign garrison repatriation bypass (relocated to Stage 2 entry; Stage 1 wartime expeditionary transfers preserved) |
 | **Hook 10** | `0x0068C742` | `0x0028C742` | 7 bytes | `Cave J` (`0x00DCA690`) | Peacetime overseas area need preservation |
 | **Hook 11** | `0x0068B978` | `0x0028B978` | 12 bytes | `Cave K` (`0x00DCA8F0`) | Interior province priority preservation (bypasses anti-partisan wipe) |
 | **Hook 12** | `0x0068B89E` | `0x0028B89E` | 14 bytes | `Cave L` (`0x00DCA920`) | Dynamic border threat inheritance from `country_priorities` |
@@ -64,13 +64,16 @@ A centralized, register-safe helper routine that determines whether Country A an
 
 ### 3.3 Peacetime Repatriation Bypass (`Cave I` @ `0x00DCA820`)
 In vanilla, `CAIUnitMinister::ManageExpeditionaryForces` (`0x006939F0`) automatically orders any division stationed on foreign soil during peacetime to evacuate home:
-1. Cave I intercepts this check at `0x00693A86`.
+1. **Relocated Hook 9 at `0x00693CBD`**:
+   - `0x00693A86` is preserved as vanilla (`cmp [ebp-0x28], eax; je 0x00693EB1`), allowing Stage 1 wartime expeditionary transfers to defending allies (e.g. Norway 1940) to execute without interference.
+   - Hook 9 intercepts at `0x00693CBD` (Stage 2 entry: repatriation routine).
 2. **Non-Intrusive Passive Immunity Guard**:
+   - Loads `CProvince*` from stack frame `[ebp - 0x14]`.
    - Checks if unit is on foreign soil belonging to an ally with military access (`call 0x00DCA700`).
    - If `[pArmy + 0x298] != 0`: unit has an active target (e.g. marching to port, embarking, strategic redeployment, or invasion). Cave I **does not touch or cancel** the unit's orders; it immediately jumps to `0x00693EB1` to bypass peacetime repatriation.
    - If already assigned to `CGarrisonAI` (`[pArmy + 0x1F4] == pCountry->m_pGarrisonAI`), it jumps to `0x00693EB1` to preserve the active garrison assignment.
    - If the province area matches an active allied area configured in `area_multiplier` (`CAI::m_AreaMultiplierList`), Cave I caches the active area in `[0x00DCA318]` and jumps to `0x00693EB1`.
-   - Units with no allied garrison need and no active target fall through to vanilla repatriation (`jmp 0x00693A8F`).
+   - Units with no allied garrison need and no active target fall through to vanilla repatriation (`mov ecx, ebx; call 0x006A9D50; jmp 0x00693CC4`).
    - Crucially, `call 0x0068EE00` (`CGarrisonAI::AddArmy`) and order-wiping (`target = 0`) are completely eliminated from this repatriation hook, preventing departing or transiting units from being hijacked mid-march.
 
 ### 3.4 Overseas Transport Dispatch Recognition (`Cave D` @ `0x00DCA5A0`)
@@ -172,7 +175,7 @@ EnableAlliedGarrison = 2
 - **Rogue Foreign Area Injection Bypass (`Cave A` @ `0x00DCA320`)**:
   - Fix 2: Jumps at `0x00DCA336` and `0x00DCA384` are permanently redirected to `0x00DCA43A` (clean exit of Cave A).
   - Bypasses the Phase 3 Fallback division-list scanner (`0x00DCAEB0`), ensuring areas not explicitly configured in `area_multiplier` are never evaluated or garrisoned.
-- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `3D854CE604A1F5C6EED514FD775189F57D1CDEF9A3CC6B379563B6E0EA8D7FBD`).
+- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `DBA433A40F6AF9272E2AAB8065EF5CD3B41320C48EA1AD3D90328693B18DB305`).
 
 ---
 
