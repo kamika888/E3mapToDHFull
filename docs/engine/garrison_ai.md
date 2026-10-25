@@ -403,7 +403,7 @@ To overcome the four engine barriers documented in Section 9, **Patch 11** injec
 | **Hook 6** | `0x0068DA09` | `0x0028DA09` | 8 bytes | `Cave D` (`0x00DCA5A0`) | Phase 4 foreign allied destination province & debarkation port recognition |
 | **Engine Fix** | `0x0068DFCA` | `0x0028DFCA` | 6 bytes | In-line patch | Phase 4 Transport Dispatch loop fix (`jne 0x0068DB06` instead of aborting to `0x0068DB11`) |
 | **Hook 7** | `0x0068E291` | `0x0028E291` | 6 bytes | `Cave E` (`0x00DCA5D0`) | Area metadata restoration (`orig_56`, `orig_5A`, `orig_5E`) & state cleanup at `UpdateGarrisons` exit |
-| **Hook 8** | `0x0069F815` | `0x0029F815` | 12 bytes | `Cave H` (`0x00DCA7E0`) | `CAITransportMinister::Update` transport mission execution to allied ports |
+| **Hook 8** | `0x0069F815` | `0x0029F815` | 12 bytes | `Cave H` (`0x00DCA7E0`) | `CInvasionAI::Update` transport mission threat cancellation gate (preserves hostile invasions & peacetime allied/access garrisons) |
 | **Hook 9** | `0x00693CBD` | `0x00293CBD` | 7 bytes | `Cave I` (`0x00DCA820`) | Peacetime foreign garrison repatriation & evacuation bypass (relocated to Stage 2 entry; Stage 1 wartime expeditionary transfers preserved) |
 | **Hook 10** | `0x0068C742` | `0x0028C742` | 7 bytes | `Cave J` (`0x00DCA690`) | Peacetime overseas area need preservation (bypasses zero-wipe) |
 | **Hook 11** | `0x0068B978` | `0x0028B978` | 12 bytes | `Cave L1` (`0x00DCA8F0`) | Interior province priority preservation (bypasses anti-partisan zero-wipe) |
@@ -444,8 +444,22 @@ In Phase 4 (`0x0068D922` - `0x0068DF9C`), the engine scans queued shortage areas
   - For surplus divisions in another theater (e.g. England to France, or continental USA to Europe), `FindPath` confirms no land connection exists across the sea.
   - At `0x0068DE22: je 0x0068DF9C`, the engine branches straight to maritime transport dispatch.
   - The engine loads the discovered allied/access port (`[ebp - 0x28]`) and executes `CAITransportMinister::DispatchTransport` (`0x0068DF83`), sailing surplus forces across the sea.
-- **Transport Mission & Unload Authorization (`Cave H` @ `0x00DCA7E0`, Hooks 14 & 15 @ `0x005177C1` & `0x00522CFB`)**:
-  - In `CAITransportMinister::Update` (`0x0069F815`), Hook 8 calls Cave H to verify the destination port.
+- **Transport Mission Threat Cancellation Gate (`Cave H` @ `0x00DCA7E0`, Hook 8 @ `0x0069F815`)**:
+  - In vanilla Darkest Hour at `0x0069F815` (`CInvasionAI::Update` / `CAITransportMinister::Update`), the engine performs a pre-departure threat evaluation on transport missions.
+  - **The Vanilla Cancellation Bug**: Vanilla calls `CCountry::IsAlliedWith(dest)` (`0x0044B300`). Non-allies (`IsAlliedWith == 0`) jump over the threat check directly to `0x0069F871` (`je 0x0069F871`), so hostile invasions and military access missions proceed. But for allies (`IsAlliedWith == 1`), vanilla calculates enemy threat in the destination area (`0x00695380`). In peacetime, enemy threat is zero or negative relative to standing allied divisions (`threat + army_strength <= 0`). At line `0x0069F84A`, vanilla calls `CAITransportMinister::RemoveArmyFromMission` (`0x006A1040`), wiping `target_prov` and `target_flag` to `0` and aborting allied transport missions daily.
+  - **The Narvik Duplication Regression**: An early Hook 8 implementation inverted the jump logic, sending non-allies (e.g. Norway) to threat evaluation and allies to proceed. This caused Germany's 1940 invasion of Narvik to be cancelled and re-initialized every single day (18+ duplicate log lines). Reverting Hook 8 eliminated the duplicates but broke peacetime allied deliveries (`TestSave6`).
+  - **The Corrected Cave H Routine**: Hook 8 at `0x0069F815` jumps to Cave H (`0x00DCA7E0`, 42 bytes):
+    1. Preserves vanilla's non-ally bypass (`IsAlliedWith == 0` jumps directly to `0x00DCA805` -> `0x0069F871`), ensuring hostile invasions (Narvik) and military access missions (`TestSave7`) proceed without threat evaluation.
+    2. For allies, queries `CCountry::IsAtWar()` (`0x0044BEB0`). In peacetime (`AL == 0`), execution jumps directly to `0x00DCA805` -> `0x0069F871`, protecting peacetime allied garrisons from cancellation (`TestSave6`).
+    3. For wartime allies, checks army controller `[pArmy + 0x1F4]`. Units assigned to `CGarrisonAI` (`!= ebp`) bypass threat pruning, while Transport Minister expeditionary units fall through to vanilla wartime threat evaluation (`0x0069F821`).
+  - **Scenario Comparison Matrix**:
+    | Scenario | Destination Relation | IsAtWar | Vanilla (Retail) | Broken Hook 8 | Corrected Cave H |
+    |---|---|---|---|---|---|
+    | **Germany Invading Narvik (1940)** | Hostile / War | `1` | `0x69F871` (Proceeds) | `0x69F821` (Duplicate loops) | `0x69F871` (**Proceeds, Clean**) |
+    | **UK Garrisoning France (`TestSave6`)** | Ally / Peace | `0` | `0x69F821` (Cancelled!) | `0x69F871` (Proceeds) | `0x69F871` (**Proceeds, Delivered**) |
+    | **UK Garrisoning France (`TestSave7`)** | Access / Peace | `0` | `0x69F871` (Proceeds) | `0x69F871` (Proceeds) | `0x69F871` (**Proceeds, Delivered**) |
+    | **Wartime Allied Aid** | Ally / War | `1` | `0x69F821` (Evaluated) | `0x69F871` (Never pruned) | Garrison AI -> `0x69F871`; Transport AI -> `0x69F821` |
+- **Transport Fleet Unload Authorization (Hooks 14 & 15 @ `0x005177C1` & `0x00522CFB`)**:
   - When the transport fleet arrives in the adjacent sea zone to unload into an allied or military access port, `CAITransportMinister::Update` calls `CUnit::CanFleetUnloadAtProvince` (`0x00517740`), which in turn pairs with `CUnit::CanMoveToProvince` (`0x00522B50`) for the embarked land unit.
   - Hooks 14 (`0x005177C1`) and 15 (`0x00522CFB`) replace the vanilla `CCountry::IsAlliedOrPuppet` (`0x0044A690`) calls with `IsAlliedOrAccess_Switchable` (`0x00DCA700`), authorizing unloading and amphibious disembarkation into friendly Military Access territory when Mode 2 is active while blocking it in Modes 0 and 1.
 
@@ -543,7 +557,7 @@ The toggles are enforced uniformly via `DetermineGarrisonMode` (`0x00DCAB60`) an
   - In earlier versions, when `Cave A` finished scanning configured `area_multiplier` priorities (`[pAI + 0x358]`), instructions at `0x00DCA336` and `0x00DCA384` jumped to `0x00DCAEB0` ("Phase 3 Fallback").
   - `0x00DCAEB0` iterated all national divisions (`pCountry + 0x4508`) and forcibly injected any foreign area containing a division into the shortage evaluation list with default priority 1.0. This caused unwanted garrison suction (e.g. a single transiting division through Yugoslavia or Hungary triggering deployment of entire armies).
   - Both jump sites (`0x00DCA336` and `0x00DCA384`) are now permanently redirected to `jmp 0x00DCA43A` (clean exit of Cave A), which pops registers `edi, ebx, edx, ecx, eax`, clears scratch pointers, and cleanly returns to `0x0068D8C1`. Only areas explicitly defined in `area_multiplier` are evaluated.
-- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `3D854CE604A1F5C6EED514FD775189F57D1CDEF9A3CC6B379563B6E0EA8D7FBD`).
+- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `1039F364B5C525DC8827FC576669DB1F1956608B02B5C926886CBE74EA271797`).
 
 ---
 

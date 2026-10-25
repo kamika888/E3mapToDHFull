@@ -34,7 +34,7 @@ Patch 11 introduces **13 hooks** across 4 key engine subsystems, utilizing dedic
 | **Hook 5** | `0x0068C816` | `0x0028C816` | 7 bytes | `Cave G` (`0x00DCA670`) | Garrison cap calculation for active allied areas |
 | **Hook 6** | `0x0068DA09` | `0x0028DA09` | 8 bytes | `Cave D` (`0x00DCA5A0`) | Foreign allied destination province & debarkation port recognition |
 | **Hook 7** | `0x0068E291` | `0x0028E291` | 6 bytes | `Cave E` (`0x00DCA600`) | State cleanup at completion of `UpdateGarrisons` |
-| **Hook 8** | `0x0069F815` | `0x0029F815` | 12 bytes | `Cave H` (`0x00DCA7E0`) | `CAITransportMinister` transport mission execution to allied ports |
+| **Hook 8** | `0x0069F815` | `0x0029F815` | 12 bytes | `Cave H` (`0x00DCA7E0`) | `CInvasionAI::Update` transport mission threat cancellation gate (preserves hostile invasions & peacetime allied/access garrisons) |
 | **Hook 9** | `0x00693CBD` | `0x00293CBD` | 7 bytes | `Cave I` (`0x00DCA820`) | Peacetime foreign garrison repatriation bypass (relocated to Stage 2 entry; Stage 1 wartime expeditionary transfers preserved) |
 | **Hook 10** | `0x0068C742` | `0x0028C742` | 7 bytes | `Cave J` (`0x00DCA690`) | Peacetime overseas area need preservation |
 | **Hook 11** | `0x0068B978` | `0x0028B978` | 12 bytes | `Cave K` (`0x00DCA8F0`) | Interior province priority preservation (bypasses anti-partisan wipe) |
@@ -112,6 +112,44 @@ In vanilla Darkest Hour, `CMilitaryAI::DistributeArmiesToMinisters` (`0x00695A00
   - Calls `CGarrisonAI::RegisterArmy(pArmy)` (`call dword ptr [edx + 0x1a8]`).
   - `CGarrisonAI` now takes ownership of the divisions. During the next garrison cycle, `CGarrisonAI::UpdateGarrisons` identifies the surplus in Caen and orders them to march inland to Paris and Amiens.
 
+### 3.7 Transport Mission Threat Cancellation Gate (`Cave H` @ `0x00DCA7E0`)
+In vanilla Darkest Hour at `0x0069F815` (`CInvasionAI::Update` / `CAITransportMinister::Update`), the engine reviews active transport missions before departure:
+1. **The Vanilla Allied Threat Cancellation Bug**:
+   - Vanilla queries `0x0044B300: CCountry::IsAlliedWith(dest)`.
+   - If non-ally (`IsAlliedWith == 0`): vanilla executes `0x0069F81F: je 0x0069F871`, jumping over the threat evaluation block entirely. Hostile invasions and military access transport missions are never cancelled.
+   - If ally (`IsAlliedWith == 1`): vanilla falls through to `0x0069F821` and calls `0x00695380` (`CalculateAreaThreat`).
+   - In peacetime, enemy threat in an ally's home area is zero or negative relative to standing allied divisions. Adding the transport army's strength results in a non-positive sum (`threat + transport_divisions <= 0`).
+   - At line `0x0069F84A`, vanilla invokes `CAITransportMinister::RemoveArmyFromMission` (`0x006A1040`), clearing `target_prov` and `target_flag` to `0` and **cancelling the transport mission every single day**. Consequently, peacetime allied garrisons (such as the UK delivering troops to France in `TestSave6`) could never depart.
+2. **Initial Broken Hook 8 & Regression**:
+   - An early Hook 8 implementation inverted this condition: it routed allies to `0x0069F871` and non-allies to `0x0069F821`.
+   - This caused hostile wartime invasions (such as Germany's 1940 invasion of Narvik) to be treated as non-allies and routed into threat evaluation, causing daily cancellation and re-initialization (producing 18+ duplicate log entries).
+   - Reverting Hook 8 to vanilla eliminated the Narvik duplicate logs, but immediately exposed peacetime allied garrisons to vanilla's bogus threat cancellation bug.
+3. **Corrected Cave H Architecture**:
+   - Preserves vanilla's non-ally bypass: `IsAlliedWith == 0` jumps directly to `0x00DCA805` -> `0x0069F871`. Hostile invasions and military access missions proceed cleanly without threat pruning.
+   - For allies (`IsAlliedWith == 1`):
+     - Checks `CCountry::IsAtWar()` (`0x0044BEB0`). If in peacetime (`AL == 0`), jumps to `0x00DCA805` -> `0x0069F871`, protecting peacetime allied garrisons from threat cancellation (`TestSave6`).
+     - If at war (`AL != 0`), checks army controller `[pArmy + 0x1F4]`. If assigned to `CGarrisonAI` (`!= ebp`), jumps to `0x00DCA805` -> `0x0069F871`.
+     - Only wartime expeditionary aid under Transport Minister control falls through to `0x0069F821` for vanilla threat evaluation.
+
+```asm
+; Entry: eax = pCountry, edi = pDestCountry, ebp = CAITransportMinister, ebx = pArmy
+0x00DCA7E0: push eax
+0x00DCA7E1: mov ecx, edi
+0x00DCA7E3: call 0x0044B300         ; CCountry::IsAlliedWith(dest)
+0x00DCA7E8: test al, al
+0x00DCA7EA: je 0x00DCA805           ; Non-ally (Invasion or Access) -> PROCEED!
+0x00DCA7EC: mov ecx, [ebp + 0x0A]   ; ecx = pCountry
+0x00DCA7EF: call 0x0044BEB0         ; CCountry::IsAtWar()
+0x00DCA7F4: test al, al
+0x00DCA7F6: je 0x00DCA805           ; Peacetime allied garrison -> PROCEED!
+0x00DCA7F8: cmp [ebx + 0x1F4], ebp  ; Army controlled by Transport Minister?
+0x00DCA7FE: jne 0x00DCA805          ; If Garrison AI unit -> PROCEED!
+0x00DCA800: jmp 0x0069F821          ; Wartime expeditionary aid -> evaluate threat
+0x00DCA805: jmp 0x0069F871          ; PROCEED with transport mission
+```
+**Machine Code (42 bytes)**:
+`50 89 F9 E8 18 0B 68 FF 84 C0 74 19 8B 4D 0A E8 BC 16 68 FF 84 C0 74 0D 39 AB F4 01 00 00 75 05 E9 1C 50 8D FF E9 67 50 8D FF`
+
 ---
 
 ## 4. Verification & Testing History
@@ -133,6 +171,11 @@ In vanilla Darkest Hour, `CMilitaryAI::DistributeArmiesToMinisters` (`0x00695A00
    - Patched executable hash verified at `04EDF33128E9878FCECC586BE083DC2D9DE1B53B73ED9084596BB56D66BE25BB`.
    - Live testing in DH Lite with `TestSave7` verified unpaused time advancement from July 7 to July 10, 1936, with zero exceptions, clean division movement out of Caen toward Paris and Amiens, and stable debug session.
    - Patcher verification (`patch_darkest_hour.bat -Verify`) confirms 100% integrity across all signatures and chunks.
+
+5. **Hook 8 & Cave H Dual Verification (TestSave6 Allied Delivery & 1940 Narvik Invasion)**:
+   - **`TestSave6` Peacetime Allied Delivery**: UK divisions in London embark onto naval transports, cross the Channel, and successfully land in France to garrison allied objectives.
+   - **`TestSave7` Peacetime Access Delivery**: UK divisions successfully disembark and garrison French territory under military access without regression.
+   - **1940 Narvik Invasion**: Germany initializes the amphibious invasion of Narvik cleanly without the 18+ duplicate daily cancellation lines present in earlier builds.
 
 ---
 
@@ -175,7 +218,7 @@ EnableAlliedGarrison = 2
 - **Rogue Foreign Area Injection Bypass (`Cave A` @ `0x00DCA320`)**:
   - Fix 2: Jumps at `0x00DCA336` and `0x00DCA384` are permanently redirected to `0x00DCA43A` (clean exit of Cave A).
   - Bypasses the Phase 3 Fallback division-list scanner (`0x00DCAEB0`), ensuring areas not explicitly configured in `area_multiplier` are never evaluated or garrisoned.
-- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `DBA433A40F6AF9272E2AAB8065EF5CD3B41320C48EA1AD3D90328693B18DB305`).
+- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `1039F364B5C525DC8827FC576669DB1F1956608B02B5C926886CBE74EA271797`).
 
 ---
 
