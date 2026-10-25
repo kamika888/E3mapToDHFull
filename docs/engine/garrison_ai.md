@@ -545,7 +545,8 @@ The toggles are enforced uniformly via `DetermineGarrisonMode` (`0x00DCAB60`) an
   - If effective mode `== 0`, returns `AL = 0`.
   - **Alliance Evaluation (Section 2, Valid in Mode >= 1)**:
     1. Major Faction Alliance: `[CountryA + 0x3350] != 0 && [CountryA + 0x3350] == [CountryB + 0x3350]` -> returns `1`.
-    2. Master / Puppet Relationships: `[CountryA->diplomacy + 0x3B30] == CountryB->tag` or `[CountryB->diplomacy + 0x3B30] == CountryA->tag` -> returns `1`.
+    2. Bilateral Military Alliance Treaties: Calls `CCountry::IsAlliedWith` (`0x0044B300`) to verify an active military alliance treaty (`0x00586230`, offset `+0x31`) -> returns `1`.
+    - **Neutral Puppet Exemption**: Master/puppet relations (`[pDiplomacy + 0x3B30]`) no longer grant automatic alliance rights. Neutral puppets without military alliance or access (e.g. Vichy France after the Armistice) correctly return `0`, ensuring units caught inside foreign puppet territory repatriate home.
     - **NAP Check Removal**: In previous builds, `0x005861E0` (Non-Aggression Pact, offset `+0x36`) was erroneously called inside the alliance block. Lines `0x00DCAC73` to `0x00DCAC88` (22 bytes) are now completely NOPed out. NAPs never qualify as an alliance or grant foreign garrison rights.
   - **Mode Check**: `cmp byte ptr [ebp - 4], 2; jb ret_false`. If Mode is `1` (`no_foreign_garrison = 1`), execution branches immediately to `ret_false` (`AL = 0`), ensuring non-allies (including NAP and military access nations) are strictly excluded and troops repatriate.
   - **Military Access Evaluation (Section 4, Valid ONLY in Mode 2)**:
@@ -557,7 +558,7 @@ The toggles are enforced uniformly via `DetermineGarrisonMode` (`0x00DCAB60`) an
   - In earlier versions, when `Cave A` finished scanning configured `area_multiplier` priorities (`[pAI + 0x358]`), instructions at `0x00DCA336` and `0x00DCA384` jumped to `0x00DCAEB0` ("Phase 3 Fallback").
   - `0x00DCAEB0` iterated all national divisions (`pCountry + 0x4508`) and forcibly injected any foreign area containing a division into the shortage evaluation list with default priority 1.0. This caused unwanted garrison suction (e.g. a single transiting division through Yugoslavia or Hungary triggering deployment of entire armies).
   - Both jump sites (`0x00DCA336` and `0x00DCA384`) are now permanently redirected to `jmp 0x00DCA43A` (clean exit of Cave A), which pops registers `edi, ebx, edx, ecx, eax`, clears scratch pointers, and cleanly returns to `0x0068D8C1`. Only areas explicitly defined in `area_multiplier` are evaluated.
-- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `1039F364B5C525DC8827FC576669DB1F1956608B02B5C926886CBE74EA271797`).
+- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `BE06E7AAD0E59CD609577A4935AB810F423AEBC1998C9B59E1CEA2FE0E279571`).
 
 ---
 

@@ -211,14 +211,14 @@ EnableAlliedGarrison = 2
   - Clamps effective mode to `0` (disabled), `1` (allied only), or `2` (allied and military access).
 - **`IsAlliedOrAccess` (`0x00DCAC00`)**:
   - Section 1: Verifies parameters and determines effective mode (`0x00DCAB60`).
-  - Section 2 (Alliance Check): Checks major faction alliance (`[pCountry + 0x3350]`) and master/puppet relations (`[pDiplomacy + 0x3B30]`). Returns `AL = 1` if allied.
+  - Section 2 (Alliance Check): Checks major faction alliance (`[pCountry + 0x3350]`) and active bilateral military alliance treaties (`CCountry::IsAlliedWith` @ `0x0044B300`). Neutral non-allied puppets without military access (e.g. Vichy France) correctly return `AL = 0`, ensuring they are treated as foreign territory from which troops must repatriate.
   - Fix 1 (NAP Disambiguation): The 22-byte call to `0x005861E0` (Non-Aggression Pact, offset `+0x36`) was permanently replaced with NOPs at `0x00DCAC73 - 0x00DCAC88`. NAPs never count as alliances.
   - Section 3 (Mode Check): `cmp byte ptr [ebp - 4], 2; jb ret_false`. Mode 1 strictly rejects non-allies, ensuring occupation troops withdraw under `no_foreign_garrison = 1` or `EnableAlliedGarrison = 1`.
   - Section 4 (Military Access): If Mode 2, queries `CDiplomacy::HasAccessTo` (`0x005861A0`, offset `+0x37`) in both directions. Returns `AL = 1` if access is granted.
 - **Rogue Foreign Area Injection Bypass (`Cave A` @ `0x00DCA320`)**:
   - Fix 2: Jumps at `0x00DCA336` and `0x00DCA384` are permanently redirected to `0x00DCA43A` (clean exit of Cave A).
   - Bypasses the Phase 3 Fallback division-list scanner (`0x00DCAEB0`), ensuring areas not explicitly configured in `area_multiplier` are never evaluated or garrisoned.
-- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `1039F364B5C525DC8827FC576669DB1F1956608B02B5C926886CBE74EA271797`).
+- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `BE06E7AAD0E59CD609577A4935AB810F423AEBC1998C9B59E1CEA2FE0E279571`).
 
 ---
 
