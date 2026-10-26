@@ -226,10 +226,10 @@ If the area contains the national capital:
 5. **No-Port Pocket Bordering Enemy**:
    - If the area has NO naval base/port (`FUN_004ca453 == 1`) AND borders an enemy:
      $$C = 0 \quad \text{(isolated pocket cannot be supplied or reinforced)}$$
-6. **Contiguous Rear Behind Active Front (The $\frac{1}{3}$ Factor)**:
+6. **Contiguous Rear Behind Active Front (The $\frac{1}{3}$ Factor / `GarrisonLandConnectedMultiplier`)**:
    - If at war, active land front areas exist, and this area has a contiguous overland land path (`FUN_004a4010`) to an active front area with divisions:
-     $$C = \left\lfloor \frac{C}{3} \right\rfloor, \quad \text{minimum } 1$$
-     *(Troops can march overland directly to the front line, so rear areas directly behind a front need only $\frac{1}{3}$ the peacetime garrison).*
+     $$C = \text{round}(C \times \text{GarrisonLandConnectedMultiplier}), \quad \text{minimum } 1$$
+     *(In vanilla DH, this was a hardcoded integer division by 3. In Patch 11, Hook 16 at `0x0068C7D3` makes this fully configurable via `db\mod_settings.ini` with default `0.333`, while `1.0` disables the reduction entirely).*
 
 ---
 
@@ -254,12 +254,12 @@ When at war and land front areas exist (`0 < count_front_areas`):
    If the country is actively targeting this front:
    $$\text{nAreaLack} = \max\left(\text{nAreaLack},\ \left\lfloor \frac{\text{EnemyDivisionsInAdjacentArea}}{2} \right\rfloor\right)$$
 
-### B. Rear Areas (`is_front_area == false`) -- The Invisible Factor
+### B. Rear Areas (`is_front_area == false`) -- The Invisible Factor / `GarrisonWartimeMultiplier`
 If the country (or an allied faction member) has an active land combat border / troop deficit (`local_52 != 0 || local_e4 != 0`):
-$$\mathbf{nAreaNeed = \left\lfloor \frac{C}{2} \right\rfloor}$$
-$$\mathbf{nAreaLack = \left\lfloor \frac{C}{2} \right\rfloor - nCurrentDivisions}$$
+$$\mathbf{nAreaNeed = \text{round}(C \times \text{GarrisonWartimeMultiplier})}$$
+$$\mathbf{nAreaLack = nAreaNeed - nCurrentDivisions}$$
 
-**This is the "invisible factor" in wartime**: The game engine cuts the required garrison of all rear/non-combat areas in **HALF** ($\div 2$) during an active war to release divisions for the front lines.
+**This is the "invisible factor" in wartime**: In vanilla Darkest Hour, the engine cuts the required garrison of all rear/non-combat areas in **HALF** (`sar eax, 1`) during an active war to release divisions for the front lines. In Patch 11, Hook 17 (`0x0068CB0F` -> `Cave N` @ `0x00DCA980`) makes this multiplier configurable via `db\mod_settings.ini` with default `0.5`, while `1.0` neutralizes wartime halving.
 
 ---
 
@@ -411,6 +411,8 @@ To overcome the four engine barriers documented in Section 9, **Patch 11** injec
 | **Hook 13** | `0x00696ECD` | `0x00296ECD` | 16 bytes | `Cave M` (`0x00DCAA00`) | Unassigned Army Distributor Pass to `CGarrisonAI` (preserves `0x00696ED3` exit boundary) |
 | **Hook 14** | `0x005177C1` | `0x001177C1` | 21 bytes | `0x00DCA700` | `CUnit::CanFleetUnloadAtProvince` Military Access transport fleet unload authorization |
 | **Hook 15** | `0x00522CFB` | `0x00122CFB` | 21 bytes | `0x00DCA700` | `CUnit::CanMoveToProvince` Military Access amphibious disembarkation authorization |
+| **Hook 16** | `0x0068C7D3` | `0x0028C7D3` | 18 bytes | Inline (`0x0068C7D3`) | Configurable Land-Connected Area Requirement Multiplier (`GarrisonLandConnectedMultiplier`) |
+| **Hook 17** | `0x0068CB0F` | `0x0028CB0F` | 20 bytes | `Cave N` (`0x00DCA980`) | Configurable Wartime Rear Area Requirement Multiplier (`GarrisonWartimeMultiplier`) |
 | **Helper** | `0x00DCA700` -> `0x00DCAC00` | `0x00485700` / `0x00485C00` | 213 bytes | `IsAlliedOrAccess_Switchable` | Universal Diplomatic Alliance & Military Access Validator with Mode 0/1/2 switch enforcement |
 | **Helper** | `0x00DCAB60` | `0x00485B60` | 128 bytes | `DetermineGarrisonMode` | Evaluates `EnableAlliedGarrison` (`0x00DCAB00`) and `no_foreign_garrison` (`[pCountry+0x120+0x4C]`) |
 | **Table**  | `0x00DCA4B4` | `0x004854B4` | 72 bytes | `seen_areas` | 18-entry area de-duplication array (`CArea*`) for Cave A |

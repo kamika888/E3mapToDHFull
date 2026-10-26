@@ -23,7 +23,7 @@ In vanilla Darkest Hour, script parameters in `garrison = { ... }` (such as `are
 
 ## 2. Master Hook & Cave Reference Matrix
 
-Patch 11 introduces **13 hooks** across 4 key engine subsystems, utilizing dedicated code caves in the expanded `.mod` PE section (`0x00DCA300` - `0x00DCAB00`):
+Patch 11 introduces **15 hooks** across 4 key engine subsystems, utilizing dedicated code caves in the expanded `.mod` PE section (`0x00DCA300` - `0x00DCAB00`):
 
 | Hook # | Virtual Address | File Offset | Length | Target Cave | Description |
 |---|---|---|---|---|---|
@@ -40,6 +40,8 @@ Patch 11 introduces **13 hooks** across 4 key engine subsystems, utilizing dedic
 | **Hook 11** | `0x0068B978` | `0x0028B978` | 12 bytes | `Cave K` (`0x00DCA8F0`) | Interior province priority preservation (bypasses anti-partisan wipe) |
 | **Hook 12** | `0x0068B89E` | `0x0028B89E` | 14 bytes | `Cave L` (`0x00DCA920`) | Dynamic border threat inheritance from `country_priorities` |
 | **Hook 13** | `0x00696ECD` | `0x00296ECD` | 16 bytes | `Cave M` (`0x00DCAA00`) | Unassigned Army Distributor Pass to `CGarrisonAI` |
+| **Hook 14** | `0x0068C7D3` | `0x0028C7D3` | 18 bytes | Inline (`0x0068C7D3`) | Configurable Land-Connected Area Requirement Multiplier (`GarrisonLandConnectedMultiplier`) |
+| **Hook 15** | `0x0068CB0F` | `0x0028CB0F` | 20 bytes | `Cave N` (`0x00DCA980`) | Configurable Wartime Rear Area Requirement Multiplier (`GarrisonWartimeMultiplier`) |
 | **Helper** | — | — | — | `0x00DCA700` | Diplomatic alliance & military access validator (`IsAlliedOrAccess`) |
 
 ---
@@ -152,6 +154,40 @@ In vanilla Darkest Hour at `0x0069F815` (`CInvasionAI::Update` / `CAITransportMi
 
 ---
 
+### 3.8 Configurable nAreaNeed Multipliers (Hook 14, Hook 15 & Cave N)
+In vanilla Darkest Hour, the engine applies two hardcoded reductions to an area's division requirement (`nAreaNeed`):
+1. **Contiguous Homeland Connection Reduction (Hook 14 @ `0x0068C7D3`)**:
+   - In vanilla, if an area has a direct overland path to homeland front areas, the engine divides `nAreaNeed` by 3 via integer multiplication (`imul [ebp-0x2C], 0x55555556; ...`).
+   - Hook 14 replaces this 18-byte block inline with:
+     ```asm
+     fild  dword ptr ss:[ebp-0x2C]
+     fmul  dword ptr ds:[0x00DCAAE0]    ; g_fGarrisonLandConnectedMultiplier
+     fistp dword ptr ss:[ebp-0x2C]
+     nop; nop; nop; nop; nop; nop
+     ```
+   - Followed immediately by vanilla clamp to minimum 1 (`0x0068C7E5`).
+   - Configurable via `db\mod_settings.ini` as `GarrisonLandConnectedMultiplier` (default `0.333`, neutral `1.0`).
+2. **Wartime Rear Area Halving Reduction (Hook 15 @ `0x0068CB0F` & Cave N @ `0x00DCA980`)**:
+   - In vanilla, if the country is at war, rear area requirements are halved via arithmetic shift (`sar eax, 1`).
+   - Hook 15 redirects the 20-byte halving block to Cave N (`0x00DCA980`):
+     ```asm
+     fild  dword ptr ss:[ebp-0x2C]
+     fmul  dword ptr ds:[0x00DCAAE4]    ; g_fGarrisonWartimeMultiplier
+     fistp dword ptr ss:[ebp-0x2C]
+     mov   esi, dword ptr ss:[ebp-0x2C] ; esi = Need
+     mov   eax, esi
+     sub   eax, dword ptr ss:[ebp-0x44] ; eax = Need - Divisions (Lack)
+     mov   dword ptr ss:[ebp-0x24], eax ; [ebp-0x24] = Lack
+     jmp   0x0068CB26
+     ```
+   - Configurable via `db\mod_settings.ini` as `GarrisonWartimeMultiplier` (default `0.5`, neutral `1.0`).
+3. **INI Loader & Dynamic Float Parser (`0x00DCAE83` - `0x00DCAFF6`)**:
+   - Dynamically resolves `GetPrivateProfileStringA` via `LoadLibraryA("kernel32.dll")` and `GetProcAddress`.
+   - Implements a self-contained FPU string-to-float parser (`ParseFloat` @ `0x00DCAF49`).
+   - Performs a sanity check (`ftst; fnstsw ax; sahf; jbe skip_store`), ensuring invalid strings or `<= 0.0` values never overwrite the default multipliers.
+
+---
+
 ## 4. Verification & Testing History
 
 1. **UK Cross-Channel Garrison (DH Lite, `TestSave6` & `TestSave7`)**:
@@ -191,6 +227,12 @@ Patch 11 incorporates a modular two-tier control architecture allowing full engi
 ; 1 = Allow garrisons in ally territory only
 ; 2 = Allow garrisons in ally and military access territory (default)
 EnableAlliedGarrison = 2
+
+; Multiplier applied to garrison requirement for areas with direct land connection to homeland (default = 0.333, 1.0 = do nothing / no division)
+GarrisonLandConnectedMultiplier = 0.333
+
+; Multiplier applied to garrison requirement during wartime (default = 0.5, 1.0 = do nothing / no halving)
+GarrisonWartimeMultiplier = 0.5
 ```
 - Loaded via `GetPrivateProfileIntA` with default `2` into global memory `[0x00DCA290]`.
 - If set to `0`, all hooks route through Control Gates directly back to vanilla Darkest Hour execution paths.
@@ -218,7 +260,7 @@ EnableAlliedGarrison = 2
 - **Rogue Foreign Area Injection Bypass (`Cave A` @ `0x00DCA320`)**:
   - Fix 2: Jumps at `0x00DCA336` and `0x00DCA384` are permanently redirected to `0x00DCA43A` (clean exit of Cave A).
   - Bypasses the Phase 3 Fallback division-list scanner (`0x00DCAEB0`), ensuring areas not explicitly configured in `area_multiplier` are never evaluated or garrisoned.
-- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `BE06E7AAD0E59CD609577A4935AB810F423AEBC1998C9B59E1CEA2FE0E279571`).
+- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `0879F811A9EAF8D6404C3A5522FA0A7656F1B2361BB8AAE53E561F93455678E2`).
 
 ---
 
