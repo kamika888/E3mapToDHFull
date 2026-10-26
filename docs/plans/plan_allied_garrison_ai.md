@@ -71,9 +71,9 @@ In vanilla, `CAIUnitMinister::ManageExpeditionaryForces` (`0x006939F0`) automati
    - Loads `CProvince*` from stack frame `[ebp - 0x14]`.
    - Checks if unit is on foreign soil belonging to an ally with military access (`call 0x00DCA700`).
    - If `[pArmy + 0x298] != 0`: unit has an active target (e.g. marching to port, embarking, strategic redeployment, or invasion). Cave I **does not touch or cancel** the unit's orders; it immediately jumps to `0x00693EB1` to bypass peacetime repatriation.
-   - If already assigned to `CGarrisonAI` (`[pArmy + 0x1F4] == pCountry->m_pGarrisonAI`), it jumps to `0x00693EB1` to preserve the active garrison assignment.
-   - If the province area matches an active allied area configured in `area_multiplier` (`CAI::m_AreaMultiplierList`), Cave I caches the active area in `[0x00DCA318]` and jumps to `0x00693EB1`.
-   - Units with no allied garrison need and no active target fall through to vanilla repatriation (`mov ecx, ebx; call 0x006A9D50; jmp 0x00693CC4`).
+   - **Target-Aware Area Evaluation**: Cave I queries whether the division's current province area is actively configured in `area_multiplier` (`CAI::m_AreaMultiplierList`). If matched, Cave I caches the active area in `[0x00DCA318]` and jumps to `0x00693EB1` (bypassing repatriation so the unit remains stationed as an allied garrison).
+   - **Vanilla Repatriation Fallthrough**: Units in areas not listed in `area_multiplier` (e.g. Italy, Slovakia, Vichy France) fall through to vanilla retail repatriation (`mov ecx, ebx; call 0x006A9D50; jmp 0x00693CC4`). The engine finds the nearest domestic province, verifies overland connectivity (`CanMarchTo`), and issues march orders home (`0x0045FED0`), strictly preserving operational command (e.g. keeping Italian expeditionary ARMIR under German command).
+   - **Removal of Flawed CGarrisonAI Shortcut**: An earlier check (`0x00DCA84A`) that bypassed repatriation for any unit where `[pArmy + 0x1F4] == CGarrisonAI` was removed, as Darkest Hour's continental theater AI assigns all idle armies to `CGarrisonAI`, which had inadvertently paralyzed repatriation for all continental forces.
    - Crucially, `call 0x0068EE00` (`CGarrisonAI::AddArmy`) and order-wiping (`target = 0`) are completely eliminated from this repatriation hook, preventing departing or transiting units from being hijacked mid-march.
 
 ### 3.4 Overseas Transport Dispatch Recognition (`Cave D` @ `0x00DCA5A0`)

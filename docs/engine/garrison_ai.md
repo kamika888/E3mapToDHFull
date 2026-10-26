@@ -150,7 +150,7 @@ In `CMilitaryAI::DistributeArmiesToMinisters`:
   - Armies track their controlling minister in `m_pAIController` (`[pArmy + 0x1F4]`).
   - When unassigned, `m_pAIController == m_pMilitaryAI`.
   - When an army is registered with `CGarrisonAI` (`0x0068EE00`), `FUN_006aa000` unregisters it from the old controller (`call [old_ctrl + 0x1AC]`), sets `m_pAIController = CGarrisonAI`, and appends it to `CGarrisonAI::m_ArmyList` (`+0x94`).
-  - Repatriation (`0x006939F0`) only evacuates unassigned armies (`m_pAIController == m_pMilitaryAI`). Units registered with `CGarrisonAI` are ignored by repatriation.
+  - Repatriation (`0x006939F0`) queries vtable `+0x100` on `m_pAIController`, which returns 1 for `CGarrisonAI`, allowing foreign garrison units to enter repatriation. Patch 11 Cave I previously had an errant check (`0x00DCA84A`) skipping repatriation for all `CGarrisonAI` units; this was removed to restore target-aware repatriation based strictly on `area_multiplier`.
 
 ---
 
@@ -465,10 +465,13 @@ In Phase 4 (`0x0068D922` - `0x0068DF9C`), the engine scans queued shortage areas
 
 #### 3. Landfall & Inland March Execution Pipeline
 Once troops arrive in an allied theater:
-- **Repatriation Bypass (`Cave I` @ `0x00DCA820`)**:
+- **Target-Aware Repatriation Filter (`Cave I` @ `0x00DCA820`)**:
   - Hourly, `CAIUnitMinister::ManageExpeditionaryForces` (`0x006939F0`) inspects foreign units to repatriate them.
   - Hook 9 calls Cave I at `0x00693CBD` (entry of Stage 2 Repatriation, preserving Stage 1 wartime expeditionary transfers to defending allies).
-  - Cave I checks `IsAlliedOrAccess_Switchable(pUnitOwner, pProvController)` (`0x00DCA700`) and verifies whether an active `area_multiplier` or `country_priorities` border applies to the area. If permitted by the current mode and priorities, repatriation is bypassed (`jmp 0x00693EB1`); otherwise vanilla repatriation evacuates the units home.
+  - Cave I checks `IsAlliedOrAccess_Switchable(pUnitOwner, pProvController)` (`0x00DCA700`) and verifies whether the division's current province belongs to an area explicitly listed in `area_multiplier` (`CAI::m_AreaMultiplierList`).
+  - **If the area is configured in `area_multiplier`** (e.g. Romania, Hungary, Finland): repatriation is bypassed (`jmp 0x00693EB1`), so the division remains stationed as an allied garrison.
+  - **If the area is NOT configured in `area_multiplier`** (e.g. Italy, Slovakia, Vichy France): Cave I falls through to retail repatriation (`jmp 0x00DCA8BB` -> `0x00693CC4`). Retail repatriation finds the nearest homeland border province and orders the army to march home overland (via `0x0045FED0`), strictly preserving the controlling country's operational command over the division (e.g. Italian expeditionary ARMIR marching to Germany under German command).
+  - Note: An earlier check at `0x00DCA84A` (`cmp [edi + 0x1F4], pGarrisonAI; je bypass`) erroneously exempted all `CGarrisonAI`-managed units from repatriation, causing idle units in Italy, Slovakia, and Vichy France to freeze. That blanket exemption was removed, restoring clean, target-aware repatriation.
 - **Inland Walking Orders**:
   - In `CGarrisonAI::Update`, `EvaluateStrategicRedeployment` (`0x006AC380`) returns 0 during peacetime.
   - At `0x0068D54E`, the engine branches to `0x0068D666`, issuing an on-foot walking march via `MoveToProvince` (`0x006AAFF0`) directly to inland priority objectives (e.g. Caen -> Paris / Amiens).
@@ -496,7 +499,8 @@ Once overseas transport fleets disembark divisions at an allied/access port (e.g
     3. `IsNavalOrAirUnit(pArmy) == 0` (land army only).
     4. `CanMove(pArmy) == 1` (mobile unit).
     5. Valid province location and area pointer.
-    6. Calls `IsAlliedOrAccess_Switchable(myCountry, [pProvince + 0x3D8])` (`0x00DCAC00`); armies standing on territory that fails the check (e.g. a neutral country where we only hold a Non-Aggression Pact / Military Access) are NOT registered, so `CGarrisonAI::Update` cannot pin them with Mission 7 and `ManageExpeditionaryForces` (`0x006939F0`) can repatriate them.
+    6. If province is foreign, calls `IsAlliedOrAccess_Switchable(myCountry, [pProvince + 0x3D8])` (`0x00DCA700` -> `0x00DCAC00`). Armies in non-allied/non-access territory (e.g. neutral puppet Vichy France) are NOT registered and fall through to overland repatriation.
+    7. **Target-Aware Filter (`fn_IsAreaTargeted` @ `0x00DCACD5`)**: For foreign allied or military access provinces, queries whether the country has an active garrison requirement in that `CArea*` -- iterating `m_AreaMultiplierList` (`[pAI + 0x358]`) and `m_ProvincePrioritiesList` (`[pAI + 0x336]`). If neither lists a positive multiplier or priority in the area, the army is NOT registered to `CGarrisonAI`. This leaves units unassigned in territories without garrison orders (e.g. German troops and Italian expeditionary corps in Italy), allowing vanilla `ManageExpeditionaryForces` (`0x006939F0`) to evacuate units home overland while preserving the controlling nation's military command over expeditionary forces (e.g. keeping ARMIR under German command for Barbarossa).
   - Calls `CGarrisonAI::RegisterArmy(pArmy)` (`call dword ptr [edx + 0x1A8]`).
   - Handover function `FUN_006aa000` updates `[pArmy + 0x1F4] = CGarrisonAI` and inserts the army into `CGarrisonAI::m_ArmyList`.
 
