@@ -19,7 +19,7 @@ This directory contains comprehensive architectural documentation, reverse engin
 | **Patch 8** | Scenario Unload Event Deallocation Cave | `0x0070287B` (`0x0030287B`) | `0x00DCA000` (.mod cave) | Automatic | [`plan_scenario_memory_leak_patch.md`](plan_scenario_memory_leak_patch.md) |
 | **Patch 9** | Map Tile High-Memory Signed Comparison Fix | `0x004DB0C5` (`0x000DB0C5`) | `0x000DB0C5` (Inline 1 byte) | Automatic | [`plan_map_tile_high_memory_guard.md`](plan_map_tile_high_memory_guard.md) |
 | **Patch 10** | Silent Events for Player Countries | `0x007123CB` (`0x003123CB`) | `0x00DCA200` (.mod cave) | `flag = "ENGINE:SILENT_EVENT"` | [`plan_silent_events.md`](plan_silent_events.md) |
-| **Patch 11** | Allied Territory Garrison AI | `0x0068D8B9`, `0x0068C18E`, `0x00693A86` | `0x00DCA300` - `0x00DCAA00` | `area_multiplier`, `province_priorities` | [`plan_allied_garrison_ai.md`](plan_allied_garrison_ai.md) |
+| **Patch 11** | Allied Territory Garrison AI | `0x0068D8B9`, `0x0068C18E`, `0x00693CBD` | `0x00DCA188` - `0x00DCAF90` | `EnableAlliedGarrison`, `GarrisonLandConnectedMultiplier`, `GarrisonWartimeMultiplier` | [`plan_allied_garrison_ai.md`](plan_allied_garrison_ai.md) |
 
 ---
 
@@ -62,7 +62,7 @@ Patches the signed comparison branch `JLE` (`7E 02`) to unsigned `JBE` (`76 02`)
 Executes scripted maintenance events silently in the background for human players without displaying modal dialog windows or pausing the simulation, using the positive trigger marker `OR = { flag = "ENGINE:SILENT_EVENT" random = 100 }` to ensure 100% graceful dual compatibility with unmodified retail binaries.
 
 ### 12. [Allied Territory Garrison AI](plan_allied_garrison_ai.md)
-Enables AI countries to station, reinforce, and garrison troops inside allied territory based on `country_priorities`, `province_priorities`, and `area_multiplier`. Implements a multi-area allied iterator, peacetime repatriation bypass, peacetime overseas need preservation, interior priority preservation, dynamic border threat propagation, and Phase 4 overseas maritime transport dispatch to allied ports.
+Enables AI countries to station, reinforce, and withdraw troops inside allied and military-access territory based on `country_priorities`, `province_priorities`, and `area_multiplier`. Implements a multi-area allied iterator, configurable land-connected and wartime multipliers (`GarrisonLandConnectedMultiplier`, `GarrisonWartimeMultiplier`), destination-aware en-route overland unit counting, foreign surplus capital repatriation, target-aware army distribution and peacetime repatriation filters, and Phase 4 overseas maritime transport dispatch with `CInvasionAI` dangling-pointer protection.
 
 ---
 

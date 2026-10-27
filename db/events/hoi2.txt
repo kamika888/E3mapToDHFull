@@ -3133,7 +3133,7 @@ event = {
 
     date = { day = 0 month = july year = 1936 }
     offset = 25
-    deathdate = { day = 29 month = december year = 1936 }
+    deathdate = { day = 29 month = december year = 1946 }
 
     action = {
 		name = EVT_2001180_ACTA
@@ -3222,45 +3222,39 @@ event = {
 
 	action = {
 		name = ACTION_NAME_OK
-		trigger = { NOT = { local_flag = black_sea_power } }
 		command = { type = relation		which = TUR value =   5 }
-		#Countering the common exploit where GER/ITA would place fleets into the Black sea before the convention is signed
-		#Cannot be done within the same event, remove_units where = -1 evaluates to the wrong country
-		command = { 
-			trigger = {
-				OR = {
-					garrison = { country = -1 province = 2465 type = naval size = 1 area = 2 }
-					garrison = { country = -1 province = 422  type = naval size = 1 area = 2 }
-					garrison = { country = -1 province = 436  type = naval size = 1 area = 2 }
-					garrison = { country = -1 province = 253  type = naval size = 1 area = 2 }
-					garrison = { country = -1 province = 3431 type = naval size = 1 area = 2 }
-					garrison = { country = -1 province = 269  type = naval size = 1 area = 1 }
-					garrison = { country = -1 province = 409  type = naval size = 1 area = 1 }
-					garrison = { country = -1 province = 440  type = naval size = 1 area = 1 }
-				}
-			}
-			type = event which = 2001184 where = -1 when = 0 }
-	}
-	action = {
-		name = ACTION_NAME_OK
-		trigger = { local_flag = black_sea_power NOT = { country = TUR } }
-		command = { type = relation		which = TUR value =  10 }
-		command = { }
 	}
 }
 
+#Countering the exploit where GER/ITA would place fleets into the Black sea before the convention is signed
 event = {
 	id = 2001184
 	random = no
 	persistent = yes
+
+    trigger = {
+		OR = {
+			flag = "ENGINE:SILENT_EVENT"
+			random = 100
+		}
+		flag = GAME_VERSION
+		flag = Montreux
+		NOT = { local_flag = black_sea_power }
+		NOT = { local_flag = black_sea_clear }
+    }
 
 	name = EVT_2001180_NAME
 	desc = EVT_2001180_DESC
 	style = 2
   	picture = "hoi2_montreux_naval_transit"
 
+    date = { day = 0 month = july year = 1936 }
+    offset = 10
+    deathdate = { day = 29 month = december year = 1946 }
+
 	action = {
 		name = ACTION_NAME_OK
+		command = { type = local_setflag	which = black_sea_clear } 
 		command = { type = remove_units which = naval where = -1 when = 2 value = "Black Sea" }
 		command = { type = remove_units which = naval where = -1 when = 2 value = "Romania" }
 		command = { type = remove_units which = naval where = -1 when = 2 value = "Bulgaria" }
@@ -3269,8 +3263,6 @@ event = {
 		command = { type = remove_units which = naval where = -1 when = 2 value = "Kaukasus" }
 		command = { type = remove_units which = naval where = -1 when = 1 value = "Anatolian North Coast" }
 		command = { type = remove_units which = naval where = -1 when = 1 value = "Bosphorus" }
-
-		command = { }
 	}
 }
 
