@@ -254,12 +254,16 @@ When at war and land front areas exist (`0 < count_front_areas`):
    If the country is actively targeting this front:
    $$\text{nAreaLack} = \max\left(\text{nAreaLack},\ \left\lfloor \frac{\text{EnemyDivisionsInAdjacentArea}}{2} \right\rfloor\right)$$
 
-### B. Rear Areas (`is_front_area == false`) -- The Invisible Factor / `GarrisonWartimeMultiplier`
+### B. Rear Areas (`is_front_area == false`) & Foreign Deployments -- The Invisible Factor / `GarrisonWartimeMultiplier`
 If the country (or an allied faction member) has an active land combat border / troop deficit (`local_52 != 0 || local_e4 != 0`):
 $$\mathbf{nAreaNeed = \text{round}(C \times \text{GarrisonWartimeMultiplier})}$$
 $$\mathbf{nAreaLack = nAreaNeed - nCurrentDivisions}$$
 
-**This is the "invisible factor" in wartime**: In vanilla Darkest Hour, the engine cuts the required garrison of all rear/non-combat areas in **HALF** (`sar eax, 1`) during an active war to release divisions for the front lines. In Patch 11, Hook 17 (`0x0068CB0F` -> `Cave N` @ `0x00DCA980`) makes this multiplier configurable via `db\mod_settings.ini` with default `0.5`, while `1.0` neutralizes wartime halving.
+**This is the "invisible factor" in wartime**: In vanilla Darkest Hour, the engine cuts the required garrison of all rear/non-combat areas in **HALF** (`sar eax, 1`) during an active war to release divisions for the front lines. In Patch 11, Hook 17 (`0x0068CAF0` -> `Cave N` @ `0x00DCA980`, 51 bytes) makes this multiplier configurable via `db\mod_settings.ini` with default `0.5`, while `1.0` neutralizes wartime halving.
+
+**Controlled vs. Foreign Allied Area Separation**:
+- **Controlled Domestic Territory ([0x00DCA310] == 0)**: Preserves retail Darkest Hour front protection while fixing the island/overseas nation defect. If an area contains front-line combat provinces ([ebp - 0x11] != 0) or borders an enemy front ([ebp - 0x1E] != 0), halving is strictly bypassed so front lines maintain 100% garrison strength. For rear areas, vanilla DH tested [ebp - 0x4E] (requiring an active CFrontAI land front bordering an enemy major power), which was perpetually 0 for maritime/island nations (ENG, USA, JAP) without land borders, preventing rear halving. Cave N replaces this with CCountry::IsAtWar() (call 0x0044BEB0): in wartime, domestic rear areas are cleanly scaled by GarrisonWartimeMultiplier (e.g. Caen scaled from 4 to 2), while in peacetime they remain unhalved.
+- **Foreign Allied Territory ([0x00DCA310] != 0)**: Bypasses all CFrontAI front/border checks entirely. In Phase 2, GarrisonWartimeMultiplier applies unconditionally and deterministically, guaranteeing 100% reload-independent mathematical consistency.
 
 ---
 
@@ -412,7 +416,9 @@ To overcome the four engine barriers documented in Section 9, **Patch 11** injec
 | **Hook 14** | `0x005177C1` | `0x001177C1` | 21 bytes | `0x00DCA700` | `CUnit::CanFleetUnloadAtProvince` Military Access transport fleet unload authorization |
 | **Hook 15** | `0x00522CFB` | `0x00122CFB` | 21 bytes | `0x00DCA700` | `CUnit::CanMoveToProvince` Military Access amphibious disembarkation authorization |
 | **Hook 16** | `0x0068C7D3` | `0x0028C7D3` | 18 bytes | Inline (`0x0068C7D3`) | Configurable Land-Connected Area Requirement Multiplier (`GarrisonLandConnectedMultiplier`) |
-| **Hook 17** | `0x0068CB0F` | `0x0028CB0F` | 20 bytes | `Cave N` (`0x00DCA980`) | Configurable Wartime Rear Area Requirement Multiplier (`GarrisonWartimeMultiplier`) |
+| **Hook 17** | `0x0068CAF0` | `0x0028CAF0` | 51 bytes | `Cave N` (`0x00DCA980`) | Configurable Wartime Rear & Allied Area Multiplier (`GarrisonWartimeMultiplier`, 78 bytes with CCountry::IsAtWar rear scaling, bypassed for Phase 2) |
+| **Hook 18** | `0x0068CB83` | `0x0028CB83` | 9 bytes | `Cave P` (`0x00DCA188`) | Allied area quota recording into `g_QuotaEntries` (`0x00DCA298`) |
+| **Hook 19** | `0x00691632` | `0x00291632` | 5 bytes | `Cave Q` (`0x00DCAD58`) | `CMilitaryAI::Update` hourly active garrison sweep counter reset |
 | **Helper** | `0x00DCA700` -> `0x00DCAC00` | `0x00485700` / `0x00485C00` | 213 bytes | `IsAlliedOrAccess_Switchable` | Universal Diplomatic Alliance & Military Access Validator with Mode 0/1/2 switch enforcement |
 | **Helper** | `0x00DCAB60` | `0x00485B60` | 128 bytes | `DetermineGarrisonMode` | Evaluates `EnableAlliedGarrison` (`0x00DCAB00`) and `no_foreign_garrison` (`[pCountry+0x120+0x4C]`) |
 | **Table**  | `0x00DCA4B4` | `0x004854B4` | 72 bytes | `seen_areas` | 18-entry area de-duplication array (`CArea*`) for Cave A |
@@ -464,6 +470,21 @@ In Phase 4 (`0x0068D922` - `0x0068DF9C`), the engine scans queued shortage areas
 - **Transport Fleet Unload Authorization (Hooks 14 & 15 @ `0x005177C1` & `0x00522CFB`)**:
   - When the transport fleet arrives in the adjacent sea zone to unload into an allied or military access port, `CAITransportMinister::Update` calls `CUnit::CanFleetUnloadAtProvince` (`0x00517740`), which in turn pairs with `CUnit::CanMoveToProvince` (`0x00522B50`) for the embarked land unit.
   - Hooks 14 (`0x005177C1`) and 15 (`0x00522CFB`) replace the vanilla `CCountry::IsAlliedOrPuppet` (`0x0044A690`) calls with `IsAlliedOrAccess_Switchable` (`0x00DCA700`), authorizing unloading and amphibious disembarkation into friendly Military Access territory when Mode 2 is active while blocking it in Modes 0 and 1.
+
+#### 2.5 Surplus Foreign Garrison Repatriation (Capping Allied Deployments at nAreaNeed)
+To eliminate unpredictable accumulation of excess divisions in foreign allied territory (such as entire corps piling into border provinces like Amiens or lingering indefinitely in France, Romania, or Italy):
+- **The Problem**: In vanilla DH, `ManageExpeditionaryForces` evacuated 100% of foreign troops. Patch 11's `Cave I` exempted any area configured in `area_multiplier` without an upper bound. Because the Garrison AI's surplus pool only redistributes units when an area has an active deficit (`nAreaLack > 0`), foreign units never left if the domestic homeland was satisfied or had low `home_multiplier`.
+- **Quota Recording (Hook 18 @ `0x0068CB83` -> `Cave P` @ `0x00DCA188`)**:
+  When `UpdateGarrisons` calculates `nAreaNeed` for an allied area during Phase 2 (`[0x00DCA310] == 1`), `Cave P` records the entry `(pArea, nAreaNeed)` into `g_QuotaEntries` (`0x00DCA298`).
+- **Sweep Counter Reset (Hook 19 @ `0x00691632` -> `Cave Q` @ `0x00DCAD58`)**:
+  At the beginning of each hourly `ManageExpeditionaryForces` run, `Cave Q` resets the accepted unit counter `nCount = 0` for all quota entries.
+- **Quota Enforcement & Surplus Eviction in `Cave I` (`0x00DCA85F`)**:
+  When evaluating divisions in foreign friendly provinces:
+  - If the area has no quota (e.g. Italy, Slovakia, or unconfigured area): immediately repatriates via vanilla `0x00693CC4`.
+  - If the area has a quota in `g_QuotaEntries`:
+    - If `nCount < nNeed`: increments `nCount++` and bypasses repatriation (`jmp 0x00693EB1`). The unit stays as garrison.
+    - If `nCount >= nNeed` (SURPLUS DETECTED!): falls through directly to vanilla repatriation (`jmp 0x00693CC4`), immediately issuing march/transport orders to walk or sail the unit home.
+- **Result**: Allied deployments are strictly capped at `nAreaNeed`. All excess divisions accumulate exclusively in domestic national territory.
 
 #### 3. Landfall & Inland March Execution Pipeline
 Once troops arrive in an allied theater:
@@ -564,7 +585,7 @@ The toggles are enforced uniformly via `DetermineGarrisonMode` (`0x00DCAB60`) an
   - In earlier versions, when `Cave A` finished scanning configured `area_multiplier` priorities (`[pAI + 0x358]`), instructions at `0x00DCA336` and `0x00DCA384` jumped to `0x00DCAEB0` ("Phase 3 Fallback").
   - `0x00DCAEB0` iterated all national divisions (`pCountry + 0x4508`) and forcibly injected any foreign area containing a division into the shortage evaluation list with default priority 1.0. This caused unwanted garrison suction (e.g. a single transiting division through Yugoslavia or Hungary triggering deployment of entire armies).
   - Both jump sites (`0x00DCA336` and `0x00DCA384`) are now permanently redirected to `jmp 0x00DCA43A` (clean exit of Cave A), which pops registers `edi, ebx, edx, ecx, eax`, clears scratch pointers, and cleanly returns to `0x0068D8C1`. Only areas explicitly defined in `area_multiplier` are evaluated.
-- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `BE06E7AAD0E59CD609577A4935AB810F423AEBC1998C9B59E1CEA2FE0E279571`).
+- **Patcher Status**: Fully synchronized in `patch_darkest_hour.bat` and `tools/patch_darkest_hour.bat` (Verified SHA256: `3CE6DE83C48B039986E4D6BE2339CDDEF1EA5897CBBDE1E7CCC7268A830A7CA3`).
 
 ---
 
