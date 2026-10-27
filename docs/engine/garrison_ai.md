@@ -417,8 +417,7 @@ To overcome the four engine barriers documented in Section 9, **Patch 11** injec
 | **Hook 15** | `0x00522CFB` | `0x00122CFB` | 21 bytes | `0x00DCA700` | `CUnit::CanMoveToProvince` Military Access amphibious disembarkation authorization |
 | **Hook 16** | `0x0068C7D3` | `0x0028C7D3` | 18 bytes | Inline (`0x0068C7D3`) | Configurable Land-Connected Area Requirement Multiplier (`GarrisonLandConnectedMultiplier`) |
 | **Hook 17** | `0x0068CAF0` | `0x0028CAF0` | 51 bytes | `Cave N` (`0x00DCA980`) | Configurable Wartime Rear & Allied Area Multiplier (`GarrisonWartimeMultiplier`, 78 bytes with CCountry::IsAtWar rear scaling, bypassed for Phase 2) |
-| **Hook 18** | `0x0068CB83` | `0x0028CB83` | 9 bytes | `Cave P` (`0x00DCA188`) | Allied area quota recording into `g_QuotaEntries` (`0x00DCA298`) |
-| **Hook 19** | `0x00691632` | `0x00291632` | 5 bytes | `Cave Q` (`0x00DCAD58`) | `CMilitaryAI::Update` hourly active garrison sweep counter reset |
+| **Hook 20** | `0x0068BCB1` | `0x0028BCB1` | 20 bytes | `Cave R` (`0x00DCA188`) | En-route overland army tracking in `UpdateGarrisons` (counts armies marching to area, eliminating duplicate dispatches) |
 | **Helper** | `0x00DCA700` -> `0x00DCAC00` | `0x00485700` / `0x00485C00` | 213 bytes | `IsAlliedOrAccess_Switchable` | Universal Diplomatic Alliance & Military Access Validator with Mode 0/1/2 switch enforcement |
 | **Helper** | `0x00DCAB60` | `0x00485B60` | 128 bytes | `DetermineGarrisonMode` | Evaluates `EnableAlliedGarrison` (`0x00DCAB00`) and `no_foreign_garrison` (`[pCountry+0x120+0x4C]`) |
 | **Table**  | `0x00DCA4B4` | `0x004854B4` | 72 bytes | `seen_areas` | 18-entry area de-duplication array (`CArea*`) for Cave A |
@@ -617,3 +616,37 @@ jmp Cave_LandlockedRepatriationFallback ; Hook at 0x00693E57 (6 bytes)
 - **Execution Condition**: Fires **only** after both overland domestic march and naval transport have failed. Coastal evacuations are 100% unaffected.
 - **Cave Logic**: Iterates friendly allied nations (e.g. West Germany, Italy), verifies land connectivity via `CanMarchTo(division, allied_prov_id) == 1`, and dispatches an overland move order (`0x00522770` / `0x0045FED0`) across the border to evacuate the landlocked neutral territory.
 
+
+---
+
+## 7. Amphibious Invasion AI Dangling Pointer Fix & Threat Pruning Guard
+
+### 7.1 Problem Statement & Crash Diagnostics
+During extended multi-month playthroughs (e.g. 1940-1941 scenario), an unhandled Access Violation exception (`0xC0000005`) occurred inside `CInvasionAI::Update` at `0x0069F88B`:
+```asm
+0x0069F87F: mov eax, dword ptr [ebx + 0x11c]   ; ebx = 0x9557B08C (deallocated army filled with 0xD0D0D0D0)
+0x0069F885: lea ecx, [ebx + 0x11c]
+0x0069F88B: call dword ptr [eax + 4]           ; Calls [0xD0D0D0D4] -> CRASH (Access Violation)
+```
+
+### 7.2 Root Cause Analysis
+1. **Engine Architecture Bug in Vanilla DH (`CInvasionAI::vfn_198`)**:
+   - `CArmy::~CArmy()` (`0x00507CB0` / `0x00519E8B`) calls `minister->vfn_198(pArmy)` on all owning ministers when an army or fleet is destroyed in combat (e.g. naval combat in the Mediterranean or sunken transports).
+   - Base class `CMinisterAI::vfn_198` (`0x006709A0`) removes armies from offset `+0x28`.
+   - Standard ministers (Garrison AI, Front AI) store armies at `+0x28`. However, `CInvasionAI` stores invasion units at `+0xB0` (`m_ArmyList`) and naval transports at `+0xC4` (`m_TransportList`).
+   - The original DH developers implemented custom removal routines `CInvasionAI::RemoveArmy` (`0x006A1040`) at vtable `+0x1AC` and `CInvasionAI::RemoveTransport` (`0x006A1220`) at vtable `+0x1CC`, but **failed to override `vfn_198`** in `CInvasionAI`'s vtable (`0x007F5514`).
+   - When an army assigned to an invasion was destroyed, `vfn_198` silently failed to unlink it from `+0xB0`. The freed node and army memory remained in `m_ArmyList` as dangling pointers.
+2. **Aggravating Factor in `Cave H` (`0x00DCA7E0`)**:
+   - Instruction `cmp [ebx + 0x1F4], ebp; jne proceed` jumped to `0x0069F871` whenever `[ebx + 0x1F4] != ebp`.
+   - On a deallocated army, `[ebx + 0x1F4]` contained `0xD0D0D0D0` (`!= ebp`), causing Cave H to jump directly to the invasion attack planning code at `0x0069F871`, triggering the crash at `0x0069F88B`.
+
+### 7.3 Multi-Tiered Engine Resolution
+1. **Vtable Registration Override (`0x007F56AC` / file offset `0x003F56AC`)**:
+   - Redirects `CInvasionAI::vtable[0x198/4]` from `0x006709A0` to `fn_invasion_remove_unit` (`0x00DCA870`).
+   - `fn_invasion_remove_unit` calls both `CInvasionAI::RemoveArmy` (`0x006A1040`) and `CInvasionAI::RemoveTransport` (`0x006A1220`), cleanly unlinking any destroyed unit from both lists and eliminating dangling pointers.
+2. **Defensive Pointer Validation in Cave H (`0x00DCA7E0`)**:
+   - Verifies `[ebx] == 0x007E85C0` (valid living `CArmy` vtable) before processing. If invalid or freed, execution cleanly jumps to `0x006A0278` (next unit).
+   - If `[ebx + 0x1F4] != ebp` (unit owned by Garrison AI delivered to port), skips invasion attack code and jumps to `0x006A0278`.
+3. **List Node Sanitization Hook (`0x006A0280` -> Cave S @ `0x00DCA890`)**:
+   - Replaces `test eax, eax; jne 0x69f6d2` with a robust pointer validator.
+   - If node pointer `eax` is null, unmapped (`<= 0x10000`), or freed (`0xDFDFDFDF`), or if `[eax]` contains freed markers (`0xDFDFDFDF` / `0xD0D0D0D0`), execution immediately breaks out of the loop to `0x006A0288`.
