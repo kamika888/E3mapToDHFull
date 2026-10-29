@@ -20,6 +20,7 @@ This directory contains comprehensive architectural documentation, reverse engin
 | **Patch 9** | Map Tile High-Memory Signed Comparison Fix | `0x004DB0C5` (`0x000DB0C5`) | `0x000DB0C5` (Inline 1 byte) | Automatic | [`plan_map_tile_high_memory_guard.md`](plan_map_tile_high_memory_guard.md) |
 | **Patch 10** | Silent Events for Player Countries | `0x007123CB` (`0x003123CB`) | `0x00DCA200` (.mod cave) | `flag = "ENGINE:SILENT_EVENT"` | [`plan_silent_events.md`](plan_silent_events.md) |
 | **Patch 11** | Allied Territory Garrison AI | `0x0068D8B9`, `0x0068C18E`, `0x00693CBD` | `0x00DCA188` - `0x00DCAF90` | `EnableAlliedGarrison`, `GarrisonLandConnectedMultiplier`, `GarrisonWartimeMultiplier` | [`plan_allied_garrison_ai.md`](plan_allied_garrison_ai.md) |
+| **Patch 13** | Unit Counter Hover Hit-Test Effective Scale Fix | `0x0041714B` (`0x0001714B`) | Inline (73 bytes, no cave) | Automatic | [`plan_unit_counter_hover_hit_test_scale_fix.md`](plan_unit_counter_hover_hit_test_scale_fix.md) |
 
 ---
 
@@ -63,6 +64,9 @@ Executes scripted maintenance events silently in the background for human player
 
 ### 12. [Allied Territory Garrison AI](plan_allied_garrison_ai.md)
 Enables AI countries to station, reinforce, and withdraw troops inside allied and military-access territory based on `country_priorities`, `province_priorities`, and `area_multiplier`. Implements a multi-area allied iterator, configurable land-connected and wartime multipliers (`GarrisonLandConnectedMultiplier`, `GarrisonWartimeMultiplier`), destination-aware en-route overland unit counting, foreign surplus capital repatriation, target-aware army distribution and peacetime repatriation filters, and Phase 4 overseas maritime transport dispatch with `CInvasionAI` dangling-pointer protection.
+
+### 13. [Unit Counter Hover Hit-Test Effective Scale Fix](plan_unit_counter_hover_hit_test_scale_fix.md)
+Fixes a vanilla access violation at `0x00406100` when scrolling or hovering over unit counters at zoom 1 or higher. The counter hit-test (`0x004170C0`) converted screen offsets to texture coordinates by shifting with the global map zoom (`[0x00A98464]`) instead of the counter's `effective_scale` (`max(0, bias + zoom)`), so it read past the end of the counter sprite surface. Fixed in place by moving `mouseY` into the dead `EBX` register so `EDI` keeps `effective_scale` (12 bytes changed, no code cave).
 
 ---
 

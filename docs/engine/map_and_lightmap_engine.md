@@ -192,3 +192,31 @@ Automated inspection of all four active lightmap files in `map/Map_3/` reveals:
    * **Status**: Implemented on `Darkest Hour.exe` at `0x004DB0C5` (file offset `0x000DB0C5`).
    * **Opcode Patch**: Changed `7E 02` (`JLE 0x004DB0C9` - signed) to `76 02` (`JBE 0x004DB0C9` - unsigned).
    * **Result**: Any out-of-bounds pointer in high address space ($\ge 0\text{x}80000000$) is interpreted as unsigned $> 8021$, executing `xor esi, esi` and safely falling back to province 0 instead of crashing. Fully integrated into the automated patcher script.
+
+---
+
+## 7. Unit Counter Sprites & Mouse Hover Hit-Testing
+
+Separate from tile rendering, the map window hit-tests unit counters on every mouse move or scroll.
+
+### Call chain
+* `FUN_00652570`: map hover/selection dispatch. It loops over every country slot in `DAT_0089CAD8` (`0x0089CAD8`-`0x0089D038`) and each country's unit list at `+0x4508`. For each unit it calls the counter sprite's vtable `+0x20` (sprite pointer at unit `+0x15A` / `+0x15E`).
+* `0x004170C0`: unit counter sprite hit-test (sprite vtable `0x007E3738`, constructor `FUN_00416730`). It projects the unit's map position to the screen (`FUN_004d8ba0`), tests the screen bounding box, then samples the sprite surface for transparency.
+* `FUN_004060b0`: surface pixel test (`8bpp`: byte != 0 means opaque; `16bpp`: compared to color key `DAT_0088CEE8`). It has **no bounds check** and calls `GetPixelAddress` (`FUN_00409090`: `base + x*[+0x0C] + y*[+0x18]`).
+
+### Counter sprite fields (relative to sprite object)
+| Offset | Meaning |
+|---|---|
+| `+0x0E` | base scale shift (0 for counters) |
+| `+0x52` | current frame index in the counter strip |
+| `+0x56` | frame width (32) |
+| `+0x62` | surface pointer (surface `+0x04` width, `+0x08` height, `+0x18` pitch) |
+| `+0x82` | scale bias vs. map zoom (`-1` for counters, so they stay full size at zoom 1) |
+| `+0x86` / `+0x8A` | map X / Y position |
+
+### Effective scale
+$$\text{effective\_scale} = \max(0,\ [+0x82] + \text{zoom})$$
+The counter draw path (`0x00416FED`) also adds `[+0x0E]` and caps at 4. The result is full-size counters (32 x 34) at zoom 0 and 1, half size at zoom 2, and quarter size at zoom 3.
+
+### Vanilla defect (fixed by Patch 13)
+The bounding box uses `effective_scale`, but the texture-coordinate conversion at `0x00417178` shifted by the raw global zoom (`[0x00A98464]`). At zoom 1 or higher, the lower half of a counter maps to rows past the 34-pixel surface, giving an out-of-bounds read and an intermittent AV at `0x00406100`. See [`plan_unit_counter_hover_hit_test_scale_fix.md`](../plans/plan_unit_counter_hover_hit_test_scale_fix.md).

@@ -195,9 +195,19 @@ $PATCH12_CHUNKS = @(
     @{ Offset = 0x00485E20; Data = 'AQAAAEdBTUVfVkVSU0lPTgAAAADoZ5t2/2Cciw1we9cAhcl0EP81IK7cAGgkrtwA6Es8jv+dYcMAAAAAAAAAAEVuZ2luZQAAR2FtZVZlcnNpb24AVmoBaGiu3ABoYK7cAP/TVmoCaCCr3ABoQKvcAP/TowCr3ACDPeyq3AAAdSxohAeIAP8VVDB+AIXAD4SRAAAAaN2v3ABQ/xWAMH4AhcAPhH0AAACj7KrcAGgwCIgAahBo8KrcAGjTr9wAaJmv3ABoQKvcAP8V7KrcAL7wqtwA6FIAAADZ5N/gnnYI2R3gqtwA6wLd2GgwCIgAahBo8KrcAGjZr9wAaLmv3ABoQKvcAP8V7KrcAL7wqtwA6BYAAADZ5N/gnnYI2R3kqtwA6wLd2OljfqH/2e4x0tnoD7YGRoTAdD88LnQ0LDA8CXc1hdJ1FtnJ2A3oqtwAiUQk/NtEJPzewdnJ69TYDeiq3ACJRCT820Qk/Njx3sLrwLoBAAAA67nd2MNHYXJyaXNvbkxhbmRDb25uZWN0ZWRNdWx0aXBsaWVyAEdhcnJpc29uV2FydGltZU11bHRpcGxpZXIAMC4zMzMAMC41AEdldFByaXZhdGVQcm9maWxlU3RyaW5nQQAAAAAAAAAAAAAA' }
 )
 
+# Patch 13: Unit Counter Hover Hit-Test Effective Scale Fix (@ 0x0041714B - 0x00417193, inline 73 bytes)
+# Vanilla shifts local counter coordinates by the global map zoom ([0x00A98464]) instead of the
+# counter's effective_scale (max(0, bias + zoom), already held in EDI), sampling past the end of
+# the counter sprite surface (AV at 0x00406100). Fix: hold mouseY in dead EBX so EDI keeps
+# effective_scale, then 'mov ecx, edi; shl ebx, cl' replaces the global zoom load. No caves.
+$SIG13_OFFSET  = 0x0001714B
+$ORIG13_SIG    = [byte[]]@(0x8B, 0x7C, 0x24, 0x20, 0x3B, 0xF9, 0x7D, 0x0C, 0x5F, 0x5E, 0x5D, 0x32, 0xC0, 0x5B, 0x83, 0xC4, 0x08, 0xC2, 0x08, 0x00, 0x3B, 0xF8, 0x7C, 0x0C, 0x5F, 0x5E, 0x5D, 0x32, 0xC0, 0x5B, 0x83, 0xC4, 0x08, 0xC2, 0x08, 0x00, 0x8A, 0x46, 0x68, 0x84, 0xC0, 0x75, 0x33, 0x2B, 0xF9, 0x8B, 0x0D, 0x64, 0x84, 0xA9, 0x00, 0xD3, 0xE7, 0x8B, 0x46, 0x62, 0x2B, 0xD5, 0xD3, 0xE2, 0x8B, 0xC8, 0x57, 0x8B, 0x7E, 0x56, 0x0F, 0xAF, 0x7E, 0x52, 0x03, 0xFA, 0x57)
+$PATCH13_SIG   = [byte[]]@(0x8B, 0x5C, 0x24, 0x20, 0x3B, 0xD9, 0x7D, 0x0C, 0x5F, 0x5E, 0x5D, 0x32, 0xC0, 0x5B, 0x83, 0xC4, 0x08, 0xC2, 0x08, 0x00, 0x3B, 0xD8, 0x7C, 0x0C, 0x5F, 0x5E, 0x5D, 0x32, 0xC0, 0x5B, 0x83, 0xC4, 0x08, 0xC2, 0x08, 0x00, 0x8A, 0x46, 0x68, 0x84, 0xC0, 0x75, 0x33, 0x2B, 0xD9, 0x8B, 0xCF, 0xD3, 0xE3, 0x90, 0x90, 0x90, 0x90, 0x8B, 0x46, 0x62, 0x2B, 0xD5, 0xD3, 0xE2, 0x8B, 0xC8, 0x53, 0x8B, 0x7E, 0x56, 0x0F, 0xAF, 0x7E, 0x52, 0x03, 0xFA, 0x57)
+
 # Expected SHA256 Hashes
 $ORIG_SHA256     = "7A1AE8BB802377B6C9EC808F420ACE58475D1816464390422CF97AD450A51EB4"
-$PATCH_SHA256   = "68C94AD513473B54AD3BC30B666FE138085AE60D5F0C46CFF211FA9DD177534A"
+$PATCH_SHA256   = "55E568808F39657307FF287EC254F68FA5ADDC59F0FA84F0C5F7D496601800D6"
+$PREV_V59_SHA256 = "68C94AD513473B54AD3BC30B666FE138085AE60D5F0C46CFF211FA9DD177534A"
 $PREV_V58_SHA256 = "7C9CE07788BBD999E2004D76E1F27D068AE4FC79BC2ADD0A321A651F562526BC"
 $PREV_V57_SHA256 = "70C8A81D76D94CC245B24D19A9F1B9C7ED39E81F2E804A8C55571F3572417A17"
 $PREV_V56_SHA256 = "8DF5A55DBF50856DC547FFAD0B6BF7B172A2FD5A9A84F6B07AC8CAC0A19621DD"
@@ -322,6 +332,11 @@ function Show-Header {
     Write-Host "      and savegame load (FUN_0042E9B0 exit @ 0x0042EBF9 / .mod @ 0x00DCAE20)."
     Write-Host "      Enables dual-binary scripting (flag = 'GAME_VERSION' vs NOT = { flag = 'GAME_VERSION' })."
     Write-Host "      Configurable via 'db\mod_settings.ini' ([Engine] GameVersion = 1, Default 1)."
+    Write-Host ""
+    Write-Host "   12. Unit Counter Hover Hit-Test Effective Scale Fix (Map Scroll Crash Fix):"
+    Write-Host "      Samples counter sprite pixels using the counter's effective scale instead of"
+    Write-Host "      the global map zoom, preventing out-of-bounds surface reads (AV @ 0x00406100)"
+    Write-Host "      when hovering/scrolling over unit counters at zoom >= 1. (Inline @ 0x0041714B)"
     Write-Host "-------------------------------------------------------------------------------" -ForegroundColor Gray
 }
 
@@ -454,16 +469,26 @@ function Check-FileState([string]$path) {
             $sig12Orig = ((Compare-Object $buf12 $ORIG12_SIG) -eq $null)
             $sig12Patch = ((Compare-Object $buf12 $PATCH12_SIG) -eq $null)
         }
+        $sig13Orig = $false; $sig13Patch = $false
+        if ($fs.Length -ge ($SIG13_OFFSET + $ORIG13_SIG.Length)) {
+            $null = $fs.Seek($SIG13_OFFSET, [System.IO.SeekOrigin]::Begin)
+            $buf13 = New-Object byte[] $ORIG13_SIG.Length
+            $null = $fs.Read($buf13, 0, $ORIG13_SIG.Length)
+            $sig13Orig = ((Compare-Object $buf13 $ORIG13_SIG) -eq $null)
+            $sig13Patch = ((Compare-Object $buf13 $PATCH13_SIG) -eq $null)
+        }
         $fs.Close()
     } catch {
         return @{ Exists = $true; State = "Locked/Unreadable"; Size = $size; Hash = $hash }
     }
 
     $state = "Unknown"
-    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig) {
+    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig -and $sig13Orig) {
         $state = "Original"
-    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch) {
-        $state = "Patched (All Fixes + GAME_VERSION Flag)"
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch) {
+        $state = "Patched (All Fixes + GAME_VERSION Flag + Counter Hover Fix)"
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and -not $sig13Patch) {
+        $state = "Patched (v1.11 - All Fixes + GAME_VERSION Flag, No Counter Hover Fix)"
     } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and -not $sig12Patch) {
         $state = "Patched (v1.10 - All Fixes, No GAME_VERSION Flag)"
     } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and -not $sig11Patch) {
@@ -517,6 +542,8 @@ function Check-FileState([string]$path) {
         Sig11Patch  = $sig11Patch
         Sig12Orig   = $sig12Orig
         Sig12Patch  = $sig12Patch
+        Sig13Orig   = $sig13Orig
+        Sig13Patch  = $sig13Patch
     }
 }
 
@@ -612,6 +639,10 @@ function Apply-PatchToFile([string]$srcPath, [string]$dstPath) {
             $null = $fs.Seek($chunk.Offset, [System.IO.SeekOrigin]::Begin)
             $fs.Write($chunkBytes, 0, $chunkBytes.Length)
         }
+
+        # Patch 13: Unit Counter Hover Hit-Test Effective Scale Fix (@ 0x0041714B, inline 73 bytes)
+        $null = $fs.Seek($SIG13_OFFSET, [System.IO.SeekOrigin]::Begin)
+        $fs.Write($PATCH13_SIG, 0, $PATCH13_SIG.Length)
 
         # Ensure file length is padded to match expanded .mod section raw size (0x00484000 + 0x2000 = 0x00486000)
         if ($fs.Length -lt 0x00486000) {
@@ -738,6 +769,7 @@ GameVersion = 1
     if (-not $dstState.Sig10Patch)  { $failedSigs += "Patch 10 (Silent Events)" }
     if (-not $dstState.Sig11Patch)  { $failedSigs += "Patch 11 (Allied Garrison AI)" }
     if (-not $dstState.Sig12Patch)  { $failedSigs += "Patch 12 (GAME_VERSION Flag)" }
+    if (-not $dstState.Sig13Patch)  { $failedSigs += "Patch 13 (Counter Hover Hit-Test Fix)" }
     if ($failedSigs.Count -gt 0) {
         throw ("Verification failed: Target file signatures were not properly updated. Failed: " + ($failedSigs -join ', '))
     }
