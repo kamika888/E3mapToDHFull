@@ -3602,7 +3602,7 @@ event = {
 	picture = "poland_provisional_government_1945"
 
 	date = { day = 0 month = january year = 1943 }
-	offset = 30
+	offset = 10
 	deathdate = { day = 30 month = december year = 1955 }
 
 	action = {
@@ -3657,7 +3657,7 @@ event = {
 		command = { type = chiefofintelligence 		which = 975035 } # Waclaw Komar
 		command = { type = chiefofarmy		 		which = 975028 } # Michal Rola-Zymierski
 		
-		#command = { type = flag_ext where = POL which = "_COM" }
+		#command = { type = flag_ext where = POL 	which = "_COM" }
 	}
 }
 
@@ -3707,14 +3707,108 @@ event = {
 
 #Czechoslovakia
 
+#First Post-War Czechoslovak Government
+
 event = {
-	id = 2900242
+	id = 2900240
 	random = no
-	country = CZE
+	tag = { CZE U31 }
 	style = 2
 
 	trigger = {
 		local_flag = AllInit
+		OR = {
+			government = communist
+			puppet = { country = -1 country = SOV }
+		}
+		OR = {
+			event = { id = 2003202 days = 20 }
+			NOT = {
+				war = { country = GER }
+				war = { country = ENG }
+				war = { country = CZE }
+			}
+		}
+	}
+
+	name = "EVT_2900240_NAME"
+	desc = "EVT_2900240_DESC"
+	picture = "czechoslovakia_postwar_government_1945"
+
+	date = { day = 0 month = january year = 1943 }
+	offset = 10
+	deathdate = { day = 30 month = december year = 1955 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = set_domestic 			which = political_left value = 8 }
+		command = { type = headofstate 				which = 120012 } # Edouard Benes
+		command = { type = headofgovernment 		which = 120171 } # Zdenek Fierlinger
+		command = { type = foreignminister 			which = 120033 } # Jan Masaryk
+		command = { type = armamentminister 		which = 120176 } # Vavro Srobar
+		command = { type = ministerofsecurity 		which = 120128 } # Vaclav Nosek
+		command = { type = ministerofintelligence 	which = 120129 } # Prokop Drtina
+		command = { type = chiefofarmy		 		which = 120107 } # Ludvik Svoboda
+	}
+}
+
+
+#Formation of the Czechoslovak Socialist Republic
+
+event = {
+	id = 2900241
+	random = no
+	tag = { CZE U31 }
+	style = 2
+
+	trigger = {
+		local_flag = AllInit
+		event = 2900240
+		OR = {
+			government = communist
+			puppet = { country = -1 country = SOV }
+		}
+		OR = {
+			year = 1948
+			event = { id = 2003202 days = 1080 } #3 years from WW2
+		}
+	}
+
+	name = "EVT_2900241_NAME"
+	desc = "EVT_2900241_DESC"
+	picture = "czechoslovakia_socialist_republic_1948"
+
+	date = { day = 0 month = january year = 1943 }
+	offset = 30
+	deathdate = { day = 30 month = december year = 1955 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = set_domestic 			which = political_left value = 9 }
+		command = { type = headofstate 				which = 120021 } # Klement Gottwald
+		command = { type = headofgovernment 		which = 120172 } # Antonin Zapotocky
+		command = { type = foreignminister 			which = 120041 } # Vladimir Clementis
+		command = { type = armamentminister 		which = 120174 } # Jaromir Dolansky
+		command = { type = ministerofsecurity 		which = 120128 } # Vaclav Nosek
+		command = { type = ministerofintelligence 	which = 120130 } # Alexej Cepicka
+		command = { type = chiefofarmy		 		which = 120107 } # Ludvik Svoboda
+
+		#command = { type = flag_ext where = CZE 	which = "_COM" }
+	}
+}
+
+
+#Czechoslovak Leadership Reorganization
+
+event = {
+	id = 2900242
+	random = no
+	tag = { CZE U31 }
+	style = 2
+
+	trigger = {
+		local_flag = AllInit
+		event = 2900241
 		OR = {
 			government = communist
 			puppet =  { country = -1 country = SOV }
@@ -3738,7 +3832,7 @@ event = {
 		name = ACTION_NAME_OK
 		command = { type = set_domestic 			which = political_left value = 9 }
 		command = { type = headofstate 				which = 120123 } # Antonin Zapotocky
-		command = { type = headofgovernment 		which = 120165 } # Viliam Široký
+		command = { type = headofgovernment 		which = 120175 } # Viliam Široký
 		command = { type = foreignminister 			which = 120166 } # Václav David
 		command = { type = armamentminister 		which = 120167 } # Július ?uriš
 		command = { type = ministerofsecurity 		which = 120168 } # Rudolf Barák
