@@ -599,7 +599,19 @@ event = {
 	action = {
 		name = ACTION_NAME_OK
 		ai_chance = 100	
-		command = { type = event which = 2020021 where = SOV when = 0 }
+		command = { type = set_domestic which = political_left value = 7 }	# Progressive
+		command = { type = headofstate 				which = 95020 }		# Vasil Kolarov
+		command = { type = headofgovernment 		which = 95028 }		# Kimon Georgiev
+		command = { type = foreignminister 			which = 95041 }		# Petko Stainov
+		command = { type = armamentminister 		which = 95055 }		# Petko Stoyanov (unrelated to Petko Stainov)
+		command = { type = ministerofsecurity 		which = 95073 } 	# Anton Yugov
+		command = { type = ministerofintelligence 	which = 95083 }		# Mincho Neychev
+		command = { type = chiefofstaff 			which = 95091 }		# Damjan Velchev
+		command = { type = chiefofarmy 				which = 95103 }		# Mihail Minchev
+		command = { type = chiefofnavy 				which = 95109 }		# Racho Batanov
+		command = { type = chiefofair 				which = 95116 }		# Vasil Valkov
+		
+		command = { type = event which = 2020021 where = SOV when = 10 }
 	}
 
 	action = {
@@ -628,7 +640,7 @@ event = {
 	action = {
 		ai_chance = 100
 		name = ACTION_NAME_ACCEPT
-		command = { type = event which = 2020022 where = BUL when = 10 }
+		command = { type = event which = 2020022 where = BUL when = 0 }
 	}
 	action = {
 		ai_chance = 0
@@ -760,7 +772,7 @@ event = {
 		command = { trigger = { flag = BulgariaAxisVoluntary } type = removecore	  which = 6506 }
 		
 		command = { type = local_setflag which = sliderSet }
-		command = { type = set_domestic which = political_left	value = 8 }
+		command = { type = set_domestic which = political_left	value = 8 } #Socialist
 		command = { type = set_domestic which = freedom			value = 5 }
 		command = { type = set_domestic which = free_market		value = 3 }
 		command = { type = set_domestic which = interventionism	value = 5 }
@@ -784,6 +796,17 @@ event = {
 		
 		command = { trigger = { NOT = { ai = SOV } }	type = military_control which = SOV where = BUL value = 1 }
 		command = { trigger = { NOT = { ai = SOV } }	type = military_control which = SOV where = U29 value = 1 }
+
+		command = { type = headofstate 				which = 95020 }		# Vasil Kolarov
+		command = { type = headofgovernment 		which = 95028 }		# Kimon Georgiev
+		command = { type = foreignminister 			which = 95041 }		# Petko Stainov
+		command = { type = armamentminister 		which = 95055 }		# Petko Stoyanov (unrelated to Petko Stainov)
+		command = { type = ministerofsecurity 		which = 95073 } 	# Anton Yugov
+		command = { type = ministerofintelligence 	which = 95083 }		# Mincho Neychev
+		command = { type = chiefofstaff 			which = 95091 }		# Damjan Velchev
+		command = { type = chiefofarmy 				which = 95103 }		# Mihail Minchev
+		command = { type = chiefofnavy 				which = 95109 }		# Racho Batanov
+		command = { type = chiefofair 				which = 95116 }		# Vasil Valkov
 	}
 }
 
@@ -877,5 +900,50 @@ event = {
 			}
 		}
 		command = { type = event which = 2020021 where = SOV when = 0 }
+	}
+}
+
+########################################################################
+#  Proclamation of the People's Republic of Bulgaria
+########################################################################
+
+event = {
+	id = 2020040
+	random = no
+	tag = { BUL U29 }
+	style = 2
+
+	trigger = {
+		local_flag = AllInit
+		OR = {
+			government = communist
+			puppet = { country = -1 country = SOV }
+		}
+		OR = {
+			year = 1947
+			event = { id = 2003202 days = 540 } #1.5 years from WW2
+		}
+	}
+
+	name = "EVT_2020040_NAME"
+	desc = "EVT_2020040_DESC"
+	picture = "bulgaria_republic_1946"
+
+	date = { day = 0 month = october year = 1943 }
+	offset = 30
+	deathdate = { day = 0 month = november year = 1956 }
+
+	action_a = {
+		name = ACTION_NAME_OK
+		command = { type = set_domestic 			which = political_left value = 9 }
+		command = { type = headofstate 				which = 95020 } # Vasil Kolarov
+		command = { type = headofgovernment 		which = 95029 } # Georgi Dimitrov
+		command = { type = foreignminister 			which = 95045 } # Kimon Georgiev
+		command = { type = armamentminister 		which = 95058 } # Ivan Stefanov
+		command = { type = ministerofsecurity 		which = 95073 } # Anton Yugov
+		command = { type = ministerofintelligence 	which = 95082 } # Traicho Kostov
+		command = { type = chiefofarmy 				which = 95255 } # Georgi Damyanov
+
+		command = { type = flag_ext					where = BUL which = "_COM" }
 	}
 }

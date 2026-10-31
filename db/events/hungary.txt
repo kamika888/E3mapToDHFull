@@ -349,7 +349,19 @@ event = {
 	action = {
 		name = EVT_2022015_ACTA
 		ai_chance = 99
-		command = { type = event which = 2022016 where = SOV when = 0 }
+		command = { type = set_domestic which = political_left value = 6 }
+		command = { type = headofstate 				which = 105017 }	# Béla Zsedényi
+		command = { type = headofgovernment 		which = 105028 }	# Béla Miklós de Dalnók
+		command = { type = foreignminister 			which = 105046 }	# János Gyöngyösi
+		command = { type = armamentminister 		which = 105054 }	# Imre Oltványi
+		command = { type = ministerofsecurity 		which = 105079 }	# Ferenc Erdei
+		command = { type = ministerofintelligence 	which = 105087 }	# Ferenc Keresztes-Fischer
+		command = { type = chiefofstaff 			which = 105099 }	# János Vörös
+		command = { type = chiefofarmy 				which = 105110 }	# János Vörös
+		command = { type = chiefofnavy 				which = 105116 }	# Francois Deak
+		command = { type = chiefofair 				which = 105125 }	# Béla Rákosi
+
+		command = { type = event which = 2022016 where = SOV when = 10 }
 	}
 	action = {
 		name = EVT_2022015_ACTB
@@ -374,7 +386,7 @@ event = {
 	action = {
 		ai_chance = 100
 		name = ACTION_NAME_ACCEPT
-		command = { type = event which = 2022017 where = HUN when = 10 }
+		command = { type = event which = 2022017 where = HUN when = 0 }
 	}
 	action = {
 		ai_chance = 0
@@ -498,7 +510,7 @@ event = {
 		command = { type = secederegion which = SOV value = "Romania" when = 1 } 
 		command = { type = secederegion which = SOV value = "Czechoslovakia" when = 1 } 
 		
-		command = { type = set_domestic which = political_left value = 8 }
+		command = { type = set_domestic which = political_left value = 7 }
 		command = { type = set_relation which = GER value = -50 }
 		
 		command = { type = event which = 2400151 where = -1 when = 1   } #initial confusion
@@ -516,6 +528,17 @@ event = {
 		
 		command = { trigger = { NOT = { ai = SOV } }	type = military_control which = SOV where = HUN value = 1 }
 		command = { trigger = { NOT = { ai = SOV } }	type = military_control which = SOV where = U13 value = 1 }
+
+		command = { type = headofstate 				which = 105015 }	# Zoltán Tildy
+		command = { type = headofgovernment 		which = 105212 }	# Ferenc Nagy/Mátyás Rákosi
+		command = { type = foreignminister 			which = 105046 }	# János Gyöngyösi
+		command = { type = armamentminister 		which = 105050 }	# Jenö Rácz
+		command = { type = ministerofsecurity 		which = 105078 }	# Imre Nagy
+		command = { type = ministerofintelligence 	which = 105213 }	# Gábor Péter
+		command = { type = chiefofstaff 			which = 105100 }	# Matta Zalka
+		command = { type = chiefofarmy 				which = 105211 }	# Ferenc Nagy
+		command = { type = chiefofnavy 				which = 105117 }	# Kálmán Hardy
+		command = { type = chiefofair 				which = 105124 }	# Edgar Keksz
 	}
 }
 
@@ -541,5 +564,91 @@ event = {
 		command = { type = add_division value = infantry when = 10 where = -70 }
 		command = { type = add_division value = infantry when = 10 where = -70 }
 		command = { type = add_division value = infantry when = 10 where = -70 }
+	}
+}
+
+########################################################################
+#  Proclamation of the People's Republic of Hungary
+########################################################################
+
+event = {
+	id = 2022040
+	random = no
+	TAG = { HUN U13 }
+	style = 2
+
+	trigger = {
+		local_flag = AllInit
+		OR = {
+			government = communist
+			puppet = { country = -1 country = SOV }
+		}
+		OR = {
+			year = 1949
+			event = { id = 2003202 days = 1440 } #4 years from WW2
+		}
+	}
+
+	name = "EVT_2022040_NAME"
+	desc = "EVT_2022040_DESC"
+	picture = "hungary_tildy_resignation_1948"
+
+	date = { day = 0 month = october year = 1943 }
+	offset = 30
+	deathdate = { day = 0 month = november year = 1956 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = set_domestic 			which = political_left value = 9 }
+		command = { type = headofstate				which = 105138 } # Arpád Szakasits
+		command = { type = headofgovernment 		which = 105215 } # Istvan Dobi/Mátyás Rákosi
+		command = { type = foreignminister 			which = 105149 } # László Rajk
+		command = { type = armamentminister 		which = 105061 } # Ernö Gerö
+		command = { type = ministerofsecurity 		which = 105147 } # Janos Kadar
+		command = { type = ministerofintelligence 	which = 105213 } # Gábor Péter
+		command = { type = chiefofarmy 				which = 105214 } # Mihaly Farkas
+		
+		command = { type = flag_ext 				where = HUN which = "_COM" }
+	}
+}
+
+event = {
+	id = 2022041
+	random = no
+	TAG = { HUN U13 }
+	style = 2
+	one_action = yes
+
+	trigger = {
+		local_flag = AllInit
+		event = 2022040
+		OR = {
+			government = communist
+			puppet =  { country = -1 country = SOV }
+		}
+		OR = {
+			year = 1953
+			event = { id = 2003202 days = 2520 } #7 years from WW2
+		}
+	}
+
+	name = "EVT_2022041_NAME"
+	desc = "EVT_2022041_DESC"
+	picture = "hungary_rakosi_reorganization_1952"
+
+	date = { day = 0 month = october year = 1943 }
+	offset = 30
+	deathdate = { day = 0 month = november year = 1956 }
+
+	action = {
+		name = ACTION_NAME_OK
+		command = { type = set_domestic 			which = political_left value = 9 }
+		command = { type = headofstate 				which = 105140 } # Istvan Dobi
+		command = { type = headofgovernment 		which = 105034 } # Mátyás Rákosi
+		command = { type = foreignminister 			which = 105145 } # Karoly Kiss
+		command = { type = armamentminister 		which = 105146 } # Imre Horvath
+		command = { type = ministerofsecurity 		which = 105147 } # Janos Kadar
+		command = { type = ministerofintelligence 	which = 105213 } # Gábor Péter
+		command = { type = chiefofarmy 				which = 105216 } # István Bata
 	}
 }

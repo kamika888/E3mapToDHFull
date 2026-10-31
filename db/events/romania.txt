@@ -703,7 +703,7 @@ event = {
 	action = {
 		name = EVT_2023010_ACTA
 		ai_chance = 99
-		command = { type = set_domestic which = political_left value = 4 }	# liberal-conservative
+		command = { type = set_domestic which = political_left value = 4 }	# conservative
 		command = { type = headofstate 				which = 110013 }	# Mihai I 39 SC
 		command = { type = headofgovernment 		which = 110026 }	# Constantin Sanatescu	44 ML
 		command = { type = foreignminister 			which = 110044 }	# Grigore Niculesco-Buzesti 44 PA
@@ -1019,7 +1019,7 @@ event = {
 		#command = { type = event which = 2400151 where = -1 when = 1   } #initial confusion
 		#command = { type = event which = 2400161 where = -1 when = 90  } #recovery in 3 months
 		
-		command = { type = headofstate which = 110018 				} # Horia Sima 39 SC
+		command = { type = headofstate which = 110018 				} # Horia Sima 39 NS
 		command = { type = headofgovernment which = 110030 			} # Horia Sima 40 NS
 		command = { type = foreignminister which = 110041 			} # Mihail Sturdza 40 NS
 		command = { type = armamentminister which = 110061 			} # Constantin Papanace 40 NS
@@ -1030,5 +1030,50 @@ event = {
 		command = { type = chiefofair which = 110113 				} # Ermil Gheorghiu 40 FA
 		
 		command = { type = flag_ext where = ROM which = "_TPT" }
+	}
+}
+
+########################################################################
+#  Proclamation of the People's Republic of Romania
+########################################################################
+
+event = {
+	id = 2023040
+	random = no
+	TAG = { ROM U30 }
+	style = 2
+
+	trigger = {
+		local_flag = AllInit
+		OR = {
+			government = communist
+			puppet = { country = -1 country = SOV }
+		}
+		OR = {
+			year = 1948
+			event = { id = 2003202 days = 900 } #2.5 years from WW2
+		}
+	}
+
+	name = "EVT_2023040_NAME"
+	desc = "EVT_2023040_DESC"
+	picture = "romania_republic_proclamation_1947"
+
+	date = { day = 0 month = october year = 1943 }
+	offset = 30
+	deathdate = { day = 0 month = november year = 1956 }
+
+	action_a = {
+		name = ACTION_NAME_OK
+		command = { type = set_domestic 			which = political_left value = 9 }
+		command = { type = headofstate 				which = 110015 } # Constantin I. Parhon
+		command = { type = headofgovernment 		which = 110028 } # Petru Groza
+		command = { type = foreignminister 			which = 110047 } # Ana Pauker
+		command = { type = armamentminister 		which = 110222 } # Gheorghe Gheorghiu-Dej (as minister of Industry and Commerce, First Vice President of the Council of Ministers, President of the High Economic Council, Chairman of the Economic Recovery and Monetary Stabilisation Commission, Coordinator of the Ministries of Economy and Finance, and General Secretary of the Romanian Workers' Party)
+		command = { type = ministerofsecurity 		which = 110076 } # Teohari Georgescu
+		command = { type = ministerofintelligence 	which = 110223 } # Gheorghe Pintilie
+		command = { type = chiefofarmy 				which = 110224 } # Emil Bodn?ra?
+
+		command = { type = flag_ext 				where = ROM which = "_COM" }
 	}
 }
