@@ -3,7 +3,7 @@
 **Engine**: Darkest Hour 1.05.2 (checksum TENE)  
 **Binary Executable**: `Darkest Hour.exe`  
 **Primary Subsystems**: `CGarrisonAI` (`FUN_0068ba50` @ `0x0068BA50`), `CInvasionAI` / `CAITransportMinister` (`0x0069F7F0`), `CAIUnitMinister` (`0x006939F0`), `CMilitaryAI` (`0x00695A00`)  
-**Status**: Fully Implemented & Verified in `patch_darkest_hour.bat` (`SHA256 = 68C94AD513473B54AD3BC30B666FE138085AE60D5F0C46CFF211FA9DD177534A`)
+**Status**: Fully Implemented & Verified in `patch_darkest_hour.bat` (`SHA256 = 35CABC16999838B57F7FDCB25D098C9937FA47C87B0766114666F6108CCC9C37`)
 
 ---
 
@@ -14,15 +14,27 @@ For the baseline retail engine behavior and limitations, see **[Garrison AI Arch
 **Patch 11** extends the Darkest Hour Garrison AI, Military AI, Transport/Invasion AI, and Unit Minister subsystems to allow AI nations to station, reinforce, and withdraw divisions in foreign allied and military-access territory based on standard AI script directives (`area_multiplier`, `province_priorities`, `country_priorities`) while respecting global (`db\mod_settings.ini`) and per-country (`no_foreign_garrison`) configuration switches.
 
 Key capabilities introduced by Patch 11:
-1. **Multi-Area Foreign Evaluation**: Appends foreign allied/access areas configured in `area_multiplier` (`[CAI + 0x358]`) to `CGarrisonAI::UpdateGarrisons` (`Cave A`), preserving host-nation `CArea` fields and restoring them on exit (`Cave E`).
-2. **Allied & Access Province Priority & Port Recognition**: Permits `CGarrisonAI` to evaluate priorities (`Cave B`), preserve interior priorities (`Cave K`), inherit border threat from `country_priorities` (`Cave L`), and select destination provinces/ports (`Cave D`) on allied or military-access territory.
-3. **Configurable Multipliers**: Exposes the land-connected rear multiplier (`GarrisonLandConnectedMultiplier`, Hook 16) and wartime rear/allied multiplier (`GarrisonWartimeMultiplier`, Hook 17 / `Cave N`) in `db\mod_settings.ini`, while ensuring foreign allied areas ignore host-nation `CFrontAI` front overrides (`Cave G`) and check `CCountry::IsAtWar()` / `FindAlliedFrontNeedingTroops()` before applying wartime halving (`Cave N`).
-4. **Deterministic Overland Dispatch & Repatriation**:
+1. **Dual-Pass Foreign Area Evaluation & Zero-Quota Sweep**:
+   - **Pass 1 (`m_AreaMultiplierList`)**: Appends foreign allied/access areas explicitly configured in `area_multiplier` (`[CAI + 0x358]`) to `CGarrisonAI::UpdateGarrisons` (`Cave A`), preserving host-nation `CArea` fields and restoring them on exit (`Cave E`).
+   - **Pass 2 (`m_ArmyList` Foreign Army Sweep)**: Once `m_AreaMultiplierList` is exhausted, sweeps `CGarrisonAI::m_ArmyList` (`[ebx + 0x94]`) for any foreign allied/access areas where donor divisions are physically present but which have no entry in `area_multiplier` (`Pass 2 Cave` @ `0x00DCA050`).
+2. **Strict Architectural Separation: `area_multiplier` vs `province_priorities`**:
+   - `area_multiplier`: Sole gating authority on **whether** any troops stay in or are dispatched to a foreign area. If an area is configured with `multiplier > 0`, it is garrisoned to that quota; if unconfigured or `<= 0`, its quota is strictly **zero**.
+   - `province_priorities`: Intra-area weighting only. Determines **where** divisions station within an already-approved area. Never serves as evidence to garrison an unconfigured foreign area.
+   - `fn_IsAreaTargeted` (`0x00DCACD5`) checks strictly `area_multiplier > 0`, removing the legacy `province_priorities` fallback to prevent foreign allied capitals (e.g. Bucharest 424, Budapest 457) from becoming accidental garrison sinks.
+3. **Foreign Zero-Need & Clamp Bypass (`Cave 2A` & `Cave 2B`)**:
+   - Multiplier Gate (`Cave 2A` @ `0x00DCAD58`) preserves `0.0f` for unconfigured foreign areas, preventing retail `is_front_area` overrides from forcing unwanted garrison quotas.
+   - Retail Need Clamp Bypass (`Cave 2B` @ `0x00DCAD84`) bypasses the retail `mov [ebp - 0x2C], 1` clamp for foreign areas when calculated need is 0, allowing $nAreaNeed = 0$ and $nAreaLack = -nDivisions$ (100% surplus).
+4. **Allied & Access Province Priority & Port Recognition**:
+   - Permits `CGarrisonAI` to evaluate priorities (`Cave B`), preserve interior priorities (`Cave K`), inherit border threat from `country_priorities` (`Cave L`), and select destination provinces/ports (`Cave D`) on allied or military-access territory.
+5. **Configurable Multipliers & Dynamic Wartime Scaling**:
+   - Exposes the land-connected rear multiplier (`GarrisonLandConnectedMultiplier`, Hook 16) and wartime rear/allied multiplier (`GarrisonWartimeMultiplier`, Hook 17 / `Cave N`) in `db\mod_settings.ini`.
+   - Ensures foreign allied areas ignore host-nation `CFrontAI` front overrides (`Cave G`) and check `CCountry::IsAtWar()` / `FindAlliedFrontNeedingTroops()` before applying wartime halving (`Cave N`).
+6. **Deterministic Overland Dispatch & Foreign Surplus Capital Repatriation**:
    - Retains inter-area overland marching units inside `CGarrisonAI::m_ArmyList` (`Hook 24` at `0x0068DF74`) and counts moving units in their final destination area rather than their origin area (`Hook 20` / `Cave R` calling `0x0051C0C0`).
    - Prevents non-homeland shortage areas from pulling surplus units out of other foreign areas (`Hook 22` / `Cave U`).
-   - Orders any leftover foreign surplus units in `[ebp - 0x6C]` at the end of Phase 4 to march overland back to the country's capital area (`Hook 23` / `Cave T` calling `0x0044E1D0`).
-   - Restricts `CMilitaryAI::DistributeArmiesToMinisters` registration (`Cave M`) and `ManageExpeditionaryForces` repatriation immunity (`Cave I`) strictly to areas targeted by `fn_IsAreaTargeted` (`0x00DCACD5`).
-5. **Overseas Transport Delivery & `CInvasionAI` Hardening**:
+   - Orders all leftover foreign surplus units in `[ebp - 0x6C]` at the end of Phase 4 to march overland back to the country's capital area (`Hook 23` / `Cave T` calling `0x0044E1D0`). Upon arrival in the homeland, `CMilitaryAI` automatically reassigns them to active fronts or theater reserves.
+   - Restricts `CMilitaryAI::DistributeArmiesToMinisters` registration (`Cave M`) and `ManageExpeditionaryForces` peacetime repatriation immunity (`Cave I`) strictly to areas targeted by `fn_IsAreaTargeted` (`0x00DCACD5`).
+7. **Overseas Transport Delivery & `CInvasionAI` Hardening**:
    - Protects peacetime allied/access transport missions and `CGarrisonAI`-owned units from pre-departure threat cancellation (`Cave H`), authorizes military-access port unloading (`Hooks 14 & 15`), and continues scanning surplus candidate armies on transport failure (`0x0068DFCA`).
    - Overrides `CInvasionAI::vtable[0x198/4]` (`0x007F56AC` -> `0x00DCA870`) and sanitizes list traversal (`Hook 21` / `Cave S`) to prevent dangling-pointer crashes when invasion/transport units are destroyed in combat.
 
@@ -30,11 +42,14 @@ Key capabilities introduced by Patch 11:
 
 ## 2. Master Hook & Cave Reference Matrix
 
-Patch 11 utilizes code caves in the `.mod` PE section (`0x00DCA188` - `0x00DCAF90`):
+Patch 11 utilizes code caves in the `.mod` PE section (`0x00DCA050` - `0x00DCAF90`):
 
 | Hook / Patch | Virtual Address | File Offset | Length | Target / Cave | Description |
 |---|---|---|---|---|---|
-| **Hook 1** | `0x0068D8B9` | `0x0028D8B9` | 8 bytes | `Cave A` (`0x00DCA320`) | Multi-area allied iterator over `m_AreaMultiplierList` with `seen_areas` de-duplication |
+| **Hook 1** | `0x0068D8B9` | `0x0028D8B9` | 8 bytes | `Cave A` (`0x00DCA320`) | Dual-pass foreign iterator (Pass 1 `m_AreaMultiplierList` + Pass 2 `m_ArmyList` sweep) with `seen_areas` de-duplication |
+| **Pass 2 Cave** | `0x00DCA050` | `0x00485050` | 170 bytes | `Pass 2 Cave` (`0x00DCA050`) | Sweeps `CGarrisonAI::m_ArmyList` for occupied foreign areas lacking `area_multiplier` to yield with quota 0 |
+| **Hook 2A** | `0x0068C680` | `0x0028C680` | 14 bytes | `Cave 2A` (`0x00DCAD58`) | Foreign area multiplier gate (preserves `0.0f` multiplier for unconfigured foreign areas, prevents retail front-override) |
+| **Hook 2B** | `0x0068C7ED` | `0x0028C7ED` | 7 bytes | `Cave 2B` (`0x00DCAD84`) | Foreign need >= 1 clamp bypass (allows $nAreaNeed = 0$ when `[0x00DCA310] != 0` and calculated need is 0) |
 | **Hook 2** | `0x0068C18E` | `0x0028C18E` | 8 bytes | `Cave B` (`0x00DCA500`) | Non-controlled province filter bypass via `IsAlliedOrAccess_Switchable` |
 | **Hook 3** | `0x0068C55A` | `0x0028C55A` | 10 bytes | `Cave C` (`0x00DCA550`) | Allied province counting & area quota calculation |
 | **Hook 4** | `0x0068C5B6` | `0x0028C5B6` | 5 bytes | `Cave F` (`0x00DCA650`) | Coastal & border flag calculation for active allied areas |
@@ -43,11 +58,11 @@ Patch 11 utilizes code caves in the `.mod` PE section (`0x00DCA188` - `0x00DCAF9
 | **Inline Fix** | `0x0068DFCA` | `0x0028DFCA` | 6 bytes | Inline (`0x0068DFCA`) | Phase 4 transport dispatch loop continuation (`jne 0x0068DB06` instead of aborting to `0x0068DB11`) |
 | **Hook 7** | `0x0068E291` | `0x0028E291` | 6 bytes | `Cave E` (`0x00DCA5D0`) | Host-nation `CArea` metadata restoration (`+0x56`, `+0x5A`, `+0x5E` from `0x00DCAB20`) & state cleanup |
 | **Hook 8** | `0x0069F815` | `0x0029F815` | 12 bytes | `Cave H` (`0x00DCA7E0`) | `CInvasionAI::Update` vtable guard & transport mission threat cancellation gate |
-| **Hook 9** | `0x00693CBD` | `0x00293CBD` | 7 bytes | `Cave I` (`0x00DCA820`) | Stage 2 peacetime foreign garrison repatriation bypass (gated by `fn_IsAreaTargeted`) |
+| **Hook 9** | `0x00693CBD` | `0x00293CBD` | 7 bytes | `Cave I` (`0x00DCA820`) | Stage 2 peacetime foreign garrison repatriation bypass (gated strictly by `area_multiplier > 0` via `fn_IsAreaTargeted`) |
 | **Hook 10** | `0x0068C742` | `0x0028C742` | 7 bytes | `Cave J` (`0x00DCA690`) | Peacetime overseas area need preservation (`[0x00DCA310] != 0`) |
 | **Hook 11** | `0x0068B978` | `0x0028B978` | 12 bytes | `Cave K` (`0x00DCA8F0`) | Interior province priority preservation (bypasses anti-partisan zero-wipe) |
 | **Hook 12** | `0x0068B89E` | `0x0028B89E` | 13 bytes | `Cave L` (`0x00DCA920`) | Dynamic border threat inheritance from `country_priorities` |
-| **Hook 13** | `0x00696ECD` | `0x00296ECD` | 16 bytes | `Cave M` (`0x00DCAA00`) | Unassigned foreign army distributor pass to `CGarrisonAI` (gated by `fn_IsAreaTargeted`) |
+| **Hook 13** | `0x00696ECD` | `0x00296ECD` | 16 bytes | `Cave M` (`0x00DCAA00`) | Unassigned foreign army distributor pass to `CGarrisonAI` (gated strictly by `area_multiplier > 0` via `fn_IsAreaTargeted`) |
 | **Hook 14** | `0x005177C1` | `0x001177C1` | 21 bytes | `0x00DCA700` | `CUnit::CanFleetUnloadAtProvince` military access unload authorization |
 | **Hook 15** | `0x00522CFB` | `0x00122CFB` | 21 bytes | `0x00DCA700` | `CUnit::CanMoveToProvince` military access amphibious disembarkation authorization |
 | **Hook 16** | `0x0068C7D3` | `0x0028C7D3` | 18 bytes | Inline (`0x0068C7D3`) | Configurable land-connected area multiplier (`GarrisonLandConnectedMultiplier` @ `0x00DCAAE0`) |
@@ -60,28 +75,136 @@ Patch 11 utilizes code caves in the `.mod` PE section (`0x00DCA188` - `0x00DCAF9
 | **Hook 24** | `0x0068DF74` | `0x0028DF74` | 21 bytes | Inline (21 NOPs) | Retains overland inter-area marching units in `CGarrisonAI` instead of transferring to `CTheatreAI` |
 | **Helper** | `0x00DCAB60` | `0x00485B60` | 128 bytes | `DetermineGarrisonMode` | Evaluates `EnableAlliedGarrison` (`0x00DCAB00`) and `no_foreign_garrison` (`[pCountry+0x120+0x4C]`) |
 | **Helper** | `0x00DCA700` -> `0x00DCAC00` | `0x00485700` / `0x00485C00` | 213 bytes | `IsAlliedOrAccess_Switchable` | Diplomatic alliance & military access validator with Mode 0/1/2 enforcement |
-| **Helper** | `0x00DCACD5` | `0x00485CD5` | 120 bytes | `fn_IsAreaTargeted` | Checks whether a `CArea*` has a positive entry in `m_AreaMultiplierList` or `m_ProvincePrioritiesList` |
+| **Helper** | `0x00DCACD5` | `0x00485CD5` | 120 bytes | `fn_IsAreaTargeted` | Checks strictly whether a `CArea*` has a positive entry (`> 0.0`) in `m_AreaMultiplierList` |
 
 ---
 
 ## 3. Subsystem Architecture & Implementation Details
 
-### 3.1 Phase 2: Multi-Area Allied Iterator (`Cave A` @ `0x00DCA320` & `Cave E` @ `0x00DCA5D0`)
-When `CGarrisonAI::UpdateGarrisons` finishes iterating the country's domestic `m_AreaList` (`ESI == NULL` at `0x0068D8B9`), **Hook 1** jumps to `Cave A` (`0x00DCA320`):
-1. **Resumption Pointer (`[0x00DCA30C]`)**: Iterates through `CAI::m_AreaMultiplierList` (`[pCountry->m_pAI + 0x358]`).
-2. **Positive Multiplier Filter**: Checks `cmp dword ptr [ecx + 4], 0; jle next_node`. Entries with `multiplier <= 0.0` are skipped, allowing AI scripts to disable garrisoning in an area by setting `= 0`.
-3. **Duplicate Area Suppression ("First-In-List Wins", `0x00DCA4B4`)**: Records each evaluated `CArea*` in `seen_areas` (`0x00DCA4B4`, count at `0x00DCA4B0`) and skips subsequent province seeds that resolve to an already-evaluated `CArea*`.
-4. **Host Metadata Backup & Restoration (`0x00DCAB20` & `Cave E` @ `0x00DCA5D0`)**: Before evaluating a foreign `CArea*`, `Cave A` saves its original `{ CArea*, orig_56, orig_5A, orig_5E }` in the backup table at `0x00DCAB20`. When `UpdateGarrisons` exits at `0x0068E291`, **Hook 7** (`Cave E`) restores those fields so the host nation's own AI state is never polluted.
-5. **No Unconfigured Area Injection**: Jumps at `0x00DCA336` and `0x00DCA384` exit directly to `0x00DCA43A` -> `0x0068D8C1` once `m_AreaMultiplierList` is exhausted, ensuring unconfigured foreign areas are never injected into the evaluation pass.
+### 3.1 Phase 2: Dual-Pass Foreign Area Iterator (`Cave A` @ `0x00DCA320`, `Pass 2 Cave` @ `0x00DCA050`, & `Cave E` @ `0x00DCA5D0`)
+When `CGarrisonAI::UpdateGarrisons` finishes iterating the country's domestic `m_AreaList` (`ESI == NULL` at `0x0068D8B9`), **Hook 1** jumps to `Cave A` (`0x00DCA320`).
 
-### 3.2 Foreign Area Multiplier Preservation (`Cave G` @ `0x00DCA670` & `Cave J` @ `0x00DCA690`)
-1. **Peacetime Need Preservation (`Hook 10` @ `0x0068C742` -> `Cave J` @ `0x00DCA690`)**:
-   - Bypasses the `mov dword ptr [ebp - 0x2C], 0` peacetime overseas wipe when `[0x00DCA310] != 0` (active foreign allied area).
-2. **Foreign Front-Override Bypass (`Hook 5` @ `0x0068C816` -> `Cave G` @ `0x00DCA670`)**:
-   - In the area header scan (`0x0068C0B0` - `0x0068C170`), `[ebp - 0xE3]` is set by comparing `[pFrontAI + 0x38] == pArea` across the evaluating country's `CFrontAI` list (`[pCountry + 0xE880]`). Because foreign allied areas do not belong to the donor country's `CFrontAI` list, `[ebp - 0xE3]` can remain `0` while `[ebp - 0x1E]` is polluted, which at `0x0068C816` would overwrite `area_multiplier` with `1.0`.
-   - `Cave G` checks `cmp dword ptr [0x00DCA310], 0; jne 0x0068C825`, skipping the `1.0` override for foreign allied areas in Phase 2 so their configured `area_multiplier` is always respected.
+The foreign evaluation loop operates as a two-pass state machine:
+- `g_pCurMultiplierNode` (`[0x00DCA30C]`): Current linked list node for Pass 1.
+- `g_bInForeignGarrisonPass` (`[0x00DCA310]`): Set to `1` when evaluating any foreign area (used by caves across `UpdateGarrisons`).
+- `g_nForeignPass` (`[0x00DCA314]`): Pass identifier (`0` = Pass 1 `m_AreaMultiplierList`, `1` = Pass 2 `m_ArmyList` sweep).
+- `g_pPass2Node` (`[0x00DCA318]`): Current linked list node for Pass 2.
 
-### 3.3 Configurable Multipliers (`Hook 16` @ `0x0068C7D3` & `Hook 17` / `Cave N` @ `0x00DCA980`)
+```mermaid
+flowchart TD
+    D["Domestic Areas Finished (ESI == NULL)"] --> H1["Hook 1: Cave A (0x00DCA320)"]
+    H1 --> P1["Pass 1: Iterate m_AreaMultiplierList"]
+    P1 --> Q1{"Node valid?"}
+    Q1 -- "Yes" --> Y1["Check Seen Area -> Yield CArea* to UpdateGarrisons"]
+    Y1 --> P1
+    Q1 -- "No (Pass 1 Done)" --> P2["Pass 2: Set g_nForeignPass = 1 (Pass 2 Cave @ 0x00DCA050)"]
+    P2 --> S2["Scan CGarrisonAI::m_ArmyList (ebx + 0x94)"]
+    S2 --> Q2{"Army in foreign allied/access area not seen yet?"}
+    Q2 -- "Yes" --> Y2["Record Seen Area -> Yield CArea* with Quota = 0"]
+    Y2 --> S2
+    Q2 -- "No" --> N2["Next Army Node"]
+    N2 --> Q3{"More Armies?"}
+    Q3 -- "Yes" --> S2
+    Q3 -- "No (Pass 2 Done)" --> EXT["Exit Phase 2 -> Proceed to Phase 4 (0x0068D8C1)"]
+```
+
+#### Pass 1: Configured Areas (`m_AreaMultiplierList` @ `[pAI + 0x358]`)
+1. Walks the nation's `m_AreaMultiplierList`.
+2. Entries with `multiplier <= 0.0` are yielded with `area_multiplier = 0.0` so that any troops stationed in deactivated areas are flushed out.
+3. Duplicate areas are suppressed via `CheckSeenArea` (`0x00DCA46C`) using the `seen_areas` table (`0x00DCA4B4`, count at `0x00DCA4B0`).
+4. Original host metadata `{ CArea*, orig_56, orig_5A, orig_5E }` is backed up to `0x00DCAB20`.
+5. When `m_AreaMultiplierList` reaches its end, execution transitions to `Pass 2 Cave` (`0x00DCA050`).
+
+#### Pass 2: Occupied Foreign Areas Sweep (`m_ArmyList` @ `[ebx + 0x94]`)
+1. Triggered when Pass 1 completes. Sets `g_nForeignPass = 1` (`[0x00DCA314] = 1`) and initializes `g_pPass2Node` to the head of `CGarrisonAI::m_ArmyList` (`[ebx + 0x94]`).
+2. Iterates each army currently assigned to `CGarrisonAI`.
+3. Resolves the army's location via `CUnit::GetProvince()` (`0x0051B230`).
+4. Checks whether the province is on foreign soil (`pProv->m_pController != pCountry`) and has valid allied or military access via `IsAlliedOrAccess_Switchable` (`0x00DCA700`).
+5. Calls `CheckSeenArea(pProv->m_pArea)` (`0x00DCA46C`):
+   - If the area was already evaluated in Pass 1 or earlier in Pass 2, it is skipped.
+   - If unseen, records the area in `seen_areas`, backs up host metadata to `0x00DCAB20`, loads `0.0f` into the multiplier, and yields to `CAVE_A_YIELD` (`0x00DCA405`).
+6. **Result**: Every foreign allied/access area where donor units are stationed is guaranteed to undergo evaluation, even if completely omitted from `area_multiplier`.
+7. Once `m_ArmyList` is exhausted, execution exits cleanly to Phase 4 (`0x00DCA43A` -> `0x0068D8C1`).
+
+#### Host Metadata Restoration (`Cave E` @ `0x00DCA5D0`)
+Before evaluating a foreign `CArea*`, `Cave A` saves its original `{ CArea*, orig_56, orig_5A, orig_5E }` in the backup table at `0x00DCAB20`. When `UpdateGarrisons` exits at `0x0068E291`, **Hook 7** (`Cave E`) restores those fields so the host nation's own AI state is never polluted.
+
+---
+
+### 3.2 Role Separation: `area_multiplier` vs `province_priorities`
+
+To eliminate ambiguity, unexpected troop accumulation, and erratic AI behavior, the Garrison AI mod architecture enforces a **strict separation of responsibilities**:
+
+```
++-----------------------------------------------------------------------------------+
+| 1. AREA SELECTION & QUOTA GATEKEEPER: area_multiplier                             |
+|    - Sole authority on WHETHER a foreign area is garrisoned.                      |
+|    - If an area is in area_multiplier with value > 0: Garrisoned with that quota. |
+|    - If an area is NOT in area_multiplier (or <= 0): Quota is strictly ZERO.     |
+|    - ALL troops currently in that area must leave and repatriate to homeland.     |
++-----------------------------------------------------------------------------------+
+                                      |
+                                      v
++-----------------------------------------------------------------------------------+
+| 2. INTRA-AREA PROVINCE WEIGHTING: province_priorities                             |
+|    - Only activates AFTER troops are allocated to an area via area_multiplier.    |
+|    - Determines WHERE within that specific area divisions should be stationed.    |
+|    - NEVER serves as evidence that an area should be garrisoned!                  |
+|    - NEVER triggers unit deployment, adoption, or retention in a foreign area.    |
++-----------------------------------------------------------------------------------+
+```
+
+#### The Foreign Capital Garrison Sink Problem
+Vanilla Darkest Hour AI files assign high static priorities to allied foreign capitals (e.g. `424 = 500` Bucharest, `457 = 500` Budapest, `417 = 500` Sofia, `515 = 500` Rome). 
+
+Previously, when helper functions checked `province_priorities` as evidence for area garrisoning:
+1. Foreign allied capitals became **accidental garrison sinks**, even when `area_multiplier` had no entry or was set to `0`.
+2. Newly donated expeditionary forces arriving in capitals were falsely conscripted into `CGarrisonAI` by `Cave M`.
+3. Vanilla peacetime repatriation was falsely blocked by `Cave I`.
+4. `UpdateGarrisons` ignored those areas because it only iterated `area_multiplier`, stranding dozens of divisions in Bucharest and Budapest.
+
+#### The Architecture Fix (`fn_IsAreaTargeted` @ `0x00DCACD5`)
+The fallback to `m_ProvincePrioritiesList` in `fn_IsAreaTargeted` was removed (`0x00DCAD34: jmp 0x00DCAD4D`). `fn_IsAreaTargeted` returns `AL = 1` **only if** the area has an explicit entry with `multiplier > 0.0` in `m_AreaMultiplierList`. 
+
+This directly harmonizes all dependent subsystems:
+- **`Cave M` (`0x00DCAA00`)**: When new expeditionary divisions appear in an unconfigured capital, `fn_IsAreaTargeted` returns `0`. `Cave M` skips `AddUnit`, leaving them under `CMilitaryAI` control.
+- **`Cave I` (`0x00DCA820`)**: `Cave I` no longer blocks vanilla peacetime repatriation for unconfigured foreign capitals.
+- **`Cave A` (`0x00DCA320` + `0x00DCA050`)**: Evaluates unconfigured occupied areas with `nAreaNeed = 0`, forcing 100% surplus evacuation.
+
+---
+
+### 3.3 Foreign Zero-Quota Architecture & Clamp Bypass (`Cave 2A`, `Cave 2B`, `Cave G`, `Cave J`)
+
+> **Core Rule**: Every foreign area not configured in `area_multipliers` (or configured with `multiplier <= 0`) must be evaluated with `nAreaNeed = 0`. For foreign areas specifically, all garrison troops present must always be declared surplus and ordered to repatriate to the homeland.
+
+#### Multiplier Gate (`Hook 2A` @ `0x0068C680` -> `Cave 2A` @ `0x00DCAD58`)
+In retail `UpdateGarrisons`, if an area is not found in `m_AreaMultiplierList`, or if an unconfigured foreign area is evaluated during Pass 2, the retail engine would default its multiplier or allow retail front-override logic to force `M = 1.0`.
+- **`Cave 2A`** intercepts the lookup: when evaluating a foreign area (`[0x00DCA310] != 0`), if the area is not in `m_AreaMultiplierList` or has multiplier `<= 0.0`, `Cave 2A` forces `fldz` (multiplier `0.0f`) and branches directly past the front-override check.
+
+#### Retail Need Clamp Bypass (`Hook 2B` @ `0x0068C7ED` -> `Cave 2B` @ `0x00DCAD84`)
+At `0x0068C7ED`, the retail engine enforces a minimum quota clamp on all evaluated areas:
+```asm
+0x0068C7E5: mov ecx, dword ptr ss:[ebp-0x2C] ; ecx = nAreaNeed
+0x0068C7E8: mov eax, 0x01
+0x0068C7ED: cmp ecx, eax
+0x0068C7EF: jnl 0x0068C7F4
+0x0068C7F1: mov dword ptr ss:[ebp-0x2C], eax ; Clamps nAreaNeed to at least 1!
+```
+For foreign areas with `multiplier == 0.0`, this clamp would leave 1 division behind instead of clearing the area completely.
+- **`Cave 2B`** checks `cmp dword ptr [0x00DCA310], 0`. If `!= 0` (foreign area) and `ecx <= 0`, `Cave 2B` **bypasses `0x0068C7F1`**, strictly preserving `nAreaNeed = 0`.
+
+#### Surplus Calculation Outcome:
+$$nAreaLack = nAreaNeed - nDivisions = 0 - nDivisions = -nDivisions$$
+Because $nAreaLack < 0$, Phase 3 (`0x0068D100` - `0x0068D8A0`) marks **100% of divisions in the area as surplus** and moves them into the surplus collection list `[ebp - 0x6C]`.
+
+#### Foreign Multiplier Preservation (`Cave G` @ `0x00DCA670` & `Cave J` @ `0x00DCA690`)
+1. **Peacetime Need Preservation (`Hook 10` @ `0x0068C742` -> `Cave J` @ `0x00DCA690`)**: Bypasses the `mov dword ptr [ebp - 0x2C], 0` peacetime overseas wipe when `[0x00DCA310] != 0` for configured allied areas.
+2. **Foreign Front-Override Bypass (`Hook 5` @ `0x0068C816` -> `Cave G` @ `0x00DCA670`)**: Prevents foreign allied areas from having their configured multiplier overwritten by `1.0` due to host-nation `CFrontAI` flags.
+
+---
+
+### 3.4 Configurable Multipliers & Dynamic Wartime Scaling (`Hook 16`, `Hook 17` / `Cave N` @ `0x00DCA980`)
+
 1. **Land-Connected Area Multiplier (`Hook 16` @ `0x0068C7D3`)**:
    - Replaces the hardcoded integer division by 3 with `fild dword ptr [ebp - 0x2C]; fmul dword ptr [0x00DCAAE0]; fistp dword ptr [ebp - 0x2C]`, reading `GarrisonLandConnectedMultiplier` (`0x00DCAAE0`, default `0.333`).
 2. **Wartime Rear & Allied Area Multiplier (`Hook 17` @ `0x0068CAF0` -> `Cave N` @ `0x00DCA980`)**:
@@ -115,7 +238,10 @@ When `CGarrisonAI::UpdateGarrisons` finishes iterating the country's domestic `m
    - **Domestic Areas (`[0x00DCA310] == 0`)**: Preserves front-area immunity (`[ebp - 0x11]` and `[ebp - 0x1E]`), and replaces `[ebp - 0x4E]` with `CCountry::IsAtWar()` (`0x0044BEB0`) so maritime/island nations at war also scale their rear areas by `GarrisonWartimeMultiplier`.
    - **Foreign Allied Areas (`[0x00DCA310] != 0`)**: Bypasses `[ebp - 0x11]` / `[ebp - 0x1E]` (which can be non-deterministically set by `CFrontAI` state across reloads) and branches to `0x00DCA997` to check `FindAlliedFrontNeedingTroops()` (`[ebp - 0xE0]`) and `CCountry::IsAtWar()` (`0x0044BEB0`). Thus, foreign allied areas are scaled by `GarrisonWartimeMultiplier` (`0.5x`) when at war and remain unscaled (`1.0x`) during peacetime.
 
-### 3.4 En-Route Overland Unit Tracking & Foreign Surplus Repatriation (`Hooks 20, 22, 23, 24`)
+---
+
+### 3.5 En-Route Overland Unit Tracking & Foreign Surplus Repatriation (`Hooks 20, 22, 23, 24`)
+
 To ensure exact division counts without over-dispatch, reload inconsistency, or endless back-and-forth marching between allied areas:
 1. **Retaining Overland Marching Units in `CGarrisonAI` (`Hook 24` @ `0x0068DF74`, 21 NOPs)**:
    - When `UpdateGarrisons` dispatches a surplus unit overland to a needy area (`0x0068DE12` - `0x0068DF88`), retail code at `0x0068DF74` called `pDestTheatre->AddUnit(esi)`, removing the marching unit from `CGarrisonAI::m_ArmyList` (`[ebx + 0x94]`) until arrival. While in transit, `UpdateGarrisons` could no longer see the unit and repeatedly dispatched additional replacements every day.
@@ -130,10 +256,14 @@ To ensure exact division counts without over-dispatch, reload inconsistency, or 
 4. **Phase 4 Final Capital Repatriation Pass (`Hook 23` @ `0x0068DB16` -> `Cave T` @ `0x00DCA6B9`)**:
    - When the Phase 4 needy-area queue `[ebp - 0x104]` is exhausted (`0x0068DB16`), any surplus units still remaining in `[ebp - 0x6C]` that are sitting on foreign soil would otherwise remain stranded whenever the homeland capital area itself had no deficit (`nAreaLack <= 0`).
    - `Cave T` calls `0x0044E1D0` (`CCountry::GetCapitalArea()`) and, if the capital area is non-null, re-enters the Phase 4 dispatch body (`0x0068D938`) once with the capital area as destination so all remaining foreign surplus units in `[ebp - 0x6C]` are ordered to march overland back to the homeland.
+   - Upon arrival in the homeland, `CMilitaryAI::DistributeArmiesToMinisters` (`0x00695A00`) immediately reassigns them to active fronts (e.g. Eastern Front), coastal defenses, or theater reserves.
 
-### 3.5 Target-Aware Army Registration & Peacetime Repatriation (`Cave M`, `Cave I`, `fn_IsAreaTargeted`)
+---
+
+### 3.6 Target-Aware Army Registration & Peacetime Repatriation (`Cave M`, `Cave I`, `fn_IsAreaTargeted`)
+
 1. **`fn_IsAreaTargeted` (`0x00DCACD5`)**:
-   - Inspects `m_AreaMultiplierList` (`[pAI + 0x358]`) and `m_ProvincePrioritiesList` (`[pAI + 0x336]`) for the given `CArea*`. Returns `AL = 1` only if an entry in that area has a strictly positive (`> 0`) multiplier or priority.
+   - Inspects `m_AreaMultiplierList` (`[pAI + 0x358]`) for the given `CArea*`. Returns `AL = 1` only if an entry in that area has a strictly positive (`> 0`) multiplier.
 2. **Unassigned Foreign Army Distributor (`Hook 13` @ `0x00696ECD` -> `Cave M` @ `0x00DCAA00`)**:
    - Sweeps `CMilitaryAI::m_ArmyList` (`[ebx + 0x20C]`) for idle land armies (`[pArmy + 0x1F4] == ebx`, `[pArmy + 0x298] == 0`) located in foreign allied/access provinces where `fn_IsAreaTargeted` returns `1`, and registers them to `CGarrisonAI` (`call dword ptr [edx + 0x1A8]`).
    - Units in unconfigured foreign areas (`fn_IsAreaTargeted == 0`) are left unassigned so `ManageExpeditionaryForces` can repatriate them.
@@ -141,7 +271,10 @@ To ensure exact division counts without over-dispatch, reload inconsistency, or 
    - Placed at Stage 2 entry of `CAIUnitMinister::ManageExpeditionaryForces` (`0x00693CBD`), preserving Stage 1 wartime expeditionary transfers (`0x00693A86`).
    - If the unit is on foreign allied/access soil (`IsAlliedOrAccess_Switchable == 1`) and either has an active movement target (`[pArmy + 0x298] != 0`) or is in an area where `fn_IsAreaTargeted == 1`, `Cave I` jumps to `0x00693EB1` (bypassing peacetime evacuation). Otherwise, it falls through to retail repatriation (`0x00693CC4`).
 
-### 3.6 Overseas Transport Delivery & `CInvasionAI` Dangling Pointer Fixes (`Cave H`, `Cave S`, Vtable Override)
+---
+
+### 3.7 Overseas Transport Delivery & `CInvasionAI` Dangling Pointer Fixes (`Cave H`, `Cave S`, Vtable Override)
+
 1. **Transport Mission Threat Gate & Vtable Guard (`Hook 8` @ `0x0069F815` -> `Cave H` @ `0x00DCA7E0`)**:
    - Validates `[ebx] == 0x007E85C0` (living `CArmy` vtable); if invalid/freed, jumps to `0x006A0278` (next unit).
    - If `[ebx + 0x1F4] != ebp` (army already owned by `CGarrisonAI` rather than `CInvasionAI`), skips invasion attack planning and jumps to `0x006A0278`.
@@ -150,6 +283,33 @@ To ensure exact division counts without over-dispatch, reload inconsistency, or 
    - Redirects `CInvasionAI::vtable[0x198/4]` from `CMinisterAI::vfn_198` (`0x006709A0`) to `0x00DCA870`, which calls both `CInvasionAI::RemoveArmy` (`0x006A1040`) and `CInvasionAI::RemoveTransport` (`0x006A1220`) when a unit is destroyed.
 3. **List Node Sanitization (`Hook 21` @ `0x006A0280` -> `Cave S` @ `0x00DCA890`)**:
    - Validates linked-list node pointers at the end of `CInvasionAI::Update`'s unit loop against null, unmapped (`<= 0x10000`), or freed (`0xDFDFDFDF` / `0xD0D0D0D0`) memory markers.
+
+---
+
+### 3.8 Complete Lifecycle: Foreign Troop Stationing, Zero-Quota Evacuation & Front Reassignment
+
+```mermaid
+sequenceDiagram
+    participant DH as Game Loop (UpdateGarrisons)
+    participant CaveA as Cave A & Pass 2 (Foreign Iterator)
+    participant Phase3 as Phase 3 (Surplus Collection)
+    participant CaveT as Cave T (Repatriation Pass)
+    participant MilAI as CMilitaryAI (Berlin / Frontline)
+
+    DH->>CaveA: Domestic areas finished (ESI == NULL)
+    CaveA->>CaveA: Pass 1: Evaluate configured area_multipliers
+    CaveA->>CaveA: Pass 2: Detect Bucharest (424) & Budapest (457) have troops but no multiplier
+    CaveA->>DH: Yield Area 424 with Need = 0
+    DH->>Phase3: Area 424: Need = 0, Present = 15, Lack = -15
+    Phase3->>Phase3: Move all 15 divisions to Surplus List [ebp - 0x6C]
+    CaveA->>DH: Yield Area 457 with Need = 0
+    DH->>Phase3: Area 457: Need = 0, Present = 17, Lack = -17
+    Phase3->>Phase3: Move all 17 divisions to Surplus List [ebp - 0x6C]
+    DH->>CaveT: Phase 4 Queue exhausted
+    CaveT->>CaveT: Query leftover foreign surplus in [ebp - 0x6C]
+    CaveT->>DH: Issue overland march orders to German Homeland (Capital Area)
+    DH->>MilAI: On arrival in homeland, reassign to Frontlines / Theaters
+```
 
 ---
 
@@ -190,4 +350,4 @@ Evaluated by `DetermineGarrisonMode` (`0x00DCAB60`) from `pCountry->m_pAI->m_fla
 | File | Status | SHA-256 |
 |---|---|---|
 | `Darkest Hour_original.exe` | Pristine v1.05.2 (TENE) | `7A1AE8BB802377B6C9EC808F420ACE58475D1816464390422CF97AD450A51EB4` |
-| `Darkest Hour_modified.exe` | Patched (`v59` All Fixes) | `68C94AD513473B54AD3BC30B666FE138085AE60D5F0C46CFF211FA9DD177534A` |
+| `Darkest Hour_modified.exe` | Patched (`v62` All Fixes) | `35CABC16999838B57F7FDCB25D098C9937FA47C87B0766114666F6108CCC9C37` |
