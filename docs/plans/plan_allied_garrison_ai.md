@@ -281,8 +281,10 @@ To ensure exact division counts without over-dispatch, reload inconsistency, or 
 
 1. **Transport Mission Threat Gate & Vtable Guard (`Hook 8` @ `0x0069F815` -> `Cave H` @ `0x00DCA7E0`)**:
    - Validates `[ebx] == 0x007E85C0` (living `CArmy` vtable); if invalid/freed, jumps to `0x006A0278` (next unit).
-   - If `[ebx + 0x1F4] != ebp` (army already owned by `CGarrisonAI` rather than `CInvasionAI`), skips invasion attack planning and jumps to `0x006A0278`.
-   - Preserves retail's non-ally bypass (`IsAlliedWith == 0` -> `0x0069F871`) and bypasses pre-departure threat cancellation for peacetime allied missions (`IsAtWar == 0` -> `0x0069F871`).
+   - **Retail Non-Ally Bypass**: Evaluates `CCountry::IsAlliedWith(dest)` (`0x0044B300`). If `0` (hostile invasion target or non-allied territory), jumps directly to `0x0069F871` (proceeds with mission without threat evaluation, preserving retail invasions such as Norway, UK, USSR).
+   - **Mission-Type Aware Allied Transport Bypass (`byte ptr [ebx + 0x29C] == 0`)**: If destination is an ally (`IsAlliedWith == 1`) and the mission is a transport/garrison mission (`m_nMissionType == 0`, dispatched by `CGarrisonAI::UpdateGarrisons` Phase 4 or `Cave V`), jumps directly to `0x0069F871` (proceeds with mission, bypassing pre-departure threat cancellation). This resolves the issue where Germany refused to sea-transport garrisons to allied Finland in late 1940: because Germany was at war with the Allies while Finland had 0 enemy threat on the Soviet border, vanilla `CalculateAreaThreat` returned negative (-41), causing retail line `0x0069F84A` (`RemoveArmyFromMission`) to abort and dump the transport army back to `CMilitaryAI` every hour.
+   - **Peacetime Allied Bypass**: If `CCountry::IsAtWar()` (`0x0044BEB0`) returns `0`, jumps to `0x0069F871` (preserves peacetime allied deployments, e.g. UK to France in 1936).
+   - **Wartime Combat Assault on Ally (Fallback)**: If `m_nMissionType != 0` and at war, jumps to `0x0069F821` (`CMilitaryAI::CalculateAreaThreat`).
 2. **`CInvasionAI` Destroyed Unit Unlinking (`0x007F56AC` -> `fn_invasion_remove_unit` @ `0x00DCA870`)**:
    - Redirects `CInvasionAI::vtable[0x198/4]` from `CMinisterAI::vfn_198` (`0x006709A0`) to `0x00DCA870`, which calls both `CInvasionAI::RemoveArmy` (`0x006A1040`) and `CInvasionAI::RemoveTransport` (`0x006A1220`) when a unit is destroyed.
 3. **List Node Sanitization (`Hook 21` @ `0x006A0280` -> `Cave S` @ `0x00DCA890`)**:
