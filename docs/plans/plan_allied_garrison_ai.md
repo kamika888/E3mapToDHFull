@@ -3,7 +3,7 @@
 **Engine**: Darkest Hour 1.05.2 (checksum TENE)  
 **Binary Executable**: `Darkest Hour.exe`  
 **Primary Subsystems**: `CGarrisonAI` (`FUN_0068ba50` @ `0x0068BA50`), `CInvasionAI` / `CAITransportMinister` (`0x0069F7F0`), `CAIUnitMinister` (`0x006939F0`), `CMilitaryAI` (`0x00695A00`)  
-**Status**: Fully Implemented & Verified in `patch_darkest_hour.bat` (`SHA256 = 35CABC16999838B57F7FDCB25D098C9937FA47C87B0766114666F6108CCC9C37`)
+**Status**: Fully Implemented & Verified in `patch_darkest_hour.bat` (`SHA256 = 5C08FCDEFCF00E4470A9F4B7DB93AAA7C06010670C5513ECE8261BD565043884`)
 
 ---
 
@@ -73,6 +73,10 @@ Patch 11 utilizes code caves in the `.mod` PE section (`0x00DCA050` - `0x00DCAF9
 | **Hook 22** | `0x0068DAAE` | `0x0028DAAE` | 7 bytes | `Cave U` (`0x00DCA1C4`) | Phase 4 foreign surplus candidate filter (prevents cross-foreign-area siphoning) |
 | **Hook 23** | `0x0068DB16` | `0x0028DB16` | 6 bytes | `Cave T` (`0x00DCA6B9`) | Phase 4 final capital repatriation pass for leftover foreign surplus in `[ebp - 0x6C]` |
 | **Hook 24** | `0x0068DF74` | `0x0028DF74` | 21 bytes | Inline (21 NOPs) | Retains overland inter-area marching units in `CGarrisonAI` instead of transferring to `CTheatreAI` |
+| **Hook 25** | `0x00693E59` | `0x00293E59` | 7 bytes | `Cave V` (`0x00DC9C00`) | Unified Foreign Repatriation Fallback (intercepts failed domestic overland march across water/neutral borders) |
+| **Hook 26** | `0x00693B06` | `0x00293B06` | 6 bytes | Inline (6 NOPs) | Foreign territory peacetime mission gate bypass (prevents skipping units on anti_partisan_duty) |
+| **Hook 27** | `0x00693CB7` | `0x00293CB7` | 6 bytes | Inline (6 NOPs) | Military access peacetime evacuation gate bypass (prevents dropping units on military access territory at retail `jz 0x00693EB1`) |
+| **Cave V** | `0x00DC9C00` | `0x00484C00` | 368 bytes | `Cave V` (`0x00DC9C00`) | Unified Foreign Repatriation Pipeline (CanEmbarkOnFleet check -> Branch 1: coastal port sea transport via CInvasionAI bypassing peacetime `m_bEnabled` gate; Branch 2: landlocked proximity march to nearest friendly port e.g. Udine 668) |
 | **Helper** | `0x00DCAB60` | `0x00485B60` | 128 bytes | `DetermineGarrisonMode` | Evaluates `EnableAlliedGarrison` (`0x00DCAB00`) and `no_foreign_garrison` (`[pCountry+0x120+0x4C]`) |
 | **Helper** | `0x00DCA700` -> `0x00DCAC00` | `0x00485700` / `0x00485C00` | 213 bytes | `IsAlliedOrAccess_Switchable` | Diplomatic alliance & military access validator with Mode 0/1/2 enforcement |
 | **Helper** | `0x00DCACD5` | `0x00485CD5` | 120 bytes | `fn_IsAreaTargeted` | Checks strictly whether a `CArea*` has a positive entry (`> 0.0`) in `m_AreaMultiplierList` |
@@ -313,6 +317,84 @@ sequenceDiagram
 
 ---
 
+### 3.9 Unified Foreign Peacetime Repatriation & Evacuation Pipeline (`Hook 25` @ `0x00693E59`, `Hook 26` @ `0x00693B06`, `Hook 27` @ `0x00693CB7` -> `Cave V` @ `0x00DC9C00`)
+
+#### Problem Statement (The Dual Dilemma: Landlocked Evacuation & Allied Repatriation)
+In retail Darkest Hour, peacetime foreign troop repatriation (`CAIUnitMinister::ManageExpeditionaryForces` @ `0x006939F0`) suffered from multiple architectural bottlenecks that caused troops to either become permanently trapped on foreign soil or fail to repatriate cleanly:
+
+1. **The Landlocked Overseas Power Dilemma (e.g. Austria 1947 after State Treaty)**:
+   - When an overseas power without contiguous homeland territory (such as USA or UK following Austrian independence) has divisions stationed in landlocked foreign territory:
+     - Retail identifies the unit is on foreign soil and initiates withdrawal (`0x00693CC4`).
+     - Scans candidate provinces exclusively in North America or British Isles from `m_controlledAreasList` (`[pCountry + 0xE86E]`).
+     - At `0x00693E2C`, `CanStrategicRedeployTo` returns `0` due to neutral territory.
+     - At `0x00693E4A`, `call 0x006AAFF0` attempts domestic overland march across the ocean and fails (`EAX == 1`).
+     - Execution falls through to `0x00693E59` to attempt sea transport (`0x006A0DE0`). Because landlocked territory has zero ports, naval transport returns `0`, aborting without issuing orders and permanently stranding all overseas divisions forever.
+   - Divisions on `anti_partisan_duty` during occupation were completely skipped upfront at `0x00693B06: jne 0x00693EB1`, preventing evacuation from ever considering them.
+
+2. **The Peacetime Invasion AI Gate Limitation & Military Access Abort**:
+   - In retail, between `0x00693E59` and `0x00693E7F`, the engine executes several gates:
+     - `0x00693E73: mov cl, byte ptr [pInvasionAI + 0x0E]`
+     - `0x00693E76: test cl, cl; je 0x00693EB1` (Peacetime Invasion Gate: aborts if `m_bEnabled == 0`).
+     - During peacetime, `m_bEnabled` is strictly `0`, causing retail to abort evacuation for any coastal unit that is not in a wartime invasion mission.
+   - At `0x00693CB7`, retail tested whether the country held military access through the current province controller (`test al, al; jz 0x00693EB1`); if access existed, retail dropped repatriation completely, abandoning troops on allied or military access soil.
+
+#### The Architectural Solution (`Hook 25`, `Hook 26`, `Hook 27`, & `Cave V`)
+
+```mermaid
+flowchart TD
+    Start["ManageExpeditionaryForces:<br/>Foreign Unit Evaluation"] --> Hook26["Hook 26 (@ 0x00693B06):<br/>Do not skip units with active missions"]
+    Hook26 --> CheckAlliance{"Is Controller Allied?"}
+    
+    CheckAlliance -- "Yes" --> CaveI["Hook 9 (@ 0x00693CBD -> Cave I):<br/>Arbitrate Area Need & Mode"]
+    CheckAlliance -- "No (Neutral or Access)" --> Hook27["Hook 27 (@ 0x00693CB7):<br/>Do not skip Military Access!"]
+    Hook27 --> CaveI
+    
+    CaveI --> IsAllowed{"Is Soil Authorized & Targeted?"}
+    IsAllowed -- "Yes (Targeted Garrison)" --> Stay["Exit to 0x00693EB1:<br/>Garrison remains on post"]
+    IsAllowed -- "No (Surplus / Neutral / Unauthorized)" --> RetailRepat["0x00693CC4: Native Repatriation"]
+    
+    RetailRepat --> OverlandDomestic{"0x006AAFF0: Overland March<br/>to Domestic Homeland?"}
+    OverlandDomestic -- "Success (USSR -> Uzhorod #2302)" --> ExitClean["Retail 0x00693E57 (je 0x00693EB1):<br/>March orders issued, exits cleanly!"]
+    
+    OverlandDomestic -- "Failed / Overseas (USA in Austria or UK in France)" --> Hook25["Hook 25 (@ 0x00693E59, 7 bytes) -> Cave V"]
+    
+    Hook25 --> CheckEmbark{"0x0051A4C0:<br/>Can Army Embark on Fleet?"}
+    
+    CheckEmbark -- "Yes (At Port, e.g. Cherbourg #39)" --> SeaTransport["Cave V Branch 1: Sea Transport Path<br/>1. Check domestic naval base [ebp-0x28]<br/>2. CInvasionAI::CanTransportArmyTo<br/>3. CInvasionAI::AddArmy (Transports sail!)"]
+    SeaTransport --> ExitToRetail["Exit to 0x00693EB1"]
+    
+    CheckEmbark -- "No (Landlocked, e.g. Austria)" --> PortProximitySearch["Cave V Branch 2: Port Proximity Search<br/>Find nearest friendly port (Udine #668)"]
+    PortProximitySearch --> CancelAndMarch["0x0050BCA0: Cancel prior mission<br/>0x006AAFF0: Order march to Udine!"]
+    CancelAndMarch --> ExitToRetail
+```
+
+1. **Hook 26 (Foreign Peacetime Mission Gate Bypass @ `0x00693B06`, 6 NOPs)**:
+   - Eliminates the upfront `m_pMission != NULL` loop abort on foreign soil, allowing divisions on `anti_partisan_duty` in neutral territory (such as Austria) to enter repatriation.
+
+2. **Hook 27 (Military Access Repatriation Gate Bypass @ `0x00693CB7`, 6 NOPs)**:
+   - NOPs out retail's military access drop (`test al, al; jz 0x00693EB1`), ensuring units on military access soil are routed into `Cave I` for quota validation and surplus repatriation rather than abandoned.
+
+3. **Pristine Domestic Overland March Preservation (`0x00693E4A` - `0x00693E57`)**:
+   - Left 100% intact for continental powers. Soviet divisions in Austria march overland directly to Uzhorod (`#2302`) using native retail code without modded intervention (`0x006AAFF0` returns 0 on success, jumping cleanly to `0x00693EB1`).
+
+4. **Hook 25 (Overseas Repatriation Interceptor @ `0x00693E59`, 7 bytes -> `Cave V` @ `0x00DC9C00`)**:
+   - Replaces retail sea transport fallback at `0x00693E59`. Fires **strictly and exclusively** when domestic overland march has failed (`EAX != 0` at `0x00693E55`).
+
+5. **Cave V Unified Two-Branch Dispatch Pipeline (`0x00DC9C00`)**:
+   - **Branch 1 (Coastal Unit Sea Transport)**:
+     - Evaluates `0x0051A4C0` (`CanEmbarkOnFleet`). If the army is already at a port capable of fleet embarkation (e.g. UK in Cherbourg `#39`), validates domestic naval base pointer `[ebp - 0x28]`.
+     - Calls `0x006A0DE0` (`CInvasionAI::CanTransportArmyTo`).
+     - Assigns target province (`[pArmy + 0x298]`) and mission type 0 (`[pArmy + 0x29C]`).
+     - Invokes `CInvasionAI::AddArmy` (`vtable[0x1A8]`), bypassing `pInvasionAI->m_bEnabled` so transport fleets sail during peacetime.
+   - **Branch 2 (Landlocked Unit Port Proximity Search & March)**:
+     - If `CanEmbarkOnFleet` returns `0` (e.g. USA / UK in landlocked Austria `#377` / `#3217`), iterates all friendly countries in `g_pCountryTable` (`0x0089CAD8`) via `IsAlliedWith` (`0x0044B300`) and military access (`0x005861A0`).
+     - Scans controlled provinces for active naval bases (`[pProv + 0x3DC] > 0`).
+     - Calculates distance via `0x0044A9C0`. For USA / UK divisions in Austria, **Udine (`#668`)** in northern Italy (`ITA`) is strictly the closest reachable friendly port (~128-293 px).
+     - Cancels prior occupation missions via `0x0050BCA0`.
+     - Dispatches multi-waypoint overland marching directly to the friendly port using the native dispatcher `call 0x006AAFF0`. Once in Udine, Italian theater transport and garrison AI handle onward deployment.
+
+---
+
 ## 4. Configuration & Control Gates (`db\mod_settings.ini` & `no_foreign_garrison`)
 
 ### 4.1 Global Engine Settings (`db\mod_settings.ini`)
@@ -350,4 +432,5 @@ Evaluated by `DetermineGarrisonMode` (`0x00DCAB60`) from `pCountry->m_pAI->m_fla
 | File | Status | SHA-256 |
 |---|---|---|
 | `Darkest Hour_original.exe` | Pristine v1.05.2 (TENE) | `7A1AE8BB802377B6C9EC808F420ACE58475D1816464390422CF97AD450A51EB4` |
-| `Darkest Hour_modified.exe` | Patched (`v62` All Fixes) | `35CABC16999838B57F7FDCB25D098C9937FA47C87B0766114666F6108CCC9C37` |
+| `Darkest Hour_modified.exe` | Patched (`v69` All Fixes + Unified Foreign Repatriation & Port Evacuation) | `5C08FCDEFCF00E4470A9F4B7DB93AAA7C06010670C5513ECE8261BD565043884` |
+| `Darkest Hour.exe` | Active Executable (Memory Live-Patched) | `5C08FCDEFCF00E4470A9F4B7DB93AAA7C06010670C5513ECE8261BD565043884` |

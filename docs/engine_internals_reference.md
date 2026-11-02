@@ -81,7 +81,7 @@ All custom behavioral modifications, binary hooks, and engine enhancements compa
 | **Patch 8** | Scenario Memory Leak Deallocation Cave | `0x0070287B` (`0x0030287B`) | `0x00DCA000` (.mod cave) | Automatic | [`plan_scenario_memory_leak_patch.md`](plans/plan_scenario_memory_leak_patch.md) |
 | **Patch 9** | Map Tile High-Memory Signed Comparison Fix | `0x004DB0C5` (`0x000DB0C5`) | Inline (1 byte) | Automatic | [`plan_map_tile_high_memory_guard.md`](plans/plan_map_tile_high_memory_guard.md) |
 | **Patch 10** | Silent Events for Player Countries | `0x007123CB` (`0x003123CB`) | `0x00DCA200` (.mod cave) | `flag = "ENGINE:SILENT_EVENT"` | [`plan_silent_events.md`](plans/plan_silent_events.md) |
-| **Patch 11** | Allied Territory Garrison AI | `0x0068D8B9`, `0x0068C18E`, `0x00693A86` | `0x00DCA300` - `0x00DCAA00` | `area_multiplier`, `province_priorities` | [`plan_allied_garrison_ai.md`](plans/plan_allied_garrison_ai.md) |
+| **Patch 11** | Allied Territory Garrison AI | `0x0068D8B9`, `0x00693CBD`, `0x00693E59` | `0x00DC9C00` - `0x00DCAFD0` | `area_multiplier`, `province_priorities` | [`plan_allied_garrison_ai.md`](plans/plan_allied_garrison_ai.md) |
 | **Patch 13** | Unit Counter Hover Hit-Test Effective Scale Fix | `0x0041714B` (`0x0001714B`) | Inline (73 bytes, no cave) | Automatic | [`plan_unit_counter_hover_hit_test_scale_fix.md`](plans/plan_unit_counter_hover_hit_test_scale_fix.md) |
 
 ### Automated Patcher Script

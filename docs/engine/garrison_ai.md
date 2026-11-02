@@ -349,6 +349,11 @@ In the unmodified retail Darkest Hour binary, script parameters in `garrison = {
 4. **Peacetime Overseas Need Wipe (`0x0068C742`) & Unconditional Peacetime Repatriation (`0x006939F0`)**:
    - At `0x0068C742`, peacetime non-homeland area requirements are wiped to `0`.
    - Hourly in `CAIUnitMinister::ManageExpeditionaryForces` (`0x006939F0`), Stage 2 (`0x00693CBD`) treats any division stationed on foreign soil during peacetime as stranded and orders it to march overland (`0x006A9D50` / `0x0045FED0`) or board naval transports (`0x006AAFF0`) back to domestic territory.
+   - **Peacetime Evacuation Bottlenecks in Retail**:
+     - *Peacetime Invasion AI Gate*: At `0x00693E78`, retail tests `pInvasionAI->m_bEnabled` (`[eax + 0x0E] == 0`), which is strictly `0` in peacetime, causing retail to abort evacuation without dispatching transports.
+     - *Landlocked Overseas Isolation*: Overseas powers in landlocked foreign territory (e.g. USA/UK in Austria) cannot march across the ocean to their homeland (`0x006AAFF0` returns non-zero at `0x00693E55`) and have no native port for sea transport, leaving divisions permanently stranded.
+     - *Military Access Drop*: Retail at `0x00693CB7` (`test al, al; jz 0x00693EB1`) unconditionally drops evacuation if the country has military access, abandoning units on foreign access soil indefinitely.
+     - *Mission Lock*: Retail at `0x00693B06` aborts evaluation for any unit with an active mission (such as `anti_partisan_duty`), permanently preventing it from entering the repatriation pipeline.
 
 5. **Domestic-Only Theater Army Distribution (`0x00695A00`)**:
    - `CMilitaryAI::DistributeArmiesToMinisters` (`0x00695A00`) only loops over domestic theaters in `pCountry->m_TheaterList` (`+0xE880`). Any army that lands in an allied port where the owner holds no sovereign territory is skipped at `0x00695E01` and remains unassigned (`m_pAIController == CMilitaryAI`), invisible to `CGarrisonAI`.
@@ -366,4 +371,4 @@ In the unmodified retail Darkest Hour binary, script parameters in `garrison = {
 
 For the binary modifications that extend the Garrison AI to support allied and military-access territory, configurable multipliers, en-route overland unit tracking, and surplus repatriation, see:
 - **[Patch 2: Garrison AI Overseas Dispatch](../plans/plan_garrison_overseas_dispatch.md)**
-- **[Patch 11: Allied Territory Garrison AI Architecture & Implementation](../plans/plan_allied_garrison_ai.md)**
+- **[Patch 11: Allied Territory Garrison AI Architecture & Implementation](../plans/plan_allied_garrison_ai.md)** (covers dual-pass foreign area evaluation, surplus repatriation, peacetime invasion gate bypass, and proximity port marching for landlocked overseas powers)
