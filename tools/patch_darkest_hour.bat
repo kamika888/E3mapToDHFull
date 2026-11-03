@@ -223,9 +223,39 @@ $SIG13_OFFSET  = 0x0001714B
 $ORIG13_SIG    = [byte[]]@(0x8B, 0x7C, 0x24, 0x20, 0x3B, 0xF9, 0x7D, 0x0C, 0x5F, 0x5E, 0x5D, 0x32, 0xC0, 0x5B, 0x83, 0xC4, 0x08, 0xC2, 0x08, 0x00, 0x3B, 0xF8, 0x7C, 0x0C, 0x5F, 0x5E, 0x5D, 0x32, 0xC0, 0x5B, 0x83, 0xC4, 0x08, 0xC2, 0x08, 0x00, 0x8A, 0x46, 0x68, 0x84, 0xC0, 0x75, 0x33, 0x2B, 0xF9, 0x8B, 0x0D, 0x64, 0x84, 0xA9, 0x00, 0xD3, 0xE7, 0x8B, 0x46, 0x62, 0x2B, 0xD5, 0xD3, 0xE2, 0x8B, 0xC8, 0x57, 0x8B, 0x7E, 0x56, 0x0F, 0xAF, 0x7E, 0x52, 0x03, 0xFA, 0x57)
 $PATCH13_SIG   = [byte[]]@(0x8B, 0x5C, 0x24, 0x20, 0x3B, 0xD9, 0x7D, 0x0C, 0x5F, 0x5E, 0x5D, 0x32, 0xC0, 0x5B, 0x83, 0xC4, 0x08, 0xC2, 0x08, 0x00, 0x3B, 0xD8, 0x7C, 0x0C, 0x5F, 0x5E, 0x5D, 0x32, 0xC0, 0x5B, 0x83, 0xC4, 0x08, 0xC2, 0x08, 0x00, 0x8A, 0x46, 0x68, 0x84, 0xC0, 0x75, 0x33, 0x2B, 0xD9, 0x8B, 0xCF, 0xD3, 0xE3, 0x90, 0x90, 0x90, 0x90, 0x8B, 0x46, 0x62, 0x2B, 0xD5, 0xD3, 0xE2, 0x8B, 0xC8, 0x53, 0x8B, 0x7E, 0x56, 0x0F, 0xAF, 0x7E, 0x52, 0x03, 0xFA, 0x57)
 
+# Patch 14: Discriminative Garrison Division Assignment & Config Externalization (@ 0x0068D3B6 / 0x00DCB1A0)
+$SIG14_OFFSET  = 0x0028D3B6
+$ORIG14_SIG    = [byte[]]@(0x8B, 0x55, 0xD8, 0x8B, 0x4E, 0x0C, 0x8B, 0x42, 0x12, 0x50, 0x51, 0xE8, 0xFA, 0xD5, 0xDB, 0xFF)
+$PATCH14_SIG   = [byte[]]@(0xE9, 0xE5, 0xDD, 0x73, 0x00, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90)
+
+$PATCH14_CHUNKS = @(
+    # Update PE section header for .mod RawSize (0x2000 -> 0x4000 @ 0x000002A8)
+    @{ Offset = 0x000002A8; Data = 'AEAAAA==' },
+    # Cleanup obsolete 0x00484D80 area to zeros (640 bytes)
+    @{ Offset = 0x00484D80; Data = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==' },
+    # New Patch 14 cave & data in dedicated .mod page 2 (@ 0x00DCB000 / 0x00486000, 568 bytes)
+    @{ Offset = 0x00486000; Data = 'AQAAAAAAIEEAAMhBAADIQgAASEIAUENHAIA7xQAAAABHYXJyaXNvbkFJAEVuYWJsZURpc2NyaW1pbmF0aXZlR2Fycmlzb24ARGlzdGFuY2VXZWlnaHQATW9iaWxlUGxhaW5zQm9udXMATW9iaWxlUm91Z2hQZW5hbHR5AE1vdW50YWluQm9udXMAR2Fycmlzb25Cb3JkZXJQZW5hbHR5AEdhcnJpc29uUGFydGlzYW5Cb251cwAAAAAAAAAAAAAAUFFSU1ZXaDAIiABqAWgrsNwAaCCw3AD/06MAsNwAuEiw3AC6BLDcAOhjAAAAuFew3AC6CLDcAOhUAAAAuGmw3AC6DLDcAOhFAAAAuHyw3AC6ELDcAOg2AAAAuIqw3AC6FLDcAOgnAAAAuKCw3AC6GLDcAOgYAAAAX15bWllY6Wl8of/MzMzMzMzMzMzMzMzMUmgwCIgAahBo8KrcAGjSr9wAUGggsNwA/xXsqtwAvvCq3ACAPgB0HDHJgD4tdQZGuQEAAADov/3//4XJdALZ4FrZGsNaw8zMzMzMzMzMzMyDPQCw3AAAdFmLRiaFwHRSiwiFyXQQi5E0AQAAg/oJdA6D+gt0CYtACIXAdePrM4tV2IXSdCz2gpIEAADGdA7ZRfDYBRSw3ADZXfDrFYO6JgIAAAB+DNlF8NgFGLDcANld8ItV2ItODItCElBR6K73Z//ZhWz////YDeRnfgCLRdCDxAiFwNhF8NnJ2A0EsNwA3sHpryGM/w==' },
+    # Startup hook (@ 0x00DCAF44 / 0x00485F44) -> jmp 0x00DCB0C0
+    @{ Offset = 0x00485F44; Data = '6XcBAAA=' },
+    # Scoring hook (@ 0x0068D3B6 / 0x0028D3B6) -> jmp 0x00DCB1A0 + 44 NOPs
+    @{ Offset = 0x0028D3B6; Data = '6eXdcwCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkA==' },
+    # Float pointer operand redirections in .text
+    @{ Offset = 0x0028D168; Data = 'CLDcAA==' },
+    @{ Offset = 0x0028D17D; Data = 'CLDcAA==' },
+    @{ Offset = 0x0028D188; Data = 'DLDcAA==' },
+    @{ Offset = 0x0028D1D5; Data = 'CLDcAA==' },
+    @{ Offset = 0x0028D200; Data = 'CLDcAA==' },
+    @{ Offset = 0x0028D20B; Data = 'DLDcAA==' },
+    @{ Offset = 0x0028D228; Data = 'ELDcAA==' },
+    @{ Offset = 0x0028D244; Data = 'ELDcAA==' }
+)
+
 # Expected SHA256 Hashes
 $ORIG_SHA256     = "7A1AE8BB802377B6C9EC808F420ACE58475D1816464390422CF97AD450A51EB4"
-$PATCH_SHA256    = "A8B6EE3F0F45F04F98C2FF37801021A06E3AE25CF3B856A9DCF854E9B0F285B7"
+$PATCH_SHA256    = "BF39630FAB920B618261C0A8E2715927BF6BA7572BB74AB5DB6770379559F9C0"
+$PREV_V72_SHA256 = "8B4A7C6622E885BCBDB9D589DDFBCC94D1596AA1211F4A5E80859DD1DF6D6D9B"
+$PREV_V71_SHA256 = "E2B60116CEDF79F016360AC2A6A447B771C2FD173A992BFC3A58AD00EB58F799"
+$PREV_V70_SHA256 = "A8B6EE3F0F45F04F98C2FF37801021A06E3AE25CF3B856A9DCF854E9B0F285B7"
 $PREV_V69_SHA256 = "5C08FCDEFCF00E4470A9F4B7DB93AAA7C06010670C5513ECE8261BD565043884"
 $PREV_V68_SHA256 = "1B4D343B2DAB255D37891B65578DBB690A5AA99B857BD668A5658F5582526CA6"
 $PREV_V67_SHA256 = "CE66DA4E58A21A65F2B13D9334E8E194912F4D6CAA15CCCD7818415EDA7A8838"
@@ -365,7 +395,12 @@ function Show-Header {
     Write-Host "   12. Unit Counter Hover Hit-Test Effective Scale Fix (Map Scroll Crash Fix):"
     Write-Host "      Samples counter sprite pixels using the counter's effective scale instead of"
     Write-Host "      the global map zoom, preventing out-of-bounds surface reads (AV @ 0x00406100)"
-    Write-Host "      when hovering/scrolling over unit counters at zoom >= 1. (Inline @ 0x0041714B)"
+    Write-Host "      when hovering/scrolling over unit counters at zoom >= 1. (Inline @ 0x0041714B)
+   13. Discriminative Garrison AI & Config Externalization (db\mod_settings.ini):
+      Discourages Garrisons and Militia from deploying to opposing alliance and frontline borders
+      (GarrisonBorderPenalty = 50000.0), keeping them in the rear for anti-partisan duties
+      (GarrisonPartisanBonus = -3000.0). Externalizes DistanceWeight, MobilePlainsBonus,
+      MobileRoughPenalty, and MountainBonus into [GarrisonAI]. (CGarrisonAI @ 0x0068D3B6)"
     Write-Host "-------------------------------------------------------------------------------" -ForegroundColor Gray
 }
 
@@ -506,15 +541,25 @@ function Check-FileState([string]$path) {
             $sig13Orig = ((Compare-Object $buf13 $ORIG13_SIG) -eq $null)
             $sig13Patch = ((Compare-Object $buf13 $PATCH13_SIG) -eq $null)
         }
+        $sig14Orig = $false; $sig14Patch = $false
+        if ($fs.Length -ge ($SIG14_OFFSET + 16)) {
+            $null = $fs.Seek($SIG14_OFFSET, [System.IO.SeekOrigin]::Begin)
+            $buf14 = New-Object byte[] 16
+            $null = $fs.Read($buf14, 0, 16)
+            $sig14Orig = ((Compare-Object $buf14 $ORIG14_SIG) -eq $null)
+            $sig14Patch = ((Compare-Object $buf14 $PATCH14_SIG) -eq $null)
+        }
         $fs.Close()
     } catch {
         return @{ Exists = $true; State = "Locked/Unreadable"; Size = $size; Hash = $hash }
     }
 
     $state = "Unknown"
-    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig -and $sig13Orig) {
+    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig -and $sig13Orig -and $sig14Orig) {
         $state = "Original"
-    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch) {
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch) {
+        $state = "Patched (All Fixes + Discriminative Garrison AI)"
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and -not $sig14Patch) {
         $state = "Patched (All Fixes + GAME_VERSION Flag + Counter Hover Fix)"
     } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and -not $sig13Patch) {
         $state = "Patched (v1.11 - All Fixes + GAME_VERSION Flag, No Counter Hover Fix)"
@@ -673,9 +718,16 @@ function Apply-PatchToFile([string]$srcPath, [string]$dstPath) {
         $null = $fs.Seek($SIG13_OFFSET, [System.IO.SeekOrigin]::Begin)
         $fs.Write($PATCH13_SIG, 0, $PATCH13_SIG.Length)
 
-        # Ensure file length is padded to match expanded .mod section raw size (0x00484000 + 0x2000 = 0x00486000)
-        if ($fs.Length -lt 0x00486000) {
-            $fs.SetLength(0x00486000)
+                # Patch 14: Discriminative Garrison Division Assignment & Config Externalization (@ 0x0068D3B6 / 0x00DC9F20)
+        foreach ($chunk in $PATCH14_CHUNKS) {
+            $chunkBytes = [System.Convert]::FromBase64String($chunk.Data)
+            $null = $fs.Seek($chunk.Offset, [System.IO.SeekOrigin]::Begin)
+            $fs.Write($chunkBytes, 0, $chunkBytes.Length)
+        }
+
+        # Ensure file length is padded to match expanded .mod section raw size (0x00484000 + 0x4000 = 0x00488000)
+        if ($fs.Length -lt 0x00488000) {
+            $fs.SetLength(0x00488000)
         }
 
         $fs.Flush()

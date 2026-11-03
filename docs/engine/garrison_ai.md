@@ -368,10 +368,23 @@ In the unmodified retail Darkest Hour binary, script parameters in `garrison = {
    - When an army or fleet is destroyed in combat, `CArmy::~CArmy()` invokes `minister->vfn_198(pArmy)` (`vtable + 0x198`).
    - Base class `CMinisterAI::vfn_198` (`0x006709A0`) removes units from list offset `+0x28`, whereas `CInvasionAI` stores invasion armies at `+0xB0` (`m_ArmyList`) and transport fleets at `+0xC4` (`m_TransportList`). Because `CInvasionAI`'s vtable (`0x007F5514`) did not override `vfn_198` (`0x007F56AC`), destroyed units assigned to `CInvasionAI` can leave dangling pointers in `+0xB0` / `+0xC4`.
 
+8. **Unit-Blind Intra-Area Allocation & Distance Dominance (`0x0068D113`-`0x0068D405`)**:
+   - In retail, candidate armies within an area are scored purely by:
+     $$\text{Score} = (\text{Distance} \times 10.0) + \text{SurplusTerm} + \text{TerrainAdjustments}$$
+   - Lower score wins. Destination partisan revolt risk (`[pProv + 0x226]`) is never checked against unit composition.
+   - `CArmy::GetCompositionType()` (`0x00508C60`) completely omits Garrison divisions (`m_nType == 10`), causing them to return `0x8C` (unclassified).
+   - High-priority frontline/opposing-alliance borders are evaluated first, drawing nearby Garrisons onto borders. When low-priority partisan provinces are evaluated later, only combat/mobile units remain available in the theater, resulting in armored divisions performing anti-partisan duties in the Balkans while Garrisons pile up on frontlines.
+   - **Patch 14 Fix (`Cave_TargetedGarrisonFitness` @ `0x00DCB1A0` / Hook @ `0x0068D3B6`)**:
+     - Inspects division types in candidate army: if Garrison (`10`) or Militia (`9`):
+       - Destination has Frontline Border threat (`[pProv + 0x492] & 0x40`): adds `GarrisonBorderPenalty` (default `+50,000.0`, soft-locking them off the border).
+       - Destination has Rear Partisan Revolt Risk (`[pProv + 0x226] > 0`): adds `GarrisonPartisanBonus` (default `-3,000.0`, pulling them to security duty).
+     - Externalizes all formula weights (`DistanceWeight`, `MobilePlainsBonus`, `MobileRoughPenalty`, `MountainBonus`, `GarrisonBorderPenalty`, `GarrisonPartisanBonus`) into `db\mod_settings.ini` under `[GarrisonAI]`.
+
 ---
 
 ## 10. Custom Engine Modifications
 
-For the binary modifications that extend the Garrison AI to support allied and military-access territory, configurable multipliers, en-route overland unit tracking, and surplus repatriation, see:
+For the binary modifications that extend the Garrison AI to support allied and military-access territory, configurable multipliers, en-route overland unit tracking, surplus repatriation, and discriminative division assignment, see:
 - **[Patch 2: Garrison AI Overseas Dispatch](../plans/plan_garrison_overseas_dispatch.md)**
 - **[Patch 11: Allied Territory Garrison AI Architecture & Implementation](../plans/plan_allied_garrison_ai.md)** (covers dual-pass foreign area evaluation, surplus repatriation, peacetime invasion gate bypass, and proximity port marching for landlocked overseas powers)
+- **[Patch 14: Discriminative Garrison AI & Config Externalization](../plans/plan_discriminative_garrison_assignment.md)** (covers frontline border soft-lock and partisan attraction for Garrisons/Militia, plus INI externalization of candidate scoring constants)

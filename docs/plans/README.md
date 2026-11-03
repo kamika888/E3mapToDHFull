@@ -21,6 +21,7 @@ This directory contains comprehensive architectural documentation, reverse engin
 | **Patch 10** | Silent Events for Player Countries | `0x007123CB` (`0x003123CB`) | `0x00DCA200` (.mod cave) | `flag = "ENGINE:SILENT_EVENT"` | [`plan_silent_events.md`](plan_silent_events.md) |
 | **Patch 11** | Allied Territory Garrison AI | `0x0068D8B9`, `0x0068C18E`, `0x00693CBD` | `0x00DCA188` - `0x00DCAF90` | `EnableAlliedGarrison`, `GarrisonLandConnectedMultiplier`, `GarrisonWartimeMultiplier` | [`plan_allied_garrison_ai.md`](plan_allied_garrison_ai.md) |
 | **Patch 13** | Unit Counter Hover Hit-Test Effective Scale Fix | `0x0041714B` (`0x0001714B`) | Inline (73 bytes, no cave) | Automatic | [`plan_unit_counter_hover_hit_test_scale_fix.md`](plan_unit_counter_hover_hit_test_scale_fix.md) |
+| **Patch 14** | Discriminative Garrison AI & Formula Config | `0x0068D3B6` (`0x0028D3B6`) | `0x00DC9E50` - `0x00DC9FA0` | `EnableDiscriminativeGarrison`, `DistanceWeight`, `GarrisonBorderPenalty`, `GarrisonPartisanBonus` | [`plan_discriminative_garrison_assignment.md`](plan_discriminative_garrison_assignment.md) |
 
 ---
 
@@ -67,6 +68,9 @@ Enables AI countries to station, reinforce, and withdraw troops inside allied an
 
 ### 13. [Unit Counter Hover Hit-Test Effective Scale Fix](plan_unit_counter_hover_hit_test_scale_fix.md)
 Fixes a vanilla access violation at `0x00406100` when scrolling or hovering over unit counters at zoom 1 or higher. The counter hit-test (`0x004170C0`) converted screen offsets to texture coordinates by shifting with the global map zoom (`[0x00A98464]`) instead of the counter's `effective_scale` (`max(0, bias + zoom)`), so it read past the end of the counter sprite surface. Fixed in place by moving `mouseY` into the dead `EBX` register so `EDI` keeps `effective_scale` (12 bytes changed, no code cave).
+
+### 14. [Discriminative Garrison AI & Formula Config](plan_discriminative_garrison_assignment.md)
+Resolves the vanilla Garrison AI flaw where combat divisions (e.g., German armor) are assigned to rear anti-partisan duty in the Balkans while Garrison and Militia divisions pile up on hostile borders (e.g., eastern Poland facing the USSR). Hooks candidate scoring in `CGarrisonAI::UpdateGarrisons` (`0x0068D3B6`), applying a soft-lock penalty (`GarrisonBorderPenalty = 50000.0`) on frontline/opposing-alliance borders and an attraction bonus (`GarrisonPartisanBonus = -3000.0`) on partisan revolt risk provinces for Garrison and Militia divisions. Externalizes candidate scoring constants (`DistanceWeight`, `MobileRoughPenalty`, `MobilePlainsBonus`, `MountainBonus`) into `[GarrisonAI]` in `db\mod_settings.ini`.
 
 ---
 
