@@ -250,9 +250,47 @@ $PATCH14_CHUNKS = @(
     @{ Offset = 0x0028D244; Data = 'ELDcAA==' }
 )
 
+# Patch 15: Strategic Redeployment Accounting in Garrison AI (@ 0x0068CCEC / 0x00DCB400)
+$SIG15_OFFSET  = 0x0028CCEC
+$ORIG15_SIG    = [byte[]]@(0x8D, 0x8D, 0xAC, 0xFE, 0xFF, 0xFF)
+$PATCH15_SIG   = [byte[]]@(0xE9, 0x0F, 0xE7, 0x73, 0x00, 0x90)
+
+$PATCH15_CHUNKS = @(
+    # Hook at 0x0068CCEC / file offset 0x0028CCEC (6 bytes)
+    @{ Offset = 0x0028CCEC; Data = '6Q/ncwCQ' },
+    # Value default at 0x00DCB01C / file offset 0x0048601C (4 bytes)
+    @{ Offset = 0x0048601C; Data = 'AQAAAA==' },
+    # INI Loader hook at 0x00DCB138 / file offset 0x00486138 (11 bytes)
+    @{ Offset = 0x00486138; Data = '6bMBAACQkJCQkJA=' },
+    # Cave at 0x00DCB400 / file offset 0x00486400 (109 bytes)
+    @{ Offset = 0x00486400; Data = 'UlFQVoM9HLDcAAB0UYtF2IXAdEqLcBKLQwqFwHQei5AcRQAAhdJ0FIsChcB0CTuwTAEAAHUBR4tSCOvoi0M8hcB0G4uQDAIAAIXSdBGLAoXAdAY7cAx1AUeLUgjr615YWVqNjaz+///phRiM/w==' },
+    # Key string + INI reader cave at 0x00DCB2D0 / file offset 0x004862D0 (67 bytes)
+    @{ Offset = 0x004862D0; Data = 'RW5hYmxlU3RyYXRSZWRlcGxveUdhcnJpc29uAAAAAABoMAiIAGoBaNCy3ABoILDcAP/Toxyw3ABfXltaWVjpmXqh/w==' }
+)
+
+# Patch 16: Immediate Garrison Accounting for Newly Arrived/Unassigned Armies (@ 0x0068C201 / 0x00DCB480)
+$SIG16_OFFSET  = 0x0028C201
+$ORIG16_SIG    = [byte[]]@(0x8B, 0x86, 0xF4, 0x01, 0x00, 0x00, 0x3B, 0xC1, 0x75, 0x0D)
+$PATCH16_SIG   = [byte[]]@(0xE9, 0x7A, 0xF2, 0x73, 0x00, 0x90, 0x90, 0x90, 0x90, 0x90)
+
+$PATCH16_CHUNKS = @(
+    # Hook at 0x0068C201 / file offset 0x0028C201 (10 bytes)
+    @{ Offset = 0x0028C201; Data = '6XrycwCQkJCQkA==' },
+    # Cave at 0x00DCB480 / file offset 0x00486480 (49 bytes)
+    @{ Offset = 0x00486480; Data = 'i4b0AQAAOch0IoM9HLDcAAB0FItRCjuWSAIAAHUJhcB0CjtBPHQF6WwNjP/pWg2M/w==' },
+    # Restore obsolete hook at 0x0028E3A3 to pristine (8 bytes)
+    @{ Offset = 0x0028E3A3; Data = 'Oa/0AQAAdQg=' }
+)
+
 # Expected SHA256 Hashes
 $ORIG_SHA256     = "7A1AE8BB802377B6C9EC808F420ACE58475D1816464390422CF97AD450A51EB4"
-$PATCH_SHA256    = "BF39630FAB920B618261C0A8E2715927BF6BA7572BB74AB5DB6770379559F9C0"
+$PATCH_SHA256    = "05078531995BE38B80B62E2E6EE197DB9EF6D4D23075433E88F28FDA6CBE38E4"
+$PREV_V78_SHA256 = "DA6E2704852F042E711054A6AEC0D16DC180B23D3801BC4EA131A44BC23C79DB"
+$PREV_V77_SHA256 = "CF30C7BC8C6FC41F0C43D039AEB509347E384A709BF4D1D508C15100898B5202"
+$PREV_V76_SHA256 = "B141A1BB9A8509FE7EBC8773CFDACE5069DC0FAA32A70E9E0F6CE6A2C340AB84"
+$PREV_V75_SHA256 = "7EC4084C1C64604C323F6C3D53A1ED7E04385B296EFF8FFF4A76992403A8C134"
+$PREV_V74_SHA256 = "93222A04FC3B086D202F70D2B1C91183C4585F88B533F9A326551DEB20D10398"
+$PREV_V73_SHA256 = "BF39630FAB920B618261C0A8E2715927BF6BA7572BB74AB5DB6770379559F9C0"
 $PREV_V72_SHA256 = "8B4A7C6622E885BCBDB9D589DDFBCC94D1596AA1211F4A5E80859DD1DF6D6D9B"
 $PREV_V71_SHA256 = "E2B60116CEDF79F016360AC2A6A447B771C2FD173A992BFC3A58AD00EB58F799"
 $PREV_V70_SHA256 = "A8B6EE3F0F45F04F98C2FF37801021A06E3AE25CF3B856A9DCF854E9B0F285B7"
@@ -400,7 +438,13 @@ function Show-Header {
       Discourages Garrisons and Militia from deploying to opposing alliance and frontline borders
       (GarrisonBorderPenalty = 50000.0), keeping them in the rear for anti-partisan duties
       (GarrisonPartisanBonus = -3000.0). Externalizes DistanceWeight, MobilePlainsBonus,
-      MobileRoughPenalty, and MountainBonus into [GarrisonAI]. (CGarrisonAI @ 0x0068D3B6)"
+      MobileRoughPenalty, and MountainBonus into [GarrisonAI]. (CGarrisonAI @ 0x0068D3B6)
+
+   14. Strategic Redeployment Accounting & Fresh Army Garrison Filter:
+      Eliminates perpetual garrison shuffling loops by accurately tracking divisions
+      currently en route via strategic redeployment and newly arrived divisions at target provinces.
+      Configurable via 'db\mod_settings.ini' ([GarrisonAI] EnableStratRedeployGarrison = 0/1, Default 1).
+      (CGarrisonAI @ 0x0068CCEC / 0x0068E3A3 / .mod @ 0x00DCB240 / 0x00DCB290)"
     Write-Host "-------------------------------------------------------------------------------" -ForegroundColor Gray
 }
 
@@ -549,16 +593,36 @@ function Check-FileState([string]$path) {
             $sig14Orig = ((Compare-Object $buf14 $ORIG14_SIG) -eq $null)
             $sig14Patch = ((Compare-Object $buf14 $PATCH14_SIG) -eq $null)
         }
+        $sig15Orig = $false; $sig15Patch = $false
+        if ($fs.Length -ge ($SIG15_OFFSET + 6)) {
+            $null = $fs.Seek($SIG15_OFFSET, [System.IO.SeekOrigin]::Begin)
+            $buf15 = New-Object byte[] 6
+            $null = $fs.Read($buf15, 0, 6)
+            $sig15Orig = ((Compare-Object $buf15 $ORIG15_SIG) -eq $null)
+            $sig15Patch = ((Compare-Object $buf15 $PATCH15_SIG) -eq $null)
+        }
+        $sig16Orig = $false; $sig16Patch = $false
+        if ($fs.Length -ge ($SIG16_OFFSET + 10)) {
+            $null = $fs.Seek($SIG16_OFFSET, [System.IO.SeekOrigin]::Begin)
+            $buf16 = New-Object byte[] 10
+            $null = $fs.Read($buf16, 0, 10)
+            $sig16Orig = ((Compare-Object $buf16 $ORIG16_SIG) -eq $null)
+            $sig16Patch = ((Compare-Object $buf16 $PATCH16_SIG) -eq $null)
+        }
         $fs.Close()
     } catch {
         return @{ Exists = $true; State = "Locked/Unreadable"; Size = $size; Hash = $hash }
     }
 
     $state = "Unknown"
-    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig -and $sig13Orig -and $sig14Orig) {
+    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig -and $sig13Orig -and $sig14Orig -and $sig15Orig -and $sig16Orig) {
         $state = "Original"
-    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch) {
-        $state = "Patched (All Fixes + Discriminative Garrison AI)"
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch) {
+        $state = "Patched (All Fixes + Discriminative Garrison + Strat Redep Accounting & Toggle)"
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and -not $sig16Patch) {
+        $state = "Patched (All Fixes + Discriminative Garrison + Strat Redep Counting, No Fresh Army Filter)"
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and -not $sig15Patch) {
+        $state = "Patched (All Fixes + Discriminative Garrison AI, No Strat Redep Counting)"
     } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and -not $sig14Patch) {
         $state = "Patched (All Fixes + GAME_VERSION Flag + Counter Hover Fix)"
     } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and -not $sig13Patch) {
@@ -618,6 +682,12 @@ function Check-FileState([string]$path) {
         Sig12Patch  = $sig12Patch
         Sig13Orig   = $sig13Orig
         Sig13Patch  = $sig13Patch
+        Sig14Orig   = $sig14Orig
+        Sig14Patch  = $sig14Patch
+        Sig15Orig   = $sig15Orig
+        Sig15Patch  = $sig15Patch
+        Sig16Orig   = $sig16Orig
+        Sig16Patch  = $sig16Patch
     }
 }
 
@@ -720,6 +790,20 @@ function Apply-PatchToFile([string]$srcPath, [string]$dstPath) {
 
                 # Patch 14: Discriminative Garrison Division Assignment & Config Externalization (@ 0x0068D3B6 / 0x00DC9F20)
         foreach ($chunk in $PATCH14_CHUNKS) {
+            $chunkBytes = [System.Convert]::FromBase64String($chunk.Data)
+            $null = $fs.Seek($chunk.Offset, [System.IO.SeekOrigin]::Begin)
+            $fs.Write($chunkBytes, 0, $chunkBytes.Length)
+        }
+
+        # Patch 15: Strategic Redeployment Accounting in Garrison AI (@ 0x0068CCEC / 0x00DCB240)
+        foreach ($chunk in $PATCH15_CHUNKS) {
+            $chunkBytes = [System.Convert]::FromBase64String($chunk.Data)
+            $null = $fs.Seek($chunk.Offset, [System.IO.SeekOrigin]::Begin)
+            $fs.Write($chunkBytes, 0, $chunkBytes.Length)
+        }
+
+        # Patch 16: Immediate Garrison Accounting for Newly Arrived/Unassigned Armies (@ 0x0068E3A3 / 0x00DCB290)
+        foreach ($chunk in $PATCH16_CHUNKS) {
             $chunkBytes = [System.Convert]::FromBase64String($chunk.Data)
             $null = $fs.Seek($chunk.Offset, [System.IO.SeekOrigin]::Begin)
             $fs.Write($chunkBytes, 0, $chunkBytes.Length)
@@ -851,6 +935,9 @@ GameVersion = 1
     if (-not $dstState.Sig11Patch)  { $failedSigs += "Patch 11 (Allied Garrison AI)" }
     if (-not $dstState.Sig12Patch)  { $failedSigs += "Patch 12 (GAME_VERSION Flag)" }
     if (-not $dstState.Sig13Patch)  { $failedSigs += "Patch 13 (Counter Hover Hit-Test Fix)" }
+    if (-not $dstState.Sig14Patch)  { $failedSigs += "Patch 14 (Discriminative Garrison AI)" }
+    if (-not $dstState.Sig15Patch)  { $failedSigs += "Patch 15 (Strategic Redeployment Accounting)" }
+    if (-not $dstState.Sig16Patch)  { $failedSigs += "Patch 16 (Fresh Army Garrison Filter)" }
     if ($failedSigs.Count -gt 0) {
         throw ("Verification failed: Target file signatures were not properly updated. Failed: " + ($failedSigs -join ', '))
     }

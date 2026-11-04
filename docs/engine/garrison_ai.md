@@ -380,6 +380,16 @@ In the unmodified retail Darkest Hour binary, script parameters in `garrison = {
        - Destination has Rear Partisan Revolt Risk (`[pProv + 0x226] > 0`): adds `GarrisonPartisanBonus` (default `-3,000.0`, pulling them to security duty).
      - Externalizes all formula weights (`DistanceWeight`, `MobilePlainsBonus`, `MobileRoughPenalty`, `MountainBonus`, `GarrisonBorderPenalty`, `GarrisonPartisanBonus`) into `db\mod_settings.ini` under `[GarrisonAI]`.
 
+9. **Strategic Redeployment Blind Spot & Immediate Arrival Disconnect (`0x0068CCEC` & `0x0068C201`)**:
+   - In retail, `CGarrisonAI::UpdateGarrisons` calculates incoming divisions to a candidate province by calling `FUN_0068E340`, which only scans armies physically marching overland across the map.
+   - Divisions in transit via strategic redeployment are temporarily detached from the map and stored inside `CCountry::m_listStrategicRedeployment` (`+0x4518`). Because the retail engine never inspects this list, incoming redeployments count as **0**. The AI perceives a perpetual deficit, pulling duplicate divisions from nearby garrisons to reinforce the destination. When the redeployments arrive, the province suffers a surplus, and the surplus is evacuated elsewhere--producing infinite redeployment shuffling.
+   - Upon arrival, newly spawned divisions have `m_pAIController == NULL` (or parent `pRootGarrisonAI`). In `CAreaGarrisonAI`'s province unit counting loop (`0x0068C201`), retail strictly checks `cmp [pArmy + 0x1F4], ecx` (`m_pAIController == this`). Freshly arrived armies are ignored until claimed by theater/country AI, creating an intermittent 1-hour deficit glitch where adjacent units launch towards the target before immediately reversing.
+   - **Patch 15 Fix (`Cave_CountStrategicRedeployments` @ `0x00DCB400` / Hook @ `0x0068CCEC`)**:
+     Traverses `CCountry::m_listStrategicRedeployment` (`+0x451C`) and parent `CRootGarrisonAI::m_listArmies` (`+0x20C`), incrementing `CurrentIncoming` (`edi`) for any divisions destined for the candidate province.
+   - **Patch 16 Fix (`Cave_FreshArmyGarrisonFilter` @ `0x00DCB480` / Hook @ `0x0068C201`)**:
+     Recognizes newly arrived unassigned armies (`m_pAIController == NULL`) and root garrison armies (`m_pAIController == m_pRootGarrisonAI`) of the same country, immediately counting them towards the province's garrison count.
+   - **Runtime INI Configuration**: Configurable under `[GarrisonAI]` in `db\mod_settings.ini` via `EnableStratRedeployGarrison = 0/1` (default `1`). Setting to `0` restores 100% vanilla retail behavior.
+
 ---
 
 ## 10. Custom Engine Modifications
@@ -388,3 +398,4 @@ For the binary modifications that extend the Garrison AI to support allied and m
 - **[Patch 2: Garrison AI Overseas Dispatch](../plans/plan_garrison_overseas_dispatch.md)**
 - **[Patch 11: Allied Territory Garrison AI Architecture & Implementation](../plans/plan_allied_garrison_ai.md)** (covers dual-pass foreign area evaluation, surplus repatriation, peacetime invasion gate bypass, and proximity port marching for landlocked overseas powers)
 - **[Patch 14: Discriminative Garrison AI & Config Externalization](../plans/plan_discriminative_garrison_assignment.md)** (covers frontline border soft-lock and partisan attraction for Garrisons/Militia, plus INI externalization of candidate scoring constants)
+- **[Patch 15 & 16: Strategic Redeployment & Immediate Garrison Accounting](../plans/plan_strategic_redeploy_garrison_count.md)** (covers `CCountry::m_listStrategicRedeployment` tracking, unassigned/root fresh army recognition, and elimination of perpetual redeployment shuffling)

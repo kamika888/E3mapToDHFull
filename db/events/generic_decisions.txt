@@ -90,7 +90,10 @@ event = {
 								war = { country = SOV }
 								month = May
 								NOT = { month = October }
-								random = 20
+								OR = {
+									NOT = { year = 1942 }
+									random = 20
+								}
 							}
 						}
 					}
@@ -366,6 +369,13 @@ event = {
 	desc = EVT_1300004_DESC 
 	style = 2
 	picture = "Wehrmacht"
+
+	trigger = {
+		OR = {
+			flag = "ENGINE:SILENT_EVENT"
+			random = 100
+		}	
+	}
 
 	action = {
 		name = ACTION_NAME_OK
@@ -1146,6 +1156,128 @@ event = {
 		command = { trigger = { NOT = { local_flag = { which = WAR_level 	 when = 1 value = 7 } } }	type = dissent 								value = -1.0 }
 		command = { 																					type = industrial_modifier 	which = IC 		value = 1    }
 		command = { type = local_clrflag which = issue_currency }
+	}
+}
+
+event = {
+	id = 9000024
+	TAG = { AFG ALB ALG ANG ARA ARG ARM AST AUS AZB BEL BEN BHU BLR BOL BOS BRA BRU BUL BUR CAL CAM CAN CGX CHC CHI CHL CMB COL CON COS CRO CSA CSX CUB CXB CYN CYP CZE DDR DEN DFR DOM EAF ECU EGY ENG EQA EST ETH EUS FIN FLA VIC GAB GEO GER GLD GRE GUA GUI GUY HAI HOL HON HUN ICL IDC IND INO IRE IRQ ISR ITA JAP JOR KAZ KOR KUR KYG LAO LAT LBY LEB LIB LIT LUX MAD MAL MAN MEN MEX MLY MON MOR MOZ MTN NAM NEP NIC NIG NOR NZL OMN OTT PAK PAL PAN PAR PER PHI POL POR PRI PRK PRU QUE RHO ROM RSI RUS SAF SAL SAR SAU SCA SCH SCO SER SIA SIB SIE SIK SLO SLV SOM SOV SPA SPR SUD SWE SYR TAJ TAN TEX TIB TRA TRK TUN TUR UKR URU USA UZB VEN VIE WLL YEM YUG U01 U02 U03 U04 U05 U06 U08 U09 U10 U11 U12 U13 U14 U15 U16 U17 U18 U19 U20 U21 U22 U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U39 U40 U41 U42 U43 U44 U45 U46 U47 U48 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62 U63 U64 U65 U66 U67 U68 U69 U70 U71 U72 U73 U74 U75 U76 U77 U78 U79 U80 U81 U82 U83 U84 U85 U86 U87 U88 U89 U90 U91 U92 U93 U94 U95 U96 U97 U98 U99 USN UIC UTL UAU UPS UCH UBO UCS URO UER UGS UES UPE UTC }
+	random = no
+	persistent = yes
+
+	decision = { 
+		local_flag = AllInit
+		atwar = yes
+		supplies = 10000
+	}
+
+	decision_trigger = {
+	}
+
+	trigger = {
+		local_flag = AllInit
+		atwar = yes
+		supplies = 10000
+	}
+   
+	name = EVT_9000024_NAME
+	desc = EVT_9000024_DESC 
+	style = 2
+	#picture = "Monetary_policy"
+	
+	date = { day = 1 month = january year = 1914 }
+	offset = 15
+	deathdate = { day = 30 month = december year = 1999 }
+
+	action = {
+		name = EVT_9000024_ACTA
+		trigger = { 
+			NOT = { local_flag = { which = supplies_spend when = 0 value = 1 } } 
+			OR = {
+				ai = no
+				#0 to 1
+				AND = {
+					NOT = { local_flag = supplies_spend }
+					NOT = { local_flag = grand_offensive_buff }
+					ic = 20
+					local_flag = { which = WAR_level when = 1 value = 6 }
+					NOT = { resource_shortage = supplies } 
+					OR = {
+						supplies = 100000
+						AND = {
+							NOT = { army = 400 }
+							supplies = 80000
+						}
+						AND = {
+							NOT = { army = 300 }
+							supplies = 60000
+						}
+						AND = {
+							NOT = { army = 200 }
+							supplies = 40000
+						}
+						AND = {
+							NOT = { army = 100 }
+							supplies = 20000
+						}
+					}
+				}
+			}
+		}
+		
+		command = { trigger = { local_flag = { which = supplies_spend when = 0 value = 1 } }	type = free_supplies					value = 100 }
+		command = { trigger = { local_flag = { which = supplies_spend when = 0 value = 1 } }	type = free_IC 							value = -20 }
+		
+		#flat 5 to 1 ratio
+		command = { type = free_supplies 						value = -100 }
+		command = { type = free_IC								value =   20 }
+		
+		command = { type = local_setflag which = supplies_spend	value = 1 	 }
+	}
+	action = {
+		name = EVT_9000024_ACTF
+		trigger = { 
+			local_flag = supplies_spend
+			OR = {
+				ai = no
+				#1 to 0
+				AND = {
+					local_flag = { which = supplies_spend when = 0 value = 1 } 
+					NOT = {
+						AND = {
+							NOT = { local_flag = grand_offensive_buff }
+							ic = 20
+							local_flag = { which = WAR_level when = 1 value = 6 }
+							#NOT = { resource_shortage = supplies } 
+							OR = {
+								supplies = 100000
+								AND = {
+									NOT = { army = 400 }
+									supplies = 80000
+								}
+								AND = {
+									NOT = { army = 300 }
+									supplies = 60000
+								}
+								AND = {
+									NOT = { army = 200 }
+									supplies = 40000
+								}
+								AND = {
+									NOT = { army = 100 }
+									supplies = 20000
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		command = { trigger = { local_flag = { which = supplies_spend when = 0 value = 1 } }	type = free_supplies					value = 100 }
+		command = { trigger = { local_flag = { which = supplies_spend when = 0 value = 1 } }	type = free_IC 							value = -20 }
+		
+		command = { type = local_clrflag which = supplies_spend }
 	}
 }
 

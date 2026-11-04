@@ -38,7 +38,10 @@ docs/
 |   +-- plan_scenario_memory_leak_patch.md <-- Patch 8: Scenario Unload Deallocation Cave
 |   +-- plan_map_tile_high_memory_guard.md <-- Patch 9: Map Tile High-Memory Signed Guard
 |   +-- plan_silent_events.md           <-- Patch 10: Silent Events for Player Countries
+|   +-- plan_allied_garrison_ai.md      <-- Patch 11: Allied Territory Garrison AI / Patch 12: GAME_VERSION Flag
 |   +-- plan_unit_counter_hover_hit_test_scale_fix.md <-- Patch 13: Unit Counter Hover Hit-Test Scale Fix
+|   +-- plan_discriminative_garrison_assignment.md <-- Patch 14: Discriminative Garrison AI
+|   +-- plan_strategic_redeploy_garrison_count.md  <-- Patch 15 & 16: Strategic Redeployment & Immediate Garrison Accounting
 ```
 
 ---
@@ -82,7 +85,11 @@ All custom behavioral modifications, binary hooks, and engine enhancements compa
 | **Patch 9** | Map Tile High-Memory Signed Comparison Fix | `0x004DB0C5` (`0x000DB0C5`) | Inline (1 byte) | Automatic | [`plan_map_tile_high_memory_guard.md`](plans/plan_map_tile_high_memory_guard.md) |
 | **Patch 10** | Silent Events for Player Countries | `0x007123CB` (`0x003123CB`) | `0x00DCA200` (.mod cave) | `flag = "ENGINE:SILENT_EVENT"` | [`plan_silent_events.md`](plans/plan_silent_events.md) |
 | **Patch 11** | Allied Territory Garrison AI | `0x0068D8B9`, `0x00693CBD`, `0x00693E59` | `0x00DC9C00` - `0x00DCAFD0` | `area_multiplier`, `province_priorities` | [`plan_allied_garrison_ai.md`](plans/plan_allied_garrison_ai.md) |
+| **Patch 12** | Engine Version Global Flag (`GAME_VERSION`) | `0x0042EBF9` (`0x0002EBF9`) | `0x00DCAE20` (.mod cave) | `[Engine] GameVersion` | [`plan_allied_garrison_ai.md`](plans/plan_allied_garrison_ai.md) |
 | **Patch 13** | Unit Counter Hover Hit-Test Effective Scale Fix | `0x0041714B` (`0x0001714B`) | Inline (73 bytes, no cave) | Automatic | [`plan_unit_counter_hover_hit_test_scale_fix.md`](plans/plan_unit_counter_hover_hit_test_scale_fix.md) |
+| **Patch 14** | Discriminative Garrison AI & Formula Config | `0x0068D3B6` (`0x0028D3B6`) | `0x00DC9E50` - `0x00DC9FA0` | `EnableDiscriminativeGarrison`, `DistanceWeight`, `GarrisonBorderPenalty`, `GarrisonPartisanBonus` | [`plan_discriminative_garrison_assignment.md`](plans/plan_discriminative_garrison_assignment.md) |
+| **Patch 15** | Strategic Redeployment Garrison Accounting | `0x0068CCEC` (`0x0028CCEC`) | `0x00DCB400` (.mod cave) | `EnableStratRedeployGarrison` | [`plan_strategic_redeploy_garrison_count.md`](plans/plan_strategic_redeploy_garrison_count.md) |
+| **Patch 16** | Fresh Army Immediate Garrison Recognition | `0x0068C201` (`0x0028C201`) | `0x00DCB480` (.mod cave) | `EnableStratRedeployGarrison` | [`plan_strategic_redeploy_garrison_count.md`](plans/plan_strategic_redeploy_garrison_count.md) |
 
 ### Automated Patcher Script
 All patches above are bundled into the automated deployment script:
