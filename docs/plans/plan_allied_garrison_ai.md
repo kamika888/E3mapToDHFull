@@ -424,7 +424,11 @@ Evaluated by `DetermineGarrisonMode` (`0x00DCAB60`) from `pCountry->m_pAI->m_fla
 ### 4.3 `IsAlliedOrAccess_Switchable` (`0x00DCA700` -> `0x00DCAC00`)
 - Returns `1` immediately if `CountryA == CountryB` (domestic territory).
 - Queries `DetermineGarrisonMode(CountryA)` (`0x00DCAB60`). Returns `0` if effective mode is `0`.
-- **Mode >= 1 (Alliances)**: Checks major faction membership (`[pCountry + 0x3350]`) and bilateral military alliance treaties (`CCountry::IsAlliedWith` @ `0x0044B300`). Non-aggression pacts (`0x005861E0`) and non-allied neutral puppets without military access return `0`.
+- **Mode >= 1 (Alliances & Puppet Access Exception)**:
+  - Checks major faction membership (`[pCountry + 0x3350]`).
+  - Checks bilateral military alliance treaties (`CCountry::IsAlliedWith` @ `0x0044B300`).
+  - **Puppet + Military Access Exception**: If `CountryB` is a puppet of `CountryA` (`[CountryB->m_pDiplomacy + 0x3B30] == CountryA->m_nTag`) AND `CountryB` grants military access to `CountryA` (`CDiplomacy::HasAccessTo(CountryA, CountryB) == 1`), `CountryB` is treated as an ally and returns `1`.
+  - Non-aggression pacts (`0x005861E0`) and puppets without military access return `0`.
 - **Mode == 2 (Military Access)**: Checks `CDiplomacy::HasAccessTo` (`0x005861A0`, relation offset `+0x37`) in both directions.
 
 ---
