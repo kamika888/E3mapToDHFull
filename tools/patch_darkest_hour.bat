@@ -197,7 +197,7 @@ $PATCH11_CHUNKS = @(
     @{ Offset = 0x0028C7ED; Data = '6ZLlcwCQkA==' },
     # Pass 2 Cave: Army Sweep for Foreign Deployments (@ 0x00DCA050 / 0x00485050, 170 bytes)
     @{ Offset = 0x00485050; Data = 'gz0Uo9wAAXQtixUMo9wA6SsDAACDPRSj3AABD4TJAwAAxwUUo9wAAQAAAItd6IuTlAAAAOsGixUMo9wAhdJ0Yos6hf90V1KJ+eiSEXX/WoXAdEqLiNgDAACLXeiLewo5+XQ6UlCJ+OhEBgAAWonXWoTAdCmLv4IEAACF/3QfUuiYAwAAWoTAdBSLQgiFwHUDg8j/owyj3ADpGAMAAItSCOuag8j/owyj3ADpOwMAAA==' },
-    @{ Offset = 0x00485300; Data = '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' }
+@{ Offset = 0x00485300; Data = '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' }
 )
 
 # Patch 12: Engine Runtime Version Identifier (Global Flag GAME_VERSION @ 0x0042EBF9 / 0x00DCAE20)
@@ -281,10 +281,29 @@ $PATCH16_CHUNKS = @(
     # Restore obsolete hook at 0x0028E3A3 to pristine (8 bytes)
     @{ Offset = 0x0028E3A3; Data = 'Oa/0AQAAdQg=' }
 )
+# Patch 17: Configurable & Enhanced AI Nuclear Strike Targeting (@ 0x004A52E0 / 0x0066E270 / 0x0066E3FB / 0x00DCB500)
+$SIG17_OFFSET  = 0x000A52E0
+$ORIG17_SIG    = [byte[]]@(0x51, 0x53, 0x55, 0x56, 0x8B)
+$PATCH17_SIG   = [byte[]]@(0xE9, 0x7B, 0x65, 0x92, 0x00)
+
+$PATCH17_CHUNKS = @(
+    # Cave & Data block in .mod page 2 (@ 0x00DCB500 / file offset 0x00486500, 1442 bytes)
+    @{ Offset = 0x00486500; Data = 'AQAAAAAAIEEAAAA/AACgQQAAAD/NzEw+CgAAAM3MzD0BAAAAKAAAAM3MTD4AAMhCAAAAAAAAAAAAAAAAAAAAAE51Y2xlYXJBSQBFbmFibGVFbmhhbmNlZE51Y2xlYXJUYXJnZXRpbmcAQ29yZVZhbHVlV2VpZ2h0AERpdmlzaW9uV2VpZ2h0AE51Y2xlYXJSZWFjdG9yV2VpZ2h0AE5vbkJlbGxpZ2VyZW50T3duZXJNdWx0aXBsaWVyAEFsbGllZE93bmVyTXVsdGlwbGllcgBDYW5kaWRhdGVSYW5kb21Ta2lwTWF4AFB1cHBldENvbnRyb2xsZXJNdWx0aXBsaWVyAENvbnRyb2xsZXJJQ1NjYWxpbmdNb2RlAE1pbm9yUG93ZXJJQ1RocmVzaG9sZABNaW5vclBvd2VyTXVsdGlwbGllcgBNaW5UYXJnZXRTY29yZVRocmVzaG9sZABQcm92aW5jZUluc3RhbGxhdGlvbldlaWdodABSZXNvdXJjZVdlaWdodAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABSaDAIiABqEGjwqtwAaNKv3ABQaEC13AD/Feyq3AC+8KrcAIA+AHQcMcmAPi11Bka5AQAAAOhv+P//hcl0AtngWtkaw1rDkJCQkJCQkJCQkGgwCIgAagFoSrXcAGhAtdwA/9OjALXcAGgwCIgAagpo0bXcAGhAtdwA/9OjGLXcAGgwCIgAagFoA7bcAGhAtdwA/9OjILXcAGgwCIgAaihoG7bcAGhAtdwA/9OjJLXcALhptdwAugS13ADoQf///7h5tdwAugi13ADoMv///7iItdwAugy13ADoI////7idtdwAuhC13ADoFP///7i7tdwAuhS13ADoBf///7jotdwAuhy13ADo9v7//7gxttwAuii13ADo5/7//7hGttwAuiy13ADo2P7//7hettwAujC13ADoyf7//7h5ttwAujS13ADouv7//19eW1pZWOm7daH/kJCQkJCQkJCQkJCQkJCQx0QkHAAAAADpayqK/5CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQiw0YtdwAg/kBfhBR6M3Dnf9Zmff5jXQWAesBRotEJCTpuyuK/5CQkJCQkJCQkJCQgz0AtdwAAHUNUVNVVot0JBzpcppt/1WJ5YPsIFNWV4lN/It1EIX2D4QKAgAAi77YAwAAhf8PhPwBAACLTQiFyQ+E8QEAAOi1Do7/iUX4UIn56Mr5Z/+EwA+E2QEAAIF/BlcBAAAPhMwBAACLXfyLmyABAACBw0wCAACJXfTZQ0zYHYAzfgDf4PbEQQ+FpgEAANlDUIuXsugAAItGEo2PsugAAFCNRexQ/1IogzgAdA+J8ehZKHL/2A0EtdwA3sGLjuoBAACFyXQL2UEU2A0MtdwA3sGLjsIBAADoAcJ1/4XAfg6JRfDbRfDYDQi13ADewdkFMLXcANnui47eAQAAhcl0A9hBFIuO4gEAAIXJdAPYQRSLjuYBAACFyXQD2EEUi47uAQAAhcl0A9hBFN7J3sHZBTS13ADZhnQCAADYhngCAADYhnwCAADYhoACAADeyd7B2VXw2B2AM34A3+D2xEEPhdAAAADZRfCLh9oSAACFwHQPg7gwOwAAAH4G2A0ctdwAifnoVvFn/4P4AH5QOwUktdwAfQbYDSi13ACLDSC13ACD+QF0EYP5AnQciUXw20Xw2freyesqiUXw20Xw2DWQQH4A3snrGolF8NtF8Ng1kEB+ANnA2freyd7J6wTd2Nnui77UAwAAhf90KotF+FCJ+ego+Gf/hMB1BtgNELXcAItF+FCJ+eiT+Gf/hMB0BtgNFLXcAItd9NhLTNgVLLXcAN/g9sQBdATd2OsJX15biexdwgwA2e5fXluJ7F3CDAA=' },
+    # INI Loader hook chaining from Patch 15 exit (@ 0x00DCB308 / file offset 0x00486308, 11 bytes)
+    @{ Offset = 0x00486308; Data = '6eMDAACQkJCQkJA=' },
+    # Hook 1A: Min score gate initializer (@ 0x0066E270 / file offset 0x0026E270, 8 bytes)
+    @{ Offset = 0x0026E270; Data = '6YvVdQCQkJA=' },
+    # Hook 1B: Stride scanner modulo (@ 0x0066E3FB / file offset 0x0026E3FB, 21 bytes)
+    @{ Offset = 0x0026E3FB; Data = '6TDUdQCQkJCQkJCQkJCQkJCQkJCQ' },
+    # Hook 2: Target evaluation redirect (@ 0x004A52E0 / file offset 0x000A52E0, 5 bytes)
+    @{ Offset = 0x000A52E0; Data = '6XtlkgA=' }
+)
+
 
 # Expected SHA256 Hashes
 $ORIG_SHA256     = "7A1AE8BB802377B6C9EC808F420ACE58475D1816464390422CF97AD450A51EB4"
-$PATCH_SHA256    = "B97E919311216ABACF0FAF100001C500E09BF3D17CE89CEB320C1647F765329F"
+$PATCH_SHA256    = "5FFC80BC5D7EE574AE0854BCEADFD2AB76608AB5E5371B63F7E2C1EB2EBE3EA6"
+$PREV_V80_SHA256 = "B97E919311216ABACF0FAF100001C500E09BF3D17CE89CEB320C1647F765329F"
 $PREV_V79_SHA256 = "05078531995BE38B80B62E2E6EE197DB9EF6D4D23075433E88F28FDA6CBE38E4"
 $PREV_V78_SHA256 = "DA6E2704852F042E711054A6AEC0D16DC180B23D3801BC4EA131A44BC23C79DB"
 $PREV_V77_SHA256 = "CF30C7BC8C6FC41F0C43D039AEB509347E384A709BF4D1D508C15100898B5202"
@@ -445,7 +464,16 @@ function Show-Header {
       Eliminates perpetual garrison shuffling loops by accurately tracking divisions
       currently en route via strategic redeployment and newly arrived divisions at target provinces.
       Configurable via 'db\mod_settings.ini' ([GarrisonAI] EnableStratRedeployGarrison = 0/1, Default 1).
-      (CGarrisonAI @ 0x0068CCEC / 0x0068E3A3 / .mod @ 0x00DCB240 / 0x00DCB290)"
+      (CGarrisonAI @ 0x0068CCEC / 0x0068E3A3 / .mod @ 0x00DCB240 / 0x00DCB290)
+
+   15. Configurable & Enhanced AI Nuclear Strike Targeting (db\mod_settings.ini):
+      Externalizes vanilla targeting weights/multipliers (CoreValueWeight, DivisionWeight,
+      NuclearReactorWeight, NonBelligerentOwnerMultiplier, AlliedOwnerMultiplier,
+      CandidateRandomSkipMax) and introduces puppet penalty (PuppetControllerMultiplier = 0.1),
+      controller IC scaling, minimum score falloff gate (MinTargetScoreThreshold = 100.0),
+      installation scoring (ProvinceInstallationWeight), and resource scoring (ResourceWeight).
+      Configurable via 'db\mod_settings.ini' ([NuclearAI] EnableEnhancedNuclearTargeting = 0/1).
+      (sub_4A52E0 @ 0x004A52E0 / sub_66DA10 @ 0x0066E270 / 0x0066E3FB / .mod @ 0x00DCB500)"
     Write-Host "-------------------------------------------------------------------------------" -ForegroundColor Gray
 }
 
@@ -610,15 +638,25 @@ function Check-FileState([string]$path) {
             $sig16Orig = ((Compare-Object $buf16 $ORIG16_SIG) -eq $null)
             $sig16Patch = ((Compare-Object $buf16 $PATCH16_SIG) -eq $null)
         }
+        $sig17Orig = $false; $sig17Patch = $false
+        if ($fs.Length -ge ($SIG17_OFFSET + 5)) {
+            $null = $fs.Seek($SIG17_OFFSET, [System.IO.SeekOrigin]::Begin)
+            $buf17 = New-Object byte[] 5
+            $null = $fs.Read($buf17, 0, 5)
+            $sig17Orig = ((Compare-Object $buf17 $ORIG17_SIG) -eq $null)
+            $sig17Patch = ((Compare-Object $buf17 $PATCH17_SIG) -eq $null)
+        }
         $fs.Close()
     } catch {
         return @{ Exists = $true; State = "Locked/Unreadable"; Size = $size; Hash = $hash }
     }
 
     $state = "Unknown"
-    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig -and $sig13Orig -and $sig14Orig -and $sig15Orig -and $sig16Orig) {
+    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig -and $sig13Orig -and $sig14Orig -and $sig15Orig -and $sig16Orig -and $sig17Orig) {
         $state = "Original"
-    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch) {
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and $sig17Patch) {
+        $state = "Patched (All Fixes + Discriminative Garrison + Strat Redep + Nuclear AI)"
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and -not $sig17Patch) {
         $state = "Patched (All Fixes + Discriminative Garrison + Strat Redep Accounting & Toggle)"
     } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and -not $sig16Patch) {
         $state = "Patched (All Fixes + Discriminative Garrison + Strat Redep Counting, No Fresh Army Filter)"
@@ -689,6 +727,8 @@ function Check-FileState([string]$path) {
         Sig15Patch  = $sig15Patch
         Sig16Orig   = $sig16Orig
         Sig16Patch  = $sig16Patch
+        Sig17Orig   = $sig17Orig
+        Sig17Patch  = $sig17Patch
     }
 }
 
@@ -810,6 +850,13 @@ function Apply-PatchToFile([string]$srcPath, [string]$dstPath) {
             $fs.Write($chunkBytes, 0, $chunkBytes.Length)
         }
 
+        # Patch 17: Configurable & Enhanced AI Nuclear Strike Targeting (@ 0x004A52E0 / 0x0066E270 / 0x0066E3FB / 0x00DCB500)
+        foreach ($chunk in $PATCH17_CHUNKS) {
+            $chunkBytes = [System.Convert]::FromBase64String($chunk.Data)
+            $null = $fs.Seek($chunk.Offset, [System.IO.SeekOrigin]::Begin)
+            $fs.Write($chunkBytes, 0, $chunkBytes.Length)
+        }
+
         # Ensure file length is padded to match expanded .mod section raw size (0x00484000 + 0x4000 = 0x00488000)
         if ($fs.Length -lt 0x00488000) {
             $fs.SetLength(0x00488000)
@@ -880,6 +927,10 @@ GameVersion = 1
             $engineAppend = "`r`n`r`n[Engine]`r`n; Binary Version Identifier (Global flag GAME_VERSION):`r`n; Controls the numeric value assigned to the GAME_VERSION global flag on scenario/savegame load.`r`n; Default = 1`r`nGameVersion = 1`r`n"
             [System.IO.File]::AppendAllText($dstIni, $engineAppend, [System.Text.Encoding]::GetEncoding("ISO-8859-1"))
         }
+        if ($curIniText -notmatch "\[NuclearAI\]") {
+            $nuclearAppend = "`r`n`r`n[NuclearAI]`r`n; Enable Enhanced Nuclear Strike Targeting System:`r`n; 0 = Vanilla retail behavior (hardcoded weights and random province skipping)`r`n; 1 = Enhanced targeting system (recommended)`r`nEnableEnhancedNuclearTargeting = 1`r`n`r`n; Multiplier applied to core province strategic value: (IC * 0.5 + VP) * THIS`r`n; Vanilla default = 10.0`r`nCoreValueMultiplier = 10.0`r`n`r`n; Weight awarded per enemy division stationed in target province: divisions * THIS`r`n; Vanilla default = 0.5`r`nDivisionWeight = 0.5`r`n`r`n; Multiplier applied to provincial Nuclear Reactor level (pProv + 490)`r`n; Vanilla default = 20.0`r`nNuclearReactorMultiplier = 20.0`r`n`r`n; Multiplier applied when province owner is not at war with attacker (e.g. occupied neutral)`r`n; Vanilla default = 0.5`r`nNonBelligerentOwnerMultiplier = 0.5`r`n`r`n; Multiplier applied when province owner is allied with attacker (e.g. allied soil occupied by enemy)`r`n; Vanilla default = 0.2`r`nAlliedOwnerMultiplier = 0.2`r`n`r`n; Modulo divisor for candidate province iteration stride: stride = (rand() % Max) + 1`r`n; Vanilla default = 10`r`n; Set to 0 or 1 for sequential exhaustive scanning`r`nCandidateRandomSkipMax = 10`r`n`r`n; Multiplier applied if province controller is a puppet of another nation:`r`n; Default = 0.1`r`nPuppetControllerMultiplier = 0.1`r`n`r`n; Controller Total IC Scaling Mode:`r`n; 0 = Vanilla sqrt(TotalIC), 1 = Linear IC scaling (TotalIC / 10.0), 2 = Super-linear scaling`r`n; Vanilla default = 0; Recommended = 1`r`nControllerICScalingMode = 1`r`n`r`n; Minor Power IC Threshold & Penalty Multiplier:`r`n; If province controller Total IC is below this threshold, score is multiplied by MinorPowerMultiplier.`r`nMinorPowerICThreshold = 40`r`nMinorPowerMultiplier = 0.2`r`n`r`n; Falloff / Minimum Target Score Gate ('Save Nukes for Later'):`r`n; If no candidate in range reaches this threshold, hold atomic weapons in reserve.`r`n; Vanilla default = 0.0; Recommended = 100.0`r`nMinTargetScoreThreshold = 100.0`r`n`r`n; Aggregate Military Installation Multiplier:`r`n; (navalBase + airBase + radar + rocketSite) * THIS`r`n; Vanilla default = 0.0; Recommended = 2.0`r`nProvinceInstallationMultiplier = 0.0`r`n`r`n; Aggregate Provincial Resource Production Multiplier:`r`n; (energy + metal + oil + rare_materials) * THIS`r`n; Vanilla default = 0.0; Recommended = 0.5`r`nResourceMultiplier = 0.0`r`n"
+            [System.IO.File]::AppendAllText($dstIni, $nuclearAppend, [System.Text.Encoding]::GetEncoding("ISO-8859-1"))
+        }
     }
 
     # Ensure default db\straits.csv exists in destination directory
@@ -939,6 +990,7 @@ GameVersion = 1
     if (-not $dstState.Sig14Patch)  { $failedSigs += "Patch 14 (Discriminative Garrison AI)" }
     if (-not $dstState.Sig15Patch)  { $failedSigs += "Patch 15 (Strategic Redeployment Accounting)" }
     if (-not $dstState.Sig16Patch)  { $failedSigs += "Patch 16 (Fresh Army Garrison Filter)" }
+    if (-not $dstState.Sig17Patch)  { $failedSigs += "Patch 17 (Nuclear Strike AI Targeting)" }
     if ($failedSigs.Count -gt 0) {
         throw ("Verification failed: Target file signatures were not properly updated. Failed: " + ($failedSigs -join ', '))
     }

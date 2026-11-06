@@ -72,6 +72,12 @@ This reference library is divided into specialized modular guides:
 * Carrier Commands: why `which` is optional in `FUN_0070c2b0`, catalog of benign carrier commands (`protect`, `songs`), and runtime command shielding with `trigger = { year = 9999 }`.
 * Scenario & Savegame (`.eug`) parser (`FUN_00534a40`): the 17 allowed top-level tokens, native integer storage in `save_date = { }`, and string flag payloads in `globaldata = { flags = { } }`.
 
+### 11. [Nuclear Strike AI Architecture & Targeting Engine](nuclear_ai.md)
+* AI nuclear strike target selection and 2-step rebase-then-strike pipeline (`sub_66D190`, `sub_66DA10`, `sub_673090`, `sub_4A52E0`, `sub_4EE170`).
+* Data structures: `CCountry` (+6, +0x120, +0x12DA, +0xE8B2, +0x117E2, +0x11848), `CAirbase` (+0x08, +0x34, +0x36, +0x44, +0x45), `CProvince` (+18, +450, +458..+494, +624..+640, +980, +984), and `CAirMarshal` (`nukestrikedesirability` @ +0x4C, `nukestriketolerance` @ +0x50).
+* Vanilla engine parameters & hidden mechanics: `nukestriketolerance` (+1.0 starting base score floor), `CoreValueWeight` (10.0, core provinces only), `DivisionWeight` (0.5), `NuclearReactorWeight` (20.0), `NonBelligerentOwnerMultiplier` (0.5), `AlliedOwnerMultiplier` (0.2), and candidate step stride (`rand() % 10 + 1`).
+* Failure mode case studies: the Palembang (`1358`) immediate strike mystery, frontline troop concentration bias (Indochina pathology), range starvation defects, and the unoccupied island airbase supply Catch-22 (`0x0066D430`).
+
 ---
 
 ## Custom Engine Modifications & Patch Plans

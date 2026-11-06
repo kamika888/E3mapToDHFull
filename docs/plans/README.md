@@ -25,6 +25,7 @@ This directory contains comprehensive architectural documentation, reverse engin
 | **Patch 14** | Discriminative Garrison AI & Formula Config | `0x0068D3B6` (`0x0028D3B6`) | `0x00DC9E50` - `0x00DC9FA0` | `EnableDiscriminativeGarrison`, `DistanceWeight`, `GarrisonBorderPenalty`, `GarrisonPartisanBonus` | [`plan_discriminative_garrison_assignment.md`](plan_discriminative_garrison_assignment.md) |
 | **Patch 15** | Strategic Redeployment Garrison Accounting | `0x0068CCEC` (`0x0028CCEC`) | `0x00DCB400` (.mod cave) | `EnableStratRedeployGarrison` | [`plan_strategic_redeploy_garrison_count.md`](plan_strategic_redeploy_garrison_count.md) |
 | **Patch 16** | Fresh Army Immediate Garrison Recognition | `0x0068C201` (`0x0028C201`) | `0x00DCB480` (.mod cave) | `EnableStratRedeployGarrison` | [`plan_strategic_redeploy_garrison_count.md`](plan_strategic_redeploy_garrison_count.md) |
+| **Patch 17** | Enhanced Nuclear Strike Targeting & Falloff Gate | `0x004A52E0`, `0x0066E270`, `0x0066E3FB` | `0x00DCB500` (.mod cave) | `[NuclearAI]` settings | [`plan_nuclear_strike_targeting.md`](plan_nuclear_strike_targeting.md) |
 
 ---
 
@@ -80,6 +81,9 @@ Eliminates the retail engine blind spot where divisions en route via strategic r
 
 ### 16. [Fresh Army Immediate Garrison Recognition](plan_strategic_redeploy_garrison_count.md)
 Hooks `CAreaGarrisonAI`'s province army evaluation loop at `0x0068C201` (`0x00DCB480`), immediately recognizing and counting newly arrived divisions whose `m_pAIController` pointer is `NULL` or points to parent `CRootGarrisonAI`. Completely eliminates the 1-hour garrison deficit glitch where nearby units were erroneously dispatched towards newly arrived provinces before immediately reversing.
+
+### 17. [Enhanced Nuclear Strike Targeting & Falloff Gate](plan_nuclear_strike_targeting.md)
+Hooks `CCountry::EvaluateNukeTargetProvince` (`0x004A52E0`) and `CAIPlanAirMarshal::CreateCombatAirMissionPlan` (`0x0066DA10`), externalizing all 6 vanilla targeting constants into `[NuclearAI]` in `db\mod_settings.ini` with a clear separation between additive province weights (`CoreValueWeight`, `DivisionWeight`, `NuclearReactorWeight`, `ProvinceInstallationWeight`, `ResourceWeight`) and total score multipliers (`NonBelligerentOwnerMultiplier`, `AlliedOwnerMultiplier`, `PuppetControllerMultiplier`, `MinorPowerMultiplier`). Introduces configurable controller IC scaling (`ControllerICScalingMode`, `MinorPowerICThreshold`) and a minimum target score falloff gate (`MinTargetScoreThreshold`) evaluated inside `sub_4A52E0` to hold atomic weapons in reserve until high-value strategic targets are within bomber range.
 
 
 ---
