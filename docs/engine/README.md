@@ -78,6 +78,12 @@ This reference library is divided into specialized modular guides:
 * Vanilla engine parameters & hidden mechanics: `nukestriketolerance` (+1.0 starting base score floor), `CoreValueWeight` (10.0, core provinces only), `DivisionWeight` (0.5), `NuclearReactorWeight` (20.0), `NonBelligerentOwnerMultiplier` (0.5), `AlliedOwnerMultiplier` (0.2), and candidate step stride (`rand() % 10 + 1`).
 * Failure mode case studies: the Palembang (`1358`) immediate strike mystery, frontline troop concentration bias (Indochina pathology), range starvation defects, and the unoccupied island airbase supply Catch-22 (`0x0066D430`).
 
+### 12. [Land Movement, Orders & Pathfinding Subsystem](movement_and_orders.md)
+* Multi-tiered movement pipeline connecting `CAI` (`0x006AAFF0`), `COrderMove` (`0x00431220`), and discrete event scheduler (`0x00893768`).
+* Memory layout and field offsets: `CLandArmy` (`0x007E85C0`), `CMissionController` (`0x007E8754`), `CProvince` array (stride `0x4B2`, base `*(DWORD*)0x00AB27B4`).
+* Movement control routines: `CLandArmy::StartMoving` (`0x00523250`), `CLandArmy::StopMoving` (`0x005232B0`), `CLandArmy::UpdateMovementArrow` (`0x00522650`), `CLandArmy::CanMoveTo` (`0x005091C0`), `CLandArmy::CanEnterTerrain` (`0x005216C0`).
+* Step-by-step instructions, assembly stub, and verification protocol for issuing live move orders via memory manipulation in running game sessions without restarting or patching files on disk.
+
 ---
 
 ## Custom Engine Modifications & Patch Plans

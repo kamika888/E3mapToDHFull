@@ -26,6 +26,7 @@ This directory contains comprehensive architectural documentation, reverse engin
 | **Patch 15** | Strategic Redeployment Garrison Accounting | `0x0068CCEC` (`0x0028CCEC`) | `0x00DCB400` (.mod cave) | `EnableStratRedeployGarrison` | [`plan_strategic_redeploy_garrison_count.md`](plan_strategic_redeploy_garrison_count.md) |
 | **Patch 16** | Fresh Army Immediate Garrison Recognition | `0x0068C201` (`0x0028C201`) | `0x00DCB480` (.mod cave) | `EnableStratRedeployGarrison` | [`plan_strategic_redeploy_garrison_count.md`](plan_strategic_redeploy_garrison_count.md) |
 | **Patch 17** | Enhanced Nuclear Strike Targeting & Falloff Gate | `0x004A52E0`, `0x0066E270`, `0x0066E3FB` | `0x00DCB500` (.mod cave) | `[NuclearAI]` settings | [`plan_nuclear_strike_targeting.md`](plan_nuclear_strike_targeting.md) |
+| **Patch 18** | Front AI Graph Traversal & Encirclement Defense | `0x004E7905`, `0x00684526` | `0x00DCBAA0` (.mod cave) | `[FrontAI]` settings | [`plan_front_ai_encirclement_defense.md`](plan_front_ai_encirclement_defense.md) |
 
 ---
 
@@ -84,6 +85,9 @@ Hooks `CAreaGarrisonAI`'s province army evaluation loop at `0x0068C201` (`0x00DC
 
 ### 17. [Enhanced Nuclear Strike Targeting & Falloff Gate](plan_nuclear_strike_targeting.md)
 Hooks `CCountry::EvaluateNukeTargetProvince` (`0x004A52E0`) and `CAIPlanAirMarshal::CreateCombatAirMissionPlan` (`0x0066DA10`), externalizing all 6 vanilla targeting constants into `[NuclearAI]` in `db\mod_settings.ini` with a clear separation between additive province weights (`CoreValueWeight`, `DivisionWeight`, `NuclearReactorWeight`, `ProvinceInstallationWeight`, `ResourceWeight`) and total score multipliers (`NonBelligerentOwnerMultiplier`, `AlliedOwnerMultiplier`, `PuppetControllerMultiplier`, `MinorPowerMultiplier`). Introduces configurable controller IC scaling (`ControllerICScalingMode`, `MinorPowerICThreshold`) and a minimum target score falloff gate (`MinTargetScoreThreshold`) evaluated inside `sub_4A52E0` to hold atomic weapons in reserve until high-value strategic targets are within bomber range.
+
+### 18. [Front AI Graph Traversal & Encirclement Defense](plan_front_ai_encirclement_defense.md)
+Eliminates the vanilla Front AI blind spot where multi-province salients and encirclements are ignored by the local 1-hop `op_defensive` check. Implements a multi-source reverse Breadth-First Search (BFS) starting from the Capital and provincial supply depots (`CProvince + 0x18A` / `+0x270`), mapping topological bottleneck widths (`min_neck_width`) and shoulder provinces. Introduces the multi-layer "Stay vs Run" Decision Engine (STEM) that evaluates shoulder combat stress, defender organization, and offensive spearhead momentum. When a shoulder collapses, sets forward salient quotas to `0.0` at `0x00684526` (`FUN_006829b0`), allowing the native engine to order overland combat march withdrawals while protecting advancing offensive spearheads from premature retreats. Externalizes all thresholds into `[FrontAI]` in `db\mod_settings.ini`.
 
 
 ---

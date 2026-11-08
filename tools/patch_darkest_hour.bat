@@ -300,9 +300,36 @@ $PATCH17_CHUNKS = @(
 )
 
 
+# Patch 18: Front AI Encirclement Defense & Salient Evacuation Engine (STEM)
+# Hourly Country Loop @ 0x0042F6C0, .mod Cave @ 0x00DCBAB0
+$SIG18_OFFSET  = 0x0002F6C0
+$ORIG18_SIG    = [byte[]]@(0x8B, 0x2C, 0xB5, 0xD8, 0xCA, 0x89, 0x00)
+$PATCH18_SIG   = [byte[]]@(0xE8, 0x3B, 0xCB, 0x99, 0x00, 0x90, 0x90)
+
+$PATCH18_CHUNKS = @(
+    # Cave & Data block in .mod (@ 0x00DCBAB0 / file offset 0x00486AB0, 2384 bytes)
+    @{ Offset = 0x00486AB0; Data = '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' },
+    # Hook 1: Cave_FrontAI_Init call in .mod (@ 0x00DCB7E6 / file offset 0x004867E6, 11 bytes)
+    @{ Offset = 0x004867E6; Data = '6RUEAACQkJCQkJA=' },
+    # Hook 2A: Runtime combat occupation in FUN_004E7300 (@ 0x004E7616 / file offset 0x000E7616, 6 bytes)
+    @{ Offset = 0x000E7616; Data = '6UVHjgCQ' },
+    # Hook 2B: Scenario setup SetController in FUN_004E78E0 (@ 0x004E7905 / file offset 0x000E7905, 6 bytes)
+    @{ Offset = 0x000E7905; Data = '6XZEjgCQ' },
+    # Restore Hook at 0x00681269 (@ 0x00681269 / file offset 0x00281269, 5 bytes)
+    @{ Offset = 0x00281269; Data = '6LJ0AgA=' },
+    # Hook 3: Hourly Country Loop dispatch to Cave_STEM_HourlyHook (@ 0x0042F6C0 / file offset 0x0002F6C0, 7 bytes)
+    @{ Offset = 0x0002F6C0; Data = '6DvLmQCQkA==' }
+)
+
 # Expected SHA256 Hashes
 $ORIG_SHA256     = "7A1AE8BB802377B6C9EC808F420ACE58475D1816464390422CF97AD450A51EB4"
-$PATCH_SHA256    = "5FFC80BC5D7EE574AE0854BCEADFD2AB76608AB5E5371B63F7E2C1EB2EBE3EA6"
+$PATCH_SHA256    = "3F857026F969FE7F54796152276112FF3F039425966DB728D20B98D47877BA6B"
+
+$PREV_V84_SHA256 = "3D7ED7C0716DBBC50EE3FE1C299846889F7ED50DDB9EAD0A8E07DBBF02540634"
+
+$PREV_V83_SHA256 = "ADF0208483A1C2D9AAB61C13CF3C53D8A20368DEFCBF2C6B3E33052E4BFA16C9"
+  $PREV_V82_SHA256 = "1911F5C4F67D8DDAA8E60D7FE2A64F9D0B0B0D2A6E6B9BDDDFECDBEB5F2B78A1"
+$PREV_V81_SHA256 = "31DFA8858898B4B182873D94D1F883C9305D388159679068DBC7504E1F26C601"
 $PREV_V80_SHA256 = "B97E919311216ABACF0FAF100001C500E09BF3D17CE89CEB320C1647F765329F"
 $PREV_V79_SHA256 = "05078531995BE38B80B62E2E6EE197DB9EF6D4D23075433E88F28FDA6CBE38E4"
 $PREV_V78_SHA256 = "DA6E2704852F042E711054A6AEC0D16DC180B23D3801BC4EA131A44BC23C79DB"
@@ -465,6 +492,11 @@ function Show-Header {
       currently en route via strategic redeployment and newly arrived divisions at target provinces.
       Configurable via 'db\mod_settings.ini' ([GarrisonAI] EnableStratRedeployGarrison = 0/1, Default 1).
       (CGarrisonAI @ 0x0068CCEC / 0x0068E3A3 / .mod @ 0x00DCB240 / 0x00DCB290)
+
+   16. Front AI Encirclement Defense & Salient Evacuation Engine (STEM) (db\mod_settings.ini):
+      Topological graph traversal from Capital & supply depots to detect operational salients.
+      Zeroes front quotas on collapsing necks to trigger overland march evacuations (no strat redep).
+      Configurable via 'db\mod_settings.ini' ([FrontAI]).
 
    15. Configurable & Enhanced AI Nuclear Strike Targeting (db\mod_settings.ini):
       Externalizes vanilla targeting weights/multipliers (CoreValueWeight, DivisionWeight,
@@ -646,15 +678,25 @@ function Check-FileState([string]$path) {
             $sig17Orig = ((Compare-Object $buf17 $ORIG17_SIG) -eq $null)
             $sig17Patch = ((Compare-Object $buf17 $PATCH17_SIG) -eq $null)
         }
+        $sig18Orig = $false; $sig18Patch = $false
+        if ($fs.Length -ge ($SIG18_OFFSET + 7)) {
+            $null = $fs.Seek($SIG18_OFFSET, [System.IO.SeekOrigin]::Begin)
+            $buf18 = New-Object byte[] 7
+            $null = $fs.Read($buf18, 0, 7)
+            $sig18Orig = ((Compare-Object $buf18 $ORIG18_SIG) -eq $null)
+            $sig18Patch = ((Compare-Object $buf18 $PATCH18_SIG) -eq $null)
+        }
         $fs.Close()
     } catch {
         return @{ Exists = $true; State = "Locked/Unreadable"; Size = $size; Hash = $hash }
     }
 
     $state = "Unknown"
-    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig -and $sig13Orig -and $sig14Orig -and $sig15Orig -and $sig16Orig -and $sig17Orig) {
+    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig -and $sig13Orig -and $sig14Orig -and $sig15Orig -and $sig16Orig -and $sig17Orig -and $sig18Orig) {
         $state = "Original"
-    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and $sig17Patch) {
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and $sig17Patch -and $sig18Patch) {
+        $state = "Patched (All Fixes + Discriminative Garrison + Strat Redep + Nuclear AI + Front AI Encirclement)"
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and $sig17Patch -and -not $sig18Patch) {
         $state = "Patched (All Fixes + Discriminative Garrison + Strat Redep + Nuclear AI)"
     } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and -not $sig17Patch) {
         $state = "Patched (All Fixes + Discriminative Garrison + Strat Redep Accounting & Toggle)"
@@ -729,6 +771,8 @@ function Check-FileState([string]$path) {
         Sig16Patch  = $sig16Patch
         Sig17Orig   = $sig17Orig
         Sig17Patch  = $sig17Patch
+        Sig18Orig   = $sig18Orig
+        Sig18Patch  = $sig18Patch
     }
 }
 
@@ -857,6 +901,13 @@ function Apply-PatchToFile([string]$srcPath, [string]$dstPath) {
             $fs.Write($chunkBytes, 0, $chunkBytes.Length)
         }
 
+        # Patch 18: Front AI Encirclement Defense & Salient Evacuation Engine (STEM)
+        foreach ($chunk in $PATCH18_CHUNKS) {
+            $chunkBytes = [System.Convert]::FromBase64String($chunk.Data)
+            $null = $fs.Seek($chunk.Offset, [System.IO.SeekOrigin]::Begin)
+            $fs.Write($chunkBytes, 0, $chunkBytes.Length)
+        }
+
         # Ensure file length is padded to match expanded .mod section raw size (0x00484000 + 0x4000 = 0x00488000)
         if ($fs.Length -lt 0x00488000) {
             $fs.SetLength(0x00488000)
@@ -927,6 +978,10 @@ GameVersion = 1
             $engineAppend = "`r`n`r`n[Engine]`r`n; Binary Version Identifier (Global flag GAME_VERSION):`r`n; Controls the numeric value assigned to the GAME_VERSION global flag on scenario/savegame load.`r`n; Default = 1`r`nGameVersion = 1`r`n"
             [System.IO.File]::AppendAllText($dstIni, $engineAppend, [System.Text.Encoding]::GetEncoding("ISO-8859-1"))
         }
+        if ($curIniText -notmatch "\[FrontAI\]") {
+            $frontAIAppend = "`r`n`r`n[FrontAI]`r`n; Enable Front AI Encirclement Defense (STEM: Salient Topological Evacuation & Momentum Engine):`r`n; 0 = Vanilla behavior (front units hold stationary in narrow salients until encircled)`r`n; 1 = Evacuate salient bottlenecks and threatened salients inward via overland march (default)`r`nEnableEncirclementDefense = 1`r`n`r`n; Neck bottleneck width threshold in provinces (1 = single province bottleneck neck):`r`nSalientNeckWidthThreshold = 1`r`n`r`n; Whether to treat supply depot provinces as core supply anchors during BFS topology traversal (1 = enabled):`r`nUseSupplyDepotsAsCores = 1`r`n"
+            [System.IO.File]::AppendAllText($dstIni, $frontAIAppend, [System.Text.Encoding]::GetEncoding("ISO-8859-1"))
+        }
         if ($curIniText -notmatch "\[NuclearAI\]") {
             $nuclearAppend = "`r`n`r`n[NuclearAI]`r`n; Enable Enhanced Nuclear Strike Targeting System:`r`n; 0 = Vanilla retail behavior (hardcoded weights and random province skipping)`r`n; 1 = Enhanced targeting system (recommended)`r`nEnableEnhancedNuclearTargeting = 1`r`n`r`n; Multiplier applied to core province strategic value: (IC * 0.5 + VP) * THIS`r`n; Vanilla default = 10.0`r`nCoreValueMultiplier = 10.0`r`n`r`n; Weight awarded per enemy division stationed in target province: divisions * THIS`r`n; Vanilla default = 0.5`r`nDivisionWeight = 0.5`r`n`r`n; Multiplier applied to provincial Nuclear Reactor level (pProv + 490)`r`n; Vanilla default = 20.0`r`nNuclearReactorMultiplier = 20.0`r`n`r`n; Multiplier applied when province owner is not at war with attacker (e.g. occupied neutral)`r`n; Vanilla default = 0.5`r`nNonBelligerentOwnerMultiplier = 0.5`r`n`r`n; Multiplier applied when province owner is allied with attacker (e.g. allied soil occupied by enemy)`r`n; Vanilla default = 0.2`r`nAlliedOwnerMultiplier = 0.2`r`n`r`n; Modulo divisor for candidate province iteration stride: stride = (rand() % Max) + 1`r`n; Vanilla default = 10`r`n; Set to 0 or 1 for sequential exhaustive scanning`r`nCandidateRandomSkipMax = 10`r`n`r`n; Multiplier applied if province controller is a puppet of another nation:`r`n; Default = 0.1`r`nPuppetControllerMultiplier = 0.1`r`n`r`n; Controller Total IC Scaling Mode:`r`n; 0 = Vanilla sqrt(TotalIC), 1 = Linear IC scaling (TotalIC / 10.0), 2 = Super-linear scaling`r`n; Vanilla default = 0; Recommended = 1`r`nControllerICScalingMode = 1`r`n`r`n; Minor Power IC Threshold & Penalty Multiplier:`r`n; If province controller Total IC is below this threshold, score is multiplied by MinorPowerMultiplier.`r`nMinorPowerICThreshold = 40`r`nMinorPowerMultiplier = 0.2`r`n`r`n; Falloff / Minimum Target Score Gate ('Save Nukes for Later'):`r`n; If no candidate in range reaches this threshold, hold atomic weapons in reserve.`r`n; Vanilla default = 0.0; Recommended = 100.0`r`nMinTargetScoreThreshold = 100.0`r`n`r`n; Aggregate Military Installation Multiplier:`r`n; (navalBase + airBase + radar + rocketSite) * THIS`r`n; Vanilla default = 0.0; Recommended = 2.0`r`nProvinceInstallationMultiplier = 0.0`r`n`r`n; Aggregate Provincial Resource Production Multiplier:`r`n; (energy + metal + oil + rare_materials) * THIS`r`n; Vanilla default = 0.0; Recommended = 0.5`r`nResourceMultiplier = 0.0`r`n"
             [System.IO.File]::AppendAllText($dstIni, $nuclearAppend, [System.Text.Encoding]::GetEncoding("ISO-8859-1"))
@@ -991,6 +1046,7 @@ GameVersion = 1
     if (-not $dstState.Sig15Patch)  { $failedSigs += "Patch 15 (Strategic Redeployment Accounting)" }
     if (-not $dstState.Sig16Patch)  { $failedSigs += "Patch 16 (Fresh Army Garrison Filter)" }
     if (-not $dstState.Sig17Patch)  { $failedSigs += "Patch 17 (Nuclear Strike AI Targeting)" }
+    if (-not $dstState.Sig18Patch)  { $failedSigs += "Patch 18 (Front AI Encirclement Defense)" }
     if ($failedSigs.Count -gt 0) {
         throw ("Verification failed: Target file signatures were not properly updated. Failed: " + ($failedSigs -join ', '))
     }

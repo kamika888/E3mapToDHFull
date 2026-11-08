@@ -25,6 +25,7 @@ docs/
 |   +-- map_and_lightmap_engine.md  <-- Tile grid, lightmap formats, 6-bit index overflow limit
 |   +-- naval_ai.md                 <-- Naval base selection, base fleet generation, hardcoded HoI2 fallbacks
 |   +-- scripting_and_parser_compatibility.md <-- Parser internals, DAT_00dc4b60, proxy triggers, carrier commands
+|   +-- movement_and_orders.md      <-- Movement pipeline, CLandArmy/CProvince structs, live move orders
 +-- plans/                          <-- Custom Engine Modifications & Binary Patches
 |   +-- README.md                   <-- Master Patch Catalog & Verification Matrix
 |   +-- plan_unit_control_transfer.md   <-- Patch 1: Peacetime Front Leader Recognition
@@ -42,6 +43,8 @@ docs/
 |   +-- plan_unit_counter_hover_hit_test_scale_fix.md <-- Patch 13: Unit Counter Hover Hit-Test Scale Fix
 |   +-- plan_discriminative_garrison_assignment.md <-- Patch 14: Discriminative Garrison AI
 |   +-- plan_strategic_redeploy_garrison_count.md  <-- Patch 15 & 16: Strategic Redeployment & Immediate Garrison Accounting
+|   +-- plan_nuclear_strike_targeting.md <-- Patch 17: Nuclear Strike AI Targeting & Falloff Gate
+|   +-- plan_front_ai_encirclement_defense.md <-- Patch 18: Front AI Graph Traversal & Encirclement Defense
 ```
 
 ---
@@ -62,6 +65,7 @@ The [`docs/engine/`](engine/README.md) directory documents the unmodified retail
 | **[`map_and_lightmap_engine.md`](engine/map_and_lightmap_engine.md)** | Map & Lightmap Engine | $32 \times 32$ tile grid, $29,952 \times 11,520$ E3 mapping, zoom levels 0-3, binary `lightmapX.tbl` format, 6-bit index limit, and the 60-entry tile header crash. |
 | **[`naval_ai.md`](engine/naval_ai.md)** | Naval AI Subsystem | Base fleet construction (`0x00663BA0`), base population (`0x00664400`), hardcoded vanilla HoI2 base fallbacks (GER, ENG, USA), and the USA ghost fleet `location = 0` bug. |
 | **[`scripting_and_parser_compatibility.md`](engine/scripting_and_parser_compatibility.md)** | Scripting & Savegame Parser | Event trigger/command parsers (`FUN_0072bbf0`, `FUN_0070c2b0`), `.eug` top-level tokens (`FUN_00534a40`), error counter `DAT_00dc4b60`, proxy triggers, carrier commands, and `save_date` / `flags` persistence. |
+| **[`movement_and_orders.md`](engine/movement_and_orders.md)** | Land Movement & Orders | Multi-tier movement pipeline (`CAI` 0x006AAFF0, `COrderMove` 0x00431220), `CLandArmy` (`0x007E85C0`), `CMissionController` (`0x007E8754`), `CProvince` array (stride `0x4B2`, base `[0x00AB27B4]`), movement control functions, and instructions for issuing move orders via live memory manipulation. |
 
 ---
 
@@ -118,6 +122,18 @@ uint8_t* pDate = *(uint8_t**)(0x00893530) + 0x14;
 
 // Active UI formatted clock string:
 const char* clock_str = (const char*)0x00D0B68C; // "H:00 Month D, YYYY"
+
+// Province structure contiguous array base pointer:
+uint32_t prov_base = *(uint32_t*)0x00AB27B4; // Province(id) = prov_base + id * 0x4B2
+
+// Event scheduler priority queue heap:
+uint32_t event_queue_len = *(uint32_t*)0x00893768; // Heap items at [0x00893760], [0x00893764]
+
+// Map movement arrow renderer:
+void* pArrowRenderer = *(void**)0x00D12B40;
+
+// Game loop frame render hook (for clean main-thread injection):
+// 0x007902E4: push 0; mov ecx, dword ptr [0x00D13348]; call 0x006D09E0
 
 // Checksum accumulator:
 uint32_t checksum_accum = *(uint32_t*)0x00893644;

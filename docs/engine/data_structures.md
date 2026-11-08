@@ -128,20 +128,37 @@ Offset          Type                Description
 
 ---
 
-### 3.4 `CArmy` (Corps / Army Group) Structure
-Represents a land unit counter on the map:
+### 3.4 `CLandArmy` (Land Army / Division Group) Structure
+Represents a land unit counter on the map. Vtable: `0x007E85C0`. Size: `0x320` bytes.
 
 ```
 Offset          Type                Description
 --------------------------------------------------------------------------------------
-+0x00           void*               Vtable
-+0x10           int32               Unit ID (e.g. 200010)
-+0x14           char[]              Army Name (e.g. "BEF Corps")
-+0x298          int32               Target Province ID (e.g. 41 = Le Havre; 0 = none)
-+0x29C          List*               Movement Route / Waypoint List
++0x00           void*               Vtable (0x007E85C0)
++0x04           char*               Pointer to null-terminated unit name
++0x0C           uint16              Current Province ID (where army is stationed)
++0x10           void*               Head of child divisions linked list
++0x18           uint16              Unit ID Type field (e.g. 10848 / 0x2A60)
++0x1A           uint16              Unit ID Sequence Number (e.g. 9 / 0x0009)
++0x28           void*               IsLandArmy virtual call (+0x28 -> 0x00509C90, returns 1)
++0x11C          struct              Combat State container (vtable: 0x007E8B04, +0x0C: in-combat flag)
++0x15A          void*               Map Sprite / Counter graphics object
++0x17B          uint8               Movement State Byte: 1 = actively marching, 0 = stationary
++0x17E          uint8               Movement arrow update flag (1 = dirty)
++0x1F0          void*               Movement path container
++0x22E          void*               Waypoint container vtable (0x007EAAD0)
++0x230          void*               Waypoint queue pointer
++0x238          uint16              Waypoint count in queue
++0x240          uint16              Starting province ID of current move leg
++0x248          Country*            Owning Country pointer ([pArmy + 0x248])
++0x260          struct              CMissionController (0x60 bytes, vtable: 0x007E8754)
++0x264          uint32              Mission Type in controller (1 = MOVE, 0 = NONE)
++0x268          uint32              Target Province ID in controller
++0x26C          float               Movement speed multiplier (1.0f = 0x3F800000)
++0x270          uint32              Mission Start Date (packed format)
++0x27E          uint16              Active Mission Code (1 = MOVE)
++0x282          uint16              Destination Province ID
 ```
-
-- When an overseas mission is assigned by `FUN_00696ef0`, `[CArmy + 0x298]` is written with the port province ID, prompting the transport minister to schedule naval lift.
 
 ---
 
@@ -156,5 +173,49 @@ Byte Offset     Type        Format / Meaning
 +0x02           uint8       Month of year (0-indexed: 0x00 = Jan, 0x06 = July)
 +0x03           uint8       Flags / Tick state
 +0x04..0x05     uint16      Year (little-endian: 0x0790 = 1936)
+```
+
+---
+
+### 3.6 `CProvince` Structure
+All provinces are stored in a contiguous array in the engine heap.
+
+- **Base Pointer**: `*(uint32_t*)0x00AB27B4`
+- **Structure Stride**: `0x4B2` (1,202 bytes)
+- **Direct Address Formula**: `prov_base + prov_id * 0x4B2`
+
+```
+Offset          Type                Description
+--------------------------------------------------------------------------------------
++0x00           void*               Vtable
++0x0C           uint16              Owner Country Tag / ID
++0x0E           uint16              Controller Country Tag / ID
++0x12           uint16              Province Numerical ID
++0x180          uint8               Impassable / Blocked border flag (1 = blocked)
++0x254          uint32              Terrain Type (8 = Sea, 9 = Ocean)
++0x290          uint32              Count of adjacent neighbor provinces
++0x298          void*               Pointer to neighbor array (12 bytes per record)
+                                      +0x00: Neighbor Province ID (uint32)
+                                      +0x04: Connection / Border Type
+                                      +0x08: Distance / Flags
++0x471          uint8               Direct sea zone access flag
+```
+
+---
+
+### 3.7 `CMissionController` Structure (Embedded at `pArmy + 0x260`)
+Vtable: `0x007E8754`. Manages operational missions (Move, Attack, Rebase, Patrol).
+
+```
+Offset from Base  Type          Description
+--------------------------------------------------------------------------------------
++0x00             void*         Vtable (0x007E8754)
++0x04             uint32        Mission Type: 0 = None, 1 = Move, 2 = Attack, 3 = Rebase...
++0x08             uint32        Target Province ID
++0x0C             float         Speed Multiplier (1.0f = 0x3F800000)
++0x10             uint32        Mission Start Date / Packed Timestamp
++0x1C             uint16        Mission Active Flag (1 = active)
++0x1E             uint16        Active Mission Code (1 = MOVE)
++0x22             uint16        Destination Province ID
 ```
 

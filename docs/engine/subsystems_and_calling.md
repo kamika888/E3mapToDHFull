@@ -55,4 +55,15 @@ Darkest Hour is compiled with Microsoft Visual C++ for 32-bit x86 Little-Endian 
 | `CScriptParser::LookupFlag` | `0x006C5280` | `__cdecl` | `CScriptParser` | Queries associative `local_flags` map (`Country + 0x1183E`) |
 | `Checksum::CalcTotal` | `0x0042E3D0` | `__cdecl` | Checksum | Iterates ~35 core files and accumulates global 4-letter checksum |
 | `Checksum::CalcFile` | `0x0042E2C0` | `__cdecl` | Checksum | Computes signed byte sum of an individual database file |
+| `CAI::DispatchMoveOrder` | `0x006AAFF0` | `__thiscall` | `CAI` | Master AI move order entry point (`pArmy, pTargetProv, 0`) |
+| `CAI::ProcessOrderMove` | `0x006AABA0` | `__thiscall` | `CAI` | Validates movement legality, calls pathfinder, updates waypoint queue |
+| `COrderMove::Execute` | `0x00431220` | `__thiscall` | `COrderMove` | Runs A* pathfinding, computes travel time, schedules tick in event heap `0x00893768` |
+| `COrderMove::ValidateRoute` | `0x00431BB0` | `__stdcall` | `COrderMove` | Route and adjacency validator (`pArmy, pCurProv, pTargetProv`) |
+| `CLandArmy::CanMoveTo` | `0x005091C0` | `__thiscall` | `CLandArmy` | Fast adjacency query. Returns `1` if target province is an adjacent neighbor |
+| `CLandArmy::CanEnterTerrain` | `0x005216C0` | `__thiscall` | `CLandArmy` | Validates if all units in division list can traverse target terrain |
+| `CLandArmy::StartMoving` | `0x00523250` | `__thiscall` | `CLandArmy` | Sets `m_bMoving = 1`, triggers sprite march animation, plays march sound |
+| `CLandArmy::StopMoving` | `0x005232B0` | `__thiscall` | `CLandArmy` | Clears `m_bMoving = 0`, resets map counter state to stationary |
+| `CLandArmy::UpdateMovementArrow` | `0x00522650` | `__thiscall` | `CLandArmy` | Traverses waypoints and draws red directional movement arrow on map |
+| `GetProvince` | `0x004E9370` | `__cdecl` | Map | Returns `prov_base + provId * 0x4B2` (`*(DWORD*)0x00AB27B4`) |
+| `CLandArmy::GetCurrentProvince` | `0x0051B230` | `__thiscall` | `CLandArmy` | Returns `GetProvince(pArmy->cur_prov)` |
 
