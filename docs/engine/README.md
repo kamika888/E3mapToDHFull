@@ -84,6 +84,13 @@ This reference library is divided into specialized modular guides:
 * Movement control routines: `CLandArmy::StartMoving` (`0x00523250`), `CLandArmy::StopMoving` (`0x005232B0`), `CLandArmy::UpdateMovementArrow` (`0x00522650`), `CLandArmy::CanMoveTo` (`0x005091C0`), `CLandArmy::CanEnterTerrain` (`0x005216C0`).
 * Step-by-step instructions, assembly stub, and verification protocol for issuing live move orders via memory manipulation in running game sessions without restarting or patching files on disk.
 
+### 13. [Front AI Architecture & Evaluation Engine](front_ai.md)
+* Front AI operational architecture: `CFront` objects at `pCountry + 0xE86E` (vtable: `0x007E7D34`), `CFrontAI` controller (vtable: `0x007F6220`).
+* Periodic evaluation tick pipeline (`0x006A6DF0`) and the $12 + (\text{rand}() \pmod 8)$ hour evaluation cadence (`0x006AE0D0`).
+* Front division assignment and move dispatch loop (`0x006A6A20` calling `0x006AAFF0`).
+* In-depth root-cause analysis of salient encirclement passivity (static border quota bias, topological graph blindness, evaluation lag).
+* Post-mortem analysis of previous patching attempts (dead hook at `0x00681269`, calling `0x005091C0` read-only validator) and correct implementation blueprint.
+
 ---
 
 ## Custom Engine Modifications & Patch Plans

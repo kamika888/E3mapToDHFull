@@ -26,6 +26,7 @@ docs/
 |   +-- naval_ai.md                 <-- Naval base selection, base fleet generation, hardcoded HoI2 fallbacks
 |   +-- scripting_and_parser_compatibility.md <-- Parser internals, DAT_00dc4b60, proxy triggers, carrier commands
 |   +-- movement_and_orders.md      <-- Movement pipeline, CLandArmy/CProvince structs, live move orders
+|   +-- front_ai.md                 <-- Front AI evaluation loop, CFront structs, encirclement fix
 +-- plans/                          <-- Custom Engine Modifications & Binary Patches
 |   +-- README.md                   <-- Master Patch Catalog & Verification Matrix
 |   +-- plan_unit_control_transfer.md   <-- Patch 1: Peacetime Front Leader Recognition
@@ -66,6 +67,7 @@ The [`docs/engine/`](engine/README.md) directory documents the unmodified retail
 | **[`naval_ai.md`](engine/naval_ai.md)** | Naval AI Subsystem | Base fleet construction (`0x00663BA0`), base population (`0x00664400`), hardcoded vanilla HoI2 base fallbacks (GER, ENG, USA), and the USA ghost fleet `location = 0` bug. |
 | **[`scripting_and_parser_compatibility.md`](engine/scripting_and_parser_compatibility.md)** | Scripting & Savegame Parser | Event trigger/command parsers (`FUN_0072bbf0`, `FUN_0070c2b0`), `.eug` top-level tokens (`FUN_00534a40`), error counter `DAT_00dc4b60`, proxy triggers, carrier commands, and `save_date` / `flags` persistence. |
 | **[`movement_and_orders.md`](engine/movement_and_orders.md)** | Land Movement & Orders | Multi-tier movement pipeline (`CAI` 0x006AAFF0, `COrderMove` 0x00431220), `CLandArmy` (`0x007E85C0`), `CMissionController` (`0x007E8754`), `CProvince` array (stride `0x4B2`, base `[0x00AB27B4]`), movement control functions, and instructions for issuing move orders via live memory manipulation. |
+| **[`front_ai.md`](engine/front_ai.md)** | Front AI Architecture | Front AI evaluation pipeline (`0x006A6DF0`, `0x006A6A20`), `CFront` objects (`0x007E7D34`) at `pCountry + 0xE86E`, 12-20h tick cadence (`0x006AE0D0`), and salient encirclement analysis. |
 
 ---
 
@@ -94,6 +96,8 @@ All custom behavioral modifications, binary hooks, and engine enhancements compa
 | **Patch 14** | Discriminative Garrison AI & Formula Config | `0x0068D3B6` (`0x0028D3B6`) | `0x00DC9E50` - `0x00DC9FA0` | `EnableDiscriminativeGarrison`, `DistanceWeight`, `GarrisonBorderPenalty`, `GarrisonPartisanBonus` | [`plan_discriminative_garrison_assignment.md`](plans/plan_discriminative_garrison_assignment.md) |
 | **Patch 15** | Strategic Redeployment Garrison Accounting | `0x0068CCEC` (`0x0028CCEC`) | `0x00DCB400` (.mod cave) | `EnableStratRedeployGarrison` | [`plan_strategic_redeploy_garrison_count.md`](plans/plan_strategic_redeploy_garrison_count.md) |
 | **Patch 16** | Fresh Army Immediate Garrison Recognition | `0x0068C201` (`0x0028C201`) | `0x00DCB480` (.mod cave) | `EnableStratRedeployGarrison` | [`plan_strategic_redeploy_garrison_count.md`](plans/plan_strategic_redeploy_garrison_count.md) |
+| **Patch 17** | Nuclear Strike AI Targeting & Evaluation | `0x004CA33C` | `0x00DCB600` (.mod cave) | `EnableNuclearStrikeAI` | [`plan_nuclear_strike_ai.md`](plans/plan_nuclear_strike_ai.md) |
+| **Patch 18** | Front AI Encirclement Defense & Salient Evacuation (STEM) | `0x005AEDBE` (`0x001AEDBE`) | `0x00DCBAB0` - `0x00DCC3B0` | `EnableEncirclementDefense` | [`front_ai.md`](engine/front_ai.md) |
 
 ### Automated Patcher Script
 All patches above are bundled into the automated deployment script:

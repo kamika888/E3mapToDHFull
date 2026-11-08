@@ -113,18 +113,27 @@ Offset          Type                Description
 ---
 
 ### 3.3 `CFront` (Front Object) Structure
-Represents an active front or border segment:
+Represents an active front or border segment. Linked list head at `pCountry + 0xE86E`. Vtable: `0x007E7D34`.
 
 ```
 Offset          Type                Description
 --------------------------------------------------------------------------------------
-+0x00           void*               Vtable
++0x00           void*               Vtable (0x007E7D34)
++0x04           void*               Internal state container (vtable: 0x007E4B04)
++0x18           void*               Front node vtable (0x007E7C08)
++0x28           void*               Front segment descriptor (vtable: 0x007E6EAC)
++0x3C           void*               Province list container (vtable: 0x007E8AB0)
++0x44           uint16              Count of provinces comprising this front segment
 +0x52           int32               Front Requirement / Deficit Flag (>0 needs troops)
-+0x56..+0x80    ProvinceList        Provinces along front and adjacent enemy provinces
++0x8C           uint32              Owning Country Tag (e.g. 7 = SOV)
++0x94           uint32              Opposing Enemy Country Tag (e.g. 3 = GER)
++0x98           uint32              Secondary opposing tag / allied border tag
++0xD8           Country*            Pointer to owning Country object
 ```
 
-- **Validation Routine (`FUN_004ca33c`)**: Verifies whether the front is active and valid for garrison operations.
-- **Deficit Computation (`FUN_00695380`)**: Calculates net division deficit against enemy front concentration. Returns integer deficit (>0 indicates reinforcements required).
+- **Validation Routine (`FUN_004ca33c` @ `0x004CA33C`)**: Verifies whether the front is active and valid for operations.
+- **Deficit Computation (`FUN_00695380` @ `0x00695380`)**: Calculates net division deficit against enemy front concentration. Returns integer deficit (>0 indicates reinforcements required).
+- **Front Army Evaluation (`0x006A6A20`)**: Evaluates assigned armies (`[this + 0x94]`) and dispatches shift, attack, or support move orders.
 
 ---
 

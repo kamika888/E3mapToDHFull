@@ -301,10 +301,10 @@ $PATCH17_CHUNKS = @(
 
 
 # Patch 18: Front AI Encirclement Defense & Salient Evacuation Engine (STEM)
-# Hourly Country Loop @ 0x0042F6C0, .mod Cave @ 0x00DCBAB0
-$SIG18_OFFSET  = 0x0002F6C0
-$ORIG18_SIG    = [byte[]]@(0x8B, 0x2C, 0xB5, 0xD8, 0xCA, 0x89, 0x00)
-$PATCH18_SIG   = [byte[]]@(0xE8, 0x3B, 0xCB, 0x99, 0x00, 0x90, 0x90)
+# Hourly Tick Dispatcher @ 0x005AEDBE, .mod Cave @ 0x00DCBAB0
+$SIG18_OFFSET  = 0x001AEDBE
+$ORIG18_SIG    = [byte[]]@(0x6A, 0x0C, 0xE8, 0x97, 0x75, 0x1F, 0x00)
+$PATCH18_SIG   = [byte[]]@(0xE8, 0xCD, 0xD5, 0x81, 0x00, 0x90, 0x90)
 
 $PATCH18_CHUNKS = @(
     # Cave & Data block in .mod (@ 0x00DCBAB0 / file offset 0x00486AB0, 2384 bytes)
@@ -317,8 +317,10 @@ $PATCH18_CHUNKS = @(
     @{ Offset = 0x000E7905; Data = '6XZEjgCQ' },
     # Restore Hook at 0x00681269 (@ 0x00681269 / file offset 0x00281269, 5 bytes)
     @{ Offset = 0x00281269; Data = '6LJ0AgA=' },
-    # Hook 3: Hourly Country Loop dispatch to Cave_STEM_HourlyHook (@ 0x0042F6C0 / file offset 0x0002F6C0, 7 bytes)
-    @{ Offset = 0x0002F6C0; Data = '6DvLmQCQkA==' }
+    # Hook 3: Hourly Game Loop Tick dispatch to Cave_STEM_HourlyAllCountries (@ 0x005AEDBE / file offset 0x001AEDBE, 12 bytes)
+    @{ Offset = 0x001AEDBE; Data = '6M3VgQCQkIvwkJCQ' },
+    # Movement Pipeline Completion & All-Country Loop Dispatcher in .mod (@ 0x00DCC34A / file offset 0x0048734A, 108 bytes)
+    @{ Offset = 0x0048734A; Data = '6QcAAABfXluJ7F3Dx4dkAgAAAQAAAItF9ImHaAIAAMeHbAIAAAAAgD+Lz7hQMlIA/9CLz7hQJlIA/9DpGP///5CQkJCQkGCcMfboZ/7//0aB/lgBAAB88p1hagy4XGN6AP/Qg8QEw5CQkJCQ' }
 )
 
 # Expected SHA256 Hashes

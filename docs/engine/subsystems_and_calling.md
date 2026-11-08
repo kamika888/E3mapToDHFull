@@ -66,4 +66,10 @@ Darkest Hour is compiled with Microsoft Visual C++ for 32-bit x86 Little-Endian 
 | `CLandArmy::UpdateMovementArrow` | `0x00522650` | `__thiscall` | `CLandArmy` | Traverses waypoints and draws red directional movement arrow on map |
 | `GetProvince` | `0x004E9370` | `__cdecl` | Map | Returns `prov_base + provId * 0x4B2` (`*(DWORD*)0x00AB27B4`) |
 | `CLandArmy::GetCurrentProvince` | `0x0051B230` | `__thiscall` | `CLandArmy` | Returns `GetProvince(pArmy->cur_prov)` |
+| `CFrontAI::Update` | `0x006A6DF0` | `__thiscall` | `CFrontAI` | Master periodic Front AI evaluation entry (vtable: `0x007F6220 + 0x34`) |
+| `CFrontAI::EvaluateArmies` | `0x006A6A20` | `__thiscall` | `CFrontAI` | Front army evaluation loop; queries province deficits and dispatches orders |
+| `CFrontAI::ScheduleTick` | `0x006AE0D0` | `__thiscall` | `CFrontAI` | Schedules next front evaluation: `12 + (rand() % 8)` hours |
+| `Front::DispatchReinforce` | `0x006A5971` | `__thiscall` | `CFrontAI` | Frontline shift order to reinforce front deficit province |
+| `Front::DispatchAttack` | `0x006A5F61` | `__thiscall` | `CFrontAI` | Offensive attack / breakthrough order into enemy province |
+| `Front::DispatchFlank` | `0x006A6D83` | `__thiscall` | `CFrontAI` | Flank support / redeploy order to adjacent front province |
 
