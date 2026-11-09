@@ -202,52 +202,45 @@ The complete working Encirclement Defense System (Patch 18) was verified and dep
 1. **Hourly Tick Hook at `0x005AEDBE`** (`FUN_005aec40`):
    Dispatched immediately after `AdvanceDate(1)` (`0x0042CF30`) on every single in-game hour:
    ```assembly
-   0x005AEDBE: call 0x00DCC390  ; Cave_STEM_HourlyAllCountries
+   0x005AEDBE: call 0x00DCC44D  ; Cave_STEM_HourlyAllCountries
    0x005AEDC3: nop
    0x005AEDC4: nop
    0x005AEDC5: mov esi, eax
    0x005AEDC7: nop
    0x005AEDC8: nop
    0x005AEDC9: nop
-   0x005AEDCA: mov [esp + 0x14], esi
    ```
-2. **All-Country Dispatcher at `0x00DCC390`** (in `.mod` code cave):
-   Iterates through country tags `0` to `0x157`. For each nation with an active AI (`pAI != NULL`), it invokes `0x00DCC200` (`Cave_STEM_HourlyHook`):
+2. **All-Country Dispatcher at `0x00DCC44D`** (in `.mod` code cave):
+   Increments hourly generation counter (`inc dword ptr [0x00DCBADC]`) and iterates through country tags `0` to `0x157`. For each nation with an active AI (`pAI != NULL`, skipping human player `[0x00D0CA90]`), it invokes `Cave_STEM_HourlyHook`:
    ```assembly
-   0x00DCC390: pushal
-   0x00DCC391: pushfd
-   0x00DCC392: xor esi, esi
-   0x00DCC394: call 0x00DCC200
-   0x00DCC399: inc esi
-   0x00DCC39A: cmp esi, 0x158
-   0x00DCC3A0: jl 0x00DCC394
-   0x00DCC3A2: popfd
-   0x00DCC3A3: popal
-   0x00DCC3A4: push 0x0C
-   0x00DCC3A6: mov eax, 0x007A635C ; operator new
-   0x00DCC3AB: call eax
-   0x00DCC3AD: add esp, 4          ; Balance argument
-   0x00DCC3B0: ret
+   0x00DCC44D: pushal
+   0x00DCC44E: pushfd
+   0x00DCC44F: inc dword ptr [0x00DCBADC]
+   0x00DCC455: xor esi, esi
+   0x00DCC457: call Cave_STEM_HourlyHook
+   0x00DCC45C: inc esi
+   0x00DCC45D: cmp esi, 0x158
+   0x00DCC463: jl 0x00DCC457
+   0x00DCC465: popfd
+   0x00DCC466: popal
+   0x00DCC467: push 0x0C
+   0x00DCC469: mov eax, 0x007A635C ; operator new
+   0x00DCC46E: call eax
+   0x00DCC470: add esp, 4          ; Balance argument
+   0x00DCC473: ret
    ```
-3. **Graph Topology & Articulation Points (`0x00DCBDA0`)**:
-   Runs a full Breadth-First Search (BFS) and Tarjan's bridge-finding algorithm from national cores/depots across the controlled province graph (`[0xab27b4]`). When a salient shoulder falls to the enemy (e.g. Grodno `209`), the bottleneck (Wołkowysk `102`) is identified as the salient neck (`neck = 102`, `is_cut = 1`).
-4. **Movement Pipeline Execution Stub (`0x00DCC356`)**:
-   When an army is detected behind a cut neck, it dispatches the evacuation order to the bottleneck province:
-   ```assembly
-   0x00DCC356: mov dword ptr [edi + 0x264], 1      ; m_missionType = MOVE
-   0x00DCC360: mov eax, dword ptr [ebp - 0x0C]     ; targetProvId (neck)
-   0x00DCC363: mov dword ptr [edi + 0x268], eax     ; m_targetProv
-   0x00DCC369: mov dword ptr [edi + 0x26C], 0x3F800000 ; speedFactor = 1.0f
-   0x00DCC373: mov ecx, edi
-   0x00DCC375: mov eax, 0x00523250                 ; CLandArmy::StartMoving
-   0x00DCC37A: call eax
-   0x00DCC37C: mov ecx, edi
-   0x00DCC37E: mov eax, 0x00522650                 ; CLandArmy::UpdateMovementArrow
-   0x00DCC383: call eax
-   0x00DCC385: jmp 0x00DCC2A2                      ; Continue unit loop
-   ```
+3. **Graph Topology, Threat Scanner & Two-Pass Exit Analysis (`0x00DCBDA0`)**:
+   - **Active Threat Scanner**: Scans friendly armies. If an army is actively defending in combat (`[edi + 0x128] != 0`), its province is marked threatened in the threat table (`[pGraph + prov + 0x25000] = 1`).
+   - **Safe Graph BFS & Tarjan DFS**: Runs BFS and Tarjan's bridge algorithm from national capital/depots strictly across *unthreatened* friendly provinces. When a salient shoulder enters combat (e.g. Grodno `209` under attack), Grodno is excluded from the safe graph, immediately turning the remaining corridor (Wołkowysk `102`) into an articulation point (`is_cut = 1`, `neck = 102`) days before the shoulder falls.
+   - **Pass 2 (Breakout Gateways)**: If all exits are under attack or collapsed (e.g. simultaneous assaults on both shoulders), Pass 2 identifies threatened provinces directly bordering safe rear provinces as breakout gateways, routing pocket divisions toward the best gateway rather than stranding them.
+4. **Discriminative Move vs. Retreat Order Dispatch**:
+   Divisions in the pocket are evaluated against their calculated neck gateway:
+   - **Units in Active Combat (`[edi + 0x128] != 0`)**: Dispatches a tactical disengagement retreat to the bottleneck via `0x004BE920` (`CCombat::OrderRetreat`).
+   - **Units Not in Combat (`[edi + 0x128] == 0`)**: Aborts existing stationary/patrol orders via `0x0050BCA0` and dispatches a clean operational march order to the bottleneck via `0x006AAFF0` (`CAI::DispatchMoveOrder`).
+   - Indiscriminate drawing of global map retreat vectors (`0x00523250` / `0x00522650`) is completely removed, preserving standard fog-of-war counter icons.
 
 ### 7.2 Verification Results
-- In live execution against the 1941 Soviet test scenario, all 5 Soviet divisions in the Białystok pocket (Augustów `7335`, Bielsk Podlaski `6516`, Grajewo `1875`, Łomża `6515`) automatically initiated evacuation marches toward Wołkowysk (`102`).
-- Movement retreat arrows were successfully generated and displayed on the game map.
-- The game ran continuously across multiple in-game days without crash or desynchronization.
+- **Move vs. Retreat**: Verified in live memory that unengaged infantry and motorized divisions in the Białystok pocket receive standard move orders rather than combat retreat states.
+- **Map Vector Elimination**: Confirmed zero visible grey arrows rendered across the map when viewing opposing AI movements as Germany.
+- **Early Trigger on Shoulder Attack**: Verified that as soon as Grodno is attacked, the safe topology instantly designates Wołkowysk (`102`) as the sole articulation neck, initiating evacuation days before panzers can close the corridor.
+- **Simultaneous Neck Assault (Pass 2)**: Tested against simultaneous attacks on both Grodno and Wołkowysk; pocket divisions successfully designated breakout vectors rather than locking into passive idle states.
