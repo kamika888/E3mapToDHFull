@@ -93,16 +93,16 @@ country =
     relation = { tag = HAI value = -30 }
     relation = { tag = USA value = 125 }
   }
-  headofstate            = { type = 9 id = 49001 }
-  headofgovernment       = { type = 9 id = 49002 }
-  foreignminister        = { type = 9 id = 49003 }
-  armamentminister       = { type = 9 id = 49004 }
-  ministerofsecurity     = { type = 9 id = 49005 }
-  ministerofintelligence = { type = 9 id = 49006 }
-  chiefofstaff           = { type = 9 id = 49007 }
-  chiefofarmy            = { type = 9 id = 49008 }
-  chiefofnavy            = { type = 9 id = 49009 }
-  chiefofair             = { type = 9 id = 49010 } 
+  headofstate            = { type = 9 id = 320001 }
+  headofgovernment       = { type = 9 id = 320002 }
+  foreignminister        = { type = 9 id = 320003 }
+  armamentminister       = { type = 9 id = 320004 }
+  ministerofsecurity     = { type = 9 id = 320005 }
+  ministerofintelligence = { type = 9 id = 320006 }
+  chiefofstaff           = { type = 9 id = 320007 }
+  chiefofarmy            = { type = 9 id = 320008 }
+  chiefofnavy            = { type = 9 id = 320009 }
+  chiefofair             = { type = 9 id = 320010 } 
 
 landunit = 
    {  id       = {  type = 28000 id = 75  } 

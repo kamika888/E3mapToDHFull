@@ -51,7 +51,7 @@
    ownedprovinces         = {  1 7137 7138 7139 2632  } 
    controlledprovinces    = {  1 7137 7138 7139 2632  } 
    
-   headofstate            = {  type = 9 id = 75001  } #Christian X
+   headofstate            = {  type = 9 id = 360000  } #Christian X
    
   # DEN 1936 techs 
    # ###################### 
