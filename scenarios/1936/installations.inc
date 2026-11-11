@@ -3364,10 +3364,6 @@ province = { id = 2305   # Hanko
    coastalfort = 2 
    anti_air = 1 
 } 
- 
-province = { id = 2630   # Kirkknonummi
-   coastalfort = 2 
-} 
 
 province = { id = 139   # Tampere - South Finland - Finland
    anti_air = 2 
@@ -3390,7 +3386,6 @@ province = { id = 145   # Viipuri - Karelia - Finland
 province = { id = 146   # Sortavala - Karelia - Finland
    anti_air = 2 
    landfort = 2 
-   coastalfort = 1
  }  
  
 province = { id = 3336   # Kainau - Finland
@@ -3793,7 +3788,6 @@ province = { id = 512   # Bologna - Appennine Ridge - Italy
  
 province = { id = 514   # Ancona - Appennine Ridge - Italy
    anti_air = 1 
-   coastalfort = 1 
  } 
  
 province = { id = 515   # Rome - Central Italy - Italy
