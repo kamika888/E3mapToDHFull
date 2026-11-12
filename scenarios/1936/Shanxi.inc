@@ -1,4 +1,4 @@
-#####################
+﻿#####################
 # Country main data #
 #####################
 
@@ -40,7 +40,6 @@ country =
 	transport = 0.1500 
 	manpower = 0.0040 
   } 
-  extra_tc = 5 
   SpyInfo                = { country = "CSX" NumberOfSpies = 1 }
   nationalprovinces      = {
 1275 1276 1277 1440 1441 1267 1268 1269 1270 1271

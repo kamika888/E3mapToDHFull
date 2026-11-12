@@ -1,4 +1,4 @@
-#####################
+﻿#####################
 # Country main data #
 #####################
 
@@ -44,7 +44,6 @@ country =
 	transport = 0.1500 
 	manpower = 0.0040 
   } 
-  extra_tc = 5 
   SpyInfo                = { country = "U58" NumberOfSpies = 1 }
   diplomacy =
   { relation = { tag = CHC value = 200 access = yes }
