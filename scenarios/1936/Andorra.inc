@@ -35,6 +35,16 @@
    relation = {  tag = VIC value = 120 access = yes  }  
     } 
   
+   headofstate            = {  type = 9 id = 1102001  } 
+   headofgovernment       = {  type = 9 id = 1102011  } 
+   foreignminister        = {  type = 9 id = 1102003  } 
+   armamentminister       = {  type = 9 id = 1102004  } 
+   ministerofsecurity     = {  type = 9 id = 1102005  } 
+   ministerofintelligence = {  type = 9 id = 1102006  } 
+   chiefofstaff           = {  type = 9 id = 1102007  } 
+   chiefofarmy            = {  type = 9 id = 1102008  } 
+   chiefofnavy            = {  type = 9 id = 1102009  } 
+   chiefofair             = {  type = 9 id = 1102010  } 
     
    nationalprovinces      = {  2581  } 
    ownedprovinces         = {  2581  } 
