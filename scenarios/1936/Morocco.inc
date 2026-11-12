@@ -74,7 +74,6 @@
     relation = { tag = SPA value = 50 }
     relation = { tag = ITA value = 50 }
   }
- inventions = {  }  
    policy = 
    {  date              = {  year = 0 month = january day = 0  } 
      democratic        = 1 

@@ -1081,6 +1081,13 @@ inventions = { 3000027 }
        model        = 1
        strength     = 27
       } 
+    }
+
+	airunit = 
+   {  location = 2569 # Nanchang
+     name     = "RoC Air transport" 
+     base     = 2569 # Nanchang
+     id       = {  type = 22002 id = 195  } 
 	  Division = 
      {  id           = {  type = 22000 id = 203  } 
        name         = "Transport Squadron" 

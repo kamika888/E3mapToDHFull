@@ -16,7 +16,16 @@ country = {
 	supplies 		= 500
 	money			= 40
 
-    headofstate            = {  type = 9 id = 55500  } 
+    headofstate            = {  type = 9 id = 840001  } 
+    headofgovernment       = {  type = 9 id = 840002  } 
+    foreignminister        = {  type = 9 id = 840003  } 
+    armamentminister       = {  type = 9 id = 840004  } 
+    ministerofsecurity     = {  type = 9 id = 840005  } 
+    ministerofintelligence = {  type = 9 id = 840006  } 
+    chiefofstaff           = {  type = 9 id = 840007  } 
+    chiefofarmy            = {  type = 9 id = 840008  } 
+    chiefofnavy            = {  type = 9 id = 840009  } 
+    chiefofair             = {  type = 9 id = 840010  }   
 
    policy = 
    {  date              = {  year = 0 month = january day = 0  } 

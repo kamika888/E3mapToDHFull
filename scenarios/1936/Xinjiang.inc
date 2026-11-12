@@ -123,7 +123,7 @@ country =
 #5491 5492 3748 5487 5486 1447 1728 1430 5488 5484 
 
   }
-  claimedprovinces  	 = { 1420 7917 } 
+  
   # ROTW Minor Tech '36
   # Group E 1936 techs
   # ######################

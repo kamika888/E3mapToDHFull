@@ -29,7 +29,8 @@ country =
    chiefofstaff           = {  type = 9 id = 1146307 } 
    chiefofarmy            = {  type = 9 id = 1146308 } 
    chiefofnavy            = {  type = 9 id = 1146309 } 
-   chiefofair             = {  type = 9 id = 1146310 }   
+   chiefofair             = {  type = 9 id = 1146310 } 
+   
   free = { 
 	ic = 2 
 	energy = 2

@@ -127,7 +127,7 @@ country =
   controlledprovinces    = { 1313 1325 1320 1318 1317 568 570 1312 1880 1912 1249 1248 1314
 5608 5609 1321 746 5610
   }
-  claimedprovinces 		 = { 5872 5836 5873 5891 5892 5893 }
+  
   # Guangxi
   # ROTW Minor Tech '36
   # Group E 1936 techs

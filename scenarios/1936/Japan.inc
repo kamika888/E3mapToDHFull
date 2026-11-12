@@ -2894,7 +2894,7 @@ landunit =
 	landdivision = { dormant = yes id = { type = 13016 id = 2080 } name = "Dai 10 Hoheishidan" strength = 100 type = infantry model = 9 extra1 = cavalry_brigade	brigade_model1 = 7	extra2 = engineer brigade_model2 = 3 locked = yes }
 	landdivision = { dormant = yes id = { type = 13016 id = 2081 } name = "Dai 12 Hoheishidan" strength = 100 type = infantry model = 9																						 locked = yes }
 	landdivision = { dormant = yes id = { type = 13016 id = 2082 } name = "Dai 19 Hoheishidan" strength = 100 type = infantry model = 9 extra1 = cavalry_brigade	brigade_model1 = 7	extra2 = anti_air brigade_model2 = 1 locked = yes }
-	landdivision = { dormant = yes id = { type = 13016 id = 2083 } name = "Dai 24 Hoheishidan" strength = 100 type = infantry model = 9	extra  = engineer			brigade_model  = 3	locked = yes 						 locked = yes }
+	landdivision = { dormant = yes id = { type = 13016 id = 2083 } name = "Dai 24 Hoheishidan" strength = 100 type = infantry model = 9	extra  = engineer			brigade_model  = 3										 locked = yes }
 	landdivision = { dormant = yes id = { type = 13016 id = 2084 } name = "Dai 25 Hoheishidan" strength = 100 type = infantry model = 9 extra1 = cavalry_brigade	brigade_model1 = 7	extra2 = engineer brigade_model2 = 3 locked = yes }
 	landdivision = { dormant = yes id = { type = 13016 id = 2085 } name = "Dai 26 Hoheishidan" strength = 100 type = infantry model = 9	extra  = engineer			brigade_model = 3 										 locked = yes }
 	landdivision = { dormant = yes id = { type = 13016 id = 2086 } name = "Dai 28 Hoheishidan" strength = 100 type = infantry model = 9 extra1 = cavalry_brigade	brigade_model1 = 7	extra2 = engineer brigade_model2 = 3 locked = yes }

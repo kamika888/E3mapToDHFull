@@ -404,7 +404,7 @@ landunit =
 		type = submarine
 		model = 3
 		cost = 0.1
-		date = { year = 1936 month = june day = 30 }
+		date = { year = 1936 month = june day = 29 }
 	}
 	
   } 

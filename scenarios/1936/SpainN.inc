@@ -41,7 +41,7 @@ country =
   nationalprovinces      = { 
 333 339 338 341 343 346 347 349 350 351 352 353 354 342 340 330 329 357 961 962 963 964 348 2243 1532 1531 1162 1161 1157 1714
 1734 1726 2617 2618 3181 3182 3183 3185 3186 3187 3190 3191 3192 3193 3194 3195 3196 3197 3198 3199 3200 3201 3202 3203 3204
-3205 954 957 6526 7106 7107 7108 7109 7114 7115 7116 7117 7118 7132 7133 7134 7135 7136 7164 7981 334 2244 3184
+3205 954 957 6526 7106 7107 7108 7109 7114 7115 7116 7117 7118 7132 7133 7134 7135 7136 7164 7981 2244 3184
 334 3178 7121 1537 3179 7119 7120 #Galician
 332 7165 3180 #Leonese
 8003
@@ -148,16 +148,16 @@ country =
      interventionism   = 4 
   }
 inventions = { 3000027 }
-headofstate            = {   } 
-headofgovernment       = {   } 
-foreignminister        = {   } 
-armamentminister       = {   } 
-ministerofsecurity     = {   } 
-ministerofintelligence = {   } 
-chiefofstaff           = {   } 
-chiefofarmy            = {   } 
-chiefofnavy            = {   } 
-chiefofair             = {   } 
+headofstate            = { type = 9 id = 1210011  } 
+headofgovernment       = { type = 9 id = 1210012  } 
+foreignminister        = { type = 9 id = 1210013  } 
+armamentminister       = { type = 9 id = 1210014  } 
+ministerofsecurity     = { type = 9 id = 1210015  } 
+ministerofintelligence = { type = 9 id = 1210016  } 
+chiefofstaff           = { type = 9 id = 1210017  } 
+chiefofarmy            = { type = 9 id = 1210018  } 
+chiefofnavy            = { type = 9 id = 1210019  } 
+chiefofair             = { type = 9 id = 1210020  } 
 
 	landdivision = { dormant = yes id = { type = 27600 id = 700 }  name = "51st Division"						type = infantry		model = 9 	strength = 70	experience = 60	extra = artillery	brigade_model = 7	locked = yes	} 
 	landdivision = { dormant = yes id = { type = 27600 id = 701 }  name = "52nd Division"						type = infantry		model = 9 	strength = 50	experience = 60	extra = artillery	brigade_model = 7	locked = yes	} 

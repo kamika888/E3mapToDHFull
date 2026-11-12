@@ -131,8 +131,7 @@ country =
        name     = "4. Iraqi Infantry Division" 
        strength = 30 
        type     = infantry 
-	   model    = 5
-	   strength = 20 
+	   model    = 5 
       } 
 	}
 	
