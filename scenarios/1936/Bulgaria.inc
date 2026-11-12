@@ -15,21 +15,7 @@ country =
 	manpower               = 98 
 	transports             = 100 
 	escorts                = 4 
-  capital                = 417
-  # navalunit = {
-  # id = { type = 19000 id = 15 }
-  # name = "Bulgarska Flota"
-  # location = 422
-  # base = 422
-  # division = {
-  # id = { type = 19000 id = 16 }
-  # name = "1-va Podvodnikova flotilija"
-  # type = destroyer
-  # model = 0
-  # }
-  # }
-  transports             = 10
-  escorts                = 4
+	capital                = 417
   free = { 
 	ic = 2 
 	energy = 2
