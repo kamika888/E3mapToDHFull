@@ -1087,7 +1087,7 @@ inventions = { 3000027 }
    {  location = 2569 # Nanchang
      name     = "RoC Air transport" 
      base     = 2569 # Nanchang
-     id       = {  type = 22002 id = 195  } 
+     id       = {  type = 22002 id = 231  } 
 	  Division = 
      {  id           = {  type = 22000 id = 203  } 
        name         = "Transport Squadron" 
