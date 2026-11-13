@@ -1718,7 +1718,7 @@ inventions = { 3000027 }
 		new_model = no
 		cost  = 2  
 		id    = {  type = 14800 id = 500  }  
-		date  = {  year = 1937 month = september day = 30  }  
+		date  = {  year = 1937 month = september day = 29  }  
 		extra = cag  
 		brigade_model = 2  
 	}
@@ -1773,7 +1773,7 @@ inventions = { 3000027 }
 		new_model = no
 		cost  = 0.8  
 		id    = {  type = 14800 id = 504  }  
-		date  = {  year = 1937 month = september day = 30  }  
+		date  = {  year = 1937 month = september day = 29  }  
 	}
 	division_development = {
 		name  = "USS Philadelphia"  

@@ -185,7 +185,7 @@ inventions = { 3000027 }
    ministerofsecurity     = {  type = 9 id = 125005  } 
    ministerofintelligence = {  type = 9 id = 125006  } 
    chiefofstaff           = {  type = 9 id = 125007  } 
-   chiefofarmy            = {  type = 9 id = 125098  } 
+   chiefofarmy            = {  type = 9 id = 125199  } 
    chiefofnavy            = {  type = 9 id = 125009  } 
    chiefofair             = {  type = 9 id = 125010  } 
   # Firepower

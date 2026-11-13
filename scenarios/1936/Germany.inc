@@ -1189,13 +1189,6 @@ blueprints = { 6230 6250 6900 }
        type          = interceptor 
        model         = 7
       } 
-     Division = 
-     {  id            = {  type = 14500 id = 91  } 
-       name          = "JG 26 'Schlageter'" 
-       strength      = 100 
-       type          = interceptor 
-       model         = 7
-      } 
     } 
    airunit = 
    {  location = 300 
@@ -1255,6 +1248,13 @@ blueprints = { 6230 6250 6900 }
        strength = 100 
        type     = tactical_bomber 
        model    = 4
+      } 
+     Division = 
+     {  id            = {  type = 14500 id = 91  } 
+       name          = "JG 26 'Schlageter'" 
+       strength      = 100 
+       type          = interceptor 
+       model         = 7
       } 
     } 
 
@@ -1359,7 +1359,7 @@ landdivision = { dormant = yes id = { type = 14500 id = 2045 }  name = "19. Fest
 		model = 4
 		cost = 0.1
 		id = { type = 14500 id = 603 }
-		date = { year = 1936 month = march day = 30 }
+		date = { year = 1936 month = march day = 29 }
 	}
 	division_development = {
 		name = "6. Unterseebootsflottille"
@@ -1367,7 +1367,7 @@ landdivision = { dormant = yes id = { type = 14500 id = 2045 }  name = "19. Fest
 		model = 4
 		cost = 0.1
 		id = { type = 14500 id = 604 }
-		date = { year = 1936 month = april day = 30 }
+		date = { year = 1936 month = april day = 29 }
 	}
 	division_development = {
 		name = "7. Unterseebootsflottille"
@@ -1375,7 +1375,7 @@ landdivision = { dormant = yes id = { type = 14500 id = 2045 }  name = "19. Fest
 		model = 4
 		cost = 0.1
 		id = { type = 14500 id = 605 }
-		date = { year = 1936 month = may day = 30 }
+		date = { year = 1936 month = may day = 29 }
 	}
 	
 division_development = {

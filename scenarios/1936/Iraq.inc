@@ -105,33 +105,30 @@ country =
        name     = "1. Iraqi Infantry Division" 
        strength = 30 
        type     = infantry 
-	   model    = 5
-	   strength = 70 
+       model    = 5
       } 
      Division = 
      {  id       = {  type = 22500 id = 5  } 
        name     = "2. Iraqi Infantry Division" 
        strength = 30 
        type     = infantry 
-	   model    = 5
-	   strength = 50 
+       model    = 5
       } 
      Division = 
      {  id       = {  type = 22500 id = 6  } 
        name     = "3. Iraqi Infantry Division" 
        strength = 30 
        type     = infantry 
-	   model    = 5
+       model    = 5
        extra    = artillery 
-	   brigade_model = 2
-	   strength = 20 
+       brigade_model = 2
       } 
      Division = 
      {  id       = {  type = 22500 id = 7  } 
        name     = "4. Iraqi Infantry Division" 
        strength = 30 
        type     = infantry 
-	   model    = 5 
+       model    = 5 
       } 
 	}
 	

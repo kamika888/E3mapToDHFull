@@ -148,16 +148,16 @@ country =
      interventionism   = 4 
   }
 inventions = { 3000027 }
-headofstate            = { type = 9 id = 1210011  } 
-headofgovernment       = { type = 9 id = 1210012  } 
-foreignminister        = { type = 9 id = 1210013  } 
-armamentminister       = { type = 9 id = 1210014  } 
-ministerofsecurity     = { type = 9 id = 1210015  } 
-ministerofintelligence = { type = 9 id = 1210016  } 
-chiefofstaff           = { type = 9 id = 1210017  } 
-chiefofarmy            = { type = 9 id = 1210018  } 
-chiefofnavy            = { type = 9 id = 1210019  } 
-chiefofair             = { type = 9 id = 1210020  } 
+headofstate            = { type = 9 id = 35500  } 
+headofgovernment       = { type = 9 id = 35501  } 
+foreignminister        = { type = 9 id = 35502  } 
+armamentminister       = { type = 9 id = 35503  } 
+ministerofsecurity     = { type = 9 id = 35504  } 
+ministerofintelligence = { type = 9 id = 35505  } 
+chiefofstaff           = { type = 9 id = 35506  } 
+chiefofarmy            = { type = 9 id = 35507  } 
+chiefofnavy            = { type = 9 id = 35508  } 
+chiefofair             = { type = 9 id = 35509  } 
 
 	landdivision = { dormant = yes id = { type = 27600 id = 700 }  name = "51st Division"						type = infantry		model = 9 	strength = 70	experience = 60	extra = artillery	brigade_model = 7	locked = yes	} 
 	landdivision = { dormant = yes id = { type = 27600 id = 701 }  name = "52nd Division"						type = infantry		model = 9 	strength = 50	experience = 60	extra = artillery	brigade_model = 7	locked = yes	} 
