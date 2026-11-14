@@ -79,17 +79,14 @@ This reference library is divided into specialized modular guides:
 * Failure mode case studies: the Palembang (`1358`) immediate strike mystery, frontline troop concentration bias (Indochina pathology), range starvation defects, and the unoccupied island airbase supply Catch-22 (`0x0066D430`).
 
 ### 12. [Land Movement, Orders & Pathfinding Subsystem](movement_and_orders.md)
-* Multi-tiered movement pipeline connecting `CAI` (`0x006AAFF0`), `COrderMove` (`0x00431220`), and discrete event scheduler (`0x00893768`).
-* Memory layout and field offsets: `CLandArmy` (`0x007E85C0`), `CMissionController` (`0x007E8754`), `CProvince` array (stride `0x4B2`, base `*(DWORD*)0x00AB27B4`).
-* Movement control routines: `CLandArmy::StartMoving` (`0x00523250`), `CLandArmy::StopMoving` (`0x005232B0`), `CLandArmy::UpdateMovementArrow` (`0x00522650`), `CLandArmy::CanMoveTo` (`0x005091C0`), `CLandArmy::CanEnterTerrain` (`0x005216C0`).
-* Step-by-step instructions, assembly stub, and verification protocol for issuing live move orders via memory manipulation in running game sessions without restarting or patching files on disk.
+* Multi-tiered movement pipeline connecting `CAI` (`0x006AAFF0`), `CAI::ProcessOrderMove` (`0x006AABA0`), `CArmy::CanMove` (`0x0051A4C0`), `COrderMove` (`0x00431220`), and the discrete event scheduler (`0x00893768`).
+* Memory layout and field offsets: `CLandArmy` (`0x007E85C0`), `CDivision` (`+0xF0` Strength, `+0xF4` Organization), `CMissionController` (`0x007E8754`), `CPathList` (`+0x232` head / `+0x236` tail), and `CProvince` array (stride `0x4B2`, base `*(DWORD*)0x00AB27B4`).
+* Movement and combat retreat routines: `CLandCombatSide::OrderRetreat` (`0x004BE920`), `CLandArmy::OrderRetreat` (`0x00522930`), `CLandArmy::StartMoving` (`0x00523250`), `CLandArmy::StopMovement` (`0x0050BCA0`), `CLandArmy::ShowMovementArrows` (`0x00522680`).
 
 ### 13. [Front AI Architecture & Evaluation Engine](front_ai.md)
-* Front AI operational architecture: `CFront` objects at `pCountry + 0xE86E` (vtable: `0x007E7D34`), `CFrontAI` controller (vtable: `0x007F6220`).
-* Periodic evaluation tick pipeline (`0x006A6DF0`) and the $12 + (\text{rand}() \pmod 8)$ hour evaluation cadence (`0x006AE0D0`).
-* Front division assignment and move dispatch loop (`0x006A6A20` calling `0x006AAFF0`).
-* In-depth root-cause analysis of salient encirclement passivity (static border quota bias, topological graph blindness, evaluation lag).
-* Post-mortem analysis of previous patching attempts (dead hook at `0x00681269`, calling `0x005091C0` read-only validator) and correct implementation blueprint.
+* True retail `CFrontAI` operational architecture (`vtable: 0x007F3868`, list at `pCountry + 0xE86E`): `CFrontAI::Execute` (`0x006811B0`), `CFrontAI::MoveUnitsToFront` (`0x006829B0`), `CFrontAI::ManageSalientUnits` (`0x00681CD0`), and `CFrontAI::ExecuteTactical` (`0x006853C0`).
+* Retail salient withdrawal mechanics: how `[CFrontAI + 0xC8]` (`m_SalientEvacuatingUnits`) protects retreating units from `StopMovement` (`0x0050BCA0`) at `0x0068416A`, and why retail's 2-unit, 1-hop limit fails on multi-province salients.
+* Complete specification of Patch 18 (STEM) and post-mortem reference of earlier debugging pitfalls.
 
 ---
 

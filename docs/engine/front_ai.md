@@ -2,109 +2,67 @@
 
 **Target Engine**: Darkest Hour / Europa Engine (v1.05.2, 32-bit x86 PE)  
 **Binary Executable**: `Darkest Hour.exe` (Image Base: `0x00400000`, Vanilla Checksum: `TENE`)  
-**Scope**: In-memory architecture of Front AI (`CFront`, `CFrontAI`), front evaluation loops, unit assignment algorithms, periodic scheduling, and root-cause analysis of salient encirclement passivity.
+**Scope**: In-memory architecture of Front AI (`CFrontAI`), hourly front distribution and tactical evaluation loops, retail salient management (`0x00681CD0`), and the Patch 18 Salient Topological Evacuation & Momentum Engine (STEM).
 
 ---
 
-## 1. Subsystem Architecture Overview
+## 1. Retail Subsystem Architecture Overview
 
-Front AI is the operational theater commander in Darkest Hour. Unlike `CGarrisonAI` (which handles rear-area quotas, homeland defense ratios, and partisan suppression), Front AI governs active border contacts between nations at war or under hostile tension.
-
-The subsystem operates through a hierarchy of linked structures:
+Front AI is the operational land theater commander in Darkest Hour. Unlike `CGarrisonAI` (`0x0068BA50`, which manages rear-area quotas, homeland defense ratios, and partisan suppression) or `CInvasionAI` (`0x006A6DF0` / vtable `0x007F4C24`, which manages overseas amphibious invasions and naval staging), `CFrontAI` (vtable `0x007F3868`) governs active land border fronts between nations.
 
 ```
 [Country Object] (Base: [0x0089CAD8 + tag * 4])
        |
-       +--> +0x0120: CAI Controller Subsystem (vtable: 0x007F3D54)
-       |               +--> CAI::DispatchMoveOrder (0x006AAFF0)
+       +--> +0x13C84: CAI Controller Subsystem (ecx for CAI::DispatchMoveOrder @ 0x006AAFF0)
        |
-       +--> +0xE86E: Front List Head (singly-linked list of CFront*)
+       +--> +0xE86E: Active Fronts Linked List Head (CFrontAI* objects, vtable: 0x007F3868)
                        |
-                       +--> Node 0: CFront* (vtable: 0x007E7D34) -> [Border Provinces, Opposing Tag, Assigned Armies]
-                       +--> Node 1: CFront*
-                       +--> Node N: ...
-
-[CFrontAI Controller] (vtable: 0x007F6220)
-       |
-       v
-0x006A6DF0: CFrontAI::Update()
-       |
-       +--> 0x006A6DFF: Checks war state & opposing enemy presence
-       |
-       v
-0x006A6E15: Periodic Evaluation Gate
-       |
-       +--> 0x006A6A20: CFrontAI::EvaluateArmies()
-       |       |
-       |       +--> Iterates assigned armies ([this + 0x94])
-       |       +--> Checks army province: [pArmy + 0x0C]
-       |       +--> Validates terrain entry: 0x005216C0 (CanEnterTerrain)
-       |       +--> Dispatches move orders:
-       |               - 0x006A5971: Front reinforcement / shift
-       |               - 0x006A5F61: Frontline attack / advance
-       |               - 0x006A6D83: Flank support / redeploy
-       |               All call: 0x006AAFF0 (CAI::DispatchMoveOrder)
-       |
-       +--> 0x006AE0D0: Reschedules next evaluation:
-               Interval = 12 + (rand() % 8) hours
+                       v
+               0x006811B0: CFrontAI::Execute()
+                       |
+                       +--> 0x006A8720: IsPassiveFront() (checks [pCountry + 0x34AC + enemyTag])
+                       |      (Returns 0 during active war -> proceeds to 0x006829B0 every hour)
+                       |
+                       +--> 0x006829B0: CFrontAI::MoveUnitsToFront()
+                       |      |
+                       |      +--> 0x00681CD0: CFrontAI::ManageSalientUnits()
+                       |      |      - Populates [CFrontAI + 0x12A] (m_SalientProvinces)
+                       |      |      - Populates [CFrontAI + 0xC8]  (m_SalientEvacuatingUnits TypeId list)
+                       |      |      - Retail only pulls <= 2 single-connection tip units back by 1 hop
+                       |      |
+                       |      +--> 0x00682AD1 / 0x00682D5C / 0x0068416A / 0x00685086:
+                       |             - Computes border province troop quotas (reactive / defensive / op_defensive)
+                       |             - Skips any army whose TypeId is in [CFrontAI + 0xC8]
+                       |             - Calls StopMovement (0x0050BCA0) on moving armies not matching front quotas
+                       |             - Dispatches front redistribution moves via 0x006AAFF0
+                       |
+                       +--> 0x006853C0: CFrontAI::ExecuteTactical()
+                              |
+                              +--> 0x00685ED0: CFrontAI::ManageCombat()
+                              +--> 0x00689780: CFrontAI::PlanAttacks() (also skips units in [CFrontAI + 0xC8] @ 0x00689C8C)
 ```
 
 ---
 
 ## 2. In-Memory Data Structures
 
-### 2.1 `CFront` Structure
-Base pointer retrieved from the linked list at `pCountry + 0xE86E`.  
-Virtual method table at `0x007E7D34`.
+### 2.1 `CFrontAI` Structure
+Retrieved from the linked list at `pCountry + 0xE86E`. Vtable: `0x007F3868`.
 
-```
-Offset          Type                Description
---------------------------------------------------------------------------------------
-+0x00           void*               Vtable (0x007E7D34)
-+0x04           void*               Internal state container (vtable: 0x007E4B04)
-+0x18           void*               Front node vtable (0x007E7C08)
-+0x28           void*               Front segment descriptor (vtable: 0x007E6EAC)
-+0x3C           void*               Province list container (vtable: 0x007E8AB0)
-+0x44           uint16              Count of provinces comprising this front segment
-+0x52           int32               Front Reinforcement Deficit (>0 indicates troop shortage)
-+0x8C           uint32              Owning Country Tag (e.g. 7 = SOV)
-+0x94           uint32              Opposing Enemy Country Tag (e.g. 3 = GER)
-+0x98           uint32              Secondary opposing tag / allied border tag
-+0xD8           Country*            Pointer to owning Country object ([0x0DF2D020])
-```
-
-#### Traversal Example: Enumerating Fronts of a Country
-```c
-struct ListNode {
-    void*     pItem;   // +0x00: CFront*
-    void*     pUnk;    // +0x04
-    ListNode* pNext;   // +0x08: Next node or NULL
-};
-
-ListNode* pCurr = *(ListNode**)(pCountry + 0xE86E);
-while (pCurr != NULL) {
-    CFront* pFront = (CFront*)pCurr->pItem;
-    uint32_t ownerTag = *(uint32_t*)((uint8_t*)pFront + 0x8C);
-    uint32_t enemyTag = *(uint32_t*)((uint8_t*)pFront + 0x94);
-    uint16_t provCount = *(uint16_t*)((uint8_t*)pFront + 0x44);
-    // Process front...
-    pCurr = pCurr->pNext;
-}
-```
-
----
-
-### 2.2 `CFrontAI` Controller
-Virtual method table at `0x007F6220`. Embedded in the AI subsystem.
-
-```
-Vtable Offset   Virtual Address     Method
---------------------------------------------------------------------------------------
-+0x00           0x0066F7D0          CFrontAI::Destructor
-+0x18           0x006A6870          CFrontAI::Init
-+0x2C           0x006A9E50          CFrontAI::Reset
-+0x34           0x006A6DF0          CFrontAI::Update (Master periodic evaluation entry)
-```
+| Offset | Type | Description |
+|---|---|---|
+| `+0x00` | `void*` | Vtable (`0x007F3868`) |
+| `+0x04` | `ListNode*` | Head of front border province descriptors list (`[[node] + 4]` = province ID) |
+| `+0x12` | `struct` | Embedded country/tag query subobject (`0x006A9D50`) |
+| `+0x1C` | `Country*` | Pointer to owning `Country` object |
+| `+0x9E` | `uint8` | Active evaluation flag |
+| `+0xA4` | `ListNode*` | Head of assigned `CLandArmy*` linked list for this front |
+| `+0xC8` | `CIdList` | `m_SalientEvacuatingUnits`: linked list of 6-byte `TypeId` (`[type:u16, id:u32]`) records of armies currently evacuating a salient (`Clear` at `[vtable + 0x10]`, `Contains` at `[vtable + 0x24]`, `Insert` at `0x0049A190`) |
+| `+0x124` | `uint32` | Front distribution mode (`0` = default, `1` = `reactive`, `2` = `defensive`, `3` = `op_defensive`) |
+| `+0x125` | `uint8` | Hold-in-place / disable salient withdrawal flag |
+| `+0x126` | `uint32` | Hourly front tick counter |
+| `+0x12A` | `CIntList` | `m_SalientProvinces`: interior friendly provinces adjacent to salient border provinces |
+| `+0x12E` | `ListNode*` | Head of list of front border provinces having only 1 friendly connection |
 
 ---
 
@@ -112,135 +70,76 @@ Vtable Offset   Virtual Address     Method
 
 | Routine | Virtual Address | Calling Conv. | Description |
 |---|---|---|---|
-| `CFrontAI::Update` | `0x006A6DF0` | `__thiscall` | Master periodic entry point. Checks war state, invokes evaluation loop, and schedules next evaluation tick. |
-| `CFrontAI::EvaluateArmies` | `0x006A6A20` | `__thiscall` | Core decision loop. Iterates assigned armies (`[this + 0x94]`), checks province threat/balance, and dispatches move orders. |
-| `CFrontAI::ScheduleTick` | `0x006AE0D0` | `__thiscall` | Schedules the next evaluation tick. Generates randomized delay: `12 + (rand() % 8)` hours. |
-| `Front::DispatchReinforce`| `0x006A5971` | `__thiscall` | Dispatches move order to shift division along front line to reinforce deficit province. |
-| `Front::DispatchAttack` | `0x006A5F61` | `__thiscall` | Dispatches offensive attack/advance order into adjacent enemy province. |
-| `Front::DispatchFlank` | `0x006A6D83` | `__thiscall` | Dispatches flank support or redeployment order to adjacent friendly front province. |
-| `CFront::CalcDeficit` | `0x00695380` | `__thiscall` | Calculates division deficit relative to enemy strength directly facing front. |
-| `CFront::IsValid` | `0x004CA33C` | `__thiscall` | Validates whether front is active and legal for operational commands. |
+| `CFrontAI::Execute` | `0x006811B0` | `__thiscall` | Master hourly front evaluation entry point. Calls `0x006829B0` and `0x006853C0`. |
+| `CFrontAI::MoveUnitsToFront` | `0x006829B0` | `__thiscall` | Evaluates border quotas, calls `ManageSalientUnits` (`0x00681CD0`), stops non-conforming marches (`0x0050BCA0`), and dispatches reinforcement moves (`0x006AAFF0`). |
+| `CFrontAI::ManageSalientUnits` | `0x00681CD0` | `__thiscall` | Retail salient withdrawal routine. Identifies 1-connection border tips (`+0x12E`), orders up to 2 units to step back 1 hop, and registers their `TypeId` in `[this + 0xC8]`. |
+| `CFrontAI::IsFrontProvince` | `0x006813E0` | `__thiscall` | Returns `1` if the given province ID belongs to this front's border province list. |
+| `CFrontAI::ExecuteTactical` | `0x006853C0` | `__thiscall` | Coordinates active combat management (`0x00685ED0`) and offensive attack planning (`0x00689780`). |
+| `CFrontAI::ManageCombat` | `0x00685ED0` | `__thiscall` | Evaluates ongoing battles on the front for reinforcement or tactical retreat. |
+| `CFrontAI::PlanAttacks` | `0x00689780` | `__thiscall` | Plans and initiates frontline attacks into adjacent enemy provinces. |
+| `CFrontAI::IsPassiveFront` | `0x006A8720` | `__thiscall` | Checks `[pCountry + 0x34AC + tag]`; returns `0` during active war so `0x006829B0` executes hourly. |
 
 ---
 
-## 4. Root-Cause Analysis: Salient Encirclement Blindness
+## 4. Retail Engine Behavior: Why Multi-Province Salients Are Never Evacuated
 
-During blitzkrieg operations (such as the historical or simulated Białystok pocket), AI divisions stationed in deep forward salients frequently exhibit complete passivity, refusing to pull back even as enemy armored pincers sever their rear supply lines.
+Reverse-engineering `0x00681CD0` (`CFrontAI::ManageSalientUnits`) and `0x006829B0` (`CFrontAI::MoveUnitsToFront`) reveals the exact mechanisms of retail Darkest Hour's salient handling:
 
-Reverse engineering the engine reveals the three structural causes of this behavior:
-
-### 4.1 Cause 1: Static Border Defense Quota Model
-- Front AI treats every front as a set of border provinces facing an opposing nation.
-- Under standard `reactive` or `defensive` distribution modes, Front AI calculates troop requirements purely to match the enemy divisions directly facing each province across the border.
-- In the Białystok salient, the 5 forward Soviet divisions (in Augustow, Bialystok, Bielsk Podlaski, Lomza) face German divisions across the East Prussian and Polish demarcation lines.
-- To Front AI, these divisions are **successfully fulfilling their border defense quota**. It sees enemy troops on the other side and concludes that withdrawing would create a front deficit.
-
-### 4.2 Cause 2: Zero Topological / Graph Awareness
-- Front AI possesses **no graph traversal or bottleneck detection routines**.
-- It does not trace connectivity from forward provinces back to the capital or provincial supply depots.
-- When enemy motorized divisions seize the shoulders of the salient (e.g. Grodno `209`, Wolkowysk `102`, Brzesc Litewski `505`), Front AI treats those breakthrough provinces as belonging to adjacent or rear sectors.
-- It has no analytical concept of a "pocket neck", "salient width", or "impending encirclement".
-
-### 4.3 Cause 3: The 12-to-20 Hour Evaluation Lag
-- Unlike combat and movement (which tick hourly), Front AI evaluation (`0x006A6DF0`) is gated by `0x006AE0D0`:
-  $$\text{Interval} = 12 + (\text{rand}() \pmod 8) \quad \text{hours}$$
-- Even if a front condition changes drastically, Front AI only evaluates its division assignments once every 12 to 20 in-game hours.
-- A fast armored breakthrough can traverse a province and snap a pocket shut before Front AI even executes a single re-evaluation cycle.
+1. **1-Hop Local Degree Blindness (`+0x12E` & `op_defensive`)**:
+   - Retail `CFrontAI` only flags a border province in `[this + 0x12E]` if that individual province has a single friendly neighbor, and `op_defensive` (`0x006831D0` - `0x00684526`) weights province quotas solely by immediate 1-hop friendly neighbor count ($A_i / \sum A$).
+   - In any multi-province salient (such as the 5-province Bialystok salient: Augustow `7335`, Grajewo `6516`, Lomza `1875`, Bielsk Podlaski `6515`, Bialystok `505`), the interior and border provinces connect to one another ($\ge 2$ friendly neighbors), blinding the retail engine to the fact that the entire salient is connected to the Soviet interior through a narrow neck (Wolkowysk `102`) flanked by exposed shoulders (Grodno `209` and Brzesc Litewski `503`).
+2. **The 2-Unit, 1-Step Cap in `0x00681CD0`**:
+   - Even when `0x00681CD0` triggers on narrow tips, it selects at most 2 units, cancels any multi-province path back to the neck, and issues a **1-step** move into an adjacent border province (`7335 -> 209` or `1875 -> 6515`).
+3. **Aggressive `StopMovement` Override (`0x0068416A`)**:
+   - In `0x006829B0`, any assigned front army whose `TypeId` is **not** registered in `[CFrontAI + 0xC8]` (`m_SalientEvacuatingUnits`) has its movement evaluated against static border quotas. If an external routine orders a salient unit to march to the neck (`102`) without registering its `TypeId` in `[CFrontAI + 0xC8]`, `0x006829B0` (`0x0068416A`) immediately calls `StopMovement` (`0x0050BCA0`) or reassigns the unit back to the border on the very same hour tick, creating an infinite hourly tug-of-war.
 
 ---
 
-## 5. Anatomy of Previous Failed Fixes (Post-Mortem)
+## 5. Anatomy of Earlier Debugging Pitfalls (Post-Mortem Reference)
 
-Understanding why earlier patching attempts failed is essential for future development:
-
-| Attempted Mechanism | Intended Role | Actual Runtime Reality (Why It Failed) |
+| Issue Encountered | Root Cause in Retail Binary | Resolution |
 |---|---|---|
-| **Hook at `0x00681269`** | Intercept front AI evaluation loop | **Dead code**. Dynamic breakpoint tracing in x32dbg proved this hook had a **hit count of 0**. The active front execution path never passed through this branch during wartime because `IsAtWar()` (`0x006A8720`) bypasses `0x0068XXXX` entirely. |
-| **Hook at `0x0042F6C0`** | Hourly Country Loop dispatch | **Scenario loader, not hourly tick**. Reverse-engineering `FUN_0042efb0` proved this country loop only runs once during scenario initialization (`INIT_PROVINCES`, `INIT_SCENARIO`, `INIT_SCRIPT`). It never runs during live gameplay. |
-| **Call to `0x005091C0`** | Issue retreat / move orders | **Read-only query**. `0x005091C0` is `CLandArmy::CanMoveTo(provId)`. It merely checks if `provId` is an adjacent neighbor and returns 0 or 1 in `AL`. It issues no orders, alters no state, and touches no queues. |
-| **Missing Pipeline State** | Initiate division march | Movement requires a 5-step execution sequence: (1) `CAI::DispatchMoveOrder` (`0x006AAFF0`), (2) `m_missionType = 1` (`+0x264`), (3) `m_targetProv = target` (`+0x268`), (4) `CLandArmy::StartMoving` (`0x00523250`), and (5) `CLandArmy::UpdateMovementArrow` (`0x00522650`). Omitting any step leaves units stationary. |
+| **Hooking `0x006A5790` (`CanCommand`) had no effect on Front AI** | `0x006A5790` belongs to `CInvasionAI` (vtable `0x007F4C24`), not `CFrontAI` (vtable `0x007F3868`). | Restored `0x006A5790` to pristine bytes and hooked `CFrontAI::ManageSalientUnits` at `0x00681CD0` to populate `[CFrontAI + 0xC8]`. |
+| **Entire front retreated to Capital (Moscow `175`) on load** | In Tarjan's articulation algorithm, the DFS root (`tin = 1`) trivially satisfies $low[v] \ge tin[root]$ for all children. Marking the root as `is_cut = 1` caused `.neck_propagate` to assign `neck = 175` to every province on the map. | Added explicit root guard (`stack_idx == 0`) in `.tarjan_check_cut` so the BFS/DFS root is never marked as a cut-vertex. |
+| **Attack odds check (`SpearheadWinningOdds`) ignored or failed to detect defensive battles** | Checked `[pCombat + 0x40]` (confusing `CCombat` with `CLandCombatSide`) instead of `[[pCombat + 0x78] + 0x12]` (battle province ID on `CCombat`). | Read `[[pCombat + 0x78] + 0x12]` to verify the army is defending its province before calling `CCombat::GetAttackerWinFraction` (`0x004BEBE0`). |
+| **Pinned units in combat (Grajewo `6516`) failed to disengage** | Calling `0x00522930` directly leaves the unit attached to `CCombat`; calling `0x004BE920` with `ecx = pCombat` instead of `ecx = [pCombat + 0x84]` (`CLandCombatSide*`) hit `CCombat`'s no-op virtual slot `+0x5C` (`0x004BD460`) instead of `CLandCombatSide::RetreatUnit` (`0x004BE280`). | Pass `ecx = [pCombat + 0x84]` (defender side) or `[pCombat + 0x80]` (attacker side) to `0x004BE920`. |
+| **Non-combat salient units stood still with 0 Organization** | Zeroing `[pDiv + 0xF4]` (mistaken for attack cooldown) before calling `0x006AAFF0` wiped `m_fOrganization` (`20.4 -> 0.0`). `CArmy::CanMove` (`0x0051A4C0`) requires average `[pDiv + 0xF4] >= 1.0` (`[0x007E7828]`) in friendly territory, so it rejected every move order with error code `3`. | Never zero `[pDiv + 0xF4]`. |
 
 ---
 
-## 6. Correct Blueprint for Encirclement Defense Modifications
+## 6. Current Patch 18 (STEM) Architecture & Hook Pipeline
 
-To implement working anti-encirclement logic in the engine:
+### 6.1 Active Binary Hooks
+1. **INI Loader Hook (`0x00DCB7E6` -> `0x00DCBC00` -> `0x00DCC5FA`)**:
+   - Reads `[FrontAI]` parameters into `0x00DCBAB0` - `0x00DCBAD0` and allocates the 256 KB `g_pGraphTable` buffer (`[0x00DCBAD4]`) via `VirtualAlloc`.
+   - Chains to `Cave_LoadEngineSettings` (`0x00DCC5FA`), which reads `[Engine]` debugging flags from `db\mod_settings.ini`:
+     - `AlwaysShowMovementArrows` (`[0x00DCBAD8]`)
+     - `AutoNoFog` (`[0x00DCBAE8]`)
+     - `AutoShowId` (`[0x00DCBAEC]`)
+2. **Post-Scenario Load Hook (`0x00DCAE55` -> `0x00DCC5B0` `Cave_PostLoadInit`)**:
+   - Executes immediately upon scenario or savegame load completion (`FUN_0042E9B0` exit) to apply `AutoNoFog` (`[0x00D610DC] = 1` and `[pPlayerCountry + 0x21E90] = 1`), `AutoShowId` (`[0x00D610E8] = 1`), and `Cave_ShowAllMovingArrows` (`0x00DCC53E`) without waiting for the first hourly tick.
+3. **Movement Arrow Deselect Filter (`0x005226C1` -> `0x00DCC57A` `Cave_DeselectArrows`)**:
+   - When `AlwaysShowMovementArrows = 1`, prevents `CLandArmy::OnDeselect` from clearing movement/retreat arrows (`0x0040D210` / `0x0040D170`) for actively moving or retreating units.
+4. **Hourly Game Loop Hook (`0x005AEDBE` -> `0x00DCC6A2` `Cave_STEM_HourlyAllCountries`)**:
+   - Runs at the start of every hourly tick after `AdvanceDate(1)`:
+     - Maintains `AutoNoFog`, `AutoShowId`, and `Cave_ShowAllMovingArrows`.
+     - Clears the per-province active salient flag array at `g_pGraphTable + 0x30000` (`8,192` bytes).
+     - Iterates all country tags `0..0x157`; for each AI-controlled country (`[pCountry + 0x13C84] != 0` and `pCountry != [0x00D0CA90]`), invokes `Cave_STEM_UpdateAndEvacuate_Internal` (`0x00DCC2DB`).
+5. **Front AI Salient Exemption Hook (`0x00681CD0` -> `0x00DCC74D` `Cave_FrontAI_ManageSalients`)**:
+   - Replaces retail `CFrontAI::ManageSalientUnits` when `EnableEncirclementDefense == 1`:
+     - Clears `[CFrontAI + 0x12A]` and `[CFrontAI + 0xC8]`.
+     - Iterates `[CFrontAI + 0xA4]` (all armies assigned to the front); for any army stationed in a province flagged with `[g_pGraphTable + prov + 0x30000] == 1`, inserts its `TypeId` (`[pArmy + 0x18]`) into `[CFrontAI + 0xC8]` via `0x0049A190` so `CFrontAI::MoveUnitsToFront` (`0x006829B0`) and `CFrontAI::PlanAttacks` (`0x00689780`) do not cancel or override STEM evacuation orders.
 
-1. **Target the Real Front Evaluation Loop**:
-   Hook `CFrontAI::EvaluateArmies` at `0x006A6A20` or its caller `0x006A6DF0`. This is the verified live execution path where Front AI evaluates assigned armies.
-2. **Perform Graph Traversal (BFS / DFS)**:
-   Trace friendly land connectivity from forward front provinces back to the national capital or nearest friendly supply depot. Compute bottleneck width (`min_neck_width`).
-3. **Trigger Evacuation via Valid Move Dispatch**:
-   When `min_neck_width <= 2` and the bottleneck province is threatened or in combat, override the border quota and dispatch an immediate move order to the bottleneck using the verified 3-step pipeline:
-   ```assembly
-   ; 1. Dispatch move order via AI dispatcher
-   push 0
-   push pBottleneckProvince
-   push pArmy
-   mov  ecx, pAI
-   call 0x006AAFF0
-
-   ; 2. Ensure mission controller fields
-   mov  dword ptr [pArmy + 0x264], 1      ; MOVE
-   mov  dword ptr [pArmy + 0x268], bottleneckProvId
-   mov  dword ptr [pArmy + 0x26C], 0x3F800000 ; 1.0f
-
-   ; 3. Activate movement execution & map arrow
-   mov  ecx, pArmy
-   call 0x00523250                       ; StartMoving
-   mov  ecx, pArmy
-   call 0x00522650                       ; UpdateMovementArrow
-   ```
-
----
-
-## 7. Working Implementation: Patch 18 (STEM) & Live Verification
-
-The complete working Encirclement Defense System (Patch 18) was verified and deployed using the following architecture:
-
-### 7.1 Architecture & Hook Pipeline
-1. **Hourly Tick Hook at `0x005AEDBE`** (`FUN_005aec40`):
-   Dispatched immediately after `AdvanceDate(1)` (`0x0042CF30`) on every single in-game hour:
-   ```assembly
-   0x005AEDBE: call 0x00DCC44D  ; Cave_STEM_HourlyAllCountries
-   0x005AEDC3: nop
-   0x005AEDC4: nop
-   0x005AEDC5: mov esi, eax
-   0x005AEDC7: nop
-   0x005AEDC8: nop
-   0x005AEDC9: nop
-   ```
-2. **All-Country Dispatcher at `0x00DCC44D`** (in `.mod` code cave):
-   Increments hourly generation counter (`inc dword ptr [0x00DCBADC]`) and iterates through country tags `0` to `0x157`. For each nation with an active AI (`pAI != NULL`, skipping human player `[0x00D0CA90]`), it invokes `Cave_STEM_HourlyHook`:
-   ```assembly
-   0x00DCC44D: pushal
-   0x00DCC44E: pushfd
-   0x00DCC44F: inc dword ptr [0x00DCBADC]
-   0x00DCC455: xor esi, esi
-   0x00DCC457: call Cave_STEM_HourlyHook
-   0x00DCC45C: inc esi
-   0x00DCC45D: cmp esi, 0x158
-   0x00DCC463: jl 0x00DCC457
-   0x00DCC465: popfd
-   0x00DCC466: popal
-   0x00DCC467: push 0x0C
-   0x00DCC469: mov eax, 0x007A635C ; operator new
-   0x00DCC46E: call eax
-   0x00DCC470: add esp, 4          ; Balance argument
-   0x00DCC473: ret
-   ```
-3. **Graph Topology, Threat Scanner & Two-Pass Exit Analysis (`0x00DCBDA0`)**:
-   - **Active Threat Scanner**: Scans friendly armies. If an army is actively defending in combat (`[edi + 0x128] != 0`), its province is marked threatened in the threat table (`[pGraph + prov + 0x25000] = 1`).
-   - **Safe Graph BFS & Tarjan DFS**: Runs BFS and Tarjan's bridge algorithm from national capital/depots strictly across *unthreatened* friendly provinces. When a salient shoulder enters combat (e.g. Grodno `209` under attack), Grodno is excluded from the safe graph, immediately turning the remaining corridor (Wołkowysk `102`) into an articulation point (`is_cut = 1`, `neck = 102`) days before the shoulder falls.
-   - **Pass 2 (Breakout Gateways)**: If all exits are under attack or collapsed (e.g. simultaneous assaults on both shoulders), Pass 2 identifies threatened provinces directly bordering safe rear provinces as breakout gateways, routing pocket divisions toward the best gateway rather than stranding them.
-4. **Discriminative Move vs. Retreat Order Dispatch**:
-   Divisions in the pocket are evaluated against their calculated neck gateway:
-   - **Units in Active Combat (`[edi + 0x128] != 0`)**: Dispatches a tactical disengagement retreat to the bottleneck via `0x004BE920` (`CCombat::OrderRetreat`).
-   - **Units Not in Combat (`[edi + 0x128] == 0`)**: Aborts existing stationary/patrol orders via `0x0050BCA0` and dispatches a clean operational march order to the bottleneck via `0x006AAFF0` (`CAI::DispatchMoveOrder`).
-   - Indiscriminate drawing of global map retreat vectors (`0x00523250` / `0x00522650`) is completely removed, preserving standard fog-of-war counter icons.
-
-### 7.2 Verification Results
-- **Move vs. Retreat**: Verified in live memory that unengaged infantry and motorized divisions in the Białystok pocket receive standard move orders rather than combat retreat states.
-- **Map Vector Elimination**: Confirmed zero visible grey arrows rendered across the map when viewing opposing AI movements as Germany.
-- **Early Trigger on Shoulder Attack**: Verified that as soon as Grodno is attacked, the safe topology instantly designates Wołkowysk (`102`) as the sole articulation neck, initiating evacuation days before panzers can close the corridor.
-- **Simultaneous Neck Assault (Pass 2)**: Tested against simultaneous attacks on both Grodno and Wołkowysk; pocket divisions successfully designated breakout vectors rather than locking into passive idle states.
+### 6.2 Per-Country Graph Analysis & Evacuation (`0x00DCBDA0` / `0x00DCC2DB`)
+1. **Threat Scanner (`0x00DCBDA0`)**:
+   - Scans friendly armies (`[pCountry + 0x4508]`):
+     - If defending in combat (`[pArmy + 0x128] != 0` and `[[pCombat + 0x78] + 0x12] == prov`), calls `CCombat::GetAttackerWinFraction` (`0x004BEBE0`) and compares attacker win fraction $p$ against $\frac{W}{1 + W}$ where $W = \text{SpearheadWinningOdds}$ (`[0x00DCBAC8]`, default `1.1`, threshold $\approx 0.5238$).
+     - If $p \ge \text{Threshold}$, marks the province threatened (`[g_pGraphTable + prov + 0x25000] = 1`); otherwise marks it as holding (`+0x26000 = 1`).
+   - Scans moving/attacking armies of other countries targeting friendly-controlled provinces (`[pArmy + 0x13A]`) and marks undefended target provinces as threatened (`+0x25000 = 1`).
+2. **Safe Subgraph BFS & Tarjan Articulation Point Detection**:
+   - Runs BFS from the Capital (`[pCountry + 0x117DE]`) across friendly-controlled provinces with `threat == 0`, recording `[dist:u16, neck:u16, is_cut:u16, parent:u16]` at `g_pGraphTable + prov * 8`.
+   - Runs iterative Tarjan DFS over the Safe Subgraph to identify articulation points (`is_cut = 1`, excluding the BFS root).
+   - Propagates the nearest articulation point ID (`neck`) down the BFS tree (`.neck_propagate`).
+3. **Unit Evacuation Dispatch (`0x00DCC2DB`)**:
+   - **Pinned Combat Units (`[pArmy + 0x128] != 0`)**: Scans adjacent friendly provinces in the Safe Subgraph (`dist != 0xFFFF`). If any safe neighbor lies on the main front (`neck == 0 && is_cut == 0`, e.g., Lida `210` behind Grodno `209`), aborts retreat so the shoulder defender holds its ground. If all safe neighbors belong to the salient/neck (`neck != 0 || is_cut != 0`, e.g., Bialystok `505` behind Grajewo `6516`), selects the safe neighbor with minimum `dist`, flags `+0x30000 = 1`, and dispatches `CLandCombatSide::OrderRetreat` (`0x004BE920`).
+   - **Non-Combat Salient Units (`[pArmy + 0x128] == 0` and `neck != 0` and `prov != neck`)**: Flags `+0x30000 = 1`, checks if already marching to `neck` (`[[pArmy + 0x236]] == neck` or `[pArmy + 0x268] == neck`), and if not, dispatches an overland move order to `neck` via `CAI::DispatchMoveOrder` (`0x006AAFF0`).

@@ -1,161 +1,70 @@
-# Engine Modification Plan: Front AI Graph Traversal & "Stay vs Run" Encirclement Defense System (Patch 18)
+# Engine Modification Plan: Front AI Graph Traversal & Salient Evacuation Engine (Patch 18 / STEM)
 
 **Document ID**: `plan_front_ai_encirclement_defense.md`  
 **Target Engine**: Darkest Hour 1.05.2 (32-bit x86 PE, Checksum: `TENE`)  
 **Target Executable**: `Darkest Hour.exe` (Image Base: `0x00400000`, Base File Size: `4,730,956` bytes, Patched Size: `4,751,360` bytes)  
-**Configuration File**: `db\mod_settings.ini` -> Section `[FrontAI]`  
+**Configuration File**: `db\mod_settings.ini` -> Sections `[FrontAI]` and `[Engine]`  
 **Patcher Integration**: `patch_darkest_hour.bat` -> **Patch 18**  
-**Code Cave Location**: Dedicated `.mod` page 2 at VA `0x00DCBAA0`-`0x00DCBF80` (File Offset: `0x00486AA0`, $\approx 1,248$ bytes)  
-**Status**: APPROVED / IMPLEMENTATION STAGE
+**Code Cave Location**: Dedicated `.mod` page 2/3 at VA `0x00DCBAB0`-`0x00DCCBA0` (File Offset: `0x00486AB0`, `3,374` / `4,336` bytes total)  
+**Status**: IMPLEMENTED (V2 BASELINE) / UNDER REVIEW
 
 ---
 
 ## 1. Executive Summary & Problem Definition
 
-In Darkest Hour retail v1.05.2 (and Hearts of Iron II/III/IV generally), the Front AI suffers from a chronic inability to detect, prevent, or react to operational encirclements:
-1. **The 1-Hop Neighbor Blind Spot (`op_defensive`)**:
-   As reverse-engineered in `FUN_006829b0` (`0x006831D0` - `0x00684526`), the only vanilla anti-encirclement tool, `distrib_vs_human = op_defensive`, calculates troop quotas purely from immediate 1-hop friendly adjacent connections over total front escape connections ($A_i / \sum A$). In any multi-province pocket or salient, interior provinces share connections with each other ($\ge 2$), completely blinding the AI to the fact that the entire sector's connection to the national supply core has narrowed to a single bottleneck.
-2. **The "Reactive" Pinning Trap**:
-   In 99% of country AI files, `distrib_vs_human = reactive`. Under `reactive`, the AI strives to match enemy troop concentrations directly facing it across the border. When a player fixes the forward line with a weak infantry pinning screen and sends armored pincers around the flanks, the AI divisions remain paralyzed in place, staring at the pinning screen until the trap snaps shut.
-3. **The Breakthrough / False-Positive Paradox**:
-   If an engine modification were to rely solely on topological constriction (e.g. `min_neck_width <= 2`), the AI would abort its own armored breakthrough drives, because an advancing spearhead naturally forms a 1- or 2-province wide salient. Similarly, naturally constricted choke points (such as the Perekop isthmus into Crimea, or Denmark/Jutland) would be abandoned even if heavily fortified and completely secure.
-4. **The E3 Map Granularity Multiplier**:
-   On the E3 map (`Map_3`), depth from the frontline to the interior is three times greater than on the vanilla map. When an enemy punches through the front line, the spearheads operate in vast empty rear space managed by `CGarrisonAI` (which slashes rear quotas by $\frac{1}{3}$ and $\frac{1}{2}$ during war), while the Front AI divisions remain pinned on the border.
-
-### Solution Overview
-Patch 18 introduces the **Front AI Graph Traversal & "Stay vs Run" Encirclement Defense System (STEM)**:
-1. **Multi-Source Reverse Breadth-First Search (BFS)**:
-   - Evaluates global graph connectivity from the national Capital **and active provincial supply depots** (`CProvince + 0x18A` / `+0x270`) through friendly land territory.
-   - For every front province, maps its shortest path distance, its narrowest corridor bottleneck width (`min_neck_width`), and the province ID of its bottleneck shoulder ($B$).
-   - Overseas enclaves and colonies with their own supply depots (e.g., German East Prussia at KÃ¶nigsberg `510`, French North Africa at Oran `950`) are treated as valid supply bases, preventing false-positive pocket panics.
-2. **The Multi-Factor "Stay vs Run" Decision Switch (STEM)**:
-   - **Topological Gate**: Activates only if `min_neck_width <= SalientNeckWidthThreshold` (default `2`).
-   - **Shoulder / Neck Stress Check**: Evaluates bottleneck province $B$. If $B$ is in active combat with defender organization $< \text{NeckCollapsingOrgThreshold}$ (default $30\%$) or enemy force ratio $\ge \text{NeckThreatRatio}$ (default $1.5\times$), the neck is declared **THREATENED** or **COLLAPSING**.
-   - **Offensive Momentum Guard**: Inspects advancing divisions in the salient (`[pArmy + 0x14C]`). If units are attacking into enemy territory with winning combat odds ($\ge \text{SpearheadWinningOdds}$), the offensive is protected (`STAY & ADVANCE`), preventing the AI from aborting its own breakthroughs.
-3. **Overland-Only March Evacuation**:
-   - Explicitly bars strategic redeployment from threatened salients (matching competitive multiplayer standards).
-   - Operates by modulating front quotas at `0x00684529` in `FUN_006829b0`: sets forward salient quota to `SalientEvacuationQuota` (`0.0`) and bottleneck quota to `BottleneckDefenseBoost` (`2.5`).
-   - The native Paradox front manager (`FUN_006853c0`) observes a massive surplus at the tip and deficit at the base, naturally issuing **overland combat march orders** to withdraw units out of the salient toward the base.
-4. **Complete INI Externalization**:
-   - All weights, thresholds, and modes are exposed under `[FrontAI]` in `db\mod_settings.ini`.
+In Darkest Hour retail v1.05.2, `CFrontAI` (`0x006811B0`) suffers from structural limitations when defending multi-province salients against armored pincer attacks:
+1. **1-Hop Neighbor Blind Spot (`0x00681CD0` & `op_defensive`)**:
+   - Retail `CFrontAI::ManageSalientUnits` (`0x00681CD0`, called from `CFrontAI::MoveUnitsToFront` at `0x00682A58`) only identifies border provinces that individually possess a single friendly neighbor (`[CFrontAI + 0x12E]`), pulls at most 2 border-tip divisions back by 1 hop into an adjacent border province, and registers only those 2 units in `[CFrontAI + 0xC8]` (`m_SalientEvacuatingUnits`).
+   - Similarly, `distrib_vs_human = op_defensive` (`0x006831D0` - `0x00684526`) weights province quotas strictly by immediate 1-hop friendly connections ($A_i / \sum A$). In any multi-province pocket (such as the Bialystok salient: `7335`, `6516`, `1875`, `6515`, `505`), interior and border provinces connect to one another ($\ge 2$ neighbors), blinding the AI to a narrow bottleneck neck (`102` Wolkowysk) at the base of the salient.
+2. **The Pinning & `StopMovement` Trap**:
+   - Under `reactive` distribution, `CFrontAI::MoveUnitsToFront` (`0x006829B0`) matches enemy troop stacks directly across the border and calls `StopMovement` (`0x0050BCA0` at `0x0068416A`) on any moving front army whose `TypeId` is not registered in `[CFrontAI + 0xC8]`.
+   - Meanwhile, divisions pinned in combat inside a salient (e.g., Grajewo `6516`) remain locked in battle until encircled and destroyed.
 
 ---
 
-## 2. Parameter Inventory & Runtime Memory Table (`0x00DCBAA0`)
+## 2. Parameter Inventory & Runtime Memory Table (`0x00DCBAB0`)
 
-| Parameter Name | Cave VA | Binary Type | Default | Engine Role |
+| Parameter Name | Cave VA | Binary Type | Default | Current Implementation Status |
 |---|---|---|---|---|
-| `EnableEncirclementDefense` | `0x00DCBAA0` | `int` | `1` | Master toggle (`0` = vanilla 1-hop `op_defensive`, `1` = Patch 18 STEM engine) |
-| `SalientNeckWidthThreshold` | `0x00DCBAA4` | `int` | `2` | Max bottleneck width to classify a sector as an exposed salient |
-| `NeckThreatRatio` | `0x00DCBAA8` | `float` | `1.5f` | Ratio of adjacent/attacking enemy power to friendly defenders to declare neck threatened |
-| `NeckCollapsingOrgThreshold` | `0x00DCBAAC` | `float` | `30.0f` | Minimum defender org in bottleneck province below which neck is declared collapsing |
-| `SpearheadWinningOdds` | `0x00DCBAB0` | `float` | `1.1f` | Minimum combat odds of advancing units required to classify action as a winning spearhead |
-| `AbortSpearheadOnNeckCollapse`| `0x00DCBAB4` | `int` | `1` | `1` = Abort spearhead and pull back to neck if shoulder is collapsing; `0` = continue advance |
-| `SalientEvacuationQuota` | `0x00DCBAB8` | `float` | `0.0f` | Quota multiplier applied to forward salient provinces when "RUN" decision is active |
-| `BottleneckDefenseBoost` | `0x00DCBABC` | `float` | `2.5f` | Quota multiplier applied to the bottleneck province when "RUN" decision is active |
-| `UseSupplyDepotsAsCores` | `0x00DCBAC0` | `int` | `1` | `1` = Seed BFS with Capital and friendly supply depots (`pProv + 0x18A` / `+0x270`); `0` = Capital only |
-| `g_pGraphTable` | `0x00DCBAC4` | `pointer` | `Dynamic` | Base pointer to 48 KB graph node array allocated via `VirtualAlloc` |
-| `g_bGraphDirty` | `0x00DCBAC8` | `byte` | `1` | Flag set to `1` by `CProvince::SetController` (`0x004E7905`); triggers BFS re-run |
+| `EnableEncirclementDefense` | `0x00DCBAB0` | `int` | `1` | **ACTIVE**: Master toggle (`0` = vanilla, `1` = STEM enabled). Checked at `0x00DCC712` & `0x00DCC74F`. |
+| `SalientNeckWidthThreshold` | `0x00DCBAB4` | `int` | `2` | **LOADED ONLY (UNREFERENCED)**: Loaded from INI at `0x00DCBC57`; Tarjan DFS currently checks width-1 cut-vertices (`is_cut == 1`) in the safe subgraph. |
+| `AbortSpearheadOnNeckCollapse`| `0x00DCBAB8` | `int` | `1` | **LOADED ONLY (UNREFERENCED)**: Loaded at `0x00DCBC6F`, not yet evaluated in cave. |
+| `UseSupplyDepotsAsCores` | `0x00DCBABC` | `int` | `1` | **LOADED ONLY (UNREFERENCED)**: Loaded at `0x00DCBC87`; BFS currently seeds only from Capital (`[pCountry + 0x117DE]`). |
+| `NeckThreatRatio` | `0x00DCBAC0` | `float` | `1.5f` | **LOADED ONLY (UNREFERENCED)**: Loaded at `0x00DCBC96`, not yet evaluated in cave. |
+| `NeckCollapsingOrgThreshold` | `0x00DCBAC4` | `float` | `30.0f` | **LOADED ONLY (UNREFERENCED)**: Loaded at `0x00DCBCA5`, not yet evaluated in cave. |
+| `SpearheadWinningOdds` | `0x00DCBAC8` | `float` | `1.1f` | **ACTIVE**: Loaded at `0x00DCBCB4`; used at `0x00DCBE77` as the attacker combat odds threshold ($\frac{W}{1+W}$) via `CCombat::GetAttackerWinFraction` (`0x004BEBE0`) to flag defending provinces as threatened (`+0x25000 = 1`). |
+| `SalientEvacuationQuota` | `0x00DCBACC` | `float` | `0.0f` | **LOADED ONLY (UNREFERENCED)**: Loaded at `0x00DCBCC3`; superseded by direct `0x006AAFF0` dispatch. |
+| `BottleneckDefenseBoost` | `0x00DCBAD0` | `float` | `3.5f` | **LOADED ONLY (UNREFERENCED)**: Loaded at `0x00DCBCD2`; superseded by direct `0x006AAFF0` dispatch. |
+| `g_pGraphTable` | `0x00DCBAD4` | `pointer` | `Dynamic` | **ACTIVE**: Base pointer to 256 KB (`0x40000` bytes) working buffer allocated via `VirtualAlloc`. |
+| `AlwaysShowMovementArrows` | `0x00DCBAD8` | `int` | `0` (`1` in INI) | **ACTIVE**: `[Engine]` setting; renders movement/retreat arrows for all moving units and prevents deselect clearing at `0x005226C1`. |
+| `g_nHourlyCounter` | `0x00DCBADC` | `uint32` | `0` | **WRITE-ONLY (LEGACY)**: Incremented at `0x00DCBD60`, `0x00DCBD80`, and `0x00DCC6E6`; never read. |
+| `AutoNoFog` | `0x00DCBAE8` | `int` | `0` (`1` in INI) | **ACTIVE**: `[Engine]` setting; sets `[0x00D610DC] = 1` and `[pPlayerCountry + 0x21E90] = 1` on load and hourly. |
+| `AutoShowId` | `0x00DCBAEC` | `int` | `0` (`1` in INI) | **ACTIVE**: `[Engine]` setting; sets `[0x00D610E8] = 1` on load and hourly. |
+
+### `g_pGraphTable` (`[0x00DCBAD4]`, `0x40000` bytes) Layout
+- `+0x00000 .. +0x0FFFF`: Per-province 8-byte graph records (`prov_id * 8`):
+  - `+0x00` (`uint16`): `dist` — BFS hop distance from Capital (`0xFFFF` = unreachable / excluded from Safe Subgraph)
+  - `+0x02` (`uint16`): `neck` — Province ID of nearest upstream articulation point (`0` = main body / no bottleneck)
+  - `+0x04` (`uint16`): `is_cut` — `1` if province is a Tarjan articulation point (cut-vertex) in the Safe Subgraph
+  - `+0x06` (`uint16`): `parent` — BFS parent province ID
+- `+0x10000 .. +0x13FFF`: BFS queue (`uint16` province IDs)
+- `+0x14000 .. +0x17FFF`: Tarjan DFS discovery time `tin[prov]` (`uint16`)
+- `+0x18000 .. +0x1BFFF`: Tarjan DFS low-link value `low[prov]` (`uint16`)
+- `+0x1C000 .. +0x23FFF`: Explicit Tarjan DFS call stack (`[prov:u16, nb_idx:u16]` per frame)
+- `+0x25000 .. +0x25FFF`: `is_threatened[prov]` (`uint8`, `1` = province excluded from Safe Subgraph)
+- `+0x26000 .. +0x26FFF`: `is_holding[prov]` (`uint8`, `1` = friendly defender holding province)
+- `+0x30000 .. +0x31FFF`: `is_evacuating[prov]` (`uint8`, `1` = active STEM salient province during current hour; read by `Cave_FrontAI_ManageSalients` to populate `[CFrontAI + 0xC8]`)
 
 ---
 
-## 3. Configuration Specification (`db\mod_settings.ini`)
+## 3. Hook Architecture & Call Sites
 
-All encirclement avoidance parameters are managed under `[FrontAI]` in `db\mod_settings.ini`:
-
-```ini
-[FrontAI]
-; Enable Graph-Based Encirclement Avoidance & Pocket Defense:
-; 0 = Vanilla behavior (local 1-hop op_defensive only)
-; 1 = Enhanced graph-based BFS and dynamic "Stay vs Run" decision engine
-EnableEncirclementDefense = 1
-
-; --- Topological Salient Thresholds ---
-; Maximum bottleneck width to classify a sector as an exposed salient
-; (Provinces whose connection to the supply core passes through a neck <= this width are evaluated)
-; Default = 2
-SalientNeckWidthThreshold = 2
-
-; --- Shoulder & Neck Stress Thresholds ---
-; Ratio of enemy adjacent/attacking combat power to friendly defenders required to declare the neck threatened
-; (e.g. 1.5 = enemy has 1.5x friendly strength)
-; Default = 1.5
-NeckThreatRatio = 1.5
-
-; Minimum defender organization threshold in the bottleneck province (0.0 to 100.0)
-; If active combat in the bottleneck causes defender org to drop below this value, the neck is declared collapsing
-; Default = 30.0
-NeckCollapsingOrgThreshold = 30.0
-
-; --- Offensive Breakthrough Protection (Spearhead Guard) ---
-; Minimum combat odds of advancing units required to classify forward action as a winning spearhead
-; Default = 1.1
-SpearheadWinningOdds = 1.1
-
-; Force spearhead abort if neck is collapsing regardless of forward progress:
-; 0 = Spearhead continues advancing even if neck is collapsing
-; 1 = Abort spearhead and pull back to neck if shoulder is collapsing (recommended)
-AbortSpearheadOnNeckCollapse = 1
-
-; --- Quota Modulation Weights (Overland Evacuation) ---
-; Quota multiplier applied to forward salient provinces when "RUN" decision is active
-; (0.0 = complete overland withdrawal; 0.2 = retain a screening rear guard)
-; Default = 0.0
-SalientEvacuationQuota = 0.0
-
-; Quota multiplier applied to the bottleneck province when "RUN" decision is active
-; (Attracts retreating divisions to form a defensive line at the base of the salient)
-; Default = 2.5
-BottleneckDefenseBoost = 2.5
-
-; --- Multi-Source Supply Seeding ---
-; Consider friendly active supply depots (CProvince + 0x18A / +0x270) as valid supply cores:
-; 1 = Yes (enclaves/islands with depots are not treated as encircled, default)
-; 0 = Capital only
-UseSupplyDepotsAsCores = 1
-```
-
----
-
-## 4. Hook Architecture & Call Sites
-
-### 4.1 Hook 1: Event-Driven Graph Invalidation (`0x004E7905`)
-* **Routine**: `CProvince::SetController` (`FUN_004e78e0`).
-* **Original Code**:
-  ```asm
-  004E7905: 89 91 D8 03 00 00       mov [ecx+0x3D8], edx
-  ```
-* **Patch**:
-  Intercepts controller changes to set `g_bGraphDirty = 1` (`0x00DCBAC8`), ensuring graph traversal only re-runs when territorial boundaries change.
-
-### 4.2 Hook 2: Dynamic Quota Intercept (`0x00684526` / `0x00684529`)
-* **Routine**: `CFront::UpdateDistribution` (`FUN_006829b0`).
-* **Original Code**:
-  ```asm
-  00684526: D8 35 ...               fdiv dword ptr [local_2c]
-  0068452C: 8B 8D ...               mov ecx, [ebp - ...]
-  ```
-* **Patch**:
-  Jumps to `.mod` cave `fn_stem_eval_quota`.
-  - If `g_bGraphDirty == 1`, runs `fn_run_bfs` for the current country.
-  - Queries `g_GraphTable` for province ID (`[local_44 + 4]`).
-  - Evaluates the "Stay vs Run" switch:
-    - If **RUN**: Overwrites target ratio `ppvVar20` with `SalientEvacuationQuota` (`0.0f`).
-    - If **STAY**: Leaves native quota unchanged.
-  - Returns to `0x0068452C`.
-
----
-
-## 5. Verification & Test Scenarios
-
-### 5.1 Test Scenarios in `scenarios/`
-1. **`scenarios/test_pincer_encirclement.eug`**:
-   - Bialystok salient with 12 Soviet divisions pinned by 3 German infantry divisions.
-   - German armored columns attacking northern (Grodno) and southern (Brest) shoulders.
-   - **Verification**: Soviet divisions disengage from Bialystok and march overland to Minsk before the pocket seals.
-2. **`scenarios/test_offensive_breakthrough.eug`**:
-   - German motorized corps advancing into Soviet territory near Vitebsk (1-province wide spearhead).
-   - **Verification**: Panzers receive `STAY & ADVANCE` and continue advancing toward Smolensk without aborting.
-
-### 5.2 Automated Tests
-- Run `tools/patch_darkest_hour.bat -Verify` to validate signatures and section alignment.
+| Hook ID | Call Site VA (File Offset) | Target Cave VA | Purpose & Status |
+|---|---|---|---|
+| **Hook 1** | `0x00DCB7E6` (`0x004867E6`) | `0x00DCBC00` -> `0x00DCC5FA` | Chains from Patch 17 INI loader to load `[FrontAI]` and `[Engine]` settings from `db\mod_settings.ini`. |
+| **Hook 2A** | `0x004E7616` (`0x000E7616`) | `0x00DCBD60` | **OBSOLETE / CANDIDATE FOR REMOVAL**: Increments unused counter `[0x00DCBADC]` on combat occupation. |
+| **Hook 2B** | `0x004E7905` (`0x000E7905`) | `0x00DCBD80` | **OBSOLETE / CANDIDATE FOR REMOVAL**: Increments unused counter `[0x00DCBADC]` in `CProvince::SetController`. |
+| **Hook 3** | `0x005AEDBE` (`0x001AEDBE`) | `0x00DCC6A2` | Hourly game loop hook after `AdvanceDate(1)`. Runs `Cave_STEM_HourlyAllCountries`. |
+| **Hook 4** | `0x00681CD0` (`0x00281CD0`) | `0x00DCC74D` | Redirects `CFrontAI::ManageSalientUnits` to `Cave_FrontAI_ManageSalients`, registering all armies in `[g_pGraphTable + prov + 0x30000] == 1` into `[CFrontAI + 0xC8]`. |
+| **Hook 5** | `0x005226C1` (`0x001226C1`) | `0x00DCC57A` | `AlwaysShowMovementArrows` deselect filter inside `CLandArmy::OnDeselect`. |
+| **PostLoad**| `0x00DCAE55` (`0x00485E55`) | `0x00DCC5B0` | Chains from Patch 12 scenario-load hook (`FUN_0042E9B0` exit) to apply `AutoNoFog`, `AutoShowId`, and `AlwaysShowMovementArrows` immediately upon load. |

@@ -11,9 +11,13 @@
 | Global Identifier | Virtual Address | Description | Access Pattern |
 |---|---|---|---|
 | `DAT_00dc0fd4` | `0x00DC0FD4` | **IsHuman Controller Array** | `*(int*)(0x00DC0FD4 + tag * 4)`<br>`1` = Human player, `0` = AI |
+| `DAT_00d0ca90` | `0x00D0CA90` | **Local Player Country Pointer** | `*(Country**)0x00D0CA90`<br>Pointer to local human player's `Country` object |
 | `DAT_0089cad8` | `0x0089CAD8` | **Country Pointer Table** | `*(Country**)(0x0089CAD8 + tag * 4)`<br>Returns base pointer to country object |
+| `DAT_00ab27b4` | `0x00AB27B4` | **Province Array Base Pointer** | `*(CProvince**)0x00AB27B4 + prov_id * 0x4B2` |
 | `pDateStruct` | `0x00893530` | **Engine Time & Date Pointer** | `[0x00893530] + 0x14`<br>Base of 6-byte runtime date struct |
 | `szClockBuffer` | `0x00D0B68C` | **UI Formatted Clock String** | ASCII string: `"H:00 Month D, YYYY"` |
+| `g_bNoFog` | `0x00D610DC` | **Global NoFog Toggle** | `uint8`: `1` = fog of war disabled (also requires `[pPlayerCountry + 0x21E90] = 1`) |
+| `g_bShowId` | `0x00D610E8` | **Global ShowId Toggle** | `uint8`: `1` = display province IDs on map tooltip |
 | `TokenTable` | `0x0084FA64` | **Scenario Parser Token Table** | Maps token strings to token IDs (e.g. `0x52E` = `dont_want_exp_forces`) |
 
 ---
@@ -71,13 +75,19 @@ Offset          Type                Description
                                      alliances exist strictly via m_pAlliance and puppet/master relations)
                 +0x22               Pointer to alliance member container
                 [[+0x3350]+0x22]+4  Head node of ally country tags linked list
-+0xE86E         FrontNode*          Head of active Fronts linked list (CFront*)
++0x34AC         uint8[344]          Per-country front passivity / truce array (checked by 0x006A8720)
++0x4508         ListNode*           Head of country's land armies linked list (CLandArmy*)
++0x451C         ListNode*           Head of strategic redeployment pool linked list
++0xE86E         FrontNode*          Head of active Fronts linked list (CFrontAI*)
 +0xF4EE         float[344]          m_TradeEfficiency array (0.0 to 1.0 per country tag)
++0x117DE        uint32              Capital Province ID
 +0x1183E        FlagMap             local_flags associative map (LookupFlag @ 0x006C5280)
 +0x11862        uint8[] (byte[])    dont_want_exp_forces boolean array
                                     *(byte*)(Country + 0x11862 + target_tag)
                                     1 = refuses expeditionary forces from target_tag
                                     0 = accepts expeditionary forces
++0x13C84        CAI*                Country operational AI controller pointer (ecx for CAI::DispatchMoveOrder @ 0x006AAFF0; NULL for non-AI / pure player)
++0x21E90        uint8               Per-country fog-of-war bypass flag (1 = nofog active when paired with [0x00D610DC] = 1)
 ```
 
 #### Linked List Traversal Pattern
@@ -112,28 +122,29 @@ Offset          Type                Description
 
 ---
 
-### 3.3 `CFront` (Front Object) Structure
-Represents an active front or border segment. Linked list head at `pCountry + 0xE86E`. Vtable: `0x007E7D34`.
+### 3.3 `CFrontAI` (Front AI / Theater Object) Structure
+Represents an active land front segment and its operational AI controller. Linked list head at `pCountry + 0xE86E`. Vtable: `0x007F3868` (base `CFront` vtable: `0x007E7D34`).
 
 ```
 Offset          Type                Description
 --------------------------------------------------------------------------------------
-+0x00           void*               Vtable (0x007E7D34)
-+0x04           void*               Internal state container (vtable: 0x007E4B04)
-+0x18           void*               Front node vtable (0x007E7C08)
-+0x28           void*               Front segment descriptor (vtable: 0x007E6EAC)
-+0x3C           void*               Province list container (vtable: 0x007E8AB0)
-+0x44           uint16              Count of provinces comprising this front segment
-+0x52           int32               Front Requirement / Deficit Flag (>0 needs troops)
-+0x8C           uint32              Owning Country Tag (e.g. 7 = SOV)
-+0x94           uint32              Opposing Enemy Country Tag (e.g. 3 = GER)
-+0x98           uint32              Secondary opposing tag / allied border tag
-+0xD8           Country*            Pointer to owning Country object
++0x00           void*               Vtable (0x007F3868)
++0x04           ListNode*           Head of front border province descriptors list
++0x12           struct              Front Country/Tag query context
++0x1C           Country*            Pointer to owning Country object
++0x9E           uint8               Active wartime evaluation flag
++0xA0           void*               Assigned armies list container vtable
++0xA4           ListNode*           Head of assigned CLandArmy* linked list
++0xC8           CIdList             m_SalientEvacuatingUnits (list of 6-byte TypeId structs [type:u16, id:u32] exempt from normal front quota/StopMovement overrides; Insert @ 0x0049A190)
++0x124          uint32              Front distribution mode (0 = default, 1 = reactive, 2 = defensive, 3 = op_defensive)
++0x125          uint8               Defensive hold flag
++0x126          uint32              Hourly evaluation tick counter
++0x12A          CIntList            m_SalientProvinces (interior provinces adjacent to salient border provinces)
++0x12E          ListNode*           Head of single-connection salient tip province IDs
 ```
 
-- **Validation Routine (`FUN_004ca33c` @ `0x004CA33C`)**: Verifies whether the front is active and valid for operations.
-- **Deficit Computation (`FUN_00695380` @ `0x00695380`)**: Calculates net division deficit against enemy front concentration. Returns integer deficit (>0 indicates reinforcements required).
-- **Front Army Evaluation (`0x006A6A20`)**: Evaluates assigned armies (`[this + 0x94]`) and dispatches shift, attack, or support move orders.
+- **Master Front AI Tick (`CFrontAI::Execute` @ `0x006811B0`)**: Invokes `CFrontAI::MoveUnitsToFront` (`0x006829B0`, unless `0x006A8720` indicates a passive/truce border) followed by `CFrontAI::ExecuteTactical` (`0x006853C0`).
+- **Retail Salient Handler (`CFrontAI::ManageSalientUnits` @ `0x00681CD0`)**: Called from `0x00682A58` inside `0x006829B0`. Clears `+0x12A`, scans single-connection border tips (`+0x12E`), pulls at most 2 units back by 1 hop to an adjacent border province, and records their `TypeId`s in `+0xC8`.
 
 ---
 
@@ -146,32 +157,73 @@ Offset          Type                Description
 +0x00           void*               Vtable (0x007E85C0)
 +0x04           char*               Pointer to null-terminated unit name
 +0x0C           uint16              Current Province ID (where army is stationed)
-+0x10           void*               Head of child divisions linked list
 +0x18           uint16              Unit ID Type field (e.g. 10848 / 0x2A60)
-+0x1A           uint16              Unit ID Sequence Number (e.g. 9 / 0x0009)
++0x1A           uint32              Unit ID Sequence Number
++0x22           void*               CDivisionList container vtable (GetCount @ [vtable + 4])
++0x26           ListNode*           Head of child divisions (CDivision*) linked list
 +0x28           void*               IsLandArmy virtual call (+0x28 -> 0x00509C90, returns 1)
-+0x11C          struct              Combat State container (vtable: 0x007E8B04, +0x0C: in-combat flag)
++0x11C          void*               Combat list container vtable (0x007E8B04)
++0x120          ListNode*           Head of active combat list (`[[pArmy + 0x120]]` = `CCombat*`)
++0x128          uint32              Count of active combats (`> 0` = unit is in combat)
++0x13A          uint16              Attack target province ID (when attacking an adjacent province; 0 otherwise)
 +0x15A          void*               Map Sprite / Counter graphics object
-+0x17B          uint8               Movement State Byte: 1 = actively marching, 0 = stationary
++0x17B          uint8               Retreat State Byte (m_bRetreating): 1 = retreating from combat, 0 = not retreating
 +0x17E          uint8               Movement arrow update flag (1 = dirty)
-+0x1F0          void*               Movement path container
-+0x22E          void*               Waypoint container vtable (0x007EAAD0)
-+0x230          void*               Waypoint queue pointer
-+0x238          uint16              Waypoint count in queue
++0x1F0          void*               Movement arrow graphics node container
++0x22E          void*               CPathList vtable (0x007EAAD0)
++0x232          ListNode*           Head of active waypoint path queue (`[[pArmy + 0x232]]` = immediate next step province ID)
++0x236          ListNode*           Tail of active waypoint path queue (`[[pArmy + 0x236]]` = final path destination province ID)
++0x23A          uint32              Waypoint count in path queue
 +0x240          uint16              Starting province ID of current move leg
 +0x248          Country*            Owning Country pointer ([pArmy + 0x248])
 +0x260          struct              CMissionController (0x60 bytes, vtable: 0x007E8754)
-+0x264          uint32              Mission Type in controller (1 = MOVE, 0 = NONE)
++0x264          uint32              Mission Type in controller (1 = explicit Move/Attack mission, 0 = AI move / None)
 +0x268          uint32              Target Province ID in controller
 +0x26C          float               Movement speed multiplier (1.0f = 0x3F800000)
 +0x270          uint32              Mission Start Date (packed format)
-+0x27E          uint16              Active Mission Code (1 = MOVE)
-+0x282          uint16              Destination Province ID
++0x27E          uint32              Active Movement Flag (m_bMoving: 1 = actively marching along path, 0 = stationary)
++0x282          uint32              Immediate Next Waypoint Province ID (matches [[pArmy + 0x232]])
 ```
 
 ---
 
-### 3.5 Engine Time & Date Structure
+### 3.5 `CDivision` (Individual Division) Structure
+Accessed via the `CLandArmy` division list at `[pArmy + 0x26]`:
+
+```
+Offset          Type                Description
+--------------------------------------------------------------------------------------
++0x00           void*               Vtable
++0x48           uint32              Division unit type / class flags
++0xF0           float               m_fStrength (current strength, e.g. 100.0f)
++0xF4           float               m_fOrganization (current organization; checked >= 1.0 by CArmy::CanMove @ 0x0051A4C0)
++0xF8           float               m_fMaxOrganization (maximum organization, e.g. 30.0f)
++0xFC           float               m_fMorale (morale, e.g. 30.0f)
++0x157          uint8               m_bLocked (1 = locked in place / cannot move, 0 = unlocked)
+```
+
+---
+
+### 3.6 `CCombat` & `CLandCombatSide` Structures
+When `[pArmy + 0x128] > 0`, `pCombat = **(CCombat***)(pArmy + 0x120)`.
+
+#### `CCombat` (Vtable: `0x007E7000`)
+```
+Offset          Type                Description
+--------------------------------------------------------------------------------------
++0x00           void*               Vtable (0x007E7000)
++0x74           uint32              Combat Type (1 = Land Combat)
++0x78           CProvince*          Pointer to battle province (`[[pCombat + 0x78] + 0x12]` = battle province ID)
++0x80           CLandCombatSide*    m_pAttackerSide (vtable: 0x007E7020, `[+0x4E] == 1`)
++0x84           CLandCombatSide*    m_pDefenderSide (vtable: 0x007E7020, `[+0x4E] == 0`)
+```
+
+- **`CCombat::GetAttackerWinFraction` (`0x004BEBE0`, `__thiscall`, `ecx = pCombat`)**: Returns `float` in `ST(0)` in $[0.0, 1.0]$ representing the attacker's winning progress/odds fraction (used by the UI combat progress bar).
+- **`CLandCombatSide::OrderRetreat` (`0x004BE920`, `__thiscall`, `ecx = pCombatSide`, args: `(CLandArmy* pArmy, uint32_t targetProvId)`)**: Validates `targetProvId` via `0x005091C0`, sets `pArmy->m_bRetreating = 1` (`+0x17B`), calls `CLandArmy::OrderRetreat` (`0x00522930`), and invokes `[vtable + 0x5C]` (`0x004BE280` = `CLandCombatSide::RetreatUnit`) to detach `pArmy` from combat and start its retreat march. Note: `ecx` **must** be `CLandCombatSide*` (`[pCombat + 0x84]` for defenders or `[pCombat + 0x80]` for attackers), not `CCombat*`.
+
+---
+
+### 3.7 Engine Time & Date Structure
 Located at `[0x00893530] + 0x14`:
 
 ```
@@ -186,7 +238,7 @@ Byte Offset     Type        Format / Meaning
 
 ---
 
-### 3.6 `CProvince` Structure
+### 3.8 `CProvince` Structure
 All provinces are stored in a contiguous array in the engine heap.
 
 - **Base Pointer**: `*(uint32_t*)0x00AB27B4`
@@ -199,32 +251,33 @@ Offset          Type                Description
 +0x00           void*               Vtable
 +0x0C           uint16              Owner Country Tag / ID
 +0x0E           uint16              Controller Country Tag / ID
-+0x12           uint16              Province Numerical ID
++0x12           uint32              Province Numerical ID
 +0x180          uint8               Impassable / Blocked border flag (1 = blocked)
 +0x254          uint32              Terrain Type (8 = Sea, 9 = Ocean)
 +0x290          uint32              Count of adjacent neighbor provinces
 +0x298          void*               Pointer to neighbor array (12 bytes per record)
                                       +0x00: Neighbor Province ID (uint32)
-                                      +0x04: Connection / Border Type
+                                      +0x04: Connection / Border Type (4 = impassable)
                                       +0x08: Distance / Flags
++0x3D8          Country*            Pointer to controlling Country object
 +0x471          uint8               Direct sea zone access flag
 ```
 
 ---
 
-### 3.7 `CMissionController` Structure (Embedded at `pArmy + 0x260`)
+### 3.9 `CMissionController` Structure (Embedded at `pArmy + 0x260`)
 Vtable: `0x007E8754`. Manages operational missions (Move, Attack, Rebase, Patrol).
 
 ```
 Offset from Base  Type          Description
 --------------------------------------------------------------------------------------
 +0x00             void*         Vtable (0x007E8754)
-+0x04             uint32        Mission Type: 0 = None, 1 = Move, 2 = Attack, 3 = Rebase...
++0x04             uint32        Mission Type: 0 = None, 1 = Move/Attack...
 +0x08             uint32        Target Province ID
 +0x0C             float         Speed Multiplier (1.0f = 0x3F800000)
 +0x10             uint32        Mission Start Date / Packed Timestamp
 +0x1C             uint16        Mission Active Flag (1 = active)
-+0x1E             uint16        Active Mission Code (1 = MOVE)
-+0x22             uint16        Destination Province ID
++0x1E             uint32        Active Movement Flag (m_bMoving: 1 = moving)
++0x22             uint32        Immediate Next Waypoint Province ID
 ```
 
