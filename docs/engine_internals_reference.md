@@ -97,7 +97,7 @@ All custom behavioral modifications, binary hooks, and engine enhancements compa
 | **Patch 15** | Strategic Redeployment Garrison Accounting | `0x0068CCEC` (`0x0028CCEC`) | `0x00DCB400` (.mod cave) | `EnableStratRedeployGarrison` | [`plan_strategic_redeploy_garrison_count.md`](plans/plan_strategic_redeploy_garrison_count.md) |
 | **Patch 16** | Fresh Army Immediate Garrison Recognition | `0x0068C201` (`0x0028C201`) | `0x00DCB480` (.mod cave) | `EnableStratRedeployGarrison` | [`plan_strategic_redeploy_garrison_count.md`](plans/plan_strategic_redeploy_garrison_count.md) |
 | **Patch 17** | Nuclear Strike AI Targeting & Evaluation | `0x004CA33C` | `0x00DCB600` (.mod cave) | `EnableNuclearStrikeAI` | [`plan_nuclear_strike_ai.md`](plans/plan_nuclear_strike_ai.md) |
-| **Patch 18** | Front AI Encirclement Defense & Salient Evacuation (STEM) | `0x005AEDBE` (`0x001AEDBE`) | `0x00DCBAB0` - `0x00DCC3B0` | `EnableEncirclementDefense` | [`front_ai.md`](engine/front_ai.md) |
+| **Patch 18** | Front AI Encirclement Defense & Salient Evacuation (STEM) | `0x005AEDBE` (`0x001AEDBE`) | `0x00DCBAB0` - `0x00DCCEB3` | `EnableEncirclementDefense` | [`front_ai.md`](engine/front_ai.md) |
 
 ### Automated Patcher Script
 All patches above are bundled into the automated deployment script:

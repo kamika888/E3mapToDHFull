@@ -1,20 +1,21 @@
 # Patch 18: Salient Topological Evacuation & Momentum Engine (STEM) - Implementation Status & Reference
 
-**Status**: Per-Province Independent-Path Salient Engine & Save-Reload Reset Complete | **Binary SHA-256**: `8011ECD2656BD55A1C33BBCA8546909E21AA2F33ACA2F3EDC3B71CE4E6213494`  
+**Status**: Per-Province Option C Max-Flow Salient Engine & Save-Reload Reset Complete | **`Darkest Hour_modified.exe` SHA-256**: `B7E7949BE86F254D940FD9A40328C8BE1D0D456FDC54C9EBF4441D05A05B24D4`  
 **Related Docs**: [Front AI Architecture](../engine/front_ai.md) | [Plans Index](README.md) | [Patcher](../../tools/patch_darkest_hour.bat) | [Settings](../../db/mod_settings.ini)
 
 ---
 
 ## 1. Executive Summary
 
-Patch 18 (STEM) adds topological encirclement detection and salient evacuation to `CFrontAI` using an hourly per-province vertex-disjoint BFS pass rooted in a dedicated `.mod` cave block (`0x00DCBAB0..0x00DCCC3D`). Following the initial realignment, persistent evacuation registry, save-reload registry reset, and `REB` vtable guard, Step 5 was simplified and upgraded to **Per-Province Independent Path Evaluation** (`IF independentSafePaths(P) < SalientNeckWidthThreshold => Withdraw`) within the local $K$-hop frontline strip (`SalientSearchDepth`), evaluating both unthreatened and `is_threatened == 1` frontline provinces individually without lateral component masking.
+Patch 18 (STEM) adds topological encirclement detection and salient evacuation to `CFrontAI` using an hourly per-province vertex-disjoint residual max-flow pass (Option C) rooted in a dedicated `.mod` cave block (`0x00DCBAB0..0x00DCCEB3`). Following the initial realignment, persistent evacuation registry, save-reload registry reset, `REB` vtable guard, and Option B per-province rollout, Step 5 was upgraded from greedy Option B path blocking to **Option C (Split-Node Residual Vertex-Disjoint Max-Flow)** up to `SalientNeckWidthThreshold` within the local $K$-hop frontline strip (`SalientSearchDepth`), evaluating both unthreatened and `is_threatened == 1` frontline provinces accurately without greedy diagonal blocking.
 
-Live validation (`PID 44220`, `21–22 August 1941`, `SalientNeckWidthThreshold = 3`, `SalientSearchDepth = 5`) confirmed that:
-- `Cave_PostLoadInit` (`0x00DCC9EB`) clears `g_pGraphTable + 0x30000..+0x3BFFF` (`48 KB`) on scenario/savegame load, preventing stale evacuation slots from persisting across save reloads.
+Live validation (`PID 44220`, `21–22 August 1941`, and `PID 55632`, `19 November 1941`, `SalientNeckWidthThreshold = 3`, `SalientSearchDepth = 5`) confirmed that:
+- `Cave_PostLoadInit` (`0x00DCCB62`) clears `g_pGraphTable + 0x30000..+0x3BFFF` (`48 KB`) on scenario/savegame load, preventing stale evacuation slots from persisting across save reloads.
 - Bounded $K$-hop frontline expansion (`SalientSearchDepth = 5`, configurable via `db/mod_settings.ini`, `-1` for unlimited propagation terminating at Supply Depots / Capital) limits the local subgraph (`100..109` provinces) and cleanly isolates horizon roots without spilling beyond hop $K$.
 - Active-front early exit skips non-AI countries (`CRebelCountry` `0x007E5934` / `CHumanCountry` `0x007F04E0`), peaceful countries, and fronts without hostile border pressure.
-- Per-province independent-path evaluation individually triggers evacuation for narrow coastal/shoulder sectors that were previously masked by level-component grouping—such as **Telshe (`3280` -> `206 Siauliai`)** and **Augustow (`7335` -> `209 Grodno`)** alongside the Bialystok pocket (`1875`, `505`, `6515` -> `102`, `6516` -> `209`)—while holding well-connected base provinces (`3281 Kedainiai`, `207 Kaunas`, `7980 Druskieniki`, `209 Grodno`, `102 Wolkowysk`, `503 Brest-Litovsk`, `3274 Kowel`).
+- Option C split-node max-flow eliminates greedy Option B's false positive on **Kowel (`3274`)**: Option B routed `3274 -> 503 -> 562 -> 225`, stranding `3395 Kamen Koszyrski` at `2/3` and causing a `3274 <-> 503` shuttle against retail `CFrontAI::MoveUnitsToFront`, whereas Option C finds all `3/3` disjoint paths (`503 -> 3275 -> 272 -> 221 -> 218 -> 217`, `506 -> 502 -> 267 -> 227 -> 238 -> 3419 -> 3420`, `3395 -> 562 -> 225 -> 1566 -> 241 -> 239`) and holds `3274` (`neck=0`). Meanwhile true `< 3` bottlenecks remain flagged (`3280 Telshe -> 206`, `500/501/507/1173/3396/7984 -> 229`, `7335 Augustow -> 209`, and the Bialystok pocket).
 - Threatened frontline provinces (`+0x24000 == 1`) remain excluded from Pass-1 Safe BFS and intermediate transit, yet are evaluated as evacuation sources through their safe neighbors (`first_hop` stored in `parent[P]` from Pass 1's trace).
+- In `Cave_STEM_UpdateAndEvacuate_Internal` (`0x00DCC873`), `.arrived_or_safe` clears `evac_slot` not only on arrival at `dest_prov`, but also when the occupied province becomes safe (`neck[esi] == 0`), stopping stale marches cleanly.
 - Allied-access pathing (`CCountry::CanEnterOrTraceSupply` @ `0x0044A690`), `UseSupplyDepotsAsCores`, `NeckThreatRatio` / `NeckCollapsingOrgThreshold`, and the `0x00681CD0` cancellation shield (`g_pGraphTable + 0x34000` & `[pArmy + 0x17B] = 2`) continue to protect evacuating units until reaching `dest_prov`.
 
 ---
@@ -25,7 +26,7 @@ Live validation (`PID 44220`, `21–22 August 1941`, `SalientNeckWidthThreshold 
 
 | Section | Variable | Current INI | Binary Slot VA | Status | Notes |
 | :--- | :--- | :---: | :---: | :--- | :--- |
-| `[FrontAI]` | `EnableEncirclementDefense` | `1` | `0x00DCBAB0` | **Wired & Active** | Master gate checked by `0x00DCCAC6` (`Cave_STEM_HourlyPerCountry`) and evacuation checks. |
+| `[FrontAI]` | `EnableEncirclementDefense` | `1` | `0x00DCBAB0` | **Wired & Active** | Master gate checked by `0x00DCCC3D` (`Cave_STEM_HourlyPerCountry`) and evacuation checks. |
 | `[FrontAI]` | `SalientNeckWidthThreshold` | `3` | `0x00DCBAB4` | **Wired & Active** | Minimum required unthreatened vertex-disjoint escape paths per province (`Cave_STEM_UpdateGraphTable` @ `0x00DCBDD5`) and Pass-2 bridge fallback threshold. |
 | `[FrontAI]` | `SalientSearchDepth` | `5` | `0x00DCBAB8` | **Wired & Active** | Reused scrapped slot (`0x00DCBB30`); bounds inward frontline BFS hops (`> 0`), or `-1` for depot/capital termination (`0x7FFF` cap). |
 | `[FrontAI]` | `UseSupplyDepotsAsCores` | `1` | `0x00DCBABC` | **Wired & Active** | When `1`, accessible provinces (`0x0044A690`) in the strip with a local supply stockpile (`[pProv + 0x270] > 0.0f`) or supplied controller capital act as core roots (`is_core_root`). |
@@ -34,9 +35,9 @@ Live validation (`PID 44220`, `21–22 August 1941`, `SalientNeckWidthThreshold 
 | `[FrontAI]` | `SalientEvacuationQuota` | `0.0` | `0x00DCBACC` | **Pending (Unreferenced)** | Loaded from `db/mod_settings.ini` into `0x00DCBACC`, but not yet referenced by STEM evacuation code. |
 | `[FrontAI]` | `BottleneckDefenseBoost` | `3.5` | `0x00DCBAD0` | **Pending (Unreferenced)** | Loaded from `db/mod_settings.ini` into `0x00DCBAD0`, but not yet wired into `CFrontAI` province priority weighting. |
 | `[FrontAI]` | `SpearheadWinningOdds` | *removed* | `0x00DCBAC8` | **Scrapped** | INI key removed. Header slot `0x00DCBAC8` retained only for struct alignment; unreferenced by runtime code. |
-| `[Engine]` | `AlwaysShowMovementArrows` | `1` | `0x00DCBAD8` | **Wired & Active** | Loaded by `Cave_LoadEngineSettings` (`0x00DCCA4F`); controls forced arrow rendering (`0x00DCC957` / `0x00DCC9B5`). |
-| `[Engine]` | `AutoNoFog` | `1` | `0x00DCBAE8` | **Wired & Active** | Loaded by `Cave_LoadEngineSettings` (`0x00DCCA4F`); applied on scenario/save load (`0x00DCC9EB`) and hourly tick (`0x00DCCB11`). |
-| `[Engine]` | `AutoShowId` | `1` | `0x00DCBAEC` | **Wired & Active** | Loaded by `Cave_LoadEngineSettings` (`0x00DCCA4F`); applied on scenario/save load (`0x00DCC9EB`) and hourly tick (`0x00DCCB11`). |
+| `[Engine]` | `AlwaysShowMovementArrows` | `1` | `0x00DCBAD8` | **Wired & Active** | Loaded by `Cave_LoadEngineSettings` (`0x00DCCBC6`); controls forced arrow rendering (`0x00DCCACE` / `0x00DCCB2C`). |
+| `[Engine]` | `AutoNoFog` | `1` | `0x00DCBAE8` | **Wired & Active** | Loaded by `Cave_LoadEngineSettings` (`0x00DCCBC6`); applied on scenario/save load (`0x00DCCB62`) and hourly tick (`0x00DCCC88`). |
+| `[Engine]` | `AutoShowId` | `1` | `0x00DCBAEC` | **Wired & Active** | Loaded by `Cave_LoadEngineSettings` (`0x00DCCBC6`); applied on scenario/save load (`0x00DCCB62`) and hourly tick (`0x00DCCC88`). |
 
 ---
 
@@ -46,22 +47,22 @@ Live validation (`PID 44220`, `21–22 August 1941`, `SalientNeckWidthThreshold 
 
 | Retail Address | Target / Cave Function | Role |
 | :--- | :--- | :--- |
-| `0x005AEDBE` | `Cave_STEM_HourlyAllCountries` (`0x00DCCB11`) | Hourly AI tick: initializes STEM scratchpad & dispatches `Cave_STEM_HourlyPerCountry` (`0x00DCCAC6`). |
-| `0x00682A58` | `Cave_FrontAI_ManageReservesAndSalients` (`0x00DCCBB6`) | Wrapper around retail `CFrontAI::ManageRearReserves` (`0x00681CD0`); shields evacuating units from `0x00681CD0` and registers them in `[CFrontAI + 0xC8]`. |
-| `0x005226C1` | `Cave_DeselectArrows` (`0x00DCC9B5`) | Supports `AlwaysShowMovementArrows` when deselected on map. |
-| `0x00DCAE55` | `Cave_PostLoadInit` (`0x00DCC9EB`) | Clears `g_pGraphTable + 0x30000..+0x3BFFF` (`48 KB`) on scenario/save load and applies `AutoNoFog`, `AutoShowId`, and `AlwaysShowMovementArrows`. |
+| `0x005AEDBE` | `Cave_STEM_HourlyAllCountries` (`0x00DCCC88`) | Hourly AI tick: initializes STEM scratchpad & dispatches `Cave_STEM_HourlyPerCountry` (`0x00DCCC3D`). |
+| `0x00682A58` | `Cave_FrontAI_ManageReservesAndSalients` (`0x00DCCD2D`) | Wrapper around retail `CFrontAI::ManageRearReserves` (`0x00681CD0`); shields evacuating units from `0x00681CD0` and registers them in `[CFrontAI + 0xC8]`. |
+| `0x005226C1` | `Cave_DeselectArrows` (`0x00DCCB2C`) | Supports `AlwaysShowMovementArrows` when deselected on map. |
+| `0x00DCAE55` | `Cave_PostLoadInit` (`0x00DCCB62`) | Clears `g_pGraphTable + 0x30000..+0x3BFFF` (`48 KB`) on scenario/save load and applies `AutoNoFog`, `AutoShowId`, and `AlwaysShowMovementArrows`. |
 
-### 3.2 Cave Layout (`.mod` Patch 18 Chunk @ `0x00DCBAB0..0x00DCCC3D`)
+### 3.2 Cave Layout (`.mod` Patch 18 Chunk @ `0x00DCBAB0..0x00DCCEB3`)
 
-- `0x00DCBAB0..0x00DCBAF0`: Parameter header (strings & loaded INI values; `0x00DCBAB8`/`0x00DCBB30` wired to `SalientSearchDepth`, `0x00DCBADC` zeroed, stale `0x00DCBC00..0x00DCBC2B` and `0x00DCBD60..0x00DCBD9F` regions sanitized, `0x00DCBCD7: jmp 0x00DCCA4F`).
+- `0x00DCBAB0..0x00DCBAF0`: Parameter header (strings & loaded INI values; `0x00DCBAB8`/`0x00DCBB30` wired to `SalientSearchDepth`, `0x00DCBADC` zeroed, stale `0x00DCBC00..0x00DCBC2B` and `0x00DCBD60..0x00DCBD9F` regions sanitized, `0x00DCBCD7: jmp 0x00DCCBC6`).
 - `0x00DCBDA0..0x00DCBDD4`: `[Engine]` ASCII key strings.
-- `0x00DCBDD5`: `Cave_STEM_UpdateGraphTable` - performs AI vtable (`0x007F66CC` / `0x007E5464`) + `CAI` vtable (`0x007F3D54`) + active-front gating, clean initialization (`dist=0xFFFF, neck=0, is_cut=0, parent=0`), threat scanning (`+0x24000`/`+0x26000`), bounded $K$-hop frontline expansion (`+0x14000` `fdist_plus_1`, `+0x28000` `prov_flags`), Pass-1 Local Safe BFS, per-province vertex-disjoint safe path counting from both unthreatened and `is_threatened == 1` sources (`+0x20000` `optb_prev` reserved for Option C, `+0x2A000` blocked, `+0x2C000` visited, `+0x2E000` queue), interior cascade & ancestor chaining, and Pass-2 bridge fallback.
-- `0x00DCC6D0`: `Cave_STEM_GetUnitEvacSlot` - hashes `(TypeId.id, TypeId.type)` into persistent `g_pGraphTable + 0x34000..0x3BFFF` (`4,096` 8-byte slots `[id:u32, type:u16, dest_prov:u16]`) to persist active evacuation destinations across ticks.
-- `0x00DCC704`: `Cave_STEM_UpdateAndEvacuate_Internal` - preserves en-route evacuation marches until reaching `dest_prov` and dispatches combat retreats (`parent[esi]` = `first_hop`) and overland evacuations (`neck[esi]`).
-- `0x00DCC957`: `Cave_ShowAllMovingArrows` / `0x00DCC9B5`: `Cave_DeselectArrows`.
-- `0x00DCC9EB`: `Cave_PostLoadInit` / `0x00DCCA4F`: `Cave_LoadEngineSettings`.
-- `0x00DCCAC6`: `Cave_STEM_HourlyPerCountry` / `0x00DCCB11`: `Cave_STEM_HourlyAllCountries`.
-- `0x00DCCBB6`: `Cave_FrontAI_ManageReservesAndSalients`.
+- `0x00DCBDD5`: `Cave_STEM_UpdateGraphTable` - performs AI vtable (`0x007F66CC` / `0x007E5464`) + `CAI` vtable (`0x007F3D54`) + active-front gating, clean initialization (`dist=0xFFFF, neck=0, is_cut=0, parent=0`), threat scanning (`+0x24000`/`+0x26000`), bounded $K$-hop frontline expansion (`+0x14000` `fdist_plus_1`, `+0x28000` `prov_flags` with bit `0x10` for `in_eval_q`), Pass-1 Local Safe BFS, Option C per-province split-node residual max-flow (`+0x18000` `flow_prev`, `+0x20000` `bpar_in`, `+0x26000` split-state queue `optc_q`, `+0x2A000` `used`, `+0x2C000..0x2FFFF` `16 KB` split-state `vis`, `+0x3C000..0x3FFFF` `flow_next`) from both unthreatened and `is_threatened == 1` sources, interior cascade & ancestor chaining, and Pass-2 bridge fallback.
+- `0x00DCC83F`: `Cave_STEM_GetUnitEvacSlot` - hashes `(TypeId.id, TypeId.type)` into persistent `g_pGraphTable + 0x34000..0x3BFFF` (`4,096` 8-byte slots `[id:u32, type:u16, dest_prov:u16]`) to persist active evacuation destinations across ticks.
+- `0x00DCC873`: `Cave_STEM_UpdateAndEvacuate_Internal` - preserves en-route evacuation marches until reaching `dest_prov` or until the unit's current province becomes safe (`neck[esi] == 0`), and dispatches combat retreats (`parent[esi]` = `first_hop`) and overland evacuations (`neck[esi]`).
+- `0x00DCCACE`: `Cave_ShowAllMovingArrows` / `0x00DCCB2C`: `Cave_DeselectArrows`.
+- `0x00DCCB62`: `Cave_PostLoadInit` / `0x00DCCBC6`: `Cave_LoadEngineSettings`.
+- `0x00DCCC3D`: `Cave_STEM_HourlyPerCountry` / `0x00DCCC88`: `Cave_STEM_HourlyAllCountries`.
+- `0x00DCCD2D`: `Cave_FrontAI_ManageReservesAndSalients`.
 
 ### 3.3 Hooks & Code Removed During Cleanup
 
@@ -75,7 +76,7 @@ Live validation (`PID 44220`, `21–22 August 1941`, `SalientNeckWidthThreshold 
 ## 4. Issues Addressed During Realignment, Cleanup & Option B Upgrade
 
 1. **Memory Aliasing Between `+0x24000` and `+0x26000` (Phase 1)**: Rebuilt `Cave_STEM_UpdateGraphTable` (`0x00DCBDD5`) with proper stride sizing so province threat flags (`+0x24000`) and attack flags (`+0x26000`) do not alias in scratch memory.
-2. **Retail Rear-Reserve Replacement & Org Mutation Bug (Phase 2)**: Restored retail `CFrontAI::ManageRearReserves` (`0x00681CD0`) behind wrapper `0x00DCCC47` at `0x00682A58`, and removed `0x004E7616` / `0x004E7905` org-corruption hooks.
+2. **Retail Rear-Reserve Replacement & Org Mutation Bug (Phase 2)**: Restored retail `CFrontAI::ManageRearReserves` (`0x00681CD0`) behind wrapper `Cave_FrontAI_ManageReservesAndSalients` (`0x00DCCD2D`) at `0x00682A58`, and removed `0x004E7616` / `0x004E7905` org-corruption hooks.
 3. **Flawed Spearhead Architecture Removal (Phase 3)**: Completely removed `SpearheadWinningOdds` and `AbortSpearheadOnNeckCollapse` because exempting attacking units would strand breakout stacks when a salient evacuates and allow opponents to bait AI attacks into encirclements; repurposed `0x00DCBAB8` (`0x00DCBB30`) for `SalientSearchDepth`.
 4. **False-Positive Cut Flag Propagation & Tarjan 1-Vertex Limitation (Phase 3A -> Option B)**: Initially added threatened-shoulder checks to `.tarjan_check_cut`, then superseded Tarjan entirely with Exposed-Seeded Option B vertex-disjoint safe path counting so `SalientNeckWidthThreshold > 2` (e.g. `3`) evaluates actual safe neck width without requiring 1-vertex cut points or active-combat-only triggers.
 5. **Hardcoded Threat/Org Formulas & False Evacuation Under Light Attacks (Phase 4)**: Wired `NeckThreatRatio` (`0x00DCBAC0`) and `NeckCollapsingOrgThreshold` (`0x00DCBAC4`) dynamically, fixed unit strength/organization structure offsets and scalar FPU comparisons, and added an active combat guard so non-attacked provinces never trigger `+0x24000 = 1`.
@@ -87,15 +88,18 @@ Live validation (`PID 44220`, `21–22 August 1941`, `SalientNeckWidthThreshold 
    - Fixed Patch 1 (`AllowExpForcesToPlayers` @ `0x004CCCB6`): replaced a crashing cave detour with `call [edx+0x1c]; jmp 0x007E2FB3`.
    - Relocated `AllowExpForcesToPlayers` and `AllowPuppetTrade` variables out of retail `.data` (`0x0088077C` / `0x00880780`) to clean `.mod` memory (`0x00DC9FF0` / `0x00DC9FF4`) across Patches 4 and 6.
 8. **Persistent Evacuation Mode & `0x00681CD0` Rear-Reserve Cancellation Fix**:
-   - Added persistent per-unit evacuation tracking (`Cave_STEM_GetUnitEvacSlot` @ `0x00DCC6FF`, backed by `g_pGraphTable + 0x34000..0x3BFFF` `4,096` 8-byte slots `[id:u32, type:u16, dest_prov:u16]`) inside `Cave_STEM_UpdateAndEvacuate_Internal` (`0x00DCC733`) so units remain in Evacuation Mode across ticks until arriving at `dest_prov`.
-   - Updated `Cave_FrontAI_ManageReservesAndSalients` (`0x00DCCC47`) to prune retail rear-reserve nodes in `[CFrontAI + 0xC8]` belonging to evacuating units, temporarily set `[pArmy + 0x17B] = 2` around retail `0x00681CD0` so `ManageRearReserves` does not cancel evacuating marches (`0x00682950`) or pull units back into rear-reserve provinces (such as `505 Bialystok`), restore `[pArmy + 0x17B] = 0`, and re-exempt them in `[CFrontAI + 0xC8]` (`+0x0F = 0x5A`).
+   - Added persistent per-unit evacuation tracking (`Cave_STEM_GetUnitEvacSlot` @ `0x00DCC83F`, backed by `g_pGraphTable + 0x34000..0x3BFFF` `4,096` 8-byte slots `[id:u32, type:u16, dest_prov:u16]`) inside `Cave_STEM_UpdateAndEvacuate_Internal` (`0x00DCC873`) so units remain in Evacuation Mode across ticks until arriving at `dest_prov`.
+   - Updated `Cave_FrontAI_ManageReservesAndSalients` (`0x00DCCD2D`) to prune retail rear-reserve nodes in `[CFrontAI + 0xC8]` belonging to evacuating units, temporarily set `[pArmy + 0x17B] = 2` around retail `0x00681CD0` so `ManageRearReserves` does not cancel evacuating marches (`0x00682950`) or pull units back into rear-reserve provinces (such as `505 Bialystok`), restore `[pArmy + 0x17B] = 0`, and re-exempt them in `[CFrontAI + 0xC8]` (`+0x0F = 0x5A`).
 9. **Save-Reload Registry Reset & `CFrontProvince*` Seeding Fix**:
-   - Added `+0x30000..+0x3BFFF` (`48 KB`) clearing inside `Cave_PostLoadInit` (`0x00DCCAB8`) so savegame reloads do not carry over prior session evacuation flags or slots.
+   - Added `+0x30000..+0x3BFFF` (`48 KB`) clearing inside `Cave_PostLoadInit` (`0x00DCCB62`) so savegame reloads do not carry over prior session evacuation flags or slots.
    - Dereferenced `dword ptr [CFrontProvince* + 0x04]` in `[pFront + 0x04]` when seeding exposed frontline provinces, initialized `g_pGraphTable` entries cleanly to `dist = 0xFFFF, neck = 0, is_cut = 0, parent = 0`, guarded unsigned `dist` comparisons against `0xFFFF`, and guarded Pass-2 against spilling beyond the $K$-hop horizon into deep rear.
 10. **`CRebelCountry` (`0x007E5934`) / `CHumanCountry` (`0x007F04E0`) Vtable Guard (Reload Exception Fix)**:
-   - Fixed an access violation at `0x00DCBE2F` (`cmp dword ptr [esi+0x118], 0`) triggered on Rebels (`TAG = REB`, `0x157`) after multiple reloads: `CRebelCountry` allocates only `0x13C84` bytes, so reading `+0x13C84` read 4 bytes past heap object bounds into non-zero recycled heap memory. Both `Cave_STEM_HourlyPerCountry` (`0x00DCCAC6`) and `Cave_STEM_UpdateGraphTable` (`0x00DCBDD5`) now verify `CCountry` vtable (`0x007F66CC` / `0x007E5464`) and `CAI` vtable (`0x007F3D54`) before dereferencing `+0x13C84`.
+   - Fixed an access violation at `0x00DCBE2F` (`cmp dword ptr [esi+0x118], 0`) triggered on Rebels (`TAG = REB`, `0x157`) after multiple reloads: `CRebelCountry` allocates only `0x13C84` bytes, so reading `+0x13C84` read 4 bytes past heap object bounds into non-zero recycled heap memory. Both `Cave_STEM_HourlyPerCountry` (`0x00DCCC3D`) and `Cave_STEM_UpdateGraphTable` (`0x00DCBDD5`) now verify `CCountry` vtable (`0x007F66CC` / `0x007E5464`) and `CAI` vtable (`0x007F3D54`) before dereferencing `+0x13C84`.
 11. **Per-Province Independent Path Evaluation & Threatened Source Support**:
    - Replaced level-component aggregation (`dist >= cur_d`, which masked bottlenecks on `3280 Telshe` and `7335 Augustow`) with direct per-province vertex-disjoint path counting across all exposed frontline provinces (including `is_threatened == 1`), deriving `first_hop` (`parent[P]`) from Pass 1's trace and chaining multi-hop necks after interior cascade evaluation.
+12. **Option C Split-Node Residual Max-Flow & Safe-Province Slot Cleanup**:
+   - Upgraded Step 5 from greedy Option B path blocking to Option C split-node residual max-flow (`+0x18000` `flow_prev`, `+0x20000` `bpar_in`, `+0x26000` `optc_q`, `+0x2A000` `used`, `+0x2C000..0x2FFFF` `16 KB` split-state `vis`, `+0x3C000..0x3FFFF` `flow_next`, with `prov_flags` bit `0x10` for `in_eval_q`), eliminating false-positive greedy blocking on `3274 Kowel` (`3/3` paths found instead of `2/3`).
+   - Updated `.arrived_or_safe` inside `Cave_STEM_UpdateAndEvacuate_Internal` (`0x00DCC873`) to clear `evac_slot` whenever the unit's current province has `neck[esi] == 0`.
 
 ---
 
@@ -103,20 +107,18 @@ Live validation (`PID 44220`, `21–22 August 1941`, `SalientNeckWidthThreshold 
 
 ### Issue 1: Natural Peninsulas & Small 1-2 Province Frontline Bumps Under High `SalientNeckWidthThreshold`
 - **Observed Symptom**:
-  - When `SalientNeckWidthThreshold >= 3` and `|C| > |safe_exits(C)|` is omitted (so 1-province tips are also evaluated against `SalientNeckWidthThreshold`), any single-province frontline bump touching only 2 rear neighbors (e.g., `3274 Kowel` backed by `503` and `1885`) or a narrow geographical peninsula (e.g., unattacked Crimea or `1884`+`7978`) has `actualSafeNeckWidth = 2 < 3` and steps back 1 province into a wider line.
+  - When `SalientNeckWidthThreshold >= 3`, any single-province frontline bump touching only 2 rear neighbors (e.g., `3280 Telshe` backed by `206` and `3281`, or narrow coastal peninsulas like Crimea / `1884`+`7978`) has `actualSafeNeckWidth = 2 < 3` and steps back 1 province into a wider line even when unattacked.
 - **Proposed Solution Steps**:
   1. Compute geographical/unthreatened `NaturalWidth` for the sector and require `actualSafeNeckWidth < min(SalientNeckWidthThreshold, NaturalWidth)` (or apply a perimeter/threat gate when unthreatened) if static holding of narrow bumps under threshold `>= 3` is desired.
 
-### Issue 2: Option B Diagonal-Shortcut Over-Caution (Backup: Option C)
-- **Observed Behavior**:
-  - Verified on a synthetic `Z-Bridge` crossover graph: greedy shortest-path blocking (Option B) can pick an asymmetric 2-hop diagonal shortcut and mark both parallel lanes blocked, finding `W - 1` paths instead of `W` (never produces false negatives; only conservative 1-hop early withdrawals). Matched Option C across all 9 live Soviet test scenarios on `PID 4740`.
-- **Proposed Solution Steps**:
-  1. Reserve `+0x20000..+0x23FFF` (`uint16_t flow_to / flow_from`) to upgrade the inner Option B path-search loop in-place to Option C (Node-Split Maximum Flow with Residual Undo) if diagonal crossover false positives arise in playtesting.
+### Issue 2: ~~Option B Diagonal-Shortcut Over-Caution~~ (Resolved by Option C)
+- **Resolution**:
+  - Live debugging on `PID 55632` (`19 November 1941`) showed Option B's greedy first BFS (`3274 -> 503 -> 562 -> 225 ...`) stranding `3395` and falsely reporting `2/3` paths for `3274 Kowel` (causing a `3274 <-> 503` shuttle with `MoveUnitsToFront`). Replacing Option B with split-node residual max-flow (Option C) resolved `3274 Kowel` to `3/3` paths (`neck=0`).
 
 ### Issue 3: Post-Evacuation Exterior Reinforcement Inflow
-- **Observed Symptom**: Once evacuating divisions arrive at `dest_prov` (clearing their evacuation slot) or while exterior reserve divisions operate nearby, `CFrontAI::MoveUnitsToFront` can still order them back into an endangered pocket once `+0x30000` clears.
+- **Observed Symptom**: Once evacuating divisions arrive at `dest_prov` (clearing their evacuation slot) or while exterior reserve divisions operate nearby, `CFrontAI::MoveUnitsToFront` can still order them back into an endangered pocket (`neck != 0`) once `+0x30000` clears.
 - **Proposed Solution Steps**:
-  1. Prevent `CFrontAI::MoveUnitsToFront` from assigning exterior reinforcements into provinces currently marked `+0x30000 == 1` or reachable only through a collapsing/breached neck.
+  1. Prevent `CFrontAI::MoveUnitsToFront` from assigning exterior reinforcements into provinces currently marked unsafe (`neck != 0` / `+0x30000 == 1`) or reachable only through a collapsing/breached neck.
 
 ### Issue 4: Unwired Settings (`SalientEvacuationQuota`, `BottleneckDefenseBoost`)
 - **Current State**: Both keys are loaded from `db/mod_settings.ini` into `0x00DCBACC` and `0x00DCBAD0` at startup, but neither value is consumed by `Cave_STEM_UpdateGraphTable` or `Cave_FrontAI_ManageReservesAndSalients`.
@@ -130,7 +132,7 @@ Live validation (`PID 44220`, `21–22 August 1941`, `SalientNeckWidthThreshold 
   - Retail combat defeat retreat direction does not consult STEM escape-BFS distances toward supply depots/capital cores, so defeated units can retreat deeper into a closing pocket rather than out through the neck.
 - **Proposed Solution Steps**:
   1. Audit defeat-retreat target selection to prefer lower STEM BFS-distance provinces toward cores/depots when an active pocket/threat flag exists.
-  2. Evaluate whether any front with `[esi + 0x10C].Count() <= 0 && [esi + 0x125] != 0` needs `0x00682A54` routed into the STEM exemption pass of `0x00DCCBB6` so `[CFrontAI + 0xC8]` still exempts evacuating units on zero-reserve fronts.
+  2. Evaluate whether any front with `[esi + 0x10C].Count() <= 0 && [esi + 0x125] != 0` needs `0x00682A54` routed into the STEM exemption pass of `0x00DCCD2D` so `[CFrontAI + 0xC8]` still exempts evacuating units on zero-reserve fronts.
 
 ### Issue 6: Future Breakthrough / Spearhead Architecture (On Hold)
 - **Current State**: `SpearheadWinningOdds` and `AbortSpearheadOnNeckCollapse` were intentionally removed in Phase 3 (with `0x00DCBAB8` repurposed to `SalientSearchDepth`).
