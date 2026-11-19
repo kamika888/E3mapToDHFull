@@ -101,9 +101,6 @@ To guarantee the neck stays held until the upstream salient clears without scann
    * Because `neck[102]` is cleared to `0` prior to `.chain_necks_start`, `.chain_walk_loop` naturally terminates at `102 Wolkowysk`, leaving `EvacDestNeck = 102` on `505`, `1875`, `6515`, `6516`, and `7335` instead of chaining onward to `210 Slonim`.
    * Divisions escaping the Bialystok salient rally at `102 Wolkowysk` and defend the corridor; as soon as all friendly units (including combat-retreating divisions) have exited `Dist 7..8` into `102`, `(prov_flags[P] & 0x20)` clears upstream, unlocking `102 Wolkowysk` on the next hourly tick to withdraw together toward `210 Slonim`.
 
-> [!NOTE]
-> **Future Consideration — Straggler Hostage / Pin-the-Tip Edge Case**: For simplicity during Stage 1 validation, Step 5C applies a flat-out evacuation block whenever any non-empty friendly/allied division (including retreating units) remains in a dependent upstream province. If live testing later shows an enemy pinning a single slow straggler at the tip to freeze a large garrison in the neck while the neck itself comes under overwhelming direct attack, revisit adding either a direct-collapse override (`IsThreatened[N] == 1` or `F_Paths[N] == 0` breaks the lock) or a partial holding-screen cap on `quota_q8[N]`.
-
 ---
 
 ### 3. Dynamic `SalientEvacuationQuota(P)` Formula (Complete Closed Form)
@@ -121,10 +118,6 @@ Weights below will initially be fixed constants; once tested in practice, they c
    For each cut vertex $v_i \in C(P)$, using Pass-0 cached province combat totals (`fr_eff_str_f32`, `en_eff_str_f32`, `inbound_fr_str_f32`, and `min_org_q8`):
    $$R(v_i) = \frac{\text{EnemyStr}(v_i)}{\max\!\big(1.0,\; \text{FriendlyDefenderStr}(v_i) + 0.5 \cdot \text{InboundFriendlyStr}(v_i)\big)}$$
    where $\text{InboundFriendlyStr}(v_i)$ and hostile move threat scanning resolve the **immediate next hop** (`movement` list head `[pArmy + 0x232]` when `[pArmy + 0x27E] == 1`) rather than falling back to the final destination `[pArmy + 0x13A]`.
-   > [!NOTE]
-   > **Future Enemy-Presence Weighting (To Revisit)**:
-   > 1. Make adjacent/border enemy threat weights configurable in `db/mod_settings.ini` so nearby enemy divisions do not over-trigger panic.
-   > 2. Distinguish between enemy divisions **merely present** on an adjacent border (which may be idle, pinned down, retreating, or unable to attack) and enemy divisions **actively attacking or moving** into the bottleneck, weighting merely-present divisions lower.
    * **Strength-Ratio Threat Component**:
      Normalize by `NeckThreatRatio` ($R_{\text{thr}}$ at `0x00DCBAC0`, default `1.5`):
      $$T_{\text{str}}(v_i) = \frac{R(v_i)}{R_{\text{thr}}}$$
@@ -194,7 +187,7 @@ Currently, `VirtualAlloc` (`build_and_apply_all.py`) allocates `0x40000` (`256 K
 
 > **Strict Execution Gate**: Every stage below is implemented and smoke-tested independently (main menu load / zero exceptions, plus checking `stem_debug.csv` on save where noted). **Execution MUST STOP after each stage** and wait for explicit approval before moving to the next stage.
 
-### Stage 1: Min-Cut Extraction, Natural Geography Gate, Dynamic `SalientEvacuationQuota(P)`, Active Neck Holding Lock & Save Debug Dump
+### Stage 1: Min-Cut Extraction, Natural Geography Gate, Dynamic `SalientEvacuationQuota(P)`, Active Neck Holding Lock & Save Debug Dump *(Completed & Validated)*
 **Goal**: Replace the binary `< SalientNeckWidthThreshold` trigger with exact residual `optc_vis[]` min-cut extraction $C(P)$, Step 5A/5B downstream bottleneck contraction, the Natural Geography Gate ($F_{\text{exp}} == 0 \implies Q(P) = 0.0$), dynamic `quota_q8[P]`, the Step 5C Active Evacuation Neck Holding Lock (`Dist[N] < Dist[P]`), and a temporary save-triggered CSV telemetry dump (`stem_debug.csv`).
 
 * **Binary / Script Changes (`build_and_apply_all.py`)**:
@@ -213,17 +206,18 @@ Currently, `VirtualAlloc` (`build_and_apply_all.py`) allocates `0x40000` (`256 K
 
 ---
 
-### Stage 2: Front AI Salient De-Prioritization (`AdjustedPriority = Normal * (1 - Quota)`)
+### Stage 2: Front AI Salient De-Prioritization (`AdjustedPriority = Normal * (1 - Quota)`) *(Implemented — Awaiting In-Game Approval)*
 **Goal**: Prevent `CFrontAI::MoveUnitsToFront` (`0x006829B0`) from reinforcing evacuating salient provinces in both of its movement loops (Loop A interior-to-border push and Loop B border-to-border quota rebalancing).
 
-* **Binary Changes (`build_and_apply_all.py`)**:
-  1. **Loop B — Border Quota Adjustment (`0x00684551`, `0x0068470D`, and `0x0068526A` in `0x006851D0`)**:
-     * Cache unadjusted `norm_prio_f32[u] = S(u) * D_front` directly as a 32-bit float.
-     * Replace `S(u)` on the x87 FPU stack with `S(u) * (1.0 - Q(u))`. When $Q(P) = 1.0$, `AdjustedPriority(P) == 0.0`, eliminating reinforcement deficits in exposed salients and allowing non-evacuating surplus to donate outward.
-  2. **Loop A — Interior Push Candidate Scoring (`0x00684088`)**:
-     * When Loop A evaluates an adjacent border province candidate `esi` using `en_str - fr_str`, scale candidate attractiveness by `(1.0 - Q(cand))` so interior armies never advance into an evacuating salient tip.
-  3. **Update `stem_debug.csv` Telemetry**: Populate `NormalFrontAIPriority` and `AdjustedPriority` in `debug_telemetry[P]` during `CFrontAI::MoveUnitsToFront`.
-* **Verification & Stop**: Smoke test (launch to main menu, zero exceptions). **STOP and wait for approval before Stage 3.**
+* **Binary Changes (`build_and_apply_all.py`, `.mod` Cave `0x00DCE353..0x00DCE633`, `SHA256 = 7157C8C6B8ECEF0370ED8C6365F7E56F0A9DCD5DD0CC6BF474A7A84C21E64BC1`)**:
+  1. **Loop B — Border Quota Adjustment (`0x00684551 -> 0x00DCE4D7`, `0x0068470D -> 0x00DCE576`, and `0x0068526A -> 0x00DCE5D2` in `0x006851D0`)**:
+     * Cache unadjusted `norm_prio_f32[u] = S(u) * D_front` directly as a 32-bit float (`g_pGraphTable + 0x58000`, preserved across hourly resets).
+     * Replace `S(u)` on the x87 FPU stack / stack frame with `S(u) * (1.0 - Q(u))` (forcing `S(u) = 0.0` when `Q == 1.0` or when `Q > 0 && S_adj * D_front < 1.0` so `even`-mode's empty-province `deficit = 1` floor at `0x0068459A` is also suppressed).
+  2. **Loop A — Interior Push Gate, Candidate Scoring & Fallback (`0x00683EB6 -> 0x00DCE353`, `0x00684088 -> 0x00DCE3D2`, `0x006840F6 -> 0x00DCE47B`, `0x00684131 -> 0x00DCE486`)**:
+     * In retail `CFrontAI::MoveUnitsToFront`, Loop A (`0x00683C1D..0x00684207`) executes **before** Loop B on non-reserve armies sitting in non-border interior provinces (including divisions rallied at a locked neck such as `102 Wolkowysk`). Loop A does **not** consult Loop B's `NormalFrontAIPriority(P)` quotas—it pushes interior armies forward into adjacent border provinces based solely on `en_str - fr_str` (`0x00684088`), with an `edi == 0` fallback to `[CFrontAI + 0x04]` head at `0x00684117`.
+     * Exclude adjacent candidates when `Q == 1.0` or `0 < Q < 1.0 && divs >= AdjustedPriority`, reject or scale `(en_str - fr_str)` candidate scoring toward `(1.0 - Q(cand))` (dividing negative scores by `(1 - Q)` so evacuating provinces rank below non-evacuating ones), and block the `0x00684117` fallback if the head province has `quota_q8 > 0`.
+  3. **Update `stem_debug.csv` Telemetry**: Populate `NormPrio` (`NormalFrontAIPriority`, `+26`) and `AdjPrio` (`AdjustedPriority`, `+28`) in `debug_telemetry[P]` via `Cave_STEM_SyncTelemetryPrio` (`0x00DCDBAD`), synced during both `.hlp_write_telemetry` and `Cave_FrontAI_ScaleReceiverShare`, plus Step 5C neck lock / Pass-2 updates.
+* **Verification & Stop**: Verified binary patch signatures (`tools/patch_darkest_hour.bat -Verify`), end-to-end batch patch reproducibility (`patch_darkest_hour.bat -Auto`), and `.text`/`.mod` disassembly across all 7 Stage 2 hooks. **STOP and wait for user validation/approval before Stage 3.**
 
 ---
 
@@ -277,6 +271,15 @@ Currently, `VirtualAlloc` (`build_and_apply_all.py`) allocates `0x40000` (`256 K
      * **Safe Gradient Bonus**: Else if `in_safe_bfs[esi] == 1` and `dist[esi] < dist[curr]`, multiply `[esp + 0x10]` by **`4.0f`**.
      * **Anti-Pocket Penalty**: Else if `dist[esi] > dist[curr]`, or `quota_q8[esi] > quota_q8[curr]`, or `is_threatened[esi] == 1` / `in_safe_bfs[esi] == 0`, multiply `[esp + 0x10]` by **`0.03125f`** (`1/32` — keeps score $> 0$ so an encircled unit whose *only* legal retreat tile is inward still retreats rather than vanishing).
 * **Verification & Stop**: Smoke test (launch to main menu, zero exceptions). Final approval check before removing/disabling temporary `stem_debug.csv` dump if desired.
+
+---
+
+## Future Considerations & Post-Validation Notes
+1. **Straggler Hostage / Pin-the-Tip Edge Case (Stage 1C)**:
+   * For simplicity during Stage 1 validation, Step 5C applies a flat-out evacuation block whenever any non-empty friendly/allied division (including combat-retreating units) remains in a dependent upstream province. If live testing later shows an enemy pinning a single slow straggler at the tip to freeze a large garrison in the neck while the neck itself comes under overwhelming direct attack, revisit adding either a direct-collapse override (`IsThreatened[N] == 1` or `F_Paths[N] == 0` breaks the lock) or a partial holding-screen cap on `quota_q8[N]`.
+2. **Enemy-Presence Weighting on Borders (Stage 1 Formula)**:
+   * Make adjacent/border enemy threat weights configurable in `db/mod_settings.ini` so idle or nearby enemy divisions do not over-trigger panic.
+   * Distinguish between enemy divisions **merely present** on an adjacent border (which may be idle, pinned down, retreating, or unable to attack) and enemy divisions **actively attacking or moving** into the bottleneck, weighting merely-present divisions lower.
 
 ---
 
