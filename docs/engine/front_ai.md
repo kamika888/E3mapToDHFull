@@ -62,11 +62,32 @@ Retrieved from the linked list at `pCountry + 0xE86E`. Vtable: `0x007F3868`.
 | `+0x9E` | `uint8` | Active evaluation flag |
 | `+0xA4` | `ListNode*` | Head of assigned `CLandArmy*` linked list for this front |
 | `+0xC8` | `CIdList` | `m_ReserveUnits`: linked list of `TypeId` records exempted from border-quota reassignment by `0x006829B0` / `0x00689780` (`Clear` at `[vtable + 0x10]`, `Contains` at `[vtable + 0x24]`, `Insert` at `0x0049A190`, `Remove` at `0x0049A230`; used by both retail `ManageRearReserves` and STEM salient exemptions) |
-| `+0x124` | `uint32` | Front distribution mode (`0` = default, `1` = `reactive`, `2` = `defensive`, `3` = `op_defensive`) |
+| `+0xFC` | `float` | `sum(w30)` across front provinces (`reactive` denominator) |
+| `+0x100` | `uint32` | `sum(friendly_nbs)` across front provinces (`op_defensive` denominator) |
+| `+0x104` | `float` | `sum(en_str)` across front provinces (`offensive` denominator) |
+| `+0x108` | `float` | `sum(w34)` across front provinces (`defensive` denominator) |
+| `+0x124` | `uint8` | `vs_human` flag (`1` if any front enemy is human-controlled, selecting `[CAI_FrontPrefs + 0x8C]` `distrib_vs_human`; `0` selects `[+0x88]` `distrib_vs_ai`) |
 | `+0x125` | `uint8` | Hold-in-place / disable reserve withdrawal flag |
 | `+0x126` | `uint32` | Hourly front tick counter |
 | `+0x12A` | `CIntList` | `m_RearReserveCandidateProvinces`: interior rear-reserve candidate provinces evaluated by `0x00681CD0` |
 | `+0x12E` | `ListNode*` | `m_SelectedRearReserveProvinces`: selected rear-reserve destination province list populated by `0x00681CD0` |
+
+### 2.2 `CFrontProvince` Descriptor & AI Preference Offsets
+Each node in `[CFrontAI + 0x04]` points to a per-province front descriptor populated during `0x006829B0`, and `CAI_FrontPrefs` is located at `[pCountry + 0x120] + 0x8FC` (`+0x20`: crossing threat multiplier `1.2`, `+0x88`: `distrib_vs_ai`, `+0x8C`: `distrib_vs_human`, `+0x94`: `province_priorities`):
+
+| Offset | Type | Description |
+|---|---|---|
+| `+0x04` | `int32` | Province ID |
+| `+0x0C` | `int32` | Total friendly/allied divisions assigned to or arriving at this province |
+| `+0x10` | `int32` | Stationary non-retreating front-eligible division count |
+| `+0x14` | `int32` | Count of adjacent accessible non-hostile (friendly/allied) provinces (`op_defensive` numerator) |
+| `+0x18` | `float` | Effective friendly combat strength defending this province |
+| `+0x20` | `float` | `en_str`: weighted adjacent hostile combat strength facing this province |
+| `+0x2C` | `float` | `def`: static defense score (`land_fort * 5.0 + terrain_bonus`) |
+| `+0x30` | `float` | `w30`: reactive threat-adjusted weight (`en_str / (1.0 + 0.01 * def)`) |
+| `+0x34` | `float` | `w34`: static strategic/economic value weight (`defensive` numerator) |
+| `+0x40` | `uint8` | Narrow-connection boost flag (`friendly_nbs < 2`, doubles weight at `0x00683880` when interior backup applies) |
+| `+0x8D` | `uint8` | Guard flag skipping quota reinforcement when province has no adjacent hostile presence (`0x004E9500`) |
 
 ---
 
@@ -94,6 +115,30 @@ Reverse-engineering `0x00681CD0` (`CFrontAI::ManageRearReserves`) and `0x006829B
    - Consequently, a multi-province salient (connected internally with degree $\ge 2$, but joined to the main interior only through a narrow neck/shoulder pair) continues receiving border allocations unless external evacuation tracking exempts those units.
 2. **Aggressive `StopMovement` Override (`0x0068416A`)**:
    - In `0x006829B0`, any assigned front army whose `TypeId` is **not** registered in `[CFrontAI + 0xC8]` (`m_ReserveUnits`) has its movement evaluated against static border quotas. Without registering evacuating units' `TypeId` in `[CFrontAI + 0xC8]` via the `0x00682A58` wrapper (`0x00DCCD2D`), `0x006829B0` (`0x0068416A`) immediately calls `StopMovement` (`0x0050BCA0`) or reassigns the unit back to the border on the very same hour tick, creating an infinite hourly tug-of-war.
+
+### 4.1 Retail Front Distribution Modes (`distrib_vs_ai` / `distrib_vs_human`) & Terrain Effects
+Reverse-engineering `0x006829B0` and the `.ai` serializer (`0x006BFBE2..0x006C023C`) establishes the exact enum mapping and quota calculation used when `[CFrontAI + 0x124]` selects `[CAI_FrontPrefs + 0x88]` (`distrib_vs_ai`) vs `[+0x8C]` (`distrib_vs_human`):
+
+| Enum | `.ai` Mode | Quota Share Formula (`0x006844E0..0x00684529`) | Terrain Influence | Empty-Prov Floor (`deficit = 1`) |
+| :---: | :--- | :--- | :--- | :--- |
+| `0` | `even` | $\frac{1}{\text{N\_front}}$ (equal split) | None on quota | **Yes** (`0x00684592`: forces `deficit = 1` when `divs == 0`) |
+| `1` | `reactive` | $\frac{\text{w30}}{\sum \text{w30}}$, $\text{w30} = \frac{\text{en\_str} \cdot (\text{2 if capital})}{1.0 + 0.01 \cdot \text{def}}$ | **Double** (`en_str` attack mod + `def` divider) | **No** (truncated `0` stays `0`) |
+| `2` | `defensive` | $\frac{\text{w34}}{\sum \text{w34}}$ (`100 + VP*10 + IC + resources + area/cap`) | None | **No** |
+| `3` | `offensive` | $1.0 - \frac{\text{en\_str} \cdot (\text{2 if capital})}{\sum \text{en\_str}}$ | **Indirect** via `en_str` (lower enemy attack effectiveness raises `1 - en_str/sum`) | **No** |
+| `4` | `op_defensive` | $\frac{\text{friendly\_nbs}}{\sum \text{friendly\_nbs}}$ (`[+0x14]`) | None | **No** |
+
+All shares are further multiplied by any `province_priorities` entry (`[CAI_FrontPrefs + 0x94]`, `0x00684529`).
+
+**How Terrain Enters `reactive` (`1`) and `offensive` (`3`):**
+- **Numerator `en_str` (`+0x20`, affects `reactive` and `offensive`)**: Inside `0x006829B0` (`0x00683306..0x0068349E`), each adjacent hostile division is scored via `CDivision::vtbl[+0x2c]` (`0x005005B0`). That helper multiplies by the attacker's weather modifier (`0x0044D5B0`) and terrain attack modifier into the target province (`0x0044D660([targetProv + 0x254])`), and `0x006829B0` multiplies by `[CAI_FrontPrefs + 0x20]` (`1.2` on `PID 66240`) when `0x004E79B0` reports `conn_type == 1` or `2`. Difficult defensive terrain (such as `Marsh`) lowers incoming `en_str` directly (e.g., on live `PID 66240`, `6` German divs yield `0.1610` against `7335 Augustów` (`Marsh`) vs `0.3600` against `1875 ?om?a` (`Plains`)).
+- **Denominator `def` (`+0x2C`, `reactive` only)**: `0x00682C17..0x00682C79` sets `def = land_fort * 5.0 + terrain_bonus`:
+  - `Clear` / `Plains` (`0`), `Desert` (`3`), `Urban` (`7`): `+0.0`
+  - `Hills` (`5`): `+20.0` (`divide by 1.20`)
+  - `Forest` (`1`): `+25.0` (`divide by 1.25`)
+  - `Marsh` (`4`): `+40.0` (`divide by 1.40`)
+  - `Mountain` (`2`): `+45.0` (`divide by 1.45`)
+  - `Jungle` (`6`): `+50.0` (`divide by 1.50`)
+- **Empty-Province Truncation Cliff (`0x0068457C..0x0068459A`)**: Retail converts `(target_share - current_share) * total_front_divs` using `call 0x7A5EEC` (`__ftol()`, truncating toward zero) and only bumps an empty province (`divs == 0`) from `0` to `1` when `distrib_mode == 0` (`even`, `0x00684592: test edi, edi; jne 0x684fee`). Thus in `reactive` (`1`) — and likewise `defensive` (`2`) / `op_defensive` (`4`) — any empty province whose target quota falls strictly under `1.0` division receives `0` reinforcement pulls (`6516 Grajewo` = `0.93`, `7335 Augustów` = `0.67` on a `13`-division front). Unassigned incoming armies (`0x00684088`, active in all modes) additionally rank front provinces by `en_str - fr_str` (`[+0x20] - [+0x18]`), again preferring `Plains` over `Marsh`.
 
 ---
 
