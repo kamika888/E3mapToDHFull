@@ -24,10 +24,8 @@ province = { id = 1545 points = 1 }
 province = { id = 1567 points = 3 }
 province = { id = 1773 points = 1 }
 province = { id = 1555 points = 1 }
-province = { id = 1562 points = 1 }
 province = { id = 1543 points = 3 }
 province = { id = 1574 points = 1 }
-province = { id = 1575 points = 1 }
 province = { id = 1597 points = 1 }
 province = { id = 1623 points = 1 }
 province = { id = 1630 points = 1 }
@@ -40,7 +38,6 @@ province = { id = 1824 points = 1 }
 province = { id = 1853 points = 1 }
 province = { id = 1863 points = 1 }
 province = { id = 1884 points = 1 }
-province = { id = 2276 points = 1 }
 province = { id = 2305 points = 1 }
 province = { id = 2322 points = 1 }
 province = { id = 2324 points = 1 }
@@ -671,7 +668,6 @@ province = { id = 942 points = 1 }
 province = { id = 947 points = 1 }
 province = { id = 949 points = 3 }
 province = { id = 950 points = 1 }
-province = { id = 957 points = 0 }
 province = { id = 958 points = 2 }
 province = { id = 959 points = 1 }
 province = { id = 962 points = 1 }
@@ -870,7 +866,6 @@ province = { id = 1414 points = 2 }
 province = { id = 1415 points = 1 }
 province = { id = 1416 points = 1 }
 province = { id = 1418 points = 1 }
-province = { id = 1    points = 1 }
 province = { id = 1420 points = 1 }
 province = { id = 1422 points = 1 }
 province = { id = 1424 points = 1 }
