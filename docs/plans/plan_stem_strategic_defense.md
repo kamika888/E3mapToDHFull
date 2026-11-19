@@ -105,7 +105,7 @@ To guarantee the neck stays held until the upstream salient clears without scann
 
 ### 3. Dynamic `SalientEvacuationQuota(P)` Formula (Complete Closed Form)
 
-Weights below will initially be fixed constants; once tested in practice, they can be externalized to `db/mod_settings.ini` in a later follow-up.
+All `SalientEvacuationQuota(P)` factor weights, thresholds, and bounds are configurable under `[FrontAI]` in `db/mod_settings.ini` (`0x00DCBF4A..0x00DCC192`, loaded at startup via `0x00DCBCE2`).
 
 #### Hard Overrides
 * $F(P) \ge W \implies Q(P) = 0.0$ (sufficient independent escape corridors).
@@ -114,46 +114,47 @@ Weights below will initially be fixed constants; once tested in practice, they c
 
 #### Continuous Assessment ($1 \le F(P) < W$ and ($F_{\text{exp}}(P) > 0$ or $\text{is\_threatened}[P] == 1$))
 
-1. **Per-Cut-Vertex Combat Ratio $R(v_i)$ & Threat Translation $T(v_i) \in [0.25, 1.50]$**:
-   For each cut vertex $v_i \in C(P)$, using Pass-0 cached province combat totals (`fr_eff_str_f32`, `en_eff_str_f32`, `inbound_fr_str_f32`, and `min_org_q8`):
-   $$R(v_i) = \frac{\text{EnemyStr}(v_i)}{\max\!\big(1.0,\; \text{FriendlyDefenderStr}(v_i) + 0.5 \cdot \text{InboundFriendlyStr}(v_i)\big)}$$
-   where $\text{InboundFriendlyStr}(v_i)$ and hostile move threat scanning resolve the **immediate next hop** (`movement` list head `[pArmy + 0x232]` when `[pArmy + 0x27E] == 1`) rather than falling back to the final destination `[pArmy + 0x13A]`.
+1. **Per-Cut-Vertex Combat Ratio $R(v_i)$ & Threat Translation $T(v_i) \in [\text{NeckThreatMinFloor}, \text{NeckThreatMaxCap}]$ (`[0.00, 1.50]`)**:
+   For each cut vertex $v_i \in C(P)$, `EnemyStr` separates idle adjacent armies (`IdleEnemyPresenceWeight = 0.25`) from active attacking/advancing enemy armies (`ActiveEnemyAttackWeight = 1.0`) and adjacent `IsThreatened` friendly propagation (`ThreatenedNeighborStrWeight = 1.0`):
+   $$R(v_i) = \frac{\text{EnemyStr}(v_i)}{\max\!\big(1.0,\; \text{FriendlyDefenderStr}(v_i) + \text{InboundFriendlyStrWeight} \cdot \text{InboundFriendlyStr}(v_i)\big)}$$
+   where $\text{InboundFriendlyStr}(v_i)$ (`0.50` default weight) and hostile move threat scanning resolve the **immediate next hop** (`movement` list head `[pArmy + 0x232]` when `[pArmy + 0x27E] == 1`) rather than falling back to the final destination `[pArmy + 0x13A]`.
    * **Strength-Ratio Threat Component**:
-     Normalize by `NeckThreatRatio` ($R_{\text{thr}}$ at `0x00DCBAC0`, default `1.5`):
-     $$T_{\text{str}}(v_i) = \frac{R(v_i)}{R_{\text{thr}}}$$
+     Ramps linearly from `0.0` at `NeckThreatMinRatio` ($R_{\min} = 1.0$) to `1.0` at `NeckThreatRatio` ($R_{\text{thr}} = 1.5$):
+     $$T_{\text{str}}(v_i) = \frac{\max\!\big(0.0,\; R(v_i) - R_{\min}\big)}{\max\!\big(0.05,\; R_{\text{thr}} - R_{\min}\big)}$$
    * **Organization-Collapse Threat Component**:
      If $v_i$ is in active defensive combat with lowest defender organization $O(v_i) < 2 \cdot O_{\text{crit}}$ (where $O_{\text{crit}}$ is `NeckCollapsingOrgThreshold` at `0x00DCBAC4`, default `10.0` in `db/mod_settings.ini`):
-     $$T_{\text{org}}(v_i) = \text{clamp}_{[0.0,\; 1.50]}\!\left(\frac{2 \cdot O_{\text{crit}} - O(v_i)}{O_{\text{crit}}}\right)$$
+     $$T_{\text{org}}(v_i) = \text{clamp}_{[0.0,\; \text{NeckThreatMaxCap}]}\!\left(\frac{2 \cdot O_{\text{crit}} - O(v_i)}{O_{\text{crit}}}\right)$$
      *(Else $T_{\text{org}}(v_i) = 0.0$.)*
    * **Uncontested / Exposed Cut Vertex Threat $T(v_i)$**:
      * If $v_i$ is sheltered (`(prov_flags[v_i] & 1) == 0`): $T(v_i) = 0.0$ (sheltered cuts are intact).
-     * Else if $v_i$ is exposed (`(prov_flags[v_i] & 1) != 0`) and $\text{FriendlyDefenderStr}(v_i) + 0.5 \cdot \text{InboundFriendlyStr}(v_i) < 1.0$ while $\text{EnemyStr}(v_i) > 0$: $T(v_i) = 1.50$.
+     * Else if $v_i$ is exposed (`(prov_flags[v_i] & 1) != 0`) and $\text{FriendlyDefenderStr}(v_i) + \text{InboundFriendlyStrWeight} \cdot \text{InboundFriendlyStr}(v_i) < 1.0$ while $\text{EnemyStr}(v_i) > 0$: $T(v_i) = \text{NeckThreatMaxCap}$ (`1.50`).
      * Else:
-       $$T(v_i) = \text{clamp}_{[0.25,\; 1.50]}\!\big(\max(T_{\text{str}}(v_i),\; T_{\text{org}}(v_i))\big)$$
+       $$T(v_i) = \text{clamp}_{[\text{NeckThreatMinFloor},\; \text{NeckThreatMaxCap}]}\!\big(\max(T_{\text{str}}(v_i),\; T_{\text{org}}(v_i))\big)$$
 
-2. **Bottleneck Threat Urgency ($T_{\text{neck}}(P) \in [0.25, 1.50]$)**:
-   Let $T_{\text{max}}(P) = \max_{v_i \in C_{\text{exp}}(P)} T(v_i)$ (or $1.0$ if $F_{\text{exp}}(P) == 0$ while $\text{is\_threatened}[P] == 1$). Apply the multi-pronged vulnerability multiplier when multiple bottleneck vertices are simultaneously exposed ($F_{\text{exp}}(P) \ge 2$):
-   $$T_{\text{neck}}(P) = \text{clamp}_{[0.25,\; 1.50]}\!\Big( T_{\text{max}}(P) \times \big(1.0 + 0.25 \cdot \max(0,\; F_{\text{exp}}(P) - 1)\big) \Big)$$
+2. **Bottleneck Threat Urgency ($T_{\text{neck}}(P)$)**:
+   Let $T_{\text{max}}(P) = \max_{v_i \in C_{\text{exp}}(P)} T(v_i)$ (or $1.0$ if $F_{\text{exp}}(P) == 0$ while $\text{is\_threatened}[P] == 1$). Apply `MultiExposedCutBonus` ($0.25$ default) and overall `NeckThreatWeight` ($1.0$ default):
+   $$T_{\text{neck}}(P) = \text{NeckThreatWeight} \times \text{clamp}_{[\text{NeckThreatMinFloor},\; \text{NeckThreatMaxCap}]}\!\Big( T_{\text{max}}(P) \times \big(1.0 + \text{MultiExposedCutBonus} \cdot \max(0,\; F_{\text{exp}}(P) - 1)\big) \Big)$$
 
-3. **Topological Width & Intact-Defense Factor ($D_{\text{width}}(P) \in [0.0, 1.0]$)**:
+3. **Topological Width & Intact-Defense Factor ($D_{\text{width}}(P)$)**:
    Classify each exposed cut vertex $v_i \in C_{\text{exp}}(P)$ as:
    * **Critically stressed** ($v_i \in C_{\text{crit}}(P)$, counting as **`0.0`** effective paths) iff $\text{is\_threatened}[v_i] == 1 \;\lor\; T(v_i) \ge 1.0$.
-   * **Exposed-but-intact** ($v_i \in C_{\text{intact\_exp}}(P)$, counting as **`0.5`** effective paths) otherwise.
+   * **Exposed-but-intact** ($v_i \in C_{\text{intact\_exp}}(P)$, counting as **`ExposedIntactPathCredit = 0.5`** effective paths) otherwise.
    * Each **sheltered** cut vertex ($v_i \in C_{\text{shelt}}(P)$) counts as **`1.0`** effective path.
-   $$D_{\text{width}}(P) = \max\!\left(0.0,\; \frac{W - \big(F_{\text{shelt}}(P) + 0.5 \cdot F_{\text{intact\_exp}}(P)\big)}{W}\right)$$
+   $$D_{\text{width}}(P) = \text{WidthDeficitWeight} \times \text{clamp}_{[0.0,\; 1.0]}\!\left(\frac{W - \big(F_{\text{shelt}}(P) + \text{ExposedIntactPathCredit} \cdot F_{\text{intact\_exp}}(P)\big)}{W}\right)$$
 
-4. **Local + Neighbor Strategic Value Retention ($V_{\text{ret}}(P) \in [0.50, 1.00]$)**:
-   Compute combined VP/IC of $P$ and all friendly-controlled adjacent provinces $N_{\text{fr}}(P)$ using verified `CProvince` offsets **`+0x19E`** (`points` / VP parsed in `FUN_00561d19` at `0x0056230D`, rather than `+0x1F2` which is `Manpower`) and `[*(prov + 0x1CA) + 0x14]` (current `IC`):
-   $$\text{Val}(P) = \sum_{u \in \{P\} \cup N_{\text{fr}}(P)} \big(\text{VP}(u) + 0.5 \cdot \text{IC}(u)\big)$$
-   $$V_{\text{ret}}(P) = \max\!\left(0.50,\; \frac{1.0}{1.0 + 0.02 \cdot \text{Val}(P)}\right)$$
-   *(Bypassed to `1.0` when $F_{\text{crit}}(P) == F(P)$ or $\text{is\_threatened}[P] == 1$ so high-value pockets such as Leningrad, Sevastopol, or Kiev still break out before complete encirclement/collapse.)*
+4. **Local + Neighbor Strategic Value Retention ($V_{\text{ret}}(P)$)**:
+   Compute combined VP/IC of $P$ and all friendly-controlled adjacent provinces $N_{\text{fr}}(P)$ using `CProvince + 0x19E` (`VP`) and `[*(prov + 0x1CA) + 0x14]` (`IC`) with `ValueRetentionVPWeight` (`1.0`) and `ValueRetentionICWeight` (`0.5`):
+   $$\text{Val}(P) = \sum_{u \in \{P\} \cup N_{\text{fr}}(P)} \big(\text{VPWeight} \cdot \text{VP}(u) + \text{ICWeight} \cdot \text{IC}(u)\big)$$
+   $$V_{\text{ret}}(P) = \max\!\left(\text{ValueRetentionMinFloor},\; \min\!\left(1.0,\; \frac{1.0}{1.0 + \text{ValueRetentionScale} \cdot \text{Val}(P)}\right)\right)$$
+   *(Defaults: `Scale = 0.02`, `MinFloor = 0.50`. Bypassed to `1.0` when $F_{\text{crit}}(P) == F(P)$ or $\text{is\_threatened}[P] == 1$ so high-value pockets still break out before complete encirclement/collapse.)*
 
-5. **Final Quota Combining & Threatened Source Floor**:
+5. **Final Quota Combining, Threatened Floor & Minimum Cutoff**:
    $$Q_{\text{raw}}(P) = D_{\text{width}}(P) \times T_{\text{neck}}(P) \times V_{\text{ret}}(P)$$
    * If $\text{is\_threatened}[P] == 1$:
-     $$Q(P) = \begin{cases} 1.0 & \text{if } F_{\text{crit}}(P) \ge 1, \\ \text{clamp}_{[0.85,\; 1.0]}\!\big(\max(0.85,\; Q_{\text{raw}}(P))\big) & \text{otherwise.} \end{cases}$$
+     $$Q(P) = \begin{cases} 1.0 & \text{if } F_{\text{crit}}(P) \ge 1, \\ \text{clamp}_{[\text{ThreatenedSourceQuotaFloor},\; 1.0]}\!\big(\max(\text{ThreatenedSourceQuotaFloor},\; Q_{\text{raw}}(P))\big) & \text{otherwise.} \end{cases}$$
    * Else:
-     $$Q(P) = \text{clamp}_{[0.0,\; 1.0]}\!\big(Q_{\text{raw}}(P)\big)$$
+     $$Q(P) = \text{clamp}_{[0.0,\; 1.0]}\!\big(Q_{\text{raw}}(P)\big), \qquad Q(P) < \text{MinEvacuationQuotaThreshold} \implies Q(P) = 0.0$$
+     *(Defaults: `ThreatenedSourceQuotaFloor = 0.85`, `MinEvacuationQuotaThreshold = 0.05`.)*
 
 ---
 
@@ -209,14 +210,14 @@ Currently, `VirtualAlloc` (`build_and_apply_all.py`) allocates `0x40000` (`256 K
 ### Stage 2: Front AI Salient De-Prioritization (`AdjustedPriority = Normal * (1 - Quota)`) *(Implemented — Awaiting In-Game Approval)*
 **Goal**: Prevent `CFrontAI::MoveUnitsToFront` (`0x006829B0`) from reinforcing evacuating salient provinces in both of its movement loops (Loop A interior-to-border push and Loop B border-to-border quota rebalancing).
 
-* **Binary Changes (`build_and_apply_all.py`, `.mod` Cave `0x00DCE353..0x00DCE633`, `SHA256 = 7157C8C6B8ECEF0370ED8C6365F7E56F0A9DCD5DD0CC6BF474A7A84C21E64BC1`)**:
-  1. **Loop B — Border Quota Adjustment (`0x00684551 -> 0x00DCE4D7`, `0x0068470D -> 0x00DCE576`, and `0x0068526A -> 0x00DCE5D2` in `0x006851D0`)**:
+* **Binary Changes (`build_and_apply_all.py`, `.mod` Cave `0x00DCE6E1..0x00DCE9C1`, `SHA256 = EBF2C13DBDDE239EF43D131DA2CD9BF7DF18E859BDED23BCF5661AF87BAFF6F4`)**:
+  1. **Loop B — Border Quota Adjustment (`0x00684551 -> 0x00DCE865`, `0x0068470D -> 0x00DCE904`, and `0x0068526A -> 0x00DCE960` in `0x006851D0`)**:
      * Cache unadjusted `norm_prio_f32[u] = S(u) * D_front` directly as a 32-bit float (`g_pGraphTable + 0x58000`, preserved across hourly resets).
      * Replace `S(u)` on the x87 FPU stack / stack frame with `S(u) * (1.0 - Q(u))` (forcing `S(u) = 0.0` when `Q == 1.0` or when `Q > 0 && S_adj * D_front < 1.0` so `even`-mode's empty-province `deficit = 1` floor at `0x0068459A` is also suppressed).
-  2. **Loop A — Interior Push Gate, Candidate Scoring & Fallback (`0x00683EB6 -> 0x00DCE353`, `0x00684088 -> 0x00DCE3D2`, `0x006840F6 -> 0x00DCE47B`, `0x00684131 -> 0x00DCE486`)**:
+  2. **Loop A — Interior Push Gate, Candidate Scoring & Fallback (`0x00683EB6 -> 0x00DCE6E1`, `0x00684088 -> 0x00DCE760`, `0x006840F6 -> 0x00DCE809`, `0x00684131 -> 0x00DCE814`)**:
      * In retail `CFrontAI::MoveUnitsToFront`, Loop A (`0x00683C1D..0x00684207`) executes **before** Loop B on non-reserve armies sitting in non-border interior provinces (including divisions rallied at a locked neck such as `102 Wolkowysk`). Loop A does **not** consult Loop B's `NormalFrontAIPriority(P)` quotas—it pushes interior armies forward into adjacent border provinces based solely on `en_str - fr_str` (`0x00684088`), with an `edi == 0` fallback to `[CFrontAI + 0x04]` head at `0x00684117`.
      * Exclude adjacent candidates when `Q == 1.0` or `0 < Q < 1.0 && divs >= AdjustedPriority`, reject or scale `(en_str - fr_str)` candidate scoring toward `(1.0 - Q(cand))` (dividing negative scores by `(1 - Q)` so evacuating provinces rank below non-evacuating ones), and block the `0x00684117` fallback if the head province has `quota_q8 > 0`.
-  3. **Update `stem_debug.csv` Telemetry**: Populate `NormPrio` (`NormalFrontAIPriority`, `+26`) and `AdjPrio` (`AdjustedPriority`, `+28`) in `debug_telemetry[P]` via `Cave_STEM_SyncTelemetryPrio` (`0x00DCDBAD`), synced during both `.hlp_write_telemetry` and `Cave_FrontAI_ScaleReceiverShare`, plus Step 5C neck lock / Pass-2 updates.
+  3. **Update `stem_debug.csv` Telemetry**: Populate `NormPrio` (`NormalFrontAIPriority`, `+26`) and `AdjPrio` (`AdjustedPriority`, `+28`) in `debug_telemetry[P]` via `Cave_STEM_SyncTelemetryPrio` (`0x00DCDF1E`), synced during both `.hlp_write_telemetry` and `Cave_FrontAI_ScaleReceiverShare`, plus Step 5C neck lock / Pass-2 updates.
 * **Verification & Stop**: Verified binary patch signatures (`tools/patch_darkest_hour.bat -Verify`), end-to-end batch patch reproducibility (`patch_darkest_hour.bat -Auto`), and `.text`/`.mod` disassembly across all 7 Stage 2 hooks. **STOP and wait for user validation/approval before Stage 3.**
 
 ---
@@ -277,9 +278,17 @@ Currently, `VirtualAlloc` (`build_and_apply_all.py`) allocates `0x40000` (`256 K
 ## Future Considerations & Post-Validation Notes
 1. **Straggler Hostage / Pin-the-Tip Edge Case (Stage 1C)**:
    * For simplicity during Stage 1 validation, Step 5C applies a flat-out evacuation block whenever any non-empty friendly/allied division (including combat-retreating units) remains in a dependent upstream province. If live testing later shows an enemy pinning a single slow straggler at the tip to freeze a large garrison in the neck while the neck itself comes under overwhelming direct attack, revisit adding either a direct-collapse override (`IsThreatened[N] == 1` or `F_Paths[N] == 0` breaks the lock) or a partial holding-screen cap on `quota_q8[N]`.
-2. **Enemy-Presence Weighting on Borders (Stage 1 Formula)**:
-   * Make adjacent/border enemy threat weights configurable in `db/mod_settings.ini` so idle or nearby enemy divisions do not over-trigger panic.
-   * Distinguish between enemy divisions **merely present** on an adjacent border (which may be idle, pinned down, retreating, or unable to attack) and enemy divisions **actively attacking or moving** into the bottleneck, weighting merely-present divisions lower.
+2. **Enemy-Presence Weighting on Borders & Factor Tuning *(Implemented & Configurable in `[FrontAI]`)***:
+   * Separated `IdleEnemyPresenceWeight` (`0.25`) from `ActiveEnemyAttackWeight` (`1.0`) and `ThreatenedNeighborStrWeight` (`1.0`), added `NeckThreatMinRatio` (`1.0`, so `<= 1:1` produces `0.0` threat) and `NeckThreatMinFloor` (`0.0`), and exposed all 17 quota weights/bounds in `db/mod_settings.ini`.
+3. **Integrate Organization Weighting Directly into `EnStr` & `FrStr` (Idle, Active, and Inbound)**:
+   * Move average division organization directly into the effective combat strength calculation for both `EnStr` and `FrStr` (applying to idle stacks, actively attacking/moving stacks, and inbound friendly divisions alongside their existing modifiers), rather than only checking `MinOrg` during active defensive combat at a cut vertex.
+   * For example, if 6 fresh full-organization German divisions sit across from 6 battered, near-zero-organization Soviet divisions at Grodno, equal division counts (`1:1`) should not register as safe — the moment an attack begins, a de-organized neck will collapse almost immediately and could otherwise be exploited.
+4. **Division Hardness / Unit-Type Weighting (Inverse Softness Factor)**:
+   * Factor unit composition and hardness into `EnStr` and `FrStr` on both sides so small armored and mechanized spearheads are not underestimated relative to infantry or militia.
+   * Compute average division softness across the stack (armored/mechanized divisions have the lowest softness values, while militia/infantry have the highest) and scale strength using the inverse of average softness (or an equivalent configurable hardness bonus).
+5. **Post-Arrival Neck-to-Salient "Revolving Door" Observation *(Live Test Watchpoint)***:
+   * *(The immediate mid-march feedback bug where evacuating units inflated `InbStr` at the neck and cancelled their own evacuation lock has been fixed by excluding units with `[slot + 6] != 0` from `.friendly_check_inbound`.)*
+   * However, a secondary post-arrival cycle remains possible: once evacuating units finish arriving at the neck province, they boost `FrStr` at the neck, potentially dropping `EnStr / FrEff` back below `NeckThreatMinRatio` (`1.0`). That resets `SalientEvacuationQuota` to `0.000` and restores `AdjPrio` in the evacuated salient to `NormPrio`, which may cause Front AI to push divisions back out of the neck into the salient, causing the neck to drop below threshold again and trigger another evacuation. Observe in live testing whether hysteresis or salient re-entry cooldown is needed before adding mitigation.
 
 ---
 

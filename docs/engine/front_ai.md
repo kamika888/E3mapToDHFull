@@ -27,7 +27,7 @@ Front AI is the operational land theater commander in Darkest Hour. Unlike `CGar
                        |      |
                        |      +--> Step 1: 0x00682A58 -> 0x00681CD0: CFrontAI::ManageRearReserves()
                        |      |      ([0x00682A43] skips call if [CFrontAI + 0x10C] is empty and [+0x125] != 0)
-                       |      |      (Hooked by Patch 18 wrapper Cave_FrontAI_ManageReservesAndSalients @ 0x00DCE1CC)
+                       |      |      (Hooked by Patch 18 wrapper Cave_FrontAI_ManageReservesAndSalients @ 0x00DCE55A)
                        |      |      - Retail: stages rear-reserve candidates ([CFrontAI + 0x12A] / +0x12E)
                        |      |        and appends reserve unit TypeIds to [CFrontAI + 0xC8]
                        |      |      - STEM: prunes retail nodes entering STEM Evacuation Mode, shields
@@ -111,7 +111,7 @@ Each node in `[CFrontAI + 0x04]` points to a per-province front descriptor popul
 |---|---|---|---|
 | `CFrontAI::Execute` | `0x006811B0` | `__thiscall` | Master hourly front evaluation entry point. Calls `0x006829B0` and `0x006853C0`. |
 | `CFrontAI::MoveUnitsToFront` | `0x006829B0` | `__thiscall` | Evaluates border quotas, calls `ManageRearReserves` via `0x00682A58` (when gated pass at `0x00682A43` succeeds), stops non-conforming marches (`0x0050BCA0`), and dispatches reinforcement moves (`0x006AAFF0`). |
-| `CFrontAI::ManageRearReserves` | `0x00681CD0` | `__thiscall` | Retail rear-reserve routine. Selects candidate rear-reserve provinces (`+0x12A` / `+0x12E`) and registers reserve unit `TypeId`s in `[this + 0xC8]` (`m_ReserveUnits`). Wrapped by `0x00DCE1CC` at callsite `0x00682A58`. |
+| `CFrontAI::ManageRearReserves` | `0x00681CD0` | `__thiscall` | Retail rear-reserve routine. Selects candidate rear-reserve provinces (`+0x12A` / `+0x12E`) and registers reserve unit `TypeId`s in `[this + 0xC8]` (`m_ReserveUnits`). Wrapped by `0x00DCE55A` at callsite `0x00682A58`. |
 | `CFrontAI::IsFrontProvince` | `0x006813E0` | `__thiscall` | Returns `1` if the given province ID belongs to this front's border province list. |
 | `CFrontAI::ExecuteTactical` | `0x006853C0` | `__thiscall` | Coordinates active combat management (`0x00685ED0`) and offensive attack planning (`0x00689780`). |
 | `CFrontAI::ManageCombat` | `0x00685ED0` | `__thiscall` | Evaluates ongoing battles on the front for reinforcement or tactical retreat. |
@@ -128,7 +128,7 @@ Reverse-engineering `0x00681CD0` (`CFrontAI::ManageRearReserves`) and `0x006829B
    - Retail `CFrontAI::ManageRearReserves` (`0x00681CD0`) manages rear-reserve staging rather than topological pocket evacuation, and `CFrontAI::MoveUnitsToFront` (`0x006829B0`, including `0x006831D0` - `0x00684526`) weights border province quotas using local immediate-neighbor scoring rather than global cut-vertex / articulation-point analysis.
    - Consequently, a multi-province salient (connected internally with degree $\ge 2$, but joined to the main interior only through a narrow neck/shoulder pair) continues receiving border allocations unless external evacuation tracking exempts those units.
 2. **Aggressive `StopMovement` Override (`0x0068416A`)**:
-   - In `0x006829B0`, any assigned front army whose `TypeId` is **not** registered in `[CFrontAI + 0xC8]` (`m_ReserveUnits`) has its movement evaluated against static border quotas. Without registering evacuating units' `TypeId` in `[CFrontAI + 0xC8]` via the `0x00682A58` wrapper (`0x00DCE1CC`), `0x006829B0` (`0x0068416A`) immediately calls `StopMovement` (`0x0050BCA0`) or reassigns the unit back to the border on the very same hour tick, creating an infinite hourly tug-of-war.
+   - In `0x006829B0`, any assigned front army whose `TypeId` is **not** registered in `[CFrontAI + 0xC8]` (`m_ReserveUnits`) has its movement evaluated against static border quotas. Without registering evacuating units' `TypeId` in `[CFrontAI + 0xC8]` via the `0x00682A58` wrapper (`0x00DCE55A`), `0x006829B0` (`0x0068416A`) immediately calls `StopMovement` (`0x0050BCA0`) or reassigns the unit back to the border on the very same hour tick, creating an infinite hourly tug-of-war.
 
 ### 4.1 Retail Front Distribution Modes (`distrib_vs_ai` / `distrib_vs_human`) & Terrain Effects
 Reverse-engineering `0x006829B0` and the `.ai` serializer (`0x006BFBE2..0x006C023C`) establishes the exact enum mapping and quota calculation used when `[CFrontAI + 0x124]` selects `[CAI_FrontPrefs + 0x88]` (`distrib_vs_ai`) vs `[+0x8C]` (`distrib_vs_human`):
@@ -173,7 +173,7 @@ Because Loop A executes **before** Loop B inside every hourly `0x006829B0` call 
 
 | Issue Encountered | Root Cause | Resolution |
 |---|---|---|
-| **Hooking `0x006A5790` (`CanCommand`) had no effect on Front AI** | `0x006A5790` belongs to `CInvasionAI` (`0x007F4C24`), not `CFrontAI` (`0x007F3868`). | Restored `0x006A5790` to pristine bytes; hooked callsite `0x00682A58` with wrapper `0x00DCE1CC` around retail `CFrontAI::ManageRearReserves` (`0x00681CD0`). |
+| **Hooking `0x006A5790` (`CanCommand`) had no effect on Front AI** | `0x006A5790` belongs to `CInvasionAI` (`0x007F4C24`), not `CFrontAI` (`0x007F3868`). | Restored `0x006A5790` to pristine bytes; hooked callsite `0x00682A58` with wrapper `0x00DCE55A` around retail `CFrontAI::ManageRearReserves` (`0x00681CD0`). |
 | **Entire front retreated to Capital (Moscow `175`) on load** | In Tarjan's articulation algorithm, the DFS root (`tin = 1`) trivially satisfies $low[v] \ge tin[root]$ for all children. | Superseded Tarjan in `Cave_STEM_UpdateGraphTable` (`0x00DCBDD5`) with a Local $K$-Hop Frontline Search + Per-Province Vertex-Disjoint Path Search. |
 | **Pinned units in combat (Grajewo `6516`) failed to disengage** | Calling `0x00522930` directly leaves the unit attached to `CCombat`; calling `0x004BE920` with `ecx = pCombat` instead of `CLandCombatSide*` hit a no-op slot. | Pass `ecx = [pCombat + 0x84]` (defender side) or `[pCombat + 0x80]` (attacker side) to `0x004BE920`. |
 | **Non-combat salient units stood still with 0 Organization** | Zeroing `[pDiv + 0xF4]` or injecting org-mutating hooks (`0x004E7616` / `0x004E7905` / `0x00DCBADC`) corrupted unit organization (`m_fOrganization`). | Never mutate `[pDiv + 0xF4]`; removed `0x004E7616`, `0x004E7905`, and `0x00DCBADC` during Phase 2 cleanup. |
@@ -188,29 +188,29 @@ Because Loop A executes **before** Loop B inside every hourly `0x006829B0` call 
 
 ## 6. Current Patch 18 (STEM) Architecture & Hook Pipeline
 
-### 6.1 Active Binary Hooks (`Darkest Hour.exe` + `.mod` Cave @ `0x00DCBAB0..0x00DCE8D1`, `.mod` Size `32 KB`)
-1. **INI Loader Hook (`0x00DCB7E6` -> `0x00DCBC30..0x00DCBCD7` -> `0x00DCE03B`)**:
+### 6.1 Active Binary Hooks (`Darkest Hour.exe` + `.mod` Cave @ `0x00DCBAB0..0x00DCEC5F`, `.mod` Size `32 KB`)
+1. **INI Loader Hook (`0x00DCB7E6` -> `0x00DCBC30..0x00DCBCD7` -> `0x00DCE3AC`)**:
    - Parses `[FrontAI]` parameters from `db/mod_settings.ini` into `0x00DCBAB0..0x00DCBAD0` (`EnableEncirclementDefense`, `SalientNeckWidthThreshold`, `SalientSearchDepth` at `0x00DCBAB8` / key `0x00DCBB30` default `5`, `UseSupplyDepotsAsCores`, `NeckThreatRatio`, `NeckCollapsingOrgThreshold`, `SalientEvacuationQuota` slot `0x00DCBACC`, and `BottleneckDefenseBoost` `0x00DCBAD0`).
-   - Jumps at `0x00DCBCD7` to `Cave_LoadEngineSettings` (`0x00DCE03B`), loading `[Engine]` flags into `0x00DCBAD8` (`AlwaysShowMovementArrows`), `0x00DCBAE8` (`AutoNoFog`), and `0x00DCBAEC` (`AutoShowId`). (`[0x00DCBAD4]` holds the `0xC0000`-byte `g_pGraphTable` scratchpad pointer.)
-2. **Post-Scenario Load Hook (`0x00DCAE55` -> `0x00DCDFD7` `Cave_PostLoadInit`)**:
-   - Zeroes `g_pGraphTable + 0x30000..+0xBFFFF` (`0x24000` dwords / `576 KB`, clearing active flags, persistent evacuation slots, quotas, cached normal priorities, and debug telemetry) on scenario or savegame load, then applies `AutoNoFog`, `AutoShowId`, and `Cave_ShowAllMovingArrows` (`0x00DCDF43`).
-3. **Movement Arrow Deselect Filter (`0x005226C1` -> `0x00DCDFA1` `Cave_DeselectArrows`)**:
+   - Jumps at `0x00DCBCD7` to `Cave_LoadEngineSettings` (`0x00DCE3AC`), loading `[Engine]` flags into `0x00DCBAD8` (`AlwaysShowMovementArrows`), `0x00DCBAE8` (`AutoNoFog`), and `0x00DCBAEC` (`AutoShowId`). (`[0x00DCBAD4]` holds the `0xC0000`-byte `g_pGraphTable` scratchpad pointer.)
+2. **Post-Scenario Load Hook (`0x00DCAE55` -> `0x00DCE348` `Cave_PostLoadInit`)**:
+   - Zeroes `g_pGraphTable + 0x30000..+0xBFFFF` (`0x24000` dwords / `576 KB`, clearing active flags, persistent evacuation slots, quotas, cached normal priorities, and debug telemetry) on scenario or savegame load, then applies `AutoNoFog`, `AutoShowId`, and `Cave_ShowAllMovingArrows` (`0x00DCE2B4`).
+3. **Movement Arrow Deselect Filter (`0x005226C1` -> `0x00DCE312` `Cave_DeselectArrows`)**:
    - Preserves movement/retreat arrows across deselection when `AlwaysShowMovementArrows == 1` (`0x00DCBAD8`).
-4. **Hourly Game Loop Hook (`0x005AEDBE` -> `0x00DCE0FD` `Cave_STEM_HourlyAllCountries`)**:
-   - Maintains `[Engine]` flags, allocates `0xC0000` (`768 KB`) for `g_pGraphTable`, zeroes hourly transient buffers (`+0x30000..+0x31FFF`, `+0x40000..+0x57FFF`, `+0x80000..+0xBFFFF`, while preserving `+0x58000..+0x5FFFF` `norm_prio_f32` across ticks for Loop A & telemetry), and calls `Cave_STEM_HourlyPerCountry` (`0x00DCE0B2`) -> `Cave_STEM_UpdateAndEvacuate_Internal` (`0x00DCDCE8`) when `EnableEncirclementDefense == 1`.
-5. **Front AI Rear-Reserve & Salient Wrapper Hook (`0x00682A58` -> `0x00DCE1CC` `Cave_FrontAI_ManageReservesAndSalients`)**:
+4. **Hourly Game Loop Hook (`0x005AEDBE` -> `0x00DCE48B` `Cave_STEM_HourlyAllCountries`)**:
+   - Maintains `[Engine]` flags, allocates `0xC0000` (`768 KB`) for `g_pGraphTable`, zeroes hourly transient buffers (`+0x30000..+0x31FFF`, `+0x40000..+0x57FFF`, `+0x80000..+0xBFFFF`, while preserving `+0x58000..+0x5FFFF` `norm_prio_f32` across ticks for Loop A & telemetry), and calls `Cave_STEM_HourlyPerCountry` (`0x00DCE440`) -> `Cave_STEM_UpdateAndEvacuate_Internal` (`0x00DCE059`) when `EnableEncirclementDefense == 1`.
+5. **Front AI Rear-Reserve & Salient Wrapper Hook (`0x00682A58` -> `0x00DCE55A` `Cave_FrontAI_ManageReservesAndSalients`)**:
    - Prunes evacuating units from `[CFrontAI + 0xC8]`, sets `[pArmy + 0x17B] = 2` around retail `CFrontAI::ManageRearReserves` (`0x00681CD0`), restores `[pArmy + 0x17B] = 0`, and exempts active STEM evacuating units in `[CFrontAI + 0xC8]` (tag `0x5A`).
-6. **Save-Game Telemetry Hook (`0x004301D7` -> `0x00DCE634` `Cave_STEM_SaveGameHook`)**:
-   - Refreshes `Cave_STEM_UpdateGraphTable` (`0x00DCBF4A`) in read-only mode after save serialization completes and dumps semicolon-delimited `stem_debug.csv` (including Stage 2 `NormPrio` and `AdjPrio`).
+6. **Save-Game Telemetry Hook (`0x004301D7` -> `0x00DCE9C2` `Cave_STEM_SaveGameHook`)**:
+   - Refreshes `Cave_STEM_UpdateGraphTable` (`0x00DCC193`) in read-only mode after save serialization completes and dumps semicolon-delimited `stem_debug.csv` (including Stage 2 `NormPrio` and `AdjPrio`).
 7. **Stage 2 Front AI De-Prioritization Hooks inside `CFrontAI::MoveUnitsToFront` (`0x006829B0`)**:
-   - **Loop A Adjacent Candidate Gate (`0x00683EB6` -> `0x00DCE353` `Cave_FrontAI_LoopAAdjCheck`)**: Wraps `0x004E9500`, excluding adjacent border candidates where `Q == 1.0` (`q8 >= 255`) or `0 < Q < 1.0` with `divs >= AdjustedPriority`.
-   - **Loop A Candidate Scoring & Gate (`0x00684088` -> `0x00DCE3D2` `Cave_FrontAI_LoopACheckCand` & `0x006840F6` -> `0x00DCE47B` `Cave_FrontAI_LoopAStoreBest`)**: Rejects `Q == 1.0` or already-saturated partial candidates, scales `(en_str - fr_str)` attractiveness toward `(1 - Q)` (dividing negative scores by `(1 - Q)` so evacuating provinces lose to safe ones), and stores the scaled winning score.
-   - **Loop A Fallback Head Check (`0x00684131` -> `0x00DCE486` `Cave_FrontAI_LoopAFallbackCheck`)**: Wraps `0x004E9500` on the `edi == 0` fallback (`0x00684117`), refusing to march interior armies into a list head whose `quota_q8 > 0`.
-   - **Loop B Border Receiver Quota Cache & Scaling (`0x00684551` -> `0x00DCE4D7` `Cave_FrontAI_ScaleReceiverShare`)**: Caches unscaled `NormalFrontAIPriority = S(u) * D_front` into `norm_prio_f32` (`+0x58000`), scales `S(u)` by `(1 - Q(u))` (forcing `S(u) = 0.0` when `Q == 1.0` or `Q > 0 && S_adj * D_front < 1.0` to suppress `even`-mode's `deficit = 1` floor at `0x0068459A`), and syncs `NormPrio` / `AdjPrio` via `Cave_STEM_SyncTelemetryPrio` (`0x00DCDBAD`).
-   - **Loop B Donor Share Scaling (`0x0068470D` -> `0x00DCE576` `Cave_FrontAI_ScaleDonorShare2` & `0x0068526A` -> `0x00DCE5D2` `Cave_FrontAI_ScaleDonorShare3`)**: Scales `S(u)` in both donor evaluation paths so excess divisions in evacuating salients can be donated outward.
+   - **Loop A Adjacent Candidate Gate (`0x00683EB6` -> `0x00DCE6E1` `Cave_FrontAI_LoopAAdjCheck`)**: Wraps `0x004E9500`, excluding adjacent border candidates where `Q == 1.0` (`q8 >= 255`) or `0 < Q < 1.0` with `divs >= AdjustedPriority`.
+   - **Loop A Candidate Scoring & Gate (`0x00684088` -> `0x00DCE760` `Cave_FrontAI_LoopACheckCand` & `0x006840F6` -> `0x00DCE809` `Cave_FrontAI_LoopAStoreBest`)**: Rejects `Q == 1.0` or already-saturated partial candidates, scales `(en_str - fr_str)` attractiveness toward `(1 - Q)` (dividing negative scores by `(1 - Q)` so evacuating provinces lose to safe ones), and stores the scaled winning score.
+   - **Loop A Fallback Head Check (`0x00684131` -> `0x00DCE814` `Cave_FrontAI_LoopAFallbackCheck`)**: Wraps `0x004E9500` on the `edi == 0` fallback (`0x00684117`), refusing to march interior armies into a list head whose `quota_q8 > 0`.
+   - **Loop B Border Receiver Quota Cache & Scaling (`0x00684551` -> `0x00DCE865` `Cave_FrontAI_ScaleReceiverShare`)**: Caches unscaled `NormalFrontAIPriority = S(u) * D_front` into `norm_prio_f32` (`+0x58000`), scales `S(u)` by `(1 - Q(u))` (forcing `S(u) = 0.0` when `Q == 1.0` or `Q > 0 && S_adj * D_front < 1.0` to suppress `even`-mode's `deficit = 1` floor at `0x0068459A`), and syncs `NormPrio` / `AdjPrio` via `Cave_STEM_SyncTelemetryPrio` (`0x00DCDF1E`).
+   - **Loop B Donor Share Scaling (`0x0068470D` -> `0x00DCE904` `Cave_FrontAI_ScaleDonorShare2` & `0x0068526A` -> `0x00DCE960` `Cave_FrontAI_ScaleDonorShare3`)**: Scales `S(u)` in both donor evaluation paths so excess divisions in evacuating salients can be donated outward.
 
-### 6.2 Per-Country Graph Analysis, Dynamic Quota & Persistent Evacuation (`0x00DCBF4A` / `0x00DCDCB4` / `0x00DCDCE8`)
-1. **Active-Front Gate & Table Initialization (`Cave_STEM_UpdateGraphTable` @ `0x00DCBF4A`)**:
+### 6.2 Per-Country Graph Analysis, Dynamic Quota & Persistent Evacuation (`0x00DCC193` / `0x00DCE025` / `0x00DCE059`)
+1. **Active-Front Gate & Table Initialization (`Cave_STEM_UpdateGraphTable` @ `0x00DCC193`)**:
    - Verifies AI `CCountry` vtables (`0x007F66CC` / `0x007E5464`), `!IsAtPeace` (`0x006A8720`), `CAI` vtable (`0x007F3D54`), and `[pCAI + 0x278]` active fronts (`m_EnemyFrontProvinces > 0`).
    - Initializes GraphTable (`+0x00000..+0x0FFFF`), zeroes scratch buffers (`+0x10000..+0x2FFFF`), sets `min_org_q8` (`+0x46000`) to `0xFF`, and zeroes `+0x60000..+0x7FFFF` (`fr_eff_str`, `en_eff_str`, `inbound_fr_str`, `raw_hostile_str`).
 2. **Dynamic Threat Scanner & Unit Presence (`+0x24000`, `+0x26000`, `+0x28000 & 0x20`)**:
@@ -221,7 +221,7 @@ Because Loop A executes **before** Loop B inside every hourly `0x006829B0` call 
    - **Step 5A**: Runs Option C split-node augmenting-path BFS once per `dist > 0` strip province plus `is_threatened == 1` sources, extracting the exact residual minimum cut $C_{\text{raw}}(P)$ from `+0x26000` / `+0x2C000` (`optc_vis[2v] == pass_id && optc_vis[2v+1] != pass_id`).
    - **Step 5B**: Contracts intermediate corridor bottlenecks in increasing `dist` order (`MAX_CONTRACT_STEPS = 8`), enforces the Natural Geography Gate (`F_Exp == 0 && !is_threatened => Q = 0.0`), and computes `quota_q8[P]` from `D_Width * T_Neck * V_Ret` (`VP` at `[CProvince + 0x19E]`, `IC` at `[*(prov + 0x1CA) + 0x14]`).
    - **Step 5C & Pass-2 Neck Lock**: Scans `+0x1C000` (and Pass-2 BFS queue) in reverse descending `dist` order prior to chaining: whenever an evacuating province $P$ (`quota_q8[P] > 0`) contains friendly/allied units (`prov_flags & 0x20 != 0`), locks each dependency neck $N$ with `Dist[N] < Dist[P]` to `quota_q8[N] = 0, neck[N] = 0`, keeping bottleneck provinces held until upstream salients clear (and naturally stopping `.chain_necks_start` at $N$).
-   - Writes per-province telemetry via `.hlp_write_telemetry` and `Cave_STEM_SyncTelemetryPrio` (`0x00DCDBAD`).
-5. **Persistent Evacuation Registry & Unit Dispatch (`Cave_STEM_GetUnitEvacSlot` @ `0x00DCDCB4` / `Cave_STEM_UpdateAndEvacuate_Internal` @ `0x00DCDCE8`)**:
+   - Writes per-province telemetry via `.hlp_write_telemetry` and `Cave_STEM_SyncTelemetryPrio` (`0x00DCDF1E`).
+5. **Persistent Evacuation Registry & Unit Dispatch (`Cave_STEM_GetUnitEvacSlot` @ `0x00DCE025` / `Cave_STEM_UpdateAndEvacuate_Internal` @ `0x00DCE059`)**:
    - Dispatches `CLandCombatSide::OrderRetreat` (`0x004BE920`) for pinned combat units and `CAI::DispatchMoveOrder` (`0x006AAFF0`) for non-combat salient units, preserving active evacuation marches in `g_pGraphTable + 0x34000..0x3BFFF` until reaching `dest_prov` or `neck[prov] == 0`.
    - See [plan_stem_strategic_defense.md](../plans/plan_stem_strategic_defense.md) and [plan_front_ai_encirclement_defense.md](../plans/plan_front_ai_encirclement_defense.md) for active implementation stages and roadmap.
