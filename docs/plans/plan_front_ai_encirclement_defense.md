@@ -1,6 +1,6 @@
 # Patch 18: Salient Topological Evacuation & Momentum Engine (STEM) - Implementation Status & Reference
 
-**Status**: Per-Province Option C Max-Flow Salient Engine & Save-Reload Reset Complete | **`Darkest Hour_modified.exe` SHA-256**: `B7E7949BE86F254D940FD9A40328C8BE1D0D456FDC54C9EBF4441D05A05B24D4`  
+**Status**: Per-Province Option C Max-Flow Salient Engine & Save-Reload Reset Complete | **`Darkest Hour_modified.exe` SHA-256**: `F517443C2655EB8DEC4B20E67BAB9472C3FA63522177D44B6C256DF8C907EFC7`  
 **Related Docs**: [Front AI Architecture](../engine/front_ai.md) | [Plans Index](README.md) | [Patcher](../../tools/patch_darkest_hour.bat) | [Settings](../../db/mod_settings.ini)
 
 ---
