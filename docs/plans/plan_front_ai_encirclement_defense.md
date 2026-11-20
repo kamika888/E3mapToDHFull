@@ -1,6 +1,6 @@
 # Patch 18: Salient Topological Evacuation & Momentum Engine (STEM) - Implementation Status & Reference
 
-**Status**: Stage 1A–1C Dynamic Quota + Step 5C Neck Holding Lock & Stage 2 Front AI Salient De-Prioritization Complete | **`Darkest Hour_modified.exe` SHA-256**: `8C2295D853038F799A675F16F1A8FC47EAA0ED2A5BCC421D26FB7A492B5DB400`  
+**Status**: Stage 1A–1C Dynamic Quota + Step 5C Neck Lock, Stage 2 Salient De-Prioritization, & Stage 3 Bottleneck Reinforcement Complete | **`Darkest Hour_modified.exe` SHA-256**: `A0FE7EBED4D5E4F2796604486E1CA3EDA7FE6DC2D0CDDC5BF76A0292D5914866`  
 **Related Docs**: [Front AI Architecture](../engine/front_ai.md) | [STEM Strategic Defense Plan](plan_stem_strategic_defense.md) | [stem_debug.csv Columns](../stem_debug_columns.md) | [Patcher](../../tools/patch_darkest_hour.bat) | [Settings](../../db/mod_settings.ini)
 
 ---
@@ -33,7 +33,8 @@ Live validation (`PID 44220`, `21–22 August 1941`, and `PID 55632`, `19 November
 | `[FrontAI]` | `NeckThreatRatio` | `1.5` | `0x00DCBAC0` | **Wired & Active** | Dynamically read by `0x00DCBDD5`; hostile-to-friendly ground combat strength ratio needed to flag a province as threatened (`+0x24000`). |
 | `[FrontAI]` | `NeckCollapsingOrgThreshold` | `10.0` | `0x00DCBAC4` | **Wired & Active** | Dynamically read by `0x00DCBDD5` (binary default `30.0`); average friendly defender organization threshold triggering threat flag alongside `NeckThreatRatio`. |
 | `[FrontAI]` | `SalientEvacuationQuota` | `0.0` | `0x00DCBACC` | **Pending (Unreferenced)** | Loaded from `db/mod_settings.ini` into `0x00DCBACC`, but not yet referenced by STEM evacuation code. |
-| `[FrontAI]` | `BottleneckDefenseBoost` | `3.5` | `0x00DCBAD0` | **Pending (Unreferenced)** | Loaded from `db/mod_settings.ini` into `0x00DCBAD0`, but not yet wired into `CFrontAI` province priority weighting. |
+| `[FrontAI]` | `BottleneckDefenseBoost` | `3.5` | `0x00DCBAD0` | **Wired & Active** | Added to frontline bottleneck shares (`Loop B` / `Loop A` candidate attraction) and interior bottleneck hold targets (`Hook 9A`) scaled by `neck_agg_q8[B] / 255`. |
+| `[FrontAI]` | `BottleneckQuotaAggregation` | `0` | `0x00DCBADC` | **Wired & Active** | Loaded by `Cave_LoadEngineSettings` (`0x00DCE711`); selects `0 = MAX`, `1 = AVERAGE`, or `2 = MIN` aggregation in Step 5E. |
 | `[FrontAI]` | `SpearheadWinningOdds` | *removed* | `0x00DCBAC8` | **Scrapped** | INI key removed. Header slot `0x00DCBAC8` retained only for struct alignment; unreferenced by runtime code. |
 | `[Engine]` | `AlwaysShowMovementArrows` | `1` | `0x00DCBAD8` | **Wired & Active** | Loaded by `Cave_LoadEngineSettings` (`0x00DCCBC6`); controls forced arrow rendering (`0x00DCCACE` / `0x00DCCB2C`). |
 | `[Engine]` | `AutoNoFog` | `1` | `0x00DCBAE8` | **Wired & Active** | Loaded by `Cave_LoadEngineSettings` (`0x00DCCBC6`); applied on scenario/save load (`0x00DCCB62`) and hourly tick (`0x00DCCC88`). |
@@ -47,29 +48,30 @@ Live validation (`PID 44220`, `21–22 August 1941`, and `PID 55632`, `19 November
 
 | Retail Address | Target / Cave Function | Role |
 | :--- | :--- | :--- |
-| `0x005AEDBE` | `Cave_STEM_HourlyAllCountries` (`0x00DCE4A2`) | Hourly AI tick: initializes `g_pGraphTable` (`0xC0000` bytes), clears transient buffers while preserving `norm_prio_f32` (`+0x58000`), and dispatches `Cave_STEM_HourlyPerCountry` (`0x00DCE440`). |
-| `0x00682A58` | `Cave_FrontAI_ManageReservesAndSalients` (`0x00DCE571`) | Wrapper around retail `CFrontAI::ManageRearReserves` (`0x00681CD0`); shields evacuating units from `0x00681CD0` and registers them in `[CFrontAI + 0xC8]`. |
-| `0x00683EB6` | `Cave_FrontAI_LoopAAdjCheck` (`0x00DCE6F8`) | **Stage 2 Hook 7A**: Wraps `0x004E9500`; excludes adjacent border candidates with `Q == 1.0` or `0 < Q < 1.0 && divs >= AdjustedPriority` from Loop A. |
-| `0x00684088` | `Cave_FrontAI_LoopACheckCand` (`0x00DCE777`) | **Stage 2 Hook 7B**: Gates and scales Loop A candidate scoring `(en_str - fr_str)` toward `(1 - Q)` in both `[ebp - 0x58]` and full-front scans. |
-| `0x006840F6` | `Cave_FrontAI_LoopAStoreBest` (`0x00DCE820`) | **Stage 2 Hook 7C**: Stores the Stage 2 scaled winning Loop A candidate score (`g_fLoopACandScore` -> `[ebp - 0x48]`). |
-| `0x00684131` | `Cave_FrontAI_LoopAFallbackCheck` (`0x00DCE82B`) | **Stage 2 Hook 7D**: Wraps `0x004E9500` on Loop A's `edi == 0` fallback (`0x00684117`) to block marching into an evacuating head province (`quota_q8 > 0`). |
-| `0x00684551` | `Cave_FrontAI_ScaleReceiverShare` (`0x00DCE87C`) | **Stage 2 Hook 8A**: Caches `norm_prio_f32` (`+0x58000`), scales receiver share `S(u)` by `(1 - Q(u))` (suppressing `even`-mode `deficit = 1` when `Q > 0 && S_adj * D_front < 1.0`), and syncs telemetry via `Cave_STEM_SyncTelemetryPrio` (`0x00DCDF1E`). |
-| `0x0068470D` | `Cave_FrontAI_ScaleDonorShare2` (`0x00DCE91B`) | **Stage 2 Hook 8B**: Scales Loop B donor share `[ebp - 0x44]` by `(1 - Q(u))`. |
-| `0x0068526A` | `Cave_FrontAI_ScaleDonorShare3` (`0x00DCE977`) | **Stage 2 Hook 8C**: Scales helper `0x006851D0` donor share `[esp + 0x20]` by `(1 - Q(u))`. |
-| `0x004301D7` | `Cave_STEM_SaveGameHook` (`0x00DCE9D9`) | Post-save `Cave_STEM_UpdateGraphTable` refresh & semicolon-delimited `stem_debug.csv` dump (with Stage 2 `NormPrio` & `AdjPrio`). |
-| `0x005226C1` | `Cave_DeselectArrows` (`0x00DCE329`) | Supports `AlwaysShowMovementArrows` when deselected on map. |
-| `0x00DCAE55` | `Cave_PostLoadInit` (`0x00DCE35F`) | Clears `g_pGraphTable + 0x30000..+0xBFFFF` (`576 KB`) on scenario/save load and applies `AutoNoFog`, `AutoShowId`, and `AlwaysShowMovementArrows`. |
+| `0x005AEDBE` | `Cave_STEM_HourlyAllCountries` (`0x00DCE80A`) | Hourly AI tick: initializes `g_pGraphTable` (`0xC0000` bytes), clears transient buffers while preserving `norm_prio_f32` (`+0x58000`), and dispatches `Cave_STEM_HourlyPerCountry` (`0x00DCE7BF`). |
+| `0x00682A58` | `Cave_FrontAI_ManageReservesAndSalients` (`0x00DCE8D9`) | Wrapper around retail `CFrontAI::ManageRearReserves` (`0x00681CD0`); shields evacuating units from `0x00681CD0` and registers them in `[CFrontAI + 0xC8]`. |
+| `0x00683C9D` | `Cave_FrontAI_LoopAIsFrontOrHeldNeck` (`0x00DCEA60`) | **Stage 3 Hook 9A**: Wraps `0x006813E0`; holds stationary interior bottleneck garrisons (`fr_eff_str - army_str < BottleneckDefenseBoost * Q_agg`) while letting surplus armies push forward. |
+| `0x00683EB6` | `Cave_FrontAI_LoopAAdjCheck` (`0x00DCEB39`) | **Stage 2 Hook 7A**: Wraps `0x004E9500`; excludes adjacent border candidates with `Q == 1.0` or `0 < Q < 1.0 && divs >= AdjustedPriority` from Loop A. |
+| `0x00684088` | `Cave_FrontAI_LoopACheckCand` (`0x00DCEBB8`) | **Stage 2/3 Hook 7B**: Gates and scales Loop A candidate scoring `(en_str - fr_str)` toward `(1 - Q)` and adds `BottleneckDefenseBoost * Q_agg` to under-strength frontline bottlenecks. |
+| `0x006840F6` | `Cave_FrontAI_LoopAStoreBest` (`0x00DCECBB`) | **Stage 2 Hook 7C**: Stores the Stage 2 scaled winning Loop A candidate score (`g_fLoopACandScore` -> `[ebp - 0x48]`). |
+| `0x00684131` | `Cave_FrontAI_LoopAFallbackCheck` (`0x00DCECC6`) | **Stage 2 Hook 7D**: Wraps `0x004E9500` on Loop A's `edi == 0` fallback (`0x00684117`) to block marching into an evacuating head province (`quota_q8 > 0`). |
+| `0x00684551` | `Cave_FrontAI_ScaleReceiverShare` (`0x00DCED17`) | **Stage 2/3 Hook 8A**: Caches `norm_prio_f32` (`+0x58000`), scales receiver share `S(u)` by `(1 - Q(u))`, adds Stage 3 bottleneck boost `(BottleneckDefenseBoost * Q_agg) / D_front`, and syncs telemetry via `Cave_STEM_SyncTelemetryPrio` (`0x00DCE23B`). |
+| `0x0068470D` | `Cave_FrontAI_ScaleDonorShare2` (`0x00DCEDE8`) | **Stage 2/3 Hook 8B**: Scales Loop B donor share `[ebp - 0x44]` by `(1 - Q(u))` and adds Stage 3 bottleneck boost `(BottleneckDefenseBoost * Q_agg) / D_front`. |
+| `0x0068526A` | `Cave_FrontAI_ScaleDonorShare3` (`0x00DCEE72`) | **Stage 2/3 Hook 8C**: Scales helper `0x006851D0` donor share `[esp + 0x20]` by `(1 - Q(u))` and adds Stage 3 bottleneck boost `(BottleneckDefenseBoost * Q_agg) / D_front`. |
+| `0x004301D7` | `Cave_STEM_SaveGameHook` (`0x00DCEF0A`) | Post-save `Cave_STEM_UpdateGraphTable` refresh & semicolon-delimited `stem_debug.csv` dump (with Stage 2 `NormAIPrio`/`AdjAIPrio` & Stage 3 `IsBottleneck`/`AggNeckQuota`/`FinalAIPrio`). |
+| `0x005226C1` | `Cave_DeselectArrows` (`0x00DCE677`) | Supports `AlwaysShowMovementArrows` when deselected on map. |
+| `0x00DCAE55` | `Cave_PostLoadInit` (`0x00DCE6AD`) | Clears `g_pGraphTable + 0x30000..+0xBFFFF` (`576 KB`) on scenario/save load and applies `AutoNoFog`, `AutoShowId`, and `AlwaysShowMovementArrows`. |
 
-### 3.2 Cave Layout (`.mod` Patch 18 Chunk @ `0x00DCBAB0..0x00DCEC5F`)
+### 3.2 Cave Layout (`.mod` Patch 18 Chunk @ `0x00DCBAB0..0x00DCF1E2`)
 
 - `0x00DCBAB0..0x00DCBAF0`: Parameter header (`EnableEncirclementDefense`, `SalientNeckWidthThreshold`, `SalientSearchDepth`, `UseSupplyDepotsAsCores`, `NeckThreatRatio`, `NeckCollapsingOrgThreshold`, `SalientEvacuationQuota`, `BottleneckDefenseBoost`, `g_pGraphTable` at `0x00DCBAD4`, `AlwaysShowMovementArrows`, `AutoNoFog`, `AutoShowId`).
-- `0x00DCBDA0..0x00DCC192`: `[Engine]` INI keys, float constants, `stem_debug.csv` format strings (`32` printf arguments), `g_fLoopACandScore` (`0x00DCBF46`), and 17 `[FrontAI]` `SalientEvacuationQuota` float parameters (`0x00DCBF4A..0x00DCC192`).
-- `0x00DCC193`: `Cave_STEM_UpdateGraphTable` - AI vtable + active-front gating, clean initialization (`dist=0xFFFF, neck=0, is_cut=0, parent=0`), threat + `prov_flags |= 0x20` scanning, bounded $K$-hop frontline expansion, Pass-1 Safe BFS, Option C residual max-flow (`Step 5A`), corridor contraction & continuous quota (`Step 5B`), reverse-topological Active Neck Holding Lock (`Step 5C`), Pass-2 bridge fallback, and `Cave_STEM_SyncTelemetryPrio` (`0x00DCDF1E`).
-- `0x00DCE025`: `Cave_STEM_GetUnitEvacSlot` / `0x00DCE059`: `Cave_STEM_UpdateAndEvacuate_Internal`.
-- `0x00DCE2B4`: `Cave_ShowAllMovingArrows` / `0x00DCE329`: `Cave_DeselectArrows` / `0x00DCE35F`: `Cave_PostLoadInit` / `0x00DCE3C3`: `Cave_LoadEngineSettings`.
-- `0x00DCE440`: `Cave_STEM_HourlyPerCountry` / `0x00DCE4A2`: `Cave_STEM_HourlyAllCountries` / `0x00DCE571`: `Cave_FrontAI_ManageReservesAndSalients`.
-- `0x00DCE6F8..0x00DCE9D8`: Stage 2 Loop A (`0x00DCE6F8`, `0x00DCE777`, `0x00DCE820`, `0x00DCE82B`) and Loop B (`0x00DCE87C`, `0x00DCE91B`, `0x00DCE977`) handlers.
-- `0x00DCE9D9..0x00DCEC5F`: `Cave_STEM_SaveGameHook` (`stem_debug.csv` writer).
+- `0x00DCBDA0..0x00DCC1E9`: `[Engine]` INI keys, float constants, `stem_debug.csv` format strings (`32` printf arguments), `g_fLoopACandScore` (`0x00DCBF81`), and 17 `[FrontAI]` `SalientEvacuationQuota` float parameters (`0x00DCBF85..0x00DCC1E9`).
+- `0x00DCC1E9`: `Cave_STEM_UpdateGraphTable` - AI vtable + active-front gating, clean initialization (`dist=0xFFFF, neck=0, is_cut=0, parent=0`), threat + `prov_flags |= 0x20` scanning, bounded $K$-hop frontline expansion, Pass-1 Safe BFS, Option C residual max-flow (`Step 5A`), corridor contraction & continuous quota (`Step 5B`), reverse-topological Active Neck Holding Lock (`Step 5C`), Pass-2 bridge fallback, Step 5E bottleneck quota aggregation (`neck_agg_q8` @ `+0x42000`), and `Cave_STEM_SyncTelemetryPrio` (`0x00DCE23B`).
+- `0x00DCE38A`: `Cave_STEM_GetUnitEvacSlot` / `0x00DCE3BE`: `Cave_STEM_UpdateAndEvacuate_Internal`.
+- `0x00DCE619`: `Cave_ShowAllMovingArrows` / `0x00DCE677`: `Cave_DeselectArrows` / `0x00DCE6AD`: `Cave_PostLoadInit` / `0x00DCE711`: `Cave_LoadEngineSettings`.
+- `0x00DCE7BF`: `Cave_STEM_HourlyPerCountry` / `0x00DCE80A`: `Cave_STEM_HourlyAllCountries` / `0x00DCE8D9`: `Cave_FrontAI_ManageReservesAndSalients`.
+- `0x00DCEA60..0x00DCEF0B`: Stage 2/3 Loop A (`0x00DCEA60` Hook 9A, `0x00DCEB39`, `0x00DCEBB8`, `0x00DCECBB`, `0x00DCECC6`) and Loop B (`0x00DCED17`, `0x00DCEDE8`, `0x00DCEE72`) handlers.
+- `0x00DCEF0A..0x00DCF1E2`: `Cave_STEM_SaveGameHook` (`stem_debug.csv` writer).
 
 ### 3.3 Hooks & Code Removed During Cleanup
 

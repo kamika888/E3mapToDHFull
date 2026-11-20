@@ -207,35 +207,35 @@ Currently, `VirtualAlloc` (`build_and_apply_all.py`) allocates `0x40000` (`256 K
 
 ---
 
-### Stage 2: Front AI Salient De-Prioritization (`AdjustedPriority = Normal * (1 - Quota)`) *(Implemented — Awaiting In-Game Approval)*
+### Stage 2: Front AI Salient De-Prioritization (`AdjustedPriority = Normal * (1 - Quota)`) *(Completed & Validated)*
 **Goal**: Prevent `CFrontAI::MoveUnitsToFront` (`0x006829B0`) from reinforcing evacuating salient provinces in both of its movement loops (Loop A interior-to-border push and Loop B border-to-border quota rebalancing).
 
-* **Binary Changes (`build_and_apply_all.py`, `.mod` Cave `0x00DCE6E1..0x00DCE9C1`, `SHA256 = EBF2C13DBDDE239EF43D131DA2CD9BF7DF18E859BDED23BCF5661AF87BAFF6F4`)**:
-  1. **Loop B — Border Quota Adjustment (`0x00684551 -> 0x00DCE865`, `0x0068470D -> 0x00DCE904`, and `0x0068526A -> 0x00DCE960` in `0x006851D0`)**:
+* **Binary Changes (`build_and_apply_all.py`)**:
+  1. **Loop B — Border Quota Adjustment (`0x00684551`, `0x0068470D`, and `0x0068526A` in `0x006851D0`)**:
      * Cache unadjusted `norm_prio_f32[u] = S(u) * D_front` directly as a 32-bit float (`g_pGraphTable + 0x58000`, preserved across hourly resets).
      * Replace `S(u)` on the x87 FPU stack / stack frame with `S(u) * (1.0 - Q(u))` (forcing `S(u) = 0.0` when `Q == 1.0` or when `Q > 0 && S_adj * D_front < 1.0` so `even`-mode's empty-province `deficit = 1` floor at `0x0068459A` is also suppressed).
-  2. **Loop A — Interior Push Gate, Candidate Scoring & Fallback (`0x00683EB6 -> 0x00DCE6E1`, `0x00684088 -> 0x00DCE760`, `0x006840F6 -> 0x00DCE809`, `0x00684131 -> 0x00DCE814`)**:
+  2. **Loop A — Interior Push Gate, Candidate Scoring & Fallback (`0x00683EB6`, `0x00684088`, `0x006840F6`, `0x00684131`)**:
      * In retail `CFrontAI::MoveUnitsToFront`, Loop A (`0x00683C1D..0x00684207`) executes **before** Loop B on non-reserve armies sitting in non-border interior provinces (including divisions rallied at a locked neck such as `102 Wolkowysk`). Loop A does **not** consult Loop B's `NormalFrontAIPriority(P)` quotas—it pushes interior armies forward into adjacent border provinces based solely on `en_str - fr_str` (`0x00684088`), with an `edi == 0` fallback to `[CFrontAI + 0x04]` head at `0x00684117`.
      * Exclude adjacent candidates when `Q == 1.0` or `0 < Q < 1.0 && divs >= AdjustedPriority`, reject or scale `(en_str - fr_str)` candidate scoring toward `(1.0 - Q(cand))` (dividing negative scores by `(1 - Q)` so evacuating provinces rank below non-evacuating ones), and block the `0x00684117` fallback if the head province has `quota_q8 > 0`.
-  3. **Update `stem_debug.csv` Telemetry**: Populate `NormPrio` (`NormalFrontAIPriority`, `+26`) and `AdjPrio` (`AdjustedPriority`, `+28`) in `debug_telemetry[P]` via `Cave_STEM_SyncTelemetryPrio` (`0x00DCDF1E`), synced during both `.hlp_write_telemetry` and `Cave_FrontAI_ScaleReceiverShare`, plus Step 5C neck lock / Pass-2 updates.
-* **Verification & Stop**: Verified binary patch signatures (`tools/patch_darkest_hour.bat -Verify`), end-to-end batch patch reproducibility (`patch_darkest_hour.bat -Auto`), and `.text`/`.mod` disassembly across all 7 Stage 2 hooks. **STOP and wait for user validation/approval before Stage 3.**
+  3. **Update `stem_debug.csv` Telemetry**: Populate `NormAIPrio` (`NormalFrontAIPriority`, `+26`) and `AdjAIPrio` (`AdjustedPriority`, `+28`) in `debug_telemetry[P]` via `Cave_STEM_SyncTelemetryPrio` (`0x00DCE23B`), synced during both `.hlp_write_telemetry` and `Cave_FrontAI_ScaleReceiverShare`, plus Step 5C neck lock / Pass-2 updates.
+* **Verification & Stop**: Verified binary patch signatures (`tools/patch_darkest_hour.bat -Verify`), end-to-end batch patch reproducibility (`patch_darkest_hour.bat -Auto`), in-game telemetry validation, and exclusion of active STEM evacuees (`[slot + 6] != 0`) from `InbStr`.
 
 ---
 
-### Stage 3: Bottleneck Reinforcement & Interior Neck Garrison Hold (`BottleneckDefenseBoost`)
+### Stage 3: Bottleneck Reinforcement & Interior Neck Garrison Hold (`BottleneckDefenseBoost`) *(Implemented — Awaiting In-Game Approval)*
 **Goal**: Redirect Front AI reserves to reinforce exposed bottlenecks $B$ (whether $B$ sits on the frontline or 1 hop behind it as a fallback line) using `BottleneckDefenseBoost` and configurable quota aggregation.
 
 * **Config & Loader Changes (`db/mod_settings.ini`, `build_and_apply_all.py`)**:
-  1. Add `BottleneckQuotaAggregation` under `[FrontAI]` in `db/mod_settings.ini` (`0 = MAX` [confirmed default], `1 = AVERAGE`, `2 = MIN`), parsed in `Cave_ReadModSettings` into `[0x00DCBADC]`.
-* **Graph & Front AI Changes (`build_and_apply_all.py`)**:
-  1. During Step 5 in `Cave_STEM_UpdateGraphTable`, whenever $Q(P) > 0$, accumulate `cut_count_u16[v]`, `cut_sum_u32[v]`, `cut_min_q8[v]`, and max `neck_agg_q8[v]` onto each cut vertex $v_i \in C(P)$ (and `neck[P]`). At the end of `Cave_STEM_UpdateGraphTable`, finalize `neck_agg_q8[v]` according to `BottleneckQuotaAggregation` (`MAX`, `AVERAGE`, or `MIN`).
-  2. **Loop B Border Neck Boost (`0x00684551`, `0x0068470D`, `0x0068526A`)**:
+  1. Added `BottleneckQuotaAggregation` under `[FrontAI]` in `db/mod_settings.ini` (`0 = MAX` [confirmed default], `1 = AVERAGE`, `2 = MIN`), parsed in `Cave_LoadEngineSettings` (`0x00DCE711`) into `[0x00DCBADC]`.
+* **Graph & Front AI Changes (`build_and_apply_all.py`, `.mod` Cave `0x00DCE677..0x00DCF1E2`, `SHA256 = A0FE7EBED4D5E4F2796604486E1CA3EDA7FE6DC2D0CDDC5BF76A0292D5914866`)**:
+  1. During `.step5e_accum_necks` / `.step5e_finalize_necks` in `Cave_STEM_UpdateGraphTable` (`0x00DCC1E9`), whenever $Q(P) > 0$, accumulate `cut_count_u16[v]`, `cut_sum_u32[v]`, `cut_min_q8[v]`, and max `neck_agg_q8[v]` onto each cut vertex $v_i \in \{C_{\text{ctrl}}(P), \text{neck}[P]\}$ (`prov_flags` bit `0x80` de-duplicates provinces across strip and Pass-2 lists). Finalize `neck_agg_q8[v]` over Pass-1 Safe BFS provinces according to `BottleneckQuotaAggregation` (`MAX`, `AVERAGE`, or `MIN`), clearing `neck_agg_q8[v] = 0` whenever `quota_q8[v] != 0` (Active Evacuation Guard).
+  2. **Loop B Border Neck Boost (`0x00684551 -> 0x00DCED17`, `0x0068470D -> 0x00DCEDE8`, `0x0068526A -> 0x00DCEE72`)**:
      * Add $\frac{\text{BottleneckDefenseBoost} \times Q_{\text{agg}}(B)}{\max(1,\; D_{\text{front}})}$ to $S(B)$ for frontline bottlenecks $B$.
-  3. **Loop A Interior Neck Hold (`0x00683CA2`) & Candidate Attraction (`0x00684088`)**:
-     * If an army sits inside an **interior bottleneck** $B$ (`IsFrontProvince(B) == 0` and `neck_agg_q8[B] > 0`), compute required interior neck garrison $G(B) = \lceil \text{BottleneckDefenseBoost} \times Q_{\text{agg}}(B) \rceil$ divisions. While friendly divisions in $B$ are $\le G(B)$, hold armies in $B$ instead of pushing them forward in Loop A.
-     * Boost adjacent frontline bottlenecks in Loop A's candidate scoring (`0x00684088`) so interior reserves march toward the threatened neck rather than quiet shoulders.
-  4. **Update `stem_debug.csv` Telemetry**: Populate `IsCut`, `AggNeckQuota`, and `AdjustedNeckPriority`.
-* **Verification & Stop**: Smoke test (launch to main menu, zero exceptions). **STOP and wait for approval before Stage 4.**
+  3. **Loop A Interior Neck Hold (`0x00683C9D -> 0x00DCEA60` `Cave_FrontAI_LoopAIsFrontOrHeldNeck`) & Candidate Attraction (`0x00684088 -> 0x00DCEBB8`)**:
+     * When a stationary non-retreating army sits inside an **interior bottleneck** $B$ (`IsFrontProvince(B) == 0`, `quota_q8[B] == 0`, and `neck_agg_q8[B] > 0`), hold the army in $B$ (`al = 1`) whenever `(fr_eff_str_f32[B] - army_str) < BottleneckDefenseBoost * Q_agg(B)`; otherwise deduct `army_str` from `fr_eff_str_f32[B]` and release the surplus army forward.
+     * Add `BottleneckDefenseBoost * Q_agg(cand)` to Loop A's candidate attractiveness score (`en_str - fr_str`) for under-strength frontline bottlenecks (`divs < NormAIPrio + Boost`).
+  4. **Update `stem_debug.csv` Telemetry**: Sync interior bottlenecks in `.step5e_finalize_necks` and push `IsBottleneck`, `AggNeckQuota`, and `FinalAIPrio` in `Cave_STEM_SaveGameHook` (`0x00DCEF0A`).
+* **Verification & Stop**: Verified binary patch signatures (`tools/patch_darkest_hour.bat -Verify`), `Darkest Hour_modified.exe` / `Darkest Hour.exe` SHA-256 parity (`A0FE7EBED4D5E4F2796604486E1CA3EDA7FE6DC2D0CDDC5BF76A0292D5914866`), and Capstone disassembly of Stage 3 cave handlers. **STOP and wait for user validation/approval before Stage 4.**
 
 ---
 
@@ -288,7 +288,13 @@ Currently, `VirtualAlloc` (`build_and_apply_all.py`) allocates `0x40000` (`256 K
    * Compute average division softness across the stack (armored/mechanized divisions have the lowest softness values, while militia/infantry have the highest) and scale strength using the inverse of average softness (or an equivalent configurable hardness bonus).
 5. **Post-Arrival Neck-to-Salient "Revolving Door" Observation *(Live Test Watchpoint)***:
    * *(The immediate mid-march feedback bug where evacuating units inflated `InbStr` at the neck and cancelled their own evacuation lock has been fixed by excluding units with `[slot + 6] != 0` from `.friendly_check_inbound`.)*
-   * However, a secondary post-arrival cycle remains possible: once evacuating units finish arriving at the neck province, they boost `FrStr` at the neck, potentially dropping `EnStr / FrEff` back below `NeckThreatMinRatio` (`1.0`). That resets `SalientEvacuationQuota` to `0.000` and restores `AdjPrio` in the evacuated salient to `NormPrio`, which may cause Front AI to push divisions back out of the neck into the salient, causing the neck to drop below threshold again and trigger another evacuation. Observe in live testing whether hysteresis or salient re-entry cooldown is needed before adding mitigation.
+   * However, a secondary post-arrival cycle remains possible: once evacuating units finish arriving at the neck province, they boost `FrStr` at the neck, potentially dropping `EnStr / FrEff` back below `NeckThreatMinRatio` (`1.0`). That resets `SalientEvacuationQuota` to `0.000` and restores `AdjAIPrio` in the evacuated salient to `NormAIPrio`, which may cause Front AI to push divisions back out of the neck into the salient, causing the neck to drop below threshold again and trigger another evacuation. Observe in live testing whether hysteresis or salient re-entry cooldown is needed before adding mitigation.
+6. **Width-3 Escape Cutoff (`F_Paths == 3`) & Temporary `IsThreatened` Clearance on Heavily Attacked Exits**:
+   * Provinces with `3` open exits (e.g., `1884` Przemysl via `501`, `500`, and `7979` Belz) exit Option C early with `Quota = 0.0` without running `T(v)` on those exits, so heavy active attacker pressure on a guarded exit (`EnStr = 6.0` vs `FrStr = 2.0` in Belz) only narrows `F_Paths` to `2` while `IsThreatened == 1`. If fresh defenders briefly clear `IsThreatened` between battles, `Przemysl` snaps back to `Quota = 0.0` and Loop A can march units back in (without cancelling in-progress marches if `Quota` later returns to `1.0`).
+   * *Remediation path (minimal, architecture-preserving)*: Keep `IsThreatened = 1` in Pass 0 when active attacking `EnStr / FrEff >= NeckThreatRatio` (instead of waiting solely for combat progress `<= 0.40` or low org once guarded), and optionally add a `quota_q8[dest]` cancellation check in Loop A (`0x00683D15`) for obsolete in-progress interior marches.
+7. **Multiplicative vs. Additive/Hybrid `SalientEvacuationQuota` Formulation**:
+   * Because the current `D_Width * T_Neck * V_Ret` formula multiplies all three terms, `T_Neck == 0.0` zeroes out even a `1`-path bottleneck (`F_Paths = 1`, `D_Width = 0.831`) unless `NeckThreatMinFloor > 0` is raised globally (which also leaks small quotas onto quiet `2`-path salients).
+   * Consider migrating to a **hybrid core** keeping `V_Ret` multiplicative — e.g., `clamp((w_D * max(0, D_Width - D_safe) + w_T * T_Neck) * V_Ret, 0.0, 1.0)` (or an independent `F_Paths == 1` baseline contribution) — so severe topological exposure triggers baseline partial panic on its own merit while quiet `2`-path bends stay `0.000`.
 
 ---
 

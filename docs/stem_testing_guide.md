@@ -2,9 +2,9 @@
 
 This guide explains how the AI's **Salient Evacuation & Pocket Defense system (STEM)** works in plain English, how to inspect its decisions in `stem_debug.csv`, and what each setting in `db/mod_settings.ini` controls while testing.
 
-> **Current Implementation Note (Stages 1 + 2)**:
-> * The danger scoring (`SalientEvacuationQuota`), bottleneck holding lock, and Front AI reinforcement blocking (`NormPrio` -> `AdjPrio`) are active.
-> * Right now, once a province's `SalientEvacuationQuota` goes above `0.000`, all divisions inside it start evacuating toward safety while Front AI cuts that province's target troop count (`AdjPrio`). Partial per-division withdrawal budgets (keeping a fractional screen behind when `0 < Quota < 1`) are planned for a later stage.
+> **Current Implementation Note (Stages 1 + 2 + 3)**:
+> * The danger scoring (`SalientEvacuationQuota`), bottleneck holding lock, Front AI reinforcement suppression (`NormAIPrio` -> `AdjAIPrio`), and **bottleneck defense boosting / interior neck hold (`BottleneckDefenseBoost`, `AggNeckQuota`, `FinalAIPrio`)** are active.
+> * Once a province's `SalientEvacuationQuota` goes above `0.000`, divisions inside it evacuate toward safety while Front AI cuts that province's target troop count (`AdjAIPrio`) and boosts the supporting neck bottlenecks (`FinalAIPrio`). Partial per-division withdrawal budgets (keeping a fractional screen behind when `0 < Quota < 1`) are planned for Stage 4.
 
 ---
 
@@ -45,8 +45,14 @@ STEM solves this in four steps every game hour:
    If forward provinces inside a pocket are evacuating (`Quota > 0`) and still have troops inside (even retreating ones), any bottleneck behind them (`CutProv1` / `CutProv2` closer to safety) is **locked at `Quota = 0.000`** so the exit garrison doesn't abandon its post before the trapped troops get out.
    * *Example (Bialystok salient)*: When the Germans attack `209 Grodno`, troops in `505 Bialystok`, `1875 Lomza`, `6515 Bielsk Podlaski`, `6516 Grajewo`, and `7335 Augustow` evacuate to `102 Wolkowysk` (`EvacDestNeck = 102`), while `102 Wolkowysk` holds at `Quota = 0.000`. Once those provinces clear out (or if `102`'s own rear at Brest is also broken), `102` unlocks and they withdraw together toward `210 Slonim`.
 
-5. **Stop Front AI from marching replacements back into the pocket (`NormPrio` -> `AdjPrio`)**:
-   Front AI reduces each evacuating province's desired division count by `(1 - Quota)` (`AdjPrio = NormPrio * (1 - Quota)`), stopping both rear reserves and neighboring frontline units from walking back into collapsing pockets.
+5. **Stop Front AI from marching replacements back into the pocket (`NormAIPrio` -> `AdjAIPrio`)**:
+   Front AI reduces each evacuating province's desired division count by `(1 - Quota)` (`AdjAIPrio = NormAIPrio * (1 - Quota)`), stopping both rear reserves and neighboring frontline units from walking back into collapsing pockets.
+
+6. **Reinforce and hold the bottleneck line (`BottleneckDefenseBoost` -> `FinalAIPrio`)**:
+   Whenever one or more salient provinces evacuate through a bottleneck `B`, STEM aggregates their quotas (`AggNeckQuota`, using `MAX`/`AVERAGE`/`MIN` via `BottleneckQuotaAggregation`) and boosts `B`'s target priority by `BottleneckDefenseBoost * AggNeckQuota` (`+3.5` divisions at full `1.000` quota by default):
+   * **Frontline bottlenecks** pull extra divisions through Front AI and attract adjacent reserves (`FinalAIPrio = AdjAIPrio + Boost`).
+   * **Interior bottlenecks** (1+ hops behind the active frontline, like `102 Wolkowysk` before Grodno falls) hold up to `BottleneckDefenseBoost * AggNeckQuota` division-equivalents in place instead of letting Loop A push them away, releasing only surplus divisions above that garrison requirement.
+   * If a bottleneck province itself starts evacuating (`SalientEvacuationQuota > 0`), the boost automatically clears (`AggNeckQuota = 0`) so it does not pull reinforcements against its own retreat.
 
 ---
 
@@ -87,7 +93,9 @@ In `Mods/E3mapToDHFull/db/mod_settings.ini`:
 | `T_Neck` | Bottleneck threat urgency factor (`0.00` to `1.50`). | **`0.00` on quiet or `1:1` fronts**; rises toward `1.00`+ when enemy outnumbers `1.5:1` or defender org collapses. |
 | `V_Ret` | Value retention multiplier (`0.500` to `1.000`). | `1.000` when collapsing or bottlenecks are critical. |
 | `SalientEvacuationQuota` | Final quota (`0.000` to `1.000`) = `D_Width * T_Neck * V_Ret` (with overrides). | `0.000` = hold normally; `> 0.000` = evacuate and reduce Front AI allocation. |
-| `NormPrio`, `AdjPrio` | Front AI's normal desired division count (`NormPrio`) and STEM-reduced target (`AdjPrio = NormPrio * (1 - Quota)`). | Evacuating provinces (`Quota = 1.000`) should drop to `AdjPrio = 0.0`. |
+| `NormAIPrio`, `AdjAIPrio` | Front AI's normal desired division count (`NormAIPrio`) and STEM-reduced target (`AdjAIPrio = NormAIPrio * (1 - Quota)`). | Evacuating provinces (`Quota = 1.000`) should drop to `AdjAIPrio = 0.0`. |
+| `IsBottleneck`, `AggNeckQuota` | `1` if evacuating salient provinces depend on this bottleneck; `AggNeckQuota` (`0.000` to `1.000`) is the combined neck pressure (`MAX`/`AVERAGE`/`MIN`). | Active bottlenecks like `102` or `209` show `IsBottleneck = 1` and `AggNeckQuota > 0` (even interior necks!). |
+| `FinalAIPrio` | Boosted target priority (`AdjAIPrio + BottleneckDefenseBoost * AggNeckQuota`) in divisions. | Should be ~`3.5` divisions higher than `AdjAIPrio` when `AggNeckQuota = 1.000`. |
 
 ---
 
@@ -95,7 +103,7 @@ In `Mods/E3mapToDHFull/db/mod_settings.ini`:
 
 1. **Quiet `1:1` Border / Salient**:
    * Put roughly equal non-attacking forces (`1:1`) facing a 1-2 route salient.
-   * *Expected*: `IdleEnemyPresenceWeight = 0.25` makes `EnStr` ~25% of `FrStr` (`R ~ 0.25 <= 1.0`), so **`T_Neck = 0.00`**, **`SalientEvacuationQuota = 0.000`**, and `AdjPrio == NormPrio`. No panic evacuation.
+   * *Expected*: `IdleEnemyPresenceWeight = 0.25` makes `EnStr` ~25% of `FrStr` (`R ~ 0.25 <= 1.0`), so **`T_Neck = 0.00`**, **`SalientEvacuationQuota = 0.000`**, and `AdjAIPrio == NormAIPrio`. No panic evacuation.
 2. **Active `1:1` Skirmish (High Org)**:
    * An enemy attacks at `1:1` strength while defenders still have high org (`>= 2 * NeckCollapsingOrgThreshold`).
    * *Expected*: `R = 1.0 <= NeckThreatMinRatio (1.0)`, so **`T_Neck = 0.00`** and **`SalientEvacuationQuota = 0.000`**.
@@ -105,9 +113,12 @@ In `Mods/E3mapToDHFull/db/mod_settings.ini`:
 4. **Natural Choke Point (Crimea)**:
    * Narrow peninsula behind `1827 Dzankoj` / `254 Kerch` before enemy breaks `1827`.
    * *Expected*: `F_Exp = 0` -> **`SalientEvacuationQuota = 0.000`**; unlocks immediately once `1827` becomes `IsThreatened = 1`.
-5. **Reinforcement Suppression (`NormPrio` vs `AdjPrio`)**:
+5. **Reinforcement Suppression (`NormAIPrio` vs `AdjAIPrio`)**:
    * Save while a salient is evacuating and inspect neighboring rear reserves or front provinces.
-   * *Expected*: Evacuating border provinces have `AdjPrio = 0.0` (when `Quota = 1.0`) and do not pull new Front AI divisions into the closing pocket.
+   * *Expected*: Evacuating border provinces have `AdjAIPrio = 0.0` (when `Quota = 1.0`) and do not pull new Front AI divisions into the closing pocket.
+6. **Bottleneck Reinforcement & Interior Neck Hold (`IsBottleneck`, `AggNeckQuota`, `FinalAIPrio`)**:
+   * Save while the Bialystok salient is evacuating toward `102 Wolkowysk` (`IsBottleneck = 1`).
+   * *Expected*: `102 Wolkowysk` (even if behind the front line) appears in `stem_debug.csv` with `IsBottleneck = 1`, `AggNeckQuota > 0`, and `FinalAIPrio` boosted by `BottleneckDefenseBoost * AggNeckQuota` (`~3.5` divs at `1.000`); armies inside `102` up to that requirement stay anchored there instead of marching away, while excess troops above that requirement remain free to move.
 
 ---
 
@@ -150,5 +161,7 @@ In `Mods/E3mapToDHFull/db/mod_settings.ini`:
 | `ValueRetentionMinFloor` | `0.5` | Maximum discount from high VP/IC (`0.5` = at most cuts quota in half when bottlenecks aren't critical). |
 | `ThreatenedSourceQuotaFloor` | `0.85` | Minimum quota when the province itself is already collapsing (`IsThreatened = 1`). |
 | `MinEvacuationQuotaThreshold` | `0.05` | Noise filter: any final quota below this threshold snaps cleanly to `0.000`. |
+| `BottleneckDefenseBoost` | `3.5` | Extra divisions requested/held at a bottleneck province when `AggNeckQuota = 1.000` (applies to both frontline and interior bottlenecks). |
+| `BottleneckQuotaAggregation` | `0` | How multiple evacuating provinces sharing the same bottleneck combine into `AggNeckQuota`: `0 = MAX`, `1 = AVERAGE`, `2 = MIN`. |
 
-*(Note: `BottleneckDefenseBoost = 3.5` is present in `db/mod_settings.ini` for upcoming Stage 3 bottleneck reinforcement and does not affect Stages 1-2 yet.)*
+*(Remember: changing `db/mod_settings.ini` requires restarting Darkest Hour because settings are read once on startup.)*
