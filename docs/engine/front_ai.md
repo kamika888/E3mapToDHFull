@@ -101,6 +101,7 @@ Each node in `[CFrontAI + 0x04]` points to a per-province front descriptor popul
 | `+0x30` | `float` | `w30`: reactive threat-adjusted weight (`en_str / (1.0 + 0.01 * def)`) |
 | `+0x34` | `float` | `w34`: static strategic/economic value weight (`defensive` numerator) |
 | `+0x40` | `uint8` | Narrow-connection boost flag (`friendly_nbs < 2`, doubles weight at `0x00683880` when interior backup applies) |
+| `+0x42` | `uint8` | Unused by retail (zeroed by `0x006AF940`); stamped `0x5B` by Patch 18 `Hook 4` on injected interior bottleneck nodes (`0` on native/promoted frontline nodes) |
 | `+0x8D` | `uint8` | Guard flag excluding province from quota reinforcement when bordering only zero-infrastructure enemy provinces (`0x004E9440`) or itself having zero infrastructure (`0x004E9500`) |
 
 ---
@@ -117,6 +118,9 @@ Each node in `[CFrontAI + 0x04]` points to a per-province front descriptor popul
 | `CFrontAI::ManageCombat` | `0x00685ED0` | `__thiscall` | Evaluates ongoing battles on the front for reinforcement or tactical retreat. |
 | `CFrontAI::PlanAttacks` | `0x00689780` | `__thiscall` | Plans and initiates frontline attacks into adjacent enemy provinces. |
 | `CFrontAI::IsPassiveFront` | `0x006A8720` | `__thiscall` | Checks `[pCountry + 0x34AC + tag]`; returns `0` during active war so `0x006829B0` executes hourly. |
+| `CAI::UpdateFronts` | `0x00693EE0` | `__thiscall` | Reconciles `[CCountryAI + 0x278]` fronts against current war borders (`[CCountry + 0xE880]`), removes interior provinces (`0x00694074`), splits fronts (`0x00680D50`), merges adjacent fronts (`0x0068A2B0`), and assigns idle units. Hooked at entry by `Hook 10` (`0x00DCECC1`). |
+| `CFrontAI::MergeFront` | `0x0068A2B0` | `__thiscall` | Folds an adjacent front's province list and army list into a unified front during `0x00693EE0`. |
+| `CAI::RequestFrontDivisions` | `0x00694BE0` | `__thiscall` | Handles urgent panic-ratio reinforcement pulls (`"%s: Front %s urgently requests %d more divisions."`), reassigning idle garrison or eligible donor-front units (`0x00695297`). |
 
 ---
 
@@ -169,6 +173,27 @@ Because Loop A executes **before** Loop B inside every hourly `0x006829B0` call 
 
 ---
 
+### 4.3 Multi-Front Organization, Merging & Inter-Front Reinforcement (`0x00693EE0` / `0x00694BE0`)
+
+In retail Darkest Hour, each continuous connected strip of exposed land-border provinces forms one `CFrontAI` object listed in `[CCountryAI + 0x278]` (and `[pCountry + 0xE86E]`). Two fronts remain separate unless `CAI::UpdateFronts` (`0x00693EE0`) connects them through a shared **exposed frontline** province (`0x0068A2B0`) — interior provinces never bridge separate fronts in vanilla.
+
+- **Independent Front Pools & Staggered Execution**:
+  Each `CLandArmy` stores its assigned front pointer at `CArmy + 0x1F4` (`pFront + 0x12`), and each `CProvince` stores a single back-pointer at `CProvince + 0x4A8` (`pFront`). Each front ticks on its own schedule and runs `Loop A` / `Loop B` only over its **own** `[CFrontAI + 0x04]` provinces and `[CFrontAI + 0xA4]` armies. There is **no continuous cross-front rebalancing** merely because one front is somewhat thinner (e.g., `2:1` vs `1:1`) than another.
+- **Emergency Cross-Front Pulls ("Urgent Requests", `0x006839F5..0x00683C10` -> `0x00694BE0`)**:
+  A front only requests divisions from outside its own pool when **all** of these hold:
+  1. Front age `[CFrontAI + 0x126] > 10` and request cooldown `[CFrontAI + 0xF8] >= 1` (`+0x124` / `+0x125` non-zero).
+  2. `enemy_divs ([CFrontAI + 0xFC]) / our_divs >= panic_ratio` (`[CAI_FrontPrefs + 0x68]` `panic_ratio_vs_ai` or `[+0x6C]` `panic_ratio_vs_human`, default `3.5` in `db/mod_settings.ini` / `ai/default.ai`).
+  3. Request volume is `max(2, floor(our_divs * 0.25))`, capped at **`front->prov_count - our_divs`** — so once a front already has at least `1` division per province (`our_divs >= prov_count`), `0x00694BE0` returns immediately without pulling from other fronts.
+- **Donor Front Guardrails (`0x00694D58..0x00695190`)**:
+  `CAI::RequestFrontDivisions` (`0x00694BE0`) scans non-moving, non-retreating land units on the same landmass (`[CProvince + 0x482]` match). Unassigned/garrison units (`+0x1F4 == 0`) are preferred; another front (`donor_front`) can donate a unit **only** if all of these pass:
+  1. `donor_front` age `[+0x126] >= 120` hours (`0x78`).
+  2. `donor_strength >= 1.25 * requesting_front_strength` (`0x006896B0`, counting assigned + inbound units).
+  3. Leaving the unit behind still keeps `donor_divs - unit_divs >= donor_prov_count` (and `>= 2` if coastal at `0x004ED260`).
+  4. Post-donation odds check (`0x00695020..0x00695068`): `donor_enemy_divs / (donor_divs - unit_divs)` must remain better than `req_enemy_divs / req_divs`.
+- **Front Merging & Stage 3 Interior Bottleneck Cleanup (`Hook 10` @ `0x00693EE0`)**:
+  Because `CProvince + 0x4A8` holds a single `CFrontAI*`, injecting an interior bottleneck (`+0x42 = 0x5B`) via `Hook 4` would block vanilla front merging if `CProvince + 0x4A8` stayed populated across `0x00693EE0`, and when two separate fronts border the same empty interior bottleneck (such as `102 Wolkowysk` between Northern and Southern fronts before a pocket closes), whichever front executes `Hook 4` first claims `CProvince + 0x4A8` (if the other front owns the armies there, `Hook 9A` holds them at the required minimum while `Loop B` on that other front cannot reinforce the province above what arrived). `Hook 10` cleans all `+0x42 == 0x5B` nodes at entry to `0x00693EE0` whenever `[pFront + 0x9E] == 0` so vanilla `0x0068A2B0` merges fronts cleanly once the bottleneck reaches the frontline.
+---
+
 ## 5. Anatomy of Earlier Debugging Pitfalls & Realignment Fixes (Post-Mortem Reference)
 
 | Issue Encountered | Root Cause | Resolution |
@@ -198,18 +223,21 @@ Because Loop A executes **before** Loop B inside every hourly `0x006829B0` call 
    - Preserves movement/retreat arrows across deselection when `AlwaysShowMovementArrows == 1` (`0x00DCBAD8`).
 4. **Hourly Game Loop Hook (`0x005AEDBE` -> `0x00DCE80A` `Cave_STEM_HourlyAllCountries`)**:
    - Maintains `[Engine]` flags, allocates `0xC0000` (`768 KB`) for `g_pGraphTable`, zeroes hourly transient buffers (`+0x30000..+0x31FFF`, `+0x40000..+0x57FFF`, `+0x80000..+0xBFFFF`, while preserving `+0x58000..+0x5FFFF` `norm_prio_f32` across ticks for Loop A & telemetry), and calls `Cave_STEM_HourlyPerCountry` (`0x00DCE7BF`) -> `Cave_STEM_UpdateAndEvacuate_Internal` (`0x00DCE3BE`) when `EnableEncirclementDefense == 1`.
-5. **Front AI Rear-Reserve & Salient Wrapper Hook (`0x00682A58` -> `0x00DCE8D9` `Cave_FrontAI_ManageReservesAndSalients`)**:
+5. **Front AI Rear-Reserve, Salient & Interior Bottleneck Wrapper Hook (`0x00682A58` -> `0x00DCE8D9` `Cave_FrontAI_ManageReservesAndSalients`)**:
    - Prunes evacuating units from `[CFrontAI + 0xC8]`, sets `[pArmy + 0x17B] = 2` around retail `CFrontAI::ManageRearReserves` (`0x00681CD0`), restores `[pArmy + 0x17B] = 0`, and exempts active STEM evacuating units in `[CFrontAI + 0xC8]` (tag `0x5A`).
+   - Prunes stale injected interior nodes (`+0x42 = 0` when promoted by `0x006813E0`), then injects adjacent interior bottleneck provinces (`neck_q8 > 0`, `evac_q8 == 0`, `[CProvince + 0x4A8] == 0` or `== esi`, tagged `+0x42 = 0x5B`) into `[CFrontAI + 0x04]` so Loop B includes them as redistribution targets.
 6. **Save-Game Telemetry Hook (`0x004301D7` -> `0x00DCEF0A` `Cave_STEM_SaveGameHook`)**:
    - Refreshes `Cave_STEM_UpdateGraphTable` (`0x00DCC1E9`) in read-only mode after save serialization completes and dumps semicolon-delimited `stem_debug.csv` (including Stage 2 `NormPrio` and `AdjPrio`).
-7. **Stage 2 & 3 Front AI Hooks inside `CFrontAI::MoveUnitsToFront` (`0x006829B0`)**:
-   - **Loop A Interior Bottleneck Garrison Hold (`0x00683C9D` -> `0x00DCEA60` `Cave_FrontAI_LoopAIsFrontOrHeldNeck`)**: Wraps `0x006813E0`; holds stationary interior bottleneck units while `(fr_eff_str - army_str) < BottleneckDefenseBoost * Q_agg` and deducts surplus armies as they release.
-   - **Loop A Candidate Attraction (`0x00DCEBB8`) & Loop B Border Neck Boost (`0x00DCED17`, `0x00DCEDE8`, `0x00DCEE72`)**: Adds `BottleneckDefenseBoost * Q_agg` (`Q_agg` aggregated in Step 5E via `BottleneckQuotaAggregation` at `0x00DCBADC`) to frontline bottleneck shares `S(B)` and under-strength Loop A candidate attractiveness.
-   - **Loop A Adjacent Candidate Gate (`0x00683EB6` -> `0x00DCEB39` `Cave_FrontAI_LoopAAdjCheck`)**: Wraps `0x004E9500`, excluding adjacent border candidates where `Q == 1.0` (`q8 >= 255`) or `0 < Q < 1.0` with `divs >= AdjustedPriority`.
-   - **Loop A Candidate Scoring & Gate (`0x00684088` -> `0x00DCEBB8` `Cave_FrontAI_LoopACheckCand` & `0x006840F6` -> `0x00DCECBB` `Cave_FrontAI_LoopAStoreBest`)**: Rejects `Q == 1.0` or already-saturated partial candidates, scales `(en_str - fr_str)` attractiveness toward `(1 - Q)` (dividing negative scores by `(1 - Q)` so evacuating provinces lose to safe ones), and stores the scaled winning score.
-   - **Loop A Fallback Head Check (`0x00684131` -> `0x00DCECC6` `Cave_FrontAI_LoopAFallbackCheck`)**: Wraps `0x004E9500` on the `edi == 0` fallback (`0x00684117`), refusing to march interior armies into a list head whose `quota_q8 > 0`.
-   - **Loop B Border Receiver Quota Cache & Scaling (`0x00684551` -> `0x00DCED17` `Cave_FrontAI_ScaleReceiverShare`)**: Caches unscaled `NormalFrontAIPriority = S(u) * D_front` into `norm_prio_f32` (`+0x58000`), scales `S(u)` by `(1 - Q(u))` (forcing `S(u) = 0.0` when `Q == 1.0` or `Q > 0 && S_adj * D_front < 1.0` to suppress `even`-mode's `deficit = 1` floor at `0x0068459A`), and syncs `NormPrio` / `AdjPrio` via `Cave_STEM_SyncTelemetryPrio` (`0x00DCE23B`).
-   - **Loop B Donor Share Scaling (`0x0068470D` -> `0x00DCEDE8` `Cave_FrontAI_ScaleDonorShare2` & `0x0068526A` -> `0x00DCEE72` `Cave_FrontAI_ScaleDonorShare3`)**: Scales `S(u)` in both donor evaluation paths so excess divisions in evacuating salients can be donated outward.
+7. **Stage 2 & 3 Front AI Hooks inside `CFrontAI::MoveUnitsToFront` (`0x006829B0`) & `CAI::UpdateFronts` (`0x00693EE0`)**:
+   - **Pass 1 Zero-Enemy Guard Skip (`0x006836D5` -> `0x00DCEC7D` `Cave_FrontAI_Pass1SetNoLandEnemyFlag`)**: Prevents retail from stamping `+0x8D = 1` (`no_land_enemy`) onto injected interior bottleneck provinces.
+   - **Pre-`UpdateFronts` Injected-Node Cleanup (`0x00693EE0` -> `0x00DCECC1` `Cave_FrontAI_PreUpdateFrontsCleanInjected`)**: Guards against busy `[pFront + 0x9E] != 0`, then removes injected `+0x42 == 0x5B` `CFrontProvince` entries, resets `[CProvince + 0x4A8] = 0`, and deletes those `CFrontProvince` instances before vanilla `0x00693EE0` evaluates sector merges (`0x0068A2B0`).
+   - **Loop A Interior Bottleneck Garrison Hold (`0x00683C9D` -> `0x00DCED64` `Cave_FrontAI_LoopAIsFrontOrHeldNeck`)**: Wraps `0x006813E0`; holds stationary interior bottleneck units while `(fr_eff_str - army_str) < BottleneckDefenseBoost * Q_agg` and deducts surplus armies as they release.
+   - **Loop A Candidate Attraction (`0x00DCEEBC`) & Loop B Border Neck Boost (`0x00DCF01B`, `0x00DCF103`, `0x00DCF1A8`)**: Adds `BottleneckDefenseBoost * Q_agg` (`Q_agg` aggregated in Step 5E via `BottleneckQuotaAggregation` at `0x00DCBADC`) to frontline bottleneck shares `S(B)` and under-strength Loop A candidate attractiveness.
+   - **Loop A Adjacent Candidate Gate (`0x00683EB6` -> `0x00DCEE3D` `Cave_FrontAI_LoopAAdjCheck`)**: Wraps `0x004E9500`, excluding adjacent border candidates where `Q == 1.0` (`q8 >= 255`) or `0 < Q < 1.0` with `divs >= AdjustedPriority`.
+   - **Loop A Candidate Scoring & Gate (`0x00684088` -> `0x00DCEEBC` `Cave_FrontAI_LoopACheckCand` & `0x006840F6` -> `0x00DCEFBF` `Cave_FrontAI_LoopAStoreBest`)**: Rejects `Q == 1.0` or already-saturated partial candidates, scales `(en_str - fr_str)` attractiveness toward `(1 - Q)` (dividing negative scores by `(1 - Q)` so evacuating provinces lose to safe ones), and stores the scaled winning score.
+   - **Loop A Fallback Head Check (`0x00684131` -> `0x00DCEFCA` `Cave_FrontAI_LoopAFallbackCheck`)**: Wraps `0x004E9500` on the `edi == 0` fallback (`0x00684117`), refusing to march interior armies into a list head whose `quota_q8 > 0`.
+   - **Loop B Border Receiver Quota Cache & Scaling (`0x00684551` -> `0x00DCF01B` `Cave_FrontAI_ScaleReceiverShare`)**: Caches unscaled `NormalFrontAIPriority = S(u) * D_front` into `norm_prio_f32` (`+0x58000`), scales `S(u)` by `(1 - Q(u))` (forcing `S(u) = 0.0` when `Q == 1.0` or `Q > 0 && S_adj * D_front < 1.0` to suppress `even`-mode's `deficit = 1` floor at `0x0068459A`), and syncs `NormPrio` / `AdjPrio` via `Cave_STEM_SyncTelemetryPrio` (`0x00DCE23B`).
+   - **Loop B Donor Share Scaling (`0x0068470D` -> `0x00DCF103` `Cave_FrontAI_ScaleDonorShare2` & `0x0068526A` -> `0x00DCF1A8` `Cave_FrontAI_ScaleDonorShare3`)**: Scales `S(u)` in both donor evaluation paths so excess divisions in evacuating salients can be donated outward.
 
 ### 6.2 Per-Country Graph Analysis, Dynamic Quota & Persistent Evacuation (`0x00DCC193` / `0x00DCE025` / `0x00DCE059`)
 1. **Active-Front Gate & Table Initialization (`Cave_STEM_UpdateGraphTable` @ `0x00DCC1E9`)**:
