@@ -242,24 +242,25 @@ Currently, `VirtualAlloc` (`build_and_apply_all.py`) allocates `0x40000` (`256 K
 
 ---
 
-### Stage 4: Partial Withdrawal Budget & 4-Tier Division Selection Priority
+### Stage 4: Partial Withdrawal Budget & 4-Tier Division Selection Priority *(Implemented — Awaiting In-Game Approval)*
 **Goal**: Support partial evacuations ($0 < Q(P) < 1$) without continuous hourly shrinkage, withdrawing the slowest unengaged units with highest org and strength first.
 
-* **Binary Changes (`build_and_apply_all.py`)**:
-  1. **Division Withdrawal Budget (`Cave_STEM_UpdateAndEvacuate`)**:
-     * When `quota_q8[P] >= 255`: `TargetStayDivs = 0` (full evacuation, matching current behavior).
-     * When `0 < quota_q8[P] < 255`: read cached `NormalFrontAIPriority(P)` from `norm_prio_f32[P]` (falling back to current province division count if `CFrontAI` hasn't refreshed $P$), and set:
-       $$\text{TargetStayDivs}(P) = \left\lfloor \text{norm\_prio\_f32}[P] \times \big(1.0 - Q(P)\big) + 0.5 \right\rfloor$$
-     * Count `StayingDivs(P)` across friendly land divisions currently in $P$ whose army is **not** already marching to `neck[P]` (`[pArmy + 0x146] != neck[P]`) and not already STEM-locked. Set `EvacDivBudget(P) = max(0, StayingDivs(P) - TargetStayDivs(P))`.
-     * Stop issuing withdrawals in $P$ once `EvacDivBudget(P) <= 0`.
-  2. **4-Tier Candidate Selector (`Cave_STEM_SelectNextEvacArmy`)**:
-     * When partial evacuation applies (`EvacDivBudget(P) > 0` and `< StayingDivs(P)`), scan candidate friendly armies at `[prov + 0x160]` iteratively, selecting the best remaining eligible army before deducting its divisions (`num_divs`) from `EvacDivBudget(P)`:
+* **Binary Changes (`build_and_apply_all.py`, `.mod` Cave `5017` instructions / `15516` bytes, `SHA256 = 080E4DAA4915D34FFEF7BB6A627FC81D7FCCE64B95D134165ACF4AD4FCCE9007`)**:
+  1. **Expanded `g_pGraphTable` (`0xC0000` → `0xC8000`)**: Added `32 KB` Stage 4 hourly telemetry table at `+0xC0000 + prov * 4` (`[+0] = TargetStayDivs`, `[+1] = StayingDivs`, `[+2] = EvacDivBudget`, `[+3] = valid`), cleared on scenario load (`Cave_PostLoadInit` `0x26000` dwords) and once per hourly sweep in `Cave_STEM_HourlyAllCountries` (`0x00DCECAE`, preserved across `Cave_STEM_SaveGameHook` `0x00DCF749` read-only refreshes).
+  2. **Loop A Synchronization (`Hook 7A` `0x00683EB6 -> 0x00DCF2F6` & `Hook 7B` `0x00684088 -> 0x00DCF390`)**: Synchronized `Loop A` candidate blocking (`divs >= round(AdjPrio)` when `AdjPrio >= 1.0`, or flat block when `AdjPrio < 1.0`) with Stage 4 `TargetStayDivs` to eliminate fractional threshold oscillation.
+  3. **Division Withdrawal Budget (`Cave_STEM_UpdateAndEvacuate_Internal`)**:
+     * Pass 1 walks `[pCountry + 0x4508]`, maintains existing `[slot + 6] != 0` evacuation locks, tallies `total_divs` (`+0x7A000`) and non-evacuating `staying_divs` (`+0x78000`, excluding armies already matching `neck[P]` at `[+0x27E]/[+0x236]` or `[+0x264]/[+0x268]`), and enqueues evacuating provinces into `+0x7C000`.
+     * Pass 2 sets `TargetStayDivs = 0` when `quota_q8[P] >= 255` or `AdjPrio < 1.0`, else `clamp(round(base * (1.0 - Q(P))), 0, 255)` where `base` is `norm_prio_f32[P]` (or `total_divs[P]` fallback), and computes `EvacDivBudget(P) = max(0, StayingDivs(P) - TargetStayDivs(P))`.
+     * Sets `g_pGraphTable + P + 0x30000 = 1` **only** when full evacuation applies (`quota_q8[P] >= 255` or `TargetStayDivs == 0`); during partial evacuation, `[+0x30000]` stays `0` so staying defenders remain active Front AI units while evacuating corps are exempted individually via `[slot + 6] != 0` in `Hook 4`.
+  4. **4-Tier Candidate Selector & Guards**:
+     * Builds a per-province candidate table (`+0x48000`, up to `64` × `24`-byte entries) excluding immobile non-combat garrisons (`in_combat == 0 && min_speed < 0.01f`).
+     * Uses verified `CDivision` fields (`+0xEC` Strength, `+0xF4` Organization, `vtbl[+0x28]` @ `0x00500950` brigade-capped speed), selecting repeatedly while `EvacDivBudget > 0` with a **no-overshoot fit guard** (`num_divs <= EvacDivBudget`):
        1. **Not currently in combat**: `[pArmy + 0x128] == 0` preferred over `[pArmy + 0x128] != 0`.
-       2. **Slower speed first**: minimum army max speed (`pDiv->vtbl[+0x28]()` via `[pArmy + 0x26]` division list, matching `0x0050840D`).
+       2. **Slower speed first**: minimum army max speed via `CDivision::vtbl[+0x28]()`.
        3. **Higher organization first**: maximum average division org (`[pDiv + 0xF4]`).
-       4. **Higher strength first**: maximum average division strength (`[pDiv + 0x100]`).
-  3. **Update `stem_debug.csv` Telemetry**: Populate `TargetStayDivs`, `StayingDivs`, and `EvacDivBudget`.
-* **Verification & Stop**: Smoke test (launch to main menu, zero exceptions). **STOP and wait for approval before Stage 5.**
+       4. **Higher strength first**: maximum average division strength (`[pDiv + 0xEC]`).
+  5. **Update `stem_debug.csv` Telemetry**: Appended `TargetStayDivs`, `StayingDivs`, and `EvacDivBudget` columns (`add esp, 168`).
+* **Verification & Stop**: Rebuilt EXEs (`SHA256 = 080E4DAA4915D34FFEF7BB6A627FC81D7FCCE64B95D134165ACF4AD4FCCE9007` across `Darkest Hour_modified.exe` & `Darkest Hour.exe`), updated both ASCII `.bat` patchers (`tools/patch_darkest_hour.bat -Verify` pass), audited Capstone disassembly of `PostLoadInit`/`HourlyAllCountries`/`Hook 7A-7B`/`SaveGameHook`, and passed live launch-to-main-menu smoke test (`PID 63388`, live hooks verified). **STOP and wait for user approval before Stage 5.**
 
 ---
 
