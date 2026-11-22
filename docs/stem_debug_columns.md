@@ -1,6 +1,6 @@
 # `stem_debug.csv` Column Reference
 
-Semicolon-delimited (`;`) debug telemetry dumped to `stem_debug.csv` in the Darkest Hour root directory upon saving (manual save or autosave) when `EnableEncirclementDefense = 1` in `db/mod_settings.ini`.
+Semicolon-delimited (`;`) debug telemetry dumped to `stem_debug.csv` in the Darkest Hour root directory upon saving (manual save or autosave) when `EnableEncirclementDefense = 1` in `db/mod_settings.ini` **and** `Extra debug logs` (line 9 of `settings.cfg`, runtime flag `byte ptr [0x00DC4B5E]`) is set to `1` or `2`.
 
 | Column | Meaning |
 |---|---|
@@ -32,3 +32,5 @@ Semicolon-delimited (`;`) debug telemetry dumped to `stem_debug.csv` in the Dark
 | `TargetStayDivs` | Stage 4 whole-division garrison target kept inside an evacuating province (`0` when `SalientEvacuationQuota == 1.000` or `AdjAIPrio < 1.0`; otherwise `round(AdjAIPrio)`), stored in `g_pGraphTable + 0xC0000 + prov * 4` (`+0`). |
 | `StayingDivs` | Non-retreating friendly land divisions in the province not already STEM-locked (`[slot + 6] == 0`) or marching directly to `EvacDestNeck` (`+0xC0001`). |
 | `EvacDivBudget` | Stage 4 excess divisions scheduled for withdrawal on the latest hourly evaluation (`max(0, StayingDivs - TargetStayDivs)`, `+0xC0002`), dispatched cleanly without exceeding the budget (`num_divs <= EvacDivBudget`; when `EvacDivBudget > 0` and no whole corps fits, `.uae_split_try` splits exact `EvacDivBudget` divisions out of an eligible non-combat corps). |
+| `StatusFlags` | Phase 2 per-province status bitmask (`g_pGraphTable + 0xEC000 + prov`): `0` = normal, `+1` (`0x01`) = manually blacklisted from evacuation via `front.province_priorities` (`prio < 0.0` or `prio >= EvacuationBlacklistPriorityThreshold`), `+2` (`0x02`) = impassable supply lifeline (Stage 3), `+4` (`0x04`) = coastal port supply lifeline (Stage 3), `+8` (`0x08`) = `IsThreatened` cooldown hold active (Stage 5), `+16` (`0x10`) = evacuation re-entry cooldown hold active (Stage 5), `+32` (`0x20`) = country `stem_soft_mode = 1` active, `+64` (`0x40`) = country `stem_no_evac = 1` / `stem_evac_modifier = 1` ("Fight to the Death") active. |
+| `EvacMult` | Effective evacuation quota multiplier applied to this province (`0.00` when blacklisted or in "Fight to the Death" mode; otherwise `country_evac_mult` from `local_flags = { stem_evac_modifier = N }` / `100.0`, default `1.00`, formatted `%u.%02u` from `g_pGraphTable + 0xFC000 + prov * 2`). |
