@@ -38,7 +38,7 @@ The vanilla retail executable (`Darkest Hour_original.exe`) contains exactly **f
 | `.rdata` | Vanilla Retail | `0x007E3000` - `0x0082BF76` | `298,870` | `0x003E3000` | `299,008` | `R--` (Read-Only) | Constant literals, vtables, import address table |
 | `.data` | Vanilla Retail | `0x0082C000` - `0x00DC6C94` | `5,876,884` | `0x0042C000` | `348,160` | `RW-` (Data) | Global variables, static tables, runtime heap |
 | `.rsrc` | Vanilla Retail | `0x00DC7000` - `0x00DC8618` | `5,656` | `0x00481000` | `8,192` | `R--` (Resource) | Windows icons, dialog templates, version info |
-| `.mod` | **Custom Injected** | `0x00DC9000` - `0x00DCD000` | `16,384` | `0x00484000` | `8,192` | `RWX` (Code/Data) | Custom extension cave (straits, trade hooks, memory fixes) |
+| `.mod` | **Custom Injected** | `0x00DC9000` - `0x00DD9000` | `65,536` | `0x00484000` | `65,536` | `RWX` (Code/Data) | Custom extension cave (straits, trade/AI hooks, memory fixes, STEM) |
 
 ### 2.3 Address Translation Formula
 Throughout the primary `.text` section:
@@ -65,13 +65,14 @@ In the pristine retail release (`Darkest Hour_original.exe`), **the `.mod` secti
 2. Displacing existing instructions and routing them through external DLL injections.
 
 To facilitate larger modding additions without requiring external DLL loaders or displacing existing engine code, a new PE section named `.mod` was explicitly added to the binary:
-- **Virtual Address**: `0x00DC9000` - `0x00DCD000` (16 KB allocated in process memory).
-- **File Offset**: `0x00484000` (8 KB appended to the executable file on disk).
+- **Virtual Address**: `0x00DC9000` - `0x00DD9000` (64 KB allocated in process memory).
+- **File Offset**: `0x00484000` (64 KB appended to the executable file on disk, expanded from 8 KB -> 32 KB -> 64 KB).
 - **Permissions**: Read, Write, and Execute (`RWX` / `0xE0000020`), allowing both dynamic execution and writable data tables.
 - **Subsystems Hosted**:
   - **Patch 6 (Custom Straits System)**: Global 64-entry strait array `g_Straits` (`0x007E50C0`), CSV parser subroutines, transit check hooks (`0x007E4670`), and natural language UI tooltip grammar engine.
   - **Patch 6 Extension (Black Sea Naval Trade)**: Exclusive OR bilateral trade filter cave (`0x00DCA100`).
   - **Patch 8 (Scenario Memory Leak Patch)**: Event/decision deallocation cave (`0x00DCA000`).
+  - **Patches 10-18 (Event/AI Extensions & STEM)**: Silent events (`0x00DCA200`), allied garrison AI (`0x00DCA188..0x00DCAF90`), discriminative garrison AI, nuclear strike targeting, and STEM Phase 1 & Phase 2 (`0x00DCBAB0..0x00DD1B37`).
 
 ---
 

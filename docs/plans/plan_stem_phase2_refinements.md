@@ -1,6 +1,6 @@
 # Plan: STEM Phase 2 -- Country Controls, Combat Power Realism, Supply Lifelines, Density-Scaled Boosts & Anti-Flicker Hysteresis
 
-**Status:** Draft (6-Stage Incremental Implementation & Testing Plan)  
+**Status:** In Progress (Stage 1--2 Completed & Validated; Stage 3 Implemented -- Awaiting User Validation; Stages 4--6 Pending)  
 **Target Binary:** `Darkest Hour_modified.exe` (Darkest Hour v1.05.2, Base `0x00400000`)  
 **Prerequisite:** [plan_stem_strategic_defense.md](file:///e:/Program%20Files%20%28x86%29/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/docs/plans/plan_stem_strategic_defense.md) (Stages 1--5 Completed & Validated)  
 **Companion Reference Docs:**  
@@ -18,9 +18,9 @@ Following the completion and in-game validation of Stages 1--5 of the original [
 1. **Country-Wide Withdrawal Propensity Modifier (Backward-Compatible via `local_flags`)**: Per-country multiplier on `SalientEvacuationQuota(P)` controlling how readily a nation withdraws from threatened salients versus fighting to the death (`stem_evac_modifier`, `stem_no_evac`).
 2. **Country-Wide "Soft STEM" Mode Switch (`local_flags`)**: Per-country switch (`stem_soft_mode = 1`) where STEM adjusts `CFrontAI` priorities (`AdjAIPrio`, `FinalAIPrio`, bottleneck boosts) without launching forced evacuations, army splits, or auto-retreats.
 3. **Manual Per-Province Evacuation Blacklist (`front = { province_priorities = { ... } }`)**: Allows AI files to blacklist specific strategic fortresses or peninsulas (e.g., Leningrad `187`, Kola/Murmansk) from STEM evacuation using `front.province_priorities` (`[[pCountry + 0x120] + 0x990]`), while also fixing a vanilla `CFrontAI` bug where `province_priorities` was omitted from Loop B donor calculations (`0x0068470D` and `0x0068526A`).
-4. **Alternative Supply Lifelines Over Impassable Connections (`adj->type == 4`) & Coastal Ports**: Recognizes incoming supply across impassable connections (e.g., Lake Ladoga `189 Kirisi <-> 7003 Kir'jasaly` supplying `187 Leningrad`) and active coastal ports/naval bases (`[pProv + 0x3DC] > 0`, `[pProv + 0x46A] != 0`) so supplied pockets reduce evacuation urgency (`SalientEvacuationQuota`) without treating impassable edges as land march routes.
-5. **Direct Organization (`ORG`) Weighting in `FrStr`, `EnStr`, and `InbStr`**: Integrates division organization (`[pDiv + 0xF4]` relative to `[pDiv + 0x114]` max org) directly into idle, active, and inbound strength calculations for both friendly and enemy stacks, replacing the active-combat-only `T_org` cliff.
-6. **Division Softness / Hardness Weighting in `FrStr`, `EnStr`, and `InbStr`**: Factors division softness (`[pDiv + 0x2D4]` `m_fSoftness` $\in [0, 100]$) into unit combat power so hard/armored divisions are weighted significantly higher than militia or soft infantry.
+4. **Alternative Supply Lifelines Over Impassable Connections (`adj->type == 4`) & Direct Sea Access**: Recognizes incoming supply across impassable connections from friendly safe/unthreatened provinces (e.g., Lake Ladoga `189 Kirisi <-> 7003 Kir'jasaly` supplying `187 Leningrad`) and direct coastal sea access (`[pProv + 0x3DC] > 0`, `m_nPortSeaZone`) so supplied pockets reduce evacuation urgency (`SalientEvacuationQuota`) without treating impassable edges as land march routes or running a separate global BFS.
+5. **Direct Organization (`ORG`) Weighting in `FrStr`, `EnStr`, and `InbStr`**: Integrates division organization (`[pDiv + 0xF4]` relative to runtime effective max org from `[pDiv + 0xF8]` scaled by `[pCountry->0x244 + 0x3E]` and `CCountry::GetUnitModifier` @ `0x0044C830`) directly into idle, active, and inbound strength calculations (`OrgWeight = 0.85`), removing the legacy active-combat `MinOrg` / `T_org` mechanism while keeping Pass 0's `NeckCollapsingOrgThreshold` `IsThreatened` check.
+6. **Division Softness / Hardness Weighting in `FrStr`, `EnStr`, and `InbStr`**: Factors division softness (`[pDiv + 0x2D4]` `m_fSoftness` $\in [0, 100]$) into unit combat power (`HardnessWeight = 0.85`) so hard/armored divisions are weighted significantly higher than militia or soft infantry.
 7. **Front-Density Scaling for `BottleneckDefenseBoost`**: Scales the number of divisions requested to reinforce a bottleneck (`EffectiveBottleneckBoost(B)`) with both salient threat (`UpstreamThreat(B)`) and the front's actual division density ($\rho_{\text{front}} = D_{\text{front}} / N_{\text{front\_provs}}$), plus a maximum front-share cap, so a 20-division front is not drained by a 10-division boost while a 500-division front commits realistic operational reserves.
 8. **Withdrawing to Threatened Bottlenecks & Adjacent `Support Defence` (`mission_type = 4`)**: Allows evacuating units to withdraw toward bottleneck provinces even when the bottleneck itself is marked `IsThreatened == 1`, and orders withdrawing armies in provinces **adjacent** to an **actively attacked** bottleneck (`[pProv(N) + 0x24C] != 0`) to execute **`Support Defence`** (`CMission::OrderMission` @ `0x0050B600`, `mission_type = 4`) instead of a standard move so they immediately reinforce the defensive battle for the neck.
 9. **Anti-Flicker / Hysteresis on Attacked Bottlenecks (`IsThreatened = 1 -> 0` Oscillation)**: Prevents newly arriving reinforcements at an attacked bottleneck from briefly flipping `IsThreatened` from `1 -> 0` for a few hours and causing evacuating troops to cancel their withdrawal mid-march or march back into the salient.
@@ -31,14 +31,14 @@ Following the completion and in-game validation of Stages 1--5 of the original [
 | Stage | Items Covered | Focus & Primary Verification |
 | :--- | :--- | :--- |
 | **Stage 1** | **#10, #1, #2, #3** (+ `.mod` 64 KB & `g_pGraphTable` 1184 KB expansion) | PE `.mod` expansion (`32 KB -> 64 KB`), `VirtualAlloc` (`0xEC000 -> 0x128000`), `extra_debug_logs` gate for `stem_debug.csv`, country `local_flags` (`stem_evac_modifier`, `stem_no_evac`, `stem_soft_mode`), and `front.province_priorities` evacuation blacklist + two-stage Loop A/B pre/post-STEM normalization fix (`Hook 8D`). |
-| **Stage 2** | **#5, #6** | Direct Organization (`[pDiv + 0xF4] / [pDiv + 0x114]`) and Softness/Hardness (`[pDiv + 0x2D4]`) weighting in `.hlp_calc_army_str_org` across `FrStr`, `InbStr`, `EnStr`, and `EnInbStr`. |
-| **Stage 3** | **#4** | Alternative supply lifeline detection over `adj->type == 4` (`Impassable`, e.g. `189 <-> 7003`) and supplied coastal ports (`[pProv + 0x3DC]`, `[pProv + 0x46A]`, `[pProv + 0x1DE]`), reducing `SalientEvacuationQuota(P)` for supplied pockets. |
+| **Stage 2** | **#5, #6** | Direct Organization (`[pDiv + 0xF4]` / runtime `[pDiv + 0xF8]` + modifiers) and Softness/Hardness (`[pDiv + 0x2D4]`) weighting in `.hlp_push_div_eff_str_eax` / `.hlp_calc_army_str_org` / `Hook 9A` across `FrStr`, `InbStr`, `EnStr`, and `EnInbStr`; removal of legacy `MinOrg` / `T_org` (preserving Pass 0 `NeckCollapsingOrgThreshold`). |
+| **Stage 3** | **#4** | Alternative supply lifeline detection: direct sea access (`[pProv + 0x3DC] > 0`) in `.ppa_loop` and endangered-pocket-only `.hlp_mark_impassable_supply` over `adj->type == 4` (`Impassable`, e.g. `189 <-> 7003`), reducing `SalientEvacuationQuota(P)` for supplied pockets. |
 | **Stage 4** | **#7** | Front-density scaling ($\rho_{\text{front}} = D_{\text{front}} / N_{\text{front\_provs}}$) and max-front-share cap for `EffectiveBottleneckBoost(B)` across `Cave_STEM_UpdateGraphTable` and `CFrontAI::MoveUnitsToFront` (`Hooks 7B, 8A--8C, 9A`). |
 | **Stage 5** | **#9** | Three-layer anti-flicker hysteresis: (a) attacked-bottleneck `IsThreatened` hold timer (`threat_hold_u8`), (b) evacuation quota re-entry cooldown (`evac_hold_u8`), and (c) in-progress withdrawal march commitment in `.uae_p1_noncombat_locked`. |
 | **Stage 6** | **#8** | Allow threatened bottlenecks (`IsThreatened == 1`) as valid withdrawal rally necks (`EvacDestNeck`), and dispatch `Support Defence` (`0x0050B600`, `mission_type = 4`) when a withdrawing army is adjacent to an actively attacked bottleneck (`[pProv + 0x24C] != 0`). |
 
 > [!IMPORTANT]
-> **Execution Rule:** Each stage must be implemented, verified via automated smoke test and in-game testing, and explicitly approved by the user before proceeding to the next stage.
+> **Execution Rule:** Each stage must be implemented, verified via build / patch integrity / static Capstone disassembly checks and manual in-game testing by the user, and explicitly approved by the user before proceeding to the next stage.
 
 ---
 
@@ -81,11 +81,11 @@ All offsets below were verified directly against `Darkest Hour_modified.exe` (`v
     - Vanilla applies `front.province_priorities` **only** at `0x0068454A` (`fmul dword ptr [ecx + 4]`) **after** dividing by the retail front denominator `[ebp - 0x28]` (`0x00684526`), completely omits it on both **donor** share sites (`0x0068470D` and `0x0068526A`), and ignores it in **Loop A** (`0x00684088`).
     - Because denominator `[ebp - 0x28]` (and `[ebp - 0x14]` in `even` mode) is never re-normalized for `front.province_priorities`, bumping a province (e.g. `6516 = 9.0`) inflates `sum(NormAIPrio) > D_front` while leaving every other province at `100%` of its original target -- creating zero donatable surplus on the rest of the front! In Stage 1, Hook 8D (`0x00684474`) performs proper pre-normalization with `max_stack` water-filling across all 5 distribution modes, and Hooks 7A/7B/7D integrate `front.province_priorities` into Loop A.
 
-### 2.5 `CDivision` Strength, Organization, Max Organization & Softness (`Items 5 & 6`)
-- Verified in `CDivision::AttachBrigade` (`0x005003C0..0x00500560`) and `.hlp_calc_army_str_org`:
+### 2.5 `CDivision` Strength, Organization, Effective Max Organization & Softness (`Items 5 & 6`)
+- Verified in `CDivision` org calculation (`0x004FF8E8..0x004FF931`, `0x00504102..0x00504145`) and `CDivision::AttachBrigade` (`0x005003C0..0x00500560`):
   - `[pDiv + 0xEC]` (`float`): `m_fStrength` (current strength, `0.0..100.0`).
   - `[pDiv + 0xF4]` (`float`): `m_fOrganization` (current organization, `0.0..100.0+`).
-  - `[pDiv + 0x114]` (`float`): `m_fMaxOrganization` (`defaultorganization`, updated at `0x00500492` from unit/brigade `[stats + 0x30]`).
+  - `[pDiv + 0xF8]` (`float`): `m_fMaxOrganization` (division base max organization), multiplied at runtime by country modifiers **`[[pDiv + 0x5C] + 0x244] + 0x3E`** and **`CCountry::GetUnitModifier([pDiv + 0x5C], pDiv, 2)` (`0x0044C830`)** to form `eff_max_org` (matching `CDivision` @ `0x004FF8E8`).
   - `[pDiv + 0x2D4]` (`float`): `m_fSoftness` (`softness`, updated at `0x00500450` from unit/brigade `[stats + 0x4C]`, clamped against `[0x00DC1744]`, e.g., `100.0` for militia/infantry, `70.0..85.0` for motorized/mechanized, `20.0..35.0` for armor).
 
 ### 2.6 `CProvince` Adjacency Types, Coastal Ports, Naval Bases & Supply (`Item 4`)
@@ -94,11 +94,8 @@ All offsets below were verified directly against `Darkest Hour_modified.exe` (`v
     - `[pAdj + 0x00]` (`uint32_t`): neighbor `prov_id`.
     - `[pAdj + 0x04]` (`uint32_t`): connection `type` (`0` = normal land, `1` = river, `2` = strait/sea-crossing, `4` = `Impassable` in `map/Map_3/adj-defs.csv`, e.g. `7003;189;Impassable;0;` across Lake Ladoga).
     - Darkest Hour blocks land unit movement across `type == 4`, **but traces supply across `type == 4` connections**.
-  - **Coastal Port & Naval Base Offsets**:
-    - `[pProv + 0x3DC]` (`int32_t`): `m_nPortSeaZone` (`> 0` if province has a coastal port exit to a sea zone; verified at `0x004CA49D`).
-    - `[pProv + 0x46A]` (`void*`): `m_pPort / m_pNavalBaseFacility` (non-null when the province has a port structure capable of holding ships / receiving sea convoys; verified at `0x004CA516` and `0x004C9ACC`).
-    - `[pProv + 0x1DE]` (`CInstallation*`): Naval Base installation pointer (`index 5` in `[pProv + 0x1CA + i*4]`; getter at `0x004ECE80`), where `[pInst + 0x10]` (`float`) is current Naval Base level and `[pInst + 0x14]` (`float`) is max Naval Base level.
-    - `[pProv + 0x270]` (`float`): Local province supply stockpile (`m_fSupplies`, checked right after `[pProv + 0x46A]` at `0x004C983A`).
+  - **Direct Sea-Zone Exit Offset (`Item 4`, Simplified in Stage 3)**:
+    - `[pProv + 0x3DC]` (`int32_t`): `m_nPortSeaZone` (`> 0` if province has direct coastal port/sea-zone exit; verified against all `1,960` coastal provinces in `map/Map_3/Province.csv` with `0` non-ocean false positives; also verified at `0x00432627`, `0x0044AFBD`, `0x004CA49D`). *(Note: `[pProv + 0x1E2]` is Naval Base and `[pProv + 0x1DE]` is Air Base; neither building check nor `+0x46A` / `+0x270` check is needed under the approved simplified Stage 3 design.)*
 
 ### 2.7 `CFrontAI` Front Division Count & Frontline Province Count (`Item 7`)
 - Verified in `CFrontAI::MoveUnitsToFront` (`0x00684420..0x0068526A` and Hook 8A `0x00DD0405`):
@@ -139,7 +136,7 @@ In Stage 5 of the original plan, `g_pGraphTable` was allocated via `VirtualAlloc
 | Offset | Size | Type | Name | Purpose |
 | :--- | :--- | :--- | :--- | :--- |
 | `+0x00000..+0xEBFFF` | `944 KB` | Various | *(Existing Stages 1--5 tables)* | Unchanged from [plan_stem_strategic_defense.md](file:///e:/Program%20Files%20%28x86%29/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/docs/plans/plan_stem_strategic_defense.md). |
-| `+0xEC000` | `8 KB` | `uint8_t[8192]` | `prov_status_flags[P]` | Bitfield per province (rebuilt each Pass 0/1/2):<br>- `Bit 0 (0x01)`: Manual Evacuation Blacklist (`front.province_priorities` match, Item 3)<br>- `Bit 1 (0x02)`: Impassable Supply Lifeline (`adj->type == 4` trace to root, Item 4)<br>- `Bit 2 (0x04)`: Coastal Port Supply Lifeline (supplied friendly naval base/port in pocket, Item 4)<br>- `Bit 3 (0x08)`: `IsThreatened` active via Cooldown Hold (`threat_hold_u8 > 0`, Item 9)<br>- `Bit 4 (0x10)`: `EvacQuota` active via Re-Entry Cooldown Hold (`evac_hold_u8 > 0`, Item 9) |
+| `+0xEC000` | `8 KB` | `uint8_t[8192]` | `prov_status_flags[P]` | Bitfield per province (rebuilt each Pass 0/1/2):<br>- `Bit 0 (0x01)`: Manual Evacuation Blacklist (`front.province_priorities` match, Item 3)<br>- `Bit 1 (0x02)`: Impassable Supply Lifeline (`adj->type == 4` bridgehead/propagation from safe unthreatened neighbor, Item 4)<br>- `Bit 2 (0x04)`: Direct Coastal Sea Supply (`[pProv + 0x3DC] > 0`, Item 4)<br>- `Bit 3 (0x08)`: `IsThreatened` active via Cooldown Hold (`threat_hold_u8 > 0`, Item 9)<br>- `Bit 4 (0x10)`: `EvacQuota` active via Re-Entry Cooldown Hold (`evac_hold_u8 > 0`, Item 9) |
 | `+0xEE000` | `8 KB` | `uint8_t[8192]` | `threat_hold_u8[P]` | Persistent hourly countdown timer (`0..255` hours) holding `is_threatened[P] = 1` on an attacked bottleneck to prevent reinforcement-arrival flicker (Item 9). |
 | `+0xF0000` | `8 KB` | `uint8_t[8192]` | `evac_hold_u8[P]` | Persistent hourly countdown timer (`0..255` hours) holding an anti-reentry quota floor after evacuation starts (Item 9). |
 | `+0xF2000` | `16 KB` | `float[4096]` | `country_evac_mult[tag]` | Cached country-wide withdrawal propensity multiplier (`0.0f..10.0f`, default `1.0f`) read from `local_flags` in Pass 0 (Item 1). |
@@ -150,9 +147,9 @@ In Stage 5 of the original plan, `g_pGraphTable` was allocated via `VirtualAlloc
 | `+0x108000` | `32 KB` | `float[8192]` | `front_final_share[P]` | Stage B post-STEM re-normalized Loop B target share (incorporating `evac_quota` and `BottleneckDefenseBoost` summed to `1.0` with evac-safety ceiling). |
 | `+0x110000` | `32 KB` | `uint32_t[8192]` | `front_norm_gen[P]` | Generation stamp (`g_dwFrontNormGen` low 29 bits; bit 31 `0x80000000` = finalized/clamped; bit 30 `0x40000000` = ineligible; bit 29 `0x20000000` = STEM `is_basin`). |
 | `+0x118000` | `32 KB` | `float[8192]` | `front_final_divs[P]` | Cached post-STEM target divisions (`front_final_share[P] * D_front`) synced to `stem_debug.csv` `FinalAIPrio`. |
-| `+0x120000` | `8 KB` | `uint8_t[8192]` | `alt_supply_visit[P]` | Reserved scratch visited bitmap for Stage 3 Pass 2B Impassable/Port Supply BFS (Item 4). |
+| `+0x120000` | `16 KB` | `uint16_t[8192]` | `strip_provs_backup[i]` | Backup of full K-hop strip province list (`0 .. strip_count - 1`) saved in `.ppa_loop` so `.hlp_mark_impassable_supply` scans the intact strip after Step 5A reuses `+0x1C000` (Item 4). |
 
-*(Total used: `0x00000..0x121FFF` = `1,160 KB` out of `1,184 KB` allocated).*
+*(Total used: `0x00000..0x123FFF` = `1,168 KB` out of `1,184 KB` allocated).*
 
 ---
 
@@ -161,7 +158,7 @@ In Stage 5 of the original plan, `g_pGraphTable` was allocated via `VirtualAlloc
 ---
 
 ### Stage 1: `.mod` 64 KB & `g_pGraphTable` 1184 KB Expansion, `extra_debug_logs` CSV Gate (Item 10), Country-Wide `local_flags` Controls (Items 1 & 2) & Manual Province Blacklist / Two-Stage `front.province_priorities` Normalization (Item 3)
-**Status:** Implemented (Stage 1C Pre/Post-STEM Normalization & Loop A/B Fix Included) -- Awaiting User Validation (`Cave: 7791 instructions, 23959 bytes`, `SHA256 = 6B824361BB988E40641797A2D36B5810B44587D926CE8226765C9E23CB4ED9AB`)
+**Status:** Completed & Validated (Stage 1C Pre/Post-STEM Normalization & Loop A/B Fix Included; `Cave: 7791 instructions, 23959 bytes`, `SHA256 = 6B824361BB988E40641797A2D36B5810B44587D926CE8226765C9E23CB4ED9AB`)
 
 #### 4.1.1 `.mod` PE Section (`0x8000 -> 0x10000`) & `g_pGraphTable` (`0xEC000 -> 0x128000`) Expansion
 - Expand `.mod` (`VirtualAddress = 0x00DC9000`) from `0x8000` (`32 KB`) to `0x10000` (`64 KB`, `0x00DC9000..0x00DD9000`):
@@ -212,16 +209,16 @@ In Stage 5 of the original plan, `g_pGraphTable` was allocated via `VirtualAlloc
 
 #### 4.1.5 New INI Keys & `stem_debug.csv` Updates for Stage 1
 - **`db/mod_settings.ini` (`[FrontAI]` section)**:
-  - `EvacuationBlacklistPriorityThreshold = 5.0` (Set `<= 0` to only blacklist negative values `prio < 0.0` in `front.province_priorities`).
+  - `EvacuationBlacklistPriorityThreshold = 5.0` (Engine default `5.0`, mod INI `10.0`; set `<= 0` to only blacklist negative values `prio < 0.0` in `front.province_priorities`).
 - **`stem_debug.csv`**:
-  - Append 2 new diagnostic columns after the 28 existing columns (`CountryTag..EvacDivBudget`):
+  - Append 2 new diagnostic columns after the remaining Phase 1 columns (`CountryTag..EvacDivBudget`, `30` total columns after Stage 2 removes `MinOrg`):
     - **Col 29 (`StatusFlags`)**: Bitmask (`0` = normal, `+1` = Blacklisted via `province_priorities`, `+2` = Impassable Supply Lifeline, `+4` = Port Supply Lifeline, `+8` = Threat Hold Active, `+16` = Evac Hold Active, `+32` = Country Soft-STEM Mode, `+64` = Country Fight-to-the-Death).
     - **Col 30 (`EvacMult`)**: Effective country/supply quota multiplier applied to `P` (formatted `%.2f`, e.g. `1.00`).
 
 #### 4.1.6 Stage 1 Verification & Stopping Point
 1. **Build & Automated Smoke Test**:
    - Rebuild `Darkest Hour_modified.exe` / `.bat` patchers and verify `.mod` section is `0x10000` (`64 KB`) and all hooks assemble cleanly.
-   - Verify that saving with `Extra debug logs = 0` in `settings.cfg` does NOT overwrite/create `stem_debug.csv`, and saving with `Extra debug logs = 1` DOES generate `stem_debug.csv` with Columns 29--30.
+   - Verify that saving with `Extra debug logs = 0` in `settings.cfg` does NOT overwrite/create `stem_debug.csv`, and saving with `Extra debug logs = 1` DOES generate `stem_debug.csv` with `StatusFlags` and `EvacMult`.
 2. **In-Game Test (`local_flags` & `province_priorities` Blacklist)**:
    - Test `stem_evac_modifier = 50`, `stem_no_evac = 1`, and `stem_soft_mode = 1` on `SOV`, plus `province_priorities = { 187 = -1 }` (or `187 = 10.0`), verifying `StatusFlags` and `EvacQuota` in `stem_debug.csv`.
 3. **STOP and report Stage 1 results to the user for approval before proceeding to Stage 2.**
@@ -229,24 +226,26 @@ In Stage 5 of the original plan, `g_pGraphTable` was allocated via `VirtualAlloc
 ---
 
 ### Stage 2: Combat Power Realism -- Direct Organization Weighting (Item 5) & Division Softness/Hardness Factor (Item 6) in `FrStr`, `EnStr`, and `InbStr`
-**Status:** Pending
+**Status:** Completed & Validated (`Cave: 7867 instructions, 24098 bytes`, `SHA256 = C416BCC15C557D1B372942F20CCF0E43CE804B812457B63F2D1105839CF06830`; incl. two latent Phase 1 bugfixes found during validation)
 
 #### 4.2.1 Unified Division Effective Combat Power Formula
-- Currently, `.hlp_calc_army_str_org` sums only raw `[pDiv + 0xEC] * 0.01f` for friendly armies, while `.scan_hostile` uses an inline loop summing raw `[pDiv + 0xEC] * 0.01f` for enemy armies.
-- In Stage 2, we upgrade `.hlp_calc_army_str_org` (and call it for **both** friendly and hostile armies in Pass 0, as well as in `.uae_calc_army_str` during Step 6 evacuation ordering) so each division $d$ contributes:
+- Previously, `.hlp_calc_army_str_org` summed only raw `[pDiv + 0xEC] * 0.01f` for both friendly (`FrStr`, `InbStr`) and enemy (`EnStr`) armies, while `Hook 9A` (`Cave_FrontAI_LoopAIsFrontOrHeldNeck`) likewise summed raw `[pDiv + 0xEC] * 0.01f` when releasing interior bottleneck reserves.
+- In Stage 2, we introduce `.hlp_push_div_eff_str_eax` (`0x00DCE612`, called by `.hlp_calc_army_str_org` for Pass 0 friendly, inbound, active hostile, and idle hostile armies, as well as `Hook 9A` @ `0x00DD047F`) so each division $d$ contributes:
   $$\text{DivEffStr}(d) = \frac{\text{Strength}(d)}{100.0} \times \text{OrgFactor}(d) \times \text{HardnessFactor}(d)$$
 - **1. Organization Factor (`Item 5`)**:
-  - Read `float cur_org = [pDiv + 0xF4]` and `float max_org = [pDiv + 0x114]`.
-  - When `EnableDirectOrgWeighting == 1` (default `1`):
-    $$\text{OrgRatio}(d) = \frac{\text{cur\_org}}{\max(20.0,\; \text{max\_org})}$$
-    $$\text{OrgFactor}(d) = \text{clamp}\!\left(\text{OrgRatio}(d),\; \text{MinOrgWeightFactor},\; \text{MaxOrgWeightFactor}\right)$$
-    - With defaults `MinOrgWeightFactor = 0.15` and `MaxOrgWeightFactor = 1.25`:
-      - A shattered division at `5 / 60` ORG gets `0.15x` effective strength (cannot hold a bottleneck or pose an encirclement threat).
-      - A full-org division at `60 / 60` ORG gets `1.00x` effective strength.
-      - Since ORG is now baked directly into `FrStr(v)`, `InbStr(v)`, `EnStr(v)`, and `EnInbStr(v)` (`FrEff(v)` and `T_force(v)`), we set the legacy active-combat-only `T_org(v)` term in Pass 0 to `0.0` whenever `EnableDirectOrgWeighting == 1` (avoiding double-penalizing org and eliminating the discontinuous combat-start cliff!).
+  - Read `float cur_org = [pDiv + 0xF4]` and compute runtime effective max organization `eff_max_org` matching `CDivision` (`0x004FF8E8`):
+    `eff_max_org = [pDiv + 0xF8] * [[pDiv + 0x5C] + 0x244]->0x3E * CCountry::GetUnitModifier([pDiv + 0x5C], pDiv, 2)` (`0x0044C830`).
+  - Compute `OrgRatio(d)` (`0.0` if `eff_max_org <= 0.01` to guard divide-by-zero / `NaN`, else):
+    $$\text{OrgRatio}(d) = \text{clamp}\!\left(\frac{\text{cur\_org}}{\max(20.0,\; \text{eff\_max\_org})},\; 0.0,\; 1.0\right)$$
+  - Apply the single configurable **`OrgWeight`** parameter (`cfg_OrgWeight`, default **`0.85`**):
+    $$\text{OrgFactor}(d) = \max\!\left(0.0,\; (1.0 - \text{OrgWeight}) + \text{OrgWeight} \times \text{OrgRatio}(d)\right)$$
+    - With default `OrgWeight = 0.85`: a shattered division at `0` ORG gets `0.15x` effective strength (`0.575x` at `50%` ORG, `1.00x` at `100%` ORG). Setting `OrgWeight = 0.0` disables ORG weighting cleanly (`1.00x`).
+  - **Removal of Legacy `MinOrg` / `T_org` (Preserving `NeckCollapsingOrgThreshold` `IsThreatened`)**:
+    - Because ORG is now baked directly into `FrStr(v)`, `InbStr(v)`, `EnStr(v)`, and `EnInbStr(v)` (`FrEff(v)` and `T_force(v)`), Stage 2 removes the redundant active-combat-only `min_org_q8` (`+0x46000`), `.ect_check_org` (`T_org`) in `.hlp_eval_cut_threat`, and the `MinOrg` column from `stem_debug.csv` (`31 -> 30` columns).
+    - Pass 0's `.def_org_fin_loop` (`NeckCollapsingOrgThreshold` comparison setting `is_threatened[P] = 1` when active-combat average defender ORG falls below threshold) is **preserved intact**.
 - **2. Softness / Hardness Factor (`Item 6`)**:
-  - Read `float softness = [pDiv + 0x2D4]` (clamped to `[0.0, 100.0]`, where `hardness_frac = (100.0 - softness) * 0.01`).
-  - When `HardnessWeight > 0.0` (default `0.85`):
+  - Read `float softness = [pDiv + 0x2D4]` (`hardness_frac = clamp(100.0 - softness, 0.0, 100.0) * 0.01`).
+  - Apply **`HardnessWeight`** (`cfg_HardnessWeight`, default **`0.85`**):
     $$\text{HardnessFactor}(d) = 1.0 + \text{HardnessWeight} \times \frac{\text{clamp}(100.0 - \text{softness},\; 0.0,\; 100.0)}{100.0}$$
     - Examples with `HardnessWeight = 0.85`:
       - Militia / Base Infantry (`100%` softness, `0%` hardness): **`1.00x`**
@@ -256,66 +255,58 @@ In Stage 5 of the original plan, `g_pGraphTable` was allocated via `VirtualAlloc
       - Heavy Armor (`20%` softness, `80%` hardness): **`1.68x`**
 
 #### 4.2.2 Note on Step 6 Evacuation Headcount vs. Combat Strength
-- In `Cave_STEM_UpdateGraphTable` (`Pass 0`): `fr_str`, `inb_str`, `en_str`, and `en_inb_str` use the new ORG + Hardness weighted `DivEffStr(d)` so `T_force(v)`, `IsThreatened(v)`, and `SalientEvacuationQuota(P)` accurately reflect whether a neck is threatened by high-org Panzer corps vs. low-org militia!
+- In `Cave_STEM_UpdateGraphTable` (`Pass 0`) and `Hook 9A`: `fr_str`, `inb_str`, `en_str`, and `en_inb_str` use the new ORG + Hardness weighted `DivEffStr(d)` so `T_force(v)` and `SalientEvacuationQuota(P)` accurately reflect whether a neck is threatened by high-org Panzer corps vs. low-org militia.
 - Note that `TargetStayDivs`, `StayingDivs`, and `EvacDivBudget` (`Stage 4` of Phase 1) operate on **whole division counts (`+0x2E`)**, NOT strength floats, while `.uae_calc_army_str` / Hook 7B / Loop A candidate scoring continue to match the unified strength representation.
 
 #### 4.2.3 New INI Keys for Stage 2
 - **`db/mod_settings.ini` (`[FrontAI]` section)**:
-  - `EnableDirectOrgWeighting = 1` (`1` = integrate ORG into `FrStr`/`EnStr`/`InbStr` and disable legacy combat-only `T_org`; `0` = legacy raw strength + combat-only `T_org`).
-  - `MinOrgWeightFactor = 0.15` (Minimum multiplier for a 0-ORG division).
-  - `MaxOrgWeightFactor = 1.25` (Maximum multiplier for an over-baseline ORG division).
+  - `OrgWeight = 0.85` (Organization weight applied in `FrStr`/`EnStr`/`InbStr`: `OrgFactor = (1 - OrgWeight) + OrgWeight * OrgRatio`, `0.0` = disabled, `0.85` -> `0.15x..1.00x`).
   - `HardnessWeight = 0.85` (Bonus strength multiplier at `0%` softness / `100%` hardness; set `0.0` to disable hardness weighting).
 
-#### 4.2.4 Stage 2 Verification & Stopping Point
-1. **Build & Automated Smoke Test**:
-   - Rebuild and run the main-menu smoke test.
-   - Load the 1941 Barbarossa save, save with `Extra debug logs = 1` to generate `stem_debug.csv`, and compare `FrStr`, `InbStr`, `EnStr`, and `T_Neck` before vs. after Stage 2 on provinces facing German Panzer corps vs. infantry/allied minors.
-2. **STOP and report Stage 2 results to the user for approval before proceeding to Stage 3.**
+#### 4.2.4 Latent Phase 1 Bugfixes & Stage 2 Validation Notes
+1. **Latent `edx` Clobber in `.hlp_init_fail` / `.hlp_next_fail` (Resolved)**:
+   - When an evacuating province in `.step5e_accum_necks` ended its adjacency list on an `Impassable` (`adj->type == 4`) edge (or `.hlp_init_nb` failed), `.hlp_next_fail` / `.hlp_init_fail` previously left `edx = CProvince->m_pAdjacencies` instead of restoring `edx = [ebp - 4]` (`g_pGraphTable`), causing corrupted reads/writes relative to the province adjacency heap array (`AV @ 0x004318EF`). Fixed by restoring `mov edx, dword ptr [ebp - 4]` in `.hlp_init_fail`, `.hlp_next_fail`, `.s5ea_tnb_done`, and `.s5e_raw_init`.
+2. **Infinite Loop on Empty Pass-1 `bfs_q` (`[ebp - 0x10] == 0`, Resolved)**:
+   - When an at-war AI country had a `1`-province disconnected front with `0` Pass-1 safe roots (triggered live by `U04` *Syria and Lebanon* at province `7357`), `[ebp - 0x10]` remained `0` into `.raw_rst_done`, setting `[ebp - 0x28] = 0` and spinning infinitely between `.raw_bfs_start` -> `.bfs_queue_loop` -> `.level_comp_start`. Fixed by branching directly to `.raw_prop_start` when `[ebp - 0x10] == 0` at both `.level_comp_start` and `.raw_rst_done`.
+3. **Validation**: Rebuilt, verified (`SHA256 = C416BCC15C557D1B372942F20CCF0E43CE804B812457B63F2D1105839CF06830`), and validated in live play by the user (user tuned `HardnessWeight = 3.00` in mod INI).
 
 ---
 
-### Stage 3: Alternative Supply Lifelines Over Impassable Connections (`189 <-> 7003`) & Coastal Ports (Item 4)
-**Status:** Pending
+### Stage 3: Alternative Supply Lifelines Over Impassable Connections (`189 <-> 7003`) & Direct Coastal Sea Access (Item 4)
+**Status:** Implemented -- Awaiting User Validation (`Cave: 8067 instructions, 24765 bytes`, `SHA256 = 8794E4C17B947BD25198A1415289699E550CDA6E3DE46995EEB9A1C8C332A924`)
 
-#### 4.3.1 Distinguishing Land Escape Routes from Supply Lifelines
+#### 4.3.1 Distinguishing Land Escape Routes from Supply Lifelines (Performance-First Simplified Design)
 - Troops **cannot** march across `adj->type == 4` (`Impassable`, e.g., `189 Kirisi <-> 7003 Kir'jasaly` across Lake Ladoga) or across sea zones without naval transports. Therefore:
-  - Pass 1 (`.p1_bfs_loop`), Pass 1.5 (`F_Paths` Edmonds-Karp flow), and Pass 2 (`.p2_bfs_loop`) **must keep** skipping `adj->type == 4` so `Dist(P)`, `F_Paths(P)`, and `EvacDestNeck(P)` only ever route troops along walkable land edges.
-- However, right after Pass 2 completes (and before Pass 3 computes `SalientEvacuationQuota(P)`), we add **Pass 2B: Alternative Supply Lifeline Detection** (`alt_supply_visit[8192]` at `+0x120000` and `prov_status_flags[8192]` bits `0x02` and `0x04` at `+0xEC000`):
+  - `.fdist_bfs_loop`, Step 5A (`F_Paths` Edmonds-Karp flow), and Pass 2 (`.bfs_queue_loop`) **must keep** skipping `adj->type == 4` so `Dist(P)`, `F_Paths(P)`, and `EvacDestNeck(P)` only ever route troops along walkable land edges.
+- To avoid adding another full-map BFS per country every game hour, Stage 3 uses two zero-overhead / endangered-pocket-only mechanisms:
+  1. **Direct Sea-Zone Exit (`STATUS_PORT_SUPPLY = 0x04`)**: Checked inline inside `.ppa_loop` (`+0x120000` backup & `0xF9` mask reset for `0x02|0x04`) with a single pointer read (`cmp dword ptr [pProv + 0x3DC], 0`), with the accepted tradeoff that only provinces with direct sea access (`m_nPortSeaZone > 0`) receive `0x04` (no separate port-reachability BFS, and no `+0x46A` / Naval Base / `+0x270` checks).
+  2. **Endangered-Pocket-Only Impassable Supply Propagation (`STATUS_IMPASSABLE_SUPPLY = 0x02`)**: Invoked once at `.step5b_start` (`.hlp_mark_impassable_supply`) using the strip backup list `+0x120000` saved during `.ppa_loop`:
+     - **Pass A (Bridgehead Scan)**: Scans strip provinces (`0 .. [ebp - 0x48] - 1`) that are endangered (`dist != 0` and `cut0 != 0xFFFF`, i.e., `F < W`, catching both Pass-1 `F >= 1` and Pass-2 `F == 0` salient provinces). Iterates their raw adjacency array looking for any `dword ptr [adj + 4] == 4` (`Impassable`) neighbor `eax` that is:
+       - unthreatened (`is_threatened[eax] == 0`),
+       - safe/non-endangered (`dist[eax] == 0`, OR `(VIS_EVAL & cut0[eax] == 0xFFFF)`, OR `(fdist_p1[eax] == 0 && (flags[eax] & 0x09) == 0)`), AND
+       - friendly-controlled (`.hlp_check_ctrl`).
+     - Any such endangered province `esi` receives `prov_status_flags[esi] |= 0x02`. If `esi` itself is unthreatened (`is_threatened[esi] == 0`), `esi` is pushed into scratch queue `+0x26000` to propagate supply further into adjacent endangered pockets. If `0` bridgeheads exist (~90%+ of fronts), Pass B skips immediately with zero BFS iterations.
+     - **Pass B (Mini-BFS Within Endangered Pocket)**: Expands from `+0x26000` across normal land neighbors (`hlp_init_nb` / `hlp_next_nb`) that are friendly, inside the K-hop strip (`fdist_p1 != 0`), endangered (`dist != 0 && cut0 != 0xFFFF`), and not yet `0x02`, stamping `prov_status_flags[eax] |= 0x02` (e.g., `189 Kirisi ==[Impassable]==> 7003 Kir'jasaly --> 187 Leningrad`), and re-queueing unthreatened neighbors (`is_threatened[eax] == 0`) so actively collapsing nodes receive the supply bonus themselves without forwarding past the breach.
 
-#### 4.3.2 Pass 2B Algorithm -- Impassable Supply BFS & Coastal Port Supply Check
-1. **Impassable Supply Lifeline (`prov_status_flags[P] |= 0x02`)**:
-   - We run a fast BFS over friendly, **unthreatened** (`is_threatened[u] == 0`) provinces where the adjacency helper **allows `adj->type == 4` (`Impassable`) connections**!
-   - **Seeds**: Every friendly province $r$ that already has a full safe land escape route (`f_paths[r] >= SafePathWidthThreshold` or `dist[r] == 0`, with `is_threatened[r] == 0`).
-   - **Traversal**: Expand across all friendly unthreatened neighbors $v$ **including** `adj->type == 4` (`Impassable`) edges.
-   - Any province $P$ with `f_paths[P] < SafePathWidthThreshold` that is reached by this Pass 2B BFS (meaning $P$ can trace an unthreatened supply chain across an `Impassable` connection back to the main unthreatened front/core, such as `187 Leningrad -> 7003 Kir'jasaly ==[Impassable]==> 189 Kirisi`) gets **`prov_status_flags[P] |= 0x02` (`STATUS_IMPASSABLE_SUPPLY`)**!
-2. **Coastal Port Supply Lifeline (`prov_status_flags[P] |= 0x04`)**:
-   - A friendly province $u$ is a **Supplied Active Port** if all of the following hold:
-     - `dword ptr [pProv(u) + 0x3DC] > 0` (has coastal port sea-zone exit),
-     - `dword ptr [pProv(u) + 0x46A] != 0` (has active port/naval base object),
-     - `pNavInst = dword ptr [pProv(u) + 0x1DE]` is non-null and `float [pNavInst + 0x10] >= 1.0f` (current undamaged Naval Base installation level $\ge 1.0$), AND
-     - `float [pProv(u) + 0x270] > 0.0f` (or the province is within the national capital's core supply network).
-   - Seed a port-component reachability pass from every friendly **Supplied Active Port** $u$ (`is_threatened[u] == 0`, or $u$ itself if $u$ is a coastal fortress) across friendly land/impassable edges (`dist_from_port <= MaxHorizonDepth`).
-   - Any salient/pocket province $P$ (`f_paths[P] < SafePathWidthThreshold`) connected to a friendly Supplied Active Port gets **`prov_status_flags[P] |= 0x04` (`STATUS_PORT_SUPPLY`)**!
+#### 4.3.2 Effect of Alternative Supply Lifelines on `SalientEvacuationQuota(P)` & `EvacMult`
+- Helper **`.hlp_mul_alt_supply_esi`** inspects `prov_status_flags[P] & 0x06` (`+0xEC000`):
+  - `0x02` (`Impassable Supply`): multiplies quota on `st(0)` by **`ImpassableSupplyQuotaMultiplier`** (INI default **`0.35f`**).
+  - `0x04` (`Direct Coastal Sea Supply`): multiplies quota on `st(0)` by **`PortSupplyQuotaMultiplier`** (INI default **`0.50f`**).
+  - `0x06` (both bits set, e.g., `187 Leningrad` having both `m_nPortSeaZone > 0` and overland Lake Ladoga connection via `7003 <-> 189`): multiplies `st(0)` by $\min(\text{ImpassableSupplyQuotaMultiplier},\; \text{PortSupplyQuotaMultiplier}) = 0.35$.
+- Called in both `.hlp_apply_evac_mult_and_blacklist_esi` at `.aemb_clamp` (covering both Pass-1 Step 5B and Pass-2 `.raw_prop_loop` `F == 0` quotas) and `.hlp_write_telemetry` at `.wt_calc_emult` (so `stem_debug.csv` Col 30 `EvacMult` displays the combined country + alternative-supply multiplier, e.g. `0.35` or `0.50`).
+- **Pre-Multiply `[0.0, 1.0]` Clamp Fix**: When `WidthDeficitWeight > 1.0` (`1.2`) and `NeckThreatMaxCap * NeckThreatWeight > 1.0` (`1.5 * 1.3 = 1.95`), unclamped `D_Width * T_Neck * V_Ret` can reach `2.340` prior to `.hlp_apply_evac_mult_and_blacklist_esi`. Clamping raw `Q_raw` to `[0.0, 1.0]` **before** multiplying by `country_evac_mult` and `.hlp_mul_alt_supply_esi` ensures `2.340 * 0.35` does not silently stay at `0.820` (`2.340 -> 1.000 * 0.35 = 0.350`, while keeping the post-multiply `[0.0, 1.0]` clamp for `stem_evac_modifier > 100`).
 
-#### 4.3.3 Effect of Alternative Supply Lifelines on `SalientEvacuationQuota(P)`
-- In Pass 3 (when computing `SalientEvacuationQuota(P)` for a province $P$):
-  - If `prov_status_flags[P] & 0x02` (`Impassable Supply Lifeline`, e.g., Leningrad supplied via `189 <-> 7003`):
-    - Multiply $Q(P)$ by **`ImpassableSupplyQuotaMultiplier`** (INI configurable, default **`0.35f`**).
-  - Else if `prov_status_flags[P] & 0x04` (`Coastal Port Supply Lifeline`, e.g., Sevastopol, Odessa, Tallyn, Hanko, or Kola/Murmansk):
-    - Multiply $Q(P)$ by **`PortSupplyQuotaMultiplier`** (INI configurable, default **`0.50f`**).
-  - If **both** `0x02` and `0x04` hold (e.g., Leningrad `187`, which has BOTH a Naval Base port AND the `189 <-> 7003` Lake Ladoga impassable supply route!), use $\min(\text{ImpassableSupplyQuotaMultiplier},\; \text{PortSupplyQuotaMultiplier}) = 0.35$.
-  - Furthermore, when `f_paths[P] == 0` (all land troop routes are cut or threatened), if $P$ has an active Alternative Supply Lifeline (`0x02` or `0x04`), $P$ is **not** forced to `Quota = 1.000` (`255/255`) -- instead, its base quota is capped by the supply multiplier (`0.35` or `0.50`) so defenders hold the supplied fortress/bridgehead rather than panic-abandoning it!
-
-#### 4.3.4 New INI Keys for Stage 3
+#### 4.3.3 New INI Keys for Stage 3
 - **`db/mod_settings.ini` (`[FrontAI]` section)**:
-  - `ImpassableSupplyQuotaMultiplier = 0.35` (Quota multiplier when a pocket has an unthreatened `adj->type == 4` impassable supply route to the main front; set `1.0` to disable).
-  - `PortSupplyQuotaMultiplier = 0.50` (Quota multiplier when a pocket contains or connects to a friendly supplied Naval Base port with level $\ge 1.0$; set `1.0` to disable).
+  - `ImpassableSupplyQuotaMultiplier = 0.35` (Quota multiplier when an endangered pocket province connects via an `adj->type == 4` bridgehead to a friendly safe/unthreatened province; set `1.0` to disable).
+  - `PortSupplyQuotaMultiplier = 0.50` (Quota multiplier when a province has direct coastal sea access `[pProv + 0x3DC] > 0`; set `1.0` to disable).
 
-#### 4.3.5 Stage 3 Verification & Stopping Point
-1. **Build & Automated Smoke Test**:
-   - Rebuild and run the main-menu smoke test.
-   - Load the 1941 Barbarossa save (and/or a Leningrad/coastal pocket scenario), generate `stem_debug.csv`, and verify `StatusFlags` (`+2` for impassable supply via `7003 <-> 189`, `+4` for coastal ports like `187 Leningrad`, `264 Sevastopol`, `232 Odessa`, `133 Murmansk`) and `EvacMult` / `SalientEvacuationQuota`.
-2. **STOP and report Stage 3 results to the user for approval before proceeding to Stage 4.**
+#### 4.3.4 Stage 3 Verification & Stopping Point
+1. **Build, Patch Integrity & Static Disassembly Verification (Done)**:
+   - Built `build_and_apply_all.py` (`Cave: 8067 instructions, 24765 bytes`, `SHA256 = 8794E4C17B947BD25198A1415289699E550CDA6E3DE46995EEB9A1C8C332A924`), ran both `patch_darkest_hour.bat -Verify` scripts (exit 0), and verified Capstone disassembly of `.ppa_loop` (`+0x120000` backup & `[ecx + 0x3DC]` port check setting `0x04`), `.step5b_start` (`call .hlp_mark_impassable_supply`), `.hlp_mark_impassable_supply`, `.hlp_apply_evac_mult_and_blacklist_esi` (`0x00DCE396` pre-multiply `[0.0, 1.0]` clamp + `call .hlp_mul_alt_supply_esi`), `.hlp_mul_alt_supply_esi` (called by `.hlp_apply_evac_mult_and_blacklist_esi` and `.hlp_write_telemetry`), and `Cave_LoadEngineSettings` (`mov ebx, 0x16` / 22 float configs).
+2. **Manual In-Game Validation (User)**:
+   - Restart the game to load the updated `Darkest Hour.exe` and `db/mod_settings.ini`, generate `stem_debug.csv`, and inspect `StatusFlags` (`+2` / `0x02` and `+4` / `0x04`), `EvacMult`, and `SalientEvacuationQuota` on coastal provinces and `189 <-> 7003 -> 187`.
+   - **STOP and await user approval before proceeding to Stage 4.**
 
 ---
 
@@ -364,10 +355,11 @@ We scale `EffectiveBottleneckBoost(B)` by **both** the upstream salient threat (
   - `BottleneckMaxFrontShare = 0.22` (Maximum fraction of a front's total divisions `D_front` that a single bottleneck's boost can demand).
 
 #### 4.4.4 Stage 4 Verification & Stopping Point
-1. **Build & Automated Smoke Test**:
-   - Rebuild and run the main-menu smoke test.
+1. **Build, Patch Integrity & Static Disassembly Verification**:
+   - Rebuild, run `patch_darkest_hour.bat -Verify`, and verify Capstone disassembly of the density-scaling helper and hooks.
+2. **Manual In-Game Validation (User)**:
    - Load the 1941 Barbarossa save, save with `Extra debug logs = 1` to generate `stem_debug.csv`, and inspect `FinalAIPrio - AdjAIPrio` on sparse minor/Finnish fronts vs. the main dense Soviet western front.
-2. **STOP and report Stage 4 results to the user for approval before proceeding to Stage 5.**
+   - **STOP and report Stage 4 results to the user for approval before proceeding to Stage 5.**
 
 ---
 
@@ -411,11 +403,12 @@ We eliminate this oscillation at all three layers using the persistent hourly co
   - `EvacReentryCooldownHours = 24` (Hours a salient province blocks Front AI from marching divisions back in after evacuation clears; set `0` to disable).
 
 #### 4.5.4 Stage 5 Verification & Stopping Point
-1. **Build & Automated Smoke Test**:
-   - Rebuild and run the main-menu smoke test.
-   - Single-step or run several days on the 1941 Barbarossa save where `241 Belz` / `1884 Przemysl` or `102 Wolkowysk` / `209 Bialystok` are under attack while reinforcements arrive at the neck.
+1. **Build, Patch Integrity & Static Disassembly Verification**:
+   - Rebuild, run `patch_darkest_hour.bat -Verify`, and verify Capstone disassembly of `threat_hold_u8`, `evac_hold_u8`, and `.uae_p1_noncombat_locked`.
+2. **Manual In-Game Validation (User)**:
+   - Run several days on the 1941 Barbarossa save where `241 Belz` / `1884 Przemysl` or `102 Wolkowysk` / `209 Bialystok` are under attack while reinforcements arrive at the neck.
    - Verify in `stem_debug.csv` (`StatusFlags` bits `+8` and `+16`) and in-game that evacuating units complete their withdrawal marches without cancelling/restarting when a reinforcing division enters the neck.
-2. **STOP and report Stage 5 results to the user for approval before proceeding to Stage 6.**
+   - **STOP and report Stage 5 results to the user for approval before proceeding to Stage 6.**
 
 ---
 
@@ -457,11 +450,12 @@ We eliminate this oscillation at all three layers using the persistent hourly co
   - `EnableBottleneckSupportDefense = 1` (`1` = use `Support Defence` `mission_type = 4` when withdrawing from a province directly adjacent to an actively attacked bottleneck; `0` = always use normal `Move`).
 
 #### 4.6.4 Stage 6 Verification & Stopping Point
-1. **Build & Automated Smoke Test**:
-   - Rebuild and run the main-menu smoke test.
+1. **Build, Patch Integrity & Static Disassembly Verification**:
+   - Rebuild, run `patch_darkest_hour.bat -Verify`, and verify Capstone disassembly of threatened bottleneck selection and `CMission::OrderMission` (`mission_type = 4`) dispatch.
+2. **Manual In-Game Validation (User)**:
    - Load the 1941 Barbarossa save where an active bottleneck (e.g., `102 Wolkowysk`, `241 Belz`, or `181 Pskov`) is under attack while adjacent salient provinces are evacuating toward it.
-   - Verify in memory / debugger or in-game UI that adjacent withdrawing units issue **`Support Defence`** (`[pArmy + 0x264] == 4`) into the attacked bottleneck, and transition to a normal move into the bottleneck once the defensive battle is won.
-2. **STOP and report Stage 6 results to the user for final validation.**
+   - Verify in-game / in memory that adjacent withdrawing units issue **`Support Defence`** (`[pArmy + 0x264] == 4`) into the attacked bottleneck, and transition to a normal move into the bottleneck once the defensive battle is won.
+   - **STOP and report Stage 6 results to the user for final validation.**
 
 ---
 
@@ -469,13 +463,11 @@ We eliminate this oscillation at all three layers using the persistent hourly co
 
 | Parameter | Default (Code) | Mod INI Value | Stage | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| `EvacuationBlacklistPriorityThreshold` | `5.0` | `5.0` | Stage 1 | Any province with `front.province_priorities >= threshold` (or `< 0.0`) is blacklisted from STEM evacuation. |
-| `EnableDirectOrgWeighting` | `1` | `1` | Stage 2 | Weight division strength in `FrStr`/`EnStr`/`InbStr` by `clamp(Org / MaxOrg, MinOrgWeightFactor, MaxOrgWeightFactor)`. |
-| `MinOrgWeightFactor` | `0.15` | `0.15` | Stage 2 | Minimum organization multiplier for near-zero ORG divisions. |
-| `MaxOrgWeightFactor` | `1.25` | `1.25` | Stage 2 | Maximum organization multiplier for high-ORG divisions. |
-| `HardnessWeight` | `0.85` | `0.85` | Stage 2 | Bonus combat power multiplier for division hardness (`1.0 + HardnessWeight * (100 - Softness) / 100`). |
-| `ImpassableSupplyQuotaMultiplier` | `0.35` | `0.35` | Stage 3 | Multiplier applied to `SalientEvacuationQuota` when a pocket has an unthreatened `adj->type == 4` impassable supply route. |
-| `PortSupplyQuotaMultiplier` | `0.50` | `0.50` | Stage 3 | Multiplier applied to `SalientEvacuationQuota` when a pocket contains/connects to a supplied friendly Naval Base port. |
+| `EvacuationBlacklistPriorityThreshold` | `5.0` | `10.0` | Stage 1 | Any province with `front.province_priorities >= threshold` (or `< 0.0`) is blacklisted from STEM evacuation. |
+| `OrgWeight` | `0.85` | `0.85` | Stage 2 | Organization multiplier weight in `FrStr`/`EnStr`/`InbStr` (`(1.0 - OrgWeight) + OrgWeight * clamp(Org / max(20.0, eff_max_org), 0.0, 1.0)`). |
+| `HardnessWeight` | `0.85` | `3.00` | Stage 2 | Bonus combat power multiplier for division hardness (`1.0 + HardnessWeight * (100 - Softness) / 100`). |
+| `ImpassableSupplyQuotaMultiplier` | `0.35` | `0.35` | Stage 3 | Multiplier applied to `SalientEvacuationQuota` when an endangered pocket province connects via an `adj->type == 4` bridgehead to a friendly safe/unthreatened province (`StatusFlags & 0x02`). |
+| `PortSupplyQuotaMultiplier` | `0.50` | `0.50` | Stage 3 | Multiplier applied to `SalientEvacuationQuota` when a province has direct coastal sea access (`[pProv + 0x3DC] > 0`, `StatusFlags & 0x04`). |
 | `BottleneckDensityBaseline` | `3.5` | `3.5` | Stage 4 | Reference front division density (divisions per frontline province) for `1.0x` `BottleneckDefenseBoost`. |
 | `BottleneckDensityMinScale` | `0.25` | `0.25` | Stage 4 | Minimum density scale multiplier for `BottleneckDefenseBoost` on sparse fronts. |
 | `BottleneckDensityMaxScale` | `3.00` | `3.00` | Stage 4 | Maximum density scale multiplier for `BottleneckDefenseBoost` on dense fronts. |
@@ -519,3 +511,10 @@ The following items are preserved for future investigation after Phase 2 validat
 - **Proposed Future Investigation:** Reverse-engineer the upstream helpers populating `[node + 0x30]` (`reactive`), `[node + 0x34]` (`defensive`), and `[node + 0x14]` (`op_defensive`) on each `CFrontProvince` node (`0x006825E0..0x00683AC0`), and design a configurable **Hybrid Distribution Mode** in `CFrontAI::MoveUnitsToFront` that blends normalized components:
   $$S_{\text{hybrid}}(u) = w_{\text{react}} \cdot S_{\text{reactive}}(u) + w_{\text{def}} \cdot S_{\text{defensive}}(u) + w_{\text{op}} \cdot S_{\text{op\_defensive}}(u)$$
   so the Front AI simultaneously responds to enemy force concentrations (`reactive`), anchors on defensible terrain/forts/VPs (`defensive`), and respects operational depth (`op_defensive`).
+
+### 6. NEW -- Geographic Front-Splitting (Lakes / Interior Gaps) & Cross-Front Division Rebalancing (`0x00693EE0` / `0x00694BE0`)
+- **Problem Statement:** Vanilla `CAI::UpdateFronts` (`0x00693EE0` -> `0x0068A2B0`) only merges `CFrontAI` instances when two exposed frontline provinces share a direct walkable land edge. Any small geographic obstacle along the front -- such as `7105 Lake Ilmen` separating `287 Malaya Vishera` and `7075 Parfino` behind friendly interior `7074 Valdaj`, a minor lake/impassable tile, or a shallow Allied salient pinch -- fractures a single continuous theater into multiple isolated `CFrontAI` pools with no ongoing balancing between them.
+- **Observed Impact (Live Barbarossa Save):** Even when `186 Krasnogvardeysk` faced `27` German divisions (`NormAIPrio = 8.7`), Lake Ilmen isolated the 4-province Northern Front (`24.0` total divs) from the 14-province Main Front (`187.0` total divs, where `1564 Opocka` facing `20` German divs received `NormAIPrio = 20.8`). Because vanilla `CAI::RequestFrontDivisions` (`0x00694BE0`) gates cross-front transfers on extreme `panic_ratio` (`30.5` in `SOV` AI) and caps requests at `front->prov_count - our_divs` (`4 - 24 <= 0`), the heavily outnumbered Northern Front could never draw surplus divisions from the rest of the same landmass front.
+- **Potential Remediation Directions (One or Both Together):**
+  1. **Prevent Artificial Front Splits in `CAI::UpdateFronts` (`0x00693EE0` / `0x0068A2B0`):** Allow nearby same-landmass fronts separated only by small geographic obstacles (e.g., 1-2 hop friendly interior bridges like `7074 Valdaj` around lakes, impassable borders, or adjacent water tiles) to merge into a single unified operational front so `Loop A` and `Loop B` distribute divisions proportionally across the whole theater.
+  2. **Continuous Enemy-Weighted Cross-Front Rebalancing (`0x00694BE0`):** Supplement or replace vanilla's `1`-division-per-province / `panic_ratio` cross-front gate so same-landmass fronts sharing an active war enemy continuously transfer surplus divisions from low-threat fronts to heavily outnumbered fronts based on actual enemy-to-friendly force ratios.
