@@ -79,7 +79,7 @@ Virtual method table at `0x007E85C0`. Size: `0x320` bytes.
 | `+0x240` | `uint16_t` | `m_startProv` | Starting province ID of the current move leg |
 | `+0x248` | `Country*` | `m_pCountry` | Base pointer to owning `Country` object (`[pArmy + 0x248]`) |
 | `+0x260` | `struct` | `m_MissionCtrl` | Embedded `CMissionController` structure (`0x60` bytes) |
-| `+0x264` | `uint32_t` | `m_missionType` | Mission type in controller: `1` = explicit `MOVE`/`ATTACK`, `0` = AI move / `NONE` |
+| `+0x264` | `uint32_t` | `m_missionType` | Mission type in controller (`0` = `NONE`/AI move, `1` = `MOVE`/`ATTACK`, `4` = `SUPPORT_ATTACK`, `5` = `SUPPORT_DEFENCE`, `6` = `RESERVES`, `7` = `ANTI_PARTISAN`, `8` = `GARRISON`/SR) |
 | `+0x268` | `uint32_t` | `m_targetProv` | Target province ID in controller |
 | `+0x26C` | `float` | `m_speedFactor` | Movement speed scalar (`1.0f` = `0x3F800000`) |
 | `+0x270` | `uint32_t` | `m_startDate` | Packed start date timestamp |
@@ -95,7 +95,7 @@ Virtual method table at `0x007E8754`. Manages AI and player mission directives.
 Offset from Army  Internal Offset  Type        Description
 --------------------------------------------------------------------------------------
 +0x260            +0x00            void*       Vtable (0x007E8754)
-+0x264            +0x04            uint32_t    Mission Type: 0=None/AI move, 1=Move/Attack...
++0x264            +0x04            uint32_t    Mission Type: 0=None/AI move, 1=Move/Attack, 4=Support Attack, 5=Support Defence, 6=Reserves, 7=Anti-Partisan, 8=Garrison/SR
 +0x268            +0x08            uint32_t    Target Province ID
 +0x26C            +0x0C            float       Speed Multiplier (standard 1.0f = 0x3F800000)
 +0x270            +0x10            uint32_t    Mission Start Date / Time
@@ -145,6 +145,8 @@ All provinces are stored in a contiguous array in the engine heap.
 | `CLandArmy::OrderRetreat` | `0x00522930` | `__thiscall` | `(uint32_t targetProvId)` (`ecx = pArmy`) | Sets retreat destination and movement path on `pArmy` (must be called via `0x004BE920` if in active combat). |
 | `CLandArmy::SelectRetreatProvince` | `0x00508E10` | `__thiscall` | *(See `CLandArmy` vtable `+0x40`)* (`ecx = pArmy`) | Universal combat defeat/retreat destination selector (used by `0x00686010` and `CLandCombat` defeat handling). Hooked by Patch 18 Stage 5 (`0x00508FBB`, `0x0050908C`, `0x005090E2`) for load-balanced outward STEM retreat scoring and safe-exit bypass. |
 | `CLandArmy::StopMovement` | `0x0050BCA0` | `__thiscall` | `(CLandArmy* pArmy)` (`ecx = pArmy + 0x260`) | Cancels active movement mission and clears path queue. |
+| `CMission::OrderMission` | `0x0050B600` | `__thiscall` | `(pArmy, mission_type, target_prov, speed, ...)` (`0x44` stack bytes, `ecx = pArmy + 0x260`) | Issues persistent mission (`4 = Support Attack`, `5 = Support Defence` from `CFrontAI::Defend` @ `0x00685BD6`). Note: `mission_type = 5` initializes `[pArmy + 0x264] = 5` without moving immediately until combat starts. |
+| `CMission::Update` | `0x0050C590` | `__thiscall` | `(pArmy)` (`ecx = pArmy + 0x260`, jump table `0x0050CEDC`) | Hourly mission controller tick. For `case 5` (`Support Defence` @ `0x0050CBB2`): scans `[GetProvince(target_prov) + 0x1AA]` for allied defender combat (`[pCombat + 0x74] == 1`, `[pCombat + 0x84]`) and starts accelerated move via `0x00512660` (`cmd 0x85` + `cmd 0x34`); if combat ends mid-march (`[pProv + 0x1AA] == 0`), vanilla `0x0050CD64 -> 0x005127F0` cancels movement (`cmd 0x85` + `cmd 0x30 MoveCancelEvent` -> `0x0051BE90`). **Hooked by Patch 18 Stage 6 (`Hook 13` @ `0x0050CD64` -> `Cave_STEM_SupportDefBattleEndHook` @ `0x00DD26C2`)**: suppresses `0x005127F0` (`ret 4`) for STEM-evacuating armies whose `target_prov` remains own/allied-controlled (not war-enemy controlled), preserving march progress across battle win or defeat; still delegates to `0x005127F0` if `target_prov` falls to an enemy at war. |
 | `CLandArmy::CanMoveTo` | `0x005091C0` | `__thiscall` | `(uint32_t targetProvId)` (`ecx = pArmy`) | Fast adjacency query. Returns `1` if target province is a legal neighbor. |
 | `CLandArmy::CanEnterTerrain` | `0x005216C0` | `__thiscall` | `(CProvince* pTargetProv)` (`ecx = pArmy`) | Validates if all units in division list can traverse target terrain. |
 | `CLandArmy::StartMoving` | `0x00523250` | `__thiscall` | None (`ecx = pArmy`) | Sets `m_bMoving = 1` (`+0x27E`), triggers sprite march animation, plays march sound. |
