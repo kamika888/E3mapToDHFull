@@ -358,7 +358,7 @@ Instead of adding separate density baseline/min/max/cap INI parameters, **`Bottl
 ---
 
 ### Stage 5: Bottleneck `IsThreatened` Anti-Flicker & Evacuation Commitment Hysteresis (Item 9)
-**Status:** Implemented -- Awaiting User Validation (`Cave: 8616 instructions, 26479 bytes`, `SHA256 = 906501CAC37443AAC76C2B1C81401C68AC47503BC945E45DC23B292EB9D0092D`)
+**Status:** Implemented -- Awaiting User Validation (`Cave: 8628 instructions, 26519 bytes`, `SHA256 = 274302843E7CE987CD4E06CFC67CE65E5CE10187499F909E9460D78BB91C68E8`)
 
 #### 4.5.1 Root Cause of the Cancel-and-Restart Flicker Cycle
 During active evacuation of a salient (e.g., `1884 Przemysl` or `209 Bialystok`), three tightly coupled things previously happened when a single fresh division walked into an attacked bottleneck $v$ (e.g., `241 Belz` or `102 Wolkowysk`):
@@ -370,11 +370,11 @@ During active evacuation of a salient (e.g., `1884 Przemysl` or `209 Bialystok`)
 This oscillation is eliminated at all three layers using the persistent hourly countdown arrays `threat_hold_u8[8192]` (`+0xEE000`) and `evac_hold_u8[8192]` (`+0xF0000`):
 
 1. **Layer 1 -- Attacked-Bottleneck `IsThreatened` Hold Timer (`threat_hold_u8[v]` in Pass 0 `Step 3B` @ `0x00DCC923`)**:
-   - In `Cave_STEM_HourlyAllCountries` (`0x00DD06D6`), track a flags-free packed 32-bit `CDate` key (`(year << 16) | (month << 10) | (day << 5) | hour` read from `dword ptr [0x00893530]`, reset to `-1` in `Cave_PostLoadInit` @ `0x00DD03CB`) so `threat_hold_u8` and `evac_hold_u8` decrement at most once per game hour (never on mid-hour `Hook 4` / `SaveGameHook` refreshes).
+   - In `Cave_STEM_HourlyAllCountries` (`0x00DD05F2`), track a flags-free packed 32-bit `CDate` key (`(year << 16) | (month << 10) | (day << 5) | hour` read from `dword ptr [0x00893530]`, reset to `-1` in `Cave_PostLoadInit` @ `0x00DD03F3`) so `threat_hold_u8` and `evac_hold_u8` decrement at most once per game hour (never on mid-hour `Hook 4` / `SaveGameHook` refreshes).
    - Clear Stage 5 status bits (`and 0xE7` on `+0xEC000`), and whenever raw Pass 0 evaluation marks controlled province `is_threatened[v] == 1`, arm:
      $$\text{threat\_hold\_u8}[v] = \min(255,\; \text{ThreatClearanceCooldownHours} + 1) \quad (\text{INI default } 36\text{ hours})$$
    - On subsequent hours, if raw Pass 0 evaluation does not mark $v$ threatened, check `threat_hold_u8[v] > 0`:
-     - If `threat_hold_u8[v] > 0` **AND** (active defensive land combat is ongoing in $v$ via `Cave_STEM_IsProvInDefCombat_Eax` @ `0x00DCEE88` checking `[pProv + 0x1C2]` -> `[pArmy + 0x128] != 0 && [[[pArmy + 0x120]] + 0x78] + 0x12 == v`, **OR** `raw_threat(v) >= 0.65` computed at end of Pass 0 via `.hlp_eval_p0_raw_threat_esi` @ `0x00DCEF04` and `flt_065` @ `0x00DCBDE9`):
+     - If `threat_hold_u8[v] > 0` **AND** (active defensive land combat is ongoing in $v$ via `Cave_STEM_IsProvInDefCombat_Eax` @ `0x00DCEEB0` checking `[pProv + 0x1C2]` -> `[pArmy + 0x128] != 0 && [[[pArmy + 0x120]] + 0x78] + 0x12 == v`, **OR** `raw_threat(v) >= 0.65` computed at end of Pass 0 via `.hlp_eval_p0_raw_threat_esi` @ `0x00DCEF2C` and `flt_065` @ `0x00DCBDE9`):
        - **Hold `is_threatened[v] = 1`**, preserve its threatened status, and set `prov_status_flags[v] |= 0x08` (`STATUS_THREAT_HOLD`)!
      - Only when the timer expires (`threat_hold_u8[v] == 0`) OR active defensive combat has stopped AND raw threat has dropped below `0.65` does `is_threatened[v]` clear to `0`.
 
@@ -382,26 +382,30 @@ This oscillation is eliminated at all three layers using the persistent hourly c
    - Whenever a controlled province $P$ has raw `quota_q8[P] >= 64` ($\ge 25\%$ evacuation), arm:
      $$\text{evac\_hold\_u8}[P] = \min(255,\; \text{EvacReentryCooldownHours} + 1) \quad (\text{INI default } 24\text{ hours})$$
    - While `evac_hold_u8[P] > 0` on subsequent hours, if $P$ is not an active bottleneck (`neck_agg_q8[P] == 0`), not dependency-locked (`!(prov_flags[P] & 0x40)`), and not blacklisted or `stem_no_evac` (`!(prov_status_flags[P] & 0x41)`):
-     - Apply `prov_status_flags[P] |= 0x10` (`STATUS_EVAC_HOLD`), raise `quota_q8[P] = max(raw_quota_q8[P], 32)` (`12.5%`), and sync telemetry via `Cave_STEM_SyncTelemetryPrio` (`0x00DCF311`).
-     - `Hooks 7A` (`0x00DD0D29`), `7B` (`0x00DD0DFD`), `7D` (`0x00DD0F7F`), `8A` (`.srs_chk_evac_hold`), and `8D` treat `STATUS_EVAC_HOLD` / `quota_q8 >= 32` as an evacuation hold so Loop A and Loop B wait out the `24`-hour cooldown before marching new reinforcements back into $P$.
+     - Apply `prov_status_flags[P] |= 0x10` (`STATUS_EVAC_HOLD`), raise `quota_q8[P] = max(raw_quota_q8[P], 32)` (`12.5%`), and sync telemetry via `Cave_STEM_SyncTelemetryPrio` (`0x00DCF339`).
+     - `Hooks 7A` (`0x00DD0D51`), `7B` (`0x00DD0E25`), `7D` (`0x00DD0FA7`), `8A` (`.srs_chk_evac_hold` @ `0x00DD1BDF`), and `8D` treat `STATUS_EVAC_HOLD` / `quota_q8 >= 32` as an evacuation hold so Loop A and Loop B wait out the `24`-hour cooldown before marching new reinforcements back into $P$.
 
-3. **Layer 3 -- In-Progress Withdrawal March Commitment (`.uae_p1_noncombat_locked` in Step 6 `0x00DCF4BA`)**:
+3. **Layer 3 -- In-Progress Withdrawal March Commitment (`.uae_p1_noncombat_locked` in Step 6 `0x00DCF4E2`)**:
    - In `Cave_STEM_UpdateAndEvacuate_Internal` (`Pass 1` active evacuation registry validation):
-     - If an army slot already has a locked withdrawal destination `dest = word ptr [ecx + 6]` (`dest != 0`) AND `neck[src] == 0` or `quota_q8[src] == 0`, branch to `.uae_p1_chk_commit_march` (`0x00DCF6BD`): check `.uae_is_marching_to_eax` (`0x00DD00EC`) **AND** `.uae_is_friendly_nonfull_dest_eax` (`0x00DD011A`, controlled by country or ally and `quota_q8[dest] < 255`). If both pass, keep `[ecx + 6] = dest` committed mid-march until arrival instead of clearing the slot!
+     - If an army slot already has a locked withdrawal destination `dest = word ptr [ecx + 6]` (`dest != 0`) AND `neck[src] == 0` or `quota_q8[src] == 0`, branch to `.uae_p1_chk_commit_march` (`0x00DCF6E5`): check `.uae_is_marching_to_eax` (`0x00DD0114`) **AND** `.uae_is_friendly_nonfull_dest_eax` (`0x00DD0142`, controlled by country or ally and `quota_q8[dest] < 255`). If both pass, keep `[ecx + 6] = dest` committed mid-march until arrival instead of clearing the slot!
      - In `.uae_p1_not_locked` (`quota_q8[src] == 32` under `STATUS_EVAC_HOLD` only when `neck[src] == 0`), keep non-locked units in `StayingDivs` rather than evacuating them.
-     - In `.uae_rc_scan` (`0x00DCF9BC`, Pass 2 target-stay recall), skip recalling any locked slot that is already actively marching toward its withdrawal destination.
+     - In `.uae_rc_scan` (`0x00DCF9E4`, Pass 2 target-stay recall), skip recalling any locked slot that is already actively marching toward its withdrawal destination.
+
+4. **Same-Depth Cut Accumulation Guard in Step 5C/5E (`.hlp_s5e_accum_for_esi` @ `0x00DCE8F8` & `.step5c_loop`)**:
+   - Enforces strict downstream ordering `Dist[cut] < Dist[P]` on `raw_cut0`, `raw_cut1`, `cut_ctrl0`, and `cut_ctrl1` inside `.hlp_s5e_accum_for_esi` (and triggers contracted-cut fallback `.s5c_r0_fb` / `.s5c_r1_fb` in `.step5c_loop` when a raw cut fails `Dist[cut] < Dist[P]`).
+   - Prevents a same-depth salient tip province (e.g., `1884 Przemysl Dist=7`) from feeding its evacuation quota onto an adjacent peer tip (e.g., `7978 Ustrzyki Dolne Dist=7` when `7979 Belz` is attacked) as `IsBottleneck = 1`, breaking the reciprocal `7978 <-> 500/501` march loop while preserving `cut_ctrl1[1884] = 500` (`Dist = 6`).
 
 #### 4.5.3 New INI Keys for Stage 5
 - **`db/mod_settings.ini` (`[FrontAI]` section)**:
-  - `ThreatClearanceCooldownHours = 36` (Loaded in `Cave_LoadEngineSettings` @ `0x00DD0479`, clamped `0..255`; hours an attacked bottleneck holds `IsThreatened = 1` against temporary reinforcement blips while combat continues or $T(v) \ge 0.65$; set `0` to disable).
-  - `EvacReentryCooldownHours = 24` (Loaded in `Cave_LoadEngineSettings` @ `0x00DD0479`, clamped `0..255`; hours a salient province blocks Front AI from marching divisions back in after evacuation clears; set `0` to disable).
+  - `ThreatClearanceCooldownHours = 36` (Loaded in `Cave_LoadEngineSettings` @ `0x00DD04A1`, clamped `0..255`; hours an attacked bottleneck holds `IsThreatened = 1` against temporary reinforcement blips while combat continues or $T(v) \ge 0.65$; set `0` to disable).
+  - `EvacReentryCooldownHours = 24` (Loaded in `Cave_LoadEngineSettings` @ `0x00DD04A1`, clamped `0..255`; hours a salient province blocks Front AI from marching divisions back in after evacuation clears; set `0` to disable).
 
 #### 4.5.4 Stage 5 Verification & Stopping Point
 1. **Build, Patch Integrity & Static Disassembly Verification (Done)**:
-   - Rebuilt `build_and_apply_all.py` (`Cave: 8616 instructions, 26479 bytes`, `SHA256 = 906501CAC37443AAC76C2B1C81401C68AC47503BC945E45DC23B292EB9D0092D`), updated both `Darkest Hour_modified.exe` and `Darkest Hour.exe`, passed `patch_darkest_hour.bat -Verify` on all three executables, and verified Capstone disassembly of `Cave_LoadEngineSettings` (`0x00DD0479`), `Cave_PostLoadInit` (`0x00DD03CB`), `Cave_STEM_HourlyAllCountries` (`0x00DD06D6`), `.p0_th_loop` (`0x00DCC923`), `Cave_STEM_IsProvInDefCombat_Eax` (`0x00DCEE88`), `.hlp_eval_p0_raw_threat_esi` (`0x00DCEF04`), `.step5e_evac_hold` (`0x00DCE297`), `Hooks 7A/7B/8A`, `.uae_p1_chk_commit_march` (`0x00DCF6BD`), `.uae_rc_scan` (`0x00DCF9BC`), and `.uae_is_friendly_nonfull_dest_eax` (`0x00DD011A`).
+   - Rebuilt `build_and_apply_all.py` (`Cave: 8628 instructions, 26519 bytes`, `SHA256 = 274302843E7CE987CD4E06CFC67CE65E5CE10187499F909E9460D78BB91C68E8`), updated `Darkest Hour_modified.exe` and both `patch_darkest_hour.bat` scripts, and verified Capstone disassembly of `Cave_LoadEngineSettings` (`0x00DD04A1`), `Cave_PostLoadInit` (`0x00DD03F3`), `Cave_STEM_HourlyAllCountries` (`0x00DD05F2`), `.p0_th_loop` (`0x00DCC923`), `.step5c_loop`, `.hlp_s5e_accum_for_esi` (`0x00DCE8F8`), `Cave_STEM_IsProvInDefCombat_Eax` (`0x00DCEEB0`), `.hlp_eval_p0_raw_threat_esi` (`0x00DCEF2C`), `.step5e_evac_hold` (`0x00DCE297`), `Hooks 7A/7B/8A`, `.uae_p1_chk_commit_march` (`0x00DCF6E5`), `.uae_rc_scan` (`0x00DCF9E4`), `.uae_is_marching_to_eax` (`0x00DD0114`), and `.uae_is_friendly_nonfull_dest_eax` (`0x00DD0142`). (Active `Darkest Hour.exe` on disk remains `906501CA...` until `x32dbg` / `Darkest Hour.exe` is closed and `patch_darkest_hour.bat` is run.)
 2. **Manual In-Game Validation (User)**:
-   - Run several days on the 1941 Barbarossa save where `241 Belz` / `1884 Przemysl` or `102 Wolkowysk` / `209 Bialystok` are under attack while reinforcements arrive at the neck.
-   - Verify in `stem_debug.csv` (`StatusFlags` bits `+8` and `+16`) and in-game that evacuating units complete their withdrawal marches without cancelling/restarting when a reinforcing division enters the neck.
+   - Run several days on the 1941 Barbarossa save where `241 Belz` / `1884 Przemysl`, `7978 Ustrzyki Dolne` / `7979 Belz`, or `102 Wolkowysk` / `209 Bialystok` are under attack while reinforcements arrive at the neck.
+   - Verify in `stem_debug.csv` (`StatusFlags` bits `+8` and `+16`) and in-game that evacuating units complete their withdrawal marches without cancelling/restarting when a reinforcing division enters the neck, and `7978` stays off the bottleneck cycle when `7979 (Belz)` is attacked.
    - **STOP and report Stage 5 results to the user for approval before proceeding to Stage 6.**
 
 ---
