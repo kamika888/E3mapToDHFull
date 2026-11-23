@@ -1,6 +1,6 @@
 # Plan: STEM Phase 2 -- Country Controls, Combat Power Realism, Supply Lifelines, Density-Scaled Boosts & Anti-Flicker Hysteresis
 
-**Status:** In Progress (Stage 1--2 Completed & Validated; Stage 3 Implemented -- Awaiting User Validation; Stages 4--6 Pending)  
+**Status:** In Progress (Stages 1--3 Completed & Validated; Stage 4 Implemented -- Awaiting User Validation; Stages 5--6 Pending)  
 **Target Binary:** `Darkest Hour_modified.exe` (Darkest Hour v1.05.2, Base `0x00400000`)  
 **Prerequisite:** [plan_stem_strategic_defense.md](file:///e:/Program%20Files%20%28x86%29/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/docs/plans/plan_stem_strategic_defense.md) (Stages 1--5 Completed & Validated)  
 **Companion Reference Docs:**  
@@ -21,7 +21,7 @@ Following the completion and in-game validation of Stages 1--5 of the original [
 4. **Alternative Supply Lifelines Over Impassable Connections (`adj->type == 4`) & Direct Sea Access**: Recognizes incoming supply across impassable connections from friendly safe/unthreatened provinces (e.g., Lake Ladoga `189 Kirisi <-> 7003 Kir'jasaly` supplying `187 Leningrad`) and direct coastal sea access (`[pProv + 0x3DC] > 0`, `m_nPortSeaZone`) so supplied pockets reduce evacuation urgency (`SalientEvacuationQuota`) without treating impassable edges as land march routes or running a separate global BFS.
 5. **Direct Organization (`ORG`) Weighting in `FrStr`, `EnStr`, and `InbStr`**: Integrates division organization (`[pDiv + 0xF4]` relative to runtime effective max org from `[pDiv + 0xF8]` scaled by `[pCountry->0x244 + 0x3E]` and `CCountry::GetUnitModifier` @ `0x0044C830`) directly into idle, active, and inbound strength calculations (`OrgWeight = 0.85`), removing the legacy active-combat `MinOrg` / `T_org` mechanism while keeping Pass 0's `NeckCollapsingOrgThreshold` `IsThreatened` check.
 6. **Division Softness / Hardness Weighting in `FrStr`, `EnStr`, and `InbStr`**: Factors division softness (`[pDiv + 0x2D4]` `m_fSoftness` $\in [0, 100]$) into unit combat power (`HardnessWeight = 0.85`) so hard/armored divisions are weighted significantly higher than militia or soft infantry.
-7. **Front-Density Scaling for `BottleneckDefenseBoost`**: Scales the number of divisions requested to reinforce a bottleneck (`EffectiveBottleneckBoost(B)`) with both salient threat (`UpstreamThreat(B)`) and the front's actual division density ($\rho_{\text{front}} = D_{\text{front}} / N_{\text{front\_provs}}$), plus a maximum front-share cap, so a 20-division front is not drained by a 10-division boost while a 500-division front commits realistic operational reserves.
+7. **Front Average-Stack Multiplier Scaling for `BottleneckDefenseBoost`**: Converts `BottleneckDefenseBoost` (new default **`2.0`**) from a flat raw division count into a multiplier on each front's average division stack (`D_front / max(1, N_elig)`), so `boost_divs = BottleneckDefenseBoost * AggNeckQuota * avg_divs`, and re-normalizes total post-STEM target shares in `Hook 8D` Stage B so `sum(FinalAIPrio) == D_front` across sparse minor fronts and dense major fronts alike without extra tuning parameters.
 8. **Withdrawing to Threatened Bottlenecks & Adjacent `Support Defence` (`mission_type = 4`)**: Allows evacuating units to withdraw toward bottleneck provinces even when the bottleneck itself is marked `IsThreatened == 1`, and orders withdrawing armies in provinces **adjacent** to an **actively attacked** bottleneck (`[pProv(N) + 0x24C] != 0`) to execute **`Support Defence`** (`CMission::OrderMission` @ `0x0050B600`, `mission_type = 4`) instead of a standard move so they immediately reinforce the defensive battle for the neck.
 9. **Anti-Flicker / Hysteresis on Attacked Bottlenecks (`IsThreatened = 1 -> 0` Oscillation)**: Prevents newly arriving reinforcements at an attacked bottleneck from briefly flipping `IsThreatened` from `1 -> 0` for a few hours and causing evacuating troops to cancel their withdrawal mid-march or march back into the salient.
 10. **Gate `stem_debug.csv` on `extra_debug_logs >= 1`**: Only generates `stem_debug.csv` on save when `settings.cfg` line 9 (`Extra debug logs`, stored at `byte ptr [0x00DC4B5E]`) is set to `1` or greater.
@@ -33,7 +33,7 @@ Following the completion and in-game validation of Stages 1--5 of the original [
 | **Stage 1** | **#10, #1, #2, #3** (+ `.mod` 64 KB & `g_pGraphTable` 1184 KB expansion) | PE `.mod` expansion (`32 KB -> 64 KB`), `VirtualAlloc` (`0xEC000 -> 0x128000`), `extra_debug_logs` gate for `stem_debug.csv`, country `local_flags` (`stem_evac_modifier`, `stem_no_evac`, `stem_soft_mode`), and `front.province_priorities` evacuation blacklist + two-stage Loop A/B pre/post-STEM normalization fix (`Hook 8D`). |
 | **Stage 2** | **#5, #6** | Direct Organization (`[pDiv + 0xF4]` / runtime `[pDiv + 0xF8]` + modifiers) and Softness/Hardness (`[pDiv + 0x2D4]`) weighting in `.hlp_push_div_eff_str_eax` / `.hlp_calc_army_str_org` / `Hook 9A` across `FrStr`, `InbStr`, `EnStr`, and `EnInbStr`; removal of legacy `MinOrg` / `T_org` (preserving Pass 0 `NeckCollapsingOrgThreshold`). |
 | **Stage 3** | **#4** | Alternative supply lifeline detection: direct sea access (`[pProv + 0x3DC] > 0`) in `.ppa_loop` and endangered-pocket-only `.hlp_mark_impassable_supply` over `adj->type == 4` (`Impassable`, e.g. `189 <-> 7003`), reducing `SalientEvacuationQuota(P)` for supplied pockets. |
-| **Stage 4** | **#7** | Front-density scaling ($\rho_{\text{front}} = D_{\text{front}} / N_{\text{front\_provs}}$) and max-front-share cap for `EffectiveBottleneckBoost(B)` across `Cave_STEM_UpdateGraphTable` and `CFrontAI::MoveUnitsToFront` (`Hooks 7B, 8A--8C, 9A`). |
+| **Stage 4** | **#7** | Average-stack multiplier scaling (`BottleneckDefenseBoost = 2.0` -> `BottleneckDefenseBoost * Q_agg * (D_front / N_elig)`) across `Hook 8D` (`+0x124000` / `+0xF7000`), `.hlp_push_avg_divs_ecx`, `.s5e_fin_threat_floor`, `Hooks 7B, 8A--8C, 9A`, and `Cave_STEM_SyncTelemetryPrio`. |
 | **Stage 5** | **#9** | Three-layer anti-flicker hysteresis: (a) attacked-bottleneck `IsThreatened` hold timer (`threat_hold_u8`), (b) evacuation quota re-entry cooldown (`evac_hold_u8`), and (c) in-progress withdrawal march commitment in `.uae_p1_noncombat_locked`. |
 | **Stage 6** | **#8** | Allow threatened bottlenecks (`IsThreatened == 1`) as valid withdrawal rally necks (`EvacDestNeck`), and dispatch `Support Defence` (`0x0050B600`, `mission_type = 4`) when a withdrawing army is adjacent to an actively attacked bottleneck (`[pProv + 0x24C] != 0`). |
 
@@ -141,15 +141,16 @@ In Stage 5 of the original plan, `g_pGraphTable` was allocated via `VirtualAlloc
 | `+0xF0000` | `8 KB` | `uint8_t[8192]` | `evac_hold_u8[P]` | Persistent hourly countdown timer (`0..255` hours) holding an anti-reentry quota floor after evacuation starts (Item 9). |
 | `+0xF2000` | `16 KB` | `float[4096]` | `country_evac_mult[tag]` | Cached country-wide withdrawal propensity multiplier (`0.0f..10.0f`, default `1.0f`) read from `local_flags` in Pass 0 (Item 1). |
 | `+0xF6000` | `4 KB` | `uint8_t[4096]` | `country_stem_mode[tag]` | Cached country-wide mode flags read from `local_flags` in Pass 0 (`Bit 0 = stem_soft_mode`, `Bit 1 = stem_no_evac`, Items 1 & 2). |
-| `+0xF7000` | `16 KB` | `float[4096]` | `country_front_density[tag]` | Cached country-wide active front division density ($\rho_{\text{country}} = \text{TotalFrontDivs} / \max(1, \text{TotalFrontProvs})$) for `Cave_STEM_UpdateGraphTable` & `stem_debug.csv` (Item 7). |
+| `+0xF7000` | `16 KB` | `float[4096]` | `country_front_density[tag]` | Cached most recent front average stack (`D_front / max(1, N_elig)`) written by `Hook 8D`, preserved across hourly clears/saves, used by `.hlp_push_avg_divs_ecx` fallback (Item 7). |
 | `+0xFC000` | `16 KB` | `uint16_t[8192]` | `prov_evac_mult_x100[P]` | Effective multiplier (`x100`) written by Pass 3 / Stage 1 telemetry for `stem_debug.csv` Col 30 (`EvacMult`). |
 | `+0x100000` | `32 KB` | `float[8192]` | `front_norm_share[P]` | Stage A pre-STEM `front.province_priorities` base share computed by Hook 8D (`0x00684474`) with `max_stack` water-filling across modes `0..4`. |
-| `+0x108000` | `32 KB` | `float[8192]` | `front_final_share[P]` | Stage B post-STEM re-normalized Loop B target share (incorporating `evac_quota` and `BottleneckDefenseBoost` summed to `1.0` with evac-safety ceiling). |
+| `+0x108000` | `32 KB` | `float[8192]` | `front_final_share[P]` | Stage B post-STEM re-normalized Loop B target share (incorporating `evac_quota` and average-stack-scaled `BottleneckDefenseBoost`, summed to `1.0` with evac-safety ceiling). |
 | `+0x110000` | `32 KB` | `uint32_t[8192]` | `front_norm_gen[P]` | Generation stamp (`g_dwFrontNormGen` low 29 bits; bit 31 `0x80000000` = finalized/clamped; bit 30 `0x40000000` = ineligible; bit 29 `0x20000000` = STEM `is_basin`). |
 | `+0x118000` | `32 KB` | `float[8192]` | `front_final_divs[P]` | Cached post-STEM target divisions (`front_final_share[P] * D_front`) synced to `stem_debug.csv` `FinalAIPrio`. |
 | `+0x120000` | `16 KB` | `uint16_t[8192]` | `strip_provs_backup[i]` | Backup of full K-hop strip province list (`0 .. strip_count - 1`) saved in `.ppa_loop` so `.hlp_mark_impassable_supply` scans the intact strip after Step 5A reuses `+0x1C000` (Item 4). |
+| `+0x124000` | `16 KB` | `uint16_t[8192]` | `prov_front_avg_x100[P]` | Persistent per-province front average stack (`clamp(round((D_front / max(1, N_elig)) * 100), 1, 65000)`) stamped by `Hook 8D` for exact per-front `avg_divs` lookup in `.hlp_push_avg_divs_ecx` (Item 7). |
 
-*(Total used: `0x00000..0x123FFF` = `1,168 KB` out of `1,184 KB` allocated).*
+*(Total used: `0x00000..0x127FFF` = `1,184 KB` out of `1,184 KB` allocated).*
 
 ---
 
@@ -202,8 +203,8 @@ In Stage 5 of the original plan, `g_pGraphTable` was allocated via `VirtualAlloc
     - Note: `P` still participates normally in the BFS graph and can still receive `BottleneckDefenseBoost` if it is a cut vertex/shoulder!
 - **2. Two-Stage Pre/Post-STEM Normalization & Loop A/B Fix for `front.province_priorities` (Hooks 7A/7B/7D, 8A/8B/8C, and 8D)**:
   - **Two-Stage Hook 8D (`Cave_FrontAI_NormalizeFrontShares` @ `0x00684474`, `8 bytes` replaced)**: Runs right before Loop B (`CFrontAI::MoveUnitsToFront`) regardless of `EnableEncirclementDefense`:
-    - *Stage A (Pre-STEM Base Shares)*: Excludes ineligible provinces (`no_en`, `0x4E9500`, `0x4E9440`, or STEM `is_basin == 1`), computes `weight(P) = max(0.0, raw(fp, mode)) * |prio(P)|` across all 5 modes (`0=even`, `1=reactive`, `2=defensive`, `3=offensive`, `4=op_defensive`) with quiet-front `|prio|` fallback, and runs iterative `max_stack` water-filling (`cap_share = ([0x00DC15FC] * [0x00DC15CC]) / D_front`, up to `64` passes) into `front_norm_share[P]` (`+0x100000`).
-    - *Stage B (Post-STEM Re-Normalization)*: When `EnableEncirclementDefense == 1`, applies `evac_quota` (`+0x40000`, with sub-1-div zeroing) and `BottleneckDefenseBoost` (`+0x42000`) to `front_norm_share[P]` (including `is_basin == 1` interior bottlenecks), then re-normalizes total post-STEM target shares back to `1.0` (`sum = D_front`) using iterative water-filling capped at `min(cap_share, s_adj)` for partially-evacuating provinces (`evac_q > 0 && neck_q == 0`) so evacuating provinces never scale upward. Stores `front_final_share[P]` (`+0x108000`) and `front_final_divs[P]` (`+0x118000`) stamped with 29-bit `g_dwFrontNormGen` in `front_norm_gen[P]` (`+0x110000`). (When `EnableEncirclementDefense == 0`, copies `front_norm_share[P]` directly into `front_final_share[P]`).
+    - *Stage A (Pre-STEM Base Shares)*: Excludes ineligible provinces (`no_en`, `0x4E9500`, `0x4E9440`, injected `[fp + 0x42] == 0x5B` interior bottlenecks, or STEM `is_basin == 1`), computes `weight(P) = max(0.0, raw(fp, mode)) * |prio(P)|` across all 5 modes (`0=even`, `1=reactive`, `2=defensive`, `3=offensive`, `4=op_defensive`) with quiet-front `|prio|` fallback, and runs iterative `max_stack` water-filling (`cap_share = ([0x00DC15FC] * [0x00DC15CC]) / D_front`, up to `64` passes) into `front_norm_share[P]` (`+0x100000`).
+    - *Stage B (Post-STEM Re-Normalization)*: When `EnableEncirclementDefense == 1`, applies `evac_quota` (`+0x40000`, with sub-1-div zeroing, plus zero baseline for `[fp + 0x42] == 0x5B` / `is_basin == 1`) and `BottleneckDefenseBoost` (`+0x42000`) to `front_norm_share[P]` (including interior bottlenecks), then re-normalizes total post-STEM target shares back to `1.0` (`sum = D_front`) using iterative water-filling capped at `min(cap_share, s_adj)` for partially-evacuating provinces (`evac_q > 0 && neck_q == 0`) so evacuating provinces never scale upward. Stores `front_final_share[P]` (`+0x108000`) and `front_final_divs[P]` (`+0x118000`) stamped with 29-bit `g_dwFrontNormGen` in `front_norm_gen[P]` (`+0x110000`). (When `EnableEncirclementDefense == 0`, copies `front_norm_share[P]` directly into `front_final_share[P]`).
   - **Loop B & Telemetry Integration (`Hook 8A` @ `0x00684551`, `Hook 8B` @ `0x0068470D`, `Hook 8C` @ `0x0068526A`, `Cave_STEM_SyncTelemetryPrio`)**: All three Loop B share readers consume `front_final_share[P]` directly when `(front_norm_gen[P] & 0x1FFFFFFF) == g_dwFrontNormGen` (preventing total `FinalAIPrio > D_front` from starving donors), and `Cave_STEM_SyncTelemetryPrio` reads `front_final_divs[P]` for active front provinces so `stem_debug.csv` `FinalAIPrio` matches Loop B's exact target.
   - **Loop A Integration (`Hook 7A` @ `0x00683EB6`, `Hook 7B` @ `0x00684088`, `Hook 7D` @ `0x00684131`)**: Even when `EnableEncirclementDefense == 0`, `Hook 7B` ranks unassigned reserve destinations by `(|prio| * en_str) - fr_str` (capping `|prio|` at `1.0` once `cur_divs >= max_stack` and skipping explicit `prio == 0.0`), while `Hooks 7A/7D` prevent pushing reserves into `prio == 0.0` provinces.
 
@@ -273,7 +274,7 @@ In Stage 5 of the original plan, `g_pGraphTable` was allocated via `VirtualAlloc
 ---
 
 ### Stage 3: Alternative Supply Lifelines Over Impassable Connections (`189 <-> 7003`) & Direct Coastal Sea Access (Item 4)
-**Status:** Implemented -- Awaiting User Validation (`Cave: 8067 instructions, 24765 bytes`, `SHA256 = 8794E4C17B947BD25198A1415289699E550CDA6E3DE46995EEB9A1C8C332A924`)
+**Status:** Completed & Validated (`Cave: 8067 instructions, 24765 bytes`, `SHA256 = 8794E4C17B947BD25198A1415289699E550CDA6E3DE46995EEB9A1C8C332A924`)
 
 #### 4.3.1 Distinguishing Land Escape Routes from Supply Lifelines (Performance-First Simplified Design)
 - Troops **cannot** march across `adj->type == 4` (`Impassable`, e.g., `189 Kirisi <-> 7003 Kir'jasaly` across Lake Ladoga) or across sea zones without naval transports. Therefore:
@@ -310,55 +311,45 @@ In Stage 5 of the original plan, `g_pGraphTable` was allocated via `VirtualAlloc
 
 ---
 
-### Stage 4: Front-Density Scaling for `BottleneckDefenseBoost` (Item 7)
-**Status:** Pending
+### Stage 4: Average-Stack Multiplier Scaling for `BottleneckDefenseBoost` (Item 7)
+**Status:** Implemented -- Awaiting User Validation (`Cave: 8180 instructions, 25111 bytes`, `SHA256 = 4966CD24CA2E84D1D6CE97390F3A2EE96A9090396117BE6F70F2D3589269365D`)
 
 #### 4.4.1 Why Static `BottleneckDefenseBoost` Fails at Front Extremes
-- Currently, `EffectiveBottleneckBoost(B)` (`Step 5E` in `Cave_STEM_UpdateGraphTable` and `Hooks 7B, 8A--8C, 9A` in `CFrontAI::MoveUnitsToFront`) scales `BottleneckDefenseBoost` (`10.0` in mod INI) linearly by `neck_agg_q8[B] / 255.0f`:
-  $$\text{EffBoost}_{\text{old}}(B) = \text{BottleneckDefenseBoost} \times \frac{\text{neck\_agg\_q8}[B]}{255.0}$$
-- On a small theater front with only `20` total divisions across `15` frontline provinces ($\rho_{\text{front}} = 1.33$ divs/prov), demanding `+10.0` extra divisions at a single bottleneck pulls `50%` of the entire front into one province!
-- Conversely, on the 1941 Soviet-German front with `350--500` divisions across `35--45` frontline provinces ($\rho_{\text{front}} \approx 10.0$ divs/prov), `+10.0` divisions at a major operational bottleneck is only `~1.0x` a single average province stack.
+- Previously, `BottleneckDefenseBoost` (`10.0` in mod INI, `3.5` engine default) added a fixed raw division count (`BottleneckDefenseBoost * AggNeckQuota`) prior to `Hook 8D` Stage B re-normalization (`boost_share = raw / D_front`) and inside `Hook 9A` / `.s5e_fin_threat_floor`.
+- On a small theater front with `20` divisions across `15` frontline provinces (`avg_divs = 1.33` divs/prov), a flat `+10.0` addend represents `7.5x` an average stack (`1/3` of the entire front even after normalization) and makes `Hook 9A` try to hold `10.0` division-equivalents inside an interior neck.
+- Conversely, on a dense `300`-division front across `20` provinces (`avg_divs = 15.0` divs/prov), `+10.0` adds only `0.67x` an average stack.
 
-#### 4.4.2 Two-Level Front-Density Scaling Formula
-We scale `EffectiveBottleneckBoost(B)` by **both** the upstream salient threat (`neck_agg_q8[B]`) **and** the frontline division density ($\rho$), plus a **per-bottleneck maximum front share cap**:
+#### 4.4.2 Simplified Average-Stack Multiplier Architecture (Zero Extra Tuning Keys)
+Instead of adding separate density baseline/min/max/cap INI parameters, **`BottleneckDefenseBoost` (new engine & mod INI default `2.0`) is now directly a multiplier on the front's average division stack** $\bar{d} = D_{\text{front}} / \max(1,\; N_{\text{elig}})$:
 
-1. **Country-Wide Baseline in `Cave_STEM_UpdateGraphTable` (`Pass 0` & `Step 5E` / `stem_debug.csv`)**:
-   - During Pass 0, count:
-     - `TotalFrontProvs`: number of friendly frontline provinces (`has_hostile_neighbor == 1` and `dist < 255`).
-     - `TotalFrontDivs`: total friendly division count (`div_count` from `+0x48` / `+0xE8000`) on or within `dist <= 2` of the front.
-   - Compute $\rho_{\text{country}} = \frac{\text{TotalFrontDivs}}{\max(1,\; \text{TotalFrontProvs})}$ and store in `country_front_density[tag]` (`+0xF7000`).
-   - Compute the density multiplier relative to `BottleneckDensityBaseline` (INI default **`3.5` divisions per frontline province**):
-     $$\text{DensityMult} = \text{clamp}\!\left(\frac{\rho}{\text{BottleneckDensityBaseline}},\; \text{BottleneckDensityMinScale},\; \text{BottleneckDensityMaxScale}\right)$$
-     where default `BottleneckDensityMinScale = 0.25` and `BottleneckDensityMaxScale = 3.00`.
-2. **Exact Per-Front Density & Front-Share Cap Inside `CFrontAI::MoveUnitsToFront` (`Hooks 7B, 8A--8C, 9A`)**:
-   - Inside `CFrontAI::MoveUnitsToFront`, each independent `CFrontAI` instance (`ebx`) has its exact local division count **`D_front`** (`dword ptr [ebp - 0x60]` in Loop A / Loop B Hooks 8A--8B, `dword ptr [esp + 0x34]` inside Hook 8C) and its exact frontline province count **`N_front_provs`** (`dword ptr [ebx + 0x0C]`, `int32_t`).
-   - Using $\rho_{\text{front}} = \frac{D_{\text{front}}}{\max(1,\; N_{\text{front\_provs}})}$, our helper `.hlp_get_density_scaled_boost(pTable, prov_id, D_front, N_front_provs)` computes:
-     $$\text{RawBoost}(B) = \text{BottleneckDefenseBoost} \times \frac{\text{neck\_agg\_q8}[B]}{255.0} \times \text{clamp}\!\left(\frac{\rho_{\text{front}}}{\text{BottleneckDensityBaseline}},\; \text{MinScale},\; \text{MaxScale}\right)$$
-     and caps it at a maximum fraction of `D_front` (`BottleneckMaxFrontShare`, default **`0.22`** = `22%` of the front's total divisions):
-     $$\text{EffBoost}(B) = \min\!\left(\text{RawBoost}(B),\; \text{BottleneckMaxFrontShare} \times D_{\text{front}}\right)$$
-3. **Concrete Numerical Examples (with `BottleneckDefenseBoost = 10.0`, `Baseline = 3.5`, `MaxFrontShare = 0.22`)**:
-   - **Small 20-division front across 15 provinces** ($\rho_{\text{front}} = 1.33$ divs/prov):
-     - $\text{DensityMult} = 1.33 / 3.5 = 0.38$.
-     - At `100%` threat (`AggNeckQuota = 1.0`), $\text{EffBoost}(B) = \min(10.0 \times 0.38,\; 0.22 \times 20) = \mathbf{3.8\text{ divisions}}$ (instead of `10.0`!).
-   - **Medium 100-division front across 28 provinces** ($\rho_{\text{front}} = 3.57$ divs/prov):
-     - $\text{DensityMult} = 3.57 / 3.5 = 1.02$.
-     - At `100%` threat, $\text{EffBoost}(B) = \mathbf{10.2\text{ divisions}}$.
-   - **Dense 450-division front across 40 provinces** ($\rho_{\text{front}} = 11.25$ divs/prov):
-     - $\text{DensityMult} = \min(11.25 / 3.5,\; 3.00) = 3.00$.
-     - At `100%` threat, $\text{EffBoost}(B) = \mathbf{30.0\text{ divisions}}$.
+1. **Exact Per-Front Average Stack in `Hook 8D` (`Cave_FrontAI_NormalizeFrontShares` @ `0x00DD0B5A`)**:
+   - During Stage A Pass 1 (`.nfs_p1_loop`), count `N_elig` (`.nfs_p1_eligible` frontline provinces on the front, excluding injected `[fp + 0x42] == 0x5B` interior bottlenecks, `is_basin == 1` nodes, `no_en`, and impassable/0-infra tiles; clamped `>= 1`). Stage B Pass 1 symmetrically enforces a `0.0` baseline (`NormAIPrio = 0`) for both `[fp + 0x42] == 0x5B` and `is_basin == 1`.
+   - Compute $\bar{d} = D_{\text{front}} / N_{\text{elig}}$, store `float` $\bar{d}$ in `country_front_density[tag]` (`+0xF7000`), and stamp `clamp(round(d_bar * 100.0), 1, 65000)` per province into `prov_front_avg_x100[P]` (`+0x124000`, preserved across hourly clears/saves, zeroed on scenario/save reload in `Cave_PostLoadInit`).
+   - In Stage B Pass 1 (`.nfs_b_p1_chk_neck`), the bottleneck boost addend cancels `D_front` cleanly in share space:
+     $$\text{boost\_divs}(B) = \text{BottleneckDefenseBoost} \times \frac{\text{neck\_agg\_q8}[B]}{255.0} \times \frac{D_{\text{front}}}{N_{\text{elig}}} \implies \text{boost\_share}(B) = \frac{\text{BottleneckDefenseBoost} \times Q_{\text{agg}}(B)}{N_{\text{elig}}}$$
+   - Stage B then executes its full `max_stack` & partial-evac water-filling re-normalization (`.nfs_b_wf_loop`) so `sum(front_final_share[P]) == 1.0` and **`sum(FinalAIPrio) == D_front`**.
+2. **Consistent Consumer Scaling via `.hlp_push_avg_divs_ecx` (`0x00DCE652`)**:
+   - Lookup order: `(1) prov_front_avg_x100[P] * 0.01f` (`+0x124000`), `(2) country_front_density[tag]` (`+0xF7000`), `(3) 3.5f` fallback (`flt_350`, before first `MoveUnitsToFront` tick).
+   - Used in:
+     - **`.s5e_fin_threat_floor` (`0x00DCE0AF`)**: converts `excess_needed_divs` into `AggNeckQuota = excess_needed_divs / (BottleneckDefenseBoost * avg_divs(P))`.
+     - **`Cave_STEM_SyncTelemetryPrio` (`0x00DCF082`)**: scales uninjected rear bottleneck telemetry `FinalAIPrio` by `BottleneckDefenseBoost * Q_agg * avg_divs(P)`.
+     - **`Hook 9A` (`Cave_FrontAI_LoopAIsFrontOrHeldNeck` @ `0x00DD0830`)**: scales interior bottleneck garrison hold `req = BottleneckDefenseBoost * Q_agg * avg_divs(P)`.
+     - **`Hook 7B` (`Cave_FrontAI_LoopACheckCand` @ `0x00DD0A82`)**: scales Loop A candidate bottleneck attraction and saturation check by `BottleneckDefenseBoost * Q_agg * avg_divs(P)`.
+   - `Hooks 8A/8B/8C` rare fallback paths (`0x00DD1655`, `0x00DD17A6`, `0x00DD18A7`) likewise divide by `max(1, [CFrontAI + 0x0C])` instead of `D_front`.
+3. **Concrete Numerical Examples (with `BottleneckDefenseBoost = 2.0`, `Q_agg = 1.0`)**:
+   - **Small 20-division front across 15 provinces** ($\bar{d} = 1.33$ divs/prov): pre-norm boost `+2.67` divs -> re-normalized **`FinalAIPrio ~ 3.5` divs** (`17.6%` of front instead of `37%+`).
+   - **Small 24-division Northern Front across 4 provinces** (e.g., `7073 Volhovstroj` in BARB `1943`, $\bar{d} = 6.0$ divs/prov): pre-norm boost `+12.0` divs, re-normalized to `sum == 24.0`.
+   - **Dense 300-division front across 20 provinces** ($\bar{d} = 15.0$ divs/prov): pre-norm boost `+30.0` divs (`2.0x` average stack) -> re-normalized **`FinalAIPrio ~ 40.9` divs**.
 
-#### 4.4.3 New INI Keys for Stage 4
+#### 4.4.3 Updated INI Default for Stage 4
 - **`db/mod_settings.ini` (`[FrontAI]` section)**:
-  - `BottleneckDensityBaseline = 3.5` (Reference divisions-per-front-province where `BottleneckDefenseBoost` equals `1.0x`; set `<= 0.0` to disable density scaling).
-  - `BottleneckDensityMinScale = 0.25` (Minimum density multiplier on very sparse fronts).
-  - `BottleneckDensityMaxScale = 3.00` (Maximum density multiplier on ultra-dense fronts).
-  - `BottleneckMaxFrontShare = 0.22` (Maximum fraction of a front's total divisions `D_front` that a single bottleneck's boost can demand).
+  - `BottleneckDefenseBoost = 2.0` (Updated engine & mod INI default; front average-stack multiplier `BottleneckDefenseBoost * Q_agg * (D_front / N_elig)`, re-normalized by Stage B so `sum(FinalAIPrio) == D_front`). No extra density keys needed.
 
 #### 4.4.4 Stage 4 Verification & Stopping Point
-1. **Build, Patch Integrity & Static Disassembly Verification**:
-   - Rebuild, run `patch_darkest_hour.bat -Verify`, and verify Capstone disassembly of the density-scaling helper and hooks.
+1. **Build, Patch Integrity & Static Disassembly Verification (Done)**:
+   - Built `build_and_apply_all.py` (`Cave: 8180 instructions, 25111 bytes`, `SHA256 = 4966CD24CA2E84D1D6CE97390F3A2EE96A9090396117BE6F70F2D3589269365D`), verified `0x00DCBAD0` default `2.0`, passed both `patch_darkest_hour.bat -Verify` scripts, and verified Capstone disassembly of `.hlp_push_avg_divs_ecx` (`0x00DCE652`), all four callers (`0x00DCE0AF`, `0x00DCF082`, `0x00DD0830`, `0x00DD0A82`), `Hook 8D` (`0x00DD0B5A`, including `[edi + 0x42] == 0x5B` Stage A & B checks), `Hooks 8A/8B/8C` fallbacks (`0x00DD1655`/`0x00DD17A6`/`0x00DD18A7`), and persistent `+0xF7000` / `+0x124000` preservation in `HourlyAllCountries` / `SaveGameHook`.
 2. **Manual In-Game Validation (User)**:
-   - Load the 1941 Barbarossa save, save with `Extra debug logs = 1` to generate `stem_debug.csv`, and inspect `FinalAIPrio - AdjAIPrio` on sparse minor/Finnish fronts vs. the main dense Soviet western front.
+   - Restart `Darkest Hour.exe` to load the Stage 4 binary and updated [db/mod_settings.ini](file:///e:/Program%20Files%20(x86)/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/db/mod_settings.ini), save with `Extra debug logs = 1` to generate `stem_debug.csv`, and inspect `FinalAIPrio` / `sum(FinalAIPrio) == D_front` on small vs. large fronts.
    - **STOP and report Stage 4 results to the user for approval before proceeding to Stage 5.**
 
 ---
@@ -468,10 +459,7 @@ We eliminate this oscillation at all three layers using the persistent hourly co
 | `HardnessWeight` | `0.85` | `3.00` | Stage 2 | Bonus combat power multiplier for division hardness (`1.0 + HardnessWeight * (100 - Softness) / 100`). |
 | `ImpassableSupplyQuotaMultiplier` | `0.35` | `0.35` | Stage 3 | Multiplier applied to `SalientEvacuationQuota` when an endangered pocket province connects via an `adj->type == 4` bridgehead to a friendly safe/unthreatened province (`StatusFlags & 0x02`). |
 | `PortSupplyQuotaMultiplier` | `0.50` | `0.50` | Stage 3 | Multiplier applied to `SalientEvacuationQuota` when a province has direct coastal sea access (`[pProv + 0x3DC] > 0`, `StatusFlags & 0x04`). |
-| `BottleneckDensityBaseline` | `3.5` | `3.5` | Stage 4 | Reference front division density (divisions per frontline province) for `1.0x` `BottleneckDefenseBoost`. |
-| `BottleneckDensityMinScale` | `0.25` | `0.25` | Stage 4 | Minimum density scale multiplier for `BottleneckDefenseBoost` on sparse fronts. |
-| `BottleneckDensityMaxScale` | `3.00` | `3.00` | Stage 4 | Maximum density scale multiplier for `BottleneckDefenseBoost` on dense fronts. |
-| `BottleneckMaxFrontShare` | `0.22` | `0.22` | Stage 4 | Maximum fraction of total front divisions (`D_front`) that a single bottleneck's boost can demand. |
+| `BottleneckDefenseBoost` | `2.0` | `2.0` | Stage 4 | Updated from raw divisions (`3.5`/`10.0`) to a front average-stack multiplier (`boost_divs = BottleneckDefenseBoost * AggNeckQuota * (D_front / N_elig)`), re-normalized by Stage B so `sum(FinalAIPrio) == D_front`. |
 | `ThreatClearanceCooldownHours` | `36` | `36` | Stage 5 | Hours an attacked bottleneck holds `IsThreatened = 1` against temporary reinforcement blips. |
 | `EvacReentryCooldownHours` | `24` | `24` | Stage 5 | Hours a salient province blocks Front AI re-entry after evacuation clears. |
 | `AllowThreatenedBottleneckWithdrawal` | `1` | `1` | Stage 6 | Allow evacuating units to target a threatened bottleneck (`IsThreatened == 1`) as their intermediate rally neck. |
