@@ -211,7 +211,7 @@ In `Mods/E3mapToDHFull/db/mod_settings.ini`:
 | `EvacuationBlacklistPriorityThreshold` | `5.0` | `10.0` | Any province in `front.province_priorities` with `< 0.0` or `>= threshold` is blacklisted from STEM evacuation (`0.0` or lower blacklists negatives only). |
 | `ImpassableSupplyQuotaMultiplier` | `0.35` | `0.35` | Multiplier applied to `SalientEvacuationQuota` when an endangered strip province connects via `adj->type == 4` (`Impassable`) to a friendly safe/unthreatened neighbor (`StatusFlags +2`). |
 | `PortSupplyQuotaMultiplier` | `0.50` | `0.50` | Multiplier applied to `SalientEvacuationQuota` when a province has direct coastal sea access (`[pProv + 0x3DC] > 0`, `StatusFlags +4`). When both `+2` and `+4` apply, uses the minimum of the two multipliers. |
-| `SalientEvacuationQuota` | `0.0` | `0.0` | Legacy scalar superseded at runtime by dynamic `SalientEvacuationQuota(P)` calculation. |
+| `GlobalEvacuationMultiplier` | `1.0` | `1.0` | Global evacuation quota multiplier applied to all countries by default (`<= 0.0` disables evacuations globally); overridden per country when `stem_evac_modifier` (`>= 2`) or `stem_no_evac = 1` is set in `local_flags`. |
 | `BottleneckDefenseBoost` | `2.0` | `2.0` | Front average-stack multiplier requested/held at a bottleneck province when `AggNeckQuota = 1.000` (`BottleneckDefenseBoost * AggNeckQuota * (D_front / N_elig)`, re-normalized so `sum(FinalAIPrio) == D_front`). |
 | `BottleneckQuotaAggregation` | `0` | `0` | How multiple evacuating provinces sharing the same bottleneck combine into `AggNeckQuota`: `0 = MAX`, `1 = AVERAGE`, `2 = MIN`. |
 | `ThreatClearanceCooldownHours` | `36` | `36` | Hours an attacked bottleneck holds `IsThreatened = 1` (`StatusFlags +8`) against brief reinforcement stabilization while defensive combat continues or raw `T(v) >= 0.65` (`0` disables). |
@@ -222,7 +222,7 @@ In `Mods/E3mapToDHFull/db/mod_settings.ini`:
 
 | Local Flag | Default (Unset / `0`) | Effect When Set |
 |---|---|---|
-| `stem_evac_modifier` | `100` (`1.00x`) | Percentage multiplier applied to `SalientEvacuationQuota(P)` for that country (`50` = `0.50x`, `150` = `1.50x`, `1` = `0.00x` "Fight to the Death", handling DHFScript `local_setflag value = 0`). |
+| `stem_evac_modifier` | Unset (`GlobalEvacuationMultiplier`) | Per-country override percentage multiplier applied to `SalientEvacuationQuota(P)` (`50` = `0.50x`, `150` = `1.50x`, `1` = `0.00x` "Fight to the Death", handling DHFScript `local_setflag value = 0`). Overrides `GlobalEvacuationMultiplier` directly when set. |
 | `stem_no_evac` | `0` (Off) | Explicit "Fight to the Death" switch (`>= 1` forces `EvacMult = 0.00` and `SalientEvacuationQuota = 0.000` country-wide). |
 | `stem_soft_mode` | `0` (Off) | Priority-only STEM (`>= 1` keeps `AdjAIPrio`/`FinalAIPrio` Front AI adjustments active while skipping forced evacuations, corps splits, and combat-retreat overrides). |
 
