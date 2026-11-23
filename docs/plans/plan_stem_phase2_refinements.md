@@ -1,6 +1,6 @@
 # Plan: STEM Phase 2 -- Country Controls, Combat Power Realism, Supply Lifelines, Density-Scaled Boosts & Anti-Flicker Hysteresis
 
-**Status:** In Progress (Stages 1--4 Completed & Validated; Stages 5--6 Pending)  
+**Status:** In Progress (Stages 1--4 Completed & Validated; Stage 5 Implemented -- Awaiting User Validation; Stage 6 Pending)  
 **Target Binary:** `Darkest Hour_modified.exe` (Darkest Hour v1.05.2, Base `0x00400000`)  
 **Prerequisite:** [plan_stem_strategic_defense.md](file:///e:/Program%20Files%20%28x86%29/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/docs/plans/plan_stem_strategic_defense.md) (Stages 1--5 Completed & Validated)  
 **Companion Reference Docs:**  
@@ -22,7 +22,7 @@ Following the completion and in-game validation of Stages 1--5 of the original [
 5. **Direct Organization (`ORG`) Weighting in `FrStr`, `EnStr`, and `InbStr`**: Integrates division organization (`[pDiv + 0xF4]` relative to runtime effective max org from `[pDiv + 0xF8]` scaled by `[pCountry->0x244 + 0x3E]` and `CCountry::GetUnitModifier` @ `0x0044C830`) directly into idle, active, and inbound strength calculations (`OrgWeight = 0.85`), removing the legacy active-combat `MinOrg` / `T_org` mechanism while keeping Pass 0's `NeckCollapsingOrgThreshold` `IsThreatened` check.
 6. **Division Softness / Hardness Weighting in `FrStr`, `EnStr`, and `InbStr`**: Factors division softness (`[pDiv + 0x2D4]` `m_fSoftness` $\in [0, 100]$) into unit combat power (`HardnessWeight = 0.85`) so hard/armored divisions are weighted significantly higher than militia or soft infantry.
 7. **Front Average-Stack Multiplier Scaling for `BottleneckDefenseBoost`**: Converts `BottleneckDefenseBoost` (new default **`2.0`**) from a flat raw division count into a multiplier on each front's average division stack (`D_front / max(1, N_elig)`), so `boost_divs = BottleneckDefenseBoost * AggNeckQuota * avg_divs`, and re-normalizes total post-STEM target shares in `Hook 8D` Stage B so `sum(FinalAIPrio) == D_front` across sparse minor fronts and dense major fronts alike without extra tuning parameters.
-8. **Withdrawing to Threatened Bottlenecks & Adjacent `Support Defence` (`mission_type = 4`)**: Allows evacuating units to withdraw toward bottleneck provinces even when the bottleneck itself is marked `IsThreatened == 1`, and orders withdrawing armies in provinces **adjacent** to an **actively attacked** bottleneck (`[pProv(N) + 0x24C] != 0`) to execute **`Support Defence`** (`CMission::OrderMission` @ `0x0050B600`, `mission_type = 4`) instead of a standard move so they immediately reinforce the defensive battle for the neck.
+8. **Withdrawing to Threatened Bottlenecks & Adjacent `Support Defence` (`mission_type = 4`)**: Allows evacuating units to withdraw toward bottleneck provinces even when the bottleneck itself is marked `IsThreatened == 1`, and orders withdrawing armies in provinces **adjacent** to an **actively attacked** bottleneck (`Cave_STEM_IsProvInDefCombat_Eax(N) == 1`) to execute **`Support Defence`** (`CMission::OrderMission` @ `0x0050B600`, `mission_type = 4`) instead of a standard move so they immediately reinforce the defensive battle for the neck.
 9. **Anti-Flicker / Hysteresis on Attacked Bottlenecks (`IsThreatened = 1 -> 0` Oscillation)**: Prevents newly arriving reinforcements at an attacked bottleneck from briefly flipping `IsThreatened` from `1 -> 0` for a few hours and causing evacuating troops to cancel their withdrawal mid-march or march back into the salient.
 10. **Gate `stem_debug.csv` on `extra_debug_logs >= 1`**: Only generates `stem_debug.csv` on save when `settings.cfg` line 9 (`Extra debug logs`, stored at `byte ptr [0x00DC4B5E]`) is set to `1` or greater.
 
@@ -35,7 +35,7 @@ Following the completion and in-game validation of Stages 1--5 of the original [
 | **Stage 3** | **#4** | Alternative supply lifeline detection: direct sea access (`[pProv + 0x3DC] > 0`) in `.ppa_loop` and endangered-pocket-only `.hlp_mark_impassable_supply` over `adj->type == 4` (`Impassable`, e.g. `189 <-> 7003`), reducing `SalientEvacuationQuota(P)` for supplied pockets. |
 | **Stage 4** | **#7** | Average-stack multiplier scaling (`BottleneckDefenseBoost = 2.0` -> `BottleneckDefenseBoost * Q_agg * (D_front / N_elig)`) across `Hook 8D` (`+0x124000` / `+0xF7000`), `.hlp_push_avg_divs_ecx`, `.s5e_fin_threat_floor`, `Hooks 7B, 8A--8C, 9A`, and `Cave_STEM_SyncTelemetryPrio`. |
 | **Stage 5** | **#9** | Three-layer anti-flicker hysteresis: (a) attacked-bottleneck `IsThreatened` hold timer (`threat_hold_u8`), (b) evacuation quota re-entry cooldown (`evac_hold_u8`), and (c) in-progress withdrawal march commitment in `.uae_p1_noncombat_locked`. |
-| **Stage 6** | **#8** | Allow threatened bottlenecks (`IsThreatened == 1`) as valid withdrawal rally necks (`EvacDestNeck`), and dispatch `Support Defence` (`0x0050B600`, `mission_type = 4`) when a withdrawing army is adjacent to an actively attacked bottleneck (`[pProv + 0x24C] != 0`). |
+| **Stage 6** | **#8** | Allow threatened bottlenecks (`IsThreatened == 1`) as valid withdrawal rally necks (`EvacDestNeck`), and dispatch `Support Defence` (`0x0050B600`, `mission_type = 4`) when a withdrawing army is adjacent to an actively attacked bottleneck (`Cave_STEM_IsProvInDefCombat_Eax(N) == 1`). |
 
 > [!IMPORTANT]
 > **Execution Rule:** Each stage must be implemented, verified via build / patch integrity / static Capstone disassembly checks and manual in-game testing by the user, and explicitly approved by the user before proceeding to the next stage.
@@ -125,7 +125,7 @@ All offsets below were verified directly against `Darkest Hour_modified.exe` (`v
     16. `call 0x0050B600` (`CMission::OrderMission`)
   - Effects of `Support Defence` (`mission_type = 4`):
     - Sets `[pArmy + 0x264] = 4` (`MISSION_SUPPORT_DEFENCE`) and `[pArmy + 0x268] = target_prov_id`.
-    - When `target_prov_id` is under active attack (`[pTargetProv + 0x24C] != 0`), the engine's combat resolution / support-defense handler automatically includes adjacent armies with `[pArmy + 0x264] == 4 && [pArmy + 0x268] == target_prov_id` (accelerating their reserve arrival / defense support into the battle at `target_prov_id`).
+    - When `target_prov_id` is under active defensive attack (`Cave_STEM_IsProvInDefCombat_Eax(target_prov_id) == 1`), the engine's combat resolution / support-defense handler automatically includes adjacent armies with `[pArmy + 0x264] == 4 && [pArmy + 0x268] == target_prov_id` (accelerating their reserve arrival / defense support into the battle at `target_prov_id`).
 
 ---
 
@@ -358,47 +358,47 @@ Instead of adding separate density baseline/min/max/cap INI parameters, **`Bottl
 ---
 
 ### Stage 5: Bottleneck `IsThreatened` Anti-Flicker & Evacuation Commitment Hysteresis (Item 9)
-**Status:** Pending
+**Status:** Implemented -- Awaiting User Validation (`Cave: 8616 instructions, 26479 bytes`, `SHA256 = 906501CAC37443AAC76C2B1C81401C68AC47503BC945E45DC23B292EB9D0092D`)
 
 #### 4.5.1 Root Cause of the Cancel-and-Restart Flicker Cycle
-During active evacuation of a salient (e.g., `1884 Przemysl` or `209 Bialystok`), three tightly coupled things currently happen when a single fresh division walks into an attacked bottleneck $v$ (e.g., `241 Belz` or `102 Wolkowysk`):
+During active evacuation of a salient (e.g., `1884 Przemysl` or `209 Bialystok`), three tightly coupled things previously happened when a single fresh division walked into an attacked bottleneck $v$ (e.g., `241 Belz` or `102 Wolkowysk`):
 1. **Pass 0 Instant `IsThreatened` Clearance**: The arriving division bumps `FrEff(v)` or briefly pushes `0x004BEBE0` combat progress below the threat threshold for a few hours, flipping `is_threatened[v]` from `1 -> 0` on the next hourly tick.
 2. **Pass 1/3 Instant `EvacQuota` Snap-Back**: Because `is_threatened[v]` flipped `1 -> 0`, the upstream salient province $P$ immediately jumps from `F_Paths = 2` (`EvacQuota = 1.000`) to `F_Paths = 3` (`EvacQuota = 0.000`).
 3. **Pass 1 Evacuation Registry Instant Slot Clear**: In `Cave_STEM_UpdateAndEvacuate_Internal` (`.uae_p1_noncombat_locked`), the very first hour `quota_q8[P] == 0`, `.uae_p1_noncombat_locked` clears `mov word ptr [ecx + 6], 0` (`locked_dest = 0`)! On that same hour, `CFrontAI::MoveUnitsToFront` sees `quota_q8[P] == 0` and `[slot + 6] == 0`, cancels the evacuating division's in-progress withdrawal march (`0x0050BCA0`), and orders new divisions to march back into $P$. A few hours later, as combat wears down the bottleneck again, `is_threatened[v]` flips back to `1`, restarting the evacuation from scratch (`0%` march progress)!
 
 #### 4.5.2 Three-Layer Anti-Flicker & Hysteresis Architecture
-We eliminate this oscillation at all three layers using the persistent hourly countdown arrays `threat_hold_u8[8192]` (`+0xEE000`) and `evac_hold_u8[8192]` (`+0xF0000`):
+This oscillation is eliminated at all three layers using the persistent hourly countdown arrays `threat_hold_u8[8192]` (`+0xEE000`) and `evac_hold_u8[8192]` (`+0xF0000`):
 
-1. **Layer 1 -- Attacked-Bottleneck `IsThreatened` Hold Timer (`threat_hold_u8[v]` in Pass 0)**:
-   - Track the last game-hour timestamp (`dword ptr [0x00893530] + 0x14`) so countdown timers decrement at most once per game hour (not on redundant mid-hour save calls).
-   - Whenever raw Pass 0 evaluation marks a province `is_threatened[v] == 1`, set:
-     $$\text{threat\_hold\_u8}[v] = \text{ThreatClearanceCooldownHours} \quad (\text{INI default } 36\text{ hours})$$
+1. **Layer 1 -- Attacked-Bottleneck `IsThreatened` Hold Timer (`threat_hold_u8[v]` in Pass 0 `Step 3B` @ `0x00DCC923`)**:
+   - In `Cave_STEM_HourlyAllCountries` (`0x00DD06D6`), track a flags-free packed 32-bit `CDate` key (`(year << 16) | (month << 10) | (day << 5) | hour` read from `dword ptr [0x00893530]`, reset to `-1` in `Cave_PostLoadInit` @ `0x00DD03CB`) so `threat_hold_u8` and `evac_hold_u8` decrement at most once per game hour (never on mid-hour `Hook 4` / `SaveGameHook` refreshes).
+   - Clear Stage 5 status bits (`and 0xE7` on `+0xEC000`), and whenever raw Pass 0 evaluation marks controlled province `is_threatened[v] == 1`, arm:
+     $$\text{threat\_hold\_u8}[v] = \min(255,\; \text{ThreatClearanceCooldownHours} + 1) \quad (\text{INI default } 36\text{ hours})$$
    - On subsequent hours, if raw Pass 0 evaluation does not mark $v$ threatened, check `threat_hold_u8[v] > 0`:
-     - If `threat_hold_u8[v] > 0` **AND** (`dword ptr [pProv(v) + 0x24C] != 0` active defensive combat is still ongoing in $v$, **OR** `raw_threat(v) >= 0.65`):
+     - If `threat_hold_u8[v] > 0` **AND** (active defensive land combat is ongoing in $v$ via `Cave_STEM_IsProvInDefCombat_Eax` @ `0x00DCEE88` checking `[pProv + 0x1C2]` -> `[pArmy + 0x128] != 0 && [[[pArmy + 0x120]] + 0x78] + 0x12 == v`, **OR** `raw_threat(v) >= 0.65` computed at end of Pass 0 via `.hlp_eval_p0_raw_threat_esi` @ `0x00DCEF04` and `flt_065` @ `0x00DCBDE9`):
        - **Hold `is_threatened[v] = 1`**, preserve its threatened status, and set `prov_status_flags[v] |= 0x08` (`STATUS_THREAT_HOLD`)!
-     - Only when the timer expires (`threat_hold_u8[v] == 0`) OR active combat has stopped AND raw threat has dropped below `0.65` does `is_threatened[v]` clear to `0`.
+     - Only when the timer expires (`threat_hold_u8[v] == 0`) OR active defensive combat has stopped AND raw threat has dropped below `0.65` does `is_threatened[v]` clear to `0`.
 
-2. **Layer 2 -- Evacuation Quota Re-Entry Cooldown (`evac_hold_u8[P]` in Pass 3)**:
-   - Whenever a province $P$ has raw `quota_q8[P] >= 64` ($\ge 25\%$ evacuation), set:
-     $$\text{evac\_hold\_u8}[P] = \text{EvacReentryCooldownHours} \quad (\text{INI default } 24\text{ hours})$$
-   - While `evac_hold_u8[P] > 0` on subsequent hours, if raw `quota_q8[P]` drops to `0` (e.g., because a bottleneck stabilized), do not let `quota_q8[P]` snap immediately to `0` for `CFrontAI` reinforcement checks:
-     - Maintain a minimum decaying hold quota `quota_q8[P] = max(raw_quota_q8[P], 32)` (`12.5%`, with `prov_status_flags[P] |= 0x10` `STATUS_EVAC_HOLD`) while `evac_hold_u8[P] > 0`.
-     - Because `Hooks 7B, 8A--8C, 9B` treat any province with `quota_q8[P] > 0` as an evacuating salient (blocking Loop A/B from marching new reinforcements into $P$), `CFrontAI` waits until `evac_hold_u8[P]` expires (`24` hours of sustained stability) before marching divisions back into a recently evacuated salient!
+2. **Layer 2 -- Evacuation Quota Re-Entry Cooldown (`evac_hold_u8[P]` in Pass 3 `.step5e_evac_hold` @ `0x00DCE297`)**:
+   - Whenever a controlled province $P$ has raw `quota_q8[P] >= 64` ($\ge 25\%$ evacuation), arm:
+     $$\text{evac\_hold\_u8}[P] = \min(255,\; \text{EvacReentryCooldownHours} + 1) \quad (\text{INI default } 24\text{ hours})$$
+   - While `evac_hold_u8[P] > 0` on subsequent hours, if $P$ is not an active bottleneck (`neck_agg_q8[P] == 0`), not dependency-locked (`!(prov_flags[P] & 0x40)`), and not blacklisted or `stem_no_evac` (`!(prov_status_flags[P] & 0x41)`):
+     - Apply `prov_status_flags[P] |= 0x10` (`STATUS_EVAC_HOLD`), raise `quota_q8[P] = max(raw_quota_q8[P], 32)` (`12.5%`), and sync telemetry via `Cave_STEM_SyncTelemetryPrio` (`0x00DCF311`).
+     - `Hooks 7A` (`0x00DD0D29`), `7B` (`0x00DD0DFD`), `7D` (`0x00DD0F7F`), `8A` (`.srs_chk_evac_hold`), and `8D` treat `STATUS_EVAC_HOLD` / `quota_q8 >= 32` as an evacuation hold so Loop A and Loop B wait out the `24`-hour cooldown before marching new reinforcements back into $P$.
 
-3. **Layer 3 -- In-Progress Withdrawal March Commitment (`.uae_p1_noncombat_locked` in Step 6)**:
+3. **Layer 3 -- In-Progress Withdrawal March Commitment (`.uae_p1_noncombat_locked` in Step 6 `0x00DCF4BA`)**:
    - In `Cave_STEM_UpdateAndEvacuate_Internal` (`Pass 1` active evacuation registry validation):
-     - If an army slot already has a locked withdrawal destination `dest = word ptr [ecx + 6]` (`dest != 0`) AND the army is currently **still marching toward `dest`** (`.uae_is_marching_to_eax` returns `1`):
-     - Even if `quota_q8[src]` drops to `0` (or `prov_status_flags[src] & 0x10` is in cooldown hold), **DO NOT clear `[ecx + 6]` (`locked_dest`) mid-march**, provided `dest` is still friendly-controlled and `quota_q8[dest] < 255`!
-     - Keeping `[ecx + 6] = dest` while the unit finishes its current 1-hop withdrawal march guarantees that Hook 9A / Hook 4 (`[slot + 6] != 0`) and `Loop A/B` protect the unit's accumulated movement progress until it arrives at `dest`!
+     - If an army slot already has a locked withdrawal destination `dest = word ptr [ecx + 6]` (`dest != 0`) AND `neck[src] == 0` or `quota_q8[src] == 0`, branch to `.uae_p1_chk_commit_march` (`0x00DCF6BD`): check `.uae_is_marching_to_eax` (`0x00DD00EC`) **AND** `.uae_is_friendly_nonfull_dest_eax` (`0x00DD011A`, controlled by country or ally and `quota_q8[dest] < 255`). If both pass, keep `[ecx + 6] = dest` committed mid-march until arrival instead of clearing the slot!
+     - In `.uae_p1_not_locked` (`quota_q8[src] == 32` under `STATUS_EVAC_HOLD` only when `neck[src] == 0`), keep non-locked units in `StayingDivs` rather than evacuating them.
+     - In `.uae_rc_scan` (`0x00DCF9BC`, Pass 2 target-stay recall), skip recalling any locked slot that is already actively marching toward its withdrawal destination.
 
 #### 4.5.3 New INI Keys for Stage 5
 - **`db/mod_settings.ini` (`[FrontAI]` section)**:
-  - `ThreatClearanceCooldownHours = 36` (Hours an attacked bottleneck holds `IsThreatened = 1` against temporary reinforcement blips while combat continues or $T(v) \ge 0.65$; set `0` to disable).
-  - `EvacReentryCooldownHours = 24` (Hours a salient province blocks Front AI from marching divisions back in after evacuation clears; set `0` to disable).
+  - `ThreatClearanceCooldownHours = 36` (Loaded in `Cave_LoadEngineSettings` @ `0x00DD0479`, clamped `0..255`; hours an attacked bottleneck holds `IsThreatened = 1` against temporary reinforcement blips while combat continues or $T(v) \ge 0.65$; set `0` to disable).
+  - `EvacReentryCooldownHours = 24` (Loaded in `Cave_LoadEngineSettings` @ `0x00DD0479`, clamped `0..255`; hours a salient province blocks Front AI from marching divisions back in after evacuation clears; set `0` to disable).
 
 #### 4.5.4 Stage 5 Verification & Stopping Point
-1. **Build, Patch Integrity & Static Disassembly Verification**:
-   - Rebuild, run `patch_darkest_hour.bat -Verify`, and verify Capstone disassembly of `threat_hold_u8`, `evac_hold_u8`, and `.uae_p1_noncombat_locked`.
+1. **Build, Patch Integrity & Static Disassembly Verification (Done)**:
+   - Rebuilt `build_and_apply_all.py` (`Cave: 8616 instructions, 26479 bytes`, `SHA256 = 906501CAC37443AAC76C2B1C81401C68AC47503BC945E45DC23B292EB9D0092D`), updated both `Darkest Hour_modified.exe` and `Darkest Hour.exe`, passed `patch_darkest_hour.bat -Verify` on all three executables, and verified Capstone disassembly of `Cave_LoadEngineSettings` (`0x00DD0479`), `Cave_PostLoadInit` (`0x00DD03CB`), `Cave_STEM_HourlyAllCountries` (`0x00DD06D6`), `.p0_th_loop` (`0x00DCC923`), `Cave_STEM_IsProvInDefCombat_Eax` (`0x00DCEE88`), `.hlp_eval_p0_raw_threat_esi` (`0x00DCEF04`), `.step5e_evac_hold` (`0x00DCE297`), `Hooks 7A/7B/8A`, `.uae_p1_chk_commit_march` (`0x00DCF6BD`), `.uae_rc_scan` (`0x00DCF9BC`), and `.uae_is_friendly_nonfull_dest_eax` (`0x00DD011A`).
 2. **Manual In-Game Validation (User)**:
    - Run several days on the 1941 Barbarossa save where `241 Belz` / `1884 Przemysl` or `102 Wolkowysk` / `209 Bialystok` are under attack while reinforcements arrive at the neck.
    - Verify in `stem_debug.csv` (`StatusFlags` bits `+8` and `+16`) and in-game that evacuating units complete their withdrawal marches without cancelling/restarting when a reinforcing division enters the neck.
@@ -426,16 +426,16 @@ We eliminate this oscillation at all three layers using the persistent hourly co
     1. `EnableBottleneckSupportDefense == 1` (INI toggle, default `1`),
     2. `src_prov` ($P$) is **directly adjacent** to `dest_neck` ($N$) (`first_step == dest_neck`),
     3. `dest_neck` ($N$) is a bottleneck/shoulder (`is_cut_vertex[N] == 1` or `neck_agg_q8[N] > 0` or `is_threatened[N] == 1`), AND
-    4. `dest_neck` ($N$) is **currently under active enemy attack** (`dword ptr [pProv(N) + 0x24C] != 0`, friendly controller).
+    4. `dest_neck` ($N$) is **currently under active defensive attack** (`Cave_STEM_IsProvInDefCombat_Eax(N) == 1`, friendly controller).
 - **Action When All 4 Conditions Hold**:
   1. Instead of calling `DispatchMoveOrder` (`0x006AAFF0`, `mission_type = 1`), call `.hlp_dispatch_support_defense(pArmy, dest_neck)` which invokes **`CMission::OrderMission` (`0x0050B600`, `ecx = pArmy + 0x260`)** with **`mission_type = 4` (`MISSION_SUPPORT_DEFENCE`)** and `target_prov_id = dest_neck` (using the exact `0x44`-byte stack frame from `CFrontAI::ExecuteTactical` @ `0x006888C0..0x0068892C`).
   2. Record `[slot + 0] = army_type`, `[slot + 2] = army_id`, `[slot + 6] = dest_neck` in the STEM Active Evacuation Registry (`+0x38000`) and set `stem_evac_active[src_prov] = 1` (`+0x30000`).
 - **Lifecycle & Recognition of a `Support Defence` Withdrawal Slot**:
   1. **Recognition in `.uae_is_marching_to_eax`**:
-     - Update `.uae_is_marching_to_eax(pArmy, target_prov)` so that in addition to checking active movement (`[pArmy + 0x27E] == 1`), it also checks if `[pArmy + 0x264] == 4` (`MISSION_SUPPORT_DEFENCE`) AND `[pArmy + 0x268] == target_prov` AND `[pProv(target_prov) + 0x24C] != 0` (target bottleneck is still under active attack)!
+     - Update `.uae_is_marching_to_eax(pArmy, target_prov)` so that in addition to checking active movement (`[pArmy + 0x27E] == 1`), it also checks if `[pArmy + 0x264] == 4` (`MISSION_SUPPORT_DEFENCE`) AND `[pArmy + 0x268] == target_prov` AND `Cave_STEM_IsProvInDefCombat_Eax(target_prov) == 1` (target bottleneck is still under active attack)!
      - While the bottleneck battle continues, `.uae_is_marching_to_eax` returns `1` (`active`), so Pass 1 keeps the unit on `Support Defence` without re-ordering or clearing its slot, and `Hook 4 / Loop B` prevents `CFrontAI` from overwriting the `Support Defence` mission!
   2. **Automatic Transition from `Support Defence` to Physical Move When the Battle Ends**:
-     - The moment the enemy attack on `dest_neck` ends (`[pProv(dest_neck) + 0x24C] == 0`, victory!), `.uae_is_marching_to_eax` returns `0` for a non-moving `mission_type == 4` unit.
+     - The moment the enemy attack on `dest_neck` ends (`Cave_STEM_IsProvInDefCombat_Eax(dest_neck) == 0`, victory!), `.uae_is_marching_to_eax` returns `0` for a non-moving `mission_type == 4` unit.
      - On that very next hourly tick, `.uae_p1_noncombat_locked` sees that the unit is no longer actively supporting an ongoing battle and immediately dispatches a normal **`DispatchMoveOrder` (`0x006AAFF0`)** to `dest_neck` so the division marches physically into the saved bottleneck to complete its withdrawal!
 
 #### 4.6.3 New INI Keys for Stage 6

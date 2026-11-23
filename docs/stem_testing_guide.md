@@ -2,7 +2,7 @@
 
 This guide explains how the AI's **Salient Evacuation & Pocket Defense system (STEM)** works in plain English, how to inspect its decisions in `stem_debug.csv`, and what each setting in `db/mod_settings.ini` controls while testing.
 
-> **Current Implementation Note (Phase 1 Stages 1-5 & Phase 2 Stages 1-4 Active)**:
+> **Current Implementation Note (Phase 1 Stages 1-5 & Phase 2 Stages 1-5 Active)**:
 > * **Stages 1-3**: Topological escape-path counting (`F_Paths`), Natural Geography Gate, dynamic danger scoring (`SalientEvacuationQuota`), active upstream bottleneck holding lock (`Step 5C`), Front AI reinforcement suppression (`NormAIPrio` -> `AdjAIPrio`), bottleneck defense boosting / interior neck hold (`BottleneckDefenseBoost`, `AggNeckQuota`, `FinalAIPrio`), **Threatened-Shoulder Boost**, and **Threat-Sustaining Neck Floor** are all active.
 > * **Stage 4**: Partial per-division withdrawal budgets (`TargetStayDivs`, `StayingDivs`, `EvacDivBudget`), 4-tier division selection (unengaged -> slowest -> highest org -> highest strength) with no-overshoot fit guard + oversized-corps splitting, and raw terrain-free strength parity in `MoveUnitsToFront` are active.
 > * **Stage 5**: Universal combat defeat/retreat destination scoring (`0x00508E10`) steers defeated defenders outward away from threatened/evacuating pockets, bypasses `m_LastProvince` hard-filtering for verified STEM safe exits, and load-balances retreats across low-load exit provinces.
@@ -10,6 +10,7 @@ This guide explains how the AI's **Salient Evacuation & Pocket Defense system (S
 > * **Phase 2 Stage 2**: Division organization (`cur_org / max(20.0, eff_max_org)` via `OrgWeight`) and softness/hardness (`HardnessWeight`) are baked directly into `FrStr`, `InbStr`, and `EnStr`, replacing the legacy active-combat `MinOrg` / `T_org` mechanism while keeping Pass 0's `NeckCollapsingOrgThreshold` collapse detection for `IsThreatened`.
 > * **Phase 2 Stage 3**: Alternative supply lifelines scale down `SalientEvacuationQuota` on supplied pockets via `ImpassableSupplyQuotaMultiplier` (endangered strip `adj->type == 4` bridgeheads from friendly safe/unthreatened neighbors, propagated across connected unthreatened endangered strip provinces, e.g., Lake Ladoga `189 <-> 7003 -> 187`, stamped `+2` / `0x02`) and `PortSupplyQuotaMultiplier` (direct coastal sea access `[pProv + 0x3DC] > 0`, stamped `+4` / `0x04`); when both apply, the tighter `min` of the two multipliers is used.
 > * **Phase 2 Stage 4**: `BottleneckDefenseBoost` (default `2.0`) scales dynamically by each front's average stack size (`D_front / max(1, N_elig)`) across `Hook 8D` Stage B normalization, Loop A (`Hooks 7B` / `9A`), `.s5e_fin_threat_floor`, and `stem_debug.csv` telemetry, always re-normalizing total `FinalAIPrio` back to `D_front`.
+> * **Phase 2 Stage 5**: Three-layer anti-flicker hysteresis prevents evacuating units from cancelling marches mid-way when reinforcements briefly stabilize an attacked bottleneck: (1) `ThreatClearanceCooldownHours` (`36`h, `StatusFlags +8`) holds `IsThreatened = 1` while defensive combat continues or raw `T(v) >= 0.65`, (2) `EvacReentryCooldownHours` (`24`h, `StatusFlags +16`) holds a `32/255` minimum quota & blocks Loop A/B re-entry after evacuation drops below 25%, and (3) active evacuation registry validation keeps in-progress withdrawal marches locked until arrival.
 
 ---
 
@@ -156,6 +157,9 @@ In `Mods/E3mapToDHFull/db/mod_settings.ini`:
 10. **Alternative Supply Lifelines (`Impassable` + Direct Coastal Sea Access, Phase 2 Stage 3)**:
    * Inspect coastal pocket/frontline provinces (e.g., `187 Leningrad`, `264 Sevastopol`, `232 Odessa`, `133 Murmansk`) and endangered strip provinces behind an `adj->type == 4` impassable bridgehead connected to a friendly safe, unthreatened province (e.g., `189 Kirisi <-> 7003 Kir'jasaly -> 187 Leningrad`).
    * *Expected*: Direct coastal provinces (`[pProv + 0x3DC] > 0`) show `StatusFlags` `+4` and `EvacMult = 0.50` (`PortSupplyQuotaMultiplier`); endangered impassable-lifeline provinces show `+2` and `EvacMult = 0.35` (`ImpassableSupplyQuotaMultiplier`; or `min = 0.35` when `+6` holds), reducing their `SalientEvacuationQuota` proportionately rather than forcing `1.000` full evacuation.
+11. **Attacked-Bottleneck Anti-Flicker & Evacuation Commitment (Phase 2 Stage 5)**:
+   * Observe a salient (e.g., Bialystok `505`/`6515`/`7335` or Przemysl `1884`) when a friendly division reinforces the threatened bottleneck (`209 Grodno` or `241 Belz`) while combat continues or threat remains `>= 0.65`.
+   * *Expected*: The bottleneck shows `StatusFlags` `+8` and retains `IsThreatened = 1` for up to `ThreatClearanceCooldownHours` (`36`h); salient provinces whose raw quota drops below `25%` show `StatusFlags` `+16` with `SalientEvacuationQuota >= 0.125` (`32/255`), blocking Front AI re-entry for `EvacReentryCooldownHours` (`24`h); and units already marching to their locked withdrawal destination complete their move without being cancelled/recalled mid-march.
 
 ---
 
@@ -174,7 +178,7 @@ In `Mods/E3mapToDHFull/db/mod_settings.ini`:
 
 | Variable | Engine Default | Current Mod INI | What It Controls / How to Tune |
 |---|---|---|---|
-| `IdleEnemyPresenceWeight` | `0.25` | `0.85` | Weight on **idle** enemy troops sitting across the border. Lower (`0.1`–`0.25`) to ignore quiet stacks; raise (`0.85`+) to react earlier to large unengaged enemy concentrations. |
+| `IdleEnemyPresenceWeight` | `0.25` | `0.85` | Weight on **idle** enemy troops sitting across the border. Lower (`0.1`--`0.25`) to ignore quiet stacks; raise (`0.85`+) to react earlier to large unengaged enemy concentrations. |
 | `ActiveEnemyAttackWeight` | `1.0` | `1.0` | Weight on enemy troops **actively attacking or marching** into us. |
 | `ThreatenedNeighborStrWeight` | `1.0` | `1.0` | Weight on threat spilling inward from an already-collapsing neighbor province. |
 | `InboundFriendlyStrWeight` | `0.5` | `0.5` | How much our **inbound reinforcing troops** count toward holding the neck (`0.0` = ignore marching help, `1.0` = count them at full value). |
@@ -186,7 +190,7 @@ In `Mods/E3mapToDHFull/db/mod_settings.ini`:
 | `NeckThreatMinFloor` | `0.0` | `0.2` | Minimum `T` floor (`0.0` allows quiet necks to stay at `0.000` quota; `0.2` applies mild baseline pressure whenever a bottleneck is exposed). |
 | `NeckThreatMaxCap` | `1.5` | `1.5` | Maximum `T` ceiling (also assigned to completely unguarded exposed bottlenecks). |
 | `MultiExposedCutBonus` | `0.25` | `0.25` | Extra threat multiplier per additional exposed bottleneck (`+0.25` = +25% urgency per extra open flank). |
-| `NeckThreatWeight` | `1.0` | `1.3` | Overall multiplier on `T_Neck` (`0.5` halves threat urgency across the board; `1.3`–`1.5` amplifies it). |
+| `NeckThreatWeight` | `1.0` | `1.3` | Overall multiplier on `T_Neck` (`0.5` halves threat urgency across the board; `1.3`--`1.5` amplifies it). |
 
 ### Width, Value Hold, Boosts & Cutoffs
 
@@ -206,6 +210,8 @@ In `Mods/E3mapToDHFull/db/mod_settings.ini`:
 | `SalientEvacuationQuota` | `0.0` | `0.0` | Legacy scalar superseded at runtime by dynamic `SalientEvacuationQuota(P)` calculation. |
 | `BottleneckDefenseBoost` | `2.0` | `2.0` | Front average-stack multiplier requested/held at a bottleneck province when `AggNeckQuota = 1.000` (`BottleneckDefenseBoost * AggNeckQuota * (D_front / N_elig)`, re-normalized so `sum(FinalAIPrio) == D_front`). |
 | `BottleneckQuotaAggregation` | `0` | `0` | How multiple evacuating provinces sharing the same bottleneck combine into `AggNeckQuota`: `0 = MAX`, `1 = AVERAGE`, `2 = MIN`. |
+| `ThreatClearanceCooldownHours` | `36` | `36` | Hours an attacked bottleneck holds `IsThreatened = 1` (`StatusFlags +8`) against brief reinforcement stabilization while defensive combat continues or raw `T(v) >= 0.65` (`0` disables). |
+| `EvacReentryCooldownHours` | `24` | `24` | Hours a salient province keeps a `0.125` (`32/255`) quota barrier (`StatusFlags +16`) blocking Front AI re-entry after evacuation drops below 25% (`0` disables). |
 
 ### Country-Wide `local_flags` Controls (Per-Country Scenario / Event Switches)
 
