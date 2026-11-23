@@ -1,6 +1,6 @@
 # Plan: STEM Phase 2 -- Country Controls, Combat Power Realism, Supply Lifelines, Density-Scaled Boosts & Anti-Flicker Hysteresis
 
-**Status:** In Progress (Stages 1--3 Completed & Validated; Stage 4 Implemented -- Awaiting User Validation; Stages 5--6 Pending)  
+**Status:** In Progress (Stages 1--4 Completed & Validated; Stages 5--6 Pending)  
 **Target Binary:** `Darkest Hour_modified.exe` (Darkest Hour v1.05.2, Base `0x00400000`)  
 **Prerequisite:** [plan_stem_strategic_defense.md](file:///e:/Program%20Files%20%28x86%29/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/docs/plans/plan_stem_strategic_defense.md) (Stages 1--5 Completed & Validated)  
 **Companion Reference Docs:**  
@@ -312,7 +312,7 @@ In Stage 5 of the original plan, `g_pGraphTable` was allocated via `VirtualAlloc
 ---
 
 ### Stage 4: Average-Stack Multiplier Scaling for `BottleneckDefenseBoost` (Item 7)
-**Status:** Implemented -- Awaiting User Validation (`Cave: 8180 instructions, 25111 bytes`, `SHA256 = 4966CD24CA2E84D1D6CE97390F3A2EE96A9090396117BE6F70F2D3589269365D`)
+**Status:** Completed & Validated (`Cave: 8241 instructions, 25322 bytes`, `SHA256 = 08774425EFB9837FEA087EA915EDE67E0262EEE2FBA37FC1018E17F2F813BE14`)
 
 #### 4.4.1 Why Static `BottleneckDefenseBoost` Fails at Front Extremes
 - Previously, `BottleneckDefenseBoost` (`10.0` in mod INI, `3.5` engine default) added a fixed raw division count (`BottleneckDefenseBoost * AggNeckQuota`) prior to `Hook 8D` Stage B re-normalization (`boost_share = raw / D_front`) and inside `Hook 9A` / `.s5e_fin_threat_floor`.
@@ -322,20 +322,23 @@ In Stage 5 of the original plan, `g_pGraphTable` was allocated via `VirtualAlloc
 #### 4.4.2 Simplified Average-Stack Multiplier Architecture (Zero Extra Tuning Keys)
 Instead of adding separate density baseline/min/max/cap INI parameters, **`BottleneckDefenseBoost` (new engine & mod INI default `2.0`) is now directly a multiplier on the front's average division stack** $\bar{d} = D_{\text{front}} / \max(1,\; N_{\text{elig}})$:
 
-1. **Exact Per-Front Average Stack in `Hook 8D` (`Cave_FrontAI_NormalizeFrontShares` @ `0x00DD0B5A`)**:
+1. **Exact Per-Front Average Stack in `Hook 8D` (`Cave_FrontAI_NormalizeFrontShares` @ `0x00DD0B99`)**:
    - During Stage A Pass 1 (`.nfs_p1_loop`), count `N_elig` (`.nfs_p1_eligible` frontline provinces on the front, excluding injected `[fp + 0x42] == 0x5B` interior bottlenecks, `is_basin == 1` nodes, `no_en`, and impassable/0-infra tiles; clamped `>= 1`). Stage B Pass 1 symmetrically enforces a `0.0` baseline (`NormAIPrio = 0`) for both `[fp + 0x42] == 0x5B` and `is_basin == 1`.
    - Compute $\bar{d} = D_{\text{front}} / N_{\text{elig}}$, store `float` $\bar{d}$ in `country_front_density[tag]` (`+0xF7000`), and stamp `clamp(round(d_bar * 100.0), 1, 65000)` per province into `prov_front_avg_x100[P]` (`+0x124000`, preserved across hourly clears/saves, zeroed on scenario/save reload in `Cave_PostLoadInit`).
+   - **Reload Tick-1 Fresh-Front Seeding & Stage A -> STEM Refresh -> Stage B Prime**:
+     - `Cave_STEM_UpdateGraphTable` (`.check_front_list` @ `0x00DCC3D4` & `.seed_front_list` @ `0x00DCC949`) accepts freshly created reload war fronts (`[esi + 0x118] > 0 || ([esi + 0x126] <= 1 && [esi + 0x0C] > 0)`) so secondary fronts whose Pass 1 has not completed on tick 1 after reload are still seeded and never get false `basin = 1` stamps on hops `> SalientSearchDepth`.
+     - At entry to `Hook 8D` `.nfs_stage_b_stem` (`0x00DD1154`), when `[ebx + 0x126] <= 1`, Stage A's `prov_front_avg_x100` (`+0x124000`) and `norm_prio_f32` (`+0x58000`) are committed and `Cave_STEM_UpdateGraphTable` is refreshed once before Stage B (`.ppa_after_tag` @ `0x00DCCADD` clears `quota_q8` on strip provinces and `.ugt_stamp_div_load` @ `0x00DCE2FF` skips re-summing `+0xE8000` when `+0xD6000 != 0`), preventing tick-1 reload overshoot and front reshuffling.
    - In Stage B Pass 1 (`.nfs_b_p1_chk_neck`), the bottleneck boost addend cancels `D_front` cleanly in share space:
      $$\text{boost\_divs}(B) = \text{BottleneckDefenseBoost} \times \frac{\text{neck\_agg\_q8}[B]}{255.0} \times \frac{D_{\text{front}}}{N_{\text{elig}}} \implies \text{boost\_share}(B) = \frac{\text{BottleneckDefenseBoost} \times Q_{\text{agg}}(B)}{N_{\text{elig}}}$$
    - Stage B then executes its full `max_stack` & partial-evac water-filling re-normalization (`.nfs_b_wf_loop`) so `sum(front_final_share[P]) == 1.0` and **`sum(FinalAIPrio) == D_front`**.
-2. **Consistent Consumer Scaling via `.hlp_push_avg_divs_ecx` (`0x00DCE652`)**:
+2. **Consistent Consumer Scaling via `.hlp_push_avg_divs_ecx` (`0x00DCE691`)**:
    - Lookup order: `(1) prov_front_avg_x100[P] * 0.01f` (`+0x124000`), `(2) country_front_density[tag]` (`+0xF7000`), `(3) 3.5f` fallback (`flt_350`, before first `MoveUnitsToFront` tick).
    - Used in:
-     - **`.s5e_fin_threat_floor` (`0x00DCE0AF`)**: converts `excess_needed_divs` into `AggNeckQuota = excess_needed_divs / (BottleneckDefenseBoost * avg_divs(P))`.
-     - **`Cave_STEM_SyncTelemetryPrio` (`0x00DCF082`)**: scales uninjected rear bottleneck telemetry `FinalAIPrio` by `BottleneckDefenseBoost * Q_agg * avg_divs(P)`.
-     - **`Hook 9A` (`Cave_FrontAI_LoopAIsFrontOrHeldNeck` @ `0x00DD0830`)**: scales interior bottleneck garrison hold `req = BottleneckDefenseBoost * Q_agg * avg_divs(P)`.
-     - **`Hook 7B` (`Cave_FrontAI_LoopACheckCand` @ `0x00DD0A82`)**: scales Loop A candidate bottleneck attraction and saturation check by `BottleneckDefenseBoost * Q_agg * avg_divs(P)`.
-   - `Hooks 8A/8B/8C` rare fallback paths (`0x00DD1655`, `0x00DD17A6`, `0x00DD18A7`) likewise divide by `max(1, [CFrontAI + 0x0C])` instead of `D_front`.
+     - **`.s5e_fin_threat_floor` (`0x00DCE0D9`)**: converts `excess_needed_divs` into `AggNeckQuota = excess_needed_divs / (BottleneckDefenseBoost * avg_divs(P))`.
+     - **`Cave_STEM_SyncTelemetryPrio` (`0x00DCF0C1`)**: scales uninjected rear bottleneck telemetry `FinalAIPrio` by `BottleneckDefenseBoost * Q_agg * avg_divs(P)`.
+     - **`Hook 9A` (`Cave_FrontAI_LoopAIsFrontOrHeldNeck` @ `0x00DD086F`)**: scales interior bottleneck garrison hold `req = BottleneckDefenseBoost * Q_agg * avg_divs(P)`.
+     - **`Hook 7B` (`Cave_FrontAI_LoopACheckCand` @ `0x00DD0AC1`)**: scales Loop A candidate bottleneck attraction and saturation check by `BottleneckDefenseBoost * Q_agg * avg_divs(P)`.
+   - `Hooks 8A/8B/8C` rare fallback paths (`0x00DD1728`, `0x00DD1879`, `0x00DD197A`) likewise divide by `max(1, [CFrontAI + 0x0C])` instead of `D_front`.
 3. **Concrete Numerical Examples (with `BottleneckDefenseBoost = 2.0`, `Q_agg = 1.0`)**:
    - **Small 20-division front across 15 provinces** ($\bar{d} = 1.33$ divs/prov): pre-norm boost `+2.67` divs -> re-normalized **`FinalAIPrio ~ 3.5` divs** (`17.6%` of front instead of `37%+`).
    - **Small 24-division Northern Front across 4 provinces** (e.g., `7073 Volhovstroj` in BARB `1943`, $\bar{d} = 6.0$ divs/prov): pre-norm boost `+12.0` divs, re-normalized to `sum == 24.0`.
@@ -347,10 +350,10 @@ Instead of adding separate density baseline/min/max/cap INI parameters, **`Bottl
 
 #### 4.4.4 Stage 4 Verification & Stopping Point
 1. **Build, Patch Integrity & Static Disassembly Verification (Done)**:
-   - Built `build_and_apply_all.py` (`Cave: 8180 instructions, 25111 bytes`, `SHA256 = 4966CD24CA2E84D1D6CE97390F3A2EE96A9090396117BE6F70F2D3589269365D`), verified `0x00DCBAD0` default `2.0`, passed both `patch_darkest_hour.bat -Verify` scripts, and verified Capstone disassembly of `.hlp_push_avg_divs_ecx` (`0x00DCE652`), all four callers (`0x00DCE0AF`, `0x00DCF082`, `0x00DD0830`, `0x00DD0A82`), `Hook 8D` (`0x00DD0B5A`, including `[edi + 0x42] == 0x5B` Stage A & B checks), `Hooks 8A/8B/8C` fallbacks (`0x00DD1655`/`0x00DD17A6`/`0x00DD18A7`), and persistent `+0xF7000` / `+0x124000` preservation in `HourlyAllCountries` / `SaveGameHook`.
-2. **Manual In-Game Validation (User)**:
-   - Restart `Darkest Hour.exe` to load the Stage 4 binary and updated [db/mod_settings.ini](file:///e:/Program%20Files%20(x86)/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/db/mod_settings.ini), save with `Extra debug logs = 1` to generate `stem_debug.csv`, and inspect `FinalAIPrio` / `sum(FinalAIPrio) == D_front` on small vs. large fronts.
-   - **STOP and report Stage 4 results to the user for approval before proceeding to Stage 5.**
+   - Built `build_and_apply_all.py` (`Cave: 8241 instructions, 25322 bytes`, `SHA256 = 08774425EFB9837FEA087EA915EDE67E0262EEE2FBA37FC1018E17F2F813BE14`), verified `0x00DCBAD0` default `2.0`, updated `Darkest Hour_modified.exe` and both `patch_darkest_hour.bat` `$PATCH_SHA256` entries (`Darkest Hour.exe` on disk remained locked by active `x32dbg` session), and verified Capstone disassembly of `.hlp_push_avg_divs_ecx` (`0x00DCE691`), all four callers (`0x00DCE0D9`, `0x00DCF0C1`, `0x00DD086F`, `0x00DD0AC1`), `Hook 8D` (`0x00DD0B99`, including `[edi + 0x42] == 0x5B` Stage A & B checks and `.nfs_stage_b_stem` reload prime @ `0x00DD1154`), `.check_front_list` / `.seed_front_list` / `.ppa_after_tag` / `.ugt_stamp_div_load`, `Hooks 8A/8B/8C` fallbacks (`0x00DD1728`/`0x00DD1879`/`0x00DD197A`), and persistent `+0xF7000` / `+0x124000` preservation in `HourlyAllCountries` / `SaveGameHook`.
+2. **Manual In-Game Validation (Validated by User)**:
+   - Verified in-game on `autosave.eug` with `BottleneckDefenseBoost = 2.0` (`08774425...`): average-stack scaling and Stage B re-normalization conserve `sum(FinalAIPrio) == D_front`, excluding `[edi + 0x42] == 0x5B` interior necks from `N_elig` keeps `102 Wolkowysk` at exact `2.9`, and fresh-front seeding + tick-1 Stage A -> STEM refresh -> Stage B priming eliminates reload reshuffling.
+   - **User approved Stage 4.**
 
 ---
 
