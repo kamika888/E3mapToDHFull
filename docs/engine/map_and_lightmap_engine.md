@@ -220,3 +220,4 @@ The counter draw path (`0x00416FED`) also adds `[+0x0E]` and caps at 4. The resu
 
 ### Vanilla defect (fixed by Patch 13)
 The bounding box uses `effective_scale`, but the texture-coordinate conversion at `0x00417178` shifted by the raw global zoom (`[0x00A98464]`). At zoom 1 or higher, the lower half of a counter maps to rows past the 34-pixel surface, giving an out-of-bounds read and an intermittent AV at `0x00406100`. See [`plan_unit_counter_hover_hit_test_scale_fix.md`](../plans/plan_unit_counter_hover_hit_test_scale_fix.md).
+
