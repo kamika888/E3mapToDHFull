@@ -1,6 +1,6 @@
 # Plan: STEM Phase 3 -- Allied Output Isolation, Supply-Core Proximity Gate, Sink Capacity Fix & Per-Division Terrain Defense Scaling
 
-**Status:** Stages 1--2 Implemented & Built (Awaiting User Validation); Stage 3 Proposed (`Cave: 9,680 instructions, 29,562 bytes`, `SHA256 = 940D7F15B34F6B80775AA2EC1E9654141656CD6E9E72E26DE91E008809077A1C`)  
+**Status:** Stages 1--3 Implemented & Built (Stages 1--2 Validated; Awaiting Stage 3 User Validation) (`Cave: 9,903 instructions, 30,270 bytes`, `SHA256 = 5337BD38F3E01D8CAA1B9D42F6766892B4D02E8B0742694B407CC66F8DEEA1C1`)  
 **Target Binary:** `Darkest Hour_modified.exe` (Darkest Hour v1.05.2, Base `0x00400000`)  
 **Prerequisite:** [plan_stem_phase2_refinements.md](file:///e:/Program%20Files%20%28x86%29/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/docs/plans/plan_stem_phase2_refinements.md) (Stages 1--6 Completed & Validated)  
 **Companion Reference Docs:**  
@@ -63,15 +63,15 @@ All addresses and struct offsets below were verified directly against `Darkest H
 | `CProvince` Terrain ID (`[pProv + 0x254]`) | Terrain Name | `CDivision` Mod Index (`idx`) | Struct Offset (`pDiv + ...`) | Vanilla `INF` Baseline (`modifiers.csv`) | `INF_BaseDefMod` (`float`) | `.hlp_push_def_mult_eax` Baseline |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `0` | Clear / Plains | `0x1B` (`27`) | `+0x1D0` | `DEF_PLAIN = 5` | `+0.05f` | `1.00f` |
-| `1` | Forest | `0x1C` (`28`) | `+0x1D4` | `DEF_FOREST = -7` | `-0.07f` | `1.25f` |
+| `1` | Forest | `0x1F` (`31`) | `+0x1E0` | `DEF_FOREST = -7` | `-0.07f` | `1.25f` |
 | `2` | Mountain | `0x1D` (`29`) | `+0x1D8` | `DEF_MOUNTAIN = -20` | `-0.20f` | `1.45f` |
-| `3` | Desert | `0x1E` (`30`) | `+0x1DC` | `DEF_DESERT = -65` | `-0.65f` | `1.00f` |
+| `3` | Desert | `0x1C` (`28`) | `+0x1D4` | `DEF_DESERT = -65` | `-0.65f` | `1.00f` |
 | `4` | Marsh / Swamp | `0x21` (`33`) | `+0x1EC` | `DEF_SWAMP = -48` | `-0.48f` | `1.40f` |
-| `5` | Hills | `0x1F` (`31`) | `+0x1E0` | `DEF_HILL = 4` | `+0.04f` | `1.20f` |
+| `5` | Hills | `0x1E` (`30`) | `+0x1DC` | `DEF_HILL = 4` | `+0.04f` | `1.20f` |
 | `6` | Jungle | `0x20` (`32`) | `+0x1E4` | `DEF_JUNGLE = -58` | `-0.58f` | `1.50f` |
 | `7` | Urban | `0x22` (`34`) | `+0x1F0` | `DEF_URBAN = -2` | `-0.02f` | `1.30f` |
 
-- *(Note: `[pProv + 0x254]` `4 = Marsh/Swamp` maps to `idx = 0x21` (`+0x1EC`), while `5 = Hills` maps to `0x1F` (`+0x1E0`), `6 = Jungle` maps to `0x20` (`+0x1E4`), `3 = Desert` maps to `0x1E` (`+0x1DC`), `7 = Urban` maps to `0x22` (`+0x1F0`), matching `0x0044D674..0x0044D6D4` exact jump-table entries.)*
+- *(Note: `[pProv + 0x254]` mapping `0 -> 0x1B, 1 -> 0x1F, 2 -> 0x1D, 3 -> 0x1C, 4 -> 0x21, 5 -> 0x1E, 6 -> 0x20, 7 -> 0x22` was verified directly against `0x0044D660` and jump table `0x0044D6FC` in `Darkest Hour_original.exe`, matching `CCountry + 0x7348` and `CDivision + 0x164`. When `[pDiv + 0x230] != 0` dirty flag is set, `.hlp_push_div_eff_str_eax` calls `CDivision::UpdateModifiers` (`0x005054D0`) before reading `[pDiv + 0x164]`.)*
 - Why `[pDiv + 0x164]` solves mixed unit types automatically:
   - The engine initializes and updates `[pDiv + idx*4 + 0x164]` from the defending division's own `unit_type` table inside its owner's `CCountry` (`[pCountry + 0x134D8]`, combining `modifiers.csv` unit baselines + researched techs/doctrines + `which = land` / `which = <unit_type>` event modifiers such as Event `9000081`) plus brigade contributions.
   - Evaluating it on `pDiv` handles **mixed stacks** (`MTN` + `INF` + `MIL` + `ARM`), **allied expeditionary forces** standing in the same province, and **event-modified partisan nations** identically with one uniform lookup.
@@ -160,9 +160,9 @@ Instead of guessing a single country average or hardcoding `local_flag = partisa
    - Let `eff_base = (Strength / 100.0) * OrgFactor * HardnessFactor` (unchanged Stage 2 formula).
    - If a valid target province `P` (`1..0x1F54`) is supplied:
      - Read province terrain `T = [GetProvince(P) + 0x254]` (`0..7`).
-     - Map `T -> div_mod_idx` (`0x1B..0x22`, identical to `0x0044D660` with `isAttacker = 0`):
-       - `0 (Plain) -> 0x1B`, `1 (Forest) -> 0x1C`, `2 (Mountain) -> 0x1D`, `3 (Desert) -> 0x1E`, `4 (Swamp) -> 0x21`, `5 (Hills) -> 0x1F`, `6 (Jungle) -> 0x20`, `7 (Urban) -> 0x22`.
-     - Read the division's live defense modifier: `div_def = float [pDiv + div_mod_idx*4 + 0x164]`.
+     - Map `T -> div_mod_idx` (`0x1B..0x22`, verified from `0x0044D660` / `0x0044D6FC` with `isAttacker = 0`):
+       - `0 (Plain) -> 0x1B`, `1 (Forest) -> 0x1F`, `2 (Mountain) -> 0x1D`, `3 (Desert) -> 0x1C`, `4 (Swamp) -> 0x21`, `5 (Hills) -> 0x1E`, `6 (Jungle) -> 0x20`, `7 (Urban) -> 0x22`.
+     - If `[pDiv + 0x230] != 0` (lazy modifier cache dirty), call `CDivision::UpdateModifiers` (`0x005054D0`) first, then read the division's live defense modifier: `div_def = float [pDiv + div_mod_idx*4 + 0x164]`.
      - Look up standard 1936 Infantry baseline (`INF_BaseDefMod[T]` from `db/units/modifiers.csv`):
        - Plain `+0.05`, Forest `-0.07`, Mountain `-0.20`, Desert `-0.65`, Swamp `-0.48`, Hills `+0.04`, Jungle `-0.58`, Urban `-0.02`.
      - Compute relative factor:
@@ -191,16 +191,17 @@ Instead of guessing a single country average or hardcoding `local_flag = partisa
      `Required_FrStr[esi] = EnStr[esi] / (max(0.05, NeckThreatMinRatio) * DefMult(esi))`
      where `DefMult(esi)` is `.hlp_push_def_mult_eax(esi)` (`BaseTerrainMult + FortBonus`).
    - Because `Required_FrStr[esi]` is in **`FrStr` units** while `NormAIPrio[esi]` and `avg_divs * BottleneckDefenseBoost` are in **physical division counts**, `.s5e_fin_threat_floor` converts `Required_FrStr[esi]` to physical divisions using `AvgDivFrStr[esi]` (average `FrStr` per physical division at `esi`):
-     - During Pass 0 friendly army scanning, accumulate physical division count `prov_div_count[P]` (`uint16_t`) alongside `FrStr[P]` and `InbStr[P]`.
-     - If `prov_div_count[esi] > 0` and `FrStr[esi] + InbStr[esi] > 0.05`:
-       `AvgDivFrStr[esi] = (FrStr[esi] + InbStr[esi]) / prov_div_count[esi]`
+     - During Pass 0 friendly army scanning, accumulate physical division counts `prov_fr_div_count[P]` (`+0x130000`, `uint16_t`) and `prov_inb_div_count[P]` (`+0x134000`, `uint16_t`) alongside `FrStr[P]` and `InbStr[P]` via `.hlp_calc_army_str_org` (with `[ebp - 0xE0]` holding the army's division count).
+     - In `.hlp_push_avg_div_frstr_esi`, if `prov_fr_div_count[esi] + prov_inb_div_count[esi] > 0` and `FrStr[esi] + InbStr[esi] > 0.05`:
+       `AvgDivFrStr[esi] = (FrStr[esi] + InbStr[esi]) / (prov_fr_div_count[esi] + prov_inb_div_count[esi])`
        (automatically capturing the bottleneck stack's exact average `DivTerrainFactor`, `OrgFactor`, `HardnessFactor`, and `Strength/100`).
-     - If `prov_div_count[esi] == 0` (empty bottleneck province):
-       `AvgDivFrStr[esi]` falls back to the province controller's baseline Infantry `DivTerrainFactor(pCountry, T_esi)` from `[pCountry + 0x134D8]`.
+     - If `prov_fr_div_count[esi] + prov_inb_div_count[esi] == 0` (empty bottleneck province):
+       `AvgDivFrStr[esi]` falls back to the province controller's baseline Infantry (`unit_type = 0`) `int16_t` percent modifier `[pCountry + div_mod_idx*2 + 0x7348]` scaled by `0.01f`, normalized as `clamp(1.0 + (inf_def - INF_BaseDefMod[T_esi]), 0.35, MaxTerrainDefenseMultiplier)`.
      - Final physical division requirement and floor quota:
        `Required_Divs[esi] = Required_FrStr[esi] / max(0.20, AvgDivFrStr[esi])`
        `Q_floor[esi] = clamp((Required_Divs[esi] - NormAIPrio[esi]) / (avg_divs * BottleneckDefenseBoost), 0.0, 1.0)`
    - This guarantees exact equilibrium between `.hlp_eval_cut_threat` (`T_Neck`) and `.s5e_fin_threat_floor` (`AggNeckQuota`): stationing `Required_Divs[esi]` physical divisions produces `Required_Divs[esi] * AvgDivFrStr[esi] = Required_FrStr[esi]`, keeping `T_str(esi) == 0` without over- or under-allocating bottleneck defenders.
+   - **Loop A Holding Unit Consistency (`Cave_FrontAI_LoopAIsFrontOrHeldNeck`)**: Scales the `BottleneckDefenseBoost * (neck_agg_q8 / 255.0) * avg_divs` physical division requirement by `max(0.20, FrStr[ecx] / prov_fr_div_count[ecx])` so `req_str` matches `fr_eff_str_f32[ecx]` and terrain-scaled `army_str`, and decrements `prov_fr_div_count[ecx]` alongside `fr_eff_str_f32[ecx]` when releasing surplus armies.
 
 ---
 
@@ -212,8 +213,8 @@ Instead of guessing a single country average or hardcoding `local_flag = partisa
 | `MaxTerrainDefenseMultiplier` | `float` | `3.0` | Stage 3 | Upper cap for per-division relative terrain defense multiplier `DivTerrainFactor` read from `[pDiv + 0x164]` (`floor = 0.35`). |
 
 - **Cave & `g_pGraphTable` Allocation Status**:
-  - `.mod` section ends at `0x00DD9000`. Current built cave usage (`9,680` instructions, `29,562` bytes) leaves ample contiguous free executable space for Stage 3 with zero PE section growth required.
-  - Stages 1--2 expanded `g_pGraphTable` across all 5 `VirtualAlloc` call sites from `0x128000` (`1,184 KB`) to **`0x130000` (`1,216 KB`)**, adding `+0x128000` (`pass_quota_q8`), `+0x12A000` (`pass_agg_neck_quota`), `+0x12C000` (`pass_status_flags`), and `+0x12E000` (`core_dist`).
+  - `.mod` section ends at `0x00DD9000`. Current built cave usage (`9,903` instructions, `30,270` bytes, ending at `~0x00DD33DE`) leaves ample contiguous free executable space with zero PE section growth required.
+  - Stages 1--3 expanded `g_pGraphTable` across all 5 `VirtualAlloc` call sites to **`0x138000` (`1,248 KB`)**, adding `+0x128000` (`pass_quota_q8`), `+0x12A000` (`pass_agg_neck_quota`), `+0x12C000` (`pass_status_flags`), `+0x12E000` (`core_dist`), `+0x130000` (`prov_fr_div_count`, `uint16_t`), and `+0x134000` (`prov_inb_div_count`, `uint16_t`).
 
 ---
 
