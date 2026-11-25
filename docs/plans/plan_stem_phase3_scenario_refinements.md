@@ -1,6 +1,6 @@
-# Plan: STEM Phase 3 -- Allied Output Isolation, Supply-Core Proximity Gate, Sink Capacity Fix & Per-Division Terrain Defense Scaling
+# Plan: STEM Phase 3 -- Allied Output Isolation, Supply-Core Proximity Gate, Sink Capacity Fix, Per-Division Terrain Scaling & Directional Bottleneck Threat
 
-**Status:** Stages 1--3 Implemented & Built (Stages 1--2 Validated; Awaiting Stage 3 User Validation) (`Cave: 9,903 instructions, 30,270 bytes`, `SHA256 = 5337BD38F3E01D8CAA1B9D42F6766892B4D02E8B0742694B407CC66F8DEEA1C1`)  
+**Status:** Stages 1--3 Validated by User; Stage 4 Implemented & Built (`Cave: 10,065 instructions, 30,798 bytes`, `SHA256 = 4DB02BC82B8F257EEE8C862F9B20B78F560728D0678F3A1C8BF0791A07AA0E03`)  
 **Target Binary:** `Darkest Hour_modified.exe` (Darkest Hour v1.05.2, Base `0x00400000`)  
 **Prerequisite:** [plan_stem_phase2_refinements.md](file:///e:/Program%20Files%20%28x86%29/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/docs/plans/plan_stem_phase2_refinements.md) (Stages 1--6 Completed & Validated)  
 **Companion Reference Docs:**  
@@ -12,7 +12,7 @@
 
 ## 1. Executive Summary & Live 1936 `CHC` Case Study
 
-Live testing against the 1936 E3Map scenario (`CHC` -- Communist China in Shaanxi/Gansu) surfaced **three compounding STEM deficiencies** visible directly in `stem_debug.csv`:
+Live testing against the 1936 E3Map scenario (`CHC` -- Communist China in Shaanxi/Gansu) surfaced **four compounding STEM deficiencies** visible directly in `stem_debug.csv`:
 
 ```text
 CountryTag;ProvID;ProvName;Dist;IsThreatened;F_Paths;F_Exp;F_Crit;CutProv1;CutProv2;V_Ref;EvacDestNeck;FrStr;EnStr;InbStr;VP_IC_Val;D_Width;T_Neck;V_Ret;SalientEvacuationQuota;NormAIPrio;AdjAIPrio;IsBottleneck;AggNeckQuota;FinalAIPrio;TargetStayDivs;StayingDivs;EvacDivBudget;StatusFlags;EvacMult
@@ -45,6 +45,7 @@ These telemetry rows expose four distinct underlying causes (organized into thre
 | **Stage 1** | **Controller-Scoped Global Output Isolation** | Guard all clears/commits to persistent global per-province output arrays (`+0x40000`, `+0x42000`, `+esi*8 + 2`, `+esi*8 + 4`, `+0xEC000`) with `prov->m_pController == pCountry` while keeping allied traversal intact in per-pass scratch tables. Fixes `stem_evac_modifier` / `stem_no_evac` across all multi-country alliances. |
 | **Stage 2** | **Unbounded Supply-Sink Capacity & Supply-Origin Proximity Gate** | **(2A)** Keep `Dist == 0` supply sinks unsaturated in Option C max-flow so the Capital cannot become a 1-capacity cut vertex (`CutProv1`). **(2B)** Track distance from **true Supply Cores** (`prov_flags & 0x04`, Capital / active Supply Depots only -- *not* the K-hop horizon) and clamp `SalientEvacuationQuota = 0.0` at `SupplyCoreDist <= MinSupplyCoreEvacDist` (`[FrontAI] MinSupplyCoreEvacDist = 1`). |
 | **Stage 3** | **Per-Division Live Terrain Defense Scaling (`CDivision + 0x164`)** | Evaluate each division's own engine-cached terrain defense modifier `[pDiv + def_idx*4 + 0x164]` normalized against 1936 baseline `INF` (`INF_BaseDefMod[terrain]`), clamped to `[MinTerrainDefenseMultiplier, MaxTerrainDefenseMultiplier]` (`[FrontAI] MaxTerrainDefenseMultiplier = 3.0`), and apply it inside `.hlp_push_div_eff_str_eax` / `.hlp_calc_army_str_org`. |
+| **Stage 4** | **Directional Active-Spearhead Bottleneck Threat & Cutoff-Gated Floor** | **(4A)** Snapshot active enemy attack strength (`+0x68000 -> +0x138000` `active_en_str_f32`) before Pre-Pass A adds idle border strength, and strip blind Pre-Pass B global mutation of unthreatened neighbors. **(4B)** Dynamically evaluate indirect threatened-neighbor pincer threat via `.hlp_calc_cut_enstr_eax(v, P)` excluding self (`S != P`), out-of-depth rear tiles (`dist_s <= dist_v`), and non-advancing same/deeper tiles (`dist_s < dist_p`), with river/strait `0.70` damping. **(4C)** Gate `ThreatenedSourceQuotaFloor` on `FrStr[P] > 0.05` AND real cutoff risk (`F_Paths <= 1 || has_pos_tstr != 0`). |
 
 > [!IMPORTANT]
 > **Execution Rule:** Each stage should be implemented, verified via build / Capstone disassembly audit and `stem_debug.csv` inspection in-game, and signed off before proceeding to the next stage.
@@ -205,6 +206,41 @@ Instead of guessing a single country average or hardcoding `local_flag = partisa
 
 ---
 
+### Stage 4: Directional Active-Spearhead Bottleneck Threat & Cutoff-Gated Floor
+
+#### 3.7 Root Cause Observed in `5554 Qingyang` Case Study
+Live testing on `CHC` after Stage 3 revealed why `5554 Qingyang` (`Dist = 2, V_Ref = 5569 Dingbian`) reported `EnStr = 25.3`, `T_Neck = 1.73`, and `SalientEvacuationQuota = 0.850`:
+1. **Self-Feedback Loop (`5554 -> 5569 -> 5554`)**: Pre-Pass B (`.ppb_nb_loop`) propagated `IsThreatened` neighbor strength (`+0x68000`) from `5554 Qingyang` (`16.7`) *into* `5569 Dingbian` (unthreatened) with weight `ThreatenedNeighborStrWeight = 0.50`, so when `5554 Qingyang` evaluated `5569 Dingbian` as its own escape bottleneck (`V_Ref = 5569`), troops attacking `5554` itself inflated `EnStr(5569)` by `+8.4`!
+2. **Idle Rear Presence Inflation**: Pre-Pass B ran *after* Pre-Pass A (`lines 971-1046`), which had already folded static border garrisons (`+0x78000 * IdleEnemyPresenceWeight`) into `+0x68000`. As a result, unmoving/idle border forces opposite threatened provinces leaked across hops into neighboring bottlenecks alongside active offensives.
+3. **Ungated `ThreatenedSourceQuotaFloor` (`0.85`)**: Whenever `IsThreatened[P] == 1` and `F_Crit == 0`, `.calc_final_q` unconditionally floored `SalientEvacuationQuota` to `ThreatenedSourceQuotaFloor` (`0.85`) even when `P` had `2` intact escape paths (`F_Paths = 2`), strong garrisoned defenders (`FrStr > 0`), and `T_str == 0` (zero real bottleneck cutoff risk), pulling divisions off threatened mountain strongholds instead of holding or reinforcing them.
+
+#### 3.8 Design (Fix A + Fix B + Fix C)
+1. **Fix A -- Active-Only Pre-Pass B Snapshot (`+0x138000` `active_en_str_f32`)**:
+   - Expand `g_pGraphTable` from `0x138000` to **`0x140000`** (`+32 KB`, adding `active_en_str_f32[8192]` at `+0x138000..+0x13FFFF`, cleared per country via `mov ecx, 0x4000; rep stosd`).
+   - At `.fdist_bfs_done` (after `.scan_hostile_armies`, immediately *before* Pre-Pass A adds adjacent idle `raw_hostile_str` into `+0x68000`), copy `+0x68000..+0x6FFFF` into `+0x138000..+0x13FFFF` via `rep movsd` (`0x2000` dwords).
+   - Strip `.ppb_nb_loop` from `.ppb_start` so Pre-Pass B only marks threatened provinces `esi` themselves (`or byte ptr [edx + esi + 0x28000], 0x09`) without blindly mutating unthreatened neighbors' `+0x28000` or `+0x68000`.
+2. **Fix B -- Directional Non-Self Cut-Vertex Exposure via `.hlp_calc_cut_enstr_eax`**:
+   - Add helper `.hlp_calc_cut_enstr_eax(eax = cut vertex v, esi = evaluated province P or 0, edx = g_pGraphTable)`:
+     - Starts from direct `[edx + v*4 + 0x68000]` (direct active + idle hostile strength bordering `v` only) -> stored in **`[ebp - 0xE4]`** (`eff_enstr` float), and `has_exp = (prov_flags[v] & 0x08) != 0`.
+     - If `dist[v] != 0xFFFF`, walks friendly land neighbors `S` of `v` where `IsThreatened[S] == 1` and `.hlp_check_ctrl(S)` succeeds, applying:
+       - **Non-Self Guard**: skip if `P != 0 && S == P`.
+       - **Directional Pincer Guard**: require `dist[S] != 0xFFFF`, `dist[S] <= dist[v]`, and (when `P != 0 && dist[P] != 0xFFFF`) `dist[S] < dist[P]`.
+       - For qualifying `S`, set `has_exp = 1` and (if `active_en_str_f32[S] != 0`) add `active_en_str_f32[S] * ThreatenedNeighborStrWeight` (times `0.70` if the `v <-> S` edge is river `1` or strait `2`) into `[ebp - 0xE4]`.
+     - Returns `ecx = has_exp` (`0` or `1`) and `[ebp - 0xE4] = eff_enstr`, preserving `eax, ebx, edx, esi, edi, ebp` and `[ebp - 0x18]/[ebp - 0x1C]`.
+   - Wire `.hlp_calc_cut_enstr_eax` and `[ebp - 0xE4]` into all consumers:
+     - `.hlp_merge_vertex_into_slot`: call `.hlp_calc_cut_enstr_eax` and branch on `ecx != 0` before `.hlp_eval_cut_threat`.
+     - `.hlp_eval_cut_threat`: read `EnStr` from `[ebp - 0xE4]` instead of `+0x68000[eax]`.
+     - `.hlp_eval_p0_raw_threat_esi`: copy `+0x68000[esi]` (including temporarily folded idle hostile borders) into `[ebp - 0xE4]` prior to calling `.hlp_eval_cut_threat`, and save/restore `[ebp - 0xE8]`.
+     - `.hlp_write_telemetry`: evaluate `.hlp_calc_cut_enstr_eax(v = V_Ref, P = esi)` before formatting `EnStr` so `stem_debug.csv` `EnStr` matches `T_Neck` identically.
+     - `.s5e_fin_threat_floor`: evaluate `.hlp_calc_cut_enstr_eax(v = esi, P = 0)` and read `[ebp - 0xE4]` so Threat-Sustaining Neck Floor uses context-free pincer strength (`dist[S] <= dist[v]`) without inflating from deeper salients.
+3. **Fix C -- Cutoff-Gated `ThreatenedSourceQuotaFloor` (`[ebp - 0xE8]` `has_pos_tstr`)**:
+   - Clear **`[ebp - 0xE8] = 0`** at `.step5b_has_cut`; set `[ebp - 0xE8] = 1` inside `.hlp_eval_cut_threat` whenever any merged cut vertex for `P` produces genuine positive strength-ratio threat (`T_str > 0`, i.e., `EnStr / FrEff > NeckThreatMinRatio`, or unguarded-exposed cap with `FrEff < 0.05 && EnStr > 0.05`). Save/restore `[ebp - 0xE8]` inside `.hlp_eval_p0_raw_threat_esi` so `P`'s own combat does not mark a bottleneck threat.
+   - In `.calc_final_q`, when `IsThreatened[P] == 1` and `F_Crit == 0`, apply `ThreatenedSourceQuotaFloor` ONLY if:
+     1. `FrStr[P] > 0.05` (ungarrisoned threatened borders retain natural zero-floor handling), AND
+     2. `F_Paths <= 1` OR `has_pos_tstr != 0` (`T_str > 0` on at least one bottleneck vertex). Otherwise let `SalientEvacuationQuota` remain its computed `D_Width * T_Neck * V_Ret` value.
+
+---
+
 ## 4. `db/mod_settings.ini` Additions & Binary Budget
 
 | Config Key (`[FrontAI]`) | Type | Default | Used In | Purpose |
@@ -213,8 +249,8 @@ Instead of guessing a single country average or hardcoding `local_flag = partisa
 | `MaxTerrainDefenseMultiplier` | `float` | `3.0` | Stage 3 | Upper cap for per-division relative terrain defense multiplier `DivTerrainFactor` read from `[pDiv + 0x164]` (`floor = 0.35`). |
 
 - **Cave & `g_pGraphTable` Allocation Status**:
-  - `.mod` section ends at `0x00DD9000`. Current built cave usage (`9,903` instructions, `30,270` bytes, ending at `~0x00DD33DE`) leaves ample contiguous free executable space with zero PE section growth required.
-  - Stages 1--3 expanded `g_pGraphTable` across all 5 `VirtualAlloc` call sites to **`0x138000` (`1,248 KB`)**, adding `+0x128000` (`pass_quota_q8`), `+0x12A000` (`pass_agg_neck_quota`), `+0x12C000` (`pass_status_flags`), `+0x12E000` (`core_dist`), `+0x130000` (`prov_fr_div_count`, `uint16_t`), and `+0x134000` (`prov_inb_div_count`, `uint16_t`).
+  - `.mod` section ends at `0x00DD9000`. Current built cave usage (`10,065` instructions, `30,798` bytes, ending at `0x00DD35EE`) leaves `23,058` bytes of contiguous free executable space with zero PE section growth required.
+  - Stages 1--4 expand `g_pGraphTable` across all 5 `VirtualAlloc` call sites to **`0x140000` (`1,280 KB`)**, adding `+0x128000` (`pass_quota_q8`), `+0x12A000` (`pass_agg_neck_quota`), `+0x12C000` (`pass_status_flags`), `+0x12E000` (`core_dist`), `+0x130000` (`prov_fr_div_count`, `uint16_t`), `+0x134000` (`prov_inb_div_count`, `uint16_t`), and `+0x138000` (`active_en_str_f32`, `float[8192]`).
 
 ---
 
@@ -226,4 +262,6 @@ After each stage is built and deployed via `build_and_apply_all.py` and `patch_d
 2. **Stage 2 Verification**:
    - Remove temporary `stem_evac_modifier = 20` override or leave default: verify `CutProv1` on `5570 Fuxian`, `5572 Dali`, and `5569 Dingbian` no longer equals `1270 Yanan`, and with `MinSupplyCoreEvacDist = 1`, verify `5570 Fuxian`, `5571 Suide`, and `5572 Dali` (`core_dist == 1`) have `SalientEvacuationQuota = 0.000` (while a deep salient `> 1` hop from supply origins still evacuates normally).
 3. **Stage 3 Verification**:
-   - With `CHC` Event `9000081` active (`partisan_mode`), inspect `FrStr` and `T_Neck` in `stem_debug.csv`: mountain `FrStr` scales up (`3.0x` cap), bringing `T_Neck` down into the safe range (`0.20..0.50`) so `5569 Dingbian`, `1271 Shenmu`, and `5554 Qingyang` no longer panic-evacuate, while open plains/desert fronts retain low/penalized strength multipliers and mixed `MTN` / `INF` / `ARM` stacks on normal fronts differentiate accurately.
+   - With `CHC` Event `9000081` active (`partisan_mode`), inspect `FrStr` and `T_Neck` in `stem_debug.csv`: mountain `FrStr` scales up (`MaxTerrainDefenseMultiplier` cap), bringing `T_Neck` down on strongly held mountain bottlenecks so `5569 Dingbian`, `1271 Shenmu`, and `5554 Qingyang` accurately reflect mountain defense multipliers, while open plains/desert fronts retain penalized strength multipliers and mixed `MTN` / `INF` / `ARM` stacks on normal fronts differentiate accurately.
+4. **Stage 4 Verification**:
+   - In the `CHC` 1936 test save (`5554 Qingyang`, `Dist = 2`, `V_Ref = 5569 Dingbian`), verify `EnStr` no longer includes `5554`'s own attackers or idle enemy presence from non-adjacent neighbors (`EnStr` drops from `25.3` to `5569`'s true direct hostile pressure), `T_Neck` reflects the real bottleneck threat, and `SalientEvacuationQuota` for `5554 Qingyang` is no longer forced to `0.850` when `F_Paths >= 2` and `T_str == 0`.
