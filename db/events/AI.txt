@@ -532,7 +532,7 @@ event = {
 			atwar = yes
 			policy = { type = professional_army value = 5 }
 			local_flag = demilitarized
-			lost_VP	= { value = 1 }
+			lost_VP	= { value = 5 }
 		}
 		NOT = { local_flag = reinf }
 		OR = { 
@@ -545,10 +545,8 @@ event = {
 			war = { country = ITA }
 			war = { country = CHI }
 			war = { country = GER }
-			AND = {
-				year = 1937
-				month = May
-			}
+			month = November
+			year = 1937
 		}
 	}
    
@@ -577,7 +575,7 @@ event = {
 			atwar = yes
 			policy = { type = professional_army value = 5 }
 			local_flag = demilitarized
-			NOT = { lost_VP	= { value = 1 } }
+			NOT = { lost_VP	= { value = 5 } }
 		}
 		NOT = { local_flag = noreinf }
 	}
@@ -8705,7 +8703,7 @@ event = {
 # JAP
 ###############################################
 
-#Redundant at this point
+#new binary starting distrib (set in initialSetup.txt)
 event = {
 	id = 2401300
 	random = no 
@@ -8714,12 +8712,13 @@ event = {
 	trigger = {	
 		ai = yes
 		local_flag = AllInit
-		OR = {
+		flag = { which = GAME_VERSION when = 1 value = 1 }
+		NOT = {
+			war = { country = CHI }
 			war = { country = SOV }
 			war = { country = ENG }
 			war = { country = USA }
 			year = 1938
-			event = { id = 2011000 days = 3 } #
 		}
 	}
 
@@ -8727,11 +8726,11 @@ event = {
 	
 	#date = { day = 1 month = january year = 1936 }
 	#offset = 5
-	#deathdate = { day = 29 month = december year = 1963 }
+	#deathdate = { day = 29 month = december year = 1938 }
 
 	action = {
-		command = { type = ai which = "invasionYes.ai" }
-		command = { type = ai which = "nations\JAP_CHI.ai" }
+		command = { type = ai which = "nations\JAP_V2.ai" }
+		command = { type = secedeprovince which = U87 value = 1203 when = 2 }
 	}
 }
 
