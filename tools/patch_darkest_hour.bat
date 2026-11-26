@@ -396,9 +396,40 @@ $PATCH18_CHUNKS = @(
     @{ Offset = 0x00004CA7; Data = '6eftnACQkJCQkA==' }
 )
 
+# Patch 19: Landlocked Allied/Access Garrison Overseas Transit (@ 0x0068DF9C / 0x00DD4000)
+$SIG19_OFFSET  = 0x0028DF9C
+$ORIG19_SIG    = [byte[]]@(0x8B, 0x45, 0xD8, 0x85, 0xC0, 0x0F, 0x84, 0x6A, 0xFB, 0xFF, 0xFF)
+$PATCH19_SIG   = [byte[]]@(0xE9, 0xD7, 0x68, 0x74, 0x00, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90)
+
+$PATCH19_CHUNKS = @(
+    # Runtime state & g_LandlockedTransitTable zero init (@ 0x00DD4000 / file offset 0x0048F000, 1568 bytes)
+    @{ Offset = 0x0048F000; Data = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' },
+    # Patch 19 Code Block in .mod (@ 0x00DD4640 / file offset 0x0048F640, 1336 bytes)
+    @{ Offset = 0x0048F640; Data = 'U1ZXhcB0L74gQN0AMdu/gAAAADkGdBeDPgB1BoXbdQKJ84PGDE9164XbdAqJ3okGiU4EiVYIX15bw5CQU1aFwHQfviBA3QC7gAAAADkGdQs5TgR1BotGCF5bw4PGDEt16zHAXlvDkJBTVoXAdDO+IEDdALuAAAAAOQZ1HzlOBHUai0YIxwYAAAAAx0YEAAAAAMdGCAAAAABeW8ODxgxLddcxwF5bw5CQhcB0LFZRviBA3QC5gAAAADkGdRTHBgAAAADHRgQAAAAAx0YIAAAAAIPGDEl14llew5CQkFWJ5YPsIFNWVzHAiUX8x0X4ACR0SYtFGIXAD4QtAQAAi0ASiUX0i00MhckPhBwBAACBwcQAAADoWDh1/4XAD4QJAQAAx0XwAAAAAItF8D1YAQAAD430AAAAiwyF2MqJAIXJD4TdAAAAiU3si0UIOcF0EOhtX///hMAPhMYAAACLTeyLgW7oAACJReiLVeiF0g+ErwAAAIsyi0IIiUXohfZ06Tt1FHTkifHoiVxv/4TAddmLXiyF23TSiwOFwHTM/3AS/3X0i00I6Cf4bP+EwHS6iV3ki1XkhdJ0sIs6i0IIiUXkhf907YtF7DmH2AMAAHXig79qBAAAAHTZg7/cAwAAAH7QifnoCUdx/4TAdMX/dfT/dxLoimFn/4PECNld4ItF4DtF+HOs/3cS/3UQi00M6I7FjP+EwHSai0XgiUX4iX3864//RfDp/v7//4tF/F9eW4nsXcIUAJCQkItF2IXAdA+LTcQ7DQBA3QAPhRmXi/+DfcgAD4T/AAAAifHowQ11/4TAD4XwAAAAiwOJ2f+Q4AAAAIXAD4TeAAAAi0h+hckPhNMAAACAeQ4AD4TJAAAAUYnx6FppdP+FwA+EuAAAAIuQggQAAIXSD4SqAAAAi03EOQ0MQN0AdQw5FRBA3QAPhJMAAAA5DQBA3QB1ETkVBEDdAHUJoQhA3QCFwHU5WFL/dchRVlD/cwro8P3//1qLTcSFwHUOiQ0MQN0AiRUQQN0A61WJDQBA3QCJFQRA3QCjCEDdAOsBWYlF2InBagCLQRKLFonxUP9SEFCLA4nZ/5DgAAAAicHodiWM/4XAdRmJ8ItN2ItJEotVyItSEuiv/P//6TqWi/9Y6WqRi/+LgpgCAACFwH4YUlCJwYnQ6Mv8//9ZWoXAdQKJyOlBdIv/6Wt0i/+QMdKLg5gCAACD+AF8EDtDDHULicGJ2OjJ/P//icJSiwZTifH/kKwBAACLFonx/5LgAAAAUIsQU4nB/5KoAQAAWViFwH40hcl0MItReoXSdClQUlOJ0YsB/5CoAQAAWlhSUOhGSXH/g8QEWoXAdAtqAFBTidHos2WN/+m4o4z/kJCJ8Oid/P//McCJhpgCAADpEcaM/4uNmAIAAImImAIAAIXJfiBQUVKJ6OgK/P//hcB0D4nCi0wkBItEJAjou/v//1pZWOkEv4z/kJCQi46YAgAAjXgiiYiYAgAAhcl+IFBRUonw6M/7//+FwHQPicKLTCQEi0QkCOiA+///WllY6SmTjP/HBQBA3QAAAAAAxwUEQN0AAAAAAMcFCEDdAAAAAADHBQxA3QAAAAAAxwUQQN0AAAAAAI2NwP7//+mSl4v/kJCQ6Mhh//+EwHVEifnoqHV0/4XAfjw7Rwx0N1DoSUhx/4PEBIXAdCqLiNgDAACLkIIEAACF0nQai0MKOcF0EFLotVv//1qEwHQI6YBh//+wAcMwwMOQUFFX/DHAvwBA3QC5iAEAAPOrX1lY6Z3G//+QkA==' },
+    # Hook A (0x0068DF9C) (file offset 0x0028DF9C, 11 bytes)
+    @{ Offset = 0x0028DF9C; Data = '6ddodACQkJCQkJA=' },
+    # Hook B (0x0068BDF9) (file offset 0x0028BDF9, 6 bytes)
+    @{ Offset = 0x0028BDF9; Data = '6Z6LdACQ' },
+    # Hook C (0x0069EDDA) (file offset 0x0029EDDA, 11 bytes)
+    @{ Offset = 0x0029EDDA; Data = '6eVbcwCQkJCQkJA=' },
+    # Hook D (0x006A1061) (file offset 0x002A1061, 8 bytes)
+    @{ Offset = 0x002A1061; Data = '6d45cwCQkJA=' },
+    # Hook E1 (0x006A0985) (file offset 0x002A0985, 12 bytes)
+    @{ Offset = 0x002A0985; Data = '6c5AcwCQkJCQkJCQ' },
+    # Hook E2 (0x0069DDE2) (file offset 0x0029DDE2, 15 bytes)
+    @{ Offset = 0x0029DDE2; Data = '6alscwCQkJCQkJCQkJCQ' },
+    # Hook F (0x00DCA61E) (file offset 0x0048561E, 11 bytes)
+    @{ Offset = 0x0048561E; Data = '6aWkAACQkJCQkJA=' },
+    # Hook G (0x00DCA850) (file offset 0x00485850, 5 bytes)
+    @{ Offset = 0x00485850; Data = '6LOiAAA=' },
+    # Hook H (0x00DCAE55) (file offset 0x00485E55, 5 bytes)
+    @{ Offset = 0x00485E55; Data = '6AKdAAA=' }
+)
+
 # Expected SHA256 Hashes
 $ORIG_SHA256     = "7A1AE8BB802377B6C9EC808F420ACE58475D1816464390422CF97AD450A51EB4"
-$PATCH_SHA256    = "967C03746BD0FD555AE1769EFFEAB20ECE1DCD35C4FB184CE06C1F693B99BE80"
+$PATCH_SHA256    = "421EA924FB8A9E3E64B9FD33822CB8E4DBAA7EE7431000805E9E3AAD0F6A3118"
+$PREV_V88_SHA256 = "967C03746BD0FD555AE1769EFFEAB20ECE1DCD35C4FB184CE06C1F693B99BE80"
 $PREV_V87_SHA256 = "1217958C85AFFE29AE052C24EA6EF554BF74648FDDA71C82B793D4EA0656628F"
 $PREV_V87_SHA256 = "A3377DB79AA78E4BD3C79B4473F67BB0933A5E934AB9FB883597DE52E678EF83"
 $PREV_V87_SHA256 = "37A3A245EAF9171A832922FD850E29DA89E757837FBE3F15B06210FE3ED35F28"
@@ -588,7 +619,12 @@ function Show-Header {
       controller IC scaling, minimum score falloff gate (MinTargetScoreThreshold = 100.0),
       installation scoring (ProvinceInstallationWeight), and resource scoring (ResourceWeight).
       Configurable via 'db\mod_settings.ini' ([NuclearAI] EnableEnhancedNuclearTargeting = 0/1).
-      (sub_4A52E0 @ 0x004A52E0 / sub_66DA10 @ 0x0066E270 / 0x0066E3FB / .mod @ 0x00DCB500)"
+      (sub_4A52E0 @ 0x004A52E0 / sub_66DA10 @ 0x0066E270 / 0x0066E3FB / .mod @ 0x00DCB500)
+
+   17. Landlocked Allied/Access Garrison Overseas Transit (@ 0x0068DF9C / 0x00DD4000):
+      Routes overseas non-Garrison garrison reinforcements to landlocked allied or military-access
+      areas through the nearest land-connected friendly staging port, tracks en-route divisions to
+      prevent over-dispatch, and hands landed armies directly to CGarrisonAI for overland march."
     Write-Host "-------------------------------------------------------------------------------" -ForegroundColor Gray
 }
 
@@ -769,15 +805,25 @@ function Check-FileState([string]$path) {
             $sig18Orig = ((Compare-Object $buf18 $ORIG18_SIG) -eq $null)
             $sig18Patch = ((Compare-Object $buf18 $PATCH18_SIG) -eq $null)
         }
+        $sig19Orig = $false; $sig19Patch = $false
+        if ($fs.Length -ge ($SIG19_OFFSET + 11)) {
+            $null = $fs.Seek($SIG19_OFFSET, [System.IO.SeekOrigin]::Begin)
+            $buf19 = New-Object byte[] 11
+            $null = $fs.Read($buf19, 0, 11)
+            $sig19Orig = ((Compare-Object $buf19 $ORIG19_SIG) -eq $null)
+            $sig19Patch = ((Compare-Object $buf19 $PATCH19_SIG) -eq $null)
+        }
         $fs.Close()
     } catch {
         return @{ Exists = $true; State = "Locked/Unreadable"; Size = $size; Hash = $hash }
     }
 
     $state = "Unknown"
-    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig -and $sig13Orig -and $sig14Orig -and $sig15Orig -and $sig16Orig -and $sig17Orig -and $sig18Orig) {
+    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig -and $sig13Orig -and $sig14Orig -and $sig15Orig -and $sig16Orig -and $sig17Orig -and $sig18Orig -and $sig19Orig) {
         $state = "Original"
-    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and $sig17Patch -and $sig18Patch) {
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and $sig17Patch -and $sig18Patch -and $sig19Patch) {
+        $state = "Patched (All Fixes + Discriminative Garrison + Strat Redep + Nuclear AI + Front AI + Landlocked Allied Staging)"
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and $sig17Patch -and $sig18Patch -and -not $sig19Patch) {
         $state = "Patched (All Fixes + Discriminative Garrison + Strat Redep + Nuclear AI + Front AI Encirclement)"
     } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and $sig17Patch -and -not $sig18Patch) {
         $state = "Patched (All Fixes + Discriminative Garrison + Strat Redep + Nuclear AI)"
@@ -857,6 +903,8 @@ function Check-FileState([string]$path) {
         Sig17Patch  = $sig17Patch
         Sig18Orig   = $sig18Orig
         Sig18Patch  = $sig18Patch
+        Sig19Orig   = $sig19Orig
+        Sig19Patch  = $sig19Patch
     }
 }
 
@@ -987,6 +1035,13 @@ function Apply-PatchToFile([string]$srcPath, [string]$dstPath) {
 
         # Patch 18: Front AI Encirclement Defense & Salient Evacuation Engine (STEM)
         foreach ($chunk in $PATCH18_CHUNKS) {
+            $chunkBytes = [System.Convert]::FromBase64String($chunk.Data)
+            $null = $fs.Seek($chunk.Offset, [System.IO.SeekOrigin]::Begin)
+            $fs.Write($chunkBytes, 0, $chunkBytes.Length)
+        }
+
+        # Patch 19: Landlocked Allied/Access Garrison Overseas Transit (@ 0x0068DF9C / 0x00DD4000)
+        foreach ($chunk in $PATCH19_CHUNKS) {
             $chunkBytes = [System.Convert]::FromBase64String($chunk.Data)
             $null = $fs.Seek($chunk.Offset, [System.IO.SeekOrigin]::Begin)
             $fs.Write($chunkBytes, 0, $chunkBytes.Length)
@@ -1131,6 +1186,7 @@ GameVersion = 1
     if (-not $dstState.Sig16Patch)  { $failedSigs += "Patch 16 (Fresh Army Garrison Filter)" }
     if (-not $dstState.Sig17Patch)  { $failedSigs += "Patch 17 (Nuclear Strike AI Targeting)" }
     if (-not $dstState.Sig18Patch)  { $failedSigs += "Patch 18 (Front AI Encirclement Defense)" }
+    if (-not $dstState.Sig19Patch)  { $failedSigs += "Patch 19 (Landlocked Allied Garrison Overseas Transit)" }
     if ($failedSigs.Count -gt 0) {
         throw ("Verification failed: Target file signatures were not properly updated. Failed: " + ($failedSigs -join ', '))
     }

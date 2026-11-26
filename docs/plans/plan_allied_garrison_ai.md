@@ -397,6 +397,26 @@ flowchart TD
 
 ---
 
+### 3.10 Landlocked Allied/Access Overseas Garrison Transit (`Patch 19` @ `0x0068DF9C` / `0x00DD4000`)
+
+When a needy allied or military-access area is landlocked (e.g., Inner Mongolia `MEN`, `5628 = 30`), `CGarrisonAI::UpdateGarrisons` Phase 4 finds a valid `[ebp - 0x38]` (`pBestDestProv`) inside `[ebp - 0x3C]`, while `[ebp - 0x28]` (`pBestPort`) remains `NULL`. In vanilla/Patch 11, retail `0x0068DFA1: je 0x68db11` aborted the entire candidate dispatch loop for that area whenever overland `FindPath` failed for a candidate army on another landmass.
+
+Patch 19 resolves this via a staging-port pipeline inside `.mod` (`0x00DD4000`–`0x00DD4B76`):
+1. **Staging Port Lookup (`fn_FindNearestLandConnectedPort` @ `0x00DD471C`, called from `Hook A` @ `0x0068DF9C` -> `0x00DD4878`)**:
+   - Skips immobile Garrison divisions (`0x00525660`) since they cannot march overland after landing at a staging port.
+   - Scans `g_pCountryTable` (`0x0089CAD8`) for self and friendly countries passing `IsAlliedOrAccess_Switchable` (`0x00DCA700`), checks coastal areas (`0x004CA453 == 0`) that are land-connected to `pDestProv` (`CCountry::IsLandConnected` @ `0x004A4010`), and selects the nearest valid unloading port (`[prov + 0x46A] != 0`, `[prov + 0x3DC] > 0`, `0x004E8F30 != 0`, `CInvasionAI::CanTransportArmyTo` @ `0x006A0DE0`).
+   - Uses per-`UpdateGarrisons`-pass positive and negative caches (`0x00DD4000`–`0x00DD4013`) cleared on exit by `Hook F` (`Cave E` @ `0x00DCA61E` -> `0x00DD4AC8`).
+2. **En-Route Transit Table (`g_LandlockedTransitTable` @ `0x00DD4020`, 128 × 12-byte slots)**:
+   - Records `{ pArmy, nStagingPortId, nFinalDestProvId }` upon `CMilitaryAI::TransportArmy` (`0x00696EF0`) success.
+   - **`Hook B` (`0x0068BDF9` -> `0x00DD499C`)**: Resolves `nFinalDestProvId` during `CGarrisonAI::UpdateGarrisons` en-route `CInvasionAI` division counting so shipping armies count toward the **landlocked target area** rather than the staging port's area, preventing multi-day over-dispatching.
+   - **`Hook E1` (`0x006A0985` -> `0x00DD4A58`) & `Hook E2` (`0x0069DDE2` -> `0x00DD4A90`)**: Propagate entries when `CInvasionAI` splits transported armies; **`Hook D` (`0x006A1061` -> `0x00DD4A44`)** removes entries inside `CInvasionAI::RemoveArmy`; **`Hook H` (`0x00DCAE55` -> `0x00DD4B5C`)** wipes state/table on scenario load before chaining to `0x00DD1213`.
+3. **Staging Port Arrival & Overland Handoff (`Hook C` @ `0x0069EDDA` -> `0x00DD49C4`)**:
+   - Intercepts `CInvasionAI::Update` arrival at `[ebx + 0x298] == [ebx + 0x0C]`, pops `nFinalDestProvId`, transfers the landed army from `CInvasionAI`/`CMilitaryAI` directly back to `CGarrisonAI` (`[pMilitaryAI + 0x7A]`), and issues `MoveUnitToProvince` (`0x006AAFF0`) directly to `nFinalDestProvId`.
+4. **Mid-Transit Repatriation Protection (`Hook G` @ `0x00DCA850` -> `0x00DD4B08`)**:
+   - Inside `Cave I`, when an army sits in an untargeted allied/access staging area while actively marching (`0x0051C0C0`) toward domestic territory or a targeted foreign area (`fn_IsAreaTargeted`), allows it to continue marching undisturbed.
+
+---
+
 ## 4. Configuration & Control Gates (`db\mod_settings.ini` & `no_foreign_garrison`)
 
 ### 4.1 Global Engine Settings (`db\mod_settings.ini`)
