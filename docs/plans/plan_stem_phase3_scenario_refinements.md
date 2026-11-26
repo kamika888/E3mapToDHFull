@@ -1,6 +1,6 @@
 # Plan: STEM Phase 3 -- Allied Output Isolation, Supply-Core Proximity Gate, Sink Capacity Fix, Per-Division Terrain Scaling & Directional Bottleneck Threat
 
-**Status:** Stages 1--3 Validated by User; Stage 4 Implemented & Built (`Cave: 10,065 instructions, 30,798 bytes`, `SHA256 = 4DB02BC82B8F257EEE8C862F9B20B78F560728D0678F3A1C8BF0791A07AA0E03`)  
+**Status:** Stages 1--3 Validated by User; Stage 4 Implemented & Built (`Cave: 10,062 instructions, 30,790 bytes`, `Darkest Hour_modified.exe SHA256 = 465C3417FFD766D2BF29B4828F5B178EAF5F091624E2DBE007F4D9D5ECC10C6A`)  
 **Target Binary:** `Darkest Hour_modified.exe` (Darkest Hour v1.05.2, Base `0x00400000`)  
 **Prerequisite:** [plan_stem_phase2_refinements.md](file:///e:/Program%20Files%20%28x86%29/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/docs/plans/plan_stem_phase2_refinements.md) (Stages 1--6 Completed & Validated)  
 **Companion Reference Docs:**  
@@ -45,7 +45,7 @@ These telemetry rows expose four distinct underlying causes (organized into thre
 | **Stage 1** | **Controller-Scoped Global Output Isolation** | Guard all clears/commits to persistent global per-province output arrays (`+0x40000`, `+0x42000`, `+esi*8 + 2`, `+esi*8 + 4`, `+0xEC000`) with `prov->m_pController == pCountry` while keeping allied traversal intact in per-pass scratch tables. Fixes `stem_evac_modifier` / `stem_no_evac` across all multi-country alliances. |
 | **Stage 2** | **Unbounded Supply-Sink Capacity & Supply-Origin Proximity Gate** | **(2A)** Keep `Dist == 0` supply sinks unsaturated in Option C max-flow so the Capital cannot become a 1-capacity cut vertex (`CutProv1`). **(2B)** Track distance from **true Supply Cores** (`prov_flags & 0x04`, Capital / active Supply Depots only -- *not* the K-hop horizon) and clamp `SalientEvacuationQuota = 0.0` at `SupplyCoreDist <= MinSupplyCoreEvacDist` (`[FrontAI] MinSupplyCoreEvacDist = 1`). |
 | **Stage 3** | **Per-Division Live Terrain Defense Scaling (`CDivision + 0x164`)** | Evaluate each division's own engine-cached terrain defense modifier `[pDiv + def_idx*4 + 0x164]` normalized against 1936 baseline `INF` (`INF_BaseDefMod[terrain]`), clamped to `[MinTerrainDefenseMultiplier, MaxTerrainDefenseMultiplier]` (`[FrontAI] MaxTerrainDefenseMultiplier = 3.0`), and apply it inside `.hlp_push_div_eff_str_eax` / `.hlp_calc_army_str_org`. |
-| **Stage 4** | **Directional Active-Spearhead Bottleneck Threat & Cutoff-Gated Floor** | **(4A)** Snapshot active enemy attack strength (`+0x68000 -> +0x138000` `active_en_str_f32`) before Pre-Pass A adds idle border strength, and strip blind Pre-Pass B global mutation of unthreatened neighbors. **(4B)** Dynamically evaluate indirect threatened-neighbor pincer threat via `.hlp_calc_cut_enstr_eax(v, P)` excluding self (`S != P`), out-of-depth rear tiles (`dist_s <= dist_v`), and non-advancing same/deeper tiles (`dist_s < dist_p`), with river/strait `0.70` damping. **(4C)** Gate `ThreatenedSourceQuotaFloor` on `FrStr[P] > 0.05` AND real cutoff risk (`F_Paths <= 1 || has_pos_tstr != 0`). |
+| **Stage 4** | **Directional Active-Spearhead Bottleneck Threat & Cutoff-Gated Floor** | **(4A)** Snapshot active enemy attack strength (`+0x68000 -> +0x138000` `active_en_str_f32`) before Pre-Pass A adds idle border strength, and strip blind Pre-Pass B global mutation of unthreatened neighbors. **(4B)** Dynamically evaluate indirect threatened-neighbor breakthrough threat via `.hlp_calc_cut_enstr_eax(v, P)` excluding self (`S != P`) and non-deeper salient neighbors (`dist_s <= dist_p`), with river/strait `0.70` damping. **(4C)** Gate `ThreatenedSourceQuotaFloor` on `FrStr[P] > 0.05` AND real cutoff risk (`F_Paths <= 1 || has_pos_tstr != 0`). |
 
 > [!IMPORTANT]
 > **Execution Rule:** Each stage should be implemented, verified via build / Capstone disassembly audit and `stem_debug.csv` inspection in-game, and signed off before proceeding to the next stage.
@@ -224,7 +224,7 @@ Live testing on `CHC` after Stage 3 revealed why `5554 Qingyang` (`Dist = 2, V_R
      - Starts from direct `[edx + v*4 + 0x68000]` (direct active + idle hostile strength bordering `v` only) -> stored in **`[ebp - 0xE4]`** (`eff_enstr` float), and `has_exp = (prov_flags[v] & 0x08) != 0`.
      - If `dist[v] != 0xFFFF`, walks friendly land neighbors `S` of `v` where `IsThreatened[S] == 1` and `.hlp_check_ctrl(S)` succeeds, applying:
        - **Non-Self Guard**: skip if `P != 0 && S == P`.
-       - **Directional Pincer Guard**: require `dist[S] != 0xFFFF`, `dist[S] <= dist[v]`, and (when `P != 0 && dist[P] != 0xFFFF`) `dist[S] < dist[P]`.
+       - **Directional Pincer Guard**: require `dist[S] != 0xFFFF` and (when `P != 0 && dist[P] != 0xFFFF`) `dist[S] <= dist[P]`, allowing inward breakthroughs across collapsing frontline tiles (`S` at equal/closer depth to `P`, e.g., `209 Grodno [Dist=6]` -> `210 Slonim [Dist=5]`) while still blocking same/deeper salient self-feedback (`5554` / deeper pockets).
        - For qualifying `S`, set `has_exp = 1` and (if `active_en_str_f32[S] != 0`) add `active_en_str_f32[S] * ThreatenedNeighborStrWeight` (times `0.70` if the `v <-> S` edge is river `1` or strait `2`) into `[ebp - 0xE4]`.
      - Returns `ecx = has_exp` (`0` or `1`) and `[ebp - 0xE4] = eff_enstr`, preserving `eax, ebx, edx, esi, edi, ebp` and `[ebp - 0x18]/[ebp - 0x1C]`.
    - Wire `.hlp_calc_cut_enstr_eax` and `[ebp - 0xE4]` into all consumers:
@@ -232,7 +232,7 @@ Live testing on `CHC` after Stage 3 revealed why `5554 Qingyang` (`Dist = 2, V_R
      - `.hlp_eval_cut_threat`: read `EnStr` from `[ebp - 0xE4]` instead of `+0x68000[eax]`.
      - `.hlp_eval_p0_raw_threat_esi`: copy `+0x68000[esi]` (including temporarily folded idle hostile borders) into `[ebp - 0xE4]` prior to calling `.hlp_eval_cut_threat`, and save/restore `[ebp - 0xE8]`.
      - `.hlp_write_telemetry`: evaluate `.hlp_calc_cut_enstr_eax(v = V_Ref, P = esi)` before formatting `EnStr` so `stem_debug.csv` `EnStr` matches `T_Neck` identically.
-     - `.s5e_fin_threat_floor`: evaluate `.hlp_calc_cut_enstr_eax(v = esi, P = 0)` and read `[ebp - 0xE4]` so Threat-Sustaining Neck Floor uses context-free pincer strength (`dist[S] <= dist[v]`) without inflating from deeper salients.
+     - `.s5e_fin_threat_floor`: evaluate `.hlp_calc_cut_enstr_eax(v = esi, P = 0)` and read `[ebp - 0xE4]` so Threat-Sustaining Neck Floor uses surrounding threatened neighbors without self-feedback.
 3. **Fix C -- Cutoff-Gated `ThreatenedSourceQuotaFloor` (`[ebp - 0xE8]` `has_pos_tstr`)**:
    - Clear **`[ebp - 0xE8] = 0`** at `.step5b_has_cut`; set `[ebp - 0xE8] = 1` inside `.hlp_eval_cut_threat` whenever any merged cut vertex for `P` produces genuine positive strength-ratio threat (`T_str > 0`, i.e., `EnStr / FrEff > NeckThreatMinRatio`, or unguarded-exposed cap with `FrEff < 0.05 && EnStr > 0.05`). Save/restore `[ebp - 0xE8]` inside `.hlp_eval_p0_raw_threat_esi` so `P`'s own combat does not mark a bottleneck threat.
    - In `.calc_final_q`, when `IsThreatened[P] == 1` and `F_Crit == 0`, apply `ThreatenedSourceQuotaFloor` ONLY if:
@@ -249,7 +249,7 @@ Live testing on `CHC` after Stage 3 revealed why `5554 Qingyang` (`Dist = 2, V_R
 | `MaxTerrainDefenseMultiplier` | `float` | `3.0` | Stage 3 | Upper cap for per-division relative terrain defense multiplier `DivTerrainFactor` read from `[pDiv + 0x164]` (`floor = 0.35`). |
 
 - **Cave & `g_pGraphTable` Allocation Status**:
-  - `.mod` section ends at `0x00DD9000`. Current built cave usage (`10,065` instructions, `30,798` bytes, ending at `0x00DD35EE`) leaves `23,058` bytes of contiguous free executable space with zero PE section growth required.
+  - `.mod` section ends at `0x00DD9000`. Current built cave usage (`10,062` instructions, `30,790` bytes, ending at `0x00DD35E6`) leaves `23,066` bytes of contiguous free executable space with zero PE section growth required.
   - Stages 1--4 expand `g_pGraphTable` across all 5 `VirtualAlloc` call sites to **`0x140000` (`1,280 KB`)**, adding `+0x128000` (`pass_quota_q8`), `+0x12A000` (`pass_agg_neck_quota`), `+0x12C000` (`pass_status_flags`), `+0x12E000` (`core_dist`), `+0x130000` (`prov_fr_div_count`, `uint16_t`), `+0x134000` (`prov_inb_div_count`, `uint16_t`), and `+0x138000` (`active_en_str_f32`, `float[8192]`).
 
 ---

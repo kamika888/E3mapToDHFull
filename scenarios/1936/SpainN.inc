@@ -34,7 +34,7 @@ country =
     relation = { tag = GER value = 50 }
     relation = { tag = IRE value = 50 }
     relation = { tag = ITA value = 50 }
-    relation = { tag = POR value = 50 }
+    relation = { tag = POR value = 50 access = yes }
     relation = { tag = SOV value = -50 }
   }
 
