@@ -417,6 +417,26 @@ Patch 19 resolves this via a staging-port pipeline inside `.mod` (`0x00DD4000`–`
 
 ---
 
+---
+
+### 3.11 Allied Theater Evacuation Mode (`Patch 21` @ `0x00DD5000`)
+
+Replaces brittle timing-based `front_leader_overseas` + `CGarrisonAI` workarounds with an explicit, reusable theater evacuation controller driven by per-country `local_flags`:
+
+* **Control Flags** (checked in order by `fn_IsEvacModeActive` @ `0x00DD5094`):
+  - `evac_rally_prov = <ProvID>`: Activates evacuation mode and instructs land-connected units in evacuating allied territory to concentrate at `<ProvID>` first (via `CanStrategicRedeploy` @ `0x006AC380`, falling back to `MoveUnitToProvince` @ `0x006AAFF0`). Note that province ID `1` is a valid province (use `evac_mode = 1` when no rally province is desired).
+  - `evac_dest_prov = <ProvID>`: Optional explicit sea-evacuation landing port (checked in `fn_FindEvacSeaDest` @ `0x00DD51B4`). Falls back automatically to the closest controlled naval base port (`[prov + 0x46A] != 0`, valid sea zone, non-land-connected `CArea` outside the rally area) if unset, lost, or unreachable.
+  - `evac_mode = 1`: Activates evacuation mode directly toward the nearest reachable port when no land rally province is configured (e.g. Norway or Greece).
+* **Theater Scope Filter (`fn_IsEvacuatingCountry` @ `0x00DD50D8`, `fn_IsEvacuatingFront` @ `0x00DD5148`)**:
+  - Applies exclusively to foreign allied countries listed in `m_NoExpForcesTo` (`no_exp_forces_to`, e.g. `VIC`, `BEL`, `HOL`, `NOR` in [noExpNORFRA.ai](file:///e:/Program%20Files%20(x86)/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/ai/noExpNORFRA.ai)), leaving other active fronts such as Egypt/East Africa untouched.
+* **Hook Points**:
+  1. **`Hook 1` (`0x006940BE` -> `0x00DD555C`) & `Hook 2` (`0x006943F9` -> `0x00DD557C`)**: In `CMilitaryAI::UpdateFronts`, preserves `GetFrontLeader == self` (preventing Commonwealth minors from recalling expeditionary forces via `ReturnExpeditionaryForces` @ `0x00691E70`), while dissolving/refusing `CFrontAI` on evacuating allied fronts.
+  2. **`Hook 3` (`0x0069644E` -> `0x00DD559C`)**: In `CMilitaryAI::DistributeArmiesToMinisters`, prevents assigning armies to evacuating allied fronts.
+  3. **`Hook 4` (`0x00693A86` -> `0x00DD55C0`)**: In `ManageExpeditionaryForces`, shuttles units arriving on `evac_rally_prov`'s `CArea` directly into `CInvasionAI` toward `evac_dest_prov` (or closest safe port) even when `invasion = no`.
+  4. **`Hook 5` (`0x00693BC6` -> `0x00DD588C`) & `Hook 6` (`Cave I` @ `0x00DCA82B` -> `0x00DD58BC`)**: Routes units on evacuating foreign soil through `Cave_EvacExecuteForeign` (`0x00DD56E4`): rally overland/strat-redeploy to `evac_rally_prov` if land-connected, else evacuate via sea from current port or march/strat-redeploy to nearest reachable friendly port (`fn_FindNearestReachablePort` @ `0x00DD5394`).
+  5. **`Hook 7A` (`Cave M` @ `0x00DCAA88` -> `0x00DD58E8`) & `Hook 7B` (`Cave U` @ `0x00DCA1C4` -> `0x00DD5904`)**: Blocks `CGarrisonAI` from conscripting or pulling units in evacuating allied territory or on the rally area.
+  6. **`Hook 8` (`Cave V Branch 2` @ `0x00DC9C4E` -> `0x00DD5974`)**: Hardens general overseas pocket fallback for all countries by requiring `CCountry::IsLandConnected` (`0x004A4010`) and preferring naval bases (`[prov + 0x46A] != 0`) over beaches.
+
 ## 4. Configuration & Control Gates (`db\mod_settings.ini` & `no_foreign_garrison`)
 
 ### 4.1 Global Engine Settings (`db\mod_settings.ini`)

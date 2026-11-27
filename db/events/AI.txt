@@ -12716,18 +12716,26 @@ event = {
 		command = { type = local_setflag which = noExpFRA }
 		command = { type = local_setflag which = noExpNOR }
 		command = { type = local_setflag which = 2401701  }
+
 		command = { 												type = ai which = "redeployDLow.ai" }
 		command = { 												type = ai which = "redeploy90.ai"  }
 		#command = { trigger = { NOT = { local_flag = noExpNOR } } 	type = ai which = "noExpFRA.ai"    }
 		#command = { trigger = { 		local_flag = noExpNOR 	} 	type = ai which = "noExpNORFRA.ai" }
 		command = { 												type = ai which = "noExpNORFRA.ai" } #if France is lost, always evacuate norway as well
 		
-		command = {								 					type = ai which = "nations\ENG_home.ai" } #home_2 oversea_0
-		command = {  												type = ai which = "front_leader.ai" } #front_leader 200
+		command = {								 					type = ai which = "nations\ENG_home.ai" } #home_2
+		command = {  												type = ai which = "front_leader.ai" } #front_leader_300
+		command = { 												type = local_setflag which = no_foreign_garrison value = 2 }
+		command = { 												type = local_setflag which = evac_rally_prov value = 1720 }
+		command = { 												type = local_setflag which = evac_dest_prov  value = 21   } #Portsmouth (auto-fallback if lost)
 		command = { 												type = event which = 2400040 where = VIC when = 0  } #exp_0
 		command = { 												type = event which = 2400043 where = VIC when = 30 } #exp_30
 		
-		command = { 												type = event which = 2401703 where = ENG when = 18 } #front leader 30
+		#On the retail binary the evac is carried out in two steps:
+		#1. England takes control of all Commonwealth troops in France and evacuates whatever it can through channel islands and back to home area
+		#2. Since the above preserves FrontAI and doesn't trigger a full evacuation, after 18 days front control is reverted to france with UK and commonwealth under no_exp_forces
+		#This causes remaining UK troops to disengage from the frontline and also evacuate back to the home area
+		command = { NOT = { flag = GAME_VERSION } }					type = event which = 2401703 where = ENG when = 18 } #front_leader_30
 		command = { 												type = event which = 2400032 where = ENG when =  0 } #invasionNo
 		command = { 												type = event which = 2400033 where = ENG when = 90 } #invasionYes
 		
@@ -12776,9 +12784,13 @@ event = {
 
 	action = {
 		command = { type = local_clrflag which = noExpFRA }
-		command = { type = ai which = "NOEXP_unenforce.ai"  }
+		command = { trigger = { country = ENG }						type = local_clrflag which = evac_rally_prov }
+		command = { trigger = { country = ENG }						type = local_clrflag which = evac_dest_prov  }
+		command = { trigger = { country = ENG }						type = local_clrflag which = no_foreign_garrison }
+		command = { type = ai which = "NOEXP_unenforce.ai"	}
 		command = { type = ai which = "redeployDStandard.ai" }
-		command = { type = ai which = "redeploy30.ai"  		}
+		command = { type = ai which = "redeploy30.ai"		}
+		command = { type = ai which = "front_leader30.ai"	}
 	}
 }
 
