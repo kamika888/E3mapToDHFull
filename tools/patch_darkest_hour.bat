@@ -473,9 +473,42 @@ $PATCH21_CHUNKS = @(
     @{ Offset = 0x00484C4E; Data = '6SG9AACQkJA=' }
 )
 
+# Patch 22: Homeland Emergency, Evac Transport Priority, Phantom Surplus & InvasionAI Floor (@ 0x0068C5AB / 0x0068D6FD / 0x00693847 / 0x00DD5A00)
+$SIG22_OFFSET  = 0x00293847
+$ORIG22_SIG    = [byte[]]@(0x8B, 0xBD, 0x68, 0xFF, 0xFF, 0xFF)
+$PATCH22_SIG   = [byte[]]@(0xE9, 0x95, 0x26, 0x74, 0x00, 0x90)
+
+$PATCH22_CHUNKS = @(
+    # Patch 22 Data block in .mod (@ 0x00DD5A00 / file offset 0x00490A00, 384 bytes)
+    @{ Offset = 0x00490A00; Data = 'AAAAPwAA+sMAUEPIAACAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASW52YXNpb25NaW5HYXJyaXNvblJhdGlvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' },
+    # Patch 22 Code block in .mod (@ 0x00DD5B80 / file offset 0x00490B80, 1402 bytes)
+    @{ Offset = 0x00490B80; Data = 'UFFSVmgwCIgAahBo8KrcAGhAW90AaCBb3QBoQKvcAP8V7KrcAL7wqtwAigaEwHQkPC10IOiQU///2BUMWt0A3+D2xEV1CN3Y2QUMWt0A2R0AWt0AXlpZWOnjVP//6O6FZ/+FwHRRg3heAX1DVldSiceLUwqLsghFAACF9nQ2iw6LdgiFyXTzg3kMAXztUegdVnT/WYXAdOI5uIIEAAB12o1JIosB/1AEhcB+zlpfXumbaYv/Wl9e6Xppi/9TVoXAdECFyXQ8i3EMg/4BfDSJw7oQUN0Aidjo5PP//4XAfgQ58HQjVugGN3H/g8QEhcB0EYuI2AMAAInY6Fr0//+EwHUFMMBeW8OwAV5bw1NWV4nPi0cK6Pvz//+EwHUF6VMSjP/pvBKM/4sYi0gIiUwkKIlcJDSDewwAdEeLRQro0vP//4TAdDuLRQqJ2ehs////hMB1LVaLtbQAAACF9nQhiw6LdgiFyXTzg3kMAXzti0UK6Eb///+EwHThXul4pYz/XundmYz/UegUKo3/WYTAdQeJyOh88///w4k9EFrdAMcFFFrdAAAAAACJ2Yl9vOmnYIv/iX28ifgrBRBa3QB5AjHAoxRa3QCLhTz////p6WCL/4tF3AMFFFrdAIlF3IXAfQXpoXmL/+mPeov/UVKFwHRbi0hahcl+VIPsCIkMJNkFAFrdANnk3+D2xEF1OtsEJN7J2RQk6FEBnf+JRCQE20QkBNgcJN/g9sQBi0QkBHQBQIP4AX0FuAEAAAA5yH4CiciDxAhaWcPd2IPECDHAWlnDU1ZXMduFwHRNhcl0SYnPUIuwlAAAAIX2dDmLDot2CIXJdPOLBCQ5gfQBAAB16IN5DAF84lHoJFR0/1mFwHTXObiCBAAAdc+NSSKLAf9QBAHD68ODxASJ2F9eW8NWMcCFyXQji3EmhfZ0HIsWi3YIhdJ084uKNAEAAIP5B3QFg/kIdeNA6+Bew9meFgIAAIX/dHjZBQBa3QDZ5N/g3dj2xEF1Z1FSifHosP///1CNTiKLAf9QBFqFwH5OOcJ0Son46NX+//9QUotV7ItCeon56Cz///9aWSnQOch/EIXSdSjHhhYCAAAAUEPI6xyDf1YAfBaF0nUS2YYWAgAA2AUEWt0A2Z4WAgAAWlnpjMyL/4u9aP///8dF2AAAAACF/w+E/wEAAItV2ItF5DnCD43xAQAAifiLfwiLMIX2D4TaAQAA2QUAWt0A2eTf4N3Y9sRBD4VRAQAAV4nx6ABTdP+FwA+EQAEAAIuAggQAAIXAD4QyAQAAg+wUiUQkCOga/v//iUQkEItMJAiLVeyLQnrobf7//4tN7ItJejmO9AEAAFCNTiKLAf9QBInDifHoq/7//4nCWItN7ItJejmO9AEAAHQCAdgp0CtEJBB5AjHAi03kK03YiUQkDInYKdA7RCQMfxE5yw+OuQAAAIP7AQ+OsAAAAInIKdB5AjHAO0QkDH4Ei0QkDInBAdGFyQ+OjAAAADnZD42KAAAAiUQkDItGDIlEJBCJ8ehzx3T/UItUJBRSjUQkCFCLTeyLSXrojY6L/40EJFDoxC5l/4PEBIXAdEyD6BSJRCQQi14mhdt0OIsDi1sIhcB084uINAEAAIP5B3Tog/kIdOODfCQMAH4G/0wkDOvWUP90JBSLTeyLSQroWYZo/+vEg8QUX+sKg8QUX+t4g8QUX4tGIo1OIv9QBItV2ItNtAHCi0XgiY6YAgAAiYaUAgAAi04MiVXYOcF0O4nx6IZRdP+LVeCLmIIEAABS6Lcycf+LiIIEAACDxAQ5y3UYi0XgagBQ6J8ycf+LTeyDxARQVugST43/i03sVotJfosR/5KoAQAAhf8PhQH+///p89eL/w==' },
+    # Hook_LoadInvasionINI (@ 0xdcaf44 / file offset 0x00485F44, 5 bytes)
+    @{ Offset = 0x00485F44; Data = '6TesAAA=' },
+    # Hook_HomelandEmergency (@ 0x68c5ab / file offset 0x0028C5AB, 11 bytes)
+    @{ Offset = 0x0028C5AB; Data = '6S2WdACQkJCQkJA=' },
+    # Hook_PauseGarrisonSea (@ 0x696ef0 / file offset 0x00296EF0, 5 bytes)
+    @{ Offset = 0x00296EF0; Data = '6ZftcwA=' },
+    # Hook_InvasionPriority (@ 0x69f6d6 / file offset 0x0029F6D6, 13 bytes)
+    @{ Offset = 0x0029F6D6; Data = '6cxlcwCQkJCQkJCQkA==' },
+    # Hook_PauseInvasionsEvac (@ 0x6927f9 / file offset 0x002927F9, 5 bytes)
+    @{ Offset = 0x002927F9; Data = '6Ag1dAA=' },
+    # Hook_RecordPreInv (@ 0x68bdd5 / file offset 0x0028BDD5, 5 bytes)
+    @{ Offset = 0x0028BDD5; Data = '6T+fdAA=' },
+    # Hook_RecordEnRoute (@ 0x68be32 / file offset 0x0028BE32, 9 bytes)
+    @{ Offset = 0x0028BE32; Data = '6fyedACQkJCQ' },
+    # Hook_CapSurplus (@ 0x68d6fd / file offset 0x0028D6FD, 11 bytes)
+    @{ Offset = 0x0028D6FD; Data = '6VCGdACQkJCQkJA=' },
+    # Hook_InvScoreAdjust (@ 0x692b67 / file offset 0x00292B67, 6 bytes)
+    @{ Offset = 0x00292B67; Data = '6e4ydACQ' },
+    # Hook_InvAssignLoop (@ 0x693847 / file offset 0x00293847, 6 bytes)
+    @{ Offset = 0x00293847; Data = '6ZUmdACQ' }
+)
+
 # Expected SHA256 Hashes
 $ORIG_SHA256     = "7A1AE8BB802377B6C9EC808F420ACE58475D1816464390422CF97AD450A51EB4"
-$PATCH_SHA256    = "DCA6FB785261615F5BBCB8A887A3558B63C18ED97C9F720717A394FC4C89D913"
+$PATCH_SHA256    = "CAAD87A6D9A848626D8B169EBCD2BC40B7EA2B91EA4CF716BCE5ADC20FCBAB2C"
+$PREV_V91_SHA256 = "DCA6FB785261615F5BBCB8A887A3558B63C18ED97C9F720717A394FC4C89D913"
 $PREV_V90_SHA256 = "DA816F5EC549CD0EA2B74D4BD0079C576CB1A7E49C9B3D0ADA107D7376D7E125"
 $PREV_V89_SHA256 = "1B48DAF6C3451C8D1E43DCAE6C21E343C9A8D883CB445388DDA2632BC211A185"
 $PREV_V88_SHA256 = "967C03746BD0FD555AE1769EFFEAB20ECE1DCD35C4FB184CE06C1F693B99BE80"
@@ -686,6 +719,13 @@ function Show-Header {
       garrison pulls on no_exp_forces_to soil, rallying units to evac_rally_prov (or cut-off pocket
       ports via hardened land-connected Cave V), and shuttling them to evac_dest_prov or the
       nearest controlled safe port outside the combat zone."
+    Write-Host ""
+    Write-Host "   20. Homeland Emergency, Evac Priority, Phantom Surplus & InvasionAI Garrison Floor:"
+    Write-Host "      - Homeland emergency (0x0068C5AB) counts locked Home Guard & all physical land divisions."
+    Write-Host "      - Theater evacuations prioritize evacuating armies at head of CInvasionAI sea queue."
+    Write-Host "      - Excludes en-route CInvasionAI armies from exporting local home surplus below nAreaNeed."
+    Write-Host "      - Protects InvasionMinGarrisonRatio (default 0.5) of nAreaNeed via corps splitting,"
+    Write-Host "        with Marines and Paratroopers exempt. (@ 0x00DD5A00)"
     Write-Host "-------------------------------------------------------------------------------" -ForegroundColor Gray
 }
 
@@ -890,15 +930,25 @@ function Check-FileState([string]$path) {
             $sig21Orig = ((Compare-Object $buf21 $ORIG21_SIG) -eq $null)
             $sig21Patch = ((Compare-Object $buf21 $PATCH21_SIG) -eq $null)
         }
+        $sig22Orig = $false; $sig22Patch = $false
+        if ($fs.Length -ge ($SIG22_OFFSET + 6)) {
+            $null = $fs.Seek($SIG22_OFFSET, [System.IO.SeekOrigin]::Begin)
+            $buf22 = New-Object byte[] 6
+            $null = $fs.Read($buf22, 0, 6)
+            $sig22Orig = ((Compare-Object $buf22 $ORIG22_SIG) -eq $null)
+            $sig22Patch = ((Compare-Object $buf22 $PATCH22_SIG) -eq $null)
+        }
         $fs.Close()
     } catch {
         return @{ Exists = $true; State = "Locked/Unreadable"; Size = $size; Hash = $hash }
     }
 
     $state = "Unknown"
-    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig -and $sig13Orig -and $sig14Orig -and $sig15Orig -and $sig16Orig -and $sig17Orig -and $sig18Orig -and $sig19Orig -and $sig20Orig -and $sig21Orig) {
+    if ($sig1Orig -and $sig2Orig -and $sig4Orig -and $sig5Orig -and $sig6Orig -and -not $sigLaaPatch -and -not $sig8Patch -and $sig9Orig -and $sig10Orig -and $sig11Orig -and $sig12Orig -and $sig13Orig -and $sig14Orig -and $sig15Orig -and $sig16Orig -and $sig17Orig -and $sig18Orig -and $sig19Orig -and $sig20Orig -and $sig21Orig -and $sig22Orig) {
         $state = "Original"
-    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and $sig17Patch -and $sig18Patch -and $sig19Patch -and $sig20Patch -and $sig21Patch) {
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and $sig17Patch -and $sig18Patch -and $sig19Patch -and $sig20Patch -and $sig21Patch -and $sig22Patch) {
+        $state = "Patched (All Fixes + Theater Evac Mode + Evac Priority + Homeland & Invasion Floor)"
+    } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and $sig17Patch -and $sig18Patch -and $sig19Patch -and $sig20Patch -and $sig21Patch -and -not $sig22Patch) {
         $state = "Patched (All Fixes + Discriminative Garrison + Strat Redep + Nuclear AI + Front AI + Landlocked Allied Staging + Offmap Trade Date Fix + Theater Evacuation Mode)"
     } elseif ($sig1Patch -and $sig2Patch -and $sig4Patch -and $sig5Patch -and $sig6Patch -and $sigLaaPatch -and $sig8Patch -and $sig9Patch -and $sig10Patch -and $sig11Patch -and $sig12Patch -and $sig13Patch -and $sig14Patch -and $sig15Patch -and $sig16Patch -and $sig17Patch -and $sig18Patch -and $sig19Patch -and $sig20Patch -and -not $sig21Patch) {
         $state = "Patched (All Fixes + Discriminative Garrison + Strat Redep + Nuclear AI + Front AI + Landlocked Allied Staging + Offmap Trade Date Fix)"
@@ -990,6 +1040,8 @@ function Check-FileState([string]$path) {
         Sig20Patch  = $sig20Patch
         Sig21Orig   = $sig21Orig
         Sig21Patch  = $sig21Patch
+        Sig22Orig   = $sig22Orig
+        Sig22Patch  = $sig22Patch
     }
 }
 
@@ -1146,6 +1198,13 @@ function Apply-PatchToFile([string]$srcPath, [string]$dstPath) {
             $fs.Write($chunkBytes, 0, $chunkBytes.Length)
         }
 
+        # Patch 22: Homeland Emergency, Evac Transport Priority, Phantom Surplus & InvasionAI Floor (@ 0x00DD5A00)
+        foreach ($chunk in $PATCH22_CHUNKS) {
+            $chunkBytes = [System.Convert]::FromBase64String($chunk.Data)
+            $null = $fs.Seek($chunk.Offset, [System.IO.SeekOrigin]::Begin)
+            $fs.Write($chunkBytes, 0, $chunkBytes.Length)
+        }
+
         # Ensure file length is padded to match expanded .mod section raw size (0x00484000 + 0x4000 = 0x00488000)
         if ($fs.Length -lt 0x00494000) {
             $fs.SetLength(0x00494000)
@@ -1209,7 +1268,7 @@ GameVersion = 1
     if (Test-Path $dstIni) {
         $curIniText = [System.IO.File]::ReadAllText($dstIni, [System.Text.Encoding]::GetEncoding("ISO-8859-1"))
         if ($curIniText -notmatch "\[AI\]") {
-            $aiAppend = "`r`n`r`n[AI]`r`n; Enable Allied Territory Garrison AI:`r`n; 0 = Vanilla behavior (AI only garrisons owned/controlled provinces and repatriates from foreign soil)`r`n; 1 = Allow garrisons in ally territory only`r`n; 2 = Allow garrisons in ally and military access territory (default)`r`nEnableAlliedGarrison = 2`r`n`r`n; Multiplier applied to garrison requirement for areas with direct land connection to homeland (default = 0.333, 1.0 = do nothing / no division)`r`nGarrisonLandConnectedMultiplier = 0.333`r`n`r`n; Multiplier applied to garrison requirement during wartime (default = 0.5, 1.0 = do nothing / no halving)`r`nGarrisonWartimeMultiplier = 0.5`r`n"
+            $aiAppend = "`r`n`r`n[AI]`r`n; Enable Allied Territory Garrison AI:`r`n; 0 = Vanilla behavior (AI only garrisons owned/controlled provinces and repatriates from foreign soil)`r`n; 1 = Allow garrisons in ally territory only`r`n; 2 = Allow garrisons in ally and military access territory (default)`r`nEnableAlliedGarrison = 2`r`n`r`n; Multiplier applied to garrison requirement for areas with direct land connection to homeland (default = 0.333, 1.0 = do nothing / no division)`r`nGarrisonLandConnectedMultiplier = 0.333`r`n`r`n; Multiplier applied to garrison requirement during wartime (default = 0.5, 1.0 = do nothing / no halving)`r`nGarrisonWartimeMultiplier = 0.5`r`n`r`n; Minimum fraction of nAreaNeed protected from InvasionAI conscription (0.0 = vanilla / unprotected, 0.5 = protect 50%, 1.0 = protect 100%)`r`n; Marines and Paratroopers are always exempt and may be conscripted regardless of garrison floor.`r`nInvasionMinGarrisonRatio = 0.5`r`n"
             [System.IO.File]::AppendAllText($dstIni, $aiAppend, [System.Text.Encoding]::GetEncoding("ISO-8859-1"))
         }
         if ($curIniText -notmatch "\[Engine\]") {
@@ -1288,6 +1347,7 @@ GameVersion = 1
     if (-not $dstState.Sig19Patch)  { $failedSigs += "Patch 19 (Landlocked Allied Garrison Overseas Transit)" }
     if (-not $dstState.Sig20Patch)  { $failedSigs += "Patch 20 (Offmap Production Trade Date Corruption Fix)" }
     if (-not $dstState.Sig21Patch)  { $failedSigs += "Patch 21 (Allied Theater Evacuation Mode)" }
+    if (-not $dstState.Sig22Patch)  { $failedSigs += "Patch 22 (Homeland Emergency, Evac Priority & InvasionAI Floor)" }
     if ($failedSigs.Count -gt 0) {
         throw ("Verification failed: Target file signatures were not properly updated. Failed: " + ($failedSigs -join ', '))
     }

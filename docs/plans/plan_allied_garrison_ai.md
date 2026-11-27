@@ -437,6 +437,23 @@ Replaces brittle timing-based `front_leader_overseas` + `CGarrisonAI` workaround
   5. **`Hook 7A` (`Cave M` @ `0x00DCAA88` -> `0x00DD58E8`) & `Hook 7B` (`Cave U` @ `0x00DCA1C4` -> `0x00DD5904`)**: Blocks `CGarrisonAI` from conscripting or pulling units in evacuating allied territory or on the rally area.
   6. **`Hook 8` (`Cave V Branch 2` @ `0x00DC9C4E` -> `0x00DD5974`)**: Hardens general overseas pocket fallback for all countries by requiring `CCountry::IsLandConnected` (`0x004A4010`) and preferring naval bases (`[prov + 0x46A] != 0`) over beaches.
 
+
+### 3.12 Homeland Emergency, Evacuation Transport Priority, Phantom Surplus & InvasionAI Garrison Floor (Patch 22)
+
+Addresses four interacting vanilla garrison/transport/invasion edge cases exposed during the March 1940 Norway campaign (`autosave3.eug`) and 1940 France evacuation:
+
+* **Homeland Emergency Physical Division Check (`Cave_HomelandEmergencyCheck` @ `0x0068C5AB` -> `0x00DD5BDD`)**:
+  - Vanilla `0x0068C5B0` checked `[pCapitalArea + 0x5E] >= 1` (`CGarrisonAI` unlocked garrison divisions only). If all unlocked home divisions were temporarily transferred to `CInvasionAI` or `CFrontAI`, or immediately after `CArea` rebuilds/loads before `pCapitalArea` updated, `[pCapitalArea + 0x5E]` hit `0` and ordered every unlocked overseas garrison worldwide back to the capital (`target = 12`).
+  - When `[pCapitalArea + 0x5E] < 1`, Patch 22 scans `pCountry->m_LandArmies` (`[pCountry + 0x4508]`) for **any** friendly land division physically located inside `pCapitalArea` (including locked Home Guard, `CFrontAI`, and staging `CInvasionAI` units).
+* **Theater Evacuation Transport Priority (`Cave_PauseGarrisonSeaDuringEvac` @ `0x00696EF0`, `Cave_InvasionPriorityFilter` @ `0x0069F6D6`, `fn_IsInvasionBlockedByEvac` @ `0x006927F9`)**:
+  - While Theater Evacuation Mode (Patch 21) is active on a country, non-evacuation `CGarrisonAI` Phase 4 sea-transport requests and new amphibious invasions (`CRootAI::UpdateInvasions`) pause cleanly, and `CInvasionAI` (`0x0069F6D6`) services queued evacuating land armies first before any leftover non-evacuation land pickup (while never blocking armies already at sea from unloading).
+* **Phantom Surplus Exclusion (`Cave_RecordPreInvasionDivs` @ `0x0068BDD5`, `Cave_RecordEnRouteDivs` @ `0x0068BE32`, `Cave_CapSurplusToLocal` @ `0x0068D6FD`)**:
+  - En-route `CInvasionAI` divisions (`nEnRoute`) still count toward `[ebp - 0x44]` so an area does not request duplicate reinforcements, but `nEnRoute` is added back before testing `nLack < 0` in Phase 4 (`0x0068D6FD`). An area cannot export its existing local defenders overseas on credit from divisions still waiting for ships.
+* **InvasionAI Partial Garrison Floor & Marine/Paratrooper Exemption (`Cave_InvasionScoreAdjust` @ `0x00692B67`, `Cave_InvasionAssignLoop` @ `0x00693847`, INI key `InvasionMinGarrisonRatio`)**:
+  - Configured via `[AI] InvasionMinGarrisonRatio = 0.5` in [mod_settings.ini](file:///e:/Program%20Files%20(x86)/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/db/mod_settings.ini) (default `0.5`, clamped `0.0..1.0`; `0.0` disables the floor).
+  - Enforces a protected garrison floor `floor = clamp(ceil(nAreaNeed * InvasionMinGarrisonRatio), 1, nAreaNeed)` per `CArea` when `UpdateInvasions` scores (`0x00692B67`, applying `-500.0` penalty if `!surplus` and `-200000.0` reject if `localRegular <= floor`) and assigns armies (`0x00693847`, splitting oversized corps via `CreateNewArmyForSplit` @ `0x0068EEA0` + `MoveDivisionToArmy` @ `0x0045E6C0` rather than pulling regular divisions below `floor`).
+  - **Marines (sub-type `7`) and Paratroopers (sub-type `8`)** are completely exempt from the floor and penalty, allowing amphibious/airborne corps to be conscripted even when regular garrisons are at or below `floor`.
+
 ## 4. Configuration & Control Gates (`db\mod_settings.ini` & `no_foreign_garrison`)
 
 ### 4.1 Global Engine Settings (`db\mod_settings.ini`)
