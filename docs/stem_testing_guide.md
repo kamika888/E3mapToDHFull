@@ -1,6 +1,6 @@
 # STEM Encirclement Defense - Tester's Guide
 
-This guide explains how the AI's **Salient Evacuation & Pocket Defense system (STEM)** works in plain English, how to inspect its decisions in `stem_debug.csv`, and what each setting in `db/mod_settings.ini` controls while testing.
+This guide explains how the AI's **Salient Evacuation & Pocket Defense system (STEM)** works in plain English, how to inspect its decisions in `stem_debug.csv`, and what each setting in `db/mod_settings.ini` controls while testing. For a summary of the benchmark test scenarios and resolved issues, see [stem_test_scenarios.md](file:///e:/Program%20Files%20%28x86%29/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/docs/stem_test_scenarios.md).
 
 > **Current Implementation Note (Phase 1 Stages 1-5 & Phase 2 Stages 1-6 Active)**:
 > * **Stages 1-3**: Topological escape-path counting (`F_Paths`), Natural Geography Gate, dynamic danger scoring (`SalientEvacuationQuota`), active upstream bottleneck holding lock (`Step 5C`), Front AI reinforcement suppression (`NormAIPrio` -> `AdjAIPrio`), bottleneck defense boosting / interior neck hold (`BottleneckDefenseBoost`, `AggNeckQuota`, `FinalAIPrio`), **Threatened-Shoulder Boost**, and **Threat-Sustaining Neck Floor** are all active.
@@ -188,6 +188,7 @@ In `Mods/E3mapToDHFull/db/mod_settings.ini`:
 | `InboundFriendlyStrWeight` | `0.5` | `0.5` | How much our **inbound reinforcing troops** count toward holding the neck (`0.0` = ignore marching help, `1.0` = count them at full value). |
 | `OrgWeight` | `0.85` | `0.85` | Organization multiplier weight in `FrStr`/`EnStr`/`InbStr`: `OrgFactor = (1 - OrgWeight) + OrgWeight * clamp(cur_org / max(20.0, eff_max_org), 0, 1)` (`0.85` -> `0.15x..1.00x`; `0.0` = disabled). |
 | `HardnessWeight` | `0.85` | `3.00` | Bonus strength weight for division hardness in `FrStr`/`EnStr`/`InbStr`: `1.0 + HardnessWeight * (100 - Softness) / 100` (`3.00` -> `3.10x` at `30%` softness; `0.0` = disabled). |
+| `GDEWeight` | `0.60` | `0.60` | Power-law weight on division original-owner `ground_def_eff` in `FrStr`/`EnStr`/`InbStr`: `(GDE / 0.80) ^ GDEWeight` (`1.0` = exact linear GDE ratio; `0.0` = disabled). |
 | `NeckThreatMinRatio` | `1.0` | `0.8` | Enemy-to-friendly force ratio where danger **begins** (`1.0` = 1:1; `0.8` reacts slightly before parity is lost). Also sets the denominator floor in the Threat-Sustaining Neck Floor. |
 | `NeckThreatRatio` | `1.5` | `1.5` | Force ratio where danger reaches **critical (`1.0`)**. Raise (`2.0`) to make the AI braver; lower (`1.3`) to make it withdraw sooner. |
 | `NeckCollapsingOrgThreshold` | `30.0` | `10.0` | Flags an actively defending province as `IsThreatened = 1` when its average defender org falls below this threshold. |
