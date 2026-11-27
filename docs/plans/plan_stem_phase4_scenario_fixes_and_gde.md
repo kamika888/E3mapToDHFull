@@ -1,6 +1,6 @@
 # Plan: STEM Phase 4 -- Scenario Regressions, Wartime AI Refresh, Sensitivity Refinements & GDE Scaling
 
-**Status:** Implemented, Built & Verified (`Cave: 10,715 instructions, 32,594 bytes`, `Darkest Hour_modified.exe SHA256 = 1B48DAF6C3451C8D1E43DCAE6C21E343C9A8D883CB445388DDA2632BC211A185`)  
+**Status:** Implemented, Built & Verified (`Cave: 10,723 instructions, 32,622 bytes`, `Darkest Hour_modified.exe SHA256 = DA816F5EC549CD0EA2B74D4BD0079C576CB1A7E49C9B3D0ADA107D7376D7E125`)  
 **Target Binary:** `Darkest Hour_modified.exe` (Darkest Hour v1.05.2, Base `0x00400000`)  
 **Prerequisite:** [plan_stem_phase3_scenario_refinements.md](file:///e:/Program%20Files%20%28x86%29/Steam/steamapps/common/Darkest%20Hour%20A%20HOI%20Game/Mods/E3mapToDHFull/docs/plans/plan_stem_phase3_scenario_refinements.md)  
 **Companion Reference Docs:**  
@@ -41,9 +41,12 @@ Following live testing across the **Bialystok/Grodno (`SOV`)**, **Spanish Civil 
   - `.hlp_p2_parent_rank_eax` now compares candidates at exact shortest distance (`dist[eax] == edi + 1`), ranking `!IsThreatened > lower F_Crit > higher F_Paths > lower F_Exp` without altering distances or re-enqueuing nodes.
 
 ### 2.1 Wartime AI Distribution Refresh (`Cave_STEM_RefreshStaleWartimeAI`)
-- **Problem**: When a country transitions to war (e.g., `SPA` in the Spanish Civil War), `CAI` can remain gated behind its 7-day peacetime `[pAI + 0xAC]` delay, leaving `[pAI + 0x50]` at its small peacetime count while dozens of armies sit unassigned in `[pAI + 0x20C]` and `CFrontAI::MoveUnitsToFront` computes `NormAIPrio ? 0.1`.
+- **Problem**:
+  - For mobilized nations like `SPA`, `CAI` remained gated behind its 7-day peacetime `[pAI + 0xAC]` delay, leaving `[pAI + 0x50]` at its small peacetime count while dozens of armies sat unassigned in `[pAI + 0x20C]` and `CFrontAI::MoveUnitsToFront` computed `NormAIPrio ~ 0.1`.
+  - For defenders already garrisoned at peacetime like `POL` when Germany invaded, `[pAI + 0x214] == 0` and `[pAI + 0x50]` matched peacetime count, yet `[pAI + 0x278] == NULL` (`0` fronts created) left `POL` completely absent from `stem_debug.csv` and idle for 1-2 days until vanilla's periodic front update timer fired.
 - **Fix**: Added `Cave_STEM_RefreshStaleWartimeAI` (called in `Cave_STEM_UpdateGraphTable` when at war, `[pCountry + 0xE880] != 0`, and all fronts are idle `[pFront + 0x9E] == 0`):
-  - Triggers when `[pAI + 0x50]` is stale relative to active land unit count + `[pAI + 0x54]` (or unassigned armies exist in `[pAI + 0x20C]`), resetting the stale delay so `CFrontAI` immediately absorbs and distributes armies across the front.
+  - **Trigger A/B**: Triggers when `[pAI + 0x50]` is stale relative to active land unit count + `[pAI + 0x54]`, or unassigned armies in `[pAI + 0x20C]` grew.
+  - **Trigger C (One-Shot War-Outbreak Front Creation)**: When newly at war (`rsw_init[tag]` `+0xD6800 == 0`) with `0` active fronts (`[pAI + 0x278] == NULL`), runs `.rsw_do_refresh` (`CAI::UpdateFronts` @ `0x00693EE0` + `0x00695A00`) once and sets `rsw_init[tag] = 1` so defenders create their fronts and wake up immediately on hour 1 (without recurring on overseas/island countries).
 
 ### 2.2 Bottleneck Quota Cap & Intermediate Shoulder Locking (`SPA`)
 - **Problem 1**: Lowering `stem_evac_modifier` / `EvacMult` for `SPA` reduced `SalientEvacuationQuota`, yet `.s5e_fin_threat_floor` still elevated `AggNeckQuota` above what `EvacMult` allowed (e.g., `3196 Plasencia`).

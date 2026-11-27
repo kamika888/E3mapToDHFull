@@ -12684,7 +12684,6 @@ event = {
 			country = BEL
 			country = HOL
 		}
-		#country = ENG #only england for now
 		NOT = { event = 2002004 }
 		NOT = { year = 1942 }
 		NOT = { alliance = { country = USA } }
@@ -12722,8 +12721,6 @@ event = {
 		#command = { trigger = { NOT = { local_flag = noExpNOR } } 	type = ai which = "noExpFRA.ai"    }
 		#command = { trigger = { 		local_flag = noExpNOR 	} 	type = ai which = "noExpNORFRA.ai" }
 		command = { 												type = ai which = "noExpNORFRA.ai" } #if France is lost, always evacuate norway as well
-		command = { 												type = ai which = "invasionNo.ai"  }
-		command = { 												type = local_setflag which = InvShutOff }
 		
 		command = {								 					type = ai which = "nations\ENG_home.ai" } #home_2 oversea_0
 		command = {  												type = ai which = "front_leader.ai" } #front_leader 200
@@ -12731,6 +12728,8 @@ event = {
 		command = { 												type = event which = 2400043 where = VIC when = 30 } #exp_30
 		
 		command = { 												type = event which = 2401703 where = ENG when = 18 } #front leader 30
+		command = { 												type = event which = 2400032 where = ENG when =  0 } #invasionNo
+		command = { 												type = event which = 2400033 where = ENG when = 90 } #invasionYes
 		
 		command = { 												type = add_corps 	value = naval where = 21 }
 		command = { 												type = add_division value = transport when = 1 }
@@ -12780,8 +12779,6 @@ event = {
 		command = { type = ai which = "NOEXP_unenforce.ai"  }
 		command = { type = ai which = "redeployDStandard.ai" }
 		command = { type = ai which = "redeploy30.ai"  		}
-		command = { trigger = { country = ENG }		type = ai which = "invasionYes.ai" }
-		command = { trigger = { country = ENG }		type = local_clrflag which = InvShutOff }
 	}
 }
 
@@ -12893,12 +12890,15 @@ event = {
 
 	name = "AI_EVENT"
 	
-	date = { day = 1 month = january year = 1936 }
-	offset = 15
-	deathdate = { day = 29 month = december year = 1963 }
+	#Taken care of by the evac event
+	#date = { day = 1 month = january year = 1936 }
+	#offset = 15
+	#deathdate = { day = 29 month = december year = 1963 }
 
 	action = {
 		command = { type = ai which = "nations\ENG_home.ai" } #home_2 oversea_0
+		command = { type = event which = 2400032 where = ENG when =  0 } #invasionNo
+		command = { type = event which = 2400033 where = ENG when = 60 } #invasionYes
 	}
 }
 
