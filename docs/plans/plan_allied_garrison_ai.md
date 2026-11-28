@@ -74,7 +74,7 @@ Patch 11 utilizes code caves in the `.mod` PE section (`0x00DCA050` - `0x00DCAF9
 | **Hook 23** | `0x0068DB16` | `0x0028DB16` | 6 bytes | `Cave T` (`0x00DCA6B9`) | Phase 4 final capital repatriation pass for leftover foreign surplus in `[ebp - 0x6C]` |
 | **Hook 24** | `0x0068DF74` | `0x0028DF74` | 21 bytes | Inline (21 NOPs) | Retains overland inter-area marching units in `CGarrisonAI` instead of transferring to `CTheatreAI` |
 | **Hook 25** | `0x00693E59` | `0x00293E59` | 7 bytes | `Cave V` (`0x00DC9C00`) | Unified Foreign Repatriation Fallback (intercepts failed domestic overland march across water/neutral borders) |
-| **Hook 26** | `0x00693B06` | `0x00293B06` | 6 bytes | Inline (6 NOPs) | Foreign territory peacetime mission gate bypass (prevents skipping units on anti_partisan_duty) |
+| **Hook 26** | `0x00693B06` | `0x00293B06` | 6 bytes | *(Reverted -> retail `jne 0x00693EB1`)* | Formerly misidentified `[edi + 0x11C]` as a peacetime `anti_partisan_duty` mission gate; `[edi + 0x11C]` is `CArmy::m_Combats` (`Count() != 0`), so NOPping it pulled fighting armies out of active combat. Reverted cleanly with zero impact on peacetime repatriation. |
 | **Hook 27** | `0x00693CB7` | `0x00293CB7` | 6 bytes | Inline (6 NOPs) | Military access peacetime evacuation gate bypass (prevents dropping units on military access territory at retail `jz 0x00693EB1`) |
 | **Cave V** | `0x00DC9C00` | `0x00484C00` | 368 bytes | `Cave V` (`0x00DC9C00`) | Unified Foreign Repatriation Pipeline (CanEmbarkOnFleet check -> Branch 1: coastal port sea transport via CInvasionAI bypassing peacetime `m_bEnabled` gate; Branch 2: landlocked proximity march to nearest friendly port e.g. Udine 668) |
 | **Helper** | `0x00DCAB60` | `0x00485B60` | 128 bytes | `DetermineGarrisonMode` | Evaluates `EnableAlliedGarrison` (`0x00DCAB00`) and `no_foreign_garrison` (`[pCountry+0x120+0x4C]`) |
@@ -319,7 +319,7 @@ sequenceDiagram
 
 ---
 
-### 3.9 Unified Foreign Peacetime Repatriation & Evacuation Pipeline (`Hook 25` @ `0x00693E59`, `Hook 26` @ `0x00693B06`, `Hook 27` @ `0x00693CB7` -> `Cave V` @ `0x00DC9C00`)
+### 3.9 Unified Foreign Peacetime Repatriation & Evacuation Pipeline (`Hook 25` @ `0x00693E59`, `Hook 27` @ `0x00693CB7` -> `Cave V` @ `0x00DC9C00`)
 
 #### Problem Statement (The Dual Dilemma: Landlocked Evacuation & Allied Repatriation)
 In retail Darkest Hour, peacetime foreign troop repatriation (`CAIUnitMinister::ManageExpeditionaryForces` @ `0x006939F0`) suffered from multiple architectural bottlenecks that caused troops to either become permanently trapped on foreign soil or fail to repatriate cleanly:
@@ -331,7 +331,6 @@ In retail Darkest Hour, peacetime foreign troop repatriation (`CAIUnitMinister::
      - At `0x00693E2C`, `CanStrategicRedeployTo` returns `0` due to neutral territory.
      - At `0x00693E4A`, `call 0x006AAFF0` attempts domestic overland march across the ocean and fails (`EAX == 1`).
      - Execution falls through to `0x00693E59` to attempt sea transport (`0x006A0DE0`). Because landlocked territory has zero ports, naval transport returns `0`, aborting without issuing orders and permanently stranding all overseas divisions forever.
-   - Divisions on `anti_partisan_duty` during occupation were completely skipped upfront at `0x00693B06: jne 0x00693EB1`, preventing evacuation from ever considering them.
 
 2. **The Peacetime Invasion AI Gate Limitation & Military Access Abort**:
    - In retail, between `0x00693E59` and `0x00693E7F`, the engine executes several gates:
@@ -340,12 +339,11 @@ In retail Darkest Hour, peacetime foreign troop repatriation (`CAIUnitMinister::
      - During peacetime, `m_bEnabled` is strictly `0`, causing retail to abort evacuation for any coastal unit that is not in a wartime invasion mission.
    - At `0x00693CB7`, retail tested whether the country held military access through the current province controller (`test al, al; jz 0x00693EB1`); if access existed, retail dropped repatriation completely, abandoning troops on allied or military access soil.
 
-#### The Architectural Solution (`Hook 25`, `Hook 26`, `Hook 27`, & `Cave V`)
+#### The Architectural Solution (`Hook 25`, `Hook 27`, & `Cave V`)
 
 ```mermaid
 flowchart TD
-    Start["ManageExpeditionaryForces:<br/>Foreign Unit Evaluation"] --> Hook26["Hook 26 (@ 0x00693B06):<br/>Do not skip units with active missions"]
-    Hook26 --> CheckAlliance{"Is Controller Allied?"}
+    Start["ManageExpeditionaryForces:<br/>Foreign Unit Evaluation"] --> CheckAlliance{"Is Controller Allied?"}
     
     CheckAlliance -- "Yes" --> CaveI["Hook 9 (@ 0x00693CBD -> Cave I):<br/>Arbitrate Area Need & Mode"]
     CheckAlliance -- "No (Neutral or Access)" --> Hook27["Hook 27 (@ 0x00693CB7):<br/>Do not skip Military Access!"]
@@ -370,8 +368,8 @@ flowchart TD
     CancelAndMarch --> ExitToRetail
 ```
 
-1. **Hook 26 (Foreign Peacetime Mission Gate Bypass @ `0x00693B06`, 6 NOPs)**:
-   - Eliminates the upfront `m_pMission != NULL` loop abort on foreign soil, allowing divisions on `anti_partisan_duty` in neutral territory (such as Austria) to enter repatriation.
+1. **Active-Combat Guard Preserved at `0x00693B06` (`Hook 26` Reverted)**:
+   - Retail `0x00693AF0`–`0x00693B06` tests `[edi + 0x11C]` (`CArmy::m_Combats`, `Count() != 0` via `0x004EE3E0`), **not** `CMission` (`[edi + 0xCE]`). Peacetime units (including those on `anti_partisan_duty`) have `m_Combats.Count() == 0` and pass straight through to repatriation without modifying `0x00693B06`. The former 6-NOP `Hook 26` bypass was reverted back to retail `jne 0x00693EB1` because bypassing `[edi + 0x11C]` caused `0x006939F0` to pull wartime armies out of active combat once `CInvasionAI` returned control to `CGarrisonAI`/`CCountryAI`.
 
 2. **Hook 27 (Military Access Repatriation Gate Bypass @ `0x00693CB7`, 6 NOPs)**:
    - NOPs out retail's military access drop (`test al, al; jz 0x00693EB1`), ensuring units on military access soil are routed into `Cave I` for quota validation and surplus repatriation rather than abandoned.

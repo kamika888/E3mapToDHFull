@@ -1563,7 +1563,7 @@ landdivision = { dormant = yes id = { type = 14500 id = 11105 }  name = "163. In
 landdivision = { dormant = yes id = { type = 14500 id = 11106 }  name = "214. Infanterie-Division"   type = infantry		model = 10 }
 landdivision = { dormant = yes id = { type = 14500 id = 11107 }  name = "198. Infanterie-Division"   type = infantry		model = 10	extra = armored_car	brigade_model = 5 }
 landdivision = { dormant = yes id = { type = 14500 id = 11108 }  name = "196. Infanterie-Division"   type = infantry 		model = 10 }
-landdivision = { dormant = yes id = { type = 14500 id = 11109 }  name = "7. Flieger-Division"   	 type = paratrooper		model = 1 }
+landdivision = { dormant = yes id = { type = 14500 id = 11109 }  name = "7. Flieger-Division"   	 type = paratrooper		model = 0 }
 
 landdivision = { dormant = yes id = { type = 14500 id = 11120 }  name = "107. Infanterie-Division"   type = garrison		model = 5 locked = yes }
 
